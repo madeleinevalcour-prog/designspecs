@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button — design documentation</title>
+<style>
+  /* Soft notebook — doc/* tokens aliased from documentation-style.md */
+  :root {
+    --doc-surface-canvas: #FFFFFF;
+    --doc-surface-mat: #F7F7F5;
+    --doc-surface-chip: #F1F1EF;
+    --doc-ink-primary: #2F2F2C;
+    --doc-ink-secondary: #6B6B66;
+    --doc-ink-muted: #9B9A93;
+    --doc-border-hairline: #EDEDEC;
+    --doc-callout-do-fill: #F0F6EC;
+    --doc-callout-do-ink: #3B5323;
+    --doc-callout-dont-fill: #FBECEC;
+    --doc-callout-dont-ink: #7A2E2E;
+    --doc-callout-note-fill: #F1F1EF;
+    --doc-callout-note-ink: #37352F;
+    --doc-accent-link: #2E7CD6;
+
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--doc-surface-mat);
+    font-family: var(--sans);
+    color: var(--doc-ink-primary);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.7;
+  }
+
+  /* Documentation frame on the page mat, room to breathe */
+  .doc-frame {
+    max-width: 720px;
+    margin: 48px auto;
+    background: var(--doc-surface-canvas);
+    border-radius: 8px;
+    padding: 40px;
+  }
+
+  /* --- Header --- */
+  .doc-title {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+  }
+  .doc-lede {
+    font-size: 15px;
+    color: var(--doc-ink-secondary);
+    margin: 0;
+    max-width: 60ch;
+  }
+  .doc-meta {
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--doc-ink-muted);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  /* --- Sections: whitespace separates, no divider lines --- */
+  section { margin-top: 32px; }
+  .section-header {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  h3.sub {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  p.body { font-size: 15px; margin: 0 0 12px; max-width: 60ch; color: var(--doc-ink-primary); }
+  p.body.secondary { color: var(--doc-ink-secondary); }
+
+  /* --- Callouts --- */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 15px;
+    margin: 12px 0;
+  }
+  .callout .lead { font-weight: 600; }
+  .callout.do { background: var(--doc-callout-do-fill); color: var(--doc-callout-do-ink); }
+  .callout.dont { background: var(--doc-callout-dont-fill); color: var(--doc-callout-dont-ink); }
+  .callout.note { background: var(--doc-callout-note-fill); color: var(--doc-callout-note-ink); }
+
+  .do-dont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 560px) { .do-dont-grid { grid-template-columns: 1fr; } }
+  .do-dont-grid .callout { margin: 0; }
+
+  /* --- Spec rows: label + mono value --- */
+  .spec-group { margin: 12px 0; }
+  .spec-row {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    padding: 4px 0;
+  }
+  .spec-row .label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--doc-ink-muted);
+    min-width: 140px;
+  }
+  .spec-row .value {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--doc-ink-primary);
+  }
+
+  /* --- Token chip --- */
+  .chip {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--doc-surface-chip);
+    color: var(--doc-callout-note-ink);
+    border-radius: 4px;
+    padding: 2px 6px;
+    white-space: nowrap;
+  }
+  .chip.pending { color: var(--doc-ink-muted); }
+
+  /* --- Swatch --- */
+  .swatch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+  }
+  .swatch .sq {
+    width: 28px; height: 28px;
+    border-radius: 4px;
+    flex: none;
+    border: 1px solid var(--doc-border-hairline);
+  }
+  .swatch .name { font-family: var(--mono); font-size: 12px; }
+  .swatch .resolved { font-size: 13px; color: var(--doc-ink-muted); }
+
+  /* --- Showcase frame: neutral container for the product component --- */
+  .showcase {
+    background: var(--doc-surface-canvas);
+    border: 1px solid var(--doc-border-hairline);
+    border-radius: 8px;
+    padding: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  .state-cell { text-align: center; }
+  .state-cell .caption {
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--doc-ink-muted);
+  }
+
+  /* Representative Novo button rendering — placeholder visual only.
+     Fill/radius reflect the two facts supplied; other state values are
+     unresolved and flagged in the specs, not baked in as final. */
+  .novo-btn {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;                /* radius = 8px (given) */
+    padding: 10px 20px;
+    background: #147D74;                /* resolved from color/button/primary at doc build — see note */
+    cursor: pointer;
+  }
+  .novo-btn.hover { filter: brightness(0.92); }
+  .novo-btn.pressed { filter: brightness(0.84); }
+  .novo-btn.disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* --- Anatomy / annotation --- */
+  .anno-key { margin: 12px 0 0; padding: 0; list-style: none; }
+  .anno-key li {
+    display: flex; gap: 10px; align-items: baseline;
+    font-size: 15px; padding: 3px 0;
+  }
+  .marker {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; flex: none;
+    border-radius: 50%;
+    background: var(--doc-accent-link);
+    color: #fff; font-size: 11px; font-weight: 600; font-family: var(--mono);
+  }
+
+  /* Hairline table — reserved for genuine tabular data (states matrix) */
+  table.states {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14px;
+    margin: 12px 0;
+  }
+  table.states th, table.states td {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--doc-border-hairline);
+    vertical-align: top;
+  }
+  table.states th {
+    font-size: 13px; font-weight: 500; color: var(--doc-ink-muted);
+  }
+  table.states td .chip { font-size: 11px; }
+  a { color: var(--doc-accent-link); }
+</style>
+</head>
+<body>
+<main class="doc-frame">
+
+  <!-- doc/page-header -->
+  <header>
+    <h1 class="doc-title">Button</h1>
+    <p class="doc-lede">The primary action control. One button per view carries the main action; everything else steps down from it.</p>
+    <div class="doc-meta">
+      <span>Component</span>
+      <span>Status: in review</span>
+      <span>Last updated 2026-08-21</span>
+    </div>
+  </header>
+
+  <!-- Overview -->
+  <section>
+    <h2 class="section-header">Overview</h2>
+    <p class="body">Use the button to trigger a single, clear action — submit, save, continue, confirm. Label it with a verb that names the action, not a generic word like "OK".</p>
+    <p class="body secondary">The primary variant is the strongest emphasis in the set. Reserve it for the one action you most want the user to take; pair it with lower-emphasis buttons for secondary paths.</p>
+
+    <h3 class="sub">Core specs</h3>
+    <div class="spec-group">
+      <div class="spec-row">
+        <span class="label">Primary fill</span>
+        <span class="value"><span class="chip">color/button/primary</span></span>
+      </div>
+      <div class="spec-row">
+        <span class="label">Corner radius</span>
+        <span class="value">8px</span>
+      </div>
+    </div>
+
+    <div class="callout note">
+      <span class="lead">Note.</span> The primary fill binds to the semantic token <span class="chip">color/button/primary</span> — never a raw hex. Restyle the token, not the component.
+    </div>
+  </section>
+
+  <!-- States -->
+  <section>
+    <h2 class="section-header">States</h2>
+    <p class="body secondary">The primary button has four states. Default is the resting appearance; the rest respond to pointer and availability.</p>
+
+    <!-- doc/showcase-frame: representative rendering, hairline for edge definition -->
+    <div class="showcase">
+      <div class="state-cell">
+        <button class="novo-btn">Save changes</button>
+        <div class="caption">Default</div>
+      </div>
+      <div class="state-cell">
+        <button class="novo-btn hover">Save changes</button>
+        <div class="caption">Hover</div>
+      </div>
+      <div class="state-cell">
+        <button class="novo-btn pressed">Save changes</button>
+        <div class="caption">Pressed</div>
+      </div>
+      <div class="state-cell">
+        <button class="novo-btn disabled" disabled>Save changes</button>
+        <div class="caption">Disabled</div>
+      </div>
+    </div>
+
+    <div class="callout note">
+      <span class="lead">Rendering note.</span> The buttons above are a representative stand-in, not the live Novo library instance (Figma is not connected in this environment). Fill and radius reflect the two supplied facts; each state's exact token binding is listed below and marked to confirm where it could not be read from the component.
+    </div>
+
+    <table class="states">
+      <thead>
+        <tr><th>State</th><th>When it applies</th><th>Fill token</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Default</td>
+          <td>Resting, interactive, no pointer contact.</td>
+          <td><span class="chip">color/button/primary</span></td>
+        </tr>
+        <tr>
+          <td>Hover</td>
+          <td>Pointer is over the button.</td>
+          <td><span class="chip pending">to confirm</span></td>
+        </tr>
+        <tr>
+          <td>Pressed</td>
+          <td>Button is being actively pressed / active.</td>
+          <td><span class="chip pending">to confirm</span></td>
+        </tr>
+        <tr>
+          <td>Disabled</td>
+          <td>Action unavailable; not interactive, skipped by focus.</td>
+          <td><span class="chip pending">to confirm</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout note">
+      <span class="lead">To confirm.</span> Only the default fill (<span class="chip">color/button/primary</span>) and radius (8px) were supplied. The hover, pressed, and disabled fill tokens were not read from the live component, so they are flagged rather than guessed — resolve them against the Novo library before hand-off.
+    </div>
+  </section>
+
+  <!-- Usage: do / don't -->
+  <section>
+    <h2 class="section-header">Usage</h2>
+    <p class="body secondary">Do's and don'ts for the primary button.</p>
+    <div class="do-dont-grid">
+      <div class="callout do">
+        <span class="lead">Do.</span> Use one primary button per view for the single most important action.
+      </div>
+      <div class="callout dont">
+        <span class="lead">Don't.</span> Stack two primary buttons side by side — the emphasis cancels out and neither reads as the main action.
+      </div>
+      <div class="callout do">
+        <span class="lead">Do.</span> Label with a specific verb that names the action, like "Save changes" or "Send invite".
+      </div>
+      <div class="callout dont">
+        <span class="lead">Don't.</span> Use vague labels like "OK", "Submit", or "Click here" that don't say what happens.
+      </div>
+      <div class="callout do">
+        <span class="lead">Do.</span> Disable the button when the action isn't available yet, so the state is honest.
+      </div>
+      <div class="callout dont">
+        <span class="lead">Don't.</span> Override the fill with a raw hex — bind to <span class="chip">color/button/primary</span> so restyles flow through the token.
+      </div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

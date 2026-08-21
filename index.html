@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #FFFFFF;
+    color: #2F2F2C;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.7;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 72px 32px 96px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #9B9A93; margin: 0 0 8px; }
+  h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 8px; }
+  .lede { font-size: 15px; color: #6B6B66; margin: 0 0 40px; max-width: 60ch; }
+  .group-label { font-size: 13px; font-weight: 600; color: #37352F; margin: 32px 0 12px; }
+  a.doc {
+    display: block; text-decoration: none; color: inherit;
+    background: #FFFFFF; border: 1px solid #EDEDEC; border-radius: 8px;
+    padding: 16px 18px; margin: 0 0 10px; transition: background 120ms ease, border-color 120ms ease;
+  }
+  a.doc:hover { background: #F7F7F5; border-color: #E0E0DE; }
+  a.doc .title { font-size: 15px; font-weight: 500; }
+  a.doc .desc { font-size: 13px; color: #6B6B66; margin-top: 2px; }
+  footer { margin-top: 48px; font-size: 12px; color: #9B9A93; }
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="eyebrow">Modern UI</p>
+    <h1>Design documentation</h1>
+    <p class="lede">Component, style, and interaction documentation for the Novo design system. Each page documents the design; it is not the product UI itself.</p>
+
+    <div class="group-label">Components</div>
+    <a class="doc" href="docs/button.html">
+      <div class="title">Button</div>
+      <div class="desc">Overview, states, and usage do's and don'ts.</div>
+    </a>
+
+    <div class="group-label">Styles &amp; tokens</div>
+    <a class="doc" href="docs/color-tokens.html">
+      <div class="title">Color tokens</div>
+      <div class="desc">Core semantic color tokens with swatches and values.</div>
+    </a>
+
+    <div class="group-label">Interactions</div>
+    <a class="doc" href="docs/expansion-panel-interaction.html">
+      <div class="title">Expansion panel — expand / collapse</div>
+      <div class="desc">Behavior of the expand and collapse interaction.</div>
+    </a>
+
+    <footer>Add new pages under <code>docs/</code> and link them here.</footer>
+  </main>
+</body>
+</html>
