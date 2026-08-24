@@ -4,188 +4,40 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Semantic color tokens — documentation</title>
-<style>
-  :root{
-    /* doc/* namespace, aliased from the Soft notebook palette */
-    --doc-surface-canvas:#FFFFFF;
-    --doc-surface-mat:#F7F7F5;
-    --doc-surface-chip:#F1F1EF;
-    --doc-ink-primary:#2F2F2C;
-    --doc-ink-secondary:#6B6B66;
-    --doc-ink-muted:#9B9A93;
-    --doc-border-hairline:#EDEDEC;
-    --doc-callout-do-fill:#F0F6EC;   --doc-callout-do-ink:#3B5323;
-    --doc-callout-dont-fill:#FBECEC; --doc-callout-dont-ink:#7A2E2E;
-    --doc-callout-note-fill:#F1F1EF; --doc-callout-note-ink:#37352F;
-    --doc-accent-link:#2E7CD6;
-    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    --mono:ui-monospace,"SF Mono","JetBrains Mono",monospace;
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;}
-  body{
-    background:var(--doc-surface-mat);
-    color:var(--doc-ink-primary);
-    font-family:var(--sans);
-    font-size:15px;
-    line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-    padding:48px 24px;
-  }
-  .page{
-    max-width:704px;
-    margin:0 auto;
-    background:var(--doc-surface-canvas);
-    border-radius:8px;
-    padding:40px;
-  }
-  /* Typography */
-  h1{
-    font-size:28px;font-weight:600;letter-spacing:-0.02em;
-    margin:0 0 8px;line-height:1.25;
-  }
-  .lede{
-    font-size:15px;color:var(--doc-ink-secondary);
-    margin:0;max-width:60ch;
-  }
-  .meta{
-    margin-top:12px;font-size:13px;font-weight:500;color:var(--doc-ink-muted);
-    display:flex;gap:20px;flex-wrap:wrap;
-  }
-  h2{
-    font-size:18px;font-weight:600;margin:0 0 12px;line-height:1.3;
-  }
-  h3{
-    font-size:15px;font-weight:600;margin:0 0 8px;
-  }
-  section{margin-top:32px;}
-  p{margin:0 0 12px;max-width:60ch;}
-  p:last-child{margin-bottom:0;}
-  .cap{font-size:13px;font-weight:500;color:var(--doc-ink-muted);}
-  /* Chips + mono */
-  code,.chip{
-    font-family:var(--mono);font-size:12px;
-  }
-  .chip{
-    background:var(--doc-surface-chip);color:#37352F;
-    border-radius:4px;padding:2px 6px;white-space:nowrap;
-  }
-  /* Callouts */
-  .callout{border-radius:8px;padding:14px 16px;margin:12px 0;max-width:60ch;}
-  .callout p{margin:0;max-width:none;}
-  .callout .lead{font-weight:600;}
-  .do{background:var(--doc-callout-do-fill);color:var(--doc-callout-do-ink);}
-  .dont{background:var(--doc-callout-dont-fill);color:var(--doc-callout-dont-ink);}
-  .note{background:var(--doc-callout-note-fill);color:var(--doc-callout-note-ink);}
-  /* Swatches */
-  .swatches{display:flex;flex-direction:column;gap:20px;margin-top:4px;}
-  .swatch{display:flex;gap:16px;align-items:flex-start;}
-  .sw-color{
-    width:56px;height:56px;border-radius:8px;flex:0 0 auto;
-    box-shadow:inset 0 0 0 1px var(--doc-border-hairline);
-  }
-  .sw-body{padding-top:2px;}
-  .sw-name{font-family:var(--mono);font-size:12px;color:#37352F;}
-  .sw-val{font-family:var(--mono);font-size:12px;color:var(--doc-ink-secondary);margin-top:4px;}
-  .sw-desc{font-size:15px;color:var(--doc-ink-secondary);margin-top:6px;max-width:56ch;}
-  .pending{
-    display:inline-block;font-family:var(--sans);font-size:11px;font-weight:600;
-    color:var(--doc-callout-dont-ink);background:var(--doc-callout-dont-fill);
-    border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:middle;
-  }
-  /* Spec rows */
-  .spec{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
-  .spec-row{display:flex;gap:12px;font-family:var(--mono);font-size:12px;}
-  .spec-row .k{color:var(--doc-ink-muted);min-width:180px;}
-  .spec-row .v{color:#37352F;}
-  a{color:var(--doc-accent-link);text-decoration:none;}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
 </head>
 <body>
-<main class="page">
+<doc-page eyebrow="Foundations" title="Semantic color tokens" meta="Status: in review · Scope: core semantic tokens · Last updated: 2026-08-21">
+  <p class="lead" style="max-width:60ch;margin-top:12px">Four core semantic color tokens for text, surface, and accent. Use the semantic token, not the resolved value — the token is the contract, the hex behind it can change.</p>
 
-  <header>
-    <h1>Semantic color tokens</h1>
-    <p class="lede">Four core semantic color tokens for text, surface, and accent. Use the semantic token, not the resolved value — the token is the contract, the hex behind it can change.</p>
-    <div class="meta">
-      <span>Status: in review</span>
-      <span>Scope: core semantic tokens</span>
-      <span>Last updated: 2026-08-21</span>
-    </div>
-  </header>
+  <doc-section label="Overview">
+    <p>These tokens name intent, not color. <span class="chip">color/text/primary</span> means “the primary reading text on a surface” wherever it is used, so a theme or palette change updates every consumer at once. Reference the token in design and code; treat the resolved hex as an implementation detail.</p>
+  </doc-section>
 
-  <section>
-    <h2>Overview</h2>
-    <p>These tokens name intent, not color. <code class="chip">color/text/primary</code> means "the primary reading text on a surface" wherever it is used, so a theme or palette change updates every consumer at once. Reference the token in design and code; treat the resolved hex as an implementation detail.</p>
-  </section>
+  <doc-section label="Tokens">
+    <p class="lead">Resolved values were not read from the source of truth — the live Figma variable connection is unavailable in this environment. Only <span class="chip">color/accent/primary</span> has a known value, and it is a raw hex pending rebind. The other three resolved values are shown as to be confirmed rather than guessed.</p>
+    <doc-token-list>
+      <doc-token color="#F1F1EF" name="color/text/primary" value="resolved value: to be confirmed">Primary reading text — body copy, headings, and default foreground on a surface.</doc-token>
+      <doc-token color="#F1F1EF" name="color/text/secondary" value="resolved value: to be confirmed">Supporting text — descriptions, secondary labels, and de-emphasized foreground.</doc-token>
+      <doc-token color="#F1F1EF" name="color/surface/raised" value="resolved value: to be confirmed">Raised surface — cards, menus, and panels that sit above the base background.</doc-token>
+      <doc-token color="#0D9488" name="color/accent/primary" value="currently bound to raw hex #0D9488" pending>Primary accent — key actions and emphasis. Currently pointing at a raw hex, not a palette token, until the teal rebind lands.</doc-token>
+    </doc-token-list>
+  </doc-section>
 
-  <section>
-    <h2>Tokens</h2>
-    <p class="cap">Resolved values were not read from the source of truth — the live Figma variable connection is unavailable in this environment. Only <code class="chip">color/accent/primary</code> has a known value, and it is a raw hex pending rebind (see below). The other three resolved values are shown as to be confirmed rather than guessed.</p>
-    <div class="swatches">
+  <doc-section label="Pending: accent rebind">
+    <doc-callout type="dont" heading="Don’t">treat <span class="chip">#0D9488</span> as the final accent value. <span class="chip">color/accent/primary</span> is bound to a raw hex as a stopgap and is scheduled to be rebound to the teal palette token; the resolved value will change.</doc-callout>
+    <doc-callout type="note" heading="Note">keep consuming <span class="chip">color/accent/primary</span> by name. When the teal rebind lands, every consumer picks up the new value with no further change.</doc-callout>
+  </doc-section>
 
-      <div class="swatch">
-        <div class="sw-color" style="background:var(--doc-surface-chip);"></div>
-        <div class="sw-body">
-          <div class="sw-name">color/text/primary</div>
-          <div class="sw-val">resolved value: to be confirmed</div>
-          <div class="sw-desc">Primary reading text — body copy, headings, and default foreground on a surface.</div>
-        </div>
-      </div>
-
-      <div class="swatch">
-        <div class="sw-color" style="background:var(--doc-surface-chip);"></div>
-        <div class="sw-body">
-          <div class="sw-name">color/text/secondary</div>
-          <div class="sw-val">resolved value: to be confirmed</div>
-          <div class="sw-desc">Supporting text — descriptions, secondary labels, and de-emphasized foreground.</div>
-        </div>
-      </div>
-
-      <div class="swatch">
-        <div class="sw-color" style="background:var(--doc-surface-chip);"></div>
-        <div class="sw-body">
-          <div class="sw-name">color/surface/raised</div>
-          <div class="sw-val">resolved value: to be confirmed</div>
-          <div class="sw-desc">Raised surface — cards, menus, and panels that sit above the base background.</div>
-        </div>
-      </div>
-
-      <div class="swatch">
-        <div class="sw-color" style="background:#0D9488;"></div>
-        <div class="sw-body">
-          <div class="sw-name">color/accent/primary <span class="pending">pending rebind</span></div>
-          <div class="sw-val">currently bound to raw hex #0D9488</div>
-          <div class="sw-desc">Primary accent — key actions and emphasis. Currently pointing at a raw hex, not a palette token, until the teal rebind lands.</div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section>
-    <h2>Pending: accent rebind</h2>
-    <div class="callout dont">
-      <p><span class="lead">Don't</span> treat <code>#0D9488</code> as the final accent value. <code>color/accent/primary</code> is bound to a raw hex as a stopgap and is scheduled to be rebound to the teal palette token; the resolved value will change.</p>
-    </div>
-    <div class="callout note">
-      <p><span class="lead">Note</span> keep consuming <code>color/accent/primary</code> by name. When the teal rebind lands, every consumer picks up the new value with no further change.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2>Usage</h2>
-    <div class="callout do">
-      <p><span class="lead">Do</span> reference the semantic token — <code>color/text/primary</code>, <code>color/surface/raised</code> — in both design and code.</p>
-    </div>
-    <div class="callout dont">
-      <p><span class="lead">Don't</span> hardcode a resolved hex in a component. A pasted value drifts the moment the token is repointed.</p>
-    </div>
-    <div class="callout do">
-      <p><span class="lead">Do</span> pair <code>color/text/primary</code> and <code>color/text/secondary</code> for hierarchy — primary for the main line, secondary for support.</p>
-    </div>
-  </section>
-
-</main>
+  <doc-section label="Usage">
+    <doc-callout type="do" heading="Do">reference the semantic token — <span class="chip">color/text/primary</span>, <span class="chip">color/surface/raised</span> — in both design and code.</doc-callout>
+    <doc-callout type="dont" heading="Don’t">hardcode a resolved hex in a component. A pasted value drifts the moment the token is repointed.</doc-callout>
+    <doc-callout type="do" heading="Do">pair <span class="chip">color/text/primary</span> and <span class="chip">color/text/secondary</span> for hierarchy — primary for the main line, secondary for support.</doc-callout>
+  </doc-section>
+</doc-page>
 </body>
 </html>

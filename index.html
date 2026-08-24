@@ -7,37 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root { color-scheme: light; }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: #FFFFFF;
-    color: #2F2F2C;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    line-height: 1.7;
-  }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 72px 32px 96px; }
-  .eyebrow { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #9B9A93; margin: 0 0 8px; }
-  h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 8px; }
-  .lede { font-size: 15px; color: #6B6B66; margin: 0 0 40px; max-width: 60ch; }
-  .group-label { font-size: 13px; font-weight: 600; color: #37352F; margin: 32px 0 12px; }
-  a.doc {
-    display: block; text-decoration: none; color: inherit;
-    background: #FFFFFF; border: 1px solid #EDEDEC; border-radius: 8px;
-    padding: 16px 18px; margin: 0 0 10px; transition: background 120ms ease, border-color 120ms ease;
-  }
-  a.doc:hover { background: #F7F7F5; border-color: #E0E0DE; }
-  a.doc .title { font-size: 15px; font-weight: 500; }
-  a.doc .desc { font-size: 13px; color: #6B6B66; margin-top: 2px; }
-  footer { margin-top: 48px; font-size: 12px; color: #9B9A93; }
-</style>
+<link rel="stylesheet" href="assets/docs.css">
 </head>
 <body>
   <main class="wrap">
     <p class="eyebrow">Modern UI</p>
     <h1>Design documentation</h1>
-    <p class="lede">Component, style, and interaction documentation for the Novo design system. Each page documents the design; it is not the product UI itself.</p>
+    <p class="lead" style="font-size:15px;max-width:60ch;margin:0 0 40px">Foundations, components, and design decisions for the Novo design system. Each page documents the design; it is not the product UI itself.</p>
 
     <div class="group-label">Foundations</div>
     <a class="doc" href="docs/color-tokens.html">
@@ -61,7 +37,7 @@
       <div class="desc">Contrast options for the record tab bar, compared.</div>
     </a>
 
-    <footer>Add new pages under <code>docs/</code> and link them here.</footer>
+    <footer class="foot">Add new pages under <code>docs/</code> and link them here.</footer>
   </main>
 </body>
 </html>
