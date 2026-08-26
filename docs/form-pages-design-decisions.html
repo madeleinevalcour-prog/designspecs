@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form pages — design decisions (new UI)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Design decision" title="Form pages — design decisions (new UI)" intro="Records the design decisions for the new-UI form pages: the current-state constraints, the guidelines we set, an analysis of the first iterations, and the proposed changes. A working reference, updated as decisions settle." meta="Forms · August 2026" rail>
+
+  <doc-section id="current-states" label="Current states" desc="What the system fixes and what customers control">
+    <doc-callout type="note" heading="Scope.">A non-exhaustive overview of the current form pages in the Old UI and the technical constraints they carry.</doc-callout>
+
+    <h3>Form surfaces</h3>
+    <ul>
+      <li><b>Full pages</b>
+        <ul>
+          <li><b>Add form:</b> multiple sections, each in its own container; an "Add [Entity]" header, sometimes with a stepper, a type-selection step, or a right pane such as a résumé editor.</li>
+          <li><b>Edit tab:</b> accessed from the record header; multiple sections, each in its own container.</li>
+        </ul>
+      </li>
+      <li><b>Slideouts</b> (e.g. Add Note): the form fills the slideout width, no container.</li>
+      <li><b>Modals:</b> the form fills the modal width, no container.</li>
+    </ul>
+
+    <h3>Configurable by the customer</h3>
+    <p>These are set by the customer, not the designer:</p>
+    <ul>
+      <li><b>Field order</b> within a form.</li>
+      <li><b>Field grouping</b> — which fields are combined into a section (novo-fieldset).</li>
+      <li><b>Section titles</b> — the wording, or whether a section is titled at all.</li>
+      <li><b>Section header presence</b> — a section may render with no header.</li>
+      <li><b>Which fields are required.</b></li>
+    </ul>
+    <doc-callout type="note" heading="Design implication.">The layout must read as intentional under any configuration — arbitrary groupings, any or no section titles, and both header and header-less states. Grouping comes from the container (a carved common region) and the field labels, not from section titles, which may be absent. <span class="mono">(Guideline #4; Gestalt — common region.)</span></doc-callout>
+
+    <h3>System-driven constraints</h3>
+    <ul>
+      <li><b>Full-page label alignment is technically constrained.</b> Developers have flagged that moving full-page forms to top-aligned labels will be difficult, since top-aligned labels are the modern single-column default.</li>
+      <li><b>Slideouts always use top-aligned (vertical) labels.</b> Their narrow width makes labels-beside impractical, so this is fixed by the surface.</li>
+      <li><b>Modals are a mixed state today</b> (Old UI): some use top-aligned labels, some labels-beside. Label layout in a modal can be decided situationally, based on the modal's usage and width.</li>
+      <li><b>Footer is always at the bottom</b> across every surface.</li>
+      <li><b>Container behavior differs by surface.</b> On full pages each section sits in its own container; in slideouts and modals the form fills the surface width within the interior padding, with no per-section container.</li>
+    </ul>
+
+    <h3>Amplify (Bullhorn's AI suite)</h3>
+    <p>Amplify introduces platform-level UI that lays claim to the right side of the screen, which the form layout has to accommodate:</p>
+    <ul>
+      <li><b>Universal chat panel.</b> Can open on the right of any screen; it pushes page content inward and narrows the usable width. The form must reflow to the narrower measure — single column, field cap intact — rather than break.</li>
+      <li><b>AI-assisted form filling.</b> Adds AI controls to the right side of the form page.</li>
+    </ul>
+    <doc-callout type="note" heading="Implication.">The right pane area is frequently absorbed by Amplify — the chat panel or AI-assist controls. A dedicated context rail cannot assume that space is free, so it is deferred to a later consideration.</doc-callout>
+  </doc-section>
+
+  <doc-section id="guidelines" label="Form design guidelines" desc="The 24 prescriptive rules">
+    <p class="lead">These 24 rules translate the design principles, competitive UI research, the Chloe Davis (Sr. Technical Recruiter) persona, and interface heuristics (Nielsen/Molich, Wroblewski, Bringhurst, Gestalt, WCAG 2.2 AA) into concrete form guidance. See the <a href="#full-guidelines">full design guidelines</a> in the appendix for each rule's detail and sources.</p>
+
+    <details class="grp" open>
+      <summary>Visual design &amp; styling</summary>
+      <ul>
+      <li><b>1. Single column by default.</b> One top-to-bottom path; pair fields on a row only when short and semantically linked.</li>
+      <li><b>2. Cap the field, not the card.</b> Cap the field at ~560px (~66–72 characters); size shorter fields to content; size the card to its content and left-anchor it rather than letting it fill or center-float. Design for the narrowed width when Amplify claims the right side; the context rail is deferred.</li>
+      <li><b>3. Size each input to its content.</b> Match input width to the expected data so width signals type.</li>
+      <li><b>4. Make grouping legible through the container, not the title.</b> Sections are customer-controlled; grouping comes from the container and reads even when untitled.</li>
+      <li><b>5. Spend whitespace between sections, not between fields.</b> Set between-section spacing to 2–3× the within-section gap.</li>
+      <li><b>6. Build depth from carved borders and tonal layering, not shadows.</b> Reserve real elevation for floating elements.</li>
+      <li><b>7. Align to one vertical axis.</b> Labels, inputs, and section headers share a left edge.</li>
+      <li><b>8. Build error states from icon, text, and border together.</b> Never signal state with color alone.</li>
+      <li><b>9. Design every field state.</b> Scope: default (required and optional), hover, focus, active, complete, error, and disabled/read-only — the last a single combined state per the Old UI.</li>
+      <li><b>10. Mark required and optional fields explicitly.</b> One convention, applied system-wide, never color or asterisk alone.</li>
+      <li><b>11. Style all primary actions identically.</b> One recognizable primary across every form.</li>
+      </ul>
+    </details>
+
+    <details class="grp">
+      <summary>Functionality &amp; interaction</summary>
+      <ul>
+      <li><b>12. Never use a placeholder as a label.</b> Keep a persistent visible label; add a format hint where needed.</li>
+      <li><b>13. Label fields in recruiter language.</b> Use the terms the user uses, not internal field names.</li>
+      <li><b>14. Keep the whole form on one page.</b> One page, sectioned; no multi-step wizard for records.</li>
+      <li><b>15. Cut non-essential fields; pre-fill the rest.</b> Only essential fields; pre-fill from parse, owner, date, parent job.</li>
+      <li><b>16. Reveal conditional fields in place.</b> Insert revealed fields inline; never reposition content under the cursor.</li>
+      <li><b>17. Validate inline on blur.</b> Not per keystroke, not only on submit.</li>
+      <li><b>18. Prevent errors at the input.</b> Right input type, constraints, masks, and controlled-vocabulary pickers.</li>
+      <li><b>19. On submit failure, summarize and jump to the first error.</b> Jump links, expanded sections, focus moved.</li>
+      <li><b>20. Keep a persistent action bar with an explicit primary.</b> Sticky footer; Save / Save &amp; Add Another / Cancel; name the action.</li>
+      <li><b>21. Show save state and protect against data loss.</b> Indicate saved / saving / unsaved; warn before discarding input.</li>
+      <li><b>22. Keyboard-complete, mouse-optional.</b> Logical tab order, type-ahead lookups, Enter to save, Esc to cancel.</li>
+      </ul>
+    </details>
+
+    <details class="grp">
+      <summary>Implementation</summary>
+      <ul>
+      <li><b>23. Ship every rule as a token or component.</b> Never a per-screen decision.</li>
+      <li><b>24. Ensure grouping survives assistive contexts.</b> Back visual sections with semantic headings; pair color cues with shape or icon.</li>
+      </ul>
+    </details>
+  </doc-section>
+
+  <doc-section id="analysis" label="Analysis of the current iterations" desc="Three representative patterns">
+    <p class="lead">Reviewing three first-iteration patterns in the new UI: an add form with a right pane, an add form without one, and an edit tab. Click any screen to enlarge; use the arrows to move between them.</p>
+
+    <doc-carousel>
+      <doc-showcase src="images/form-pages/analysis-add-job.png" alt="Add page with no right pane" caption="Pattern: Add page, no right pane (shown as Add Job)" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4477-87445"></doc-showcase>
+      <doc-showcase src="images/form-pages/analysis-add-candidate.png" alt="Add page with a right pane" caption="Pattern: Add page with a right pane (shown as Add Candidate)" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4477-88871"></doc-showcase>
+      <doc-showcase src="images/form-pages/analysis-edit-candidate.png" alt="Edit tab with no right pane" caption="Pattern: Edit tab, no right pane (shown as Edit Candidate)" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4477-88127"></doc-showcase>
+    </doc-carousel>
+
+    <h3>What the patterns do well</h3>
+    <ul>
+      <li><b>Sections read as intentional containers.</b> Each is a carved card, tonally distinct from the page — grouping stays legible without relying on the customer-controlled title. <span class="mono">(Guideline #4, #6.)</span></li>
+      <li><b>Single-column field path.</b> One clear top-to-bottom flow across all three patterns. <span class="mono">(Guideline #1.)</span></li>
+      <li><b>Persistent visible labels.</b> Every field keeps its label — no placeholder-as-label. <span class="mono">(Guideline #12.)</span></li>
+      <li><b>Sticky footer with a styled primary.</b> Cancel plus a filled Save stay anchored bottom-right. <span class="mono">(Guideline #20 — partial.)</span></li>
+      <li><b>Some control types are signaled.</b> Dropdown carets and lookup magnifiers appear on several fields. <span class="mono">(Guideline #3 — partial.)</span></li>
+      <li><b>The right-pane pattern is well-formed.</b> In the add-with-pane pattern the card hugs its fields and left-anchors, with the pane beside it and no dead interior space. <span class="mono">(Guideline #2, #6.)</span></li>
+    </ul>
+
+    <h3>Where the patterns diverge from the guidelines</h3>
+    <ul>
+      <li><b>Right-aligned, uppercase labels in a narrow column.</b> They wrap to two lines and drift from short-label inputs, reading as dated. <span class="mono">(Guideline #7, #13.)</span></li>
+      <li><b>Inputs are one uniform full width</b> regardless of content, so width no longer signals data type. <span class="mono">(Guideline #3.)</span></li>
+      <li><b>Required marking is color-only</b> (a red dot), failing color-blind and screen-reader users. <span class="mono">(Guideline #10, #24.)</span></li>
+      <li><b>Some constrained controls render as bare boxes,</b> giving no hint whether they are pickers or free text. <span class="mono">(Guideline #3.)</span></li>
+      <li><b>Input border contrast looks low.</b> Verify it clears the 3:1 non-text minimum; a prior measure was ~2.6:1. <span class="mono">(Guideline #8.)</span></li>
+      <li><b>The footer says a generic "Save"</b> and lacks "Save &amp; Add Another." <span class="mono">(Guideline #20.)</span></li>
+    </ul>
+
+    <h3>Pattern-specific observations</h3>
+    <ul>
+      <li><b>Add page with a right pane.</b> Best-behaved layout of the three: card sized to its fields, left-anchored, with a <b>functional</b> pane beside it (an interactive editor), not a context rail. Establishes the right-pane-as-tool pattern. <span class="mono">(Guideline #2.)</span></li>
+      <li><b>Add page with no right pane.</b> The form floats in a wide empty gutter rather than left-anchoring — the space beside it has no job. That right area is where Amplify (chat panel or AI-assist controls) will often sit; absent those, it falls to honest margin, with a context rail as a later option. <span class="mono">(Guideline #2.)</span></li>
+      <li><b>Edit tab with no right pane.</b> The card floats centered and indented past the header's left edge, sharing no vertical axis with the header above it — the concrete "misaligned" case. Its wide inputs hold read-back values in ~590px+ boxes, exactly the line length the field cap governs. Correctly carries no right pane, since record context already sits in the header and sibling tabs. <span class="mono">(Guideline #2, #3, #7.)</span></li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="proposed-changes" label="Proposed changes" desc="Each anchored to a principle">
+
+    <h3>Field width and card behavior</h3>
+    <ul>
+      <li><b>Cap the field at ~560px, not the card.</b> The spec is ~66–72 characters (Bringhurst's 45–75 measure, under the WCAG 1.4.8 80-char ceiling); 560px is that target at Novo's input type — confirm against the actual token. Applies to full-column fields and text areas; shorter fields size to content. This caps both filled-value line length and wrapping helper copy. <span class="mono">(Guideline #2, #3.)</span></li>
+      <li><b>Size the card to its content; do not let it fill the width.</b> A card whose fields occupy only part of its width reads as unfinished and loosens grouping. <span class="mono">(Rams #4, #10; Gestalt — common region.)</span></li>
+      <li><b>Left-anchor the card to a shared vertical axis</b> with the page/record header, rather than center-floating it. <span class="mono">(Gestalt — continuity; Nielsen #4; Guideline #7.)</span></li>
+    </ul>
+    <doc-callout type="do" heading="Do.">Move leftover horizontal space outside the card — into the right pane or honest page margin.</doc-callout>
+    <doc-callout type="dont" heading="Don't.">Leave leftover width as empty card interior, or stretch the card to swallow it.</doc-callout>
+
+    <h3>Expand right pane functionality</h3>
+    <ul>
+      <li><b>Treat the right pane as shared, Amplify-first space.</b> It is frequently claimed by Amplify — the universal chat panel that narrows the page, or AI-assisted form-fill controls docked to the right — or by a functional tool the form requires (the résumé editor, the Add Note editor). Design the form to reflow to the narrowed width these create: single column, field cap intact. <span class="mono">(Guideline #2.)</span></li>
+      <li><b>A functional tool adapts to the surface.</b> Where there is no room for a right pane, the tool lives inline in the form column; at full size it becomes the right pane. Example: the Add Note editor is inline in the slideout (no right pane) and becomes the right pane in the full-page version. <span class="mono">(Guideline #2.)</span></li>
+      <li><b>Defer the context rail.</b> A read-only context rail (related records, recent activity, submission status) is worth doing for scenarios where a functional right pane is not required — it puts otherwise-empty width to work and keeps context visible without leaving the form. But because Amplify and functional tools so often absorb the right area, it is deferred to a later consideration, and the form must never depend on it. <span class="mono">(Guideline #2; Nielsen — recognition over recall.)</span></li>
+    </ul>
+
+    <h3>Labels (best-in-class left-aligned)</h3>
+    <ul>
+      <li><b>Keep labels beside inputs on full pages</b> (accepting the dev constraint on top-aligned), but make the treatment excellent: left-align the label text, sentence case, not uppercase, on a shared axis with the section header. <span class="mono">(Guideline #7, #13.)</span></li>
+      <li><b>Left-align over right-align</b> because a consistent left edge keeps every label anchored to its input and lets the eye scan the column in one straight line. <span class="mono">(Gestalt — proximity, continuity.)</span></li>
+      <li><b>Label orientation follows the surface.</b> Full pages use labels beside inputs (horizontal). Slideouts always stack labels above (vertical), given their narrow width. Modals are situational — pick horizontal or vertical per the modal's usage and width. <span class="mono">(Guideline #2, #7.)</span></li>
+    </ul>
+    <doc-callout type="note" heading="Accepted trade-off.">Full pages will still differ from the top-aligned modals and slideouts on label position. We are choosing an excellent left-aligned full-page treatment over unifying label position across surfaces. <span class="mono">(Guideline #23; Nielsen #4.)</span></doc-callout>
+
+    <h3>Inputs, controls, and required marking</h3>
+    <ul>
+      <li><b>Size each input to its expected content</b> (short / medium / full-column) so width signals data type. <span class="mono">(Guideline #3.)</span></li>
+      <li><b>Signal every constrained control's type</b> — no bare boxes for Status, Owner, or Heads Up. <span class="mono">(Guideline #3.)</span></li>
+      <li><b>Raise input border contrast to ≥3:1</b> on white. <span class="mono">(Guideline #8; WCAG 2.2 AA.)</span></li>
+      <li><b>Mark required with a non-color cue</b> paired with any color, surviving color-blindness and screen readers. <span class="mono">(Guideline #10, #24.)</span></li>
+      <li><b>Name the primary action and add the bulk path:</b> "Save [Entity]" plus "Save &amp; Add Another." <span class="mono">(Guideline #20.)</span></li>
+    </ul>
+
+    <h3>Cross-surface consistency</h3>
+    <ul>
+      <li><b>Pick one full-page label treatment and apply it system-wide.</b> The iterations use right-aligned labels; the guidelines call for best-in-class left-aligned. Settle one and ship it as a token/component so every form matches. <span class="mono">(Guideline #23; Nielsen #4.)</span></li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="new-designs" label="New designs" desc="The composed pages">
+    <p class="lead">The composed form pages with the proposed changes applied, across surfaces. Click any screen to enlarge; use the arrows to move between them.</p>
+
+    <doc-split>
+      <doc-media>
+      <doc-carousel>
+      <doc-showcase src="images/form-pages/new-add-job.png" alt="Add Job full-page form" caption="Add Job — full page, no right pane" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4195-91715" ph="Export the frame as new-add-job.png into the folder."></doc-showcase>
+      <doc-showcase src="images/form-pages/new-add-candidate.png" alt="Add Candidate full page with résumé pane" caption="Add Candidate — full page with a functional right pane" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4195-90817" ph="Export the frame as new-add-candidate.png into the folder."></doc-showcase>
+      <doc-showcase src="images/form-pages/new-add-candidate-error.png" alt="Add Candidate error state" caption="Add Candidate — submit-error state (summary banner plus inline errors)" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4040-77151" ph="Export the frame as new-add-candidate-error.png into the folder."></doc-showcase>
+      <doc-showcase src="images/form-pages/new-edit-candidate.png" alt="Edit Candidate edit tab" caption="Edit Candidate — edit tab on a record, left-anchored" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4195-91284" ph="Export the frame as new-edit-candidate.png into the folder."></doc-showcase>
+      <doc-showcase src="images/form-pages/new-add-note.png" alt="Add Note slideout" caption="Add Note — slideout with the editor inline (no right pane)" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4510-137669" ph="Export the frame as new-add-note.png into the folder."></doc-showcase>
+    </doc-carousel>
+      </doc-media>
+      <doc-body>
+        <h3>Why it's an improvement</h3>
+        <ul>
+          <li><b>Labels read cleanly.</b> Left-aligned, sentence case, on one axis — the core "looks off" fix (was right-aligned, uppercase). <span class="mono">(#7, #13)</span></li>
+          <li><b>Cards are anchored.</b> Left-anchored and sized to content, so nothing floats — the edit tab no longer sits centered and indented. <span class="mono">(#2, #7)</span></li>
+          <li><b>Fields carry meaning.</b> Inputs sized to content, and every field state is now a real component. <span class="mono">(#3, #9)</span></li>
+          <li><b>Errors are handled.</b> A submit-failure summary plus inline icon-text-border errors. <span class="mono">(#8, #19)</span></li>
+          <li><b>Right side is intentional.</b> Reserved for Amplify or a functional tool; the Add Note editor adapts to its surface. <span class="mono">(#2)</span></li>
+        </ul>
+      </doc-body>
+    </doc-split>
+  </doc-section>
+
+  <doc-section id="resources" label="Resources" desc="For developers">
+    <p class="lead">Reference files for implementation.</p>
+    <ul>
+      <li><a href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4511-149099" target="_blank" rel="noopener">Components and common form page configurations ↗</a> — the component set and common form-page layouts developers can reference.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="appendix" label="Appendix — Edit Candidate (Lovable)" desc="Stakeholder alternative">
+    <p class="lead">A separate stakeholder exploration of the edit-tab pattern, kept apart from the main analysis. It is useful for the ideas it surfaces, not as a design to adopt as-is.</p>
+
+    <doc-showcase src="images/form-pages/lovable-edit-candidate.png" alt="Edit Candidate stakeholder alternative with top-aligned labels" caption="Edit Candidate — Lovable (stakeholder alternative)"></doc-showcase>
+
+    <h3>What it surfaces</h3>
+    <ul>
+      <li><b>Top-aligned labels.</b> Labels sit above the input, matching the modern single-column default and the modals/slideouts — a point in its favor and worth weighing against the dev constraint on full pages. <span class="mono">(Guideline #7, #13.)</span></li>
+      <li><b>A real reaction to the "misaligned" centered card.</b> The motivation was dislike of a centered, floating card — a legitimate concern that the main proposal also addresses.</li>
+    </ul>
+
+    <h3>Why it isn't recommended as-is</h3>
+    <ul>
+      <li><b>The card fills the full width while fields cap on the left,</b> leaving a large bounded empty region inside the card. A container not sized to its content reads as unfinished and loosens the grouping. <span class="mono">(Rams #4, #10; Gestalt — common region, figure-ground.)</span></li>
+      <li><b>It fixes the wrong variable.</b> The centered-card problem is solved by left-anchoring the card to a shared axis and sizing it to its content — not by stretching the card to swallow the empty space. <span class="mono">(Gestalt — continuity; Nielsen #4; Guideline #2.)</span></li>
+    </ul>
+
+    <doc-callout type="note" heading="Takeaway.">Carry forward the top-aligned label idea as an option to weigh; do not carry forward the full-width card with left-capped fields. The recommended card behavior is in Proposed changes.</doc-callout>
+  </doc-section>
+
+  <doc-section id="full-guidelines" label="Appendix — Full design guidelines" desc="All 24 rules with sources">
+    <p class="lead">The complete Novo form design guidelines. Each rule states the practice and the principle or source behind it. Mirrors <span class="mono">Form_Design_Guidelines_Novo.md</span>.</p>
+
+    <h3>Visual design &amp; styling</h3>
+    <ul>
+      <li><b>1. Single column by default.</b> One top-to-bottom path; fewer errors, higher completion. Pair fields on one row only when short and semantically linked (City/State, Start/End date, Rate/Rate unit). <span class="mono">(IxDF §3, Baymard; Gestalt — proximity.)</span></li>
+      <li><b>2. Cap the field, not the card.</b> Cap the field at ~560px (~66–72 characters), within Bringhurst's 45–75 measure and under the WCAG 1.4.8 80-char ceiling; size shorter fields to content. Size the card to its content and left-anchor it to a shared axis rather than filling the width or center-floating; move leftover width to the right pane or page margin. The right pane is frequently claimed by Amplify (chat panel or AI-assist controls), so design for the narrowed width first — the form stays single-column and keeps the field cap — and treat a context rail as a later consideration only where the right area is free. A functional tool adapts to the surface: inline in the form column where there is no room for a pane, becoming the right pane at full size (e.g. the Add Note editor is inline in the slideout, a right pane in the full-page version). Label orientation follows the surface too — full pages beside inputs (horizontal), slideouts always stacked (vertical), modals situational. <span class="mono">(Bringhurst; WCAG 2.2 1.4.8; Gestalt — common region, continuity; Rams #4, #10.)</span></li>
+      <li><b>3. Size each input to its content.</b> Short: postal code, extension. Medium: name, email. Full-column: job title, address. Consistent widths per data type let users learn fields by shape. <span class="mono">(Wroblewski; Gestalt — similarity.)</span></li>
+      <li><b>4. Make grouping legible through the container, not the title.</b> Section grouping, titles, and header presence are customer-controlled; grouping must come from the container (a common region) and read even when untitled. Design both header and header-less states to look deliberate. <span class="mono">(IxDF §4; Gestalt — common region, closure; Rams #8.)</span></li>
+      <li><b>5. Spend whitespace between sections, not between fields.</b> Tighten within-group rows on the 8px grid; set between-section spacing to 2–3× the within-section gap. The ratio creates the grouping. <span class="mono">(IxDF §9; Gestalt — proximity; Linear 8px scale.)</span></li>
+      <li><b>6. Build depth from carved borders and tonal layering, not shadows.</b> Hairline borders and background-tone shifts for sections and inputs; reserve real elevation for floating, temporary elements. Data reads as figure, chrome as ground. <span class="mono">(Attio carved-border; Gestalt — figure-ground.)</span></li>
+      <li><b>7. Align to one vertical axis.</b> Labels, inputs, and section headers share a left edge; any break in the axis reads as an exception. <span class="mono">(Gestalt — continuity; Nielsen #4.)</span></li>
+      <li><b>8. Build error states from icon, text, and border together.</b> Never signal state with color alone. Contrast: 4.5:1 normal text, 3:1 large text and non-text. <span class="mono">(IxDF §10; WCAG 2.2 AA; Gestalt — similarity.)</span></li>
+      <li><b>9. Design every field state.</b> Scope the states to default (required and optional), hover, focus, active, complete, error, and disabled/read-only. Default carries required and optional variants differing only by the requirement indicator. Hover is a field-level interactive state; complete marks a satisfied/validated field, shown with a non-color cue such as a check. Disabled and read-only are one combined state — the Old UI does not distinguish them and there is no scope to change that. Disabled/read-only: reduced-contrast label; avoid flat greyscale fills that read as broken. <span class="mono">(Rams #8; craft rule 11; Old UI constraint.)</span></li>
+      <li><b>10. Mark required and optional fields explicitly.</b> Never by color or asterisk alone; pick one convention system-wide and pair any asterisk with a text or programmatic cue that survives color-blindness and screen readers. <span class="mono">(IxDF §13; WCAG 2.2 AA; Nielsen #4.)</span></li>
+      <li><b>11. Style all primary actions identically.</b> One identical primary style across every form, recognizable before it is read. <span class="mono">(Gestalt — similarity, figure-ground.)</span></li>
+    </ul>
+
+    <h3>Functionality &amp; interaction</h3>
+    <ul>
+      <li><b>12. Never use a placeholder as a label.</b> Keep a persistent visible label on every field; add a format hint where the format is not obvious (e.g. "MM/DD/YYYY"). <span class="mono">(IxDF §13; Nielsen/Molich — recognition over recall.)</span></li>
+      <li><b>13. Label fields in recruiter language.</b> Use the terms the user uses, not internal Bullhorn field names. <span class="mono">(UX heuristics H2; Rams #4; Chloe.)</span></li>
+      <li><b>14. Keep the whole form on one page.</b> One page, sectioned; no multi-step wizard for records, so users keep random access to any field. <span class="mono">(IxDF §4; Chloe — "every click is a candidate.")</span></li>
+      <li><b>15. Cut non-essential fields; pre-fill the rest.</b> Include only essential fields; pre-fill from parsed résumé, the logged-in user as owner, the current date, and the parent job's client company. <span class="mono">(IxDF §1, §12; Chloe — goals.)</span></li>
+      <li><b>16. Reveal conditional fields in place.</b> Insert revealed fields inline within the existing section; never reposition surrounding content under the cursor; animate the reveal as one group and respect prefers-reduced-motion. <span class="mono">(IxDF §24; Gestalt — common fate, connectedness.)</span></li>
+      <li><b>17. Validate inline on blur.</b> Validate when focus leaves the field — not per keystroke, not only on submit. <span class="mono">(IxDF §11.)</span></li>
+      <li><b>18. Prevent errors at the input.</b> Right input type and constraints; masked or typed formats, min–max limits, and controlled-vocabulary pickers over free text. <span class="mono">(UX heuristics H5; IxDF §11–13.)</span></li>
+      <li><b>19. On submit failure, summarize and jump to the first error.</b> List failed fields as jump links, expand their sections, and move focus to the first error. <span class="mono">(UX heuristics H9; IxDF §10.)</span></li>
+      <li><b>20. Keep a persistent action bar with an explicit primary.</b> Sticky footer so Save is never a scroll away; hierarchy Save / Save &amp; Add Another / Cancel; name the action ("Save Candidate"), not "Submit." <span class="mono">(IxDF §21; Chloe — quantity- and KPI-driven.)</span></li>
+      <li><b>21. Show save state and protect against data loss.</b> Indicate saved / saving / unsaved-changes at all times; warn before any navigation that would discard unsaved input. <span class="mono">(UX heuristics H1, H3, H5; Rams #8; Chloe — "black hole" pain.)</span></li>
+      <li><b>22. Keyboard-complete, mouse-optional.</b> Logical tab order; type-ahead on every lookup; Enter to save, Esc to cancel with confirm; no keyboard trap in date pickers; typed date entry always available. <span class="mono">(Linear ⌘K; IxDF §16; WCAG 2.2 — 2.1.2.)</span></li>
+    </ul>
+
+    <h3>Implementation</h3>
+    <ul>
+      <li><b>23. Ship every rule as a token or component.</b> Each rule ships as a semantic token or component variant, never a per-screen decision — consistency holds only when enforced in the system. <span class="mono">(Chloe — inconsistent-UI pain; Nielsen #4.)</span></li>
+      <li><b>24. Ensure grouping survives assistive contexts.</b> Visual grouping is invisible to screen readers and color cues collapse under color-blindness; pair every color cue with shape or icon and back visual sections with semantic headings and grouping landmarks. <span class="mono">(Gestalt A11y cross-check; WCAG 2.2 AA.)</span></li>
+    </ul>
+  </doc-section>
+
+</doc-page>
+
+</body>
+</html>

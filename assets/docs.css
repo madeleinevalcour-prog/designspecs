@@ -175,3 +175,28 @@ a.doc .desc{font-size:13px;color:var(--ink-2);margin-top:2px}
   doc-split,.split{grid-template-columns:1fr;gap:20px}
   figure.showcase img{max-height:none}
 }
+
+/* Carousel */
+.carousel{margin:16px 0}
+.carousel-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.carousel-track::-webkit-scrollbar{display:none}
+.carousel-slide{flex:0 0 100%;scroll-snap-align:start;min-width:0}
+.carousel-slide figure.showcase{margin:0}
+.carousel-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:12px}
+.carousel-nav button{width:34px;height:34px;border-radius:50%;border:1px solid var(--hairline);background:#fff;color:var(--ink-2);font-size:20px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.carousel-nav button:hover:not(:disabled){background:#F7F7F5;border-color:#E0E0DE}
+.carousel-nav button:disabled{opacity:.35;cursor:default}
+.carousel-nav .cr-count{font-size:13px;color:var(--ink-muted);font-weight:500;min-width:44px;text-align:center}
+
+/* Document summary under the title */
+.intro{max-width:64ch;margin-top:12px}
+header .meta{margin-top:14px}
+
+/* Collapsible groups (details/summary) */
+details.grp{margin:0 0 10px}
+details.grp>summary{list-style:none;cursor:pointer;font-size:15px;font-weight:600;color:var(--ink);padding:10px 12px;background:#FAFAF9;border:1px solid var(--hairline);border-radius:8px;display:flex;align-items:center;gap:8px;user-select:none}
+details.grp>summary::-webkit-details-marker{display:none}
+details.grp>summary::before{content:"\203A";display:inline-block;font-size:16px;color:var(--ink-muted);transition:transform .15s ease}
+details.grp[open]>summary::before{transform:rotate(90deg)}
+details.grp>summary:hover{background:#F4F4F2}
+details.grp>ul{margin:12px 0 4px}

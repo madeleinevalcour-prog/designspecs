@@ -122,7 +122,7 @@
   customElements.define("doc-page", class extends HTMLElement{
     connectedCallback(){
       if(this._done)return; this._done=true;
-      var eyebrow=attr(this,"eyebrow"), title=attr(this,"title"), meta=attr(this,"meta"),
+      var eyebrow=attr(this,"eyebrow"), title=attr(this,"title"), meta=attr(this,"meta"), intro=attr(this,"intro"),
           hasRail=this.hasAttribute("rail");
       var kids=[]; while(this.firstChild) kids.push(this.removeChild(this.firstChild));
 
@@ -134,10 +134,10 @@
         shell.appendChild(rail);
       }
       var main=document.createElement("main"); main.className="page"+(hasRail?"":" narrow");
-      if(eyebrow||title||meta){
+      if(eyebrow||title||meta||intro){
         var header=document.createElement("header");
         header.innerHTML=(eyebrow?'<p class="eyebrow">'+esc(eyebrow)+'</p>':'')+
-          (title?'<h1>'+esc(title)+'</h1>':'')+(meta?'<p class="meta">'+esc(meta)+'</p>':'');
+          (title?'<h1>'+esc(title)+'</h1>':'')+(intro?'<p class="lead intro">'+esc(intro)+'</p>':'')+(meta?'<p class="meta">'+esc(meta)+'</p>':'');
         main.appendChild(header);
       }
       kids.forEach(function(k){ main.appendChild(k); });
@@ -238,5 +238,27 @@
   document.addEventListener("keydown", function(e){
     if(!lb||!lb.classList.contains("open")) return;
     if(e.key==="Escape") close(); else if(e.key==="ArrowLeft") step(-1); else if(e.key==="ArrowRight") step(1);
+  });
+})();
+
+/* doc-carousel — horizontal scroll-snap strip of doc-showcase; integrates with the shared lightbox */
+(function(){
+  customElements.define("doc-carousel", class extends HTMLElement{
+    connectedCallback(){
+      if(this._done)return; this._done=true;
+      var slides=[].slice.call(this.children);
+      var track=document.createElement("div"); track.className="carousel-track";
+      slides.forEach(function(s){var d=document.createElement("div");d.className="carousel-slide";d.appendChild(s);track.appendChild(d);});
+      var nav=document.createElement("div"); nav.className="carousel-nav";
+      nav.innerHTML='<button class="cr-prev" aria-label="Previous screen">‹</button><span class="cr-count"></span><button class="cr-next" aria-label="Next screen">›</button>';
+      this.appendChild(track); this.appendChild(nav);
+      var count=nav.querySelector(".cr-count"),prev=nav.querySelector(".cr-prev"),next=nav.querySelector(".cr-next"),n=slides.length,i=0;
+      function upd(){count.textContent=(i+1)+" / "+n;prev.disabled=i<=0;next.disabled=i>=n-1;}
+      function go(x){i=Math.max(0,Math.min(n-1,x));track.scrollTo({left:track.clientWidth*i,behavior:"smooth"});upd();}
+      prev.addEventListener("click",function(){go(i-1);});
+      next.addEventListener("click",function(){go(i+1);});
+      var t;track.addEventListener("scroll",function(){clearTimeout(t);t=setTimeout(function(){i=Math.round(track.scrollLeft/track.clientWidth);upd();},90);});
+      upd();
+    }
   });
 })();
