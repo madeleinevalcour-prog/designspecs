@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resources — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Resources" title="Resources" intro="Reference documents and Figma source files for the Modern UI design system.">
+
+  <doc-section id="documents" label="Documents" desc="Markdown and written references">
+    <div class="reslist">
+      <!-- Add one <a class="doc"> per document. Example:
+      <a class="doc" href="../files/naming-conventions.md">
+        <div class="title">Naming conventions</div>
+        <div class="desc">Token and layer naming rules.</div>
+      </a>
+      -->
+    </div>
+    <doc-callout type="note" heading="To add">Drop document links here. Send me the files or URLs and I'll wire them in.</doc-callout>
+  </doc-section>
+
+  <doc-section id="figma" label="Figma files" desc="Source design files">
+    <div class="reslist">
+      <!-- Add one <a class="doc" target="_blank" rel="noopener"> per Figma file. Example:
+      <a class="doc" href="https://figma.com/file/..." target="_blank" rel="noopener">
+        <div class="title">Modern UI Components</div>
+        <div class="desc">Applied component library. ↗</div>
+      </a>
+      -->
+    </div>
+    <doc-callout type="note" heading="To add">Drop Figma file links here. Send me the share links and I'll wire them in.</doc-callout>
+  </doc-section>
+
+</doc-page>
+
+<style>
+  /* Page-scoped: resource link cards reuse the shared a.doc card; stack with a small gap. */
+  .reslist{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+  .reslist:empty{display:none}
+</style>
+</body>
+</html>

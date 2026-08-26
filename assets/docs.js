@@ -268,10 +268,6 @@
    links so it works from any folder depth. Edit SITE here when adding or moving a page. */
 (function(){
   var SITE=[
-    {label:"Design Decisions", pages:[
-      {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html"},
-      {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html"}
-    ]},
     {label:"Foundations", pages:[
       {t:"Principles", href:"/docs/foundations/principles.html"},
       {t:"Color", href:"/docs/foundations/color.html"},
@@ -279,9 +275,12 @@
       {t:"Elevation", href:"/docs/foundations/elevation.html"},
       {t:"Typography", href:"/docs/foundations/typography.html"}
     ]},
-    {label:"Components", pages:[
-      {t:"Button", href:"/docs/button.html"},
-      {t:"Expansion panel — expand / collapse", href:"/docs/expansion-panel-interaction.html"}
+    {label:"Design Decisions", pages:[
+      {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html"},
+      {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html"}
+    ]},
+    {label:"Resources", pages:[
+      {t:"Resources", href:"/docs/resources.html"}
     ]}
   ];
   var e=function(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");};
