@@ -200,3 +200,24 @@ details.grp>summary::before{content:"\203A";display:inline-block;font-size:16px;
 details.grp[open]>summary::before{transform:rotate(90deg)}
 details.grp>summary:hover{background:#F4F4F2}
 details.grp>ul{margin:12px 0 4px}
+
+/* Site side nav (collapsible drawer, injected by docs.js on every content page) */
+.sn-toggle{position:fixed;top:16px;left:16px;z-index:1002;display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink-2);background:#fff;border:1px solid var(--hairline);border-radius:8px;cursor:pointer;box-shadow:0 1px 2px rgba(30,30,28,.05);transition:background .12s ease,border-color .12s ease,color .12s ease}
+.sn-toggle:hover{background:#F7F7F5;border-color:#E0E0DE;color:var(--ink)}
+.sn-toggle .sn-bars{display:flex;flex-direction:column;gap:3px;width:14px}
+.sn-toggle .sn-bars span{display:block;height:1.5px;background:currentColor;border-radius:1px}
+.sn-scrim{position:fixed;inset:0;background:rgba(30,30,28,.28);opacity:0;visibility:hidden;transition:opacity .18s ease,visibility .18s ease;z-index:1001}
+.sn-drawer{position:fixed;top:0;left:0;height:100%;width:296px;max-width:86vw;background:#fff;border-right:1px solid var(--hairline);z-index:1003;transform:translateX(-100%);transition:transform .2s ease;overflow-y:auto;padding:20px 18px 40px;overscroll-behavior:contain}
+.sn-open .sn-scrim{opacity:1;visibility:visible}
+.sn-open .sn-drawer{transform:translateX(0)}
+.sn-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.sn-head .sn-home{font-size:13px;font-weight:600;color:var(--ink);text-decoration:none}
+.sn-head .sn-home:hover{text-decoration:none;color:var(--link)}
+.sn-close{width:28px;height:28px;border:none;background:transparent;color:var(--ink-muted);font-size:22px;line-height:1;cursor:pointer;border-radius:6px}
+.sn-close:hover{background:var(--chip);color:var(--ink)}
+.sn-group{font-size:12px;font-weight:600;color:var(--ink-muted);letter-spacing:.02em;margin:18px 0 6px}
+.sn-group:first-of-type{margin-top:0}
+.sn-link{display:block;padding:7px 10px;border-radius:6px;font-size:13.5px;color:var(--ink-2);text-decoration:none;line-height:1.35}
+.sn-link:hover{background:var(--chip);color:var(--ink);text-decoration:none}
+.sn-link.is-here{background:var(--chip);color:var(--ink);font-weight:500}
+@media print{.sn-toggle,.sn-scrim,.sn-drawer{display:none}}

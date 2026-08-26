@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Color — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Foundations" title="Color" meta="Source of truth: Modern UI Design Tokens (Subatomic). Applied usage: Modern UI Components. Values pulled directly from the token file.">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead">Color follows a three-tier token architecture. Each tier has a distinct job, and components only ever bind to the top tier.</p>
+    <ul>
+      <li><b>Primitives</b> — raw color values with no assigned meaning: the neutral scale, utility color scales, named brand colors, and entity accents. Never bind a component directly to a primitive.</li>
+      <li><b>Semantic tokens</b> — role-based tokens (background, border, text, icon) that alias a primitive to a purpose. This is the layer components bind to.</li>
+      <li><b>Component tokens</b> — where a component needs a value the semantic layer does not express, it aliases a semantic token. Color has few of these; most components bind straight to semantic tokens.</li>
+    </ul>
+    <p>The governing test for placement: if the primitive value changed, would this token update automatically? If yes, the token is aliased correctly. If a component holds a raw value, it is misplaced and must be rebound to a semantic token.</p>
+    <doc-callout type="note" heading="Naming">Semantic tokens use <span class="chip">color/[role]/[variant]</span>; primitives use <span class="chip">color/[family]/[step]</span>. Slashes denote the group hierarchy in the token file.</doc-callout>
+  </doc-section>
+
+  <doc-section id="neutral" label="Neutral scale" desc="Structural backbone">
+    <p>The structural backbone of the interface. Surfaces, borders, and text all resolve to this scale. It is a cool near-neutral, not warm.</p>
+    <doc-token-list>
+      <doc-token color="#ffffff" name="color/gray/0" value="#ffffff"></doc-token>
+      <doc-token color="#fcfdfd" name="color/gray/50" value="#fcfdfd"></doc-token>
+      <doc-token color="#f7f8f8" name="color/gray/75" value="#f7f8f8"></doc-token>
+      <doc-token color="#ebedef" name="color/gray/100" value="#ebedef"></doc-token>
+      <doc-token color="#dee0e3" name="color/gray/200" value="#dee0e3"></doc-token>
+      <doc-token color="#c2c5cb" name="color/gray/300" value="#c2c5cb"></doc-token>
+      <doc-token color="#9ba1a9" name="color/gray/400" value="#9ba1a9"></doc-token>
+      <doc-token color="#89909a" name="color/gray/500" value="#89909a"></doc-token>
+      <doc-token color="#78808a" name="color/gray/600" value="#78808a"></doc-token>
+      <doc-token color="#677079" name="color/gray/700" value="#677079"></doc-token>
+      <doc-token color="#525b63" name="color/gray/750" value="#525b63"></doc-token>
+      <doc-token color="#3d464d" name="color/gray/800" value="#3d464d"></doc-token>
+      <doc-token color="#2f2f33" name="color/gray/900" value="#2f2f33"></doc-token>
+    </doc-token-list>
+  </doc-section>
+
+  <doc-section id="utility" label="Utility scales" desc="Status color families">
+    <p>Full 100–900 scales for the four status families. Semantic status tokens alias into these. Each row shows the family from its lightest fill (100) to darkest (900).</p>
+    <h3>Blue — positive</h3>
+    <doc-swatches>
+      <doc-swatch color="#e6f1ff" name="blue/100" value="#e6f1ff"></doc-swatch>
+      <doc-swatch color="#accdf8" name="blue/200" value="#accdf8"></doc-swatch>
+      <doc-swatch color="#76a9ed" name="blue/300" value="#76a9ed"></doc-swatch>
+      <doc-swatch color="#4a89dc" name="blue/400" value="#4a89dc"></doc-swatch>
+      <doc-swatch color="#296cc3" name="blue/500" value="#296cc3"></doc-swatch>
+      <doc-swatch color="#1450a0" name="blue/600" value="#1450a0"></doc-swatch>
+      <doc-swatch color="#073674" name="blue/700" value="#073674"></doc-swatch>
+      <doc-swatch color="#011e44" name="blue/800" value="#011e44"></doc-swatch>
+      <doc-swatch color="#000a17" name="blue/900" value="#000a17"></doc-swatch>
+    </doc-swatches>
+    <h3>Green — success</h3>
+    <doc-swatches>
+      <doc-swatch color="#f3ffe6" name="green/100" value="#f3ffe6"></doc-swatch>
+      <doc-swatch color="#bde294" name="green/200" value="#bde294"></doc-swatch>
+      <doc-swatch color="#8cc152" name="green/300" value="#8cc152"></doc-swatch>
+      <doc-swatch color="#78b732" name="green/400" value="#78b732"></doc-swatch>
+      <doc-swatch color="#63a61b" name="green/500" value="#63a61b"></doc-swatch>
+      <doc-swatch color="#4d8a0c" name="green/600" value="#4d8a0c"></doc-swatch>
+      <doc-swatch color="#366504" name="green/700" value="#366504"></doc-swatch>
+      <doc-swatch color="#203d01" name="green/800" value="#203d01"></doc-swatch>
+      <doc-swatch color="#0c1700" name="green/900" value="#0c1700"></doc-swatch>
+    </doc-swatches>
+    <h3>Yellow — warning</h3>
+    <doc-swatches>
+      <doc-swatch color="#fff5e6" name="yellow/100" value="#fff5e6"></doc-swatch>
+      <doc-swatch color="#ffe0ac" name="yellow/200" value="#ffe0ac"></doc-swatch>
+      <doc-swatch color="#ffc973" name="yellow/300" value="#ffc973"></doc-swatch>
+      <doc-swatch color="#f6b042" name="yellow/400" value="#f6b042"></doc-swatch>
+      <doc-swatch color="#d89122" name="yellow/500" value="#d89122"></doc-swatch>
+      <doc-swatch color="#b0710e" name="yellow/600" value="#b0710e"></doc-swatch>
+      <doc-swatch color="#7e4f04" name="yellow/700" value="#7e4f04"></doc-swatch>
+      <doc-swatch color="#492d01" name="yellow/800" value="#492d01"></doc-swatch>
+      <doc-swatch color="#170e00" name="yellow/900" value="#170e00"></doc-swatch>
+    </doc-swatches>
+    <h3>Red — negative</h3>
+    <doc-swatches>
+      <doc-swatch color="#ffe6e8" name="red/100" value="#ffe6e8"></doc-swatch>
+      <doc-swatch color="#f8a9b1" name="red/200" value="#f8a9b1"></doc-swatch>
+      <doc-swatch color="#ec717e" name="red/300" value="#ec717e"></doc-swatch>
+      <doc-swatch color="#da4453" name="red/400" value="#da4453"></doc-swatch>
+      <doc-swatch color="#c12535" name="red/500" value="#c12535"></doc-swatch>
+      <doc-swatch color="#9f111f" name="red/600" value="#9f111f"></doc-swatch>
+      <doc-swatch color="#700610" name="red/700" value="#700610"></doc-swatch>
+      <doc-swatch color="#400107" name="red/800" value="#400107"></doc-swatch>
+      <doc-swatch color="#120002" name="red/900" value="#120002"></doc-swatch>
+    </doc-swatches>
+    <p class="lead">Transparency primitives (white, black, charcoal at stepped alpha) and named brand colors also live in the primitive layer. See the source file for the full transparency and brand sets.</p>
+  </doc-section>
+
+  <doc-section id="entity" label="Entity colors" desc="Per record-type accent">
+    <p>Each record type carries its own accent color. The entity color is used as the accent in certain components when that component is attached to a particular entity type — for example, the icon in an entity card, or the active-state treatment on a record tab. It identifies which entity a surface belongs to at a glance.</p>
+    <doc-token-list>
+      <doc-token color="#bb5566" name="color/entity/job" value="#bb5566">Job</doc-token>
+      <doc-token color="#44bb77" name="color/entity/candidate" value="#44bb77">Candidate</doc-token>
+      <doc-token color="#ffaa44" name="color/entity/contact" value="#ffaa44">Contact</doc-token>
+      <doc-token color="#3399dd" name="color/entity/company" value="#3399dd">Company</doc-token>
+      <doc-token color="#aa6699" name="color/entity/lead" value="#aa6699">Lead</doc-token>
+      <doc-token color="#662255" name="color/entity/opportunity" value="#662255">Opportunity</doc-token>
+      <doc-token color="#0b344f" name="color/entity/placement" value="#0b344f">Placement</doc-token>
+      <doc-token color="#a9adbb" name="color/entity/submission" value="#a9adbb">Submission</doc-token>
+      <doc-token color="#747884" name="color/entity/sendout" value="#747884">Sendout</doc-token>
+      <doc-token color="#747884" name="color/entity/note" value="#747884">Note</doc-token>
+      <doc-token color="#4f5361" name="color/entity/task" value="#4f5361">Task</doc-token>
+      <doc-token color="#454ea0" name="color/entity/contract" value="#454ea0">Contract</doc-token>
+      <doc-token color="#606d79" name="color/entity/job-code" value="#606d79">Job code</doc-token>
+      <doc-token color="#606d79" name="color/entity/earn-code" value="#606d79">Earn code</doc-token>
+      <doc-token color="#606d79" name="color/entity/invoice-statement" value="#606d79">Invoice statement</doc-token>
+      <doc-token color="#606d79" name="color/entity/billable-charge" value="#606d79">Billable charge</doc-token>
+      <doc-token color="#606d79" name="color/entity/payable-charge" value="#606d79">Payable charge</doc-token>
+    </doc-token-list>
+    <doc-callout type="note" heading="Known gap — to be confirmed">Entity colors currently exist only as primitives. There is no semantic-layer token aliasing them to an accent role (no <span class="chip">color/accent/entity/*</span>). Components that use an entity accent bind to the primitive directly, which the architecture otherwise disallows. A semantic accent layer is the correct long-term home; not yet built.</doc-callout>
+  </doc-section>
+
+  <doc-section id="amplify" label="Amplify gradient" desc="AI-assisted feature cue">
+    <p>Amplify has a dedicated radial gradient that signals Amplify functionality and AI-assisted features. Wherever it appears, it marks that a surface or control is powered by Amplify or AI — it is a meaning cue, not a decorative fill, and it should not be used for anything else.</p>
+    <p>The gradient is delivered as a <b>paint style</b>, not a variable. Figma cannot store a gradient in a variable, so this treatment sits outside the primitive → semantic token structure that governs the rest of color. It is applied as the named paint style directly; there is no token to bind to.</p>
+    <div class="amplify-demo">
+      <div class="amplify-chip amplify-base">Amplify Radial</div>
+      <div class="amplify-chip amplify-hover">Amplify Radial Hover</div>
+    </div>
+    <doc-spec><span class="pair"><b>Amplify Radial:</b> radial gradient — <span class="mono">#37fc97</span> (0) · <span class="mono">#a5f7d0</span> (~0) · <span class="mono">#23afdc</span> (0.47) · <span class="mono">#09a0de</span> (0.56) · <span class="mono">#009bdf</span> (0.65) · <span class="mono">#125783</span> (0.97)</span></doc-spec>
+    <doc-spec><span class="pair"><b>Amplify Radial Hover:</b> same gradient stops with a <span class="mono">#065e89</span> solid overlay on top</span></doc-spec>
+    <doc-callout type="do" heading="Do">Apply the named paint style, and reserve this treatment exclusively for Amplify and AI-assisted features so the cue stays meaningful.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Rebuild the gradient by hand, approximate the stops, or use it decoratively elsewhere — that would dilute what it signals. Because it lives outside the variable system, any change is a direct edit to the paint style.</doc-callout>
+  </doc-section>
+
+  <doc-section id="background" label="Background" desc="Surface fills">
+    <p>Surface fills, from the base canvas through hover, subtle, and disabled states. Bind to the token name, never the resolved hex.</p>
+    <doc-token-list>
+      <doc-token color="#ffffff" name="color/background/default" value="#ffffff · color/gray/0"></doc-token>
+      <doc-token color="#fcfdfd" name="color/background/muted" value="#fcfdfd · color/gray/50"></doc-token>
+      <doc-token color="#f7f8f8" name="color/background/subtle" value="#f7f8f8 · color/gray/75"></doc-token>
+      <doc-token color="#ebedef" name="color/background/subtle-hover" value="#ebedef · color/gray/100"></doc-token>
+      <doc-token color="#c2c5cb" name="color/background/medium" value="#c2c5cb · color/gray/300"></doc-token>
+      <doc-token color="#e6f1ff" name="color/background/hover" value="#e6f1ff · color/utility/blue/100"></doc-token>
+      <doc-token color="#fcfdfd" name="color/background/disabled" value="#fcfdfd · color/gray/50"></doc-token>
+      <doc-token color="#ffffff" name="color/background/scroll" value="#ffffff at 0.90 · white-90"></doc-token>
+      <doc-token color="#2f2f33" name="color/background/overlay" value="#2f2f33 at 0.08 · charcoal-08"></doc-token>
+    </doc-token-list>
+    <doc-callout type="note" heading="Intentional reuse"><span class="chip">background/hover</span> resolves to the same value as <span class="chip">background/utility/positive</span> (<span class="mono">#e6f1ff</span>). The hover state reuses the positive-utility tint. Bind to <span class="chip">background/hover</span> for hover, not the utility token.</doc-callout>
+    <p class="lead">Status surface fills — <span class="chip">background/utility/{negative,warning,success,positive}</span> — each carry a light fill, a hover, and a knockout set (with its own hover and disabled). See the source file for the full status fill list.</p>
+  </doc-section>
+
+  <doc-section id="border" label="Border" desc="Structural borders">
+    <p>Structural borders and dividers. Carved 1px borders and tonal shifts do the work of separating surfaces; these tokens supply them.</p>
+    <doc-token-list>
+      <doc-token color="#dee0e3" name="color/border/subtle" value="#dee0e3 · color/gray/200"></doc-token>
+      <doc-token color="#c2c5cb" name="color/border/default" value="#c2c5cb · color/gray/300"></doc-token>
+      <doc-token color="#9ba1a9" name="color/border/medium" value="#9ba1a9 · color/gray/400"></doc-token>
+      <doc-token color="#89909a" name="color/border/input" value="#89909a · color/gray/500"></doc-token>
+      <doc-token color="#78808a" name="color/border/control" value="#78808a · color/gray/600"></doc-token>
+      <doc-token color="#dee0e3" name="color/border/disabled" value="#dee0e3 · color/gray/200"></doc-token>
+      <doc-token color="#4a89dc" name="color/border/focus" value="#4a89dc · border/utility/positive"></doc-token>
+    </doc-token-list>
+    <doc-callout type="note" heading="Two-hop alias"><span class="chip">border/focus</span> aliases <span class="chip">border/utility/positive</span> rather than a primitive directly. Keep it aliased so a change to the positive family carries into focus rings. The <span class="chip">-hover</span> utility borders likewise alias their matching background-hover token, keeping a status border and its surface moving together.</doc-callout>
+  </doc-section>
+
+  <doc-section id="text" label="Text" desc="Text color by role">
+    <p>Text color by role. A three-tier hierarchy — headline, body, secondary — plus subtle, link, disabled, and knockout variants for use on dark surfaces.</p>
+    <doc-token-list>
+      <doc-token color="#2f2f33" name="color/text/headline" value="#2f2f33 · color/gray/900"></doc-token>
+      <doc-token color="#3d464d" name="color/text/body" value="#3d464d · color/gray/800"></doc-token>
+      <doc-token color="#525b63" name="color/text/secondary" value="#525b63 · color/gray/750"></doc-token>
+      <doc-token color="#677079" name="color/text/subtle" value="#677079 · color/gray/700"></doc-token>
+      <doc-token color="#296cc3" name="color/text/link" value="#296cc3 · color/utility/blue/500"></doc-token>
+      <doc-token color="#1450a0" name="color/text/link-hover" value="#1450a0 · color/utility/blue/600"></doc-token>
+      <doc-token color="#89909a" name="color/text/disabled" value="#89909a · color/gray/500"></doc-token>
+      <doc-token color="#ffffff" name="color/text/body-knockout" value="#ffffff · color/gray/0"></doc-token>
+    </doc-token-list>
+  </doc-section>
+
+  <doc-section id="icon" label="Icon" desc="Icon fill by role">
+    <p>Icon fill by role. Mirrors the text hierarchy so an icon and its label sit at matching weight.</p>
+    <doc-token-list>
+      <doc-token color="#3d464d" name="color/icon/icon" value="#3d464d · color/gray/800"></doc-token>
+      <doc-token color="#677079" name="color/icon/subtle" value="#677079 · color/gray/700"></doc-token>
+      <doc-token color="#89909a" name="color/icon/illustration" value="#89909a · color/gray/500"></doc-token>
+      <doc-token color="#9ba1a9" name="color/icon/disabled" value="#9ba1a9 · color/gray/400"></doc-token>
+      <doc-token color="#ffffff" name="color/icon/icon-knockout" value="#ffffff · color/gray/0"></doc-token>
+    </doc-token-list>
+    <doc-callout type="note" heading="Open decision — to be confirmed">Whether icon fill at the container level should bind to <span class="chip">color/icon/icon-knockout</span> or a new <span class="chip">color/icon/on-entity</span> token. The <span class="chip">on-entity</span> token does not yet exist. Until resolved, knockout icons on entity-accented surfaces bind to <span class="chip">icon-knockout</span>.</doc-callout>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Rules and accessibility">
+    <doc-callout type="do" heading="Do">Bind components to semantic tokens only. Use the status families consistently: negative for errors and destructive actions, warning for caution, success for completion, positive (blue) for informational and default interactive emphasis.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Never signal state with color alone — pair every color cue with an icon, text, or shape. Never leave a raw hex or a primitive binding in a component; that is a defect.</doc-callout>
+    <doc-callout type="note" heading="Structural separation">Separation comes from border tokens and background-tone shifts, not from color fills. Reserve saturated fills for status and knockout treatments. Knockout tokens are for content on dark or saturated surfaces only.</doc-callout>
+    <h3>Accessibility</h3>
+    <p>Contrast targets: 4.5:1 for normal text, 3:1 for large text and non-text UI elements (WCAG 2.2 AA). On the default white background, headline (<span class="mono">#2f2f33</span>), body (<span class="mono">#3d464d</span>), and secondary (<span class="mono">#525b63</span>) all pass 4.5:1. <span class="chip">text/subtle</span> (<span class="mono">#677079</span>) is the lightest text safe for body-size copy on the default surface.</p>
+    <doc-callout type="dont" heading="Don't"><span class="chip">text/disabled</span> (<span class="mono">#89909a</span>) is intentionally below the body-text target. Reserve it for disabled states, never for readable content, and always pair it with a non-color disabled cue.</doc-callout>
+  </doc-section>
+
+</doc-page>
+
+<style>
+  /* Page-scoped: representative rendering of the Amplify gradient (no token/screenshot to bind to). */
+  .amplify-demo{display:flex;flex-wrap:wrap;gap:16px;margin:8px 0 16px}
+  .amplify-chip{display:inline-flex;align-items:center;justify-content:center;min-width:200px;height:56px;border-radius:8px;color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.02em}
+  .amplify-base{background:radial-gradient(circle at 30% 30%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%)}
+  .amplify-hover{background:linear-gradient(#065e89,#065e89), radial-gradient(circle at 30% 30%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);background-blend-mode:overlay}
+</style>
+</body>
+</html>

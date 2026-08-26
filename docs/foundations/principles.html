@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Principles — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="About" title="Modern UI design system" meta="The principles behind the system, how to use it, and how it differs from the old UI. Source files: Modern UI Components (Component Migration) and Modern UI Design Tokens (Subatomic).">
+
+  <doc-section id="intro" label="What this is">
+    <p class="lead">Modern UI is the redesigned visual foundation of the Bullhorn ATS/CRM platform, delivered through Novo Elements (the shared component library) and a Style Dictionary token system.</p>
+    <p>This documentation is the source of truth for that foundation. It serves two audiences: AI tools generating designs and prototypes that must stay in system, and the designers, developers, and product and leadership stakeholders who reference the system directly.</p>
+  </doc-section>
+
+  <doc-section id="why" label="Why the redesign happened">
+    <p>The old UI was losing deals. In the SMB segment — Bullhorn's largest customer base by volume — feedback from lost deals and churned accounts pointed to one theme: the interface was not perceived as modern, clean, or AI-forward next to competing products. Look and feel, alongside perceived feature value, showed up repeatedly in both win rate and first-year retention.</p>
+    <p>The gap was one of perception and daily experience, not capability. The platform's depth was not in question; what customers saw when they logged in was. Modern UI closes the distance between what customers expect from a modern platform and what they experience today, without disturbing the workflows, data, and configuration that make the platform valuable.</p>
+  </doc-section>
+
+  <doc-section id="resolve" label="What the system is built to resolve">
+    <p>Perception is fixed by what customers see and feel every time they log in, so the foundation has to do two things at once: read as modern and clean, and make daily work faster. The guidelines are built to deliver both from the same decisions.</p>
+    <p>The platform's primary users are high-volume, KPI-driven, and keyboard-first. Their work is transactional and repetitive — running searches, moving records, entering and reading data at speed — and their central frustration is friction: slow, multi-click paths to information, and interfaces that look and behave inconsistently from one workflow to the next. For this user, every unnecessary click is a candidate that can be lost to a competitor.</p>
+    <p>That shapes how the foundation resolves the perception gap. A clean, uncluttered surface is not only what reads as modern — it is also what lets a high-volume user find and act on the right information without hunting. Consistency is not only a mark of a considered product — it directly removes the confusion of inconsistent workflows. Carved, tonal depth makes dense screens legible so more information fits without feeling congested. Disciplined spacing keeps those dense surfaces calm rather than cramped. In each case the decision that makes the platform look modern is the same decision that makes it faster to use.</p>
+  </doc-section>
+
+  <doc-section id="principles" label="Principles">
+    <p>Three principles govern the system: <b>clean, modern, and consistent</b>. They are the commitments the redesign is built on and the standard every foundation and component is measured against. Each is carried by a set of supporting principles — the specific, repeated decisions across the foundations that make the top-level commitment real rather than aspirational.</p>
+
+    <h3>Clean</h3>
+    <p class="lead">No visual noise that does not carry information. A clean surface is what reads as modern and what lets a high-volume user find and act on the right information without hunting.</p>
+    <ul>
+      <li><b>Density that stays calm.</b> Serve high-volume work without fatigue. Density comes from disciplined, consistent rhythm on a tight scale — not from shrinking type or cramming surfaces. Tighten space within a group and open it between groups, so grouping reads through proximity rather than added chrome.</li>
+      <li><b>Depth is carved, not stacked.</b> Separate surfaces with tonal layering, border color, and diffuse elevation levels that place each surface in the page's depth order. Structure comes from tone and edge first; elevation reinforces hierarchy rather than decorating it.</li>
+      <li><b>Establish clear figure and ground.</b> Data is the figure; chrome is the ground. Keep working surfaces tonally distinct from the frame around them so the eye lands on content first. When every surface sits in the same lightness band, the interface flattens and reading slows.</li>
+    </ul>
+
+    <h3>Modern</h3>
+    <p class="lead">Current with what customers expect from a leading platform, so the interface closes the perception gap the moment a user logs in.</p>
+    <ul>
+      <li><b>Accessible by construction.</b> Meet WCAG 2.2 AA. Never signal state or meaning with color alone — pair every color cue with text, shape, weight, or icon so it survives color-blindness and assistive technology. Accessibility is a property of the foundation, not a later pass.</li>
+      <li><b>One restrained, deliberate visual language.</b> A single typeface, role-bound type weights, and a color system that reserves saturation for status and meaning. Restraint is what reads as current — color and weight are spent only where they carry information.</li>
+      <li><b>State is expressed, never implied.</b> Every interactive element has a defined treatment for each state — default, hover, active, focus, disabled, error. Focus is a visible ring paired with a heavier border; active and error shift weight and border, not just color. A platform that responds clearly to every action feels modern and trustworthy in use.</li>
+    </ul>
+
+    <h3>Consistent</h3>
+    <p class="lead">The same element looks and behaves the same everywhere it appears. Inconsistent, system-flavored UI across workflows is a named user pain, and consistency removes friction directly by making the interface predictable.</p>
+    <ul>
+      <li><b>Tokens are the system.</b> Every value ships as a token or component variant, never a per-screen decision. The architecture layers primitives, then semantic tokens that name a role, then component tokens. Components bind to the semantic layer, never a raw value. The test: if the underlying primitive changed, would this token update automatically? If not, it is misplaced.</li>
+      <li><b>Choose by role, not by value.</b> Tokens are named for what they are for — a background, a container's padding, a card title — not the value they resolve to. Two tokens can share a value and still carry different intent; naming by role keeps that intent legible and safe to retune.</li>
+      <li><b>Meaning is encoded consistently.</b> A signal means the same thing wherever it appears: the status families map to fixed meanings, entity accents identify their record type on every surface, the Amplify gradient marks AI-assisted features, and weight marks the selected state the same way on tabs and navigation. Once a user learns a cue, it holds across the product.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="how-to-use" label="How to use this system">
+    <doc-callout type="do" heading="Bind to tokens">Apply the semantic token or named style that describes the role — a background, a border, a text style, an elevation level. Never a raw hex, pixel value, or hand-built shadow on a component.</doc-callout>
+    <doc-callout type="do" heading="Choose by role, not value">Pick <span class="chip">title/sm</span> because the text is a card title, <span class="chip">padding/*</span> because the space is inside a container. Two tokens resolving to the same value still carry different intent.</doc-callout>
+    <doc-callout type="do" heading="Build depth in order">Tonal layering and border color first, elevation level second. Border width is a state signal (1px default, 2px active/focus/error), not a depth tool.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Introduce off-system values. If a layout seems to need a value between two steps, the layout is wrong before the scale is. And where a value is genuinely unresolved, flag it — never fill the gap with a guess.</doc-callout>
+  </doc-section>
+
+  <doc-section id="differs" label="How Modern UI differs from the old UI">
+    <p>Modern UI is a redesign of the platform's visual foundation. Application functionality, recruitment processes, fields, workflows, data, custom fields, page layouts, and configurations are unchanged and transfer automatically. What changes is the visual and structural foundation:</p>
+    <ul>
+      <li><b>Navigation moves to the left.</b> Standard menu actions move from the top navigation bar to a permanent, collapsible left sidebar (the bowling alley). This frees vertical space for reading candidate files and record details, and horizontal space when the search slideout or Amplify chat slideout is open.</li>
+      <li><b>A rebuilt token foundation.</b> Spacing, typography, color, and icons are all rebuilt on the design token system rather than set ad hoc. The typographic base shifts from a 10px to a 16px rem base.</li>
+      <li><b>Carved, tonal depth.</b> The old surfaces tended to land in one lightness band, flattening the figure/ground relationship. Modern UI pushes structure through tonal layering, carved 1px borders, and defined elevation levels so data reads as figure and chrome as ground.</li>
+      <li><b>Consistency enforced in the system.</b> Where the old UI drifted between workflows, Modern UI ships every foundation value as a token or component variant, so the same element is the same everywhere.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="benefits" label="What customers get">
+    <ul>
+      <li><b>More usable screen space.</b> The collapsible left navigation returns vertical and horizontal room to the work itself — candidate files, record details, search results.</li>
+      <li><b>Faster daily work.</b> A cleaner, denser-but-calmer interface helps high-volume users move through records and find what matters with less friction and fewer clicks.</li>
+      <li><b>A modern, credible platform.</b> The interface now matches what customers expect from a leading product, directly answering the perception gap behind competitive losses.</li>
+      <li><b>No disruption.</b> Data, workflows, settings, custom fields, and configurations transfer automatically. Core recruitment processes work exactly as before, so retraining is minimal.</li>
+      <li><b>No added cost.</b> The refresh is included in every existing subscription tier, across all editions of the ATS/CRM, at no additional cost.</li>
+      <li><b>Every user, not just recruiters.</b> Sales, back office, and management all work on the same rebuilt foundation.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="foundations" label="The foundations">
+    <p>The foundation pages document the token foundations that enforce these principles. Each pulls its values directly from the source files.</p>
+    <ul>
+      <li><a href="color.html">Color</a> — the neutral scale, utility and status families, entity accents, the Amplify gradient, and the semantic background, border, text, and icon tokens.</li>
+      <li><a href="spacing.html">Spacing</a> — the 8-based scale and the padding, gap, and layout tokens built on it.</li>
+      <li><a href="elevation.html">Elevation</a> — the diffuse elevation levels that order the page front to back, plus focus, radius, and border-width.</li>
+      <li><a href="typography.html">Typography</a> — Inter, the role-based text styles, and the role-bound weight system.</li>
+    </ul>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

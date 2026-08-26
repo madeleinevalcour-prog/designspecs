@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spacing — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Foundations" title="Spacing" meta="Source of truth: Modern UI Design Tokens (Subatomic). Applied usage: Modern UI Components. Values pulled directly from the token file.">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead">Spacing follows a two-tier token architecture. Layout uses a single primitive scale, and components bind to named semantic tokens that alias into it.</p>
+    <ul>
+      <li><b>Primitive scale</b> — a fixed set of raw pixel values (<span class="chip">spacing/0</span>–<span class="chip">spacing/128</span>). No assigned meaning. Never bind a component directly to a primitive.</li>
+      <li><b>Semantic tokens</b> — named padding and gap steps, plus layout tokens (gutter, columns, margin), each aliasing a primitive. This is the layer components bind to.</li>
+    </ul>
+    <p>The governing test for placement: if the primitive scale changed, would this token update automatically? If a component holds a raw pixel value, it is misplaced and must be rebound to a semantic token.</p>
+  </doc-section>
+
+  <doc-section id="scale" label="The scale is built on 8" desc="8-based primitive scale">
+    <p>The primitive scale is an 8-based system. Below 8 it steps in 2s for fine adjustments; from 8 up it steps in multiples of 8. The single exception is <span class="chip">spacing/12</span>, retained for cases where an 8 gap is too tight and 16 too loose. A single shared scale is what makes spacing read as intentional rather than arbitrary.</p>
+    <table class="tbl">
+      <thead><tr><th>Token</th><th>Value (px)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">spacing/0</span></td><td>0</td></tr>
+        <tr><td><span class="mono">spacing/2</span></td><td>2</td></tr>
+        <tr><td><span class="mono">spacing/4</span></td><td>4</td></tr>
+        <tr><td><span class="mono">spacing/8</span></td><td>8</td></tr>
+        <tr><td><span class="mono">spacing/12</span></td><td>12</td></tr>
+        <tr><td><span class="mono">spacing/16</span></td><td>16</td></tr>
+        <tr><td><span class="mono">spacing/24</span></td><td>24</td></tr>
+        <tr><td><span class="mono">spacing/32</span></td><td>32</td></tr>
+        <tr><td><span class="mono">spacing/40</span></td><td>40</td></tr>
+        <tr><td><span class="mono">spacing/48</span></td><td>48</td></tr>
+        <tr><td><span class="mono">spacing/64</span></td><td>64</td></tr>
+        <tr><td><span class="mono">spacing/80</span></td><td>80</td></tr>
+        <tr><td><span class="mono">spacing/96</span></td><td>96</td></tr>
+        <tr><td><span class="mono">spacing/128</span></td><td>128</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="Layout-only steps"><span class="chip">spacing/40</span> and <span class="chip">spacing/64</span>+ exist in the scale but are not aliased by any padding or gap semantic token. They are available for layout-level spacing (page margins, large section breaks) where a semantic step does not reach.</doc-callout>
+  </doc-section>
+
+  <doc-section id="padding" label="Padding" desc="Space around content">
+    <p>Padding and gap share the same t-shirt sizing and the same underlying values — they are split by role so intent is legible at the binding site. The distinction: <b>padding</b> is the space around content inside a container; <b>gap</b> is the space between items within the same content container.</p>
+    <h3>Padding — space around content inside a container</h3>
+    <table class="tbl">
+      <thead><tr><th>Token</th><th>Alias</th><th>Resolved (px)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">spacing/padding/none</span></td><td><span class="mono">spacing/0</span></td><td>0</td></tr>
+        <tr><td><span class="mono">spacing/padding/xxsm</span></td><td><span class="mono">spacing/2</span></td><td>2</td></tr>
+        <tr><td><span class="mono">spacing/padding/xsm</span></td><td><span class="mono">spacing/4</span></td><td>4</td></tr>
+        <tr><td><span class="mono">spacing/padding/sm</span></td><td><span class="mono">spacing/8</span></td><td>8</td></tr>
+        <tr><td><span class="mono">spacing/padding/md</span></td><td><span class="mono">spacing/16</span></td><td>16</td></tr>
+        <tr><td><span class="mono">spacing/padding/lg</span></td><td><span class="mono">spacing/24</span></td><td>24</td></tr>
+        <tr><td><span class="mono">spacing/padding/xlg</span></td><td><span class="mono">spacing/32</span></td><td>32</td></tr>
+        <tr><td><span class="mono">spacing/padding/xxlg</span></td><td><span class="mono">spacing/48</span></td><td>48</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="gap" label="Gap" desc="Space between items">
+    <p>Space between items within the same content container, horizontal or vertical.</p>
+    <table class="tbl">
+      <thead><tr><th>Token</th><th>Alias</th><th>Resolved (px)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">spacing/gap/none</span></td><td><span class="mono">spacing/0</span></td><td>0</td></tr>
+        <tr><td><span class="mono">spacing/gap/xxsm</span></td><td><span class="mono">spacing/2</span></td><td>2</td></tr>
+        <tr><td><span class="mono">spacing/gap/xsm</span></td><td><span class="mono">spacing/4</span></td><td>4</td></tr>
+        <tr><td><span class="mono">spacing/gap/sm</span></td><td><span class="mono">spacing/8</span></td><td>8</td></tr>
+        <tr><td><span class="mono">spacing/gap/md</span></td><td><span class="mono">spacing/16</span></td><td>16</td></tr>
+        <tr><td><span class="mono">spacing/gap/lg</span></td><td><span class="mono">spacing/24</span></td><td>24</td></tr>
+        <tr><td><span class="mono">spacing/gap/xlg</span></td><td><span class="mono">spacing/32</span></td><td>32</td></tr>
+        <tr><td><span class="mono">spacing/gap/xxlg</span></td><td><span class="mono">spacing/48</span></td><td>48</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="layout" label="Layout" desc="Grid-level spacing">
+    <p>Page-level spacing tokens for the grid.</p>
+    <table class="tbl">
+      <thead><tr><th>Token</th><th>Alias</th><th>Resolved (px)</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">spacing/gutter</span></td><td><span class="mono">spacing/24</span></td><td>24</td><td>Space between grid columns</td></tr>
+        <tr><td><span class="mono">spacing/columns</span></td><td><span class="mono">spacing/12</span></td><td>12</td><td>Column-level spacing unit</td></tr>
+        <tr><td><span class="mono">spacing/margin</span></td><td><span class="mono">spacing/24</span></td><td>24</td><td>Outer page margin</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Rules and density">
+    <doc-callout type="do" heading="Do">Choose the token by role, not by value. Use <span class="chip">padding/*</span> for space around content inside a container and <span class="chip">gap/*</span> for space between items within the same container, even though they resolve to the same numbers.</doc-callout>
+    <doc-callout type="do" heading="Do">Set within-group rhythm tighter than between-group spacing. The ratio is what creates grouping: a smaller gap step within a section, a larger one between sections, so proximity does the work of separating groups.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Introduce off-scale values. If a layout needs a value between two steps, the layout is wrong before the scale is — resolve it with the nearest step rather than a one-off. Never leave a raw pixel value in a component.</doc-callout>
+    <doc-callout type="note" heading="Density">The scale supports a dense, calm interface: tight, consistent within-group rhythm on the small steps, generous between-group spacing on the larger steps. Density comes from disciplined use of the small steps, not from abandoning the scale.</doc-callout>
+  </doc-section>
+
+  <doc-section id="related" label="Related — not covered here" desc="Radius and border-width">
+    <p><span class="chip">border/radius/*</span> and <span class="chip">border/width/*</span> alias the spacing scale but are a separate concern (surface shape and structural definition). They are documented with <a href="elevation.html">elevation</a>, not here.</p>
+    <doc-callout type="note" heading="Depth leans on border color, not width">Width carries a single job — indicating state, not depth: 1px for most states, 2px for active, focus, and error. Tonal border color and background-tone shifts do the work of separating surfaces.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

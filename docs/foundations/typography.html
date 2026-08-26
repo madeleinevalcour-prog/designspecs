@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typography — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Foundations" title="Typography" meta="Source of truth: Modern UI Design Tokens (Subatomic). Applied usage: Modern UI Components. Values pulled directly from the token file.">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead">Typography is delivered as a set of composed text styles, each tied to a role. A text style bundles font family, size, weight, line height, letter spacing, and case into one named value. Components apply the style; they never set the underlying properties individually.</p>
+    <ul>
+      <li><b>Primitives</b> — the raw type values: font family, the font-size scale, the line-height scale, weights, and letter-spacing steps. Never apply a primitive directly.</li>
+      <li><b>Text styles</b> — role-based compositions (title, body, input, button, and so on) built from the primitives. This is the layer components apply.</li>
+    </ul>
+    <p>The system is organized by role, not by an abstract size scale. A style is chosen by what the text is (a card title, a field value, a button label), not by picking a size. This is what makes consistency hold across workflows — inconsistent, system-flavored UI is a named user pain, and it only holds when enforced in the system rather than left to per-screen judgment.</p>
+  </doc-section>
+
+  <doc-section id="typeface" label="One typeface" desc="Inter, no display face">
+    <p>The entire system is set in <b>Inter</b> (<span class="chip">typography/font-family/inter</span>). There is no secondary or display face. A single typeface keeps dense, high-information surfaces consistent and calm — it removes a variable that would otherwise add visual noise, and restraint is what reads as current.</p>
+    <p style="font-size:40px;font-weight:600;letter-spacing:-0.01em;margin:16px 0 4px">Inter</p>
+    <p class="lead">Regular 400 · Medium 500 · Semi Bold 600</p>
+  </doc-section>
+
+  <doc-section id="weights" label="Weights are role-bound" desc="Three weights, fixed by role">
+    <p>Weight is fixed by role, not chosen situationally. Three weights are in use across every text style. Fixing weight to role means the same kind of text always looks the same, and it lets weight work as a reliable signal: because weight never varies for decoration, a shift to Medium reads unambiguously as a state or emphasis change.</p>
+    <table class="tbl">
+      <thead><tr><th>Weight</th><th>Value</th><th>Inter style</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Regular</td><td>400</td><td>Regular</td><td>Body text, values, most reading text</td></tr>
+        <tr><td>Medium</td><td>500</td><td>Medium</td><td>Buttons, active/selected states, emphasis</td></tr>
+        <tr><td>Semi Bold</td><td>600</td><td>Semi Bold</td><td>Titles and headers</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="dont" heading="Don't">Introduce a fourth weight or vary weight by situation. Heavier weights (700, 800, 900) exist as primitives but are not used in any text style. The role determines the weight.</doc-callout>
+  </doc-section>
+
+  <doc-section id="title" label="Title" desc="Headers, Semi Bold">
+    <p>Headers and titles, set in Semi Bold with title case. Size steps down by surface.</p>
+    <div class="specimen"><span style="font-weight:600;font-size:24px;line-height:32px">Title default</span><span class="spec-meta"><span class="mono">title/default</span> · 600 · 24/32 · title case · page and primary titles</span></div>
+    <div class="specimen"><span style="font-weight:600;font-size:20px;line-height:28px">Title medium</span><span class="spec-meta"><span class="mono">title/md</span> · 600 · 20/28 · slideout titles</span></div>
+    <div class="specimen"><span style="font-weight:600;font-size:18px;line-height:24px">Title small</span><span class="spec-meta"><span class="mono">title/sm</span> · 600 · 18/24 · card titles</span></div>
+  </doc-section>
+
+  <doc-section id="body" label="Body" desc="Reading text">
+    <p>Reading text and content. Regular by default, with a Medium variant at each size for emphasis. <span class="chip">body/default</span> (14/20) is the workhorse reading size — a compact default with tight, consistent line height serves calm density without cramping.</p>
+    <div class="specimen"><span style="font-weight:400;font-size:16px;line-height:24px">Body large</span><span class="spec-meta"><span class="mono">body/lg</span> · 400 · 16/24 &nbsp;·&nbsp; <span class="mono">body/lg-medium</span> · 500</span></div>
+    <div class="specimen"><span style="font-weight:400;font-size:14px;line-height:20px">Body default</span><span class="spec-meta"><span class="mono">body/default</span> · 400 · 14/20 &nbsp;·&nbsp; <span class="mono">body/default-medium</span> · 500</span></div>
+    <div class="specimen"><span style="font-weight:400;font-size:12px;line-height:16px">Body small</span><span class="spec-meta"><span class="mono">body/sm</span> · 400 · 12/16 &nbsp;·&nbsp; <span class="mono">body/sm-medium</span> · 500</span></div>
+  </doc-section>
+
+  <doc-section id="input" label="Input" desc="Labels and values">
+    <p>Field labels and the values users enter. The <span class="chip">lg/md/sm</span> labels are uppercase with 0.5 letter spacing; <span class="chip">field-label</span> is a distinct sentence-case variant.</p>
+    <h3>Labels</h3>
+    <div class="specimen"><span style="font-weight:400;font-size:14px;line-height:14px;letter-spacing:0.5px;text-transform:uppercase">Input label lg</span><span class="spec-meta"><span class="mono">input/label/lg</span> · 400 · 14 · +0.5 · upper</span></div>
+    <div class="specimen"><span style="font-weight:400;font-size:12px;line-height:14px;letter-spacing:0.5px;text-transform:uppercase">Input label md</span><span class="spec-meta"><span class="mono">input/label/md</span> · 400 · 12 · +0.5 · upper</span></div>
+    <div class="specimen"><span style="font-weight:400;font-size:10px;line-height:12px;letter-spacing:0.5px;text-transform:uppercase">Input label sm</span><span class="spec-meta"><span class="mono">input/label/sm</span> · 400 · 10 · +0.5 · upper</span></div>
+    <div class="specimen"><span style="font-weight:400;font-size:12px;line-height:14px">Field label</span><span class="spec-meta"><span class="mono">input/label/field-label</span> · 400 · 12/14 · sentence case</span></div>
+    <h3>Values</h3>
+    <div class="specimen"><span style="font-weight:400;font-size:14px;line-height:20px">Input value default</span><span class="spec-meta"><span class="mono">input/value/default</span> · 400 · 14/20 &nbsp;·&nbsp; <span class="mono">-medium</span> · 500</span></div>
+    <div class="specimen"><span style="font-weight:400;font-size:12px;line-height:16px">Input value small</span><span class="spec-meta"><span class="mono">input/value/sm</span> · 400 · 12/16</span></div>
+    <div class="specimen"><span style="font-weight:500;font-size:14px;line-height:20px;color:#296cc3">Hyperlink value</span><span class="spec-meta"><span class="mono">input/value/hyperlinks</span> · 500 · 14/20 · pair with link color</span></div>
+  </doc-section>
+
+  <doc-section id="other" label="Meta, button, tabs, nav" desc="Remaining role styles">
+    <h3>Meta</h3>
+    <p>Supporting information — timestamps, counts, helper text.</p>
+    <div class="specimen"><span style="font-weight:500;font-size:12px;line-height:14px">Meta default</span><span class="spec-meta"><span class="mono">meta/default</span> · 500 · 12/14</span></div>
+    <div class="specimen"><span style="font-weight:500;font-size:10px;line-height:12px;text-transform:uppercase">Meta small</span><span class="spec-meta"><span class="mono">meta/sm</span> · 500 · 10/12 · upper</span></div>
+    <h3>Button</h3>
+    <div class="specimen"><span style="font-weight:500;font-size:16px;line-height:24px">Button large</span><span class="spec-meta"><span class="mono">button/lg</span> · 500 · 16/24</span></div>
+    <div class="specimen"><span style="font-weight:500;font-size:14px;line-height:20px">Button default</span><span class="spec-meta"><span class="mono">button/default</span> · 500 · 14/20</span></div>
+    <div class="specimen"><span style="font-weight:500;font-size:12px;line-height:16px">Button small</span><span class="spec-meta"><span class="mono">button/sm</span> · 500 · 12/16</span></div>
+    <h3>Tabs and navigation</h3>
+    <p>Regular at rest, Medium when active — weight carries the selected state.</p>
+    <div class="specimen"><span style="font-weight:400;font-size:14px;line-height:20px">Tab</span> &nbsp;→&nbsp; <span style="font-weight:500;font-size:14px;line-height:20px">Tab active</span><span class="spec-meta"><span class="mono">tabs/default</span> 400 → <span class="mono">tabs/active</span> 500</span></div>
+    <div class="specimen"><span style="font-weight:400;font-size:16px;line-height:20px">Nav</span> &nbsp;→&nbsp; <span style="font-weight:500;font-size:16px;line-height:20px">Nav active</span><span class="spec-meta"><span class="mono">bowling-alley/main</span> 400 → <span class="mono">-active</span> 500 &nbsp;·&nbsp; <span class="mono">bowling-alley/entity</span> · <span class="mono">bowling-alley/tabs-active</span></span></div>
+    <doc-callout type="note" heading="Weight for state">Carrying selected state with weight rather than color alone keeps the state legible where color can't be relied on — never signal state with color alone (WCAG 2.2 AA).</doc-callout>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Rules">
+    <doc-callout type="do" heading="Do">Apply the named text style, and choose it by role — use <span class="chip">title/sm</span> for a card title because it is a card title, not because 18px looks right.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Set size, weight, or line height directly on a component, vary weight by situation, or reuse the uppercase-label 0.5 tracking outside labels. Pair <span class="chip">input/value/hyperlinks</span> with the link color so linked values read as links by both weight and color.</doc-callout>
+  </doc-section>
+
+</doc-page>
+
+<style>
+  /* Page-scoped: type specimens rendered in Inter (the product face), inside doc chrome. */
+  .specimen{display:flex;flex-wrap:wrap;align-items:baseline;gap:16px;padding:12px 0;border-bottom:1px solid var(--hairline)}
+  .specimen:last-of-type{border-bottom:none}
+  .spec-meta{font-family:var(--mono);font-size:12px;color:var(--ink-muted);margin-left:auto}
+</style>
+</body>
+</html>

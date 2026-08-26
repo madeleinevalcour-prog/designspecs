@@ -262,3 +262,67 @@
     }
   });
 })();
+
+/* Site side nav — collapsible drawer, injected on every content page that loads this file.
+   Single source of truth for the page list; mirrors the homepage grouping. Root-absolute
+   links so it works from any folder depth. Edit SITE here when adding or moving a page. */
+(function(){
+  var SITE=[
+    {label:"Design Decisions", pages:[
+      {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html"},
+      {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html"}
+    ]},
+    {label:"Foundations", pages:[
+      {t:"Principles", href:"/docs/foundations/principles.html"},
+      {t:"Color", href:"/docs/foundations/color.html"},
+      {t:"Spacing", href:"/docs/foundations/spacing.html"},
+      {t:"Elevation", href:"/docs/foundations/elevation.html"},
+      {t:"Typography", href:"/docs/foundations/typography.html"}
+    ]},
+    {label:"Components", pages:[
+      {t:"Button", href:"/docs/button.html"},
+      {t:"Expansion panel — expand / collapse", href:"/docs/expansion-panel-interaction.html"}
+    ]}
+  ];
+  var e=function(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");};
+  function here(href){
+    var p=location.pathname;
+    return p===href || p.replace(/index\.html$/,"")===href.replace(/index\.html$/,"") || p.split("/").pop()===href.split("/").pop();
+  }
+  function store(open){ try{ localStorage.setItem("sn-open", open?"1":"0"); }catch(_){} }
+  function restored(){ try{ return localStorage.getItem("sn-open")==="1"; }catch(_){ return false; } }
+
+  function build(){
+    if(document.querySelector(".sn-drawer")) return;
+    var toggle=document.createElement("button");
+    toggle.className="sn-toggle"; toggle.setAttribute("aria-label","Open navigation"); toggle.setAttribute("aria-expanded","false");
+    toggle.innerHTML='<span class="sn-bars"><span></span><span></span><span></span></span>Pages';
+
+    var scrim=document.createElement("div"); scrim.className="sn-scrim";
+
+    var drawer=document.createElement("nav"); drawer.className="sn-drawer"; drawer.setAttribute("aria-label","Documentation");
+    var html='<div class="sn-head"><a class="sn-home" href="/index.html">Design documentation</a>'+
+             '<button class="sn-close" aria-label="Close navigation">&times;</button></div>';
+    SITE.forEach(function(g){
+      html+='<div class="sn-group">'+e(g.label)+'</div>';
+      g.pages.forEach(function(pg){
+        html+='<a class="sn-link'+(here(pg.href)?" is-here":"")+'" href="'+e(pg.href)+'">'+e(pg.t)+'</a>';
+      });
+    });
+    drawer.innerHTML=html;
+
+    document.body.appendChild(toggle);
+    document.body.appendChild(scrim);
+    document.body.appendChild(drawer);
+
+    function open(){ document.body.classList.add("sn-open"); toggle.setAttribute("aria-expanded","true"); store(true); }
+    function close(){ document.body.classList.remove("sn-open"); toggle.setAttribute("aria-expanded","false"); store(false); }
+    toggle.addEventListener("click", open);
+    scrim.addEventListener("click", close);
+    drawer.querySelector(".sn-close").addEventListener("click", close);
+    document.addEventListener("keydown", function(ev){ if(ev.key==="Escape" && document.body.classList.contains("sn-open")) close(); });
+    if(restored()) open();
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", build);
+  else build();
+})();

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elevation — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Foundations" title="Elevation" meta="Source of truth: Modern UI Components (Component Migration) for elevation and focus styles; Modern UI Design Tokens (Subatomic) for radius and border-width. Values pulled directly from the files.">
+
+  <doc-section id="overview" label="How depth is built">
+    <p class="lead">Depth is expressed through diffuse, clearly defined elevation styles that layer the interface front to back. Each style is a soft, low-alpha shadow tuned to place a surface at a specific level in the page hierarchy — not a hard drop shadow. Combined with border color and background-tone shifts, these styles establish which surfaces sit behind, at, and in front of the main focus area.</p>
+    <p>Elevation is organized as a set of numbered levels. The level is the primary decision: it maps a surface to its place in the page's depth order. The named button and focus styles are role-specific applications of the same approach.</p>
+    <ul>
+      <li><b>Border color</b> creates contrast and separation at the edge. Tonal border tokens (<span class="chip">color/border/subtle</span>, <span class="chip">color/border/default</span>, <span class="chip">color/border/medium</span>) define surface boundaries.</li>
+      <li><b>Border width</b> indicates state, not depth. Width changes only to mark a state change — it never gets heavier to push a surface forward.</li>
+    </ul>
+    <table class="tbl">
+      <thead><tr><th>Width</th><th>Token</th><th>State</th></tr></thead>
+      <tbody>
+        <tr><td>1px</td><td><span class="mono">border/width/border-default</span></td><td>Default, and most states</td></tr>
+        <tr><td>2px</td><td><span class="mono">border/width/border-sm</span></td><td>Active, focus, error</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="levels" label="Elevation levels" desc="The page depth order">
+    <p>The page depth order. Each level places a surface relative to the main focus area and, where noted, corresponds to a specific background semantic token. Apply the level that matches where the surface sits in the hierarchy, not by how much shadow looks right. All shadow colors are low-alpha near-blacks (<span class="mono">#282828</span> at 0.04 and <span class="mono">#2f2f33</span> at 0.08), kept diffuse.</p>
+    <div class="elev-demo">
+      <div class="elev-card e1">Level 1</div>
+      <div class="elev-card e2">Level 2</div>
+      <div class="elev-card e3">Level 3</div>
+      <div class="elev-card e4">Level 4</div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Level</th><th>Composition</th><th>Corresponds to</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">general/level 1</span></td><td>Drop y 2, blur 4, <span class="mono">#282828</span> 0.04</td><td>—</td><td>Lightest lift, a surface just barely raised.</td></tr>
+        <tr class="em"><td><span class="mono">general/level 2</span></td><td>Drop y 4, blur 8, <span class="mono">#2f2f33</span> 0.08</td><td><span class="mono">background/default</span></td><td>Main focus area — headers, cards, workflow.</td></tr>
+        <tr><td><span class="mono">general/level 2 - scroll</span></td><td>Level 2 + background blur 4</td><td><span class="mono">background/scroll</span></td><td>Transparent containers content scrolls behind.</td></tr>
+        <tr><td><span class="mono">general/level 3</span></td><td>Two drops (y 4 blur 8; x 2 y 4 blur 8)</td><td>—</td><td>Above focus — the bowling alley (left nav).</td></tr>
+        <tr><td><span class="mono">general/level 3 - right</span></td><td>Two drops (y 4 blur 8; x -2 y 4 blur 8)</td><td>—</td><td>Right-side above-focus — slideout, Amplify chat.</td></tr>
+        <tr><td><span class="mono">general/level 4</span></td><td>Two drops (y 4 blur 8; x 8 y 12 blur 16) + background blur 4</td><td><span class="mono">background/overlay</span></td><td>Overlay level — dropdowns, modals, menus.</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="Directional and blur notes">Levels 3 and 4 stack two shadows: a soft ambient layer plus a directional layer that gives the surface its sense of position. <span class="chip">level 3 - right</span> mirrors <span class="chip">level 3</span> horizontally (negative X) because the surface anchors to the right edge. The <span class="chip">- scroll</span> and <span class="chip">level 4</span> styles include a background blur, so they must sit over content to read as intended.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Apply elevation to structural surfaces at rest (cards, sections, table rows). Those get border and tone. Reach for a level when a surface genuinely sits at that place in the depth order.</doc-callout>
+  </doc-section>
+
+  <doc-section id="button" label="Button elevation" desc="Resting, hover, pressed">
+    <p>Buttons carry their own elevation styles so their resting, hover, and pressed states are consistent everywhere. The styles are additive: hover keeps the default shadow and adds to it; active keeps the hover shadow and adds the inner press.</p>
+    <table class="tbl">
+      <thead><tr><th>Style</th><th>Composition</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">button/default</span></td><td>Drop y 2, blur 4, <span class="mono">#282828</span> 0.04</td><td>Default button shadow on any surface.</td></tr>
+        <tr><td><span class="mono">button/hover</span></td><td><span class="mono">button/default</span> + drop x 4 y 8 blur 12, <span class="mono">#2f2f33</span> 0.08</td><td>Hover — a larger, softer lift on the resting shadow.</td></tr>
+        <tr><td><span class="mono">button/active</span></td><td><span class="mono">button/hover</span> + inner y 4 blur 8, <span class="mono">#2f2f33</span> 0.08</td><td>Pressed — the inner shadow reads as pushed in.</td></tr>
+        <tr><td><span class="mono">button/active-no-container</span></td><td>Inner y 4 blur 8, <span class="mono">#2f2f33</span> 0.08</td><td>Active state for buttons with no exterior shadow.</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="focus" label="Focus rings" desc="Ring-with-offset">
+    <p>Focus is an effect style built as a two-layer stack of zero-blur drop shadows: an outer spread for the offset halo and an inner spread for the ring itself. This is the visible half of the 2px state convention — focus shifts to a heavier, higher-contrast treatment.</p>
+    <table class="tbl">
+      <thead><tr><th>Style</th><th>Inner ring (spread 2)</th><th>Outer offset (spread 4)</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">inputs/focus</span></td><td><span class="mono">#ffffff</span></td><td><span class="mono">#202945</span> (navigation-blue)</td><td>Inputs and form controls</td></tr>
+        <tr><td><span class="mono">checkbox-focus</span></td><td><span class="mono">#ffffff</span></td><td><span class="mono">#4a89dc</span> (utility blue 400)</td><td>Checkboxes</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="do" heading="Do">Apply the focus ring together with the 2px border-width state. The inner white layer separates the ring from the control so focus stays visible against the input edge.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Signal focus, active, or error with color alone.</doc-callout>
+  </doc-section>
+
+  <doc-section id="radius" label="Radius" desc="Corner radius">
+    <p>Corner radius shapes surfaces. It aliases the spacing scale, so radius steps move with the base scale. Radius is a shape concern, applied per surface type for consistency.</p>
+    <table class="tbl">
+      <thead><tr><th>Token</th><th>Alias</th><th>Resolved (px)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">border/radius/none</span></td><td><span class="mono">spacing/0</span></td><td>0</td></tr>
+        <tr><td><span class="mono">border/radius/xxsm</span></td><td><span class="mono">spacing/2</span></td><td>2</td></tr>
+        <tr><td><span class="mono">border/radius/xsm</span></td><td><span class="mono">spacing/4</span></td><td>4</td></tr>
+        <tr><td><span class="mono">border/radius/sm</span></td><td><span class="mono">spacing/8</span></td><td>8</td></tr>
+        <tr><td><span class="mono">border/radius/md</span></td><td><span class="mono">spacing/16</span></td><td>16</td></tr>
+        <tr><td><span class="mono">border/radius/lg</span></td><td><span class="mono">spacing/24</span></td><td>24</td></tr>
+        <tr><td><span class="mono">border/radius/xlg</span></td><td><span class="mono">spacing/32</span></td><td>32</td></tr>
+        <tr><td><span class="mono">border/radius/xxlg</span></td><td><span class="mono">spacing/48</span></td><td>48</td></tr>
+        <tr><td><span class="mono">border/radius/round</span></td><td>—</td><td>999 (fully round)</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="Round is a fixed value"><span class="chip">border/radius/round</span> is a fixed large value (999), not an alias — it produces a pill or circle regardless of element size. Use it for fully-round elements (avatars, pills, icon buttons), not as a large corner radius.</doc-callout>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Rules">
+    <doc-callout type="do" heading="Do">Choose elevation by level, not by look. Match the surface to its place in the page depth order. Use the direction-specific level 3 that matches the anchor — <span class="chip">level 3</span> for the left-side bowling alley, <span class="chip">level 3 - right</span> for right-side slideouts and chat.</doc-callout>
+    <doc-callout type="dont" heading="Don't">Use border width to create depth. Width marks state (1px default, 2px active/focus/error); the elevation levels and border color mark depth. Never hand-build a shadow or invent an off-scale offset or alpha.</doc-callout>
+    <doc-callout type="note" heading="Consistency">Match radius to the surface type consistently — a given component type carries one radius everywhere it appears.</doc-callout>
+  </doc-section>
+
+</doc-page>
+
+<style>
+  /* Page-scoped: representative rendering of the elevation levels (real effect styles live in Figma). */
+  .elev-demo{display:flex;flex-wrap:wrap;gap:28px;margin:8px 0 20px;padding:8px 4px}
+  .elev-card{width:120px;height:80px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+  .elev-card.e1{box-shadow:0 2px 4px rgba(40,40,40,0.04)}
+  .elev-card.e2{box-shadow:0 4px 8px rgba(47,47,51,0.08)}
+  .elev-card.e3{box-shadow:0 4px 8px rgba(47,47,51,0.08), 2px 4px 8px rgba(40,40,40,0.04)}
+  .elev-card.e4{box-shadow:0 4px 8px rgba(40,40,40,0.04), 8px 12px 16px rgba(47,47,51,0.08)}
+</style>
+</body>
+</html>
