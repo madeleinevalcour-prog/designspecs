@@ -23,7 +23,7 @@
       </a>
     </div>
 
-    <h3>Amplify references</h3>
+    <h3 id="amplify-references">Amplify references</h3>
     <p>Use these to help create Amplify-related designs, or to check existing designs against Amplify guidelines and functionality.</p>
     <div class="reslist">
       <a class="doc res" href="resources/amplify-design-reference.md" download>
@@ -35,6 +35,7 @@
         <div class="desc">A guide to the current and future intended Amplify Chat functionality, for designers and PMs to use when integrating Amplify chat into their area.</div>
       </a>
     </div>
+    <p class="linkrow"><a href="#amplify-chat">See the Amplify Chat in New UI designs in Figma →</a></p>
   </doc-section>
 
   <doc-section id="figma-assets" label="Figma assets" desc="Source design files">
@@ -49,6 +50,14 @@
       </a>
     </div>
     <doc-callout type="note" heading="Before you build">Install Subatomic as a library when using the Components — the components depend on its styles.</doc-callout>
+
+    <div class="reslist">
+      <a class="doc res" id="amplify-chat" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-188524&t=EjaD2l8cizzyd37H-1" target="_blank" rel="noopener">
+        <div class="title">Amplify Chat in New UI <span class="res-kind">Figma ↗</span></div>
+        <div class="desc">Current designs for how the new UI can be applied to the global, docked, and pop-over chat. Use as a reference when creating designs in conjunction with the Amplify MD files in the previous section.</div>
+      </a>
+    </div>
+    <p class="linkrow"><a href="#amplify-references">See the Amplify reference files above →</a></p>
   </doc-section>
 
 </doc-page>
@@ -58,6 +67,7 @@
   .reslist{display:flex;flex-direction:column;gap:10px;margin:8px 0 12px}
   a.doc.res .title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
   .res-kind{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink-muted);background:var(--chip);border-radius:4px;padding:2px 7px}
+  #amplify-references,#amplify-chat{scroll-margin-top:32px}
 </style>
 </body>
 </html>
