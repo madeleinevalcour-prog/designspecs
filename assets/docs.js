@@ -279,9 +279,7 @@
       {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html"},
       {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html"}
     ]},
-    {label:"Resources", pages:[
-      {t:"Resources", href:"/docs/resources.html"}
-    ]}
+    {label:"Resources", href:"/docs/resources.html"}
   ];
   var e=function(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");};
   function here(href){
@@ -303,8 +301,12 @@
     var html='<div class="sn-head"><a class="sn-home" href="/index.html">Design documentation</a>'+
              '<button class="sn-close" aria-label="Close navigation">&times;</button></div>';
     SITE.forEach(function(g){
-      html+='<div class="sn-group">'+e(g.label)+'</div>';
-      g.pages.forEach(function(pg){
+      if(g.href){
+        html+='<a class="sn-group sn-group-link'+(here(g.href)?" is-here":"")+'" href="'+e(g.href)+'">'+e(g.label)+'</a>';
+      } else {
+        html+='<div class="sn-group">'+e(g.label)+'</div>';
+      }
+      (g.pages||[]).forEach(function(pg){
         html+='<a class="sn-link'+(here(pg.href)?" is-here":"")+'" href="'+e(pg.href)+'">'+e(pg.t)+'</a>';
       });
     });
