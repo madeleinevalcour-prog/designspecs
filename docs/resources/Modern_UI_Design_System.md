@@ -208,14 +208,23 @@ Amplify has a dedicated color treatment — a green-through-blue **radial** for 
 
 Both are delivered as **paint styles**, not variables. Figma cannot store a gradient in a variable, so this treatment sits outside the primitive → semantic token structure that governs the rest of color. Apply the named style directly; there is nothing to bind to. Exact stops are defined in Subatomic → `color / amplify` (node `16646-4438`).
 
-**Radial — fills.** The radial fills backgrounds, buttons, and icons. A green core in the lower-left resolves through cyan to deep blue. Radial stops: `#37fc97` (1%), `#66fab4` (6%), `#95f7d0` (11%), `#5cd3d6` (22%), `#40c1d9` (27%), `#23afdc` (33%), `#12a5de` (48%), `#009bdf` (63%), `#0979b1` (78%), `#125783` (93%).
+There are two distinct radials — one for buttons, one for icons. Both draw on the same green-to-blue family, but they are shaped differently and are not interchangeable.
+
+**Buttons & backgrounds radial.** A broad diagonal sweep — green in the upper-left resolving through cyan to deep blue across the whole surface. Fills Amplify-related buttons, and as a translucent variant it backs Amplify-related containers. Stops (diagonal, ~70°): `#37fc97`, `#95f7d0`, `#23afdc`, `#009bdf`, `#125783`.
 
 | Paint style | State | Composition |
 | --- | --- | --- |
-| `Background/Amplify Radial - Translucent` | Translucent | The radial at 20% opacity, for Amplify-related container backgrounds. |
-| `Buttons/Amplify Radial`, `Icon/Amplify Radial` | Default | Full-strength radial fill for Amplify-related buttons and icons. |
-| `…/Amplify Radial - Hover` | Hover / active | The radial with a `#2f2f33` overlay at 20%. |
-| `…/Amplify Radial - Translucent` | Disabled / low-emphasis | The radial at reduced opacity (60% for disabled tiles). |
+| `Buttons/Amplify Radial` | Default | Full-strength diagonal gradient fill for Amplify-related buttons. |
+| `Buttons/Amplify Radial - Hover` | Hover / active | The gradient with a `#2f2f33` overlay at 20%. |
+| `Buttons/Amplify Radial - Translucent`, `Background/Amplify Radial - Translucent` | Translucent / disabled | The gradient at reduced opacity — 20% for container backgrounds, 60% for disabled buttons. |
+
+**Icon radial.** A concentrated glow with a green core in the lower-left over deep blue — tighter and centred, not a diagonal sweep. Fills Amplify-related icons. Stops (radial, core lower-left): `#37fc97` (1%), `#66fab4` (6%), `#95f7d0` (11%), `#5cd3d6` (22%), `#40c1d9` (27%), `#23afdc` (33%), `#12a5de` (48%), `#009bdf` (63%), `#0979b1` (78%), `#125783` (93%).
+
+| Paint style | State | Composition |
+| --- | --- | --- |
+| `Icon/Amplify Radial` | Default | Full-strength radial glow for Amplify-related icons. |
+| `Icon/Amplify Radial - Hover` | Hover / active | The radial with a `#2f2f33` overlay at 20%. |
+| `Icon/Amplify Radial - Translucent` | Translucent / disabled | The radial at reduced opacity. |
 
 **Gradient — borders.** A linear version of the same green-to-blue family, applied as a border stroke to outline Amplify-related surfaces without filling them.
 
@@ -225,7 +234,7 @@ Both are delivered as **paint styles**, not variables. Figma cannot store a grad
 | `Border/Amplify Gradient - Translucent` | Disabled / low-emphasis | The gradient border at reduced strength. |
 
 Usage:
-- Reserve the Amplify treatment exclusively for Amplify and AI-related elements, so the cue stays meaningful. Match the form to the element — radial for fills (backgrounds, buttons, icons), gradient for borders.
+- Reserve the Amplify treatment exclusively for Amplify and AI-related elements, so the cue stays meaningful. Match the form to the element — the buttons/backgrounds radial for button fills and container backgrounds, the icon radial for icons, and the gradient for borders. The two radials are not interchangeable.
 - Apply the named paint style and use the state variants (hover, disabled, translucent) that ship with it. Do not rebuild the gradient by hand or approximate the stops.
 - Use the translucent background when an Amplify surface needs emphasis over the default background — e.g. an inline Amplify alert — rather than a full-strength fill behind reading content.
 - Do not signal Amplify with color alone. Pair the treatment with a label, icon, or established Amplify entry point.
