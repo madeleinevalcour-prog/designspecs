@@ -124,21 +124,33 @@
     <p>Amplify has a dedicated color treatment — a green-through-blue <b>radial</b> for fills and a matching <b>gradient</b> for borders. Use it to indicate where an action, content, or any other UI element is related to Amplify or AI. It is a meaning cue, not decoration: wherever it appears, it marks that surface or control as Amplify. Do not use it for anything else.</p>
     <doc-callout type="note" heading="Paint styles, not tokens">Both are delivered as named paint styles, not variables — Figma cannot store a gradient in a variable, so this treatment sits outside the primitive → semantic structure that governs the rest of color. Apply the named style directly; there is nothing to bind to, and any change is a direct edit to the paint style. Exact stops are defined in <a href="https://www.figma.com/design/QfUcff23xkvDja8vI1Hccd/subatomic?node-id=16646-4438" target="_blank" rel="noopener">Subatomic → color / amplify ↗</a>.</doc-callout>
 
-    <p>There are two distinct radials — one for buttons, one for icons. Both draw on the same green-to-blue family, but they are shaped differently and are not interchangeable.</p>
-
-    <h3>Buttons &amp; backgrounds radial</h3>
-    <p>A broad diagonal sweep — green in the upper-left resolving through cyan to deep blue across the whole surface. Fills Amplify-related buttons, and as a translucent variant it backs Amplify-related containers.</p>
+    <h3>Background</h3>
+    <p>A translucent radial that backs Amplify-related containers. Use it over the default background when a surface needs more emphasis — for example an inline Amplify alert — rather than a full-strength fill behind reading content.</p>
     <div class="amp-set">
-      <div class="amp-tile"><div class="amp-swatch amp-translucent"></div><div class="cap">Translucent</div><div class="sub">Container background for Amplify-related surfaces. Use over the default background when more emphasis is needed — e.g. alerts.</div></div>
+      <div class="amp-tile"><div class="amp-swatch amp-translucent"></div><div class="cap">Amplify radial — translucent</div><div class="sub">Container background for Amplify-related surfaces.</div></div>
+    </div>
+    <doc-spec><span class="pair"><b>Paint style:</b> <span class="mono">Background/Amplify Radial - Translucent</span> — the buttons radial at 20% opacity.</span></doc-spec>
+
+    <h3>Border</h3>
+    <p>A green-to-blue gradient applied as a border stroke to outline Amplify-related surfaces without filling them. It carries a default and a disabled state. It can also be used on a container in conjunction with the Amplify background — the gradient border framing a surface that carries the translucent Amplify background.</p>
+    <div class="amp-set">
+      <div class="amp-tile"><div class="amp-swatch amp-border"></div><div class="cap">Amplify gradient</div><div class="sub">Border for Amplify-related surfaces.</div></div>
+      <div class="amp-tile"><div class="amp-swatch amp-border-disabled"></div><div class="cap">Disabled</div><div class="sub">Disabled state — the gradient at reduced strength.</div></div>
+    </div>
+    <doc-spec><span class="pair"><b>Paint styles:</b> <span class="mono">Border/Amplify Gradient</span> · <span class="mono">Border/Amplify Gradient - Translucent</span></span></doc-spec>
+
+    <h3>Button</h3>
+    <p>A broad diagonal sweep — green in the upper-left resolving through cyan to deep blue across the whole surface. Fills Amplify-related buttons.</p>
+    <div class="amp-set">
       <div class="amp-tile"><div class="amp-swatch amp-btn"></div><div class="cap">Default</div><div class="sub">Fill for Amplify-related buttons.</div></div>
       <div class="amp-tile"><div class="amp-swatch amp-btn-hover"></div><div class="cap">Hover / active</div><div class="sub">The gradient with a <span class="mono">#2f2f33</span> overlay at 20%.</div></div>
       <div class="amp-tile"><div class="amp-swatch amp-btn-disabled"></div><div class="cap">Disabled</div><div class="sub">The gradient at 60% opacity.</div></div>
     </div>
-    <doc-spec><span class="pair"><b>Paint styles:</b> <span class="mono">Buttons/Amplify Radial</span> (+ <span class="mono">- Hover</span>, <span class="mono">- Translucent</span>) · <span class="mono">Background/Amplify Radial - Translucent</span></span></doc-spec>
+    <doc-spec><span class="pair"><b>Paint styles:</b> <span class="mono">Buttons/Amplify Radial</span> (+ <span class="mono">- Hover</span>, <span class="mono">- Translucent</span>)</span></doc-spec>
     <doc-spec><span class="pair"><b>Stops (diagonal ~70°):</b> <span class="mono">#37fc97</span> · <span class="mono">#95f7d0</span> · <span class="mono">#23afdc</span> · <span class="mono">#009bdf</span> · <span class="mono">#125783</span></span></doc-spec>
 
-    <h3>Icon radial</h3>
-    <p>A concentrated glow with a green core in the lower-left over deep blue — tighter and centred, not a diagonal sweep. Fills Amplify-related icons.</p>
+    <h3>Icon</h3>
+    <p>A concentrated glow with a green core in the lower-left over deep blue — tighter and centred, not a diagonal sweep. Fills Amplify-related icons, and is not interchangeable with the button radial.</p>
     <div class="amp-set">
       <div class="amp-tile"><div class="amp-swatch amp-icon"></div><div class="cap">Default</div><div class="sub">Fill for Amplify-related icons.</div></div>
       <div class="amp-tile"><div class="amp-swatch amp-icon-hover"></div><div class="cap">Hover / active</div><div class="sub">The radial with a <span class="mono">#2f2f33</span> overlay at 20%.</div></div>
@@ -146,14 +158,6 @@
     </div>
     <doc-spec><span class="pair"><b>Paint styles:</b> <span class="mono">Icon/Amplify Radial</span> (+ <span class="mono">- Hover</span>, <span class="mono">- Translucent</span>)</span></doc-spec>
     <doc-spec><span class="pair"><b>Stops (radial, core lower-left):</b> <span class="mono">#37fc97</span> (1%) · <span class="mono">#66fab4</span> (6%) · <span class="mono">#95f7d0</span> (11%) · <span class="mono">#5cd3d6</span> (22%) · <span class="mono">#40c1d9</span> (27%) · <span class="mono">#23afdc</span> (33%) · <span class="mono">#12a5de</span> (48%) · <span class="mono">#009bdf</span> (63%) · <span class="mono">#0979b1</span> (78%) · <span class="mono">#125783</span> (93%)</span></doc-spec>
-
-    <h3>Gradient — borders</h3>
-    <p>A linear version of the same green-to-blue family, applied as a border stroke to outline Amplify-related surfaces without filling them. It carries a default and a disabled state.</p>
-    <div class="amp-set">
-      <div class="amp-tile"><div class="amp-swatch amp-border"></div><div class="cap">Amplify gradient</div><div class="sub">Border for Amplify-related surfaces.</div></div>
-      <div class="amp-tile"><div class="amp-swatch amp-border-disabled"></div><div class="cap">Disabled</div><div class="sub">Disabled state — the gradient at reduced strength.</div></div>
-    </div>
-    <doc-spec><span class="pair"><b>Paint styles:</b> <span class="mono">Border/Amplify Gradient</span> · <span class="mono">Border/Amplify Gradient - Translucent</span></span></doc-spec>
 
     <h3>Usage</h3>
     <doc-callout type="do" heading="Do">Reserve the Amplify treatment exclusively for Amplify and AI-related elements, so the cue stays meaningful. Match the form to the element: the buttons/backgrounds radial for button fills and container backgrounds, the icon radial for icons, and the gradient for borders — the two radials are not interchangeable. Apply the named paint style, and use the state variants (hover, disabled) that ship with it.</doc-callout>
