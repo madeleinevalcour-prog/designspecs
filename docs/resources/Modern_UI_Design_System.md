@@ -88,7 +88,7 @@ The sections that follow document the token foundations that enforce these princ
 
 - **Color** — the neutral scale, utility and status families, entity accents, and the semantic background, border, text, and icon tokens.
 - **Spacing** — the 8-based scale and the padding, gap, and layout tokens built on it.
-- **Elevation** — the diffuse elevation levels that order the page front to back, plus focus, radius, and border-width.
+- **Elevation** — the diffuse elevation levels that order the page front to back, plus radius and border-width.
 - **Typography** — Inter, the role-based text styles, and the role-bound weight system.
 
 
@@ -477,7 +477,7 @@ Depth in this system leans on border *color*, not border width. Width carries a 
 
 Depth is expressed through diffuse, clearly defined elevation styles that layer the interface front to back. Each style is a soft, low-alpha shadow tuned to place a surface at a specific level in the page hierarchy — not a hard drop shadow. Combined with border color and background-tone shifts, these styles establish which surfaces sit behind, at, and in front of the main focus area.
 
-Elevation is organized as a set of numbered levels. The level is the primary decision: it maps a surface to its place in the page's depth order. The named button and focus styles are role-specific applications of the same approach.
+Elevation is organized as a set of numbered levels. The level is the primary decision: it maps a surface to its place in the page's depth order. The named button styles are role-specific applications of the same approach.
 
 Two supporting mechanisms work alongside elevation:
 
@@ -524,19 +524,6 @@ Buttons carry their own elevation styles so their resting, hover, and pressed st
 
 The button styles are additive: hover keeps the default shadow and adds to it; active keeps the hover shadow and adds the inner press. Use `active-no-container` for flat or embedded buttons where an exterior shadow would be wrong, so the press still registers.
 
-### Focus rings
-
-Focus is an effect style built as a two-layer stack of zero-blur drop shadows: an outer spread for the offset halo and an inner spread for the ring itself — a ring-with-offset. This is the visible half of the 2px state convention: focus is one of the states that shifts to a heavier, higher-contrast treatment.
-
-| Style | Inner ring (spread 2) | Outer offset (spread 4) | Use |
-| --- | --- | --- | --- |
-| `inputs/focus` | `#ffffff` | `#202945` (navigation-blue) | Inputs and form controls. |
-| `checkbox-focus` | `#ffffff` | `#4a89dc` (utility blue 400) | Checkboxes. |
-
-Notes:
-- Each ring is two zero-radius drop shadows at spread 4 (outer) and spread 2 (inner), offset 0,0. The inner white layer separates the ring from the control so focus stays visible against the input edge.
-- Apply the focus ring together with the 2px border-width state. Focus is never signaled by color alone.
-
 ### Radius
 
 Corner radius shapes surfaces. It aliases the spacing scale, so radius steps move with the base scale. Radius is a shape concern, applied per surface type for consistency.
@@ -573,7 +560,7 @@ Width is a state signal, not a depth signal. Depth comes from the elevation leve
 - Use the direction-specific level 3 style that matches the surface's anchor — `level 3` for the left-side bowling alley, `level 3 - right` for right-side slideouts and chat.
 - Apply `- scroll` and `level 4` only over content, since they rely on a background blur to read.
 - Do not use border width to create depth. Width marks state (1px default, 2px active/focus/error); the elevation levels and border color mark depth.
-- Pair a focus ring with the 2px border-width state, and never signal focus, active, or error with color alone.
+- Never signal focus, active, or error with color alone.
 - Match radius to the surface type consistently — a given component type carries one radius everywhere it appears.
 
 

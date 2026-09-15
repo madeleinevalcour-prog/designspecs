@@ -11,11 +11,11 @@
 <script src="../../assets/docs.js" defer></script>
 </head>
 <body>
-<doc-page eyebrow="Foundations" title="Elevation" meta="Source of truth: Modern UI Components (Component Migration) for elevation and focus styles; Modern UI Design Tokens (Subatomic) for radius and border-width. Values pulled directly from the files.">
+<doc-page eyebrow="Foundations" title="Elevation" meta="Source of truth: Modern UI Components (Component Migration) for elevation styles; Modern UI Design Tokens (Subatomic) for radius and border-width. Values pulled directly from the files.">
 
   <doc-section id="overview" label="How depth is built">
     <p class="lead">Depth is expressed through diffuse, clearly defined elevation styles that layer the interface front to back. Each style is a soft, low-alpha shadow tuned to place a surface at a specific level in the page hierarchy — not a hard drop shadow. Combined with border color and background-tone shifts, these styles establish which surfaces sit behind, at, and in front of the main focus area.</p>
-    <p>Elevation is organized as a set of numbered levels. The level is the primary decision: it maps a surface to its place in the page's depth order. The named button and focus styles are role-specific applications of the same approach.</p>
+    <p>Elevation is organized as a set of numbered levels. The level is the primary decision: it maps a surface to its place in the page's depth order. The named button styles are role-specific applications of the same approach.</p>
     <ul>
       <li><b>Border color</b> creates contrast and separation at the edge. Tonal border tokens (<span class="chip">color/border/subtle</span>, <span class="chip">color/border/default</span>, <span class="chip">color/border/medium</span>) define surface boundaries.</li>
       <li><b>Border width</b> indicates state, not depth. Width changes only to mark a state change — it never gets heavier to push a surface forward.</li>
@@ -63,19 +63,6 @@
         <tr><td><span class="mono">button/active-no-container</span></td><td>Inner y 4 blur 8, <span class="mono">#2f2f33</span> 0.08</td><td>Active state for buttons with no exterior shadow.</td></tr>
       </tbody>
     </table>
-  </doc-section>
-
-  <doc-section id="focus" label="Focus rings" desc="Ring-with-offset">
-    <p>Focus is an effect style built as a two-layer stack of zero-blur drop shadows: an outer spread for the offset halo and an inner spread for the ring itself. This is the visible half of the 2px state convention — focus shifts to a heavier, higher-contrast treatment.</p>
-    <table class="tbl">
-      <thead><tr><th>Style</th><th>Inner ring (spread 2)</th><th>Outer offset (spread 4)</th><th>Use</th></tr></thead>
-      <tbody>
-        <tr><td><span class="mono">inputs/focus</span></td><td><span class="mono">#ffffff</span></td><td><span class="mono">#202945</span> (navigation-blue)</td><td>Inputs and form controls</td></tr>
-        <tr><td><span class="mono">checkbox-focus</span></td><td><span class="mono">#ffffff</span></td><td><span class="mono">#4a89dc</span> (utility blue 400)</td><td>Checkboxes</td></tr>
-      </tbody>
-    </table>
-    <doc-callout type="do" heading="Do">Apply the focus ring together with the 2px border-width state. The inner white layer separates the ring from the control so focus stays visible against the input edge.</doc-callout>
-    <doc-callout type="dont" heading="Don't">Signal focus, active, or error with color alone.</doc-callout>
   </doc-section>
 
   <doc-section id="radius" label="Radius" desc="Corner radius">
