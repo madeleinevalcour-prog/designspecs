@@ -202,20 +202,33 @@ Each record type carries its own accent color. The entity color is used as the a
 
 **Known gap (to be confirmed):** entity colors currently exist only as primitives. There is no semantic-layer token aliasing them to an accent role (no `color/accent/entity/*`). Components that use an entity accent bind to the primitive directly, which the architecture otherwise disallows. A semantic accent layer is the correct long-term home for these; not yet built.
 
-### Amplify gradient
+### Amplify color
 
-Amplify has a dedicated radial gradient that signals Amplify functionality and AI-assisted features. Wherever it appears, it marks that a surface or control is powered by Amplify or AI — it is a meaning cue, not a decorative fill, and it should not be used for anything else.
+Amplify has a dedicated color treatment — a green-through-blue **radial** for fills and a matching **gradient** for borders. Use it to indicate where an action, content, or any other UI element is related to Amplify or AI. It is a meaning cue, not decoration: wherever it appears, it marks that surface or control as Amplify, and it should not be used for anything else.
 
-The gradient is delivered as a **paint style**, not a variable. Figma cannot store a gradient in a variable, so this treatment sits outside the primitive → semantic token structure that governs the rest of color. It is applied as the named paint style directly; there is no token to bind to.
+Both are delivered as **paint styles**, not variables. Figma cannot store a gradient in a variable, so this treatment sits outside the primitive → semantic token structure that governs the rest of color. Apply the named style directly; there is nothing to bind to. Exact stops are defined in Subatomic → `color / amplify` (node `16646-4438`).
 
-| Paint style | Type | Composition |
+**Radial — fills.** The radial fills backgrounds, buttons, and icons. A green core in the lower-left resolves through cyan to deep blue. Radial stops: `#37fc97` (1%), `#66fab4` (6%), `#95f7d0` (11%), `#5cd3d6` (22%), `#40c1d9` (27%), `#23afdc` (33%), `#12a5de` (48%), `#009bdf` (63%), `#0979b1` (78%), `#125783` (93%).
+
+| Paint style | State | Composition |
 | --- | --- | --- |
-| `Amplify Radial` | Radial gradient | Green through blue to deep blue — stops: `#37fc97` (0), `#a5f7d0` (~0), `#23afdc` (0.47), `#09a0de` (0.56), `#009bdf` (0.65), `#125783` (0.97) |
-| `Amplify Radial Hover` | Radial gradient + solid overlay | Same gradient stops as `Amplify Radial`, with a `#065e89` solid overlay on top for the hover state |
+| `Background/Amplify Radial - Translucent` | Translucent | The radial at 20% opacity, for Amplify-related container backgrounds. |
+| `Buttons/Amplify Radial`, `Icon/Amplify Radial` | Default | Full-strength radial fill for Amplify-related buttons and icons. |
+| `…/Amplify Radial - Hover` | Hover / active | The radial with a `#2f2f33` overlay at 20%. |
+| `…/Amplify Radial - Translucent` | Disabled / low-emphasis | The radial at reduced opacity (60% for disabled tiles). |
 
-Notes:
-- Apply the named paint style — do not rebuild the gradient by hand or approximate the stops.
-- Reserve this treatment exclusively for Amplify and AI-assisted features so the cue stays meaningful. Using it decoratively elsewhere would dilute what it signals.
+**Gradient — borders.** A linear version of the same green-to-blue family, applied as a border stroke to outline Amplify-related surfaces without filling them.
+
+| Paint style | State | Composition |
+| --- | --- | --- |
+| `Border/Amplify Gradient` | Default | Green-to-blue gradient border for Amplify-related surfaces. |
+| `Border/Amplify Gradient - Translucent` | Disabled / low-emphasis | The gradient border at reduced strength. |
+
+Usage:
+- Reserve the Amplify treatment exclusively for Amplify and AI-related elements, so the cue stays meaningful. Match the form to the element — radial for fills (backgrounds, buttons, icons), gradient for borders.
+- Apply the named paint style and use the state variants (hover, disabled, translucent) that ship with it. Do not rebuild the gradient by hand or approximate the stops.
+- Use the translucent background when an Amplify surface needs emphasis over the default background — e.g. an inline Amplify alert — rather than a full-strength fill behind reading content.
+- Do not signal Amplify with color alone. Pair the treatment with a label, icon, or established Amplify entry point.
 - Because it lives outside the variable system, it will not update through a primitive change the way token-bound color does. Any change to the Amplify treatment is a direct edit to the paint style.
 
 ### Semantic tokens
