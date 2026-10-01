@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify chat text formatting — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify" title="Chat text formatting" intro="How Amplify chat renders assistant responses using Modern UI text styles. Built for how recruiters use chat: finding candidates, prioritizing job orders, building pipeline, and matching candidates to jobs." meta="Source of truth: Amplify chat text formatting guidelines (Resources) and the Modern UI Design System. Components: amplify-chat/* in Component Migration (Figma).">
+
+<doc-section id="overview" label="Overview" desc="Intent and scope">
+<p>Recruiters use chat mid-workflow and switch context constantly. A response has to make three things obvious at a glance: the answer, the records it came from, and what to do next.</p>
+<ul>
+<li>Every markdown element maps to one Modern UI text style. Nothing renders at a raw size or weight.</li>
+<li>Covers message text, headings, lists, emphasis, tables, record references, sources, follow-ups, feedback, and status.</li>
+<li>Out of scope: composer redesign, Prompt Library, Tools menu, chat history.</li>
+</ul>
+<p class="linkrow"><a href="../resources.html#amplify-references">Download the full guidelines (MD) from Resources →</a></p>
+</doc-section>
+
+<doc-section id="current" label="Current state" desc="What to keep, what to fix">
+<doc-carousel>
+<doc-showcase src="../images/amplify-chat/current-old-ui-thinking.jpg" alt="Old UI, Amplify thinking state" caption="Old UI · thinking state"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/current-old-ui-table.jpg" alt="Old UI, Prospect results table" caption="Old UI · Prospect results table"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/current-new-ui.jpg" alt="New UI, clarifying questions response" caption="New UI · clarifying questions"></doc-showcase>
+</doc-carousel>
+<h3>Keep</h3>
+<ul>
+<li>Clearly separated turns: avatar, name label, and a tinted bubble for the user (Gestalt, figure-ground and common region).</li>
+<li>A light table structure with hairline rows (Gestalt, continuity).</li>
+<li>"Showing 10 of 56 results" makes it clear the list is partial (H1, visibility of system status).</li>
+</ul>
+<h3>Fix</h3>
+<table class="tbl">
+<tr><th>Issue</th><th>Principle</th></tr>
+<tr><td>Response headings are about 28–30px, larger than the panel title and larger than the Modern UI title maximum (24/32)</td><td>Modern UI typography (style by role) · H8</td></tr>
+<tr><td>12 clarifying questions in one reply, answered in free text</td><td>NN/g (ask sparingly) · H6 · H7</td></tr>
+<tr><td>Bold on 2–5 phrases per line</td><td>Gestalt, similarity · Rams 10</td></tr>
+<tr><td>Numbered headings plus list numbering that runs on across sections</td><td>H4 · Gestalt, continuity</td></tr>
+<tr><td>About 110–120 characters per line</td><td>WCAG 1.4.8 (80 max) · Rams 3</td></tr>
+<tr><td>Feedback request written as prose</td><td>Rams 10 · H8</td></tr>
+<tr><td>Memory change buried in the prose, with no View or Undo</td><td>H1 · H3 · AI governors</td></tr>
+<tr><td>Records and IDs in plain text, not links</td><td>H6 · Amplify principle 3</td></tr>
+<tr><td>Next steps asked as a question in prose</td><td>H7 · NN/g truncated pyramid</td></tr>
+<tr><td>Composer covers the response text</td><td>Gestalt, figure-ground · Modern UI elevation</td></tr>
+<tr><td>"Thinking…" status in link blue, and vague</td><td>Gestalt, similarity · H1</td></tr>
+<tr><td>Empty values shown as "—"</td><td>Amplify principle 5</td></tr>
+</table>
+<p class="lead">Sizes are inferred from the screenshots at 1x. The body text samples at about <span class="chip">#2a292d</span>, darker than <span class="chip">color/text/body</span>. This may be anti-aliasing, so check it in code.</p>
+</doc-section>
+<doc-section id="styles" label="Text styles" desc="Markdown to Modern UI mapping">
+<p>Each element the model can output renders in exactly one style. Specimens use the Modern UI sizes and text tokens.</p>
+<div class="spc-list">
+<div class="spc"><div class="s s-title-sm">Needs Attention Today</div><div class="m"><b>Section heading (##)</b><br><span class="chip">title/sm</span> · 600 · 18/24 · Title case<br><span class="chip">color/text/headline</span><br>The largest style in a response, one step below the slideout title <span class="chip">title/md</span></div></div>
+<div class="spc"><div class="s s-body-md h">Waiting on client feedback</div><div class="m"><b>Sub-heading (###)</b><br><span class="chip">body/default-medium</span> · 500 · 14/20<br><span class="chip">color/text/headline</span><br>The smaller heading style for chat</div></div>
+<div class="spc"><div class="s s-body">5 of your 14 open jobs need action today, ranked by start date and open submittals.</div><div class="m"><b>Paragraph</b><br><span class="chip">body/default</span> · 400 · 14/20<br><span class="chip">color/text/body</span></div></div>
+<div class="spc"><div class="s s-body">Starts <span class="s-md">Oct 6</span> with no submittals.</div><div class="m"><b>Bold (**)</b><br><span class="chip">body/default-medium</span> · 500<br><span class="chip">color/text/body</span><br>Never 600 or 700. The color stays the same</div></div>
+<div class="spc"><div class="s s-body"><span class="s-ent" style="background:#bb5566"></span><span class="s-link">Senior Java Developer</span> · <span class="s-ent" style="background:#3399dd"></span><span class="s-link">Verizon</span></div><div class="m"><b>Entity record link</b><br>Link text component, default size · <span class="chip">body/default-medium</span> · 500 · 14/20<br><span class="chip">link-text/color/default</span> · hover <span class="chip">link-text/color/hover</span><br>Entity circle <span class="chip">color/entity/*</span> · gap <span class="chip">link-text/spacing/gap/default</span> (4)</div></div>
+<div class="spc"><div class="s s-label">Job title</div><div class="m"><b>Table header</b><br><span class="chip">input/label/md</span> · 400 · 12/14 · 0.5 tracking · uppercase<br><span class="chip">data-table/color/content/header</span> · no sort or filter in chat</div></div>
+<div class="spc"><div class="s s-body">District Security Director</div><div class="m"><b>Table cell</b><br><span class="chip">input/value/default</span> · 400 · 14/20<br><span class="chip">data-table/color/content/default</span></div></div>
+<div class="spc"><div class="s s-sm-md sec">Amplify</div><div class="m"><b>Name label</b><br><span class="chip">body/sm-medium</span> · 500 · 12/16<br><span class="chip">color/text/secondary</span></div></div>
+<div class="spc"><div class="s s-sm sec">Searching open jobs…</div><div class="m"><b>Status line</b><br><span class="chip">body/sm</span> · 400 · 12/16<br><span class="chip">color/text/secondary</span><br>Not link blue</div></div>
+<div class="spc"><div class="s s-meta sec">Based on 14 job orders · Updated today</div><div class="m"><b>Sources row, citations</b><br><span class="chip">meta/default</span> · 500 · 12/14<br><span class="chip">color/text/secondary</span></div></div>
+<div class="spc"><div class="s s-meta sub">Showing 10 of 56 · Not on file</div><div class="m"><b>Counts, timestamps, empty values</b><br><span class="chip">meta/default</span> · 500 · 12/14<br><span class="chip">color/text/subtle</span></div></div>
+<div class="spc"><div class="s s-body"><div class="s-lit">("Java" OR "J2EE") AND ("Spring Boot" OR "Spring") NOT "Intern"</div></div><div class="m"><b>Literal value block (```)</b><br><span class="chip">body/default</span> on <span class="chip">color/background/muted</span> · 1px <span class="chip">card/color/border/default</span> · radius <span class="chip">border/radius/xsm</span><br>Copy action appears on hover. Long values wrap</div></div>
+</div>
+<doc-callout type="do" heading="Do">use <span class="chip">body/default</span> (14/20) for all reading text. It matches the density of the rest of Bullhorn, as in Linear and Attio.</doc-callout>
+<doc-callout type="dont" heading="Don't">use <span class="chip">title/default</span> or <span class="chip">title/md</span> in a response. Those sizes belong to the app chrome.</doc-callout>
+<doc-callout type="dont" heading="Don't">use italics, ALL CAPS, underline, or colored text for emphasis. Emphasis comes from weight (Modern UI: never signal state with color alone). Use <span class="chip">input/label/*</span> only in table headers, through <span class="chip">novo-data-table</span>.</doc-callout>
+</doc-section>
+
+<doc-section id="structure" label="Headings, lists, emphasis" desc="When to use each">
+<h3>Headings</h3>
+<ul>
+<li>Default to no headings. Use ## only when a reply has 3 or more parts the recruiter will scan between.</li>
+<li>One heading level per reply. Headings are 2–5 words in title case, with no numbering and no trailing punctuation.</li>
+<li>Never open with a heading. The first line is the answer.</li>
+</ul>
+<h3>Lists</h3>
+<ul>
+<li>Use a numbered list only when order means something (rank, priority, steps). Use bullets for everything else.</li>
+<li>One idea per item, at most one level of nesting, and each list starts at 1.</li>
+<li>Avoid runs of very short fragments. Merge them into a sentence or a table row.</li>
+</ul>
+<h3>Emphasis</h3>
+<ul>
+<li>At most one bold phrase per paragraph or item, and only for the fact the recruiter acts on.</li>
+<li>Don't use bold as a heading or bold labels and values in the same line.</li>
+</ul>
+</doc-section>
+<doc-section id="records" label="Records and sources" desc="Links, citations, rationale">
+<ul>
+<li>Every Bullhorn record in a reply is a link that opens the record. Use the record name as the link text. Show the ID as meta text only to tell two records apart (H6; Amplify principle 3).</li>
+<li>When the answer depends on specific records or fields, add a sources row under the reply that expands to the list. HubSpot Breeze, Ashby, and ChatGPT all do this.</li>
+<li>Name the fields a ranking used: "Ranked by start date, submittals, and client priority." Say "Amplify suggests", not "Amplify determined" (Amplify principle 4).</li>
+</ul>
+<h3>Entity links</h3>
+<doc-showcase src="../images/amplify-chat/link-text-entity.png" alt="Link text component in large, default, and small sizes, each with a green candidate circle, in rest and hover states" caption="Link text with entity circle · Component Migration" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=737-11403"></doc-showcase>
+<ul>
+<li>Every entity record link uses the existing link text component, with a circle in the entity's color before the label (<span class="chip">color/entity/candidate</span>, <span class="chip">color/entity/job</span>, <span class="chip">color/entity/company</span>…). Same record type, same color (Gestalt, similarity).</li>
+<li>Chat uses the default size (<span class="chip">body/default-medium</span>, gap 4) everywhere. Small (<span class="chip">body/sm</span>) only inside <span class="chip">body/sm</span> or <span class="chip">meta/default</span> contexts. Large isn't used.</li>
+<li><span class="chip">link-text/color/default</span> at rest, <span class="chip">link-text/color/hover</span> on hover. The circle keeps its entity color in both states.</li>
+<li>Inside a paragraph, the link sits inline and punctuation follows it directly. In the product, render the link text component inline. In Figma, use <span class="chip">amplify-chat/text</span> <span class="chip">type=paragraph-with-links</span>. Figma can't put a component inside a text layer, so that variant styles the link words directly, with a "●" in the entity color joined to the name by a no-break space.</li>
+</ul>
+<!-- Hidden (to be confirmed): <doc-callout type="note" heading="To be confirmed"><span class="chip">color/entity/*</span> tokens are primitive-only today, a known Modern UI gap.</doc-callout> -->
+</doc-section>
+
+<doc-section id="format" label="Choosing a format" desc="Prose, table, cards, draft">
+<table class="tbl">
+<tr><th>Content</th><th>Format</th><th>Why</th></tr>
+<tr><td>A single fact</td><td>1–2 sentences</td><td>Rams 10</td></tr>
+<tr><td>2–10 records compared on the same fields</td><td><span class="chip">novo-data-table</span>, 4 columns docked, 6 full page</td><td>Gestalt, continuity and similarity</td></tr>
+<tr><td>Records to act on one by one</td><td>Record cards (Novo card) with actions</td><td>H7 · Attio and Apollo</td></tr>
+<tr><td>More than 10 records</td><td>First 10, plus a count and a Show more button</td><td>H1</td></tr>
+<tr><td>Steps or a plan</td><td>Numbered list</td><td>Order matters</td></tr>
+<tr><td>Email, note, or JD</td><td>Draft block with Copy / Edit / Use</td><td>Amplify principle 2</td></tr>
+<tr><td>Text to copy exactly (Boolean string, field value, template)</td><td>Literal value block, output as a fenced code block</td><td>H5 · Gestalt, common region</td></tr>
+</table>
+<h3>Tables</h3>
+<doc-showcase src="../images/amplify-chat/novo-data-table.png" alt="novo-data-table component with uppercase headers, sort and filter icons, and row dividers" caption="novo-data-table · Component Migration" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=254-6720"></doc-showcase>
+<table class="tbl">
+<tr><th>Part</th><th>Style or token</th><th>Value</th></tr>
+<tr><td>Header text</td><td><span class="chip">input/label/md</span></td><td class="mono">400 · 12/14 · 0.5 · upper</td></tr>
+<tr><td>Cell text</td><td><span class="chip">input/value/default</span></td><td class="mono">400 · 14/20</td></tr>
+<tr><td>Header text color</td><td><span class="chip">data-table/color/content/header</span></td><td class="mono">#525b63</td></tr>
+<tr><td>Cell text color</td><td><span class="chip">data-table/color/content/default</span></td><td class="mono">#3d464d</td></tr>
+<tr><td>Icons</td><td><span class="chip">data-table/color/icon/default</span></td><td class="mono">#677079</td></tr>
+<tr><td>Row background</td><td><span class="chip">data-table/color/background/default</span></td><td class="mono">#ffffff</td></tr>
+<tr><td>Row divider</td><td><span class="chip">data-table/color/border/default</span> · <span class="chip">border/width/sm</span></td><td class="mono">#dee0e3 · 1px</td></tr>
+<tr><td>Cell padding</td><td><span class="chip">data-table/spacing/padding-vertical</span> · <span class="chip">padding-horizontal</span></td><td class="mono">8 · 16</td></tr>
+<tr><td>Cell gap</td><td><span class="chip">data-table/spacing/gap-cell</span></td><td class="mono">16</td></tr>
+<tr><td>Row min height</td><td><span class="chip">data-table/spacing/min-height</span></td><td class="mono">40</td></tr>
+</table>
+<ul>
+<li>Render every chat table with the existing <span class="chip">novo-data-table</span>. Don't use a custom markdown table style or override its tokens (Modern UI "consistent"; H4).</li>
+<li>Row dividers only, with no vertical lines or outer frame. Left-align all columns, including IDs and phone numbers.</li>
+<li>At most 4 columns in the docked chat and 6 in full-page chat. Columns have no minimum width (the 128 in Figma is a Figma error). The record name goes first.</li>
+<li>No sort or filter controls on chat tables. Header cells show the label only (Rams 10; H8).</li>
+<li>Empty cells read "Not on file" in <span class="chip">color/text/disabled</span>, not "—" (Amplify principle 5). Don't bold cell values. Status goes in the existing tag component, never color alone.</li>
+</ul>
+<h3>Cell types</h3>
+<div class="spc-list">
+<div class="spc"><div class="s s-body">Senior Java Developer</div><div class="m"><b>Default</b><br>Plain values: title, location, date, ID<br><span class="chip">input/value/default</span> · <span class="chip">data-table/color/content/default</span></div></div>
+<div class="spc"><div><img class="cellimg" src="../images/amplify-chat/cell-link.png" alt="Link cell: entity color circle followed by a link label"></div><div class="m"><b>Link</b><br>Record names that open the record<br><span class="chip">body/default-medium</span> · <span class="chip">link-text/color/default</span> · hover <span class="chip">link-text/color/hover</span><br>Entity circle <span class="chip">color/entity/*</span> · gap <span class="chip">link-text/spacing/gap/default</span> (4)</div></div>
+<div class="spc"><div><img class="cellimg" src="../images/amplify-chat/cell-relevancy-dots.png" alt="Relevancy dots: three filled and two outlined"></div><div class="m"><b>Relevancy dots</b><br>Match strength in candidate and job search<br>5 dots: filled <span class="chip">color/blue/medium-blue</span>, empty <span class="chip">color/utility/blue/100</span> with a 1px border · gap <span class="chip">spacing/gap/xsm</span> (4)<br>Needs a text alternative, such as "3 of 5"</div></div>
+</div>
+<ul>
+<li>Use the link cell for the record-name column (H6; Amplify principle 3).</li>
+<li>Put relevancy dots in their own "MATCH" column, and explain what drove the score in the rationale line under the table (Amplify principles 3 and 4).</li>
+</ul>
+<h3>Literal value block</h3>
+<ul>
+<li>Text the recruiter copies exactly (Boolean strings, field values, templates). The model outputs a fenced code block, and the value renders unchanged: no smart quotes, no markdown.</li>
+<li>Container <span class="chip">color/background/muted</span>, 1px <span class="chip">card/color/border/default</span>, radius <span class="chip">border/radius/xsm</span>. Long values wrap; copy takes the original string with no added line breaks.</li>
+<li>On hover the border changes to <span class="chip">chip/color/border/default/hover</span> and the copy action appears (existing <span class="chip">icon-button-no-container</span>, secondary). Copy takes the exact string only (H5).</li>
+<li>Use inline code for short values in a sentence. It has no copy action.</li>
+</ul>
+<h3>Draft block</h3>
+<ul>
+<li>Three sections with <span class="chip">card/color/border/default</span> dividers: a subject row ("Subject:" in <span class="chip">body/sm-medium</span>, then the subject in <span class="chip">body/default</span>), the body, and an actions row.</li>
+<li>Actions use the existing Buttons: Copy and Edit (Secondary, Small) and Use draft (Primary, Small). Hide the subject row for drafts with no subject, such as notes.</li>
+<li>Container <span class="chip">color/background/default</span>, 1px <span class="chip">card/color/border/default</span>, radius <span class="chip">border/radius/xsm</span>. Amplify never sends a draft without the recruiter choosing an action (Amplify principle 2).</li>
+</ul>
+</doc-section>
+
+<doc-section id="status" label="Status and questions" desc="Loading, errors, clarifying">
+<ul>
+<li>Replace "Amplify is thinking…" with a specific step: "Searching open jobs…", then "Ranking 14 job orders…". Attio shows tool activity the same way (H1).</li>
+<li>Show a Stop control while the reply is generating (H3).</li>
+<li>When Amplify can't help, say so in the first line, then give the cause and a fix (NN/g; H9).</li>
+<li>Ask at most 3 clarifying questions per turn. For choice questions, use a card with preset options and an "Other" field, as HubSpot Breeze does (H6; H7).</li>
+</ul>
+</doc-section>
+
+<doc-section id="order" label="Response structure" desc="The order of every reply">
+<ol>
+<li><b>Answer.</b> One sentence: "5 of your 14 open jobs need action today."</li>
+<li><b>Evidence.</b> A list, table, or cards.</li>
+<li><b>Rationale.</b> Optional, one line on how the results were ranked.</li>
+<li><b>Sources row.</b> Meta text.</li>
+<li><b>Follow-ups (optional).</b> 2–3 chips using the existing chip or small secondary button.</li>
+<li><b>Controls.</b> Copy, thumbs up, thumbs down, Save prompt, in that order, using the existing icon buttons.</li>
+</ol>
+<doc-callout type="dont" heading="Don't">write "If this was helpful, please leave a thumbs up/down…" in the reply. The controls already ask for feedback (Rams 10).</doc-callout>
+<doc-callout type="dont" heading="Don't">end with "Want me to open that one…?" Make each next step a follow-up chip (H7).</doc-callout>
+<doc-callout type="do" heading="Do">show memory changes as a status line: "Saved 5 working preferences · View · Undo" (H3; AI governors).</doc-callout>
+</doc-section>
+<doc-section id="spacing" label="Spacing and layout" desc="8-based scale, measure">
+<table class="tbl">
+<tr><th>Relationship</th><th>Token</th><th>Value</th></tr>
+<tr><td>Between list items</td><td><span class="chip">spacing/gap/xsm</span></td><td class="mono">4</td></tr>
+<tr><td>Paragraph to paragraph · heading to content · sources to chips</td><td><span class="chip">spacing/gap/sm</span></td><td class="mono">8</td></tr>
+<tr><td>Paragraph to a block · reply to sources row</td><td><span class="chip">spacing/gap/md</span></td><td class="mono">16</td></tr>
+<tr><td>Above a section heading</td><td><span class="chip">spacing/gap/lg</span></td><td class="mono">24</td></tr>
+<tr><td>Between turns</td><td><span class="chip">spacing/gap/xlg</span></td><td class="mono">32</td></tr>
+<tr><td>List indent</td><td><span class="chip">spacing/padding/md</span></td><td class="mono">16</td></tr>
+<tr><td>User bubble</td><td><span class="chip">spacing/padding/sm</span> / <span class="chip">spacing/padding/md</span></td><td class="mono">8 / 16</td></tr>
+<tr><td>Literal value block</td><td><span class="chip">spacing/padding/sm</span> top, right, bottom · <span class="chip">spacing/padding/md</span> left</td><td class="mono">8 / 16</td></tr>
+<tr><td>Draft block subject and body</td><td><span class="chip">spacing/padding/sm</span> / <span class="chip">spacing/padding/md</span> · subject gap <span class="chip">spacing/gap/sm</span></td><td class="mono">8 / 16 / 8</td></tr>
+<tr><td>Draft block actions row</td><td><span class="chip">spacing/padding/sm</span> · <span class="chip">spacing/gap/sm</span></td><td class="mono">8 / 8</td></tr>
+<tr><td>Table cell</td><td><span class="chip">data-table/spacing/padding-vertical</span> / <span class="chip">padding-horizontal</span></td><td class="mono">8 / 16</td></tr>
+</table>
+<ul>
+<li>The space inside a group is always smaller than the space between groups (Gestalt, proximity).</li>
+<li>Prose max width is about 70ch, roughly 520–560px at <span class="chip">body/default</span>. This is a layout constraint, not a token (WCAG 1.4.8).</li>
+<li>User bubble fill: <span class="chip">color/background/subtle-hover</span>.</li>
+<li>Radius: the user bubble uses <span class="chip">border/radius/sm</span> (8). Literal value blocks and inline literal values use <span class="chip">border/radius/xsm</span> (4).</li>
+<li>The chat panel uses <span class="chip">general/level 3 - right</span>.</li>
+<li>The composer uses <span class="chip">general/level 2 - scroll</span> on <span class="chip">color/background/scroll</span>. The blur keeps it legible over text that scrolls behind it. Bottom padding equals the composer height plus <span class="chip">spacing/padding/md</span> (Gestalt, figure-ground).</li>
+</ul>
+</doc-section>
+
+<doc-section id="examples" label="Workflow examples" desc="Jobs, matching, lookup, pipeline">
+<h3>Prioritize open jobs</h3>
+<p>"5 of your 14 open jobs need action today." Record cards in priority order, with the job and company as entity links. Meta line: "Starts Oct 6 · 0 submittals · Client priority: High". Actions: Find matches, Open job. Follow-ups: Show all 14, Find matches for #1, Why this order?</p>
+<h3>Match candidates to a job</h3>
+<p>"12 candidates match Senior Java Developer (Verizon). Top 5 below." Each candidate shows name (entity link), title, location, and a one-line match reason. Required vs preferred skills are shown with text plus an icon. Add to pipeline asks for confirmation before it writes.</p>
+<h3>Look up a company</h3>
+<p>"Found 56 matches for PepsiCo in Prospect. The corporate entity is PepsiCo (Purchase, NY)." Table of company, HQ, and website with the first 10 shown. Follow-ups: Open PepsiCo, Company snapshot, Show next 10.</p>
+<h3>Build pipeline</h3>
+<p>"Added 6 candidates to Senior Java Developer · Undo", followed by the list of candidates added (links).</p>
+</doc-section>
+
+<doc-section id="sources" label="Sources" desc="Research and references">
+<!-- Hidden (open questions):
+<ul>
+<li>Literal value block: the copy action only appears on hover. How do keyboard and touch users reach it (H6)?</li>
+<li>Modern UI has no monospace style, so literal values render in <span class="chip">body/default</span>. Raise this with the system owners, since monospace is part of what makes code blocks readable.</li>
+<li><span class="chip">color/entity/*</span> is primitive-only until the semantic accent layer exists.</li>
+<li>The renderer has to enforce the mapping (** to <span class="chip">body/default-medium</span>, ``` to the literal value block, removing #### and deeper). Prompt changes alone won't.</li>
+<li><span class="chip">novo-data-table</span> in chat: are row checkboxes and the entity icon column turned off? Sort and filter are off.</li>
+<li>Relevancy dots: filled dots still bind <span class="chip">color/blue/medium-blue</span>, a brand primitive. Is a semantic token planned?</li>
+<li>Numeric columns (counts, pay rates): confirm alignment.</li>
+</ul>
+-->
+<p class="lead">Sources: Amplify Design Reference; Modern UI Design System; <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">Claude</a>; <a href="https://help.openai.com/en/articles/9237897-chatgpt-search">ChatGPT</a>; <a href="https://www.notion.com/help/guides/everything-you-can-do-with-notion-ai">Notion AI</a>; <a href="https://attio.com/help/reference/attio-ai/ask-attio/chat-with-ask-attio">Attio</a>; <a href="https://knowledge.hubspot.com/ai/use-breeze-assistant">HubSpot Breeze</a>; <a href="https://knowledge.apollo.io/hc/en-us/articles/39359204112397-AI-Assistant-Overview">Apollo</a>; <a href="https://www.ashbyhq.com/product-updates/ashby-assistant">Ashby</a>; <a href="https://recruitwithatlas.com/">Atlas</a>; <a href="https://business.linkedin.com/hire/ai-assisted-search-and-projects">LinkedIn Recruiter</a>; <a href="https://www.nngroup.com/articles/less-chat-more-answer/">NN/g</a>; <a href="https://baymard.com/research-articles/line-length-readability">Baymard</a>.</p>
+</doc-section>
+</doc-page>
+
+<style>
+  /* Page-scoped: Modern UI type specimens and cell images (product content, not doc chrome). */
+.spc-list{display:flex;flex-direction:column;gap:16px;margin:8px 0 20px}
+.spc{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start;background:#fff;border:1px solid var(--hairline);border-radius:8px;padding:16px}
+.spc .m{font-size:13px;line-height:1.55;color:var(--ink-2)}
+.spc .m b{color:var(--ink);font-weight:600}
+.s{font-family:"Inter",system-ui,sans-serif;color:#3d464d}
+.s-title-sm{font-size:18px;line-height:24px;font-weight:600;color:#2f2f33}
+.s-body{font-size:14px;line-height:20px;font-weight:400}
+.s-body-md{font-size:14px;line-height:20px;font-weight:500}
+.s-body-md.h{color:#2f2f33}
+.s-md{font-weight:500;color:#2f2f33}
+.s-link{color:#296cc3;font-weight:500}
+.s-sm{font-size:12px;line-height:16px;font-weight:400}
+.s-sm-md{font-size:12px;line-height:16px;font-weight:500}
+.s-meta{font-size:12px;line-height:14px;font-weight:500}
+.sec{color:#525b63}.sub{color:#677079}
+@media(max-width:700px){.spc{grid-template-columns:1fr;gap:8px}}
+.s-lit{background:#f7f8f8;border-radius:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+.s-label{font-size:12px;line-height:14px;font-weight:400;letter-spacing:.5px;text-transform:uppercase;color:#3d464d}
+.cellimg{display:block;width:240px;height:40px;border:1px solid #dee0e3;border-radius:4px}
+.s-ent{display:inline-block;width:8px;height:8px;border-radius:999px;margin-right:4px;vertical-align:1px}
+</style>
+</body>
+</html>

@@ -275,6 +275,9 @@
       {t:"Elevation", href:"/docs/foundations/elevation.html"},
       {t:"Typography", href:"/docs/foundations/typography.html"}
     ]},
+    {label:"Amplify", pages:[
+      {t:"Chat text formatting", href:"/docs/amplify/amplify-chat-text-formatting.html"}
+    ]},
     {label:"Design Decisions", pages:[
       {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html"},
       {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html"}
