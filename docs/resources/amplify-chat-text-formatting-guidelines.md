@@ -280,6 +280,22 @@ All values bind to Modern UI semantic spacing tokens. Use `gap/*` between items 
 - The space inside a group is always smaller than the space between groups (Gestalt proximity; Modern UI spacing rule). For example, heading to content (`gap/sm`) is tighter than the space above the heading (`gap/lg`).
 - Don't use off-scale values. `spacing/12` exists but isn't needed here.
 - Prose max width is about 70ch, roughly 520–560px at `body/default`. Tables and cards can use the full message column (Baymard; WCAG 1.4.8). This is a layout constraint, not a Modern UI token.
+
+Column width:
+
+| Element | Width |
+| --- | --- |
+| Chat column (messages and composer) | 800px max, centered |
+| Prose (answers, paragraphs, lists) | About 70ch, roughly 560px max, left-aligned in the column |
+| Tables, cards, draft and literal value blocks | Full column width |
+| User bubble | Up to 440px, right-aligned |
+| Narrow windows | Column = available width minus `spacing/margin` (24) on each side |
+| Docked chat | No separate column. Content fills the panel minus its side padding; the prose cap still applies |
+
+- Messages, tables and the composer share the same left and right edges, so the conversation reads as one column (Gestalt, continuity).
+- Two widths do two jobs: the column is wide enough for the 6-column table limit (about 133px per column at 800px), and the prose cap keeps paragraphs readable (Baymard; WCAG 1.4.8; H8).
+- 800px leaves about 190px on each side of the 1182px full-page content area, so the chat stays focused instead of stretching edge to edge (Rams 5, unobtrusive).
+- Other AI chat products don't publish their column widths, so 800px is based on the reading-width research, the table column limit, and the composer width, not on a competitor value.
 - The chat panel uses `general/level 3 - right` (Modern UI elevation: the named level for Amplify chat).
 - The composer uses `general/level 2 - scroll` on `color/background/scroll`. This is the level for a transparent container that content scrolls behind. Its background blur keeps it legible over moving text, which fixes today's overlap (Gestalt figure-ground). Add bottom padding equal to the composer height plus `spacing/padding/md` so the last line of a reply can scroll clear.
 - Radius: the user bubble uses `border/radius/sm` (8). The literal value block and inline literal value use `border/radius/xsm` (4). Each component type keeps one radius everywhere it appears (Modern UI elevation: match radius to the surface type).
@@ -338,7 +354,7 @@ All values bind to Modern UI semantic spacing tokens. Use `gap/*` between items 
 - `novo-data-table` in chat: confirm whether row checkboxes and the entity icon column are turned off in chat tables. Sort and filter are off.
 - Relevancy dots now bind `color/utility/blue/100` for empty dots, replacing the deprecated token. Filled dots still bind `color/blue/medium-blue`, a brand primitive. Confirm whether a semantic token is planned (Modern UI: bind components to semantic tokens).
 - Numeric columns (counts, pay rates): the component example only shows left-aligned values. Confirm the alignment rule.
-- Full-page chat: tables allow up to 6 columns. The 70ch prose cap still applies.
+- Docked chat width: the panel width isn't confirmed. Once it is, check whether 4 table columns fit or the docked limit should drop to 3.
 
 ## Sources
 
