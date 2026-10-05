@@ -35,5 +35,6 @@ export class HomePage {
     { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
     { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
     { path: 'list-variations', name: 'List Variations (Toggle, AdvancedSearch, ListHeader, ListDataTable…)', figma: 'List Variations 0LCuwDp7YHGGqK6WiseTRi' },
+    { path: 'sophia-fab', name: 'Sophia FAB', figma: 'Component Migration 6084:152232' },
   ];
 }

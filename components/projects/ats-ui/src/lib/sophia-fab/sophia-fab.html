@@ -1,0 +1,21 @@
+<div class="ats-sophia-fab__targets" [hidden]="!dragging()">
+  @for (t of targets(); track t.spot) {
+    <span class="ats-sophia-fab__target" [class.is-nearest]="t.spot === nearest()" [style.left.px]="t.x" [style.top.px]="t.y"></span>
+  }
+</div>
+<button
+  #btn
+  type="button"
+  class="ats-sophia-fab__btn"
+  [class.is-dragging]="dragging()"
+  [attr.aria-label]="label() ?? 'Sophia — drag to move'"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="endPress($event)"
+  (pointercancel)="endPress($event)"
+  (dragstart)="$event.preventDefault()"
+  (click)="onClick()"
+  (keydown)="onKeydown($event)"
+>
+  <ats-icon name="sophia-icon" [size]="iconSize()" color="var(--color-icon-icon-knockout)" />
+</button>

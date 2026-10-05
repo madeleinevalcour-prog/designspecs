@@ -28,3 +28,5 @@ export * from './lib/list-variations/list-data-table/list-data-table';
 export * from './lib/list-variations/list-data-table-cards/list-data-table-cards';
 export * from './lib/list-variations/list-data-table-container/list-data-table-container';
 export * from './lib/list-variations/list-header/list-header';
+export * from './lib/sophia-fab/sophia-fab-geometry';
+export * from './lib/sophia-fab/sophia-fab';
