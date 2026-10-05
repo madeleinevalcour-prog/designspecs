@@ -1,0 +1,27 @@
+@if (embed()) {
+  <div class="embed" [style.max-width.px]="embedWidth()">
+    <ats-workflow-stepper [steps]="embedSteps()" />
+  </div>
+} @else {
+  <h1>Workflow Stepper</h1>
+  <p class="lede">
+    Angular port of the candidate placement workflow (Figma 589:6990 / 1528:61198). Steps are complete, current or upcoming;
+    the current step can carry a badge. Resize the window or scroll a narrow stepper to see the overflow arrows.
+  </p>
+
+  @for (ex of examples; track ex.title) {
+    <section>
+      <h2>{{ ex.title }}</h2>
+      <p class="note">{{ ex.note }}</p>
+      <ats-workflow-stepper [steps]="ex.steps" />
+    </section>
+  }
+
+  <section>
+    <h2>Overflow</h2>
+    <p class="note">Constrained to 560px. The right arrow appears while there is more to the right; the left arrow appears once scrolled.</p>
+    <div class="narrow">
+      <ats-workflow-stepper [steps]="overflowSteps" />
+    </div>
+  </section>
+}

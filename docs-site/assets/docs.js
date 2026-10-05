@@ -306,7 +306,8 @@
     ]},
     {label:"Components", pages:[
       {t:"Button", href:"/docs/components/button.html"},
-      {t:"Icon", href:"/docs/components/icon.html"}
+      {t:"Icon", href:"/docs/components/icon.html"},
+      {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
     ]},
     {label:"Amplify", pages:[
       {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}
