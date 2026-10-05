@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, booleanAttribute, computed, input } from '@angular/core';
 import {
-  Card, CardActions, CardDetailRow, CardResume, CardVariant, NovoList, NovoListItemNote, NovoListItemSubmission,
+  Card, CardActions, CardDetailRow, CardResume, CardVariant, NovoList, NovoListItemNote, NovoListItemJob,
   NovoListItemTask, RecordDetailsField, RecordDetailsList, ValueWithLabel,
 } from 'ats-ui';
 
@@ -34,7 +34,7 @@ type RowKind = 'text' | 'multi' | 'select' | 'link' | 'all';
  *   columns=…        (record-details-list; default 3)
  */
 @Component({
-  imports: [Card, CardActions, CardDetailRow, CardResume, RecordDetailsList, ValueWithLabel, NgTemplateOutlet, NovoList, NovoListItemNote, NovoListItemTask, NovoListItemSubmission],
+  imports: [Card, CardActions, CardDetailRow, CardResume, RecordDetailsList, ValueWithLabel, NgTemplateOutlet, NovoList, NovoListItemNote, NovoListItemTask, NovoListItemJob],
   selector: 'app-card-page',
   styleUrl: './card-page.css',
   templateUrl: './card-page.html',
@@ -86,9 +86,9 @@ export class CardPage {
   protected readonly noteBody =
     'Tyler is Pre-Registered and available starting June 23, 2026, seeking entry-level cloud/infrastructure roles.';
   protected readonly offerFields = [
-    { icon: 'calendar', text: '7/22/2026, 10:00 AM' },
-    { icon: 'info', text: 'Offer' },
-    { icon: 'user', text: 'Marcus Lee' },
+    { type: 'date' as const, text: '7/22/2026, 10:00 AM' },
+    { type: 'status' as const, text: 'Offer' },
+    { type: 'owner' as const, text: 'Marcus Lee' },
   ];
   protected readonly skills = ['JavaScript', 'React', 'SQL', 'Git', 'Agile', 'RESTful APIs'];
   protected readonly recordFields: RecordDetailsField[] = [
