@@ -17,11 +17,11 @@ import {
  * on one of its placement's spots. Drag it to snap to the nearest spot (drop targets
  * show while dragging), or use the arrow keys to step between spots.
  *
- *   <ats-sophia-fab placement="A" [railWidth]="64" [railZones]="zones" [(spot)]="spot"
+ *   <ats-sophia-fab placement="A" [bowlingAlleyWidth]="64" [bowlingAlleyZones]="zones" [(spot)]="spot"
  *                   (activate)="openChat()" (positionChange)="save($event)" />
  *
- * Placement: A inside the rail (32px) · B screen edges only (56px) · C outside the
- * rail edge (56px). Rail geometry comes in as inputs (no DOM querying).
+ * Placement: A inside the bowling alley (32px) · B screen edges only (56px) · C outside the
+ * bowling alley edge (56px). Bowling alley geometry comes in as inputs (no DOM querying).
  */
 @Component({
   selector: 'ats-sophia-fab',
@@ -37,20 +37,20 @@ export class SophiaFab {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly btn = viewChild.required<ElementRef<HTMLButtonElement>>('btn');
 
-  /** Placement option: A inside the rail · B screen edges · C outside the rail edge. */
+  /** Placement option: A inside the bowling alley · B screen edges · C outside the bowling alley edge. */
   readonly placement = input<SophiaFabPlacement>();
   /** Current spot (two-way). Invalid / unset → the placement's default spot. */
   readonly spot = model<SophiaFabSpot>();
-  /** Rendered rail width in px; option A centers in it (follows hover-peek). */
-  readonly railWidth = input(64, { transform: numberAttribute });
-  /** Committed rail width in px; option C parks 8px outside it. Defaults to railWidth. */
-  readonly railCommittedWidth = input<number | undefined, unknown>(undefined, {
+  /** Rendered bowling alley width in px; option A centers in it (follows hover-peek). */
+  readonly bowlingAlleyWidth = input(64, { transform: numberAttribute });
+  /** Committed bowling alley width in px; option C parks 8px outside it. Defaults to bowlingAlleyWidth. */
+  readonly bowlingAlleyCommittedWidth = input<number | undefined, unknown>(undefined, {
     transform: (v: unknown) => (v == null || v === '' ? undefined : numberAttribute(v)),
   });
-  /** Rail's left offset inside the container, px. */
-  readonly railLeft = input(0, { transform: numberAttribute });
-  /** Occupied vertical ranges in the rail (container px); option A docks in the gaps. */
-  readonly railZones = input<SophiaFabZone[]>([]);
+  /** Bowling alley’s left offset inside the container, px. */
+  readonly bowlingAlleyLeft = input(0, { transform: numberAttribute });
+  /** Occupied vertical ranges in the bowling alley (container px); option A docks in the gaps. */
+  readonly bowlingAlleyZones = input<SophiaFabZone[]>([]);
   /** Accessible name. Default "Sophia — drag to move". */
   readonly label = input<string>();
 
@@ -79,10 +79,10 @@ export class SophiaFab {
   private readonly centers = computed(() => {
     const { w, h } = this.box();
     return sophiaFabSpotCenters(this.resolvedPlacement(), w, h, {
-      left: this.railLeft(),
-      width: this.railWidth(),
-      committedWidth: this.railCommittedWidth() ?? this.railWidth(),
-      zones: this.railZones(),
+      left: this.bowlingAlleyLeft(),
+      width: this.bowlingAlleyWidth(),
+      committedWidth: this.bowlingAlleyCommittedWidth() ?? this.bowlingAlleyWidth(),
+      zones: this.bowlingAlleyZones(),
     });
   });
 

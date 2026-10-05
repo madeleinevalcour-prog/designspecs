@@ -11,8 +11,8 @@ p.lede { color: #5d7798; margin: 0 0 20px; font-size: 14px; max-width: 80ch; }
   background: var(--color-background-muted);
   border: 1px solid #f0f5f9; border-radius: 12px;
 }
-/* stand-in rail (not the real Rail component) */
-.rail {
+/* stand-in bowling alley (not the real BowlingAlley component) */
+.mock-bowling-alley {
   position: absolute; left: 0; top: 0; bottom: 0; z-index: 30;
   background: var(--color-background-default);
   box-shadow: var(--elevation-3);

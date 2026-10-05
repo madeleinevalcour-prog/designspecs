@@ -16,46 +16,46 @@
   <doc-section id="overview" label="Overview">
     <p class="lead" style="max-width:60ch">Sophia FAB opens the Sophia support chatbot. It’s a round blue button that floats over the page and always sits on one of a fixed set of spots.</p>
     <p>Three placement options are under review. Each defines its own spots and size. People drag the button to move it; it snaps to the nearest spot.</p>
-    <p>In the examples, the gray column is a stand-in for the bowling-alley rail. Its darker blocks mark what the rail is showing (nav, open tabs, foot).</p>
-    <doc-example src="sophia-fab?placement=A" caption="Option A, default spot (rail bottom)" height="400"></doc-example>
+    <p>In the examples, the gray column is a stand-in for the bowling alley. Its darker blocks mark what the bowling alley is showing (nav, open tabs, foot).</p>
+    <doc-example src="sophia-fab?placement=A" caption="Option A, default spot (bowling alley bottom)" height="400"></doc-example>
   </doc-section>
 
   <doc-section id="placement" label="Placement options" desc="A, B and C">
     <table class="tbl">
       <thead><tr><th>Option</th><th>Size</th><th>Spots</th><th>Default spot</th></tr></thead>
       <tbody>
-        <tr><td>A · Inside the rail</td><td>32px, 16px icon</td><td>Rail top, rail bottom, bottom-center, right-middle, right-bottom</td><td>Rail bottom</td></tr>
+        <tr><td>A · Inside the bowling alley</td><td>32px, 16px icon</td><td>Bowling alley top, bowling alley bottom, bottom-center, right-middle, right-bottom</td><td>Bowling alley bottom</td></tr>
         <tr><td>B · Screen edges only</td><td>56px, 24px icon</td><td>Bottom-center, right-middle, right-bottom</td><td>Right-bottom</td></tr>
-        <tr><td>C · Outside the rail</td><td>56px, 24px icon</td><td>Edge top, edge bottom, bottom-center, right-middle, right-bottom</td><td>Edge bottom</td></tr>
+        <tr><td>C · Outside the bowling alley</td><td>56px, 24px icon</td><td>Edge top, edge bottom, bottom-center, right-middle, right-bottom</td><td>Edge bottom</td></tr>
       </tbody>
     </table>
     <p>Screen spots sit 24px from the stage edges in every option.</p>
 
-    <h3>A · Inside the rail</h3>
-    <p>The rail spots are centered in the rail and move with it when it opens or closes. The top spot docks below the open tabs and the bottom spot docks above the rail foot, keeping 16px clear of every rail item, so the button never covers them.</p>
-    <doc-example src="sophia-fab?placement=A&amp;spot=left-top" caption="Option A, rail top: docked below the open tabs" height="400"></doc-example>
-    <doc-example src="sophia-fab?placement=A&amp;spot=left-top&amp;tabs=0" caption="Option A, rail top with no tabs open" height="400"></doc-example>
-    <doc-example src="sophia-fab?placement=A&amp;rail=open" caption="Option A, rail open" height="400"></doc-example>
+    <h3>A · Inside the bowling alley</h3>
+    <p>The bowling alley spots are centered in the bowling alley and move with it when it opens or closes. The top spot docks below the open tabs and the bottom spot docks above the bowling alley foot, keeping 16px clear of every bowling alley item, so the button never covers them.</p>
+    <doc-example src="sophia-fab?placement=A&amp;spot=left-top" caption="Option A, bowling alley top: docked below the open tabs" height="400"></doc-example>
+    <doc-example src="sophia-fab?placement=A&amp;spot=left-top&amp;tabs=0" caption="Option A, bowling alley top with no tabs open" height="400"></doc-example>
+    <doc-example src="sophia-fab?placement=A&amp;bowlingAlley=open" caption="Option A, bowling alley open" height="400"></doc-example>
 
     <h3>B · Screen edges only</h3>
-    <p>No spot is tied to the rail, so opening, closing or hovering the rail has no effect on the button.</p>
+    <p>No spot is tied to the bowling alley, so opening, closing or hovering the bowling alley has no effect on the button.</p>
     <doc-example src="sophia-fab?placement=B" caption="Option B, default spot (right-bottom)" height="400"></doc-example>
     <doc-example src="sophia-fab?placement=B&amp;spot=bottom-center" caption="Option B, bottom-center" height="400"></doc-example>
 
-    <h3>C · Outside the rail</h3>
-    <p>The two left spots park 8px outside the rail’s edge: the top one level with right-middle, the bottom one 24px from the bottom. They follow the committed rail state only. A hover-peek leaves them in place and the expanding rail covers the button; pinning the rail open shifts them right with the rail.</p>
+    <h3>C · Outside the bowling alley</h3>
+    <p>The two left spots park 8px outside the bowling alley’s edge: the top one level with right-middle, the bottom one 24px from the bottom. They follow the committed bowling alley state only. A hover-peek leaves them in place and the expanding bowling alley covers the button; pinning the bowling alley open shifts them right with it.</p>
     <doc-example src="sophia-fab?placement=C" caption="Option C, default spot (edge bottom)" height="400"></doc-example>
-    <doc-example src="sophia-fab?placement=C&amp;rail=open&amp;spot=edge-top" caption="Option C, edge top with the rail open" height="400"></doc-example>
+    <doc-example src="sophia-fab?placement=C&amp;bowlingAlley=open&amp;spot=edge-top" caption="Option C, edge top with the bowling alley open" height="400"></doc-example>
   </doc-section>
 
   <doc-section id="moving" label="Moving it">
     <ul>
       <li>Press and drag. After 4px of movement the button lifts (scales to 110%, darker blue, extra shadow) and follows the pointer, and a dashed ring appears on every spot of the current option.</li>
-      <li>The ring nearest the pointer fills light blue. Release to snap to it with the .18s ease the rail uses.</li>
+      <li>The ring nearest the pointer fills light blue. Release to snap to it with the .18s ease the bowling alley uses.</li>
       <li>A press without real movement doesn’t move the button; it counts as a click.</li>
       <li>From the keyboard, focus the button and use the arrow keys to step to the nearest spot in that direction.</li>
     </ul>
-    <p>Open the live example to try dragging; the full reference page also has the placement switcher and rail toggles.</p>
+    <p>Open the live example to try dragging; the full reference page also has the placement switcher and bowling alley toggles.</p>
     <doc-example src="sophia-fab?placement=A&amp;tabs=1" caption="Drag the button between spots" height="400"></doc-example>
   </doc-section>
 
@@ -97,15 +97,15 @@
   </doc-section>
 
   <doc-section id="code" label="In code" desc="For engineering">
-    <p>The component lives in the <span class="chip">ats-ui</span> Angular library. Put it inside the positioned page stage: it fills that container as a click-through layer and positions the button within it. Pass the rail’s geometry in; the component doesn’t look at the rail itself.</p>
+    <p>The component lives in the <span class="chip">ats-ui</span> Angular library. Put it inside the positioned page stage: it fills that container as a click-through layer and positions the button within it. Pass the bowling alley’s geometry in; the component doesn’t look at the bowling alley itself.</p>
     <doc-code caption="Angular">
       &lt;div class="stage" style="position: relative"&gt;
-        &lt;app-rail /&gt;
+        &lt;app-bowling-alley /&gt;
         &lt;ats-sophia-fab
           placement="A"
           [(spot)]="sophiaSpot"
-          [railWidth]="railOpen ? 258 : 64"
-          [railZones]="railZones"
+          [bowlingAlleyWidth]="bowlingAlleyOpen ? 258 : 64"
+          [bowlingAlleyZones]="bowlingAlleyZones"
           (activate)="openSophia()"
           (positionChange)="onSophiaMoved($event)" /&gt;
       &lt;/div&gt;
@@ -115,10 +115,10 @@
       <tbody>
         <tr><td><span class="chip">placement</span></td><td>A · B · C (<span class="chip">SophiaFabPlacement</span>)</td><td>A</td></tr>
         <tr><td><span class="chip">spot</span> (two-way)</td><td>left-top · left-bottom · edge-top · edge-bottom · bottom-center · right-middle · right-bottom. A spot the placement doesn’t have falls back to its default.</td><td>The placement’s default</td></tr>
-        <tr><td><span class="chip">railWidth</span></td><td>Rendered rail width in px. Option A centers in it, including during a hover-peek.</td><td>64</td></tr>
-        <tr><td><span class="chip">railCommittedWidth</span></td><td>Committed (pinned) rail width in px. Option C parks 8px outside it.</td><td><span class="chip">railWidth</span></td></tr>
-        <tr><td><span class="chip">railLeft</span></td><td>Rail’s left offset inside the stage, px</td><td>0</td></tr>
-        <tr><td><span class="chip">railZones</span></td><td><span class="chip">{ top, bottom }[]</span>: occupied rail ranges in stage px. Option A docks in the gaps.</td><td>[]</td></tr>
+        <tr><td><span class="chip">bowlingAlleyWidth</span></td><td>Rendered bowling alley width in px. Option A centers in it, including during a hover-peek.</td><td>64</td></tr>
+        <tr><td><span class="chip">bowlingAlleyCommittedWidth</span></td><td>Committed (pinned) bowling alley width in px. Option C parks 8px outside it.</td><td><span class="chip">bowlingAlleyWidth</span></td></tr>
+        <tr><td><span class="chip">bowlingAlleyLeft</span></td><td>Bowling alley’s left offset inside the stage, px</td><td>0</td></tr>
+        <tr><td><span class="chip">bowlingAlleyZones</span></td><td><span class="chip">{ top, bottom }[]</span>: occupied bowling alley ranges in stage px. Option A docks in the gaps.</td><td>[]</td></tr>
         <tr><td><span class="chip">label</span></td><td>Accessible name</td><td>Sophia — drag to move</td></tr>
       </tbody>
     </table>
@@ -126,7 +126,7 @@
       <thead><tr><th>Output</th><th>Payload</th><th>When</th></tr></thead>
       <tbody>
         <tr><td><span class="chip">spotChange</span></td><td><span class="chip">SophiaFabSpot</span></td><td>After a drop on a new spot, or an arrow-key move</td></tr>
-        <tr><td><span class="chip">positionChange</span></td><td><span class="chip">{ spot, x, y }</span>: center in stage px</td><td>Every time the button settles: first placement, drop, keyboard move, rail or stage change</td></tr>
+        <tr><td><span class="chip">positionChange</span></td><td><span class="chip">{ spot, x, y }</span>: center in stage px</td><td>Every time the button settles: first placement, drop, keyboard move, bowling alley or stage change</td></tr>
         <tr><td><span class="chip">activate</span></td><td>—</td><td>Click, Enter or Space that wasn’t the end of a drag</td></tr>
       </tbody>
     </table>

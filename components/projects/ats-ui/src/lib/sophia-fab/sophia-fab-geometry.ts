@@ -7,16 +7,16 @@ export type SophiaFabSpot =
   | 'edge-top' | 'edge-bottom'
   | 'bottom-center' | 'right-middle' | 'right-bottom';
 
-/** An occupied vertical range inside the rail (container px), e.g. the nav, open tabs, rail foot. */
+/** An occupied vertical range inside the bowling alley (container px), e.g. the nav, open tabs, bowling alley foot. */
 export interface SophiaFabZone { top: number; bottom: number; }
 /** Where the FAB settled: its spot plus its center point in container px. */
 export interface SophiaFabPosition { spot: SophiaFabSpot; x: number; y: number; }
 
 export interface SophiaFabPt { x: number; y: number; }
 
-export const SOPHIA_FAB_GUTTER = 16;   // option A: clearance from rail zones (spacing scale)
+export const SOPHIA_FAB_GUTTER = 16;   // option A: clearance from bowling alley zones (spacing scale)
 export const SOPHIA_FAB_EDGE = 24;     // screen-edge offset
-export const SOPHIA_FAB_PARK_GAP = 8;  // option C: gap between the rail edge and the FAB
+export const SOPHIA_FAB_PARK_GAP = 8;  // option C: gap between the bowling alley edge and the FAB
 export const SOPHIA_FAB_DRAG_THRESHOLD = 4; // px of movement before a press becomes a drag
 
 /** Spots per placement option, and the spot each falls back to. */
@@ -26,18 +26,18 @@ export const SOPHIA_FAB_OPTIONS: Record<SophiaFabPlacement, { spots: SophiaFabSp
   C: { spots: ['edge-top', 'edge-bottom', 'bottom-center', 'right-middle', 'right-bottom'], fallback: 'edge-bottom', size: 56 },
 };
 
-export interface SophiaFabRail {
-  /** Rail's left offset in the container. */
+export interface SophiaFabBowlingAlley {
+  /** Bowling alley’s left offset in the container. */
   left: number;
-  /** Rendered rail width (option A follows it, including a hover-peek). */
+  /** Rendered bowling alley width (option A follows it, including a hover-peek). */
   width: number;
-  /** Committed rail width (option C follows it; ignores hover-peek). */
+  /** Committed bowling alley width (option C follows it; ignores hover-peek). */
   committedWidth: number;
-  /** Occupied zones in the rail (option A docks in the gaps between them). */
+  /** Occupied zones in the bowling alley (option A docks in the gaps between them). */
   zones: SophiaFabZone[];
 }
 
-/** Free vertical ranges for the FAB center along the rail (container height = rail height). */
+/** Free vertical ranges for the FAB center along the bowling alley (container height = bowling alley height). */
 function freeRanges(size: number, height: number, zones: SophiaFabZone[]): [number, number][] {
   const lo = SOPHIA_FAB_GUTTER, hi = height - SOPHIA_FAB_GUTTER;
   const ranges: [number, number][] = [];
@@ -63,7 +63,7 @@ function nearestFree(target: number, ranges: [number, number][]): number {
 
 /** Center point of every spot of a placement option, for a container of `w` × `h`. */
 export function sophiaFabSpotCenters(
-  placement: SophiaFabPlacement, w: number, h: number, rail: SophiaFabRail,
+  placement: SophiaFabPlacement, w: number, h: number, bowlingAlley: SophiaFabBowlingAlley,
 ): Partial<Record<SophiaFabSpot, SophiaFabPt>> {
   const size = SOPHIA_FAB_OPTIONS[placement].size;
   const half = size / 2;
@@ -75,14 +75,14 @@ export function sophiaFabSpotCenters(
   };
   if (placement === 'B') return screen;
   if (placement === 'C') {
-    const edgeX = rail.left + rail.committedWidth + SOPHIA_FAB_PARK_GAP + half;
+    const edgeX = bowlingAlley.left + bowlingAlley.committedWidth + SOPHIA_FAB_PARK_GAP + half;
     return { 'edge-top': { x: edgeX, y: h / 2 }, 'edge-bottom': { x: edgeX, y: bottom }, ...screen };
   }
-  const ranges = freeRanges(size, h, rail.zones);
-  const railX = rail.left + rail.width / 2;
+  const ranges = freeRanges(size, h, bowlingAlley.zones);
+  const bowlingAlleyX = bowlingAlley.left + bowlingAlley.width / 2;
   return {
-    'left-top': { x: railX, y: nearestFree(0, ranges) },
-    'left-bottom': { x: railX, y: nearestFree(h, ranges) },
+    'left-top': { x: bowlingAlleyX, y: nearestFree(0, ranges) },
+    'left-bottom': { x: bowlingAlleyX, y: nearestFree(h, ranges) },
     ...screen,
   };
 }
