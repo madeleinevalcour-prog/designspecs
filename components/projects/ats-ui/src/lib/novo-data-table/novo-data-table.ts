@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { Icon } from '../icon/icon';
+import { Checkbox } from '../checkbox/checkbox';
 import { NovoDataTableCell } from './novo-data-table-cell';
 import { NovoDataTableHeaderCell } from './novo-data-table-header-cell';
 
@@ -78,7 +79,7 @@ export class NovoDataTableCellDef {
  */
 @Component({
   selector: 'ats-novo-data-table',
-  imports: [NgTemplateOutlet, Icon, NovoDataTableCell, NovoDataTableHeaderCell],
+  imports: [NgTemplateOutlet, Icon, Checkbox, NovoDataTableCell, NovoDataTableHeaderCell],
   templateUrl: './novo-data-table.html',
   styleUrl: './novo-data-table.css',
   encapsulation: ViewEncapsulation.None,

@@ -4,10 +4,8 @@
       @if (checkbox()) {
         <th class="ats-ndt-th ats-ndt-th--check" scope="col">
           <div class="ats-ndt-cell ats-ndt-cell--check">
-            <!-- TODO: swap to ats Checkbox -->
             <input
-              class="ats-ndt-check"
-              type="checkbox"
+              ats-checkbox
               aria-label="Select all"
               [checked]="allSelected()"
               [indeterminate]="someSelected()"
@@ -32,10 +30,8 @@
         @if (checkbox()) {
           <td class="ats-ndt-td ats-ndt-td--check">
             <div class="ats-ndt-cell ats-ndt-cell--check">
-              <!-- TODO: swap to ats Checkbox -->
               <input
-                class="ats-ndt-check"
-                type="checkbox"
+                ats-checkbox
                 [attr.aria-label]="rowLabel(row)"
                 [checked]="selected().has(i)"
                 (change)="toggleRow(i, $any($event.target).checked)"
