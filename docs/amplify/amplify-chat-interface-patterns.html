@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Amplify chat text formatting — Modern UI Design System</title>
+<title>Amplify chat interface patterns — Modern UI Design System</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
@@ -11,17 +11,154 @@
 <script src="../../assets/docs.js" defer></script>
 </head>
 <body>
-<doc-page rail eyebrow="Amplify" title="Chat text formatting" intro="How Amplify chat renders assistant responses using Modern UI text styles. Built for how recruiters use chat: finding candidates, prioritizing job orders, building pipeline, and matching candidates to jobs." meta="Source of truth: Amplify chat text formatting guidelines (Resources) and the Modern UI Design System. Components: amplify-chat/* in Component Migration (Figma).">
+<doc-page rail eyebrow="Amplify" title="Chat interface patterns" intro="How Amplify chat responses are structured, which components they use and when, and how chat behaves across surfaces." meta="Source of truth: Amplify chat interface patterns (Resources) and the Modern UI Design System. Components: amplify-chat/* in Component Migration (Figma).">
 
-<doc-section id="overview" label="Overview" desc="Intent and scope">
-<p>Recruiters use chat mid-workflow and switch context constantly. A response has to make three things obvious at a glance: the answer, the records it came from, and what to do next.</p>
+<doc-section id="overview" label="Overview" desc="What this page covers">
+<p>How Amplify chat looks and behaves: the structure of a response, the components a response is built from, how chat works across docked, full-page and pop over surfaces, and the text, spacing and layout rules behind them. Use it when designing Amplify chat into your area, building the chat renderer, or writing prompts that control output format.</p>
 <ul>
-<li>Every markdown element maps to one Modern UI text style. Nothing renders at a raw size or weight.</li>
-<li>Covers message text, headings, lists, emphasis, tables, record references, sources, follow-ups, feedback, and status.</li>
-<li>Out of scope: composer redesign, Prompt Library, Tools menu, chat history.</li>
+<li>Start with <a href="#response-structure">Response structure</a> and <a href="#components">Response components</a> to decide what a reply contains.</li>
+<li>Use the later sections for exact text styles, tokens, spacing and behavior.</li>
+<li>Components live in the "new amplify chat components" section of the Component Migration file (<span class="chip">amplify-chat/*</span>).</li>
+<li>Not covered: composer redesign, Prompt Library, Tools menu, and Digital Worker output outside chat.</li>
 </ul>
 <p class="linkrow"><a href="../resources.html#amplify-references">Download the full guidelines (MD) from Resources →</a></p>
 <p class="linkrow"><a href="#appendix-current-state">See the current state analysis behind these guidelines →</a></p>
+</doc-section>
+
+<doc-section id="response-structure" label="Response structure" desc="The parts of every reply">
+<p>Every reply follows the same top-to-bottom order, so replies are predictable to scan and the answer always comes first (NN/g truncated pyramid; Gestalt continuity).</p>
+<figure class="anno">
+<div class="anno-wrap">
+<img src="../images/amplify-chat/response-structure.png" alt="An Amplify reply listing 5 Comcast contacts in a data table, with labeled parts">
+<span class="mk" style="top:6%">1</span><span class="mk" style="top:15.5%">2</span><span class="mk" style="top:23.6%">3</span><span class="mk" style="top:33.7%">4</span><span class="mk" style="top:40.7%">5</span><span class="mk" style="top:77.3%">6</span><span class="mk" style="top:85.2%">7</span><span class="mk" style="top:90.6%">8</span><span class="mk" style="top:97.2%">9</span>
+</div>
+<figcaption>Prospect contacts reply · <a href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6267-181805" target="_blank" rel="noopener">Open frame in Figma ↗</a></figcaption>
+</figure>
+<ol class="anno-key">
+<li><b>User message.</b> <span class="chip">amplify-chat/user-bubble</span>, right-aligned. <span class="tag">Always</span></li>
+<li><b>Identity.</b> Amplify icon and name. <span class="tag">Always</span></li>
+<li><b>Answer.</b> One sentence stating the result, with records as inline entity links. <span class="tag">Always</span></li>
+<li><b>Section heading.</b> Only when the reply has 3 or more parts to scan between. <span class="tag opt">Optional</span></li>
+<li><b>Evidence.</b> A <a href="#data-table">data table</a>, <a href="#cards">cards</a> or a <a href="#lists">list</a>. <span class="tag opt">Optional</span></li>
+<li><b>Selection bar.</b> Selected count and the bulk action. Only when rows or cards are selected. <span class="tag opt">Optional</span></li>
+<li><b>Sources row.</b> When the answer uses records. <span class="tag opt">Optional</span></li>
+<li><b>Follow-up chips.</b> 2–3 next steps instead of "Want me to…?" in prose. <span class="tag opt">Optional</span></li>
+<li><b>Message controls.</b> Copy, thumbs up, thumbs down, Save prompt. <span class="tag">Always</span></li>
+</ol>
+<ul>
+<li>Also optional: a rationale line under the evidence (how it was ranked or filtered), and a <a href="#draft-block">draft block</a> or <a href="#literal-value-block">literal value block</a>.</li>
+<li>While generating, a status line names the current step ("Searching open jobs…") with a Stop control. Memory changes show as a status line with View and Undo.</li>
+<li>Never in a reply: filler openers, feedback requests in prose, more than 3 clarifying questions, numbered headings, or a retry control.</li>
+<li>The smallest reply is identity, a one-sentence answer and the controls (Rams 10).</li>
+</ul>
+</doc-section>
+
+<doc-section id="components" label="Response components" desc="Prose, lists, tables, cards, blocks">
+<h3 id="choosing-a-format">Choosing a format</h3>
+<table class="tbl">
+<tr><th>Content</th><th>Format</th><th>Why</th></tr>
+<tr><td>A single fact or short answer</td><td><a href="#prose">Prose</a>, 1–2 sentences</td><td>Rams 10</td></tr>
+<tr><td>Steps, a plan, or a ranked shortlist without extra fields</td><td><a href="#lists">Lists</a></td><td>Order matters</td></tr>
+<tr><td>2–10 records compared on the same fields</td><td><a href="#data-table">Data table</a>, 4 columns docked, 6 full page</td><td>Gestalt, continuity and similarity</td></tr>
+<tr><td>Records that need explaining or acting on one by one</td><td><a href="#cards">Cards</a>, 3 by default, 5 max</td><td>H7 · Amplify principle 3</td></tr>
+<tr><td>More than 10 records</td><td><a href="#data-table">Data table</a> with the first 10, a count and a Show more chip</td><td>H1</td></tr>
+<tr><td>Email, note, or JD to edit</td><td><a href="#draft-block">Draft block</a></td><td>Amplify principle 2</td></tr>
+<tr><td>Text to copy exactly (Boolean string, field value, template)</td><td><a href="#literal-value-block">Literal value block</a></td><td>H5 · Gestalt, common region</td></tr>
+</table>
+
+<h3 id="prose">Prose</h3>
+<doc-showcase src="../images/amplify-chat/component-text.png" alt="amplify-chat/text variants: paragraph, status, and paragraph with inline entity links" caption="amplify-chat/text · paragraph, status, paragraph-with-links" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6148-20800"></doc-showcase>
+<ul>
+<li>Paragraphs use <span class="chip">amplify-chat/text</span>: <span class="chip">type=paragraph</span> for plain text, <span class="chip">type=paragraph-with-links</span> when the text names records.</li>
+<li>The first paragraph is the answer. Keep paragraphs to 2–3 sentences (NN/g). Text styles and emphasis rules are under <a href="#styles">Text styles</a> and <a href="#structure">Headings, lists, emphasis</a>.</li>
+</ul>
+
+<h3 id="lists">Lists</h3>
+<doc-showcase src="../images/amplify-chat/component-numbered-list.png" alt="amplify-chat/numbered-list with three items" caption="amplify-chat/numbered-list" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6148-20804"></doc-showcase>
+<ul>
+<li>Numbered lists (<span class="chip">amplify-chat/numbered-list</span>) only when order means something: rank, priority, steps. Bullets for everything else (H2).</li>
+<li>One idea per item, at most one level of nesting, and each list starts at 1. At least 2 items.</li>
+</ul>
+
+<h3 id="data-table">Data table</h3>
+<doc-showcase src="../images/amplify-chat/component-data-table.png" alt="amplify-chat/data-table default and selected variants, with checkboxes, preview icons and the selection bar" caption="amplify-chat/data-table · default and selected" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183099"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/record-preview-slideout.png" alt="Full-page chat with a contacts data table; the preview icon has opened the record slideout on the right while chat stays open" caption="Preview icon opens the record slideout · amplify-chat/data-table" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183099"></doc-showcase>
+<ul>
+<li>Component: <a href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183099" target="_blank" rel="noopener"><span class="chip">amplify-chat/data-table</span> ↗</a>, built on <span class="chip">novo-data-table</span>, with <span class="chip">default</span> and <span class="chip">selected</span> variants. Where it can't be used, match its styling exactly.</li>
+<li>Compare or scan 2–10 records on the same short fields. Max 4 columns docked, 6 full page; max 10 rows, then "Showing 10 of N" and a Show more chip.</li>
+<li>When the table references records, each row has the preview icon (binoculars) after the checkbox. Preview opens the record slideout with chat still open; the record name link opens the record's full page (H7; Amplify principle 2).</li>
+<li>No sort or filter controls. Checkboxes only when the reply offers a bulk action (see <a href="#selection">Selection and bulk actions</a>).</li>
+<li>Record name first, as an entity link. Left-align all columns. Row dividers only. Empty values read "Not on file" in <span class="chip">color/text/disabled</span>.</li>
+<li>Header <span class="chip">input/label/md</span> in <span class="chip">data-table/color/content/header</span>; cells <span class="chip">input/value/default</span> in <span class="chip">data-table/color/content/default</span>; padding <span class="chip">data-table/spacing/padding-vertical</span> (8) and <span class="chip">padding-horizontal</span> (16); row min height 40.</li>
+<li>Match indicators belong to their feature: relevancy dots for candidate search, the "Strong Match" chip for Prospect. They never appear in the same reply.</li>
+</ul>
+
+<h3 id="cards">Cards</h3>
+<doc-showcase src="../images/amplify-chat/component-chat-cards.png" alt="amplify-chat/chat-cards default and selected variants with relevance signals and the selection bar" caption="amplify-chat/chat-cards · default and selected" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183686"></doc-showcase>
+<p>Component: <span class="chip">amplify-chat/chat-cards</span>, a stack of <span class="chip">amplify-chat/chat-list-item</span> cards built on the Modern UI list-item, with <span class="chip">default</span> and <span class="chip">selected</span> variants. Use cards instead of a table when:</p>
+<ul>
+<li>Each record needs a reason it was picked, such as relevance signals (Amplify principle 3).</li>
+<li>A record has several values of one kind: signals, tags, contact methods (Gestalt, common region).</li>
+<li>The recruiter will act on records one by one (H7), or the records are of different types (H4).</li>
+</ul>
+<p>Otherwise use a table. When it's unclear, use a table (Rams 10).</p>
+<table class="tbl">
+<tr><th>Card limits</th><th>Recommendation</th></tr>
+<tr><td>Default</td><td>3 cards. About 150px each, so 3 plus the answer fit in the visible full-page chat area</td></tr>
+<tr><td>Maximum</td><td>5 cards. Past 5, the answer and sources move off screen (NN/g truncated pyramid)</td></tr>
+<tr><td>More results</td><td>Top 3, then a "Show N more" chip. Above 5, use a table (10-row cap) or link to the list view</td></tr>
+<tr><td>Order</td><td>Rank by relevance, and state how in the rationale line</td></tr>
+</table>
+<p class="lead">Show any one set of records in one format only: cards or a table.</p>
+
+<h3 id="selection">Selection and bulk actions</h3>
+<doc-showcase src="../images/amplify-chat/component-selection-split-button.png" alt="Primary split button reading Add 5 Contacts with a dropdown" caption="amplify-chat/selection-split-button" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528"></doc-showcase>
+<p>Data tables and cards share one selection pattern.</p>
+<ul>
+<li>Show checkboxes only when the reply offers a bulk action, such as adding prospect contacts to the ATS (Rams 10). The table header checkbox selects all visible rows.</li>
+<li>When one or more rows or cards are selected, a selection bar appears at the bottom (the <span class="chip">selected</span> variant): the count on the left ("5 of 5 selected") and a primary split button on the right that names the action and count ("Add 5 Contacts"), with related actions in the dropdown.</li>
+<li>The count updates with the selection. With nothing selected, the bar is hidden.</li>
+<li>The action runs only on click. Selecting never writes to the ATS on its own (Amplify principle 2; H5).</li>
+</ul>
+
+<h3 id="draft-block">Draft block</h3>
+<doc-showcase src="../images/amplify-chat/component-draft-block.png" alt="amplify-chat/draft-block with subject, body and Copy, Edit, Use draft buttons" caption="amplify-chat/draft-block" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20803"></doc-showcase>
+<ul>
+<li>Three sections with <span class="chip">card/color/border/default</span> dividers: a subject row ("Subject:" in <span class="chip">body/sm-medium</span>, then the subject in <span class="chip">body/default</span>), the body, and an actions row.</li>
+<li>Actions use the existing Buttons: Copy and Edit (Secondary, Small) and Use draft (Primary, Small). Hide the subject row for drafts with no subject, such as notes.</li>
+<li>Container <span class="chip">color/background/default</span>, 1px <span class="chip">card/color/border/default</span>, radius <span class="chip">border/radius/xsm</span>. Amplify never sends a draft without the recruiter choosing an action (Amplify principle 2).</li>
+</ul>
+<h3 id="literal-value-block">Literal value block</h3>
+<doc-showcase src="../images/amplify-chat/component-literal-value-block.png" alt="amplify-chat/literal-value-block default and hover states with a Boolean string" caption="amplify-chat/literal-value-block · default and hover" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6152-117821"></doc-showcase>
+<ul>
+<li>Text the recruiter copies exactly (Boolean strings, field values, templates). The model outputs a fenced code block, and the value renders unchanged: no smart quotes, no markdown.</li>
+<li>Container <span class="chip">color/background/muted</span>, 1px <span class="chip">card/color/border/default</span>, radius <span class="chip">border/radius/xsm</span>. Long values wrap; copy takes the original string with no added line breaks.</li>
+<li>On hover the border changes to <span class="chip">chip/color/border/default/hover</span> and the copy action appears (existing <span class="chip">icon-button-no-container</span>, secondary). Copy takes the exact string only (H5).</li>
+<li>Use inline code for short values in a sentence. It has no copy action.</li>
+</ul>
+</doc-section>
+
+<doc-section id="surfaces" label="Surfaces and behavior" desc="Docked, full page, pop over">
+<p>How Amplify chat appears across Bullhorn and carries the user through work. Merged from the former Amplify Chat Functionality Guidelines; based on the Dockable Chat Phase II (APF-266) and Phase III (APF-278) roadmap plus docked and full-page chat goals.</p>
+<table class="tbl">
+<tr><th>Surface</th><th>What it is</th></tr>
+<tr><td>Docked chat</td><td>The persistent panel that stays with the user across records and pages. The default presentation</td></tr>
+<tr><td>Full-page chat</td><td>The expanded, standalone chat. A valid entry point to a workflow, not just an overflow view of the dock</td></tr>
+<tr><td>Pop over</td><td>Docked chat as a resizable, movable window over the page, switched from the top left of the panel. Same functionality, no scrim: the page underneath stays usable</td></tr>
+</table>
+<ol>
+<li><b>Context persists across navigation.</b> The conversation and its working context (records, searches, filters, intent) carry across page changes.</li>
+<li><b>Chat can drive cross-page workflows,</b> in both directions: docked chat takes the user to the next page; full-page chat can start a workflow and bring them into a record or list. Directional: interaction patterns are still being defined.</li>
+<li><b>Chat follows the user everywhere.</b> Unsupported pages fall back to global chat instead of losing chat. Directional: confirm the fallback per page.</li>
+<li><b>History is always reachable</b> from the dock, and a past conversation can continue in a new context.</li>
+<li><b>The surfaces stay aligned.</b> Docked and full-page chat feel like one assistant (H4).</li>
+</ol>
+<h3>Applying this to your area</h3>
+<ul>
+<li>List the workflows chat should support, which cross pages, and the context each must carry (records, searches, filters, selections, intent).</li>
+<li>Define entry points (docked, full page, or both), the page-to-page handoffs, and which pages fall back to global chat.</li>
+<li>Confirm the experience is continuous across docked and full-page chat.</li>
+</ul>
 </doc-section>
 
 <doc-section id="styles" label="Text styles" desc="Markdown to Modern UI mapping">
@@ -64,6 +201,7 @@
 <li>Don't use bold as a heading or bold labels and values in the same line.</li>
 </ul>
 </doc-section>
+
 <doc-section id="records" label="Records and sources" desc="Links, citations, rationale">
 <ul>
 <li>Every Bullhorn record in a reply is a link that opens the record. Use the record name as the link text. Show the ID as meta text only to tell two records apart (H6; Amplify principle 3).</li>
@@ -81,84 +219,6 @@
 <!-- Hidden (to be confirmed): <doc-callout type="note" heading="To be confirmed"><span class="chip">color/entity/*</span> tokens are primitive-only today, a known Modern UI gap.</doc-callout> -->
 </doc-section>
 
-<doc-section id="format" label="Choosing a format" desc="Prose, table, cards, draft">
-<table class="tbl">
-<tr><th>Content</th><th>Format</th><th>Why</th></tr>
-<tr><td>A single fact</td><td>1–2 sentences</td><td>Rams 10</td></tr>
-<tr><td>2–10 records compared on the same fields</td><td><span class="chip">novo-data-table</span>, 4 columns docked, 6 full page</td><td>Gestalt, continuity and similarity</td></tr>
-<tr><td>Records that need explaining or acting on one by one</td><td>Cards (<span class="chip">amplify-chat/chat-list</span>), 3 by default, 5 max</td><td>H7 · Amplify principle 3</td></tr>
-<tr><td>More than 10 records</td><td>First 10, plus a count and a Show more button</td><td>H1</td></tr>
-<tr><td>Steps or a plan</td><td>Numbered list</td><td>Order matters</td></tr>
-<tr><td>Email, note, or JD</td><td>Draft block with Copy / Edit / Use</td><td>Amplify principle 2</td></tr>
-<tr><td>Text to copy exactly (Boolean string, field value, template)</td><td>Literal value block, output as a fenced code block</td><td>H5 · Gestalt, common region</td></tr>
-</table>
-<h3>Cards vs tables</h3>
-<p>Use cards (<span class="chip">amplify-chat/chat-list</span>, built on the Modern UI list-item) when any of these is true:</p>
-<ul>
-<li>Each record needs a reason it was picked, such as relevance signals (Amplify principle 3).</li>
-<li>A record has several values of one kind: signals, tags, contact methods (Gestalt, common region).</li>
-<li>The recruiter will act on records one by one (H7).</li>
-<li>The records are of different types (H4).</li>
-</ul>
-<p>Use a table to compare or scan records on the same 2–6 short fields, or when there are more than 5 records. When it's unclear, use a table (Rams 10).</p>
-<table class="tbl">
-<tr><th>Card limits</th><th>Recommendation</th></tr>
-<tr><td>Default</td><td>3 cards. About 150px each, so 3 plus the answer fit in the visible full-page chat area</td></tr>
-<tr><td>Maximum</td><td>5 cards. Past 5, the answer and sources move off screen (NN/g truncated pyramid)</td></tr>
-<tr><td>More results</td><td>Top 3, then a "Show N more" follow-up chip. Above 5, use a table (10-row cap) or link to the list view</td></tr>
-<tr><td>Order</td><td>Rank by relevance, and state how in the rationale line</td></tr>
-</table>
-<ul>
-<li>Show any one set of records in one format only: cards or a table.</li>
-<li>Match indicators belong to their feature: relevancy dots for candidate search, the "Strong Match" chip for Prospect. They never appear in the same reply.</li>
-</ul>
-<h3>Tables</h3>
-<doc-showcase src="../images/amplify-chat/novo-data-table.png" alt="novo-data-table component with uppercase headers, sort and filter icons, and row dividers" caption="novo-data-table · Component Migration" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=254-6720"></doc-showcase>
-<table class="tbl">
-<tr><th>Part</th><th>Style or token</th><th>Value</th></tr>
-<tr><td>Header text</td><td><span class="chip">input/label/md</span></td><td class="mono">400 · 12/14 · 0.5 · upper</td></tr>
-<tr><td>Cell text</td><td><span class="chip">input/value/default</span></td><td class="mono">400 · 14/20</td></tr>
-<tr><td>Header text color</td><td><span class="chip">data-table/color/content/header</span></td><td class="mono">#525b63</td></tr>
-<tr><td>Cell text color</td><td><span class="chip">data-table/color/content/default</span></td><td class="mono">#3d464d</td></tr>
-<tr><td>Icons</td><td><span class="chip">data-table/color/icon/default</span></td><td class="mono">#677079</td></tr>
-<tr><td>Row background</td><td><span class="chip">data-table/color/background/default</span></td><td class="mono">#ffffff</td></tr>
-<tr><td>Row divider</td><td><span class="chip">data-table/color/border/default</span> · <span class="chip">border/width/sm</span></td><td class="mono">#dee0e3 · 1px</td></tr>
-<tr><td>Cell padding</td><td><span class="chip">data-table/spacing/padding-vertical</span> · <span class="chip">padding-horizontal</span></td><td class="mono">8 · 16</td></tr>
-<tr><td>Cell gap</td><td><span class="chip">data-table/spacing/gap-cell</span></td><td class="mono">16</td></tr>
-<tr><td>Row min height</td><td><span class="chip">data-table/spacing/min-height</span></td><td class="mono">40</td></tr>
-</table>
-<ul>
-<li>Render every chat table with the existing <span class="chip">novo-data-table</span>. Don't use a custom markdown table style or override its tokens (Modern UI "consistent"; H4).</li>
-<li>Row dividers only, with no vertical lines or outer frame. Left-align all columns, including IDs and phone numbers.</li>
-<li>At most 4 columns in the docked chat and 6 in full-page chat. Columns have no minimum width (the 128 in Figma is a Figma error). The record name goes first.</li>
-<li>No sort or filter controls on chat tables. Header cells show the label only (Rams 10; H8).</li>
-<li>Empty cells read "Not on file" in <span class="chip">color/text/disabled</span>, not "—" (Amplify principle 5). Don't bold cell values. Status goes in the existing tag component, never color alone.</li>
-</ul>
-<h3>Cell types</h3>
-<div class="spc-list">
-<div class="spc"><div class="s s-body">Senior Java Developer</div><div class="m"><b>Default</b><br>Plain values: title, location, date, ID<br><span class="chip">input/value/default</span> · <span class="chip">data-table/color/content/default</span></div></div>
-<div class="spc"><div><img class="cellimg" src="../images/amplify-chat/cell-link.png" alt="Link cell: entity color circle followed by a link label"></div><div class="m"><b>Link</b><br>Record names that open the record<br><span class="chip">body/default-medium</span> · <span class="chip">link-text/color/default</span> · hover <span class="chip">link-text/color/hover</span><br>Entity circle <span class="chip">color/entity/*</span> · gap <span class="chip">link-text/spacing/gap/default</span> (4)</div></div>
-<div class="spc"><div><img class="cellimg" src="../images/amplify-chat/cell-relevancy-dots.png" alt="Relevancy dots: three filled and two outlined"></div><div class="m"><b>Relevancy dots</b><br>Match strength in candidate and job search<br>5 dots: filled <span class="chip">color/blue/medium-blue</span>, empty <span class="chip">color/utility/blue/100</span> with a 1px border · gap <span class="chip">spacing/gap/xsm</span> (4)<br>Needs a text alternative, such as "3 of 5"</div></div>
-</div>
-<ul>
-<li>Use the link cell for the record-name column (H6; Amplify principle 3).</li>
-<li>Put relevancy dots in their own "MATCH" column, and explain what drove the score in the rationale line under the table (Amplify principles 3 and 4).</li>
-</ul>
-<h3>Literal value block</h3>
-<ul>
-<li>Text the recruiter copies exactly (Boolean strings, field values, templates). The model outputs a fenced code block, and the value renders unchanged: no smart quotes, no markdown.</li>
-<li>Container <span class="chip">color/background/muted</span>, 1px <span class="chip">card/color/border/default</span>, radius <span class="chip">border/radius/xsm</span>. Long values wrap; copy takes the original string with no added line breaks.</li>
-<li>On hover the border changes to <span class="chip">chip/color/border/default/hover</span> and the copy action appears (existing <span class="chip">icon-button-no-container</span>, secondary). Copy takes the exact string only (H5).</li>
-<li>Use inline code for short values in a sentence. It has no copy action.</li>
-</ul>
-<h3>Draft block</h3>
-<ul>
-<li>Three sections with <span class="chip">card/color/border/default</span> dividers: a subject row ("Subject:" in <span class="chip">body/sm-medium</span>, then the subject in <span class="chip">body/default</span>), the body, and an actions row.</li>
-<li>Actions use the existing Buttons: Copy and Edit (Secondary, Small) and Use draft (Primary, Small). Hide the subject row for drafts with no subject, such as notes.</li>
-<li>Container <span class="chip">color/background/default</span>, 1px <span class="chip">card/color/border/default</span>, radius <span class="chip">border/radius/xsm</span>. Amplify never sends a draft without the recruiter choosing an action (Amplify principle 2).</li>
-</ul>
-</doc-section>
-
 <doc-section id="status" label="Status and questions" desc="Loading, errors, clarifying">
 <ul>
 <li>Replace "Amplify is thinking…" with a specific step: "Searching open jobs…", then "Ranking 14 job orders…". Attio shows tool activity the same way (H1).</li>
@@ -168,19 +228,6 @@
 </ul>
 </doc-section>
 
-<doc-section id="order" label="Response structure" desc="The order of every reply">
-<ol>
-<li><b>Answer.</b> One sentence: "5 of your 14 open jobs need action today."</li>
-<li><b>Evidence.</b> A list, table, or cards.</li>
-<li><b>Rationale.</b> Optional, one line on how the results were ranked.</li>
-<li><b>Sources row (when the answer uses records).</b> Meta text. Not shown for clarifying questions, general product help or "nothing found" replies.</li>
-<li><b>Follow-ups (optional).</b> 2–3 chips using the existing chip or small secondary button.</li>
-<li><b>Controls.</b> Copy, thumbs up, thumbs down, Save prompt, in that order, using the existing icon buttons.</li>
-</ol>
-<doc-callout type="dont" heading="Don't">write "If this was helpful, please leave a thumbs up/down…" in the reply. The controls already ask for feedback (Rams 10).</doc-callout>
-<doc-callout type="dont" heading="Don't">end with "Want me to open that one…?" Make each next step a follow-up chip (H7).</doc-callout>
-<doc-callout type="do" heading="Do">show memory changes as a status line: "Saved 5 working preferences · View · Undo" (H3; AI governors).</doc-callout>
-</doc-section>
 <doc-section id="spacing" label="Spacing and layout" desc="8-based scale, measure">
 <table class="tbl">
 <tr><th>Relationship</th><th>Token</th><th>Value</th></tr>
@@ -218,6 +265,16 @@
 <li>Messages, tables and the composer share the same left and right edges, so the conversation reads as one column (Gestalt, continuity).</li>
 <li>The column fits the 6-column table limit (about 133px per column), and the prose cap keeps paragraphs readable (WCAG 1.4.8; H8).</li>
 <li>800px leaves about 190px on each side of the full-page content area, so the chat stays focused (Rams 5, unobtrusive).</li>
+</ul>
+</doc-section>
+
+<doc-section id="user-messages" label="User messages" desc="Bubble and long messages">
+<ul>
+<li><span class="chip">amplify-chat/user-bubble</span>: <span class="chip">body/default</span> in <span class="chip">color/text/body</span>, fill <span class="chip">color/background/subtle-hover</span>, radius <span class="chip">border/radius/sm</span>, right-aligned, up to 440px wide.</li>
+<li>Long messages are capped at 8 lines of text. Specify the cap in lines, not pixels, so it follows the type scale.</li>
+<li><span class="chip">state=long text</span>: the last 2 lines fade out through an alpha mask, so the text keeps its token color on any fill, with "Show More" below (H1).</li>
+<li><span class="chip">state=long text expanded</span>: the full message with "Show Less" (H3). Copy always copies the full message.</li>
+<li>The cap keeps the user's question and the start of the reply on screen together (Rams 2).</li>
 </ul>
 </doc-section>
 
@@ -277,7 +334,6 @@
 </table>
 <p class="lead">Sizes are inferred from the screenshots at 1x. The body text samples at about <span class="chip">#2a292d</span>, darker than <span class="chip">color/text/body</span>. This may be anti-aliasing, so check it in code.</p>
 </doc-section>
-
 </doc-page>
 
 <style>
@@ -302,6 +358,19 @@
 .s-label{font-size:12px;line-height:14px;font-weight:400;letter-spacing:.5px;text-transform:uppercase;color:#3d464d}
 .cellimg{display:block;width:240px;height:40px;border:1px solid #dee0e3;border-radius:4px}
 .s-ent{display:inline-block;width:8px;height:8px;border-radius:999px;margin-right:4px;vertical-align:1px}
+
+  /* Page-scoped: annotated response structure */
+  .anno{margin:8px 0 12px;background:#fff;border:1px solid var(--hairline);border-radius:8px;overflow:hidden}
+  .anno-wrap{position:relative;padding-left:40px}
+  .anno-wrap img{display:block;width:100%;height:auto}
+  .anno .mk{position:absolute;left:10px;transform:translateY(-50%);width:20px;height:20px;border-radius:999px;background:var(--link);color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
+  .anno figcaption{font-size:13px;color:var(--ink-muted);font-weight:500;padding:10px 14px}
+  ol.anno-key{margin:0 0 12px;padding-left:22px}
+  ol.anno-key li{margin:0 0 6px}
+  .tag{font-size:11px;font-weight:600;color:var(--do-ink);background:var(--do-fill);border-radius:4px;padding:1px 6px;margin-left:4px}
+  .tag.opt{color:var(--ink-2);background:var(--chip)}
+  doc-section h3[id]{scroll-margin-top:32px}
+  doc-section#components figure.showcase img{width:auto;max-width:100%;margin:0 auto;padding:16px 0}
 </style>
 </body>
 </html>
