@@ -306,18 +306,17 @@
     ]},
     {label:"Components", pages:[
       {t:"Button", href:"/docs/components/button.html"},
+      {t:"Card", href:"/docs/components/card.html"},
+      {t:"Checkbox", href:"/docs/components/checkbox.html"},
+      {t:"Data Table", href:"/docs/components/data-table.html"},
       {t:"Icon", href:"/docs/components/icon.html"},
       {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html"},
-      {t:"Checkbox", href:"/docs/components/checkbox.html"},
-      {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"},
-      {t:"Novo List", href:"/docs/components/novo-list.html"},
-      {t:"Data Table", href:"/docs/components/data-table.html"},
-      {t:"Record Header", href:"/docs/components/record-header.html"},
-      {t:"Card", href:"/docs/components/card.html"},
-      {t:"Icon", href:"/docs/components/icon.html"},
       {t:"List Variations", href:"/docs/components/list-variations.html"},
+      {t:"Novo List", href:"/docs/components/novo-list.html"},
+      {t:"Rail", href:"/docs/components/rail.html"},
+      {t:"Record Header", href:"/docs/components/record-header.html"},
       {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"},
-      {t:"Rail", href:"/docs/components/rail.html"}
+      {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
     ]},
     {label:"Amplify", pages:[
       {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}

@@ -1,34 +1,23 @@
 import { Routes } from '@angular/router';
-import { ButtonPage } from './pages/button/button-page';
-import { CheckboxPage } from './pages/checkbox/checkbox-page';
-import { DataTablePage } from './pages/data-table/data-table-page';
-import { CardPage } from './pages/card/card-page';
 import { HomePage } from './pages/home/home-page';
-import { IconButtonNoContainerPage } from './pages/icon-button-no-container/icon-button-no-container-page';
-import { IconPage } from './pages/icon/icon-page';
-import { WorkflowStepperPage } from './pages/workflow-stepper/workflow-stepper-page';
-import { NovoListPage } from './pages/novo-list/novo-list-page';
-import { RecordHeaderPage } from './pages/record-header/record-header-page';
-import { ListVariationsPage } from './pages/list-variations/list-variations-page';
-import { SophiaFabPage } from './pages/sophia-fab/sophia-fab-page';
-import { RailPage } from './pages/rail/rail-page';
 
-// One route per component. Each page renders the full reference matrix, or a
-// compact embed when query params are given (see each page for its params).
-// Served at /examples/<route> on the docs site and embedded with <doc-example>.
+// One route per component, lazy-loaded so each docs embed only downloads its own page.
+// Each page renders the full reference view, or a compact embed when query params
+// are given (see each page for its params). Served at /examples/<route> on the docs
+// site and embedded with <doc-example>. Keep this list in the same order as the home list.
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
-  { path: 'button', component: ButtonPage, title: 'Button — ats-ui' },
-  { path: 'card', component: CardPage, title: 'Card — ats-ui' },
-  { path: 'icon', component: IconPage, title: 'Icon — ats-ui' },
-  { path: 'icon-button-no-container', component: IconButtonNoContainerPage, title: 'Icon Button - no container — ats-ui' },
-  { path: 'checkbox', component: CheckboxPage, title: 'Checkbox — ats-ui' },
-  { path: 'workflow-stepper', component: WorkflowStepperPage, title: 'Workflow Stepper — ats-ui' },
-  { path: 'novo-list', component: NovoListPage, title: 'Novo List — ats-ui' },
-  { path: 'data-table', component: DataTablePage, title: 'Novo Data Table — ats-ui' },
-  { path: 'record-header', component: RecordHeaderPage, title: 'Record Header — ats-ui' },
-  { path: 'list-variations', component: ListVariationsPage, title: 'List Variations — ats-ui' },
-  { path: 'sophia-fab', component: SophiaFabPage, title: 'Sophia FAB — ats-ui' },
-  { path: 'rail', component: RailPage, title: 'Rail — ats-ui' },
+  { path: 'button', loadComponent: () => import('./pages/button/button-page').then((m) => m.ButtonPage), title: 'Button — ats-ui' },
+  { path: 'icon', loadComponent: () => import('./pages/icon/icon-page').then((m) => m.IconPage), title: 'Icon — ats-ui' },
+  { path: 'icon-button-no-container', loadComponent: () => import('./pages/icon-button-no-container/icon-button-no-container-page').then((m) => m.IconButtonNoContainerPage), title: 'Icon Button - no container — ats-ui' },
+  { path: 'checkbox', loadComponent: () => import('./pages/checkbox/checkbox-page').then((m) => m.CheckboxPage), title: 'Checkbox — ats-ui' },
+  { path: 'card', loadComponent: () => import('./pages/card/card-page').then((m) => m.CardPage), title: 'Card — ats-ui' },
+  { path: 'data-table', loadComponent: () => import('./pages/data-table/data-table-page').then((m) => m.DataTablePage), title: 'Novo Data Table — ats-ui' },
+  { path: 'list-variations', loadComponent: () => import('./pages/list-variations/list-variations-page').then((m) => m.ListVariationsPage), title: 'List Variations — ats-ui' },
+  { path: 'novo-list', loadComponent: () => import('./pages/novo-list/novo-list-page').then((m) => m.NovoListPage), title: 'Novo List — ats-ui' },
+  { path: 'rail', loadComponent: () => import('./pages/rail/rail-page').then((m) => m.RailPage), title: 'Rail — ats-ui' },
+  { path: 'record-header', loadComponent: () => import('./pages/record-header/record-header-page').then((m) => m.RecordHeaderPage), title: 'Record Header — ats-ui' },
+  { path: 'sophia-fab', loadComponent: () => import('./pages/sophia-fab/sophia-fab-page').then((m) => m.SophiaFabPage), title: 'Sophia FAB — ats-ui' },
+  { path: 'workflow-stepper', loadComponent: () => import('./pages/workflow-stepper/workflow-stepper-page').then((m) => m.WorkflowStepperPage), title: 'Workflow Stepper — ats-ui' },
   { path: '**', redirectTo: '' },
 ];

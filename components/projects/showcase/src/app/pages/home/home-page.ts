@@ -27,15 +27,15 @@ export class HomePage {
   protected readonly components = [
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'card', name: 'Card', figma: 'Component Migration 311:29059 (+ subcomponents)' },
+    { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
     { path: 'icon-button-no-container', name: 'Icon Button - no container', figma: 'Component Migration 164:17717' },
-    { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
-    { path: 'workflow-stepper', name: 'Workflow Stepper', figma: 'Component Migration 589:6990' },
-    { path: 'novo-list', name: 'Novo List', figma: 'List / novo-list 692:20779' },
-    { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
-    { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
     { path: 'list-variations', name: 'List Variations (Toggle, AdvancedSearch, ListHeader, ListDataTable…)', figma: 'List Variations 0LCuwDp7YHGGqK6WiseTRi' },
-    { path: 'sophia-fab', name: 'Sophia FAB', figma: 'Component Migration 6084:152232' },
+    { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
+    { path: 'novo-list', name: 'Novo List', figma: 'List / novo-list 692:20779' },
     { path: 'rail', name: 'Rail (Bowling Alley) + Header + Amplify', figma: 'Component Migration: Bowling Alley · Header 157:2557 · Amplify 157:2984' },
+    { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
+    { path: 'sophia-fab', name: 'Sophia FAB', figma: 'Component Migration 6084:152232' },
+    { path: 'workflow-stepper', name: 'Workflow Stepper', figma: 'Component Migration 589:6990' },
   ];
 }
