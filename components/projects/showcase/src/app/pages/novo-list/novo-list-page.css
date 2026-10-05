@@ -1,0 +1,22 @@
+:host { display: block; padding: 32px 40px 80px; max-width: 860px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+p.lede { color: #5d7798; margin: 0 0 32px; font-size: 14px; }
+h2 { font-size: 15px; margin: 28px 0 8px; color: #314158; }
+code { background: #f0f5f9; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+
+/* The list sits on a card surface, as in the prototype's showcase. */
+.card {
+  background: var(--color-background-default); border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-md); overflow: clip; box-shadow: var(--elevation-2);
+}
+.card--pad { padding: 8px; }
+.subs { display: flex; flex-direction: column; gap: 20px; }
+.sub { display: flex; flex-direction: column; gap: 8px; }
+.sub-l { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #6b7280; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+
+/* ---- embed mode (docs <doc-example>) ---- */
+:host:has(.embed) { padding: 24px; max-width: none; }
+.embed { max-width: 640px; }
+.labelled { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
+.caption { font-size: 13px; font-weight: 500; color: #5d7798; text-transform: capitalize; }

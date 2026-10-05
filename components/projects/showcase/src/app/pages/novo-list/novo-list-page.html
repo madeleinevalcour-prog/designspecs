@@ -1,0 +1,89 @@
+<ng-template #defaultList let-items>
+  <ats-novo-list>
+    @for (c of items; track $index) {
+      <ats-novo-list-item-default [entity]="c.entity" [title]="c.title" [fields]="c.fields" [comment]="c.comment" />
+    }
+  </ats-novo-list>
+</ng-template>
+<ng-template #taskList let-items>
+  <ats-novo-list>
+    @for (t of items; track $index) { <ats-novo-list-item-task [title]="t.title" [fields]="t.fields" [comment]="t.comment" /> }
+  </ats-novo-list>
+</ng-template>
+<ng-template #noteList let-items>
+  <ats-novo-list>
+    @for (n of items; track $index) {
+      <ats-novo-list-item-note [date]="n.date" [time]="n.time" [label]="n.label" [user]="n.user" [body]="n.body" />
+    }
+  </ats-novo-list>
+</ng-template>
+<ng-template #submissionList let-items>
+  <ats-novo-list>
+    @for (s of items; track $index) {
+      <ats-novo-list-item-submission [title]="s.title" [datetime]="s.datetime" [status]="s.status" [company]="s.company" />
+    }
+  </ats-novo-list>
+</ng-template>
+
+@if (embed()) {
+  <div class="embed">
+    @switch (view()) {
+      @case ('list') { <div class="card"><ng-container *ngTemplateOutlet="defaultList; context: { $implicit: embedDefaults() }" /></div> }
+      @case ('default') { <div class="card"><ng-container *ngTemplateOutlet="defaultList; context: { $implicit: embedDefaults() }" /></div> }
+      @case ('task') { <div class="card"><ng-container *ngTemplateOutlet="taskList; context: { $implicit: embedTasks() }" /></div> }
+      @case ('note') { <div class="card"><ng-container *ngTemplateOutlet="noteList; context: { $implicit: embedNotes() }" /></div> }
+      @case ('submission') { <div class="card"><ng-container *ngTemplateOutlet="submissionList; context: { $implicit: embedSubmissions() }" /></div> }
+      @case ('entity-icon') {
+        <div class="row">@for (e of embedEntities(); track e) { <span class="labelled"><ats-entity-icon [entity]="e" /><span class="caption">{{ e }}</span></span> }</div>
+      }
+      @case ('field') {
+        <div class="row"><ats-field icon="email" text="name@email.com" /><ats-field icon="location" text="Boston, MA" /><ats-field icon="calendar" text="7/20/2026" /></div>
+      }
+      @case ('date-time') { <ats-date-time date="07/16/2026" time="12:00 PM" /> }
+      @case ('item-header') {
+        <div class="card card--pad"><ats-item-header [title]="embedHeaderTitle()"><ats-entity-icon avatar [entity]="embedHeaderEntity()" /></ats-item-header></div>
+      }
+      @case ('item-content') {
+        <div class="card card--pad"><ats-item-content [fields]="contentFields" [comment]="embedComment()" /></div>
+      }
+    }
+  </div>
+} @else {
+  <h1>Novo List</h1>
+  <p class="lede">
+    Angular port of the Figma novo-list family (692:20779): <code>ats-novo-list</code> → <code>ats-novo-list-item</code>
+    → <code>ats-item-header</code> + <code>ats-item-content</code>, plus the four item presets. Authored against Tier-3 list-item tokens.
+  </p>
+
+  <section>
+    <h2>novo-list — default (candidate / job items)</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="defaultList; context: { $implicit: candidates }" /></div>
+  </section>
+  <section>
+    <h2>Preset · task</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="taskList; context: { $implicit: tasks }" /></div>
+  </section>
+  <section>
+    <h2>Preset · note</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="noteList; context: { $implicit: notes }" /></div>
+  </section>
+  <section>
+    <h2>Preset · submission</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="submissionList; context: { $implicit: submissions }" /></div>
+  </section>
+
+  <section>
+    <h2>Building blocks</h2>
+    <div class="subs">
+      <div class="sub"><span class="sub-l">EntityIcon</span>
+        <div class="row">@for (e of entities; track e) { <ats-entity-icon [entity]="e" /> }</div></div>
+      <div class="sub"><span class="sub-l">Field</span>
+        <div class="row"><ats-field icon="email" text="name@email.com" /><ats-field icon="location" text="Boston, MA" /><ats-field icon="calendar" text="7/20/2026" /></div></div>
+      <div class="sub"><span class="sub-l">DateTime</span><ats-date-time date="07/16/2026" time="12:00 PM" /></div>
+      <div class="sub"><span class="sub-l">ItemHeader</span>
+        <div class="card card--pad"><ats-item-header title="2034 | Tyler Brooks"><ats-entity-icon avatar entity="candidate" /></ats-item-header></div></div>
+      <div class="sub"><span class="sub-l">ItemContent</span>
+        <div class="card card--pad"><ats-item-content [fields]="contentFields" comment="Short note preview text." /></div></div>
+    </div>
+  </section>
+}
