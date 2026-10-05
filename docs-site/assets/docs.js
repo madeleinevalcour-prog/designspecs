@@ -312,7 +312,9 @@
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"},
       {t:"Novo List", href:"/docs/components/novo-list.html"},
       {t:"Data Table", href:"/docs/components/data-table.html"},
-      {t:"Record Header", href:"/docs/components/record-header.html"}
+      {t:"Record Header", href:"/docs/components/record-header.html"},
+      {t:"Card", href:"/docs/components/card.html"},
+      {t:"Icon", href:"/docs/components/icon.html"}
     ]},
     {label:"Amplify", pages:[
       {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}

@@ -1,0 +1,20 @@
+<div class="ats-card__header">
+  <div class="ats-card__title">
+    @if (gripper()) {
+      <ats-icon class="ats-card__gripper" name="move" [size]="16" color="var(--card-color-content-icon-move)" />
+    }
+    @if (headerIcon(); as name) {
+      <ats-icon [name]="name" [size]="16" color="var(--card-header-icon-color, var(--color-icon-illustration))" />
+    }
+    <p class="ats-card__title-text">{{ headerTitle() }}</p>
+  </div>
+  <ng-content select="ats-card-actions, [cardActions]">
+    <ats-card-actions [settings]="settings()" (action)="action.emit($event)" />
+  </ng-content>
+</div>
+<div class="ats-card__content"><ng-content /></div>
+@if (showFooter()) {
+  <div class="ats-card__footer">
+    <button ats-button theme="base" iconRight="next" (click)="footerClick.emit()">{{ footerLabel() }}</button>
+  </div>
+}

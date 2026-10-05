@@ -1,0 +1,16 @@
+/* CardActions — novo-card-actions, ported from card.css (.nc-actions / .nc-actbtn).
+   Composes ats-button theme="icon" size="small" and narrows it to the card's 24px
+   no-container button: transparent until hover, subtle background on hover. */
+.ats-card-actions {
+  display: flex; align-items: center; justify-content: flex-end; gap: var(--card-spacing-header-gap);
+}
+.ats-card-actions .ats-btn.ats-btn--icon {
+  --_bg: transparent;
+  --_bg-hover: var(--color-background-subtle);
+  --_bg-focus: var(--color-background-subtle);
+  --_bg-active: var(--color-background-subtle);
+  width: var(--spacing-24); height: var(--spacing-24); min-height: 0; min-width: 0;
+  border-radius: var(--button-border-radius-no-container);
+}
+/* icons keep the icon-illustration default, as in the source */
+.ats-card-actions .ats-btn .ats-icon { background-color: var(--color-icon-illustration); }

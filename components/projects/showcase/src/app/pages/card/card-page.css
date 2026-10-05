@@ -1,0 +1,29 @@
+:host { display: block; padding: 32px 40px 80px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+p.lede { color: #5d7798; margin: 0 0 32px; font-size: 14px; }
+p.lede code { background: #f0f5f9; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+h2 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #8ca1b9; margin: 0; }
+section { margin-top: 36px; }
+section > h2 { margin-bottom: 12px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px 24px; align-items: start; }
+.col { display: flex; flex-direction: column; gap: 10px; max-width: 540px; }
+.wide { max-width: 760px; }
+.note { margin: 0; font-size: 12px; color: #8ca1b9; }
+.subs { display: flex; flex-wrap: wrap; gap: 24px; }
+.sub { display: flex; flex-direction: column; gap: 8px; }
+.sub-l { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: #5d7798; }
+.subbox { background: #fff; border: 1px solid #f0f5f9; border-radius: 8px; padding: 8px; align-self: flex-start; }
+.sub-detail {
+  background: var(--card-color-background-contents);
+  border: var(--card-border-width-default) solid var(--card-color-border-default);
+  border-radius: 8px; overflow: clip; min-width: 280px; max-width: 540px; box-sizing: border-box;
+}
+.vwl-row { display: flex; gap: 8px; }
+
+/* ---- embed mode (docs <doc-example>) ---- */
+:host:has(.embed) { padding: 24px; }
+.embed { display: flex; flex-direction: column; align-items: flex-start; }
+.embed ats-card { max-width: 100%; }
+.embed .sub-detail { max-width: 100%; }
+/* gripper=shown — force the hover-only gripper visible for documentation */
+.force-grip ::ng-deep .ats-card__gripper { opacity: 1; }
