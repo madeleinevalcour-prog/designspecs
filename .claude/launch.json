@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "docs",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "docs"],
+      "port": 4400
+    },
+    {
+      "name": "components",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "components", "--", "--", "--port", "4200"],
+      "port": 4200
+    }
+  ]
+}

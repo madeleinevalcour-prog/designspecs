@@ -1,0 +1,32 @@
+/* =====================================================================
+   ELEVATION — captured from Figma (Component-Migration effect styles, node
+   918:13883). NOT auto-generated — update by hand if the styles change.
+   Shadows reference spacing/* (offsets + blur) and the charcoal transparency
+   primitives, which vary by grayscale mode — so elevations follow data-core-mode.
+   Level 4 additionally uses a 4px background blur (apply backdrop-filter too).
+   ===================================================================== */
+:root {
+  /* general/level 1 (== button/default) */
+  --elevation-1: 0 var(--spacing-2) var(--spacing-4) 0 var(--color-transparency-charcoal-charcoal-04);
+  /* general/level 2 */
+  --elevation-2: 0 var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-08);
+  /* general/level 3 */
+  --elevation-3: 0 var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-08),
+                 var(--spacing-2) var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-04);
+  /* general/level 3 - right (shadow biased to the left edge, for right-anchored rails) */
+  --elevation-3-right: 0 var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-08),
+                       -2px var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-04);
+  /* general/level 4 (also: backdrop-filter: blur(var(--elevation-4-blur))) */
+  --elevation-4: 0 var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-08),
+                 var(--spacing-8) var(--spacing-12) var(--spacing-16) 0 var(--color-transparency-charcoal-charcoal-08);
+  --elevation-4-blur: 4px;
+
+  /* button states */
+  --elevation-button-default: var(--elevation-1);
+  --elevation-button-hover: 0 var(--spacing-2) var(--spacing-4) 0 var(--color-transparency-charcoal-charcoal-04),
+                            var(--spacing-4) var(--spacing-8) var(--spacing-12) 0 var(--color-transparency-charcoal-charcoal-08);
+  --elevation-button-active: 0 var(--spacing-2) var(--spacing-4) 0 var(--color-transparency-charcoal-charcoal-04),
+                             var(--spacing-4) var(--spacing-8) var(--spacing-12) 0 var(--color-transparency-charcoal-charcoal-08),
+                             inset 0 4px 8px 0 var(--color-transparency-charcoal-charcoal-08);
+  --elevation-button-active-no-container: inset 0 4px 8px 0 var(--color-transparency-charcoal-charcoal-08);
+}

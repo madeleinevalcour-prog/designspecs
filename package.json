@@ -1,0 +1,13 @@
+{
+  "name": "design-specs",
+  "private": true,
+  "description": "Tokens, Angular components (ats-ui) and the design documentation site.",
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "tokens": "node tokens/build.mjs",
+    "tokens:watch": "node tokens/watch.mjs",
+    "components": "npm --prefix components start",
+    "build": "npm --prefix components run build:examples",
+    "docs": "npm run build && node scripts/serve-docs.mjs"
+  }
+}

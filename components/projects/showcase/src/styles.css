@@ -1,0 +1,4 @@
+/* Showcase globals. Tokens come from ats-ui/styles/tokens.css (see angular.json). */
+body { margin: 0; font-family: 'Inter', system-ui, sans-serif; color: #282828; background: #fbfcfe; }
+/* Embedded in a docs page (<doc-example>): let the docs card show through. */
+html.is-embedded body { background: transparent; }

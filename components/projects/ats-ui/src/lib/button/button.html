@@ -1,0 +1,7 @@
+@if (showIcons() && iconLeft(); as name) {
+  <img class="ats-btn__ic" [src]="iconSrc(name)" alt="" />
+}
+<ng-content />
+@if (showIcons() && iconRight(); as name) {
+  <img class="ats-btn__ic" [src]="iconSrc(name)" alt="" />
+}

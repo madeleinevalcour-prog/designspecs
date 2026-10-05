@@ -1,0 +1,99 @@
+/* Button — ported 1:1 from the prototype repo's Button.astro (Figma 68:2694).
+   Unencapsulated so projected icons (<img>/<svg>) are styled; everything is
+   namespaced under .ats-btn. */
+.ats-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  box-sizing: border-box; position: relative; cursor: pointer; border: 0;
+  font-family: 'Inter', sans-serif; font-weight: 400; letter-spacing: 0;
+  color: #5d7798; background: transparent; border-radius: 999px; text-decoration: none;
+  transition: background .12s ease, box-shadow .12s ease;
+}
+.ats-btn img, .ats-btn svg { display: block; flex: 0 0 auto; }
+.ats-btn__ic { display: block; flex: 0 0 auto; }
+
+/* ---- sizes (text themes) ---- */
+.ats-btn--default { height: 40px; padding: 8px 16px; font-size: 14px; line-height: 20px; }
+.ats-btn--small   { height: 32px; padding: 4px 12px; font-size: 12px; line-height: 16px; }
+.ats-btn--large   { height: 48px; padding: 16px 24px; font-size: 16px; line-height: 24px; }
+.ats-btn--default img, .ats-btn--default svg, .ats-btn--default .ats-btn__ic { width: 14px; height: 14px; }
+.ats-btn--small   img, .ats-btn--small   svg, .ats-btn--small   .ats-btn__ic { width: 12px; height: 12px; }
+.ats-btn--large   img, .ats-btn--large   svg, .ats-btn--large   .ats-btn__ic { width: 16px; height: 16px; }
+/* icons default to the set's #5D7798; whiten on the dark/gradient fills */
+.ats-btn--primary .ats-btn__ic, .ats-btn--amplify .ats-btn__ic { filter: brightness(0) invert(1); }
+
+/* ---- icon-only themes: square, gap 0 ---- */
+.ats-btn--fab, .ats-btn--icon { gap: 0; padding: 0; }
+.ats-btn--fab.ats-btn--default, .ats-btn--icon.ats-btn--default { width: 40px; }
+.ats-btn--fab.ats-btn--small,   .ats-btn--icon.ats-btn--small   { width: 32px; }
+.ats-btn--fab.ats-btn--large,   .ats-btn--icon.ats-btn--large   { width: 48px; }
+.ats-btn--icon { border-radius: 8px; }
+.ats-btn--dialogue { border-radius: 8px; }
+.ats-btn--pill { border-radius: 999px; }
+
+/* ---- focus ring (all themes): 2px inset, no layout shift ---- */
+.ats-btn:focus-visible, .ats-btn.is-focus { outline: 2px solid #4a89dc; outline-offset: -2px; }
+
+/* ===== Base ===== (white, no border) */
+.ats-btn--base { background: #fff; color: #5d7798; box-shadow: 0 4px 4px rgba(40,40,40,.08); }
+.ats-btn--base:hover, .ats-btn--base.is-hover { background: #f1f5fc; box-shadow: 4px 8px 6px rgba(40,40,40,.08), 0 4px 4px rgba(40,40,40,.08); }
+.ats-btn--base:active, .ats-btn--base.is-active { background: #f1f5fc; box-shadow: 4px 8px 6px rgba(40,40,40,.08), 0 4px 4px rgba(40,40,40,.08), inset 0 4px 8px rgba(40,40,40,.08); }
+.ats-btn--base:disabled, .ats-btn--base.is-disabled { background: rgba(255,255,255,.4); color: #8ca1b9; box-shadow: 0 4px 8px rgba(40,40,40,.08); }
+
+/* ===== Standard ===== (#e2e2e2) */
+.ats-btn--standard { background: #e2e2e2; color: #5d7798; box-shadow: 0 4px 4px rgba(40,40,40,.08); }
+.ats-btn--standard:hover, .ats-btn--standard.is-hover { background: #bebebe; box-shadow: 4px 8px 6px rgba(40,40,40,.08), 0 4px 4px rgba(40,40,40,.08); }
+.ats-btn--standard:active, .ats-btn--standard.is-active { background: #bebebe; box-shadow: 4px 8px 6px rgba(40,40,40,.08), 0 4px 4px rgba(40,40,40,.08), inset 0 4px 8px rgba(40,40,40,.08); }
+.ats-btn--standard:disabled, .ats-btn--standard.is-disabled { background: #f4f4f4; color: #8ca1b9; box-shadow: none; }
+
+/* ===== Primary ===== (#1f57a1, white text) */
+.ats-btn--primary { background: #1f57a1; color: #fff; box-shadow: 0 4px 4px rgba(40,40,40,.08); }
+.ats-btn--primary:hover, .ats-btn--primary.is-hover { background: #174178; box-shadow: 4px 8px 6px rgba(40,40,40,.08), 0 4px 4px rgba(40,40,40,.08); }
+.ats-btn--primary:active, .ats-btn--primary.is-active { background: #174178; box-shadow: 4px 8px 6px rgba(40,40,40,.08), 0 4px 4px rgba(40,40,40,.08), inset 0 4px 8px rgba(40,40,40,.08); }
+.ats-btn--primary:disabled, .ats-btn--primary.is-disabled { background: #1f57a1; color: rgba(255,255,255,.8); box-shadow: 0 4px 4px rgba(40,40,40,.08); }
+
+/* ===== Secondary ===== (Figma 68:2484 — white + border-default, subtle text) */
+.ats-btn--secondary {
+  font-weight: 500;
+  background: var(--button-color-secondary-background-default, #fff);
+  color: var(--button-color-secondary-content-default, #677079);
+  border: 1px solid var(--button-color-secondary-border-default, #c2c5cb);
+  box-shadow: 0 2px 4px var(--color-transparency-charcoal-charcoal-04, rgba(40,40,40,.04));
+}
+.ats-btn--secondary:hover, .ats-btn--secondary.is-hover { background: var(--color-background-subtle, #f1f5fc); border-color: var(--button-color-secondary-border-hover, #9ba1a9); }
+.ats-btn--secondary:active, .ats-btn--secondary.is-active { background: var(--color-background-subtle-hover, #ebedef); border-color: var(--button-color-secondary-border-active, #9ba1a9); box-shadow: inset 0 2px 4px rgba(40,40,40,.06); }
+.ats-btn--secondary:disabled, .ats-btn--secondary.is-disabled { background: rgba(255,255,255,.4); color: var(--color-text-disabled, #8ca1b9); border-color: var(--color-border-subtle, #ebedef); box-shadow: none; }
+
+/* ===== Dialogue ===== (transparent, 8px radius, fill on hover/active) */
+.ats-btn--dialogue { background: transparent; color: #5d7798; box-shadow: none; }
+.ats-btn--dialogue:hover, .ats-btn--dialogue.is-hover { background: #f1f5fc; }
+.ats-btn--dialogue:active, .ats-btn--dialogue.is-active { background: #f1f5fc; box-shadow: inset 0 4px 8px rgba(40,40,40,.08); }
+.ats-btn--dialogue:disabled, .ats-btn--dialogue.is-disabled { background: transparent; color: #8ca1b9; }
+
+/* ===== Fab ===== (round, #1f57a1) */
+.ats-btn--fab { background: #1f57a1; color: #fff; box-shadow: 0 4px 4px rgba(40,40,40,.08); }
+.ats-btn--fab:hover, .ats-btn--fab.is-hover { background: #174178; box-shadow: 0 4px 4px rgba(40,40,40,.08); } /* hover keeps single shadow (per Figma) */
+.ats-btn--fab:active, .ats-btn--fab.is-active { background: #174178; box-shadow: 4px 8px 6px rgba(40,40,40,.08), 0 4px 4px rgba(40,40,40,.08), inset 0 4px 8px rgba(40,40,40,.08); }
+.ats-btn--fab:disabled, .ats-btn--fab.is-disabled { background: #1f57a1; opacity: .8; }
+.ats-btn--fab img { filter: brightness(0) invert(1); } /* white glyph */
+
+/* ===== Icon ===== (transparent square, no shadow) */
+.ats-btn--icon { background: transparent; color: #5d7798; box-shadow: none; }
+.ats-btn--icon:hover, .ats-btn--icon.is-hover { background: #f1f5fc; }
+.ats-btn--icon:active, .ats-btn--icon.is-active { background: #f1f5fc; } /* no inner shadow (per Figma) */
+.ats-btn--icon:disabled, .ats-btn--icon.is-disabled { background: transparent; opacity: .5; }
+
+/* ===== Color: Amplify (Figma 151:349 — "Buttons/Amplify Radial" fill) ===== */
+.ats-btn--amplify {
+  font-weight: 500;
+  color: var(--button-color-primary-content-default, #fff);
+  box-shadow: 0 2px 4px var(--color-transparency-charcoal-charcoal-04, rgba(40,40,40,.04));
+  background: linear-gradient(43deg, #37fc97 2%, #95f7d0 22%, #23afdc 50%, #009bdf 74%, #125783 104%);
+}
+.ats-btn--amplify:hover, .ats-btn--amplify.is-hover {
+  background:
+    linear-gradient(rgba(6,94,137,.35), rgba(6,94,137,.35)),
+    linear-gradient(43deg, #37fc97 2%, #95f7d0 22%, #23afdc 50%, #009bdf 74%, #125783 104%);
+}
+.ats-btn--amplify:disabled, .ats-btn--amplify.is-disabled { color: rgba(255,255,255,.8); }
+
+.ats-btn:disabled, .ats-btn.is-disabled { cursor: not-allowed; }

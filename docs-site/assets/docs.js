@@ -107,6 +107,24 @@
     }
   });
 
+  // Live component from the ats-ui showcase (built into /examples/ — see repo README).
+  // <doc-example src="button?theme=primary&label=Save" caption="Primary states" height="120"></doc-example>
+  // The embedded page reports its height, so `height` is only the initial size.
+  customElements.define("doc-example", class extends HTMLElement{
+    connectedCallback(){
+      if(this._done)return; this._done=true;
+      var src=attr(this,"src")||"", cap=attr(this,"caption")||"", h=attr(this,"height")||"120";
+      this.innerHTML='<figure class="showcase example"><iframe src="/examples/'+esc(src)+'" title="'+esc(cap||"Live example")+'"'+
+        ' loading="lazy" style="height:'+esc(h)+'px"></iframe>'+
+        '<figcaption>'+(cap?esc(cap)+' · ':'')+'<a href="/examples/'+esc(src)+'" target="_blank" rel="noopener">Open live example ↗</a></figcaption></figure>';
+    }
+  });
+  window.addEventListener("message",function(e){
+    var d=e.data; if(!d||d.type!=="ats-example-height")return;
+    var frames=document.querySelectorAll("figure.example iframe");
+    for(var i=0;i<frames.length;i++){ if(frames[i].contentWindow===e.source){ frames[i].style.height=Math.ceil(d.height)+"px"; } }
+  });
+
   /* ---- structure ---- */
 
   // <doc-section id="problem" label="The problem" desc="What prompted this">…</doc-section>

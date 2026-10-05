@@ -1,0 +1,7 @@
+.DS_Store
+.vercel
+node_modules/
+# build output
+components/dist/
+components/.angular/
+docs-site/examples/

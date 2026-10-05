@@ -26,6 +26,10 @@ You only do this once. After it's done, every push auto-deploys.
 
 You'll get a `https://<project>.vercel.app` URL. That's the link you share.
 
+> This site now lives in the Design Specs monorepo (`docs-site/`). Vercel deploys
+> it from the repo root using `../vercel.json`, which also builds the live component
+> examples into `examples/`. See `../CLAUDE.md`.
+
 ## Adding or updating a doc
 
 1. Add the new page as `docs/<name>.html` (the skill produces this).
@@ -40,8 +44,20 @@ You'll get a `https://<project>.vercel.app` URL. That's the link you share.
 
 Vercel redeploys automatically on push; the URL updates in a few seconds.
 
+## Live component examples
+
+Embed a real `ats-ui` component instead of a hand-styled stand-in:
+
+```html
+<doc-example src="button?theme=primary&label=Save%20changes" caption="Primary states"></doc-example>
+```
+
+`src` is a showcase route plus query params (see each page in
+`components/projects/showcase/src/app/pages/`). Preview locally with `npm run docs`
+from the repo root; a plain static server won't have the `/examples/` build.
+
 ## Notes
 
-- Pages are self-contained and need no build step.
+- Pages are self-contained and need no build step (only the `examples/` folder is built).
 - Keep the Soft notebook style consistent across pages so the site reads as one
   system (see the skill's style spec).
