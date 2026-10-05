@@ -5,3 +5,6 @@ node_modules/
 components/dist/
 components/.angular/
 docs-site/examples/
+
+# agent worktrees
+.worktrees/
