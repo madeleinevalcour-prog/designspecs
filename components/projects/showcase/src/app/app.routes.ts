@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ButtonPage } from './pages/button/button-page';
+import { DataTablePage } from './pages/data-table/data-table-page';
 import { HomePage } from './pages/home/home-page';
 import { IconPage } from './pages/icon/icon-page';
 
@@ -10,5 +11,6 @@ export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
   { path: 'button', component: ButtonPage, title: 'Button — ats-ui' },
   { path: 'icon', component: IconPage, title: 'Icon — ats-ui' },
+  { path: 'data-table', component: DataTablePage, title: 'Novo Data Table — ats-ui' },
   { path: '**', redirectTo: '' },
 ];

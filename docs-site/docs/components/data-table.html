@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Table — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Data Table" meta="Status: in review · Figma: Component Migration 46:1541 / 254:6720 · Code: ats-ui NovoDataTable · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Data Table lists records in rows and columns. The header row stays fixed while the body scrolls, and every color, size and text style comes from the Tier-3 data-table tokens.</p>
+    <doc-example src="data-table?cols=8&amp;rows=8&amp;height=320" caption="Default: 8 columns, banded rows, checkbox and preview columns"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <p>A table is a header row plus body rows. Each row starts with two fixed columns, then one cell per data column.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Figma</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td>Header row</td><td>—</td><td>Sticky at the top of the scroll area. Holds the select-all checkbox and one header cell per column.</td></tr>
+        <tr><td>Header cell</td><td><span class="chip">novo-data-table-header-cell</span> 254:494</td><td>Column label, sort icon, and an optional filter icon.</td></tr>
+        <tr><td>Checkbox cell</td><td>checkbox 250:17814</td><td>Selects the row. In the header it selects or clears every row.</td></tr>
+        <tr><td>Preview cell</td><td>—</td><td>48px column with the preview icon.</td></tr>
+        <tr><td>Cell</td><td><span class="chip">novo-data-table-cell</span> 254:487</td><td>One line of value text, in the default or hyperlink style.</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="data-table?part=header-cell&amp;label=Name" caption="Header cell with sort and filter icons" height="90"></doc-example>
+    <doc-example src="data-table?part=header-cell&amp;label=ID&amp;filter=false" caption="Header cell without the filter icon" height="90"></doc-example>
+    <doc-example src="data-table?part=cell&amp;value=District%20Security%20Director" caption="Cell, default" height="90"></doc-example>
+    <doc-example src="data-table?part=cell&amp;value=name%40email.com&amp;link=true" caption="Cell, hyperlink" height="90"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants">
+    <p>The Figma column-count variants (three to eight columns) are the same table with fewer columns. Turn off banding, the checkbox column or the preview column with an input.</p>
+    <doc-example src="data-table?cols=4&amp;rows=5&amp;banded=false" caption="4 columns, no banding" height="380"></doc-example>
+    <doc-example src="data-table?cols=4&amp;rows=5&amp;checkbox=false&amp;preview=false" caption="No checkbox or preview column" height="380"></doc-example>
+  </doc-section>
+
+  <doc-section id="measurements" label="Measurements">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Value</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Cell min height</td><td>40px</td><td><span class="chip">data-table/spacing/min-height</span></td></tr>
+        <tr><td>Cell min width</td><td>128px (checkbox and preview cells exempt)</td><td><span class="chip">data-table/spacing/min-width</span></td></tr>
+        <tr><td>Cell padding (v / h)</td><td>8 / 16px</td><td><span class="chip">data-table/spacing/padding-vertical</span>, <span class="chip">…/padding-horizontal</span></td></tr>
+        <tr><td>Gap inside a cell</td><td>16px</td><td><span class="chip">data-table/spacing/gap-cell</span></td></tr>
+        <tr><td>Row divider</td><td>1px</td><td><span class="chip">data-table/border/width/default</span></td></tr>
+        <tr><td>Preview column</td><td>48px wide, 16px icon</td><td>No token</td></tr>
+        <tr><td>Sort / filter icons</td><td>12px</td><td>No token</td></tr>
+        <tr><td>Column width</td><td>Set per column; otherwise grows to fit the text</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior">
+    <ul>
+      <li>The table scrolls both ways inside its container. Give the container a max height and the header row stays pinned while the body scrolls.</li>
+      <li>Values stay on one line. A value longer than a fixed column width is cut off with an ellipsis.</li>
+      <li>The header checkbox selects every row, or clears them all. It shows as indeterminate when only some rows are selected.</li>
+      <li>The sort and filter icons are visual only. Sorting and filtering aren’t wired up yet.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="custom-cells" label="Custom cells">
+    <p>A column can render any content instead of plain text. Engineering supplies a template for that column’s key; the table renders it in every row.</p>
+    <doc-example src="data-table?cols=8&amp;rows=5&amp;custom=true&amp;height=280" caption="Status column rendered through a cell template (scroll right)"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It’s a native <span class="chip">&lt;table&gt;</span> with <span class="chip">&lt;th scope="col"&gt;</span> headers, so screen readers announce the column for each cell.</li>
+      <li>Give each table an accessible name with the <span class="chip">label</span> input.</li>
+      <li>Row checkboxes are named “Select &lt;first column value&gt;”, for example “Select Sincere Jones”. The header checkbox is “Select all”.</li>
+      <li>The preview column header has a visually hidden “Preview” label.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Header and row background</td><td><span class="chip">data-table/color/background/default</span></td></tr>
+        <tr><td>Banded row background</td><td><span class="chip">data-table/color/background/muted</span></td></tr>
+        <tr><td>Row divider</td><td><span class="chip">data-table/color/border/default</span> at <span class="chip">data-table/border/width/default</span></td></tr>
+        <tr><td>Header label and cell text</td><td><span class="chip">data-table/color/content/default</span></td></tr>
+        <tr><td>Hyperlink text</td><td><span class="chip">data-table/color/content/hyperlink</span></td></tr>
+        <tr><td>Sort, filter and preview icons</td><td><span class="chip">data-table/color/icon/default</span></td></tr>
+        <tr><td>Header label text</td><td><span class="chip">typography/input/label/md/*</span> (12 / 14px, 400)</td></tr>
+        <tr><td>Cell text</td><td><span class="chip">typography/input/value/default/*</span> (14 / 20px, 400)</td></tr>
+        <tr><td>Hyperlink cell text</td><td><span class="chip">typography/input/value/hyperlinks/*</span> (14 / 20px, 500)</td></tr>
+        <tr><td>Spacing</td><td><span class="chip">data-table/spacing/*</span> (see Measurements)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>The table lives in the <span class="chip">ats-ui</span> Angular library. Pass typed columns and rows; the header and body cells are also usable on their own native <span class="chip">&lt;th&gt;</span> / <span class="chip">&lt;td&gt;</span>.</p>
+    <doc-code caption="Angular">
+      &lt;ats-novo-data-table [columns]="columns" [rows]="candidates" label="Candidates"
+        (selectionChange)="selected = $event"&gt;
+        &lt;ng-template atsNovoDataTableCell="status" let-value let-row="row"&gt;
+          &lt;my-status-chip [status]="value" /&gt;
+        &lt;/ng-template&gt;
+      &lt;/ats-novo-data-table&gt;
+
+      columns: NovoDataTableColumn[] = [
+        { label: 'Name', key: 'name', width: 240 },
+        { label: 'Personal Email', key: 'email', width: 240, link: true },
+        { label: 'ID', key: 'id', filter: false },
+      ];
+
+      &lt;th ats-novo-data-table-header-cell label="ID" [filter]="false"&gt;&lt;/th&gt;
+      &lt;td ats-novo-data-table-cell value="name@email.com" link&gt;&lt;/td&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">columns</span></td><td><span class="chip">NovoDataTableColumn[]</span>: label, key, width (px), link, filter</td><td>required</td></tr>
+        <tr><td><span class="chip">rows</span></td><td>Array of objects; values are read by column key</td><td>required</td></tr>
+        <tr><td><span class="chip">checkbox</span></td><td>Show the checkbox column</td><td>true</td></tr>
+        <tr><td><span class="chip">preview</span></td><td>Show the preview-icon column</td><td>true</td></tr>
+        <tr><td><span class="chip">banded</span></td><td>Alternate rows on the muted background</td><td>true</td></tr>
+        <tr><td><span class="chip">label</span></td><td>Accessible name for the table</td><td>—</td></tr>
+        <tr><td><span class="chip">(selectionChange)</span></td><td>Emits the selected rows</td><td>—</td></tr>
+        <tr><td><span class="chip">atsNovoDataTableCell</span></td><td>On an <span class="chip">&lt;ng-template&gt;</span>: column key. Context: value, <span class="chip">row</span>, <span class="chip">column</span>, <span class="chip">index</span></td><td>—</td></tr>
+        <tr><td>Header cell: <span class="chip">label</span>, <span class="chip">filter</span>, <span class="chip">width</span></td><td>Text · show filter icon · px</td><td>'' · true · —</td></tr>
+        <tr><td>Cell: <span class="chip">value</span>, <span class="chip">link</span>, <span class="chip">width</span></td><td>Text (or project content) · hyperlink style · px</td><td>— · false · —</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Checkbox.">The checkbox cells use a plain native checkbox for now. They switch to the ats Checkbox component once it’s merged.</doc-callout>
+    <doc-callout type="note" heading="Header label color.">The prototype colors header labels with <span class="chip">data-table/color/content/default</span>. The token set also has <span class="chip">data-table/color/content/header</span>; confirm which one Figma binds.</doc-callout>
+    <doc-callout type="note" heading="Hover, focus and selected rows.">Tokens exist for hover and focus (<span class="chip">data-table/color/background/hover</span>, <span class="chip">…/border/focus</span>, <span class="chip">…/content/hyperlink-hover</span>), but the prototype doesn’t use them. Confirm the row and link states in Figma.</doc-callout>
+    <doc-callout type="note" heading="Sort and filter.">The header icons are static. Confirm the sort and filter interactions before wiring them up.</doc-callout>
+    <doc-callout type="note" heading="Hyperlink cells.">Hyperlink cells are styled text, not links. Confirm where they should navigate.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

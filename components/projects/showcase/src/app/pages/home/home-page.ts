@@ -27,5 +27,6 @@ export class HomePage {
   protected readonly components = [
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
+    { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
   ];
 }
