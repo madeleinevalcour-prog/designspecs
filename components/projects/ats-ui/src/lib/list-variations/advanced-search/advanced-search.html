@@ -1,0 +1,11 @@
+<ats-icon class="ats-advanced-search__icon" name="amplify" [size]="16" color="var(--search-color-content-icon)" />
+<input
+  class="ats-advanced-search__input"
+  type="text"
+  [placeholder]="placeholderText()"
+  [attr.aria-label]="label()"
+  [value]="value()"
+  (input)="onInput($event)"
+  (keydown.enter)="submit()"
+/>
+<button ats-button theme="primary" iconLeft="search" (click)="submit()">{{ button() }}</button>

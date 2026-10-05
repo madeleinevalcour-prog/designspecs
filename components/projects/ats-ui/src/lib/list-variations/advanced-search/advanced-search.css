@@ -1,0 +1,23 @@
+/* AdvancedSearch — Figma "advanced-search" 33:5738. The Search button is an
+   <button ats-button theme="primary" iconLeft="search">, styled by button.css. */
+.ats-advanced-search {
+  display: flex; align-items: center; gap: var(--spacing-gap-sm); width: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-padding-sm) var(--spacing-padding-md) var(--spacing-padding-sm) var(--spacing-padding-lg);
+  background: var(--search-color-background-background);
+  border: var(--border-width-border-default) solid var(--search-color-border-default);
+  border-radius: var(--border-radius-round);
+  /* Figma drop shadow 0 4 4 charcoal 8% — no elevation style matches */
+  filter: drop-shadow(0 var(--spacing-4) var(--spacing-4) var(--color-transparency-charcoal-charcoal-08));
+}
+/* the input drops its own outline, so show focus on the bar (a11y; not in the source) */
+.ats-advanced-search:focus-within { border-color: var(--search-color-border-focus); }
+.ats-advanced-search__input {
+  flex: 1 0 0; min-width: 0; border: 0; outline: 0; background: transparent; margin: 0; padding: 0;
+  font-family: var(--typography-input-value-default-font-family);
+  font-weight: var(--typography-input-value-default-font-weight);
+  font-size: var(--typography-input-value-default-font-size);
+  line-height: var(--typography-input-value-default-line-height);
+  color: var(--search-color-content-input);
+}
+.ats-advanced-search__input::placeholder { color: var(--search-color-content-placeholder); }

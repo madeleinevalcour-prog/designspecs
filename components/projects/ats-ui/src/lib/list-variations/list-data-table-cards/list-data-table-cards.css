@@ -1,0 +1,44 @@
+/* ListDataTableCards — Figma "novo-data-table-cards" 56:12776. */
+.ats-list-data-table-cards { display: flex; gap: var(--spacing-gap-lg); align-items: flex-start; }
+.ats-list-data-table-cards__col { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-gap-md); }
+.ats-list-data-table-cards__card {
+  display: flex; flex-direction: column; gap: var(--spacing-12);
+  padding: var(--card-spacing-content-padding-vertical) var(--card-spacing-content-padding-horizontal);
+  background: var(--card-color-background-contents);
+  border: var(--card-border-width-default) solid var(--card-color-border-default);
+  border-radius: var(--border-radius-sm); /* Figma 8px; --card-border-radius-default is 16px */
+  /* Figma shadow 0 4 4 charcoal 8% — no elevation style matches */
+  box-shadow: 0 var(--spacing-4) var(--spacing-4) 0 var(--color-transparency-charcoal-charcoal-08);
+}
+.ats-list-data-table-cards__head { display: flex; align-items: center; gap: var(--spacing-gap-sm); }
+.ats-list-data-table-cards__name {
+  flex: 1 0 0; min-width: 0;
+  font-family: var(--typography-title-small-font-family);
+  font-weight: var(--typography-font-weight-500);
+  font-size: var(--typography-title-small-font-size);
+  line-height: var(--typography-title-small-line-height);
+  text-transform: var(--typography-title-small-text-transform);
+  color: var(--card-color-content-link);
+}
+.ats-list-data-table-cards__fields { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-gap-xsm) var(--spacing-gap-sm); }
+.ats-list-data-table-cards__field {
+  display: inline-flex; align-items: center; gap: var(--spacing-gap-sm);
+  padding: var(--spacing-padding-xsm) var(--spacing-padding-sm);
+}
+.ats-list-data-table-cards__field span {
+  white-space: nowrap;
+  font-family: var(--typography-body-sm-font-family);
+  font-weight: var(--typography-body-sm-font-weight-default);
+  font-size: var(--typography-body-sm-font-size);
+  line-height: var(--typography-body-sm-line-height);
+  color: var(--card-color-content-body);
+}
+.ats-list-data-table-cards__desc {
+  margin: 0; max-height: 60px; overflow: hidden; /* no token: 3 × 20px line clamp */
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  font-family: var(--typography-body-default-font-family);
+  font-weight: var(--typography-body-default-font-weight-default);
+  font-size: var(--typography-body-default-font-size);
+  line-height: var(--typography-body-default-line-height);
+  color: var(--card-color-content-body);
+}
