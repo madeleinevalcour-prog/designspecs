@@ -40,14 +40,15 @@
       <tbody>
         <tr><td>resume</td><td><span class="chip">resume</span></td><td>Resume</td><td>CardResume</td></tr>
         <tr><td>details</td><td><span class="chip">info</span></td><td>Details</td><td>CardDetailRow rows, or RecordDetailsList</td></tr>
-        <tr><td>notes</td><td><span class="chip">note</span></td><td>Recent Notes</td><td>Not ported yet (novo-list)</td></tr>
-        <tr><td>tasks</td><td><span class="chip">check-outline</span></td><td>Open Tasks</td><td>Not ported yet (novo-list)</td></tr>
-        <tr><td>submissions</td><td><span class="chip">submission</span></td><td>Open Submissions</td><td>Not ported yet (novo-list)</td></tr>
+        <tr><td>notes</td><td><span class="chip">note</span></td><td>Recent Notes</td><td>Novo list of note items</td></tr>
+        <tr><td>tasks</td><td><span class="chip">check-outline</span></td><td>Open Tasks</td><td>Novo list of task items</td></tr>
+        <tr><td>submissions</td><td><span class="chip">submission</span></td><td>Open Submissions</td><td>Novo list of submission items</td></tr>
       </tbody>
     </table>
     <doc-example src="card?variant=resume&amp;footer=true" caption="Resume" height="640"></doc-example>
     <doc-example src="card?variant=columns&amp;footer=true" caption="Details — columns (RecordDetailsList body)" height="420"></doc-example>
-    <doc-example src="card?variant=submissions&amp;footer=true&amp;body=none&amp;iconColor=var(--color-entity-submission)" caption="Submissions header with an entity icon color (body not ported yet)" height="180"></doc-example>
+    <doc-example src="card?variant=notes&amp;footer=true" caption="Notes card with a Novo list body" height="320"></doc-example>
+    <doc-example src="card?variant=submissions&amp;footer=true&amp;iconColor=var(--color-entity-submission)" caption="Submissions card with an entity icon color" height="320"></doc-example>
   </doc-section>
 
   <doc-section id="card-actions" label="CardActions" desc="ats-card-actions">
@@ -148,7 +149,6 @@
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="Notes, tasks and submissions bodies.">These use novo-list items in the prototype, which aren’t in ats-ui yet. Only their headers and footers are shown here.</doc-callout>
     <doc-callout type="note" heading="Footer spacing.">The footer uses the header gap and horizontal padding, as in the prototype. The card/spacing/footer/* tokens (8px all round) exist but aren’t applied. Confirm which is right.</doc-callout>
     <doc-callout type="note" heading="Untokenized values.">Gripper offset (6px left, 20px top), the 200px label column cap and the 18px resume list indent have no tokens.</doc-callout>
     <doc-callout type="note" heading="CardResume content.">It’s fixed sample content. Decide whether it should take resume data as inputs.</doc-callout>

@@ -1,3 +1,22 @@
+<ng-template #listBody let-v>
+  <ats-novo-list>
+    @switch (v) {
+      @case ('notes') {
+        <ats-novo-list-item-note date="07/16/2026" time="12:00 PM" label="Pre-screen" user="Chloe Davis" [body]="noteBody" />
+        <ats-novo-list-item-note date="07/14/2026" time="9:30 AM" label="Call" user="Marcus Lee" body="Left a voicemail about the React opening; will follow up Thursday." />
+      }
+      @case ('tasks') {
+        <ats-novo-list-item-task title="Call Tyler Brooks" [comment]="noteBody" />
+        <ats-novo-list-item-task title="Send offer to Dana Whitfield" [fields]="offerFields" />
+      }
+      @case ('submissions') {
+        <ats-novo-list-item-submission title="Senior React Developer" />
+        <ats-novo-list-item-submission title="Cloud Engineer" status="Submitted" company="Brightline Labs" datetime="7/18/2026, 11:00 AM" />
+      }
+    }
+  </ats-novo-list>
+</ng-template>
+
 @if (embed()) {
   <div class="embed" [class.force-grip]="forceGripper()">
     @switch (part()) {
@@ -45,6 +64,8 @@
               <ats-card-resume />
             } @else if (cardVariant() === 'details') {
               @for (d of details; track d.label) { <ats-card-detail-row [label]="d.label" [value]="d.value" /> }
+            } @else {
+              <ng-container [ngTemplateOutlet]="listBody" [ngTemplateOutletContext]="{ $implicit: cardVariant() }" />
             }
           }
         </ats-card>
@@ -72,8 +93,9 @@
     @for (v of listVariants; track v) {
       <div class="col">
         <h2>{{ v }}</h2>
-        <ats-card [variant]="v" showFooter [iconColor]="v === 'submissions' ? 'var(--color-entity-submission)' : undefined" />
-        <p class="note">Body is a novo-list (note / task items), not ported to ats-ui yet.</p>
+        <ats-card [variant]="v" showFooter [iconColor]="v === 'submissions' ? 'var(--color-entity-submission)' : undefined">
+          <ng-container [ngTemplateOutlet]="listBody" [ngTemplateOutletContext]="{ $implicit: v }" />
+        </ats-card>
       </div>
     }
   </div>
