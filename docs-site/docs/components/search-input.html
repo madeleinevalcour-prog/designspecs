@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Search Input — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Search Input" meta="Status: in review · Figma: search-input (Component Migration), instances 1323:67011 and 1323:68245 · Code: ats-ui SearchInput · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">The search input is a single-line search field with a leading search icon. It comes in two shapes: the Fast Find field and the Menu’s Filter pill.</p>
+    <doc-example src="search-input?variant=field" caption="Field, default. Hover and focus are live" height="90"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants">
+    <table class="tbl">
+      <thead><tr><th>Variant</th><th>Used in</th><th>Shape</th></tr></thead>
+      <tbody>
+        <tr><td>field</td><td>Fast Find, in the bowling alley</td><td>32px tall, <span class="chip">field/border/radius/default</span>, 16px text (<span class="chip">typography/bowling-alley/main-nav</span>), close button on the right</td></tr>
+        <tr><td>pill</td><td>The Menu overlay’s Filter</td><td>40px min height, fully round, 14px text (<span class="chip">typography/input/value/default</span>), no close button</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="search-input?variant=field&amp;state=active" caption="Field, focused" height="90"></doc-example>
+    <doc-example src="search-input?variant=field&amp;state=active&amp;value=Tyler" caption="Field, focused with text" height="90"></doc-example>
+    <doc-example src="search-input?variant=pill" caption="Pill, default" height="100"></doc-example>
+    <doc-example src="search-input?variant=pill&amp;state=active" caption="Pill, focused" height="100"></doc-example>
+  </doc-section>
+
+  <doc-section id="states" label="States and behaviour">
+    <ul>
+      <li>The border follows the pointer and focus: default, hover, then focus (<span class="chip">field/color/border/*</span> for the field, <span class="chip">search/color/border/*</span> for the pill).</li>
+      <li>Clicking anywhere on the field focuses the text input.</li>
+      <li>The close button and Escape both emit <span class="chip">closed</span>; the owner decides what closing means (in Fast Find it ends the search).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It is a native <span class="chip">input type="search"</span>, labelled by <span class="chip">ariaLabel</span> or, failing that, the placeholder.</li>
+      <li>The close button is labelled “Close search”.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Background</td><td><span class="chip">field/color/background/default</span></td></tr>
+        <tr><td>Border (field)</td><td><span class="chip">field/color/border/default</span>, <span class="chip">…/hover</span>, <span class="chip">…/focus</span></td></tr>
+        <tr><td>Border (pill)</td><td><span class="chip">search/color/border/default</span>, <span class="chip">…/hover</span>, <span class="chip">…/focus</span></td></tr>
+        <tr><td>Text / placeholder</td><td><span class="chip">field/color/content/value</span>, <span class="chip">field/color/content/placeholder</span></td></tr>
+        <tr><td>Icons</td><td><span class="chip">search/color/content/icon</span>; close <span class="chip">color/icon/subtle</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-search-input placeholder="Find anything in Bullhorn" [(value)]="query" (closed)="endSearch()" /&gt;
+      &lt;ats-search-input variant="pill" placeholder="Filter" [(value)]="filter" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">variant</span></td><td>field · pill</td><td>field</td></tr>
+        <tr><td><span class="chip">placeholder</span></td><td>Text</td><td>“Find anything in Bullhorn” (field) · “Filter” (pill)</td></tr>
+        <tr><td><span class="chip">[(value)]</span></td><td>The typed text (two-way)</td><td>''</td></tr>
+        <tr><td><span class="chip">active</span></td><td>Force the focused look (docs)</td><td>false</td></tr>
+        <tr><td><span class="chip">closable</span></td><td>Show the close button</td><td>true (field) · false (pill)</td></tr>
+        <tr><td><span class="chip">ariaLabel</span></td><td>Accessible name</td><td>The placeholder</td></tr>
+        <tr><td><span class="chip">(closed)</span>, <span class="chip">(focused)</span></td><td>Close button / Escape; focus</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>Methods: <span class="chip">focus()</span>, <span class="chip">blur()</span>.</p>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Component variants.">Built from two instances in the bowling-alley frames; the search-input component set itself wasn’t inspected. Confirm the variant names and the hover and disabled states.</doc-callout>
+    <doc-callout type="note" heading="Field text size.">The field uses the bowling-alley main-nav style (16px). Confirm that’s intended outside the bowling alley.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

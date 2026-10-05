@@ -305,15 +305,17 @@
       {t:"Typography", href:"/docs/foundations/typography.html"}
     ]},
     {label:"Components", pages:[
+      {t:"Bowling Alley", href:"/docs/components/bowling-alley.html"},
       {t:"Button", href:"/docs/components/button.html"},
       {t:"Card", href:"/docs/components/card.html"},
       {t:"Checkbox", href:"/docs/components/checkbox.html"},
       {t:"Data Table", href:"/docs/components/data-table.html"},
       {t:"Icon", href:"/docs/components/icon.html"},
       {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html"},
+      {t:"List Item", href:"/docs/components/list-item.html"},
       {t:"Novo List", href:"/docs/components/novo-list.html"},
-      {t:"Rail", href:"/docs/components/rail.html"},
       {t:"Record Header", href:"/docs/components/record-header.html"},
+      {t:"Search Input", href:"/docs/components/search-input.html"},
       {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"},
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
     ]},

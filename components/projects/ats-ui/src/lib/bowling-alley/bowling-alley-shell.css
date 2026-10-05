@@ -1,0 +1,34 @@
+/* BowlingAlleyShell — stage / main / canvas layout, scrim and overlay layers.
+   Every var used in a transition here is always defined on the shell. */
+.ats-bowling-alley-shell {
+  --ats-bowling-alley-w: 64px;        /* no token: collapsed width (Figma State=Collapsed) */
+  --ats-bowling-alley-panel-w: 258px; /* no token: expanded width (Figma State=Open / Hover 2) */
+  --ats-bowling-alley-find-w: 556px;  /* no token: Fast Find width (Figma 1323:67019) */
+  display: flex; flex-direction: column; position: relative;
+  height: 100%; min-height: 0; overflow: hidden;
+  background: var(--color-background-subtle);
+  font-family: var(--typography-font-family-base), 'Inter', -apple-system, sans-serif;
+  color: var(--color-text-body);
+}
+.ats-bowling-alley-shell__stage { position: relative; flex: 1; min-height: 0; }
+
+.ats-bowling-alley-shell__main {
+  position: absolute; top: 0; bottom: 0; right: 0; left: var(--ats-bowling-alley-w);
+  display: flex; flex-direction: column; min-width: 0;
+  transition: left .18s ease;
+}
+.ats-bowling-alley-shell[data-nav="open"] .ats-bowling-alley-shell__main { left: var(--ats-bowling-alley-panel-w); }
+.ats-bowling-alley-shell__canvas { flex: 1 0 0; min-width: 0; min-height: 0; overflow: auto; background: var(--color-background-default); }
+
+/* scrim: color/background/overlay, under the bowling alley (z 30) */
+.ats-bowling-alley-shell__scrim {
+  position: absolute; inset: 0; z-index: 25; pointer-events: none;
+  background: var(--color-background-overlay); opacity: 0; transition: opacity .15s ease;
+}
+.ats-bowling-alley-shell__scrim.is-on { opacity: 1; pointer-events: auto; }
+
+.ats-bowling-alley-shell__overlays { position: absolute; inset: 0; z-index: 70; pointer-events: none; }
+.ats-bowling-alley-shell__overlay { position: absolute; pointer-events: auto; }
+.ats-bowling-alley-shell__results { display: flex; flex-direction: column; }
+.ats-bowling-alley-shell__results .ats-fast-find-results { min-height: 0; }
+.ats-bowling-alley-shell__tooltip { position: absolute; z-index: 90; }
