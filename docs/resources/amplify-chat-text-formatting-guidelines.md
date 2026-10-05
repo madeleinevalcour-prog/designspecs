@@ -7,6 +7,7 @@ Guidance for how Amplify chat renders assistant responses. Uses Modern UI (Novo)
 - Covers: assistant message text, headings, lists, emphasis, tables, record references, sources, follow-ups, feedback, loading states, user message bubble.
 - Does not cover: composer redesign, Prompt Library, Tools menu, chat history, Digital Worker output outside chat.
 - Text style, color, spacing, radius and elevation names come from the Modern UI Design System reference (`[role]/[size]` naming, for example `body/default`).
+- The analysis of the current Amplify chat that led to these guidelines is in the appendix at the end.
 
 ## Why this matters for recruiters
 
@@ -41,44 +42,6 @@ Common patterns across products:
 - Clarifying questions are structured (cards, options), not long numbered lists.
 - The same controls sit under every reply: copy, retry, thumbs up and down.
 - Reading width is capped. No vendor publishes its chat type scale, so reading width and hierarchy are the only transferable specs.
-
-## Current state analysis
-
-Three screenshots reviewed: two in the old UI (thinking state, Prospect table) and one in the new UI (clarifying questions). Measurements come from the screenshots at 1x and are approximate. Font sizes are inferred from glyph height and line pitch, not read from code.
-
-### What works today
-
-- Assistant and user turns are clearly separated: avatar and name labels, with a tinted bubble for the user (Gestalt, figure-ground and common region).
-- The Prospect table has a light structure: hairline rows and left-aligned text (Gestalt, continuity). The updated rules below align it with `novo-data-table`.
-- "Showing 10 of 56 results" tells the user the result set is partial (H1, visibility of system status; Amplify principle 4, honest expectations).
-- The Amplify icon identifies the AI actor consistently. The Amplify radial is used only on Amplify elements, as the Modern UI color rules require.
-
-### Issues
-
-| # | Issue | Where | Principle |
-| --- | --- | --- | --- |
-| 1 | Response headings are about 28–30px, larger than the largest Modern UI title style (`title/default`, 24/32) and larger than the "Amplify" panel title. The response outranks the app chrome | New UI | Modern UI typography (style chosen by role); H8, aesthetic and minimalist design |
-| 2 | 12 clarifying questions in one reply, numbered across four sections. The recruiter has to answer them all in free text | New UI | NN/g (ask sparingly); H6, recognition over recall; H7, efficiency |
-| 3 | Bold on 2–5 phrases per line. When everything is emphasized, nothing stands out | New UI | Gestalt, similarity; Rams 10, as little design as possible |
-| 4 | Numbering is repeated at two levels ("1) Three CSM roles" heading, then list items 1–5), and the list numbering runs on across sections | New UI | H4, consistency and standards; Gestalt, continuity |
-| 5 | Body text runs about 110–120 characters per line across a line about 900px wide | Both | Baymard/WCAG 1.4.8 (80 at most); Rams 3, aesthetic |
-| 6 | The feedback request is written as prose ("If this was helpful, please leave a thumbs up/down…") instead of being a control | Both | Rams 10; H8; industry standard (controls under the message) |
-| 7 | The memory confirmation ("I've saved those working preferences") is hidden in the opening prose. No way to view or undo it | New UI | H1; H3, user control; general-design-review AI governors (memory controls) |
-| 8 | Record names and Prospect IDs are plain text. The user has to go and search for the record | Old UI table | H6; Amplify principle 3 (show your work); industry standard (citations and record links) |
-| 9 | Next steps are offered as a question in prose ("Want me to open that one…or list the next page?") and not as actions | Old UI table | H7; NN/g truncated pyramid (follow-ups) |
-| 10 | The floating composer covers the response text with no separation, so text is cut off behind it | Both | Gestalt, figure-ground; Modern UI elevation (layer by level) |
-| 11 | "Amplify is thinking…" is in link blue, so it reads as clickable, and it does not say what Amplify is doing | Old UI | Gestalt, similarity (blue means link); H1 |
-| 12 | Body text samples at about `#2a292d`, darker than `color/text/body` (`#3d464d`). It may be bound to the headline color or to a raw value. Anti-aliasing makes this uncertain | New UI | Modern UI color (bind to the semantic token) |
-| 13 | Empty table values show "—" with no explanation | Old UI table | Amplify principle 5 (design for the full range of data quality) |
-
-### Rams check (summary)
-
-- Useful: Strong. Answers are grounded in real records.
-- Understandable: Weak. The hierarchy is inverted and there are too many questions.
-- Unobtrusive: Weak. Oversized headings and heavy bold compete with the recruiter's task.
-- Honest: Adequate. Partial result counts are shown, but memory changes are buried.
-- As little design as possible: Weak. Boilerplate prose, repeated numbering, too much bold.
-- The one edit: cap response headings at `title/sm` and remove the prose feedback request.
 
 ## Guidelines
 
@@ -411,3 +374,41 @@ Column width:
 - NN/g, Less chat, more answer: https://www.nngroup.com/articles/less-chat-more-answer/
 - NN/g, GenAI writing for the web: https://www.nngroup.com/articles/genai-write-for-the-web/
 - Baymard, line length: https://baymard.com/research-articles/line-length-readability
+
+## Appendix: current state analysis
+
+Three screenshots reviewed: two in the old UI (thinking state, Prospect table) and one in the new UI (clarifying questions). Measurements come from the screenshots at 1x and are approximate. Font sizes are inferred from glyph height and line pitch, not read from code.
+
+### What works today
+
+- Assistant and user turns are clearly separated: avatar and name labels, with a tinted bubble for the user (Gestalt, figure-ground and common region).
+- The Prospect table has a light structure: hairline rows and left-aligned text (Gestalt, continuity). The updated rules below align it with `novo-data-table`.
+- "Showing 10 of 56 results" tells the user the result set is partial (H1, visibility of system status; Amplify principle 4, honest expectations).
+- The Amplify icon identifies the AI actor consistently. The Amplify radial is used only on Amplify elements, as the Modern UI color rules require.
+
+### Issues
+
+| # | Issue | Where | Principle |
+| --- | --- | --- | --- |
+| 1 | Response headings are about 28–30px, larger than the largest Modern UI title style (`title/default`, 24/32) and larger than the "Amplify" panel title. The response outranks the app chrome | New UI | Modern UI typography (style chosen by role); H8, aesthetic and minimalist design |
+| 2 | 12 clarifying questions in one reply, numbered across four sections. The recruiter has to answer them all in free text | New UI | NN/g (ask sparingly); H6, recognition over recall; H7, efficiency |
+| 3 | Bold on 2–5 phrases per line. When everything is emphasized, nothing stands out | New UI | Gestalt, similarity; Rams 10, as little design as possible |
+| 4 | Numbering is repeated at two levels ("1) Three CSM roles" heading, then list items 1–5), and the list numbering runs on across sections | New UI | H4, consistency and standards; Gestalt, continuity |
+| 5 | Body text runs about 110–120 characters per line across a line about 900px wide | Both | Baymard/WCAG 1.4.8 (80 at most); Rams 3, aesthetic |
+| 6 | The feedback request is written as prose ("If this was helpful, please leave a thumbs up/down…") instead of being a control | Both | Rams 10; H8; industry standard (controls under the message) |
+| 7 | The memory confirmation ("I've saved those working preferences") is hidden in the opening prose. No way to view or undo it | New UI | H1; H3, user control; general-design-review AI governors (memory controls) |
+| 8 | Record names and Prospect IDs are plain text. The user has to go and search for the record | Old UI table | H6; Amplify principle 3 (show your work); industry standard (citations and record links) |
+| 9 | Next steps are offered as a question in prose ("Want me to open that one…or list the next page?") and not as actions | Old UI table | H7; NN/g truncated pyramid (follow-ups) |
+| 10 | The floating composer covers the response text with no separation, so text is cut off behind it | Both | Gestalt, figure-ground; Modern UI elevation (layer by level) |
+| 11 | "Amplify is thinking…" is in link blue, so it reads as clickable, and it does not say what Amplify is doing | Old UI | Gestalt, similarity (blue means link); H1 |
+| 12 | Body text samples at about `#2a292d`, darker than `color/text/body` (`#3d464d`). It may be bound to the headline color or to a raw value. Anti-aliasing makes this uncertain | New UI | Modern UI color (bind to the semantic token) |
+| 13 | Empty table values show "—" with no explanation | Old UI table | Amplify principle 5 (design for the full range of data quality) |
+
+### Rams check (summary)
+
+- Useful: Strong. Answers are grounded in real records.
+- Understandable: Weak. The hierarchy is inverted and there are too many questions.
+- Unobtrusive: Weak. Oversized headings and heavy bold compete with the recruiter's task.
+- Honest: Adequate. Partial result counts are shown, but memory changes are buried.
+- As little design as possible: Weak. Boilerplate prose, repeated numbering, too much bold.
+- The one edit: cap response headings at `title/sm` and remove the prose feedback request.

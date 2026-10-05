@@ -21,38 +21,9 @@
 <li>Out of scope: composer redesign, Prompt Library, Tools menu, chat history.</li>
 </ul>
 <p class="linkrow"><a href="../resources.html#amplify-references">Download the full guidelines (MD) from Resources →</a></p>
+<p class="linkrow"><a href="#appendix-current-state">See the current state analysis behind these guidelines →</a></p>
 </doc-section>
 
-<doc-section id="current" label="Current state" desc="What to keep, what to fix">
-<doc-carousel>
-<doc-showcase src="../images/amplify-chat/current-old-ui-thinking.jpg" alt="Old UI, Amplify thinking state" caption="Old UI · thinking state"></doc-showcase>
-<doc-showcase src="../images/amplify-chat/current-old-ui-table.jpg" alt="Old UI, Prospect results table" caption="Old UI · Prospect results table"></doc-showcase>
-<doc-showcase src="../images/amplify-chat/current-new-ui.jpg" alt="New UI, clarifying questions response" caption="New UI · clarifying questions"></doc-showcase>
-</doc-carousel>
-<h3>Keep</h3>
-<ul>
-<li>Clearly separated turns: avatar, name label, and a tinted bubble for the user (Gestalt, figure-ground and common region).</li>
-<li>A light table structure with hairline rows (Gestalt, continuity).</li>
-<li>"Showing 10 of 56 results" makes it clear the list is partial (H1, visibility of system status).</li>
-</ul>
-<h3>Fix</h3>
-<table class="tbl">
-<tr><th>Issue</th><th>Principle</th></tr>
-<tr><td>Response headings are about 28–30px, larger than the panel title and larger than the Modern UI title maximum (24/32)</td><td>Modern UI typography (style by role) · H8</td></tr>
-<tr><td>12 clarifying questions in one reply, answered in free text</td><td>NN/g (ask sparingly) · H6 · H7</td></tr>
-<tr><td>Bold on 2–5 phrases per line</td><td>Gestalt, similarity · Rams 10</td></tr>
-<tr><td>Numbered headings plus list numbering that runs on across sections</td><td>H4 · Gestalt, continuity</td></tr>
-<tr><td>About 110–120 characters per line</td><td>WCAG 1.4.8 (80 max) · Rams 3</td></tr>
-<tr><td>Feedback request written as prose</td><td>Rams 10 · H8</td></tr>
-<tr><td>Memory change buried in the prose, with no View or Undo</td><td>H1 · H3 · AI governors</td></tr>
-<tr><td>Records and IDs in plain text, not links</td><td>H6 · Amplify principle 3</td></tr>
-<tr><td>Next steps asked as a question in prose</td><td>H7 · NN/g truncated pyramid</td></tr>
-<tr><td>Composer covers the response text</td><td>Gestalt, figure-ground · Modern UI elevation</td></tr>
-<tr><td>"Thinking…" status in link blue, and vague</td><td>Gestalt, similarity · H1</td></tr>
-<tr><td>Empty values shown as "—"</td><td>Amplify principle 5</td></tr>
-</table>
-<p class="lead">Sizes are inferred from the screenshots at 1x. The body text samples at about <span class="chip">#2a292d</span>, darker than <span class="chip">color/text/body</span>. This may be anti-aliasing, so check it in code.</p>
-</doc-section>
 <doc-section id="styles" label="Text styles" desc="Markdown to Modern UI mapping">
 <p>Each element the model can output renders in exactly one style. Specimens use the Modern UI sizes and text tokens.</p>
 <div class="spc-list">
@@ -275,6 +246,38 @@
 -->
 <p class="lead">Sources: Amplify Design Reference; Modern UI Design System; <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices">Claude</a>; <a href="https://help.openai.com/en/articles/9237897-chatgpt-search">ChatGPT</a>; <a href="https://www.notion.com/help/guides/everything-you-can-do-with-notion-ai">Notion AI</a>; <a href="https://attio.com/help/reference/attio-ai/ask-attio/chat-with-ask-attio">Attio</a>; <a href="https://knowledge.hubspot.com/ai/use-breeze-assistant">HubSpot Breeze</a>; <a href="https://knowledge.apollo.io/hc/en-us/articles/39359204112397-AI-Assistant-Overview">Apollo</a>; <a href="https://www.ashbyhq.com/product-updates/ashby-assistant">Ashby</a>; <a href="https://recruitwithatlas.com/">Atlas</a>; <a href="https://business.linkedin.com/hire/ai-assisted-search-and-projects">LinkedIn Recruiter</a>; <a href="https://www.nngroup.com/articles/less-chat-more-answer/">NN/g</a>; <a href="https://baymard.com/research-articles/line-length-readability">Baymard</a>.</p>
 </doc-section>
+
+<doc-section id="appendix-current-state" label="Appendix: current state" desc="The analysis behind the guidelines">
+<doc-carousel>
+<doc-showcase src="../images/amplify-chat/current-old-ui-thinking.jpg" alt="Old UI, Amplify thinking state" caption="Old UI · thinking state"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/current-old-ui-table.jpg" alt="Old UI, Prospect results table" caption="Old UI · Prospect results table"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/current-new-ui.jpg" alt="New UI, clarifying questions response" caption="New UI · clarifying questions"></doc-showcase>
+</doc-carousel>
+<h3>Keep</h3>
+<ul>
+<li>Clearly separated turns: avatar, name label, and a tinted bubble for the user (Gestalt, figure-ground and common region).</li>
+<li>A light table structure with hairline rows (Gestalt, continuity).</li>
+<li>"Showing 10 of 56 results" makes it clear the list is partial (H1, visibility of system status).</li>
+</ul>
+<h3>Fix</h3>
+<table class="tbl">
+<tr><th>Issue</th><th>Principle</th></tr>
+<tr><td>Response headings are about 28–30px, larger than the panel title and larger than the Modern UI title maximum (24/32)</td><td>Modern UI typography (style by role) · H8</td></tr>
+<tr><td>12 clarifying questions in one reply, answered in free text</td><td>NN/g (ask sparingly) · H6 · H7</td></tr>
+<tr><td>Bold on 2–5 phrases per line</td><td>Gestalt, similarity · Rams 10</td></tr>
+<tr><td>Numbered headings plus list numbering that runs on across sections</td><td>H4 · Gestalt, continuity</td></tr>
+<tr><td>About 110–120 characters per line</td><td>WCAG 1.4.8 (80 max) · Rams 3</td></tr>
+<tr><td>Feedback request written as prose</td><td>Rams 10 · H8</td></tr>
+<tr><td>Memory change buried in the prose, with no View or Undo</td><td>H1 · H3 · AI governors</td></tr>
+<tr><td>Records and IDs in plain text, not links</td><td>H6 · Amplify principle 3</td></tr>
+<tr><td>Next steps asked as a question in prose</td><td>H7 · NN/g truncated pyramid</td></tr>
+<tr><td>Composer covers the response text</td><td>Gestalt, figure-ground · Modern UI elevation</td></tr>
+<tr><td>"Thinking…" status in link blue, and vague</td><td>Gestalt, similarity · H1</td></tr>
+<tr><td>Empty values shown as "—"</td><td>Amplify principle 5</td></tr>
+</table>
+<p class="lead">Sizes are inferred from the screenshots at 1x. The body text samples at about <span class="chip">#2a292d</span>, darker than <span class="chip">color/text/body</span>. This may be anti-aliasing, so check it in code.</p>
+</doc-section>
+
 </doc-page>
 
 <style>
