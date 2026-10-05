@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ButtonPage } from './pages/button/button-page';
+import { CardPage } from './pages/card/card-page';
 import { HomePage } from './pages/home/home-page';
 import { IconPage } from './pages/icon/icon-page';
 
@@ -9,6 +10,7 @@ import { IconPage } from './pages/icon/icon-page';
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
   { path: 'button', component: ButtonPage, title: 'Button — ats-ui' },
+  { path: 'card', component: CardPage, title: 'Card — ats-ui' },
   { path: 'icon', component: IconPage, title: 'Icon — ats-ui' },
   { path: '**', redirectTo: '' },
 ];

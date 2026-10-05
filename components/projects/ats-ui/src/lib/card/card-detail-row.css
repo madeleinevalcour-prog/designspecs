@@ -1,0 +1,37 @@
+/* CardDetailRow — ported from card.css (.nc-detail*). Tier-3 card/* + value/* tokens. */
+.ats-card-detail-row {
+  display: flex; align-items: center;
+  min-height: var(--value-min-height-horizontal); /* 40px */
+  border-bottom: var(--card-border-width-default) solid var(--card-color-border-default);
+}
+.ats-card-detail-row:last-child { border-bottom: 0; }
+/* multi-value (e.g. Skills): stack values, top-align the row */
+.ats-card-detail-row--multi { align-items: flex-start; }
+
+.ats-card-detail-row__label {
+  flex: 1 0 0; min-width: 0;
+  max-width: 200px; /* no token: label column cap (source) */
+  display: flex; align-items: center; color: var(--value-color-content-label); text-transform: uppercase;
+  padding: var(--spacing-8) var(--value-spacing-padding-horizontal) var(--spacing-8) var(--card-spacing-header-padding-horizontal);
+  font-family: var(--typography-input-label-md-font-family), 'Inter', sans-serif; font-weight: var(--typography-input-label-md-font-weight);
+  font-size: var(--typography-input-label-md-font-size); line-height: var(--typography-input-label-md-line-height);
+  letter-spacing: var(--typography-input-label-md-letter-spacing);
+}
+/* source hardcoded Inter 500 14/20 — matches typography/input/value/default (medium) */
+.ats-card-detail-row__value {
+  flex: 1 0 0; min-width: 0; color: var(--value-color-content-value);
+  padding: var(--spacing-4) var(--card-spacing-header-padding-horizontal) var(--spacing-4) var(--spacing-4);
+  font-family: var(--typography-input-value-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-input-value-default-font-weight-medium);
+  font-size: var(--typography-input-value-default-font-size); line-height: var(--typography-input-value-default-line-height);
+  letter-spacing: var(--typography-input-value-default-letter-spacing);
+}
+.ats-card-detail-row__value--multi { display: flex; flex-direction: column; gap: var(--spacing-2); }
+.ats-card-detail-row__value--select { display: inline-flex; align-items: center; gap: var(--spacing-gap-xsm); cursor: pointer; }
+.ats-card-detail-row__value--link { display: inline-flex; align-items: center; gap: var(--spacing-gap-sm); }
+.ats-card-detail-row__value--link a { color: var(--card-color-content-link); text-decoration: none; }
+.ats-card-detail-row__value--link a:hover { text-decoration: underline; }
+.ats-card-detail-row__dot {
+  flex: 0 0 auto; width: var(--spacing-8); height: var(--spacing-8); border-radius: 50%;
+  background: var(--dot, var(--color-entity-candidate));
+}

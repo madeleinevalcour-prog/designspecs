@@ -306,6 +306,7 @@
     ]},
     {label:"Components", pages:[
       {t:"Button", href:"/docs/components/button.html"},
+      {t:"Card", href:"/docs/components/card.html"},
       {t:"Icon", href:"/docs/components/icon.html"}
     ]},
     {label:"Amplify", pages:[

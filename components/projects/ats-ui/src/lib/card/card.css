@@ -1,0 +1,67 @@
+/* Card — card / novo-card (Component Migration 311:29059), ported from the
+   prototype repo's styles/card.css (.nc-card / .nc-header / .nc-content / .nc-footer).
+   Tier-3 card/* tokens. Unencapsulated, namespaced .ats-card. */
+
+.ats-card {
+  display: flex; flex-direction: column; align-items: stretch; overflow: clip;
+  box-sizing: border-box;
+  background: var(--card-color-background-contents);
+  border: var(--card-border-width-default) solid var(--card-color-border-default);
+  border-radius: var(--card-border-radius-default); box-shadow: var(--elevation-2);
+}
+
+/* ---- header ---- */
+.ats-card__header {
+  position: relative;
+  display: flex; align-items: center; gap: var(--card-spacing-header-gap);
+  background: var(--card-color-background-header);
+  border-bottom: var(--card-border-width-default) solid var(--card-color-border-default);
+  padding: var(--card-spacing-header-padding-vertical) var(--card-spacing-header-padding-horizontal);
+}
+.ats-card__title { flex: 1 0 0; min-width: 0; display: flex; align-items: center; gap: var(--card-spacing-header-gap); }
+/* drag gripper (574:5656) — absolute in the header's left padding gutter so it
+   doesn't shift the title; shown only while the pointer is over the header. */
+.ats-card__gripper {
+  position: absolute;
+  left: 6px; /* no token: 6px gutter offset (source) */
+  top: 20px; /* no token: centers the 16px glyph in the 56px header (source) */
+  opacity: 0; cursor: grab; transition: opacity .12s ease;
+}
+.ats-card__header:hover .ats-card__gripper { opacity: 1; }
+.ats-card__title-text {
+  margin: 0; color: var(--card-color-content-heading); text-transform: capitalize; white-space: nowrap;
+  font-family: var(--typography-title-small-font-family), 'Inter', sans-serif; font-weight: var(--typography-title-small-font-weight);
+  font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height);
+  letter-spacing: var(--typography-title-small-letter-spacing);
+}
+
+/* ---- content ---- */
+.ats-card__content { display: flex; flex-direction: column; align-items: stretch; background: var(--card-color-background-contents); }
+/* padded body layout (source: .nc-content--pad) — put on a body element */
+.ats-card__pad {
+  display: flex; flex-direction: column;
+  gap: var(--card-spacing-content-gap);
+  padding: var(--card-spacing-content-padding-vertical) var(--card-spacing-content-padding-horizontal);
+}
+
+/* ---- footer: one full-width ats-button (theme="base"), flattened to the source's
+   transparent / subtle-hover look ---- */
+.ats-card__footer {
+  display: flex; background: var(--card-color-background-header);
+  border-top: var(--card-border-width-default) solid var(--card-color-border-default);
+  padding: var(--card-spacing-header-gap) var(--card-spacing-header-padding-horizontal);
+}
+.ats-card__footer .ats-btn.ats-btn--base {
+  --_bg: transparent;
+  --_bg-hover: var(--color-background-subtle);
+  --_bg-focus: var(--color-background-subtle);
+  --_bg-active: var(--color-background-subtle);
+  --_fg: var(--color-text-subtle);
+  --_fg-hover: var(--color-text-subtle);
+  --_fg-focus: var(--color-text-subtle);
+  --_fg-active: var(--color-text-subtle);
+  --_sh: none; --_sh-hover: none; --_sh-active: none;
+  flex: 1 0 0; gap: var(--spacing-gap-sm);
+  border-radius: var(--border-radius-sm);
+}
+.ats-card__footer .ats-btn .ats-icon { background-color: var(--color-icon-illustration); }

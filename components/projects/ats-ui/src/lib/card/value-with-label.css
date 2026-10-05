@@ -1,0 +1,32 @@
+/* ValueWithLabel — value-with-label (250:17791), ported from card.css (.rdl-vwl*). */
+.ats-value-with-label {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  gap: var(--value-spacing-gap-vertical); /* 4px (source: checkbox/spacing/gap-vertical) */
+  min-height: var(--value-min-height-horizontal); /* 40px */
+  min-width: 0;
+  padding: 0 var(--value-spacing-padding-horizontal) var(--value-spacing-padding-vertical);
+}
+.ats-value-with-label__label {
+  color: var(--value-color-content-label); text-transform: uppercase;
+  font-family: var(--typography-input-label-sm-font-family), 'Inter', sans-serif; font-weight: var(--typography-input-label-sm-font-weight);
+  font-size: var(--typography-input-label-sm-font-size); line-height: var(--typography-input-label-sm-line-height);
+  letter-spacing: var(--typography-input-label-sm-letter-spacing);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ats-value-with-label__value {
+  display: flex; align-items: center; min-width: 0;
+  gap: var(--checkbox-spacing-gap-horizontal); /* 8px, as in the source */
+  min-height: var(--value-min-height); /* 32px */
+}
+.ats-value-with-label__value-text {
+  min-width: 0; color: var(--value-color-content-value); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif; font-weight: var(--typography-meta-default-font-weight);
+  font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height);
+  letter-spacing: var(--typography-meta-default-letter-spacing);
+}
+/* alternate value style: input/value/default (14px regular), for dates / yes-no */
+.ats-value-with-label__value-text--plain {
+  font-family: var(--typography-input-value-default-font-family), 'Inter', sans-serif; font-weight: var(--typography-input-value-default-font-weight);
+  font-size: var(--typography-input-value-default-font-size); line-height: var(--typography-input-value-default-line-height);
+  letter-spacing: var(--typography-input-value-default-letter-spacing);
+}

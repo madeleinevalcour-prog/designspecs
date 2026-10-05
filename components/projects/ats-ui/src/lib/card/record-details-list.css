@@ -1,0 +1,5 @@
+/* RecordDetailsList — record-details-list (576:6589), ported from card.css (.rdl). */
+.ats-record-details-list {
+  display: grid; grid-template-columns: repeat(var(--rdl-cols, 3), minmax(0, 1fr));
+  gap: var(--card-spacing-content-gap);
+}

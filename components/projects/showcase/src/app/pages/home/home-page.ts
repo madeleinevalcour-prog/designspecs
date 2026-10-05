@@ -26,6 +26,7 @@ import { RouterLink } from '@angular/router';
 export class HomePage {
   protected readonly components = [
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
+    { path: 'card', name: 'Card', figma: 'Component Migration 311:29059 (+ subcomponents)' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
   ];
 }

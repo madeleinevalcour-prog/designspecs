@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Card" meta="Status: in review · Figma: Component Migration 311:29059 (card / novo-card) · Code: ats-ui Card family · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Card groups one block of record content under a header with a title and actions, with an optional footer link.</p>
+    <p>The family has six parts: Card (the frame), CardActions (header buttons), CardDetailRow and CardResume (bodies), and RecordDetailsList with ValueWithLabel (a multi-column details body).</p>
+    <doc-example src="card?variant=details&amp;footer=true" caption="Details card with footer" height="420"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy" desc="Header, body, footer">
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td>Gripper</td><td>Drag handle in the header’s left gutter. Shows only while the pointer is over the header, so it never shifts the title.</td></tr>
+        <tr><td>Header icon + title</td><td>Set by the variant; override either one. Title uses the <span class="chip">title/small</span> text style, capitalized.</td></tr>
+        <tr><td>Actions</td><td>CardActions by default; replace with your own.</td></tr>
+        <tr><td>Body</td><td>Any content. Rows sit edge to edge; padded bodies use the <span class="chip">ats-card__pad</span> class.</td></tr>
+        <tr><td>Footer</td><td>Optional full-width “View All” button with a trailing arrow.</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="card?variant=details&amp;footer=true&amp;gripper=shown&amp;body=none" caption="Header and footer, gripper forced visible" height="200"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants" desc="Default icon and title">
+    <p>The variant sets the header icon and title. It doesn’t change the body; you supply that.</p>
+    <table class="tbl">
+      <thead><tr><th>Variant</th><th>Icon</th><th>Title</th><th>Body in ats-ui</th></tr></thead>
+      <tbody>
+        <tr><td>resume</td><td><span class="chip">resume</span></td><td>Resume</td><td>CardResume</td></tr>
+        <tr><td>details</td><td><span class="chip">info</span></td><td>Details</td><td>CardDetailRow rows, or RecordDetailsList</td></tr>
+        <tr><td>notes</td><td><span class="chip">note</span></td><td>Recent Notes</td><td>Not ported yet (novo-list)</td></tr>
+        <tr><td>tasks</td><td><span class="chip">check-outline</span></td><td>Open Tasks</td><td>Not ported yet (novo-list)</td></tr>
+        <tr><td>submissions</td><td><span class="chip">submission</span></td><td>Open Submissions</td><td>Not ported yet (novo-list)</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="card?variant=resume&amp;footer=true" caption="Resume" height="640"></doc-example>
+    <doc-example src="card?variant=columns&amp;footer=true" caption="Details — columns (RecordDetailsList body)" height="420"></doc-example>
+    <doc-example src="card?variant=submissions&amp;footer=true&amp;body=none&amp;iconColor=var(--color-entity-submission)" caption="Submissions header with an entity icon color (body not ported yet)" height="180"></doc-example>
+  </doc-section>
+
+  <doc-section id="card-actions" label="CardActions" desc="ats-card-actions">
+    <p>The header’s icon buttons: Add, Expand, Refresh, Close. Configure appears between Refresh and Close only when <span class="chip">settings</span> is on. Each is an ats-button (icon theme) narrowed to a 24px no-container button: transparent at rest, <span class="chip">color/background/subtle</span> on hover, 12px glyph in <span class="chip">color/icon/illustration</span>.</p>
+    <doc-example src="card?part=actions" caption="Default actions" height="80"></doc-example>
+    <doc-example src="card?part=actions&amp;settings=true" caption="With settings (Configure)" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="card-detail-row" label="CardDetailRow" desc="ats-card-detail-row">
+    <p>One label + value row for a details body. The label is uppercase in <span class="chip">input/label/md</span>, capped at 200px; the value uses <span class="chip">input/value/default</span> at medium weight. Rows are at least 40px tall, with a hairline between rows and none after the last.</p>
+    <table class="tbl">
+      <thead><tr><th>Kind</th><th>Renders</th></tr></thead>
+      <tbody>
+        <tr><td>text</td><td>Plain value (default)</td></tr>
+        <tr><td>multi</td><td>Stacked values; the row top-aligns</td></tr>
+        <tr><td>select</td><td>Value with a trailing 12px chevron in <span class="chip">color/icon/subtle</span></td></tr>
+        <tr><td>link</td><td>Link-colored value, optional 8px leading dot (for example an entity color)</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="card?part=detail-row&amp;kind=all" caption="Text, multi, select, link" height="340"></doc-example>
+  </doc-section>
+
+  <doc-section id="card-resume" label="CardResume" desc="ats-card-resume">
+    <p>The resume body: name, contact line, then titled sections. It currently renders fixed sample content from the prototype; it takes no inputs. See the resume example under Variants.</p>
+  </doc-section>
+
+  <doc-section id="record-details-list" label="RecordDetailsList" desc="ats-record-details-list">
+    <p>A grid of ValueWithLabel blocks, three columns by default. Use it inside a padded details body for the “columns” layout.</p>
+    <doc-example src="card?part=record-details-list" caption="Three columns" height="300"></doc-example>
+    <doc-example src="card?part=record-details-list&amp;columns=2&amp;width=500" caption="Two columns" height="420"></doc-example>
+  </doc-section>
+
+  <doc-section id="value-with-label" label="ValueWithLabel" desc="ats-value-with-label">
+    <p>An uppercase label (<span class="chip">input/label/sm</span>) stacked over a value. The default value uses <span class="chip">meta/default</span>; <span class="chip">plain</span> switches to <span class="chip">input/value/default</span> for dates and yes/no. An optional 12px icon follows the value. Long labels and values truncate with an ellipsis.</p>
+    <doc-example src="card?part=value-with-label" caption="Default, plain, plain + icon" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>Header actions and the footer are native buttons, so they’re reachable by keyboard and show the ats-button focus ring.</li>
+      <li>Header actions have no visible text; each carries an <span class="chip">aria-label</span> (Add, Expand, Refresh, Configure, Close).</li>
+      <li>Icons are decorative (<span class="chip">aria-hidden</span>); the title and labels carry the meaning.</li>
+      <li>The gripper is visual only. There’s no keyboard reordering yet.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Card background, header background</td><td><span class="chip">card/color/background/contents</span>, <span class="chip">card/color/background/header</span></td></tr>
+        <tr><td>Border, dividers, row hairlines</td><td><span class="chip">card/color/border/default</span> at <span class="chip">card/border/width/default</span></td></tr>
+        <tr><td>Radius, elevation</td><td><span class="chip">card/border/radius/default</span>, <span class="chip">elevation/2</span></td></tr>
+        <tr><td>Header padding, gap</td><td><span class="chip">card/spacing/header/padding-*</span>, <span class="chip">card/spacing/header/gap</span></td></tr>
+        <tr><td>Padded body</td><td><span class="chip">card/spacing/content/padding-*</span>, <span class="chip">card/spacing/content/gap</span></td></tr>
+        <tr><td>Title, headings, body text</td><td><span class="chip">card/color/content/heading</span>, <span class="chip">card/color/content/body</span></td></tr>
+        <tr><td>Gripper</td><td><span class="chip">card/color/content/icon-move</span></td></tr>
+        <tr><td>Labels and values</td><td><span class="chip">value/color/content/label</span>, <span class="chip">value/color/content/value</span>, <span class="chip">value/spacing/*</span>, <span class="chip">value/min-height*</span></td></tr>
+        <tr><td>Link value</td><td><span class="chip">card/color/content/link</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>All six components are standalone exports of the <span class="chip">ats-ui</span> Angular library. Card projects its body; put your own <span class="chip">&lt;ats-card-actions&gt;</span> (or any element with the <span class="chip">cardActions</span> attribute) inside it to replace the default actions.</p>
+    <doc-code caption="Angular">
+      &lt;ats-card variant="details" showFooter (action)="onAction($event)" (footerClick)="viewAll()"&gt;
+        &lt;ats-card-detail-row label="Location" value="Boston, MA" /&gt;
+        &lt;ats-card-detail-row label="Skills" kind="multi" [values]="skills" /&gt;
+        &lt;ats-card-detail-row label="Owner" kind="link" value="Chloe Davis" dot="var(--color-entity-candidate)" href="/owner/1" /&gt;
+      &lt;/ats-card&gt;
+
+      &lt;ats-card variant="details" title="Record Details"&gt;
+        &lt;div class="ats-card__pad"&gt;&lt;ats-record-details-list [fields]="fields" [columns]="3" /&gt;&lt;/div&gt;
+      &lt;/ats-card&gt;
+
+      &lt;ats-card variant="resume" showFooter&gt;&lt;ats-card-resume /&gt;&lt;/ats-card&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td>ats-card</td><td><span class="chip">variant</span></td><td>resume · details · notes · tasks · submissions</td><td>—</td></tr>
+        <tr><td></td><td><span class="chip">title</span> / <span class="chip">icon</span></td><td>Override the variant’s title / icon name</td><td>From variant</td></tr>
+        <tr><td></td><td><span class="chip">gripper</span></td><td>Show the drag gripper on header hover</td><td>true</td></tr>
+        <tr><td></td><td><span class="chip">showFooter</span> / <span class="chip">footerLabel</span></td><td>Footer button and its text</td><td>false / View All</td></tr>
+        <tr><td></td><td><span class="chip">settings</span></td><td>Add Configure to the default actions</td><td>false</td></tr>
+        <tr><td></td><td><span class="chip">iconColor</span></td><td>Any CSS color or var() for the header icon</td><td><span class="chip">color/icon/illustration</span></td></tr>
+        <tr><td></td><td><span class="chip">(action)</span> / <span class="chip">(footerClick)</span></td><td>Default action clicked (add · expand · refresh · configure · close) / footer clicked</td><td>—</td></tr>
+        <tr><td>ats-card-actions</td><td><span class="chip">settings</span>, <span class="chip">(action)</span></td><td>Show Configure; emits the clicked action</td><td>false</td></tr>
+        <tr><td>ats-card-detail-row</td><td><span class="chip">label</span> (required), <span class="chip">value</span>, <span class="chip">values</span></td><td>Text; string[] for multi</td><td>—</td></tr>
+        <tr><td></td><td><span class="chip">kind</span></td><td>text · multi · select · link</td><td>text</td></tr>
+        <tr><td></td><td><span class="chip">dot</span> / <span class="chip">href</span></td><td>Leading dot color / link target (link kind)</td><td>— / #</td></tr>
+        <tr><td>ats-card-resume</td><td>—</td><td>Sample content only</td><td>—</td></tr>
+        <tr><td>ats-record-details-list</td><td><span class="chip">fields</span> (required), <span class="chip">columns</span></td><td>{ label, value, plain?, icon? }[]; column count</td><td>— / 3</td></tr>
+        <tr><td>ats-value-with-label</td><td><span class="chip">label</span>, <span class="chip">value</span> (required), <span class="chip">plain</span>, <span class="chip">icon</span></td><td>Text; plain value style; trailing icon name</td><td>plain: false</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Notes, tasks and submissions bodies.">These use novo-list items in the prototype, which aren’t in ats-ui yet. Only their headers and footers are shown here.</doc-callout>
+    <doc-callout type="note" heading="Footer spacing.">The footer uses the header gap and horizontal padding, as in the prototype. The card/spacing/footer/* tokens (8px all round) exist but aren’t applied. Confirm which is right.</doc-callout>
+    <doc-callout type="note" heading="Untokenized values.">Gripper offset (6px left, 20px top), the 200px label column cap and the 18px resume list indent have no tokens.</doc-callout>
+    <doc-callout type="note" heading="CardResume content.">It’s fixed sample content. Decide whether it should take resume data as inputs.</doc-callout>
+    <doc-callout type="note" heading="Figma bindings.">Not re-checked against Figma for this port; values come from the prototype source.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

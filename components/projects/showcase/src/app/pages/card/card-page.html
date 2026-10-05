@@ -1,0 +1,127 @@
+@if (embed()) {
+  <div class="embed" [class.force-grip]="forceGripper()">
+    @switch (part()) {
+      @case ('actions') {
+        <div class="subbox"><ats-card-actions [settings]="settings()" /></div>
+      }
+      @case ('detail-row') {
+        <div class="sub-detail" [style.width.px]="cardWidth()">
+          @for (k of rowKinds(); track k) {
+            @switch (k) {
+              @case ('text') { <ats-card-detail-row label="Location" value="Boston, MA" /> }
+              @case ('multi') { <ats-card-detail-row label="Skills" kind="multi" [values]="skills" /> }
+              @case ('select') { <ats-card-detail-row label="Employee Type" kind="select" value="W2" /> }
+              @case ('link') { <ats-card-detail-row label="Owner" kind="link" value="Chloe Davis" dot="var(--color-entity-candidate)" /> }
+            }
+          }
+        </div>
+      }
+      @case ('value-with-label') {
+        <div class="vwl-row">
+          <ats-value-with-label label="Owner" value="Marcus Lee" />
+          <ats-value-with-label label="Date Available" value="06/23/2026" plain />
+          <ats-value-with-label label="Date Added" value="07/16/2026" plain icon="calendar" />
+        </div>
+      }
+      @case ('record-details-list') {
+        <div [style.width.px]="cardWidth()"><ats-record-details-list [fields]="recordFields" [columns]="cols()" /></div>
+      }
+      @default {
+        <ats-card
+          [style.width.px]="cardWidth()"
+          [variant]="cardVariant()"
+          [title]="cardTitle()"
+          [icon]="icon()"
+          [showFooter]="footer()"
+          [footerLabel]="embedFooterLabel()"
+          [settings]="settings()"
+          [iconColor]="iconColor()"
+          [gripper]="showGripper()"
+        >
+          @if (hasBody()) {
+            @if (isColumns()) {
+              <div class="ats-card__pad"><ats-record-details-list [fields]="recordFields" [columns]="cols()" /></div>
+            } @else if (cardVariant() === 'resume') {
+              <ats-card-resume />
+            } @else if (cardVariant() === 'details') {
+              @for (d of details; track d.label) { <ats-card-detail-row [label]="d.label" [value]="d.value" /> }
+            }
+          }
+        </ats-card>
+      }
+    }
+  </div>
+} @else {
+  <h1>Card</h1>
+  <p class="lede">
+    Angular port of <code>card / novo-card</code> (Component Migration 311:29059): header (gripper + icon + title + actions),
+    body, optional footer. Hover a header to see the drag gripper.
+  </p>
+
+  <div class="grid">
+    <div class="col">
+      <h2>resume</h2>
+      <ats-card variant="resume" showFooter><ats-card-resume /></ats-card>
+    </div>
+    <div class="col">
+      <h2>details</h2>
+      <ats-card variant="details" showFooter>
+        @for (d of details; track d.label) { <ats-card-detail-row [label]="d.label" [value]="d.value" /> }
+      </ats-card>
+    </div>
+    @for (v of listVariants; track v) {
+      <div class="col">
+        <h2>{{ v }}</h2>
+        <ats-card [variant]="v" showFooter [iconColor]="v === 'submissions' ? 'var(--color-entity-submission)' : undefined" />
+        <p class="note">Body is a novo-list (note / task items), not ported to ats-ui yet.</p>
+      </div>
+    }
+  </div>
+
+  <section>
+    <h2>details — columns (record-details-list)</h2>
+    <div class="wide">
+      <ats-card variant="details" title="Record Details" showFooter>
+        <div class="ats-card__pad"><ats-record-details-list [fields]="recordFields" /></div>
+      </ats-card>
+    </div>
+  </section>
+
+  <section>
+    <h2>Header options</h2>
+    <div class="grid">
+      <div class="col"><span class="sub-l">settings (Configure action)</span><ats-card variant="details" settings /></div>
+      <div class="col"><span class="sub-l">gripper=false</span><ats-card variant="details" [gripper]="false" /></div>
+      <div class="col"><span class="sub-l">title + icon override</span><ats-card title="Placements" icon="placement" /></div>
+      <div class="col">
+        <span class="sub-l">custom actions (projected)</span>
+        <ats-card variant="notes"><ats-card-actions settings /></ats-card>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Subcomponents</h2>
+    <div class="subs">
+      <div class="sub"><span class="sub-l">CardActions</span><div class="subbox"><ats-card-actions /></div></div>
+      <div class="sub"><span class="sub-l">CardActions (settings)</span><div class="subbox"><ats-card-actions settings /></div></div>
+      <div class="sub">
+        <span class="sub-l">CardDetailRow — text · multi · select · link</span>
+        <div class="sub-detail">
+          <ats-card-detail-row label="Location" value="Boston, MA" />
+          <ats-card-detail-row label="Skills" kind="multi" [values]="skills" />
+          <ats-card-detail-row label="Employee Type" kind="select" value="W2" />
+          <ats-card-detail-row label="Owner" kind="link" value="Chloe Davis" dot="var(--color-entity-candidate)" />
+        </div>
+      </div>
+      <div class="sub">
+        <span class="sub-l">ValueWithLabel — default · plain · plain + icon</span>
+        <div class="subbox vwl-row">
+          <ats-value-with-label label="Owner" value="Marcus Lee" />
+          <ats-value-with-label label="Date Available" value="06/23/2026" plain />
+          <ats-value-with-label label="Date Added" value="07/16/2026" plain icon="calendar" />
+        </div>
+      </div>
+    </div>
+  </section>
+}
