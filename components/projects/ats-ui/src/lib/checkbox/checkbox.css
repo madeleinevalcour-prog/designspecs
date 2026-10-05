@@ -1,0 +1,63 @@
+/* Checkbox — Figma checkbox atom (250:17814), ported from the prototype repo's
+   data-table/Checkbox.astro (.ndt-check in styles/data-table.css), wired to the
+   Tier-3 checkbox/* tokens for every state.
+   The native input is restyled (appearance: none); the mark is a ::before:
+   checked = the icon set's check.svg as a mask, indeterminate = a 2px bar.
+   Unencapsulated; namespaced .ats-checkbox. */
+
+.ats-checkbox {
+  /* every private var is always defined (never transition a property whose var() can go unset) */
+  --_bg: var(--checkbox-color-background-default);
+  --_bd: var(--checkbox-color-border-default);
+  --_mark: var(--checkbox-color-content-icon-checked);
+
+  appearance: none; -webkit-appearance: none;
+  width: 16px; height: 16px; box-sizing: border-box; margin: 0; flex: 0 0 auto;
+  display: inline-grid; place-content: center; vertical-align: middle; cursor: pointer;
+  background: var(--_bg);
+  border: var(--checkbox-border-width-default) solid var(--_bd);
+  border-radius: var(--checkbox-border-radius-checkbox);
+}
+.ats-checkbox::before {
+  content: ""; display: block; width: 10px; height: 10px;
+  background-color: var(--_mark);
+  -webkit-mask: var(--ats-checkbox-check) center / contain no-repeat;
+  mask: var(--ats-checkbox-check) center / contain no-repeat;
+  visibility: hidden;
+}
+
+/* ---- interaction (real + forced via `state`) ---- */
+.ats-checkbox:hover, .ats-checkbox.is-hover {
+  --_bg: var(--checkbox-color-background-hover);
+  --_bd: var(--checkbox-color-border-hover);
+}
+.ats-checkbox:focus-visible, .ats-checkbox.is-focus {
+  --_bg: var(--checkbox-color-background-focus);
+  --_bd: var(--checkbox-color-border-focus);
+  outline: 0;
+  border-width: var(--checkbox-border-width-focus);
+}
+
+/* ---- value ---- */
+.ats-checkbox:checked {
+  --_bg: var(--checkbox-color-background-checked);
+  --_bd: var(--checkbox-color-border-checked);
+}
+.ats-checkbox:checked::before { visibility: visible; }
+.ats-checkbox:indeterminate {
+  --_bg: var(--checkbox-color-background-indeterminate);
+  --_bd: var(--checkbox-color-border-indeterminate);
+}
+.ats-checkbox:indeterminate::before {
+  visibility: visible; width: 8px; height: 2px; border-radius: 1px;
+  -webkit-mask: none; mask: none;
+}
+
+/* ---- disabled (wins over everything above) ---- */
+.ats-checkbox:disabled {
+  --_bg: var(--checkbox-color-background-disabled);
+  --_bd: var(--checkbox-color-border-disabled);
+  --_mark: var(--checkbox-color-content-disabled);
+  border-width: var(--checkbox-border-width-default);
+  cursor: not-allowed;
+}

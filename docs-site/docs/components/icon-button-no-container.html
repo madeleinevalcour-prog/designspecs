@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon Button - no container — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Icon Button - no container" meta="Status: in review · Figma: Component Migration 164:17717 · Code: ats-ui IconButtonNoContainer · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">A small icon-only button with no resting container. It shows a 12px glyph in a 24×24 hit area and only fills in on hover and press.</p>
+    <doc-example src="icon-button-no-container?states=default&amp;captions=false" caption="Icon Button - no container" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="states" label="States">
+    <p>Five states. The glyph color holds steady from default to active; only the background and focus ring change, so the button never shifts layout.</p>
+    <doc-example src="icon-button-no-container?states=default,hover,focus,active,disabled" caption="All states" height="110"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>When it applies</th><th>What changes</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>Resting</td><td>Transparent background; glyph in <span class="chip">button/color/icon/content/default</span></td></tr>
+        <tr><td>Hover</td><td>Pointer is over the button</td><td>Background fills with <span class="chip">button/color/icon/background/hover</span></td></tr>
+        <tr><td>Focus</td><td>Reached by keyboard</td><td>2px inset ring in <span class="chip">button/color/icon/border/focus</span></td></tr>
+        <tr><td>Active</td><td>Being pressed</td><td>Background fills with <span class="chip">button/color/icon/background/active</span></td></tr>
+        <tr><td>Disabled</td><td>Action isn’t available</td><td>Transparent background; glyph in <span class="chip">button/color/icon/content/disabled</span>; not-allowed cursor</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="glyphs" label="Glyphs">
+    <p>The glyph comes from the icon set and defaults to <span class="chip">chevron-down</span>. Pass the icon the design specifies; it takes the button’s content color.</p>
+    <doc-example src="icon-button-no-container?icon=close&amp;label=Remove&amp;states=default,hover" caption="close — resting and hover" height="110"></doc-example>
+    <doc-example src="icon-button-no-container?icon=kebab-menu&amp;label=More%20actions&amp;states=default,hover" caption="kebab-menu — resting and hover" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="measurements" label="Measurements">
+    <doc-spec>
+      <span class="pair"><b>Size:</b> 24 × 24px</span>
+      <span class="pair"><b>Padding:</b> 4px</span>
+      <span class="pair"><b>Radius:</b> 4px</span>
+      <span class="pair"><b>Glyph:</b> 12px</span>
+      <span class="pair"><b>Focus ring:</b> 2px, inset</span>
+    </doc-spec>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It’s a native <span class="chip">&lt;button&gt;</span>, so keyboard, forms and screen readers work without extra code.</li>
+      <li>There’s no visible text: always give it an <span class="chip">aria-label</span> that names the action.</li>
+      <li>The focus ring is drawn inside the edge, so it’s visible without shifting layout.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Size</td><td><span class="chip">button/spacing/no-container/min-height</span> (width and height)</td></tr>
+        <tr><td>Padding</td><td><span class="chip">button/spacing/no-container/padding-vertical</span>, <span class="chip">…/padding-horizontal</span></td></tr>
+        <tr><td>Radius</td><td><span class="chip">button/border/radius/no-container</span></td></tr>
+        <tr><td>Glyph color</td><td><span class="chip">button/color/icon/content/default</span>, <span class="chip">…/content/disabled</span></td></tr>
+        <tr><td>Hover / active fill</td><td><span class="chip">button/color/icon/background/hover</span>, <span class="chip">…/background/active</span></td></tr>
+        <tr><td>Focus ring</td><td><span class="chip">button/color/icon/border/focus</span> at <span class="chip">button/border/width/focus</span> (2px)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>The component lives in the <span class="chip">ats-ui</span> Angular library. It’s an attribute on a native <span class="chip">&lt;button&gt;</span>, so <span class="chip">disabled</span>, <span class="chip">type</span> and <span class="chip">(click)</span> work as usual.</p>
+    <doc-code caption="Angular">
+      &lt;button ats-icon-button-no-container aria-label="Expand"&gt;&lt;/button&gt;
+      &lt;button ats-icon-button-no-container icon="close" aria-label="Remove filter"&gt;&lt;/button&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">icon</span></td><td>Icon name from the icon set; empty string to project your own 12px glyph</td><td>chevron-down</td></tr>
+        <tr><td><span class="chip">type</span></td><td>button · submit · reset</td><td>button</td></tr>
+        <tr><td><span class="chip">state</span></td><td>hover · focus · active — forces a state, for documentation only</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Color bindings.">There are no no-container color tokens, so colors use the icon-button tokens (<span class="chip">button/color/icon/*</span>), with a transparent resting and disabled background. Confirm against the Figma bindings for 164:17717.</doc-callout>
+    <doc-callout type="note" heading="Hover glyph color.">The prototype keeps the glyph color on hover and press; the icon-button tokens would darken it (<span class="chip">…/content/hover</span>). Confirm which the design intends.</doc-callout>
+    <doc-callout type="note" heading="Disabled.">The prototype dimmed the whole button to 50% opacity. This version uses the disabled content token instead.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

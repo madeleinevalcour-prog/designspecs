@@ -1,0 +1,77 @@
+<ng-template #group>
+  <div class="group" role="group" aria-label="Candidates">
+    <label class="row row--head">
+      <input
+        ats-checkbox
+        [checked]="allSelected()"
+        [indeterminate]="someSelected()"
+        (change)="toggleAll($any($event.target).checked)"
+      />
+      Select all
+    </label>
+    @for (r of rows(); track r.name; let i = $index) {
+      <label class="row">
+        <input ats-checkbox [checked]="r.selected" (change)="toggleRow(i, $any($event.target).checked)" />
+        {{ r.name }}
+      </label>
+    }
+  </div>
+</ng-template>
+
+@if (embed()) {
+  @if (groupOnly()) {
+    <div class="embed-row"><ng-container [ngTemplateOutlet]="group" /></div>
+  } @else {
+    <div class="embed-row">
+      @for (cell of cells(); track cell.caption) {
+        <div class="embed-cell">
+          <input
+            ats-checkbox
+            [checked]="cell.value === 'checked'"
+            [indeterminate]="cell.value === 'indeterminate'"
+            [state]="forced(cell.state)"
+            [disabled]="cell.state === 'disabled'"
+            [attr.aria-label]="cell.caption"
+          />
+          @if (captions()) { <span class="caption">{{ cell.caption }}</span> }
+        </div>
+      }
+    </div>
+  }
+} @else {
+  <h1>Checkbox</h1>
+  <p class="lede">
+    Angular port of the checkbox atom (Figma 250:17814) from the data table: a native
+    <code>&lt;input type="checkbox"&gt;</code> restyled from the <code>checkbox/*</code> tokens. Hover and focus columns
+    are forced; every box is live, so click any of them.
+  </p>
+
+  <section>
+    <h2>Value × state</h2>
+    <div class="grid">
+      <span class="col-head"></span>
+      @for (st of allStates; track st) { <span class="col-head">{{ st }}</span> }
+      @for (v of allValues; track v) {
+        <span class="row-head">{{ v }}</span>
+        @for (st of allStates; track st) {
+          <span class="cell">
+            <input
+              ats-checkbox
+              [checked]="v === 'checked'"
+              [indeterminate]="v === 'indeterminate'"
+              [state]="forced(st)"
+              [disabled]="st === 'disabled'"
+              [attr.aria-label]="v + ', ' + st"
+            />
+          </span>
+        }
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Select all (indeterminate)</h2>
+    <p class="lede">The header box is indeterminate while some, not all, rows are selected.</p>
+    <ng-container [ngTemplateOutlet]="group" />
+  </section>
+}

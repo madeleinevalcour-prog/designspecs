@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkbox — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Checkbox" meta="Status: in review · Figma: Component Migration 250:17814 · Code: ats-ui Checkbox · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Checkbox selects or clears one item. It’s the 16×16 box used in the data table’s header and row cells, built on a native checkbox and styled from the <span class="chip">checkbox/*</span> tokens.</p>
+    <doc-example src="checkbox?values=unchecked,checked,indeterminate" caption="Unchecked, checked, indeterminate" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="values" label="Values">
+    <table class="tbl">
+      <thead><tr><th>Value</th><th>What it means</th><th>What it looks like</th></tr></thead>
+      <tbody>
+        <tr><td>Unchecked</td><td>Not selected</td><td>White box, gray border</td></tr>
+        <tr><td>Checked</td><td>Selected</td><td>Light blue fill, dark blue border and check</td></tr>
+        <tr><td>Indeterminate</td><td>Some, but not all, of a group is selected</td><td>Light blue fill, dark blue border and a short bar</td></tr>
+      </tbody>
+    </table>
+    <p>Use indeterminate only on a box that controls a group, like the data table’s header. Clicking it selects the whole group.</p>
+    <doc-example src="checkbox?demo=group" caption="Select all — try it" height="170"></doc-example>
+  </doc-section>
+
+  <doc-section id="states" label="States">
+    <p>Each value has four interaction states. Hover and focus change the border and fill; checked and indeterminate keep their own colors on hover.</p>
+    <doc-example src="checkbox?values=unchecked&amp;states=default,hover,focus,disabled" caption="Unchecked — all states" height="110"></doc-example>
+    <doc-example src="checkbox?values=checked&amp;states=default,hover,focus,disabled" caption="Checked — all states" height="110"></doc-example>
+    <doc-example src="checkbox?values=indeterminate&amp;states=default,hover,focus,disabled" caption="Indeterminate — all states" height="110"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>When it applies</th><th>What changes</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>Resting</td><td><span class="chip">checkbox/color/background/default</span>, <span class="chip">checkbox/color/border/default</span></td></tr>
+        <tr><td>Hover</td><td>Pointer is over the box</td><td><span class="chip">…/background/hover</span>, <span class="chip">…/border/hover</span></td></tr>
+        <tr><td>Focus</td><td>Reached by keyboard</td><td><span class="chip">…/background/focus</span>, <span class="chip">…/border/focus</span>; border thickens to <span class="chip">checkbox/border/width/focus</span> (2px)</td></tr>
+        <tr><td>Disabled</td><td>Can’t be changed</td><td><span class="chip">…/background/disabled</span>, <span class="chip">…/border/disabled</span>; mark in <span class="chip">checkbox/color/content/disabled</span>; not-allowed cursor</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="measurements" label="Measurements">
+    <doc-spec>
+      <span class="pair"><b>Box:</b> 16 × 16px</span>
+      <span class="pair"><b>Border:</b> 1px (2px on focus)</span>
+      <span class="pair"><b>Radius:</b> 2px</span>
+      <span class="pair"><b>Check:</b> 10px</span>
+      <span class="pair"><b>Indeterminate bar:</b> 8 × 2px</span>
+    </doc-spec>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It’s a native <span class="chip">&lt;input type="checkbox"&gt;</span>: Space toggles it, and forms and screen readers work without extra code.</li>
+      <li>The box has no visible label. Give it an <span class="chip">aria-label</span> (for example “Select row”), or wrap it in a <span class="chip">&lt;label&gt;</span> with text.</li>
+      <li>Indeterminate is the native property, so screen readers announce it as “mixed”.</li>
+      <li>Focus is shown by a thicker border, drawn inside the box, so it doesn’t shift layout.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <doc-spec><span class="pair"><b>Color:</b> <span class="chip">checkbox/color/&lt;background|border&gt;/&lt;default|hover|focus|checked|indeterminate|disabled&gt;</span></span></doc-spec>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Check and bar color</td><td><span class="chip">checkbox/color/content/icon-checked</span>; disabled: <span class="chip">checkbox/color/content/disabled</span></td></tr>
+        <tr><td>Border width</td><td><span class="chip">checkbox/border/width/default</span>, <span class="chip">…/focus</span></td></tr>
+        <tr><td>Radius</td><td><span class="chip">checkbox/border/radius/checkbox</span></td></tr>
+        <tr><td>Check glyph</td><td><span class="chip">check</span> from the icon set</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>The component lives in the <span class="chip">ats-ui</span> Angular library. It’s an attribute on a native <span class="chip">&lt;input&gt;</span> (the type is set for you), so <span class="chip">checked</span>, <span class="chip">disabled</span>, <span class="chip">(change)</span>, <span class="chip">ngModel</span> and <span class="chip">formControl</span> work as usual.</p>
+    <doc-code caption="Angular">
+      &lt;input ats-checkbox aria-label="Select row" [checked]="row.selected" (change)="toggle(row)" /&gt;
+      &lt;input ats-checkbox aria-label="Select all" [checked]="all()" [indeterminate]="some()" (change)="toggleAll()" /&gt;
+      &lt;label&gt;&lt;input ats-checkbox [(ngModel)]="subscribed" /&gt; Email updates&lt;/label&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">indeterminate</span></td><td>boolean. Two-way bindable; resets to false when the user clicks</td><td>false</td></tr>
+        <tr><td><span class="chip">state</span></td><td>hover · focus — forces a state, for documentation only</td><td>—</td></tr>
+        <tr><td><span class="chip">checked</span> / <span class="chip">disabled</span></td><td>Native properties</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Checked and indeterminate visuals.">The prototype only drew the unchecked box. The checked and indeterminate looks here come straight from the tokens (light blue fill, dark blue border and mark). Confirm against Figma 250:17814.</doc-callout>
+    <doc-callout type="note" heading="Indeterminate mark.">The icon set has no minus glyph, so the bar is drawn as an 8 × 2px block. Confirm the size.</doc-callout>
+    <doc-callout type="note" heading="Labels.">The tokens include label spacing and colors (<span class="chip">checkbox/spacing/*</span>, <span class="chip">checkbox/color/content/*</span>), but this port is the box only. A labelled checkbox would be a separate piece.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

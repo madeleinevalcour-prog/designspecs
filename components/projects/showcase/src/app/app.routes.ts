@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { ButtonPage } from './pages/button/button-page';
+import { CheckboxPage } from './pages/checkbox/checkbox-page';
 import { HomePage } from './pages/home/home-page';
+import { IconButtonNoContainerPage } from './pages/icon-button-no-container/icon-button-no-container-page';
 import { IconPage } from './pages/icon/icon-page';
 
 // One route per component. Each page renders the full reference matrix, or a
@@ -10,5 +12,7 @@ export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
   { path: 'button', component: ButtonPage, title: 'Button — ats-ui' },
   { path: 'icon', component: IconPage, title: 'Icon — ats-ui' },
+  { path: 'icon-button-no-container', component: IconButtonNoContainerPage, title: 'Icon Button - no container — ats-ui' },
+  { path: 'checkbox', component: CheckboxPage, title: 'Checkbox — ats-ui' },
   { path: '**', redirectTo: '' },
 ];

@@ -1,0 +1,45 @@
+@if (embed()) {
+  <div class="embed-row">
+    @for (st of embedStates(); track st) {
+      <div class="embed-cell">
+        <button
+          ats-icon-button-no-container
+          [icon]="embedIcon()"
+          [state]="forced(st)"
+          [disabled]="st === 'disabled'"
+          [attr.aria-label]="embedLabel()"
+        ></button>
+        @if (captions()) { <span class="caption">{{ st }}</span> }
+      </div>
+    }
+  </div>
+} @else {
+  <h1>Icon Button — no container</h1>
+  <p class="lede">
+    Angular port of the Figma "Icon Button - no container" (Component Migration 164:17717): a 24×24 icon-only button
+    with a 12px glyph and no resting container. Hover / focus / active are forced; the live buttons also respond to real
+    interaction.
+  </p>
+
+  <section>
+    <h2>States</h2>
+    <div class="grid">
+      @for (st of allStates; track st) { <span class="col-head">{{ st }}</span> }
+      @for (st of allStates; track st) {
+        <span class="cell">
+          <button ats-icon-button-no-container [state]="forced(st)" [disabled]="st === 'disabled'" [attr.aria-label]="st"></button>
+        </span>
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Glyphs</h2>
+    <p class="lede">Pass any icon-set name as <code>icon</code>. These are examples; use the glyph the design specifies.</p>
+    <div class="extra">
+      @for (g of glyphs; track g) {
+        <button ats-icon-button-no-container [icon]="g" [attr.aria-label]="g"></button>
+      }
+    </div>
+  </section>
+}
