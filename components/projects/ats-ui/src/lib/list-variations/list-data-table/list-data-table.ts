@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
+import { Checkbox } from '../../checkbox/checkbox';
 import { Icon } from '../../icon/icon';
 import { LIST_SAMPLE_COLUMNS, LIST_SAMPLE_ROWS, ListDataTableColumn, ListDataTableRow } from '../list-variations-sample-data';
 
@@ -19,7 +20,7 @@ import { LIST_SAMPLE_COLUMNS, LIST_SAMPLE_ROWS, ListDataTableColumn, ListDataTab
  */
 @Component({
   selector: 'ats-list-data-table',
-  imports: [Icon],
+  imports: [Checkbox, Icon],
   templateUrl: './list-data-table.html',
   styleUrl: './list-data-table.css',
   encapsulation: ViewEncapsulation.None,

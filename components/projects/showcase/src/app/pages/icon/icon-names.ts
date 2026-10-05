@@ -290,6 +290,7 @@ export const ICON_NAMES = [
   'sophia-icon',
   'sortable',
   'source',
+  'star-o',
   'stethoscope',
   'stop-light',
   'submission',

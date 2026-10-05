@@ -1,6 +1,6 @@
 <div class="ats-list-data-table__tr ats-list-data-table__thead" role="row">
   <span class="ats-list-data-table__cell ats-list-data-table__cell--check" role="columnheader">
-    <input class="ats-list-data-table__check" type="checkbox" aria-label="Select all" />
+    <input ats-checkbox aria-label="Select all" />
   </span>
   <span class="ats-list-data-table__cell ats-list-data-table__cell--icon" role="columnheader"></span>
   @for (c of cols(); track c.key) {
@@ -14,7 +14,7 @@
 @for (row of data(); track $index) {
   <div class="ats-list-data-table__tr" role="row">
     <span class="ats-list-data-table__cell ats-list-data-table__cell--check" role="cell">
-      <input class="ats-list-data-table__check" type="checkbox" aria-label="Select row" />
+      <input ats-checkbox aria-label="Select row" />
     </span>
     <span class="ats-list-data-table__cell ats-list-data-table__cell--icon" role="cell">
       <ats-icon name="preview" [size]="16" color="var(--data-table-color-icon-default)" />

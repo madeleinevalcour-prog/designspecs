@@ -45,16 +45,3 @@
   font-weight: var(--typography-input-value-hyperlinks-font-weight);
   color: var(--data-table-color-content-hyperlink);
 }
-/* checkbox (drawn in CSS to the Figma spec) */
-.ats-list-data-table__check {
-  appearance: none; -webkit-appearance: none; margin: 0; cursor: pointer;
-  width: var(--spacing-16); height: var(--spacing-16); flex: 0 0 auto; box-sizing: border-box;
-  background: var(--checkbox-color-background-default);
-  border: var(--checkbox-border-width-default) solid var(--checkbox-color-border-default);
-  border-radius: var(--checkbox-border-radius-checkbox);
-}
-.ats-list-data-table__check:hover { background: var(--checkbox-color-background-hover); border-color: var(--checkbox-color-border-hover); }
-.ats-list-data-table__check:focus-visible { outline: var(--checkbox-border-width-focus) solid var(--checkbox-color-border-focus); outline-offset: 1px; }
-.ats-list-data-table__check:checked {
-  background: var(--checkbox-color-background-checked); border-color: var(--checkbox-color-border-checked);
-}
