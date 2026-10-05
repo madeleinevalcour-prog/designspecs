@@ -1,0 +1,93 @@
+<ng-template #page>
+  <div class="ph-page">
+    <div class="ph-title">213 | Tyler Brooks</div>
+    <div class="ph-sub">Placeholder page content</div>
+    <div class="ph-grid"><div class="ph-card"></div><div class="ph-card"></div><div class="ph-card ph-card--tall"></div><div class="ph-card ph-card--tall"></div></div>
+  </div>
+</ng-template>
+
+@if (embed()) {
+  @switch (view()) {
+    @case ('layout') {
+      <div class="frame" [style.height.px]="embedHeight()">
+        <ats-bowling-alley-shell [nav]="embedNav()" [lockNav]="lock()" [findOpen]="find()">
+          <ats-bowling-alley [userOnlyCollapsed]="userOnly()" />
+          <ng-container *ngTemplateOutlet="page" />
+        </ats-bowling-alley-shell>
+      </div>
+    }
+    @case ('tooltip') { <div class="embed-pad"><ats-tooltip [text]="embedText()" /></div> }
+    @case ('overlay') {
+      <div class="embed-pad">
+        @switch (embedOverlay()) {
+          @case ('add') { <ats-add-overlay /> }
+          @case ('user') { <ats-user-overlay /> }
+          @case ('help') { <ats-help-overlay /> }
+          @case ('find') { <ats-fast-find-results class="find-static" [query]="embedQuery()" /> }
+          @default { <ats-menu-overlay [autofocus]="false" /> }
+        }
+      </div>
+    }
+  }
+} @else {
+  <h1>Bowling Alley</h1>
+  <p class="lede">
+    Angular build of the Figma "Bowling Alley" navigation (157:2575), its overlays (157:511) and Fast Find (1323:67008).
+    Everything here is live: hover the bowling alley (600ms intent), press ⌘/Ctrl+B, open the overlays, click Find, pin and drag the record tabs.
+  </p>
+
+  <section>
+    <h2>Full layout</h2>
+    <div class="frame" style="height: 720px">
+      <ats-bowling-alley-shell (overlaySelect)="lastPick.set($event.overlay + ' → ' + $event.value)" (amplifyClick)="lastPick.set('amplify tab')">
+        <ats-bowling-alley />
+        <ng-container *ngTemplateOutlet="page" />
+      </ats-bowling-alley-shell>
+    </div>
+    @if (lastPick()) { <p class="note">Last pick: {{ lastPick() }}</p> }
+  </section>
+
+  <section>
+    <h2>Nav states</h2>
+    <p class="lede">Collapsed, hover (floating card) and open, frozen with <code>lockNav</code>.</p>
+    <div class="row">
+      @for (n of navStates; track n) {
+        <div class="cell">
+          <div class="frame frame--alley" style="height: 600px"><ats-bowling-alley-shell [nav]="n" lockNav><ats-bowling-alley /></ats-bowling-alley-shell></div>
+          <span class="caption">{{ n }}</span>
+        </div>
+      }
+      <div class="cell">
+        <div class="frame frame--alley" style="height: 600px"><ats-bowling-alley-shell nav="collapsed" lockNav><ats-bowling-alley userOnlyCollapsed /></ats-bowling-alley-shell></div>
+        <span class="caption">userOnlyCollapsed</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Fast Find</h2>
+    <div class="frame" style="height: 720px">
+      <ats-bowling-alley-shell findOpen lockNav><ats-bowling-alley /><ng-container *ngTemplateOutlet="page" /></ats-bowling-alley-shell>
+    </div>
+  </section>
+
+  <section>
+    <h2>Overlays</h2>
+    <p class="lede">Shown outside the bowling alley. In place they open 8px right of their tab.</p>
+    <div class="row">
+      <div class="cell"><ats-menu-overlay [autofocus]="false" /><span class="caption">Menu</span></div>
+      <div class="cell"><ats-add-overlay /><span class="caption">Add</span></div>
+      <div class="cell"><ats-user-overlay /><span class="caption">User</span></div>
+      <div class="cell"><ats-help-overlay /><span class="caption">Help</span></div>
+    </div>
+    <div class="row">
+      <div class="cell"><ats-fast-find-results class="find-static" /><span class="caption">Fast Find · Recently Viewed</span></div>
+      <div class="cell"><ats-fast-find-results class="find-static" query="a" /><span class="caption">Fast Find · searching</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tooltip</h2>
+    <div class="row"><ats-tooltip text="Pin" /><ats-tooltip text="Remove pin" /></div>
+  </section>
+}

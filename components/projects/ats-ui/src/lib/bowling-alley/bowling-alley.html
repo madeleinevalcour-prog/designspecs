@@ -1,0 +1,46 @@
+<!-- the card: Figma "Menu" layer inside the Bowling Alley instance -->
+<div class="ats-bowling-alley__card">
+  <div class="ats-bowling-alley__head">
+    <div class="ats-bowling-alley__logo">
+      <span class="ats-bowling-alley__wordmark">Bullhorn</span>
+      <ats-icon name="bull" [size]="24" color="var(--bowling-alley-color-logo-icon)" />
+    </div>
+    <button class="ats-bowling-alley__toggle" type="button" title="Toggle menu (⌘/Ctrl + B)" aria-label="Toggle menu"
+      [attr.aria-expanded]="ctrl.nav() === 'open'" (click)="ctrl.toggleOpen()">
+      <ats-icon [name]="toggleIcon()" [size]="14" color="var(--bowling-alley-color-content-icon-default)" />
+    </button>
+  </div>
+
+  <div class="ats-bowling-alley__tabs">
+    <ats-main-tabs />
+    <ats-record-tabs-divider />
+    <ats-entity-tabs />
+  </div>
+
+  <!-- bowling-alley-footer -->
+  <div class="ats-bowling-alley__foot">
+    <button class="ats-bowling-alley__parse" type="button">
+      <span class="ats-bowling-alley-tab__icon"><ats-icon name="resume" [size]="14" color="var(--bowling-alley-color-content-icon-default)" /></span>
+      <span class="ats-bowling-alley-tab__label">Parse Resume</span>
+    </button>
+    <!-- bowling-alley-footer-actions: icon-on-top cells when expanded, stacked icons when collapsed -->
+    <div class="ats-bowling-alley__foot-actions">
+      <button class="ats-bowling-alley-foot-item ats-bowling-alley-foot-item--utility" data-opener="help" type="button" aria-label="Help"
+        [class.is-active]="ctrl.isOpen('help')" [attr.aria-expanded]="ctrl.isOpen('help')"
+        (click)="ctrl.opener('help', $any($event.currentTarget))">
+        <span class="ats-bowling-alley-tab__icon"><ats-icon name="question" [size]="16" color="var(--bowling-alley-color-content-icon-default)" /></span>
+        <span class="ats-bowling-alley-tab__label">Help</span>
+      </button>
+      <button class="ats-bowling-alley-foot-item ats-bowling-alley-foot-item--utility" type="button" aria-label="Privacy">
+        <span class="ats-bowling-alley-tab__icon"><ats-icon name="shield-outline" [size]="16" color="var(--bowling-alley-color-content-icon-default)" /></span>
+        <span class="ats-bowling-alley-tab__label">Privacy</span>
+      </button>
+      <button class="ats-bowling-alley-foot-item ats-bowling-alley-foot-item--user" data-opener="user" type="button"
+        [class.is-active]="ctrl.isOpen('user')" [attr.aria-expanded]="ctrl.isOpen('user')" [attr.aria-label]="userName()"
+        (click)="ctrl.opener('user', $any($event.currentTarget))">
+        <span class="ats-bowling-alley-tab__icon"><span class="ats-bowling-alley__avatar">{{ userInitials() }}</span></span>
+        <span class="ats-bowling-alley-tab__label">{{ userName() }}</span>
+      </button>
+    </div>
+  </div>
+</div>

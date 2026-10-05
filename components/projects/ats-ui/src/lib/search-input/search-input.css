@@ -1,0 +1,57 @@
+/* search-input (Figma "search-input"). field = Fast Find (1323:67011); pill = Menu filter (1323:68245). */
+.ats-search-input {
+  display: flex; align-items: center; gap: var(--spacing-gap-sm); width: 100%; box-sizing: border-box;
+  min-height: var(--spacing-32); padding: var(--spacing-4);
+  background: var(--field-color-background-default);
+  border: var(--field-border-width-default) solid var(--field-color-border-default);
+  border-radius: var(--field-border-radius-default);
+  font-family: var(--typography-bowling-alley-main-nav-font-family), 'Inter', sans-serif;
+  cursor: text;
+}
+.ats-search-input:hover { border-color: var(--field-color-border-hover); }
+.ats-search-input.is-active,
+.ats-search-input:focus-within { border-color: var(--field-color-border-focus); }
+
+.ats-search-input__icon {
+  flex: 0 0 auto; width: 24px; height: 24px; box-sizing: border-box; padding: var(--spacing-padding-xsm);
+  display: flex; align-items: center; justify-content: center;
+}
+.ats-search-input__input {
+  flex: 1 0 0; min-width: 0; border: 0; outline: 0; background: transparent; padding: 0; margin: 0;
+  font-family: inherit;
+  font-size: var(--typography-bowling-alley-main-nav-font-size);
+  line-height: var(--typography-bowling-alley-main-nav-line-height);
+  font-weight: var(--typography-bowling-alley-main-nav-font-weight);
+  letter-spacing: var(--typography-bowling-alley-main-nav-letter-spacing);
+  color: var(--field-color-content-value);
+  -webkit-appearance: none; appearance: none;
+}
+.ats-search-input__input::placeholder { color: var(--field-color-content-placeholder); opacity: 1; }
+.ats-search-input__input::-webkit-search-cancel-button { display: none; }
+
+/* close: icon Button (min 32 × 32, radius button/border/radius/icon) */
+.ats-search-input__close {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+  min-width: 32px; min-height: 32px; margin: -4px 0; border: 0; padding: 0; background: transparent; cursor: pointer;
+  border-radius: var(--button-border-radius-icon);
+}
+.ats-search-input__close:hover { background: var(--color-background-subtle); }
+.ats-search-input__close:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
+
+/* ---- pill (Menu filter) ---- */
+.ats-search-input--pill {
+  min-height: var(--spacing-40); padding: var(--spacing-4) var(--spacing-16);
+  border-color: var(--search-color-border-default); border-radius: var(--border-radius-round);
+  font-family: var(--typography-input-value-default-font-family), 'Inter', sans-serif;
+}
+.ats-search-input--pill .ats-search-input__icon { width: auto; height: auto; padding: 0; }
+.ats-search-input--pill:hover { border-color: var(--search-color-border-hover); }
+.ats-search-input--pill.is-active,
+.ats-search-input--pill:focus-within { border-color: var(--search-color-border-focus); }
+.ats-search-input--pill .ats-search-input__input {
+  height: 28px;
+  font-size: var(--typography-input-value-default-font-size);
+  line-height: var(--typography-input-value-default-line-height);
+  font-weight: var(--typography-input-value-default-font-weight);
+  letter-spacing: var(--typography-input-value-default-letter-spacing);
+}

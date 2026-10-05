@@ -1,0 +1,193 @@
+/* BowlingAlley (Figma "Bowling Alley" 157:2575) + main-tabs / record-tabs-divider /
+   entity-tabs / footer. States key off the shell's data-nav (collapsed | hover | open)
+   and data-find (open). Widths transition from always-defined vars only (CLAUDE.md). */
+
+.ats-bowling-alley {
+  position: absolute; top: 0; left: 0; bottom: 0; box-sizing: border-box; z-index: 30;
+  width: var(--ats-bowling-alley-w);
+  display: flex; padding: 0;
+  transition: width .18s ease;
+  font-family: var(--typography-bowling-alley-main-nav-font-family), 'Inter', sans-serif;
+}
+/* the card (Figma: the "Menu" layer) */
+.ats-bowling-alley__card {
+  flex: 1 0 0; min-width: 0; box-sizing: border-box;
+  display: flex; flex-direction: column; gap: var(--bowling-alley-spacing-gap);
+  padding: 12px 14px; /* no token: Figma 12 / 14px card padding (literal in the frame) */
+  background: var(--bowling-alley-color-background-default);
+  border-right: var(--bowling-alley-border-width-default) solid var(--bowling-alley-color-border-default);
+  border-radius: var(--bowling-alley-border-radius-default);
+  box-shadow: var(--elevation-3);
+  overflow: hidden;
+}
+.ats-bowling-alley-shell[data-nav="open"] .ats-bowling-alley { width: var(--ats-bowling-alley-panel-w); }
+
+/* hover ("State=Hover 2") and Fast Find: a floating card, 4px inset, level-4 shadow, over the page */
+.ats-bowling-alley-shell[data-nav="hover"] .ats-bowling-alley { width: var(--ats-bowling-alley-panel-w); }
+.ats-bowling-alley-shell[data-find="open"] .ats-bowling-alley { width: var(--ats-bowling-alley-find-w); z-index: 60; }
+.ats-bowling-alley-shell[data-nav="hover"] .ats-bowling-alley,
+.ats-bowling-alley-shell[data-find="open"] .ats-bowling-alley { padding: var(--spacing-4); }
+.ats-bowling-alley-shell[data-nav="hover"] .ats-bowling-alley__card,
+.ats-bowling-alley-shell[data-find="open"] .ats-bowling-alley__card {
+  border: var(--bowling-alley-border-width-default) solid var(--bowling-alley-color-border-default);
+  border-radius: var(--card-spacing-header-gap); /* Figma binds the radius to card/spacing/header/gap (8px) */
+  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
+}
+
+/* ---- bowling-alley-header: logo + collapse toggle ---- */
+.ats-bowling-alley__head { display: flex; align-items: center; justify-content: space-between; min-height: 40px; flex: 0 0 auto; }
+.ats-bowling-alley__logo { display: flex; align-items: center; gap: var(--spacing-8); height: 32px; overflow: hidden; }
+.ats-bowling-alley__wordmark {
+  display: none; white-space: nowrap; color: var(--bowling-alley-color-logo-text);
+  font-family: var(--typography-title-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-title-default-font-weight); font-size: var(--typography-title-default-font-size);
+  line-height: var(--typography-title-default-line-height);
+}
+/* collapse-button: Icon button, 40px, radius button/border/radius/icon */
+.ats-bowling-alley__toggle {
+  display: none; align-items: center; justify-content: center; flex: 0 0 auto;
+  min-width: 40px; min-height: 40px; border: 0; padding: 0; background: transparent; cursor: pointer;
+  border-radius: var(--button-border-radius-icon);
+}
+.ats-bowling-alley__toggle:hover { background: var(--bowling-alley-color-tab-items-background-hover); }
+
+/* ---- bowling-alley-tabs-section ---- */
+.ats-bowling-alley__tabs { display: flex; flex-direction: column; gap: var(--bowling-alley-spacing-tabs-gap); min-height: 0; flex: 0 1 auto; }
+.ats-bowling-alley__section { display: flex; flex-direction: column; gap: var(--spacing-8); }
+.ats-bowling-alley__find { flex: 0 0 auto; }
+
+/* ---- tabs (main-tabs / entity-tabs) ---- */
+.ats-bowling-alley-tab, .ats-bowling-alley__parse {
+  display: flex; align-items: center; gap: var(--bowling-alley-spacing-tabs-gap); box-sizing: border-box;
+  width: 100%; min-width: 0; border: 0; margin: 0; background: transparent; cursor: pointer;
+  padding: var(--bowling-alley-spacing-tabs-padding-vertical) var(--bowling-alley-spacing-tabs-padding-horizontal);
+  border-radius: var(--bowling-alley-border-tabs-radius);
+  color: var(--bowling-alley-color-content-text-default);
+  text-align: left; position: relative; font-family: inherit; white-space: nowrap;
+}
+.ats-bowling-alley-tab:hover { background: var(--bowling-alley-color-tab-items-background-hover); color: var(--bowling-alley-color-content-text-hover); }
+.ats-bowling-alley-tab.is-active { background: var(--bowling-alley-color-tab-items-background-active); color: var(--bowling-alley-color-content-text-hover); }
+.ats-bowling-alley-tab:focus-visible, .ats-bowling-alley__parse:focus-visible, .ats-bowling-alley-foot-item:focus-visible,
+.ats-bowling-alley__toggle:focus-visible, .ats-bowling-alley-tab__actions button:focus-visible, .ats-bowling-alley-divider__clear:focus-visible {
+  outline: 2px solid var(--color-border-focus); outline-offset: -2px;
+}
+.ats-bowling-alley-tab__icon {
+  flex: 0 0 auto; width: 24px; height: 24px; box-sizing: border-box; border-radius: var(--border-radius-xsm);
+  display: flex; align-items: center; justify-content: center;
+}
+.ats-bowling-alley-tab__label {
+  display: none; flex: 1 0 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-size: var(--typography-bowling-alley-main-nav-font-size); line-height: var(--typography-bowling-alley-main-nav-line-height);
+  font-weight: var(--typography-bowling-alley-main-nav-font-weight); letter-spacing: var(--typography-bowling-alley-main-nav-letter-spacing);
+}
+.ats-bowling-alley-tab--entity .ats-bowling-alley-tab__label {
+  font-size: var(--typography-bowling-alley-entity-font-size); line-height: var(--typography-bowling-alley-entity-line-height);
+  font-weight: var(--typography-bowling-alley-entity-font-weight);
+}
+.ats-bowling-alley-tab--entity.is-active .ats-bowling-alley-tab__label { font-weight: var(--typography-bowling-alley-entity-font-weight-active); }
+.ats-bowling-alley-tab--entity[data-entity] .ats-bowling-alley-tab__icon { background: var(--ats-entity-color); }
+.ats-bowling-alley-tab--entity[data-entity="candidate"] { --ats-entity-color: var(--color-entity-candidate); }
+.ats-bowling-alley-tab--entity[data-entity="job"] { --ats-entity-color: var(--color-entity-job); }
+.ats-bowling-alley-tab--entity[data-entity="company"] { --ats-entity-color: var(--color-entity-company); }
+.ats-bowling-alley-tab--entity[data-entity="contact"] { --ats-entity-color: var(--color-entity-contact); }
+.ats-bowling-alley-tab--entity[data-entity="note"] { --ats-entity-color: var(--color-entity-note); }
+
+/* pin / close actions (entity tabs) */
+.ats-bowling-alley-tab__actions { margin-left: auto; display: none; align-items: center; gap: var(--spacing-gap-xsm); }
+.ats-bowling-alley-tab__actions button {
+  border: 0; background: transparent; cursor: pointer; padding: 0; border-radius: var(--border-radius-xsm);
+  width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+}
+.ats-bowling-alley-tab__actions button:hover { background: var(--bowling-alley-color-tab-items-background-hover); }
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley-tab--entity:hover .ats-bowling-alley-tab__actions,
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley-tab--entity:focus-within .ats-bowling-alley-tab__actions,
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley-tab--entity.is-pinned .ats-bowling-alley-tab__actions { display: flex; }
+.ats-bowling-alley-tab--entity.is-pinned:not(:hover):not(:focus-within) .ats-bowling-alley-tab__close { display: none; }
+.ats-bowling-alley-tab.is-dragging { opacity: .5; }
+.ats-bowling-alley-drop-line {
+  height: 2px; margin: -5px 0; border-radius: 1px; flex: 0 0 auto; pointer-events: none;
+  background: var(--color-border-focus);
+}
+
+/* "next" chevron on openers */
+.ats-bowling-alley-tab__next {
+  margin-left: auto; display: none; flex: 0 0 auto;
+  width: 24px; height: 24px; align-items: center; justify-content: center;
+}
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley-tab--opener:hover .ats-bowling-alley-tab__next,
+.ats-bowling-alley-tab--opener.is-active .ats-bowling-alley-tab__next { display: flex; }
+
+/* Amplify brand glyph: the icon mask filled with the Amplify radial gradient
+   (no token: gradient stops from the Figma asset amplify.svg) */
+.ats-icon.ats-bowling-alley__amplify-glyph {
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}
+
+/* ---- record-tabs-divider ---- */
+.ats-bowling-alley-divider { display: flex; align-items: center; gap: var(--bowling-alley-spacing-tabs-gap); height: 32px; flex: 0 0 auto; }
+.ats-bowling-alley-divider__line { flex: 1 0 0; min-width: 1px; height: 1px; background: var(--bowling-alley-color-border-default); }
+/* Clear All: Dialogue small button */
+.ats-bowling-alley-divider__clear {
+  display: none; align-items: center; gap: var(--button-spacing-small-gap); margin: 0; min-height: 32px; box-sizing: border-box;
+  background: var(--button-color-dialogue-background-hover); border: 0; cursor: pointer;
+  padding: var(--button-spacing-small-padding-vertical) var(--button-spacing-small-padding-horizontal);
+  border-radius: var(--button-border-radius-dialogue);
+  font-family: inherit; font-size: var(--typography-button-sm-font-size); line-height: var(--typography-button-sm-line-height);
+  font-weight: var(--typography-button-sm-font-weight); color: var(--button-color-dialogue-content-default); white-space: nowrap;
+}
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley-divider:hover .ats-bowling-alley-divider__clear,
+.ats-bowling-alley-divider.is-hovering .ats-bowling-alley-divider__clear { display: flex; }
+
+/* ---- bowling-alley-footer: Parse Resume uploader + Help / Privacy / user ---- */
+.ats-bowling-alley__foot {
+  flex: 1 0 0; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  gap: var(--bowling-alley-spacing-gap);
+}
+.ats-bowling-alley__parse {
+  justify-content: center; gap: 0; padding: var(--spacing-4);
+  border: var(--border-width-border-default) dashed var(--bowling-alley-color-uploader-border-default);
+}
+.ats-bowling-alley__parse:hover { background: var(--bowling-alley-color-uploader-background-hover); border-color: var(--bowling-alley-color-uploader-border-hover); }
+.ats-bowling-alley__parse .ats-bowling-alley-tab__label {
+  flex: 0 0 auto; font-size: var(--typography-bowling-alley-entity-font-size); line-height: var(--typography-bowling-alley-entity-line-height);
+}
+.ats-bowling-alley__foot-actions { display: flex; gap: var(--spacing-padding-sm); align-items: stretch; width: 100%; }
+.ats-bowling-alley-foot-item {
+  flex: 1 0 0; min-width: 48px; height: 72px; box-sizing: border-box; margin: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+  gap: var(--bowling-alley-spacing-tabs-gap);
+  border: 0; background: transparent; cursor: pointer; font-family: inherit;
+  padding: var(--bowling-alley-spacing-tabs-padding-vertical) var(--bowling-alley-spacing-tabs-padding-horizontal);
+  border-radius: var(--bowling-alley-border-tabs-radius); color: var(--bowling-alley-color-content-text-default);
+}
+.ats-bowling-alley-foot-item:hover { background: var(--bowling-alley-color-tab-items-background-hover); }
+.ats-bowling-alley-foot-item.is-active { background: var(--bowling-alley-color-tab-items-background-active); }
+.ats-bowling-alley-foot-item .ats-bowling-alley-tab__label {
+  flex: 0 0 auto; width: 100%; text-align: center; white-space: normal; overflow-wrap: anywhere;
+  font-size: var(--typography-bowling-alley-entity-font-size); line-height: var(--typography-bowling-alley-entity-line-height);
+}
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley-foot-item .ats-bowling-alley-tab__label {
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.ats-bowling-alley__avatar {
+  width: var(--avatar-spacing-width); height: var(--avatar-spacing-height); border-radius: var(--avatar-border-radius-round);
+  background: var(--avatar-color-background-default); color: var(--avatar-color-content-default);
+  display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  font-size: 12px; line-height: 16px; font-weight: var(--typography-bowling-alley-main-nav-font-weight-active); /* no token: avatar initials 12/16 */
+}
+
+/* ---- expanded (hover / open / Fast Find) vs collapsed ---- */
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley__wordmark,
+.ats-bowling-alley-shell[data-find="open"] .ats-bowling-alley__wordmark,
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley-tab__label,
+.ats-bowling-alley-shell[data-find="open"] .ats-bowling-alley-tab__label { display: block; }
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley__toggle,
+.ats-bowling-alley-shell[data-find="open"] .ats-bowling-alley__toggle { display: flex; }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley__card { padding-inline: var(--bowling-alley-spacing-collapsed-padding-left); }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley__head { justify-content: center; }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley-tab { justify-content: center; }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley-tab__actions { display: none !important; }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley__parse { display: none; }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley__foot-actions { flex-direction: column; align-items: center; }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley-foot-item { flex: 0 0 auto; height: auto; }
+.ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley[data-collapsed-foot="user"] .ats-bowling-alley-foot-item--utility { display: none; }

@@ -1,0 +1,34 @@
+<div class="ats-bowling-alley-shell__stage" #stage>
+  <ng-content select="ats-bowling-alley" />
+
+  <!-- page content sits right of the bowling alley; only the open state pushes it -->
+  <div class="ats-bowling-alley-shell__main">
+    <div class="ats-bowling-alley-shell__canvas"><ng-content /></div>
+  </div>
+
+  <!-- Figma "overlay": full-page scrim under the bowling alley and its dropdowns -->
+  <div class="ats-bowling-alley-shell__scrim" [class.is-on]="scrim()" aria-hidden="true"></div>
+
+  <!-- overlay layer: positioning only, never intercepts clicks itself -->
+  <div class="ats-bowling-alley-shell__overlays">
+    @if (ctrl.overlay(); as o) {
+      <div #ovl class="ats-bowling-alley-shell__overlay" role="dialog" [attr.aria-label]="overlayLabel()">
+        @switch (o.kind) {
+          @case ('menu') { <ats-menu-overlay (closed)="ctrl.dismiss()" (selected)="select(o.kind, $event)" /> }
+          @case ('add') { <ats-add-overlay (selected)="select(o.kind, $event)" /> }
+          @case ('help') { <ats-help-overlay /> }
+          @default { <ats-user-overlay (selected)="select(o.kind, $event)" /> }
+        }
+      </div>
+    }
+    @if (ctrl.findOpen()) {
+      <div #results class="ats-bowling-alley-shell__overlay ats-bowling-alley-shell__results" role="dialog" aria-label="Fast Find">
+        <ats-fast-find-results [query]="ctrl.findQuery()" (selected)="select('find', $event)" (viewAll)="select('find', 'view-all')" />
+      </div>
+    }
+  </div>
+
+  @if (ctrl.tooltip(); as t) {
+    <ats-tooltip class="ats-bowling-alley-shell__tooltip" [text]="t.text" [style.left.px]="t.x" [style.top.px]="t.y" />
+  }
+</div>

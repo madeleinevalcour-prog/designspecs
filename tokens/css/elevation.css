@@ -13,7 +13,7 @@
   /* general/level 3 */
   --elevation-3: 0 var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-08),
                  var(--spacing-2) var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-04);
-  /* general/level 3 - right (shadow biased to the left edge, for right-anchored rails) */
+  /* general/level 3 - right (shadow biased to the left edge, for right-anchored panels) */
   --elevation-3-right: 0 var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-08),
                        -2px var(--spacing-4) var(--spacing-8) 0 var(--color-transparency-charcoal-charcoal-04);
   /* general/level 4 (also: backdrop-filter: blur(var(--elevation-4-blur))) */

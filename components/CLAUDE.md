@@ -20,5 +20,5 @@ content (icons) can be styled.
 
 Commands: `npm start` (showcase on :4200) · `npm run build:lib` · `npm run build:examples` (→ `../docs-site/examples`).
 
-Ported so far: Button, Icon, IconButtonNoContainer, Checkbox, Card family, Novo data table, Novo list family, RecordHeader, WorkflowStepper, Rail family (nav rail, tabs, overlays, Header, Amplify), SophiaFab.
-Not ported (prototype-only): list-variations (removed — not a real component), ScreenShell, DemoPanel, StylingPanel, TestingControls, prospect/*, RecordPage, testing-july-2026/* and bowling-alley/* (superseded by rail).
+Ported so far: Button, Icon, IconButtonNoContainer, Checkbox, Card family, Novo data table, Novo list family, RecordHeader, WorkflowStepper, Bowling Alley family (`lib/bowling-alley/`: shell, nav, tabs, overlays, Fast Find — rebuilt from Figma 157:511 / 1323:67008), SearchInput (`lib/search-input/`), ListItem (`lib/list-item/`), Amplify (`lib/amplify/`, exported; no showcase or doc page yet), SophiaFab.
+Not ported (prototype-only): list-variations (removed — not a real component), ScreenShell, DemoPanel, StylingPanel, TestingControls, prospect/*, RecordPage, testing-july-2026/*, and the prototype's Header / Top Bar option (dropped from the bowling alley).
