@@ -11,7 +11,7 @@
       @case ('cell') {
         <div class="dt-card dt-inline">
           <table class="sub-table"><tbody><tr>
-            <td ats-novo-data-table-cell [value]="embedValue()" [link]="embedLink()"></td>
+            <td ats-novo-data-table-cell [value]="embedValue()" [link]="embedLink()" [state]="embedState()"></td>
           </tr></tbody></table>
         </div>
       }
@@ -21,6 +21,7 @@
             [columns]="embedColumns()"
             [rows]="embedRows()"
             [banded]="embedBanded()"
+            [hoverRow]="embedHover()"
             [checkbox]="embedCheckbox()"
             [preview]="embedPreview()"
             [style.max-height.px]="embedHeight()"
@@ -39,7 +40,7 @@
 } @else {
   <h1>Novo Data Table</h1>
   <p class="lede">
-    Angular port of <code>novo-data-table</code> (Component Migration 46:1541 / 254:6720): sticky header, banded rows,
+    Angular port of <code>novo-data-table</code> (Component Migration 46:1541 / 254:6720): sticky header, optional banded rows, row hover,
     sort / filter headers, checkbox + preview columns. Authored against the Tier-3 data-table tokens.
   </p>
 
@@ -58,9 +59,17 @@
   </section>
 
   <section>
-    <h2>Reduced — 4 columns, no banding</h2>
+    <h2>Reduced — 4 columns, banded (opt-in)</h2>
     <div class="dt-card">
-      <ats-novo-data-table [columns]="reducedColumns" [rows]="reducedRows" [banded]="false" label="Candidates" />
+      <ats-novo-data-table [columns]="reducedColumns" [rows]="reducedRows" banded label="Candidates" />
+    </div>
+  </section>
+
+  <section>
+    <h2>Row hover (forced on row 2)</h2>
+    <p class="note">Rows take the hover background on hover. Here <code>[hoverRow]="1"</code> forces it. There is no row focus state.</p>
+    <div class="dt-card">
+      <ats-novo-data-table [columns]="reducedColumns" [rows]="reducedRows" [hoverRow]="1" label="Candidates" />
     </div>
   </section>
 
@@ -99,11 +108,12 @@
         </div>
       </div>
       <div class="sub">
-        <span class="sub-l">Cell (default / hyperlink)</span>
+        <span class="sub-l">Cell (default / hyperlink / hyperlink hover)</span>
         <div class="dt-card dt-inline">
           <table class="sub-table"><tbody><tr>
             <td ats-novo-data-table-cell value="District Security Director"></td>
             <td ats-novo-data-table-cell value="name@email.com" link></td>
+            <td ats-novo-data-table-cell value="name@email.com" link state="hover"></td>
           </tr></tbody></table>
         </div>
       </div>

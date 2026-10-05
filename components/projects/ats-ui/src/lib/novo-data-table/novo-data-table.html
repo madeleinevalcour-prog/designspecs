@@ -26,7 +26,7 @@
   </thead>
   <tbody>
     @for (row of rows(); track $index; let i = $index) {
-      <tr class="ats-ndt-row" [class.ats-ndt-row--banded]="banded() && i % 2 === 1" [class.is-selected]="selected().has(i)">
+      <tr class="ats-ndt-row" [class.ats-ndt-row--banded]="banded() && i % 2 === 1" [class.is-selected]="selected().has(i)" [class.is-hover]="hoverRow() === i">
         @if (checkbox()) {
           <td class="ats-ndt-td ats-ndt-td--check">
             <div class="ats-ndt-cell ats-ndt-cell--check">

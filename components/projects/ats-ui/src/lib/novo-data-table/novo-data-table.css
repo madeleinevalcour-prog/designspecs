@@ -26,6 +26,10 @@
   position: sticky; top: 0; z-index: 2;
 }
 .ats-ndt-row--banded > .ats-ndt-td { background: var(--data-table-color-background-muted); }
+/* row hover (Figma novo-data-table-row hover 254:593): background only; border and
+   text stay default. Real :hover + forced via NovoDataTable `hoverRow`. No focus state. */
+.ats-ndt-row:hover > .ats-ndt-td,
+.ats-ndt-row.is-hover > .ats-ndt-td { background: var(--data-table-color-background-hover); }
 
 .ats-ndt-cell {
   display: flex; align-items: center; gap: var(--data-table-spacing-gap-cell);
@@ -34,15 +38,18 @@
   box-sizing: border-box;
 }
 .ats-ndt-cell--check { min-width: 0; }
-.ats-ndt-cell--icon  { min-width: 0; width: 48px; }   /* no token: preview column width 48px */
+.ats-ndt-cell--icon  { min-width: 0; gap: 0; }   /* 16 + 16px icon + 16 = 48px, as in Figma 254:537 */
 .ats-ndt-th--check, .ats-ndt-td--check, .ats-ndt-th--icon, .ats-ndt-td--icon { width: 1px; } /* shrink to content */
 
-/* header cell — text style input/label/md */
+/* header cell — text style input/label/md, colour data-table/color/content/header.
+   Figma 254:495 sets the text case to uppercase on the layer (the input/label/md
+   text-transform token says capitalize), so uppercase is applied here. */
 .ats-ndt-hcell__label {
   font-family: var(--typography-input-label-md-font-family), 'Inter', sans-serif;
   font-weight: var(--typography-input-label-md-font-weight); font-size: var(--typography-input-label-md-font-size);
   line-height: var(--typography-input-label-md-line-height); letter-spacing: var(--typography-input-label-md-letter-spacing);
-  color: var(--data-table-color-content-default); white-space: nowrap;
+  text-transform: var(--typography-text-transform-uppercase);
+  color: var(--data-table-color-content-header); white-space: nowrap;
 }
 /* header sort / filter icons and the row preview icon: data-table/color/icon/default */
 .ats-ndt .ats-icon.ats-ndt-ic,
@@ -61,7 +68,10 @@
   font-family: var(--typography-input-value-hyperlinks-font-family), 'Inter', sans-serif;
   font-weight: var(--typography-input-value-hyperlinks-font-weight);
   color: var(--data-table-color-content-hyperlink);
+  cursor: pointer;   /* not wired to a destination yet, but reads as a link */
 }
+.ats-ndt-cell__text--link:hover,
+.ats-ndt-cell__text--link.is-hover { color: var(--data-table-color-content-hyperlink-hover); }
 
 /* visually hidden label (empty preview header) */
 .ats-ndt-sr {

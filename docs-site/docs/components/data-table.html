@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview">
     <p class="lead" style="max-width:60ch">Data Table lists records in rows and columns. The header row stays fixed while the body scrolls, and every color, size and text style comes from the Tier-3 data-table tokens.</p>
-    <doc-example src="data-table?cols=8&amp;rows=8&amp;height=320" caption="Default: 8 columns, banded rows, checkbox and preview columns"></doc-example>
+    <doc-example src="data-table?cols=8&amp;rows=8&amp;height=320" caption="Default: 8 columns, checkbox and preview columns"></doc-example>
   </doc-section>
 
   <doc-section id="anatomy" label="Anatomy">
@@ -37,8 +37,8 @@
   </doc-section>
 
   <doc-section id="variants" label="Variants">
-    <p>The Figma column-count variants (three to eight columns) are the same table with fewer columns. Turn off banding, the checkbox column or the preview column with an input.</p>
-    <doc-example src="data-table?cols=4&amp;rows=5&amp;banded=false" caption="4 columns, no banding" height="380"></doc-example>
+    <p>The Figma column-count variants (three to eight columns) are the same table with fewer columns. Turn on banding, or turn off the checkbox or preview column, with an input. Rows aren’t banded by default.</p>
+    <doc-example src="data-table?cols=4&amp;rows=5&amp;banded=true" caption="4 columns, banded (opt-in): alternate rows on the muted background" height="380"></doc-example>
     <doc-example src="data-table?cols=4&amp;rows=5&amp;checkbox=false&amp;preview=false" caption="No checkbox or preview column" height="380"></doc-example>
   </doc-section>
 
@@ -51,11 +51,24 @@
         <tr><td>Cell padding (v / h)</td><td>8 / 16px</td><td><span class="chip">data-table/spacing/padding-vertical</span>, <span class="chip">…/padding-horizontal</span></td></tr>
         <tr><td>Gap inside a cell</td><td>16px</td><td><span class="chip">data-table/spacing/gap-cell</span></td></tr>
         <tr><td>Row divider</td><td>1px</td><td><span class="chip">data-table/border/width/default</span></td></tr>
-        <tr><td>Preview column</td><td>48px wide, 16px icon</td><td>No token</td></tr>
+        <tr><td>Preview column</td><td>48px wide: 16px icon plus the 16px side padding</td><td><span class="chip">data-table/spacing/padding-horizontal</span></td></tr>
         <tr><td>Sort / filter icons</td><td>12px</td><td>No token</td></tr>
         <tr><td>Column width</td><td>Set per column; otherwise grows to fit the text</td><td>—</td></tr>
       </tbody>
     </table>
+  </doc-section>
+
+  <doc-section id="states" label="States">
+    <p>Rows and hyperlink cells have a hover state. There’s no row focus state.</p>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>What changes</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Row hover</td><td>The whole row takes the hover background. Text and divider stay the same.</td><td><span class="chip">data-table/color/background/hover</span></td></tr>
+        <tr><td>Hyperlink hover</td><td>The link text darkens. The cursor is a pointer.</td><td><span class="chip">data-table/color/content/hyperlink-hover</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="data-table?cols=4&amp;rows=5&amp;hover=1" caption="Row hover, forced on the second row" height="380"></doc-example>
+    <doc-example src="data-table?part=cell&amp;value=name%40email.com&amp;link=true&amp;state=hover" caption="Hyperlink cell, hover" height="90"></doc-example>
   </doc-section>
 
   <doc-section id="behavior" label="Behavior">
@@ -63,6 +76,8 @@
       <li>The table scrolls both ways inside its container. Give the container a max height and the header row stays pinned while the body scrolls.</li>
       <li>Values stay on one line. A value longer than a fixed column width is cut off with an ellipsis.</li>
       <li>The header checkbox selects every row, or clears them all. It shows as indeterminate when only some rows are selected.</li>
+      <li>Hovering a row highlights it. Hovering a hyperlink cell shows the link hover color and a pointer cursor.</li>
+      <li>Hyperlink cells don’t navigate anywhere yet. They’re styled as links but have no destination.</li>
       <li>The sort and filter icons are visual only. Sorting and filtering aren’t wired up yet.</li>
     </ul>
   </doc-section>
@@ -87,11 +102,14 @@
       <tbody>
         <tr><td>Header and row background</td><td><span class="chip">data-table/color/background/default</span></td></tr>
         <tr><td>Banded row background</td><td><span class="chip">data-table/color/background/muted</span></td></tr>
+        <tr><td>Row hover background</td><td><span class="chip">data-table/color/background/hover</span></td></tr>
         <tr><td>Row divider</td><td><span class="chip">data-table/color/border/default</span> at <span class="chip">data-table/border/width/default</span></td></tr>
-        <tr><td>Header label and cell text</td><td><span class="chip">data-table/color/content/default</span></td></tr>
+        <tr><td>Header label</td><td><span class="chip">data-table/color/content/header</span></td></tr>
+        <tr><td>Cell text</td><td><span class="chip">data-table/color/content/default</span></td></tr>
         <tr><td>Hyperlink text</td><td><span class="chip">data-table/color/content/hyperlink</span></td></tr>
+        <tr><td>Hyperlink text, hover</td><td><span class="chip">data-table/color/content/hyperlink-hover</span></td></tr>
         <tr><td>Sort, filter and preview icons</td><td><span class="chip">data-table/color/icon/default</span></td></tr>
-        <tr><td>Header label text</td><td><span class="chip">typography/input/label/md/*</span> (12 / 14px, 400)</td></tr>
+        <tr><td>Header label text</td><td><span class="chip">typography/input/label/md/*</span> (12 / 14px, 400, 0.5px tracking), uppercase</td></tr>
         <tr><td>Cell text</td><td><span class="chip">typography/input/value/default/*</span> (14 / 20px, 400)</td></tr>
         <tr><td>Hyperlink cell text</td><td><span class="chip">typography/input/value/hyperlinks/*</span> (14 / 20px, 500)</td></tr>
         <tr><td>Spacing</td><td><span class="chip">data-table/spacing/*</span> (see Measurements)</td></tr>
@@ -125,21 +143,21 @@
         <tr><td><span class="chip">rows</span></td><td>Array of objects; values are read by column key</td><td>required</td></tr>
         <tr><td><span class="chip">checkbox</span></td><td>Show the checkbox column</td><td>true</td></tr>
         <tr><td><span class="chip">preview</span></td><td>Show the preview-icon column</td><td>true</td></tr>
-        <tr><td><span class="chip">banded</span></td><td>Alternate rows on the muted background</td><td>true</td></tr>
+        <tr><td><span class="chip">banded</span></td><td>Alternate rows on the muted background (opt-in)</td><td>false</td></tr>
+        <tr><td><span class="chip">hoverRow</span></td><td>Forces the hover state on one row (0-based index), for docs and demos</td><td>—</td></tr>
         <tr><td><span class="chip">label</span></td><td>Accessible name for the table</td><td>—</td></tr>
         <tr><td><span class="chip">(selectionChange)</span></td><td>Emits the selected rows</td><td>—</td></tr>
         <tr><td><span class="chip">atsNovoDataTableCell</span></td><td>On an <span class="chip">&lt;ng-template&gt;</span>: column key. Context: value, <span class="chip">row</span>, <span class="chip">column</span>, <span class="chip">index</span></td><td>—</td></tr>
         <tr><td>Header cell: <span class="chip">label</span>, <span class="chip">filter</span>, <span class="chip">width</span></td><td>Text · show filter icon · px</td><td>'' · true · —</td></tr>
-        <tr><td>Cell: <span class="chip">value</span>, <span class="chip">link</span>, <span class="chip">width</span></td><td>Text (or project content) · hyperlink style · px</td><td>— · false · —</td></tr>
+        <tr><td>Cell: <span class="chip">value</span>, <span class="chip">link</span>, <span class="chip">width</span>, <span class="chip">state</span></td><td>Text (or project content) · hyperlink style · px · <span class="chip">'hover'</span> forces the link hover</td><td>— · false · — · —</td></tr>
       </tbody>
     </table>
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="Header label color.">The prototype colors header labels with <span class="chip">data-table/color/content/default</span>. The token set also has <span class="chip">data-table/color/content/header</span>; confirm which one Figma binds.</doc-callout>
-    <doc-callout type="note" heading="Hover, focus and selected rows.">Tokens exist for hover and focus (<span class="chip">data-table/color/background/hover</span>, <span class="chip">…/border/focus</span>, <span class="chip">…/content/hyperlink-hover</span>), but the prototype doesn’t use them. Confirm the row and link states in Figma.</doc-callout>
-    <doc-callout type="note" heading="Sort and filter.">The header icons are static. Confirm the sort and filter interactions before wiring them up.</doc-callout>
-    <doc-callout type="note" heading="Hyperlink cells.">Hyperlink cells are styled text, not links. Confirm where they should navigate.</doc-callout>
+    <doc-callout type="note" heading="Sort and filter.">The header icons are static. Sorting and filtering aren’t wired up yet; confirm the interactions before building them.</doc-callout>
+    <doc-callout type="note" heading="Header cell hover.">Figma has a hover variant of the header cell (254:498, hover background). It isn’t built, since the header has no interaction yet.</doc-callout>
+    <doc-callout type="note" heading="Link cell in Figma.">The Figma link cell (1218:41590) uses the Link Text component: an entity-color dot, <span class="chip">link-text/color/default</span> and <span class="chip">body/default-medium</span>. The code uses the data-table hyperlink tokens, which render the same color and text style, without the dot. Confirm whether the dot belongs in table cells.</doc-callout>
   </doc-section>
 </doc-page>
 </body>

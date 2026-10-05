@@ -8,15 +8,16 @@ const off = (v: string | undefined) => v === 'false';
  * /data-table — reference view (mirrors the prototype repo's /components/data-table).
  *
  * Embed mode: any of the params below renders one compact example for a docs page, e.g.
- *   /examples/data-table?cols=4&rows=5&banded=false
+ *   /examples/data-table?cols=4&rows=5&hover=1
  *   /examples/data-table?part=header-cell&label=ID&filter=false
  * Params:
  *   part      = table (default) | header-cell | cell
- *   Table:    cols (1–8, default 8) · rows (1–8, default 8) · banded=false · checkbox=false ·
+ *   Table:    cols (1–8, default 8) · rows (1–8, default 8) · banded=true (opt-in) · checkbox=false ·
+ *             hover (0-based row index to force the row hover state) ·
  *             preview=false · custom=true (Status column through a cell template) ·
  *             height (scroller max-height in px, default 320)
  *   Header cell: label (default "Name") · filter=false
- *   Cell:     value (default "District Security Director") · link=true
+ *   Cell:     value (default "District Security Director") · link=true · state=hover (link hover)
  */
 @Component({
   imports: [NovoDataTable, NovoDataTableCellDef, NovoDataTableHeaderCell, NovoDataTableCell],
@@ -39,16 +40,23 @@ export class DataTablePage {
   readonly filter = input<string>();
   readonly value = input<string>();
   readonly link = input<string>();
+  readonly hover = input<string>();
+  readonly state = input<string>();
 
   protected readonly embed = computed(() =>
-    [this.part(), this.cols(), this.rows(), this.banded(), this.checkbox(), this.preview(), this.custom(), this.height()].some(
+    [this.part(), this.cols(), this.rows(), this.banded(), this.checkbox(), this.preview(), this.custom(), this.height(), this.hover()].some(
       (v) => v != null,
     ),
   );
   protected readonly embedPart = computed(() => this.part() ?? 'table');
   protected readonly embedColumns = computed(() => COLUMNS.slice(0, this.clamp(this.cols(), COLUMNS.length)));
   protected readonly embedRows = computed(() => ROWS.slice(0, this.clamp(this.rows(), ROWS.length)));
-  protected readonly embedBanded = computed(() => !off(this.banded()));
+  protected readonly embedBanded = computed(() => this.banded() === 'true');
+  protected readonly embedHover = computed(() => {
+    const n = Number(this.hover());
+    return this.hover() == null || !Number.isInteger(n) || n < 0 ? undefined : n;
+  });
+  protected readonly embedState = computed(() => (this.state() === 'hover' ? 'hover' : undefined));
   protected readonly embedCheckbox = computed(() => !off(this.checkbox()));
   protected readonly embedPreview = computed(() => !off(this.preview()));
   protected readonly embedCustom = computed(() => this.custom() === 'true');

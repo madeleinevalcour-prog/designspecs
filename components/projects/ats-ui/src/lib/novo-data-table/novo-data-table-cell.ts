@@ -11,6 +11,8 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute
  *   <td ats-novo-data-table-cell value="name@email.com" link [width]="240"></td>
  *   <td ats-novo-data-table-cell><my-status-chip /></td>   (projected content)
  *
+ * Link cells use the hyperlink colour, a pointer cursor and the hyperlink-hover colour
+ * on hover. They have no destination yet (not wired to navigation).
  * `width` (px) fixes the column width; otherwise the cell is at least 128px wide
  * (data-table/spacing/min-width) and grows to fit. Styles live in novo-data-table.css.
  */
@@ -19,7 +21,7 @@ import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute
   template: `
     <div class="ats-ndt-cell" [style.width.px]="width()">
       @if (value() != null) {
-        <span class="ats-ndt-cell__text" [class.ats-ndt-cell__text--link]="link()">{{ value() }}</span>
+        <span class="ats-ndt-cell__text" [class.ats-ndt-cell__text--link]="link()" [class.is-hover]="link() && state() === 'hover'">{{ value() }}</span>
       }
       <ng-content />
     </div>
@@ -34,6 +36,8 @@ export class NovoDataTableCell {
   readonly value = input<string | number | null>();
   /** Render the value in the hyperlink style. */
   readonly link = input(false, { transform: booleanAttribute });
+  /** Forces the link hover colour, for showcases/docs. Real hover works too. */
+  readonly state = input<'hover'>();
   /** Fixed column width in px. */
   readonly width = input<number | undefined, unknown>(undefined, {
     transform: (v: unknown) => (v == null || v === '' ? undefined : numberAttribute(v)),

@@ -10,6 +10,7 @@ import {
   inject,
   input,
   linkedSignal,
+  numberAttribute,
   output,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
@@ -65,15 +66,16 @@ export class NovoDataTableCellDef {
 
 /**
  * NovoDataTable (Figma: "novo-data-table", Component Migration 46:1541 / 254:6720).
- * Port of the prototype repo's NovoDataTable.astro: a sticky header row and banded
- * body rows, each with a checkbox cell, a preview-icon cell and the data cells.
+ * Port of the prototype repo's NovoDataTable.astro: a sticky header row and body
+ * rows (optionally banded), each with a checkbox cell, a preview-icon cell and the data cells.
  * The column-count variants (three…eight) are just fewer `columns`.
  *
  *   <ats-novo-data-table [columns]="columns" [rows]="rows" label="Candidates" />
- *   <ats-novo-data-table [columns]="columns" [rows]="rows" [banded]="false" [preview]="false" />
+ *   <ats-novo-data-table [columns]="columns" [rows]="rows" banded [preview]="false" />
  *
  * The host is the scroll container (both axes); give it a max-height to keep the
  * header sticky inside a fixed-height area. Renders a native <table>.
+ * Rows take the hover background on :hover (Figma 254:593); there is no row focus state.
  * Selection: the header checkbox selects / clears all rows (indeterminate when
  * some are selected); `selectionChange` emits the selected rows.
  */
@@ -93,8 +95,12 @@ export class NovoDataTable<R extends NovoDataTableRow = NovoDataTableRow> {
   readonly checkbox = input(true, { transform: booleanAttribute });
   /** Preview-icon column after the checkbox. */
   readonly preview = input(true, { transform: booleanAttribute });
-  /** Alternate rows on the muted background. */
-  readonly banded = input(true, { transform: booleanAttribute });
+  /** Alternate rows on the muted background. Off by default (opt-in). */
+  readonly banded = input(false, { transform: booleanAttribute });
+  /** Forces the hover state on one row (0-based index), for showcases/docs. Real hover works too. */
+  readonly hoverRow = input<number | undefined, unknown>(undefined, {
+    transform: (v: unknown) => (v == null || v === '' ? undefined : numberAttribute(v)),
+  });
   /** Accessible name for the table (aria-label). */
   readonly label = input<string>();
 
