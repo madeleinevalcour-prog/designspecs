@@ -1,0 +1,68 @@
+<table class="ats-ndt__table" [attr.aria-label]="label() || null">
+  <thead>
+    <tr class="ats-ndt-hrow">
+      @if (checkbox()) {
+        <th class="ats-ndt-th ats-ndt-th--check" scope="col">
+          <div class="ats-ndt-cell ats-ndt-cell--check">
+            <!-- TODO: swap to ats Checkbox -->
+            <input
+              class="ats-ndt-check"
+              type="checkbox"
+              aria-label="Select all"
+              [checked]="allSelected()"
+              [indeterminate]="someSelected()"
+              (change)="toggleAll($any($event.target).checked)"
+            />
+          </div>
+        </th>
+      }
+      @if (preview()) {
+        <th class="ats-ndt-th ats-ndt-th--icon" scope="col">
+          <div class="ats-ndt-cell ats-ndt-cell--icon"><span class="ats-ndt-sr">Preview</span></div>
+        </th>
+      }
+      @for (col of columns(); track col.key) {
+        <th ats-novo-data-table-header-cell [label]="col.label" [filter]="col.filter ?? true" [width]="col.width"></th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of rows(); track $index; let i = $index) {
+      <tr class="ats-ndt-row" [class.ats-ndt-row--banded]="banded() && i % 2 === 1" [class.is-selected]="selected().has(i)">
+        @if (checkbox()) {
+          <td class="ats-ndt-td ats-ndt-td--check">
+            <div class="ats-ndt-cell ats-ndt-cell--check">
+              <!-- TODO: swap to ats Checkbox -->
+              <input
+                class="ats-ndt-check"
+                type="checkbox"
+                [attr.aria-label]="rowLabel(row)"
+                [checked]="selected().has(i)"
+                (change)="toggleRow(i, $any($event.target).checked)"
+              />
+            </div>
+          </td>
+        }
+        @if (preview()) {
+          <td class="ats-ndt-td ats-ndt-td--icon">
+            <div class="ats-ndt-cell ats-ndt-cell--icon">
+              <ats-icon class="ats-ndt-preview" name="preview" [size]="16" />
+            </div>
+          </td>
+        }
+        @for (col of columns(); track col.key) {
+          @if (templates().get(col.key); as tpl) {
+            <td ats-novo-data-table-cell [width]="col.width">
+              <ng-container
+                [ngTemplateOutlet]="tpl"
+                [ngTemplateOutletContext]="{ $implicit: row[col.key], row, column: col, index: i }"
+              />
+            </td>
+          } @else {
+            <td ats-novo-data-table-cell [value]="value(row, col)" [link]="col.link ?? false" [width]="col.width"></td>
+          }
+        }
+      </tr>
+    }
+  </tbody>
+</table>

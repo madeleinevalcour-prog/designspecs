@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { ButtonPage } from './pages/button/button-page';
 import { CheckboxPage } from './pages/checkbox/checkbox-page';
+import { DataTablePage } from './pages/data-table/data-table-page';
 import { HomePage } from './pages/home/home-page';
 import { IconButtonNoContainerPage } from './pages/icon-button-no-container/icon-button-no-container-page';
 import { IconPage } from './pages/icon/icon-page';
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: 'checkbox', component: CheckboxPage, title: 'Checkbox — ats-ui' },
   { path: 'workflow-stepper', component: WorkflowStepperPage, title: 'Workflow Stepper — ats-ui' },
   { path: 'novo-list', component: NovoListPage, title: 'Novo List — ats-ui' },
+  { path: 'data-table', component: DataTablePage, title: 'Novo Data Table — ats-ui' },
   { path: '**', redirectTo: '' },
 ];

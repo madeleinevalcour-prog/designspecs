@@ -31,5 +31,6 @@ export class HomePage {
     { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
     { path: 'workflow-stepper', name: 'Workflow Stepper', figma: 'Component Migration 589:6990' },
     { path: 'novo-list', name: 'Novo List', figma: 'List / novo-list 692:20779' },
+    { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
   ];
 }

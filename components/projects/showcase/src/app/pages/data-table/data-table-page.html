@@ -1,0 +1,112 @@
+@if (embed()) {
+  <div class="embed">
+    @switch (embedPart()) {
+      @case ('header-cell') {
+        <div class="dt-card dt-inline">
+          <table class="sub-table"><thead><tr>
+            <th ats-novo-data-table-header-cell [label]="embedLabel()" [filter]="embedFilter()"></th>
+          </tr></thead></table>
+        </div>
+      }
+      @case ('cell') {
+        <div class="dt-card dt-inline">
+          <table class="sub-table"><tbody><tr>
+            <td ats-novo-data-table-cell [value]="embedValue()" [link]="embedLink()"></td>
+          </tr></tbody></table>
+        </div>
+      }
+      @default {
+        <div class="dt-card">
+          <ats-novo-data-table
+            [columns]="embedColumns()"
+            [rows]="embedRows()"
+            [banded]="embedBanded()"
+            [checkbox]="embedCheckbox()"
+            [preview]="embedPreview()"
+            [style.max-height.px]="embedHeight()"
+            label="Candidates"
+          >
+            @if (embedCustom()) {
+              <ng-template atsNovoDataTableCell="status" let-value>
+                <span class="status">{{ value }}</span>
+              </ng-template>
+            }
+          </ats-novo-data-table>
+        </div>
+      }
+    }
+  </div>
+} @else {
+  <h1>Novo Data Table</h1>
+  <p class="lede">
+    Angular port of <code>novo-data-table</code> (Component Migration 46:1541 / 254:6720): sticky header, banded rows,
+    sort / filter headers, checkbox + preview columns. Authored against the Tier-3 data-table tokens.
+  </p>
+
+  <section>
+    <h2>Default — 8 columns</h2>
+    <p class="note">Scroll inside the table: the header row stays put. {{ selectedCount() }} selected.</p>
+    <div class="dt-card">
+      <ats-novo-data-table
+        class="dt-scroll"
+        [columns]="columns"
+        [rows]="allRows"
+        label="Candidates"
+        (selectionChange)="selectedCount.set($event.length)"
+      />
+    </div>
+  </section>
+
+  <section>
+    <h2>Reduced — 4 columns, no banding</h2>
+    <div class="dt-card">
+      <ats-novo-data-table [columns]="reducedColumns" [rows]="reducedRows" [banded]="false" label="Candidates" />
+    </div>
+  </section>
+
+  <section>
+    <h2>No checkbox or preview column</h2>
+    <div class="dt-card">
+      <ats-novo-data-table [columns]="reducedColumns" [rows]="reducedRows" [checkbox]="false" [preview]="false" label="Candidates" />
+    </div>
+  </section>
+
+  <section>
+    <h2>Custom cell content (ng-template)</h2>
+    <p class="note">The Status column renders through <code>&lt;ng-template atsNovoDataTableCell="status"&gt;</code>.</p>
+    <div class="dt-card">
+      <ats-novo-data-table class="dt-scroll" [columns]="columns" [rows]="reducedRows" label="Candidates">
+        <ng-template atsNovoDataTableCell="status" let-value>
+          <span class="status">{{ value }}</span>
+        </ng-template>
+      </ats-novo-data-table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Subcomponents</h2>
+    <div class="subs">
+      <div class="sub">
+        <span class="sub-l">HeaderCell (sort + filter)</span>
+        <div class="dt-card dt-inline">
+          <table class="sub-table"><thead><tr><th ats-novo-data-table-header-cell label="Name"></th></tr></thead></table>
+        </div>
+      </div>
+      <div class="sub">
+        <span class="sub-l">HeaderCell (no filter)</span>
+        <div class="dt-card dt-inline">
+          <table class="sub-table"><thead><tr><th ats-novo-data-table-header-cell label="ID" [filter]="false"></th></tr></thead></table>
+        </div>
+      </div>
+      <div class="sub">
+        <span class="sub-l">Cell (default / hyperlink)</span>
+        <div class="dt-card dt-inline">
+          <table class="sub-table"><tbody><tr>
+            <td ats-novo-data-table-cell value="District Security Director"></td>
+            <td ats-novo-data-table-cell value="name@email.com" link></td>
+          </tr></tbody></table>
+        </div>
+      </div>
+    </div>
+  </section>
+}

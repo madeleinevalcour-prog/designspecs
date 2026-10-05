@@ -310,7 +310,8 @@
       {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html"},
       {t:"Checkbox", href:"/docs/components/checkbox.html"},
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"},
-      {t:"Novo List", href:"/docs/components/novo-list.html"}
+      {t:"Novo List", href:"/docs/components/novo-list.html"},
+      {t:"Data Table", href:"/docs/components/data-table.html"}
     ]},
     {label:"Amplify", pages:[
       {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}

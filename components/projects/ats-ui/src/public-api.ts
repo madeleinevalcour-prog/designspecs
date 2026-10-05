@@ -11,3 +11,6 @@ export * from './lib/workflow-stepper/workflow-stepper';
 export * from './lib/novo-list/novo-list';
 export * from './lib/novo-list/parts';
 export * from './lib/novo-list/presets';
+export * from './lib/novo-data-table/novo-data-table';
+export * from './lib/novo-data-table/novo-data-table-header-cell';
+export * from './lib/novo-data-table/novo-data-table-cell';
