@@ -242,7 +242,7 @@ Every reply follows the same order (NN/g truncated pyramid; Gestalt continuity):
 1. Answer: one sentence that states the result. "5 open jobs need attention today, ranked by start date and open submittals."
 2. Evidence: a list, table, or cards.
 3. Rationale (optional): one line on how the result was ranked or filtered.
-4. Sources row: `meta/default`.
+4. Sources row (when the answer uses records): `meta/default`. Leave it out of clarifying questions, general product help and "nothing found" replies.
 5. Follow-up actions (optional): 2–3 suggestion chips (existing Novo chip or small secondary button, `button/sm`).
 6. Message controls, in this order: Copy, thumbs up, thumbs down, Save prompt (existing icon buttons).
 
