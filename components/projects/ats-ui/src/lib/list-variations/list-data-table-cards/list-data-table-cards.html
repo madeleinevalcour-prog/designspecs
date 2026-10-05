@@ -1,0 +1,21 @@
+@for (col of cols(); track $index) {
+  <div class="ats-list-data-table-cards__col">
+    @for (card of col; track $index) {
+      <div class="ats-list-data-table-cards__card">
+        <div class="ats-list-data-table-cards__head">
+          <ats-icon name="checkbox-empty" [size]="12" color="var(--checkbox-color-border-default)" />
+          <span class="ats-list-data-table-cards__name">{{ card.name }}</span>
+        </div>
+        <div class="ats-list-data-table-cards__fields">
+          @for (f of card.fields; track $index) {
+            <span class="ats-list-data-table-cards__field">
+              <ats-icon [name]="f.icon" [size]="12" />
+              <span>{{ f.text }}</span>
+            </span>
+          }
+        </div>
+        <p class="ats-list-data-table-cards__desc">{{ card.description }}</p>
+      </div>
+    }
+  </div>
+}

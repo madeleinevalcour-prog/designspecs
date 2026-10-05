@@ -9,6 +9,7 @@ import { IconPage } from './pages/icon/icon-page';
 import { WorkflowStepperPage } from './pages/workflow-stepper/workflow-stepper-page';
 import { NovoListPage } from './pages/novo-list/novo-list-page';
 import { RecordHeaderPage } from './pages/record-header/record-header-page';
+import { ListVariationsPage } from './pages/list-variations/list-variations-page';
 
 // One route per component. Each page renders the full reference matrix, or a
 // compact embed when query params are given (see each page for its params).
@@ -24,5 +25,6 @@ export const routes: Routes = [
   { path: 'novo-list', component: NovoListPage, title: 'Novo List — ats-ui' },
   { path: 'data-table', component: DataTablePage, title: 'Novo Data Table — ats-ui' },
   { path: 'record-header', component: RecordHeaderPage, title: 'Record Header — ats-ui' },
+  { path: 'list-variations', component: ListVariationsPage, title: 'List Variations — ats-ui' },
   { path: '**', redirectTo: '' },
 ];

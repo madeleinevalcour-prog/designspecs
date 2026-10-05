@@ -34,5 +34,6 @@ export class HomePage {
     { path: 'novo-list', name: 'Novo List', figma: 'List / novo-list 692:20779' },
     { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
     { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
+    { path: 'list-variations', name: 'List Variations (Toggle, AdvancedSearch, ListHeader, ListDataTable…)', figma: 'List Variations 0LCuwDp7YHGGqK6WiseTRi' },
   ];
 }

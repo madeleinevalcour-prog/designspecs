@@ -1,0 +1,40 @@
+/* ListHeader — Figma "header option 2" (Classic) / "header option 4" (Modern). */
+.ats-list-header {
+  position: sticky; top: 0; z-index: 20; flex: 0 0 auto;
+  display: flex; flex-direction: column; gap: var(--spacing-gap-md);
+  padding: var(--spacing-padding-md) var(--spacing-padding-lg);
+  background: var(--header-color-background-record);
+  /* bg/blur snap instantly (avoids a stuck backdrop-filter transition) */
+  transition: box-shadow .18s ease;
+}
+/* Classic = option 2: persistent elevation */
+.ats-list-header--classic { box-shadow: var(--elevation-2); }
+/* Modern = option 4: flat/transparent by default … */
+.ats-list-header--modern { background: transparent; box-shadow: none; }
+/* … state=scrolled (card view scrolled under it): translucent white + blur + elevation */
+.ats-list-header--modern.is-scrolled {
+  background: var(--header-color-background-list-scrolled);
+  -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); /* no token: Figma 2px background blur */
+  box-shadow: var(--elevation-2);
+}
+
+.ats-list-header__toolbar { display: flex; align-items: center; gap: var(--toolbar-spacing-gap); }
+.ats-list-header__title { flex: 1 0 0; min-width: 0; display: flex; align-items: center; gap: var(--spacing-gap-md); }
+.ats-list-header__avatar {
+  flex: 0 0 auto; width: var(--spacing-48); height: var(--spacing-48); border-radius: var(--border-radius-sm);
+  background: var(--color-entity-candidate); /* entity color: primitive only, no semantic token */
+  display: flex; align-items: center; justify-content: center;
+}
+.ats-list-header__h1 {
+  margin: 0;
+  font-family: var(--typography-title-default-font-family);
+  font-weight: var(--typography-font-weight-700); /* Figma 700; title/default token is 600 */
+  font-size: var(--typography-title-default-font-size);
+  line-height: var(--typography-title-default-line-height);
+  letter-spacing: -0.5px; /* no token: Figma -0.5px (title/default letter-spacing is 0) */
+  text-transform: var(--typography-title-default-text-transform);
+  color: var(--color-text-headline);
+}
+.ats-list-header__icons { display: flex; align-items: center; gap: var(--spacing-gap-sm); }
+.ats-list-header__filters { display: flex; align-items: center; gap: var(--spacing-gap-md); }
+.ats-list-header__filter-group { flex: 1 0 0; min-width: 0; display: flex; align-items: center; gap: var(--spacing-12); }

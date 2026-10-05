@@ -1,0 +1,95 @@
+@switch (show()) {
+  @case ('toggle') {
+    <div class="embed">
+      <ats-toggle [ariaLabel]="mode() === 'icon' ? 'View' : 'Source'" [options]="embedOptions()" [value]="value()" />
+    </div>
+  }
+  @case ('search') {
+    <div class="embed"><ats-advanced-search [placeholder]="placeholder()" /></div>
+  }
+  @case ('header') {
+    <div class="embed embed--flush embed--page">
+      <ats-list-header [variant]="embedVariant()" [view]="view() ?? 'list'" [scrolled]="embedScrolled()" />
+    </div>
+  }
+  @case ('table') {
+    <div class="embed embed--flush"><div class="table-box"><ats-list-data-table [rows]="embedRows()" /></div></div>
+  }
+  @case ('cards') {
+    <div class="embed embed--page"><ats-list-data-table-cards [cards]="embedCards()" /></div>
+  }
+  @case ('list') {
+    <div class="embed embed--flush">
+      <div class="frame" [class.frame--list]="listView() === 'list'" [style.height.px]="frameHeight()">
+        <ats-list-header [variant]="embedVariant()" [view]="listView()" (viewChange)="embedView.set($event)" />
+        <ats-list-data-table-container [variant]="embedVariant()" [view]="listView()" [rows]="listRows()" [cards]="listCards()" />
+      </div>
+    </div>
+  }
+  @default {
+    <h1>List Variations</h1>
+    <p class="lede">
+      Angular port of the List Variations record-list components (Figma file 0LCuwDp7YHGGqK6WiseTRi).
+      Every control below is live.
+    </p>
+
+    <section>
+      <h2>Toggle <span>toggle 33:5338 · ats-toggle</span></h2>
+      <div class="panel row">
+        <div class="cell">
+          <ats-toggle ariaLabel="Source" [options]="sourceOptions" [(value)]="demoSource" />
+          <span class="caption">text · value = {{ demoSource() }}</span>
+        </div>
+        <div class="cell">
+          <ats-toggle ariaLabel="View" [options]="viewOptions" [(value)]="demoViewToggle" />
+          <span class="caption">icon-only · value = {{ demoViewToggle() }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>AdvancedSearch <span>advanced-search 33:5738 · ats-advanced-search</span></h2>
+      <div class="panel">
+        <ats-advanced-search (search)="lastSearch.set($event)" />
+        <p class="caption">search emitted: {{ lastSearch() === null ? '—' : '“' + lastSearch() + '”' }}</p>
+      </div>
+    </section>
+
+    <section>
+      <h2>ListHeader <span>header option 2 / 4 · ats-list-header</span></h2>
+      @for (v of variants; track v) {
+        <p class="caption">{{ v }}</p>
+        <div class="panel panel--flush panel--page"><ats-list-header [variant]="v" /></div>
+      }
+      <p class="caption">modern · scrolled (forced)</p>
+      <div class="panel panel--flush panel--page"><ats-list-header variant="modern" view="cards" [scrolled]="true" /></div>
+    </section>
+
+    <section>
+      <h2>ListDataTable <span>novo-data-table 39:15572 · ats-list-data-table</span></h2>
+      <p class="caption">fixed 240px columns, horizontal scroll, sticky header row, zebra rows</p>
+      <div class="panel panel--flush"><div class="table-box"><ats-list-data-table [rows]="sampleRows" /></div></div>
+    </section>
+
+    <section>
+      <h2>ListDataTableCards <span>novo-data-table-cards 56:12776 · ats-list-data-table-cards</span></h2>
+      <div class="panel panel--page"><ats-list-data-table-cards [cards]="sampleCards" /></div>
+    </section>
+
+    <section>
+      <h2>ListDataTableContainer + composed list <span>data-table-container 38:10113 · ats-list-data-table-container</span></h2>
+      <div class="switch">
+        @for (v of variants; track v) {
+          <button type="button" [class.on]="demoVariant() === v" (click)="demoVariant.set(v)">{{ v }}</button>
+        }
+        <span class="caption">use the header's view toggle to switch list / cards; scroll the cards in Modern to see the header morph</span>
+      </div>
+      <div class="panel panel--flush">
+        <div class="frame" [class.frame--list]="demoView() === 'list'" style="height: 640px">
+          <ats-list-header [variant]="demoVariant()" [(view)]="demoView" />
+          <ats-list-data-table-container [variant]="demoVariant()" [view]="demoView()" />
+        </div>
+      </div>
+    </section>
+  }
+}
