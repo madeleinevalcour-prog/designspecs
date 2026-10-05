@@ -1,0 +1,41 @@
+@if (!embed()) {
+  <h1>Sophia FAB</h1>
+  <p class="lede">
+    Angular port of the Sophia support-chatbot FAB (Component Migration 6084:152232). The gray column is a stand-in rail;
+    its darker blocks are the occupied zones (nav, open tabs, foot). Drag the FAB to see the drop targets, or focus it and use the arrow keys.
+  </p>
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Placement">
+      @for (p of placements; track p.id) {
+        <button ats-button theme="dialogue" pill [state]="current() === p.id ? 'active' : undefined" [attr.aria-pressed]="current() === p.id" (click)="setPlacement(p.id)">
+          {{ p.id }} · {{ p.name }}
+        </button>
+      }
+    </div>
+    <button ats-button theme="secondary" size="small" (click)="railOpen.set(!railOpen())">{{ railOpen() ? 'Collapse rail' : 'Expand rail' }}</button>
+    <button ats-button theme="secondary" size="small" (click)="tabCount.set(tabCount() ? 0 : 3)">{{ tabCount() ? 'Close tabs' : 'Open tabs' }}</button>
+  </div>
+}
+
+<div class="stage" [class.stage--embed]="embed()" [style.height.px]="stageHeight()">
+  <div class="rail" [style.width.px]="railWidth()">
+    @for (z of zones(); track $index) {
+      <span class="zone" [style.top.px]="z.top" [style.height.px]="z.bottom - z.top"></span>
+    }
+  </div>
+  <ats-sophia-fab
+    [placement]="current()"
+    [spot]="currentSpot()"
+    (spotChange)="setSpot($event!)"
+    [railWidth]="railWidth()"
+    [railZones]="zones()"
+    (positionChange)="last.set($event)"
+    (activate)="activations.set(activations() + 1)"
+  />
+</div>
+
+@if (!embed()) {
+  <p class="meta">
+    Spot: {{ last()?.spot ?? '—' }} · center {{ last()?.x | number: '1.0-0' }}, {{ last()?.y | number: '1.0-0' }} px · activations: {{ activations() }}
+  </p>
+}

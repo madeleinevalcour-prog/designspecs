@@ -1,0 +1,59 @@
+/* Sophia FAB (Figma: Component Migration 6084:152232), ported from the prototype
+   repo's SophiaFab.astro + sophia-fab.css. The host is a pointer-transparent layer
+   covering its positioned container; the native button and the drop targets sit
+   inside it. Only `top` / `left` tween (.18s ease, the rail's timing), and they're
+   set in px, never from a var(). Unencapsulated, namespaced .ats-sophia-fab. */
+
+.ats-sophia-fab {
+  --_size: var(--spacing-32);
+  position: absolute; inset: 0; z-index: 35;   /* above the rail (30), below overlays (50) */
+  pointer-events: none;
+}
+.ats-sophia-fab--B, .ats-sophia-fab--C { --_size: 56px; } /* no token: 56px (Material FAB size, options B/C) — no spacing-56 primitive */
+.ats-sophia-fab--C { z-index: 25; }            /* rail (30) covers the parked FAB on hover-peek */
+
+.ats-sophia-fab__btn {
+  position: absolute; z-index: 1; left: 0; top: 0;
+  width: var(--_size); height: var(--_size);
+  min-width: var(--spacing-32); min-height: var(--spacing-32);
+  box-sizing: border-box; margin: 0;
+  padding: 0; border: 0; cursor: grab; touch-action: none; user-select: none;
+  pointer-events: auto;
+  border-radius: var(--border-radius-round);
+  /* no Tier-2/3 background token at these steps: the source binds the utility-blue
+     primitives directly (the Button fab tokens resolve to 600/700, a different ramp) */
+  background: var(--color-utility-blue-400);
+  box-shadow: var(--elevation-3);              /* on the bowling-alley layer */
+  display: flex; align-items: center; justify-content: center;
+  transition: top .18s ease, left .18s ease, background-color .12s ease, transform .12s ease, box-shadow .12s ease;
+}
+.ats-sophia-fab__btn:not(.is-placed) { visibility: hidden; }
+.ats-sophia-fab__btn.is-snapping { transition: none; }
+.ats-sophia-fab__btn:hover { background: var(--color-utility-blue-500); }
+.ats-sophia-fab__btn:active { background: var(--color-utility-blue-600); }
+.ats-sophia-fab__btn:focus-visible { outline: 2px solid var(--color-utility-blue-300); outline-offset: 2px; }
+.ats-sophia-fab__btn .ats-icon { display: block; pointer-events: none; }
+
+/* dragging: lifted, follows the pointer (no tween) */
+.ats-sophia-fab__btn.is-dragging {
+  cursor: grabbing; transition: none; transform: scale(1.1);
+  background: var(--color-utility-blue-500);
+  box-shadow: var(--elevation-button-active), var(--elevation-3);
+}
+
+/* ---------- preset drop targets (shown while dragging) ---------- */
+.ats-sophia-fab__targets { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.ats-sophia-fab__target {
+  /* FAB size + 8px, centered on the preset */
+  --_t: calc(var(--_size) + var(--spacing-8));
+  position: absolute; width: var(--_t); height: var(--_t); margin: calc(var(--_t) / -2) 0 0 calc(var(--_t) / -2);
+  box-sizing: border-box;
+  border-radius: var(--border-radius-round);
+  border: 2px dashed var(--color-utility-blue-500);
+  transition: background-color .12s ease, transform .12s ease;
+}
+.ats-sophia-fab__target.is-nearest { background: var(--color-background-hover); transform: scale(1.1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ats-sophia-fab__btn, .ats-sophia-fab__target { transition: none; }
+}

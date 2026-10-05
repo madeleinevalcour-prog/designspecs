@@ -27,5 +27,6 @@ export class HomePage {
   protected readonly components = [
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
+    { path: 'sophia-fab', name: 'Sophia FAB', figma: 'Component Migration 6084:152232' },
   ];
 }
