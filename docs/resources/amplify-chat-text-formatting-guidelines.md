@@ -164,10 +164,42 @@ Pick the format based on what the recruiter will do with the answer.
 | --- | --- | --- |
 | A single fact or short answer | 1–2 sentences | Rams 10 |
 | 2–10 records compared on the same fields | Table (`novo-data-table`), 4 columns in the docked chat, 6 in full-page chat | Gestalt, continuity and similarity: columns line up the values being compared |
-| Records the recruiter will act on one by one (prioritized jobs, matched candidates) | Record cards (existing Novo card component) with actions | H7, efficiency; Attio and Apollo put the action next to the result |
+| Records that need explaining or acting on one by one (prospect contacts, matched candidates with reasons) | Cards (`amplify-chat/chat-list`, built on the Modern UI list-item), 3 by default, 5 max | H7, efficiency; Amplify principle 3; Attio and Apollo put the action next to the result |
 | More than 10 records | Table with the first 10, plus "Showing 10 of 56" in `meta/default` and a "Show more" button | H1 |
 | Steps or a plan | Numbered list | Order is meaningful |
 | A drafted email, note, or JD | Draft block with Copy / Edit / Use actions | Amplify principle 2, AI assists and does not replace judgment |
+
+Cards vs tables:
+
+Use cards (`amplify-chat/chat-list`) when any of these is true:
+
+| Situation | Why cards | Principle |
+| --- | --- | --- |
+| Each record needs a reason it was picked, such as relevance signals | A reason doesn't fit in a table cell | Amplify principle 3, show your work |
+| A record has several values of one kind: signals, tags, contact methods | Several chips per record break table columns | Gestalt, common region |
+| The recruiter will act on records one by one: select, draft outreach, add to pipeline | Actions sit next to the record they affect | H7, efficiency |
+| The records are of different types (a candidate, a contact and a job) | They don't share columns | H4, consistency |
+
+Use a table when:
+
+- The recruiter is comparing or scanning records on the same 2–6 fields.
+- Each value is short: a name, date, ID, status or relevancy dots.
+- There are more than 5 records.
+
+When it's unclear, use a table. It's denser and easier to compare (Rams 10, as little design as possible).
+
+Card limits:
+
+| Rule | Recommendation | Why |
+| --- | --- | --- |
+| Default | 3 cards | Each card is about 150px tall. In full-page chat, 3 cards plus the answer fit in the roughly 680px between the header and the composer. Docked chat is shorter |
+| Maximum | 5 cards | Past 5, the answer and sources row move well off screen, and comparing cards gets harder than scanning a table (NN/g truncated pyramid) |
+| More results | Show the top 3, then a "Show N more" follow-up chip. Above 5, switch to a table (10-row cap) or link to the full list view | Detail on demand. Chat summarizes; the list view is for full review |
+| Order | Rank by relevance, and state how in the rationale line ("Ranked by department match and seniority") | Amplify principle 4, honest expectations |
+
+- The research doesn't set a card count. The 3 and 5 come from the component height, the visible chat area and the truncated pyramid principle. Check them with recruiters.
+- Match indicators belong to their feature: relevancy dots come from candidate search, and the "Strong Match" chip comes from Prospect. They are produced by different features and never appear in the same reply.
+- Show any one set of records in one format only: cards or a table, not both.
 
 Table rules:
 

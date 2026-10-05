@@ -115,12 +115,32 @@
 <tr><th>Content</th><th>Format</th><th>Why</th></tr>
 <tr><td>A single fact</td><td>1–2 sentences</td><td>Rams 10</td></tr>
 <tr><td>2–10 records compared on the same fields</td><td><span class="chip">novo-data-table</span>, 4 columns docked, 6 full page</td><td>Gestalt, continuity and similarity</td></tr>
-<tr><td>Records to act on one by one</td><td>Record cards (Novo card) with actions</td><td>H7 · Attio and Apollo</td></tr>
+<tr><td>Records that need explaining or acting on one by one</td><td>Cards (<span class="chip">amplify-chat/chat-list</span>), 3 by default, 5 max</td><td>H7 · Amplify principle 3</td></tr>
 <tr><td>More than 10 records</td><td>First 10, plus a count and a Show more button</td><td>H1</td></tr>
 <tr><td>Steps or a plan</td><td>Numbered list</td><td>Order matters</td></tr>
 <tr><td>Email, note, or JD</td><td>Draft block with Copy / Edit / Use</td><td>Amplify principle 2</td></tr>
 <tr><td>Text to copy exactly (Boolean string, field value, template)</td><td>Literal value block, output as a fenced code block</td><td>H5 · Gestalt, common region</td></tr>
 </table>
+<h3>Cards vs tables</h3>
+<p>Use cards (<span class="chip">amplify-chat/chat-list</span>, built on the Modern UI list-item) when any of these is true:</p>
+<ul>
+<li>Each record needs a reason it was picked, such as relevance signals (Amplify principle 3).</li>
+<li>A record has several values of one kind: signals, tags, contact methods (Gestalt, common region).</li>
+<li>The recruiter will act on records one by one (H7).</li>
+<li>The records are of different types (H4).</li>
+</ul>
+<p>Use a table to compare or scan records on the same 2–6 short fields, or when there are more than 5 records. When it's unclear, use a table (Rams 10).</p>
+<table class="tbl">
+<tr><th>Card limits</th><th>Recommendation</th></tr>
+<tr><td>Default</td><td>3 cards. About 150px each, so 3 plus the answer fit in the visible full-page chat area</td></tr>
+<tr><td>Maximum</td><td>5 cards. Past 5, the answer and sources move off screen (NN/g truncated pyramid)</td></tr>
+<tr><td>More results</td><td>Top 3, then a "Show N more" follow-up chip. Above 5, use a table (10-row cap) or link to the list view</td></tr>
+<tr><td>Order</td><td>Rank by relevance, and state how in the rationale line</td></tr>
+</table>
+<ul>
+<li>Show any one set of records in one format only: cards or a table.</li>
+<li>Match indicators belong to their feature: relevancy dots for candidate search, the "Strong Match" chip for Prospect. They never appear in the same reply.</li>
+</ul>
 <h3>Tables</h3>
 <doc-showcase src="../images/amplify-chat/novo-data-table.png" alt="novo-data-table component with uppercase headers, sort and filter icons, and row dividers" caption="novo-data-table · Component Migration" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=254-6720"></doc-showcase>
 <table class="tbl">
