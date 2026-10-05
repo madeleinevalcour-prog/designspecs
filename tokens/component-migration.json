@@ -4,6 +4,26 @@
       "modes": {
         "default": {
           "avatar": {
+            "spacing": {
+              "width": {
+                "$scopes": [
+                  "ALL_SCOPES"
+                ],
+                "$type": "float",
+                "$libraryName": "subatomic",
+                "$collectionName": "core",
+                "$value": "{spacing.24}"
+              },
+              "height": {
+                "$scopes": [
+                  "ALL_SCOPES"
+                ],
+                "$type": "float",
+                "$libraryName": "subatomic",
+                "$collectionName": "core",
+                "$value": "{spacing.24}"
+              }
+            },
             "color": {
               "background": {
                 "default": {
@@ -37,26 +57,6 @@
                   "$collectionName": "core",
                   "$value": "{color.utility.blue.800}"
                 }
-              }
-            },
-            "spacing": {
-              "width": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "core",
-                "$value": "{spacing.24}"
-              },
-              "height": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "core",
-                "$value": "{spacing.24}"
               }
             },
             "border": {
@@ -3562,6 +3562,744 @@
                     }
                   }
                 }
+              },
+              "base-warning": {
+                "background": {
+                  "default": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.default}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-hover}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.disabled}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-hover}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-hover}"
+                  }
+                },
+                "content": {
+                  "default": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.text.utility.warning}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-disabled}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  }
+                },
+                "border": {
+                  "focus": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.border.utility.warning}"
+                  }
+                }
+              },
+              "primary-warning": {
+                "background": {
+                  "default": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-disabled}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  }
+                },
+                "content": {
+                  "default": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary.content.default}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.text.disabled-knockout}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary.content.hover}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary.content.focus}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary.content.active}"
+                  }
+                },
+                "border": {
+                  "focus": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.border.utility.warning}"
+                  }
+                }
+              },
+              "secondary-warning": {
+                "background": {
+                  "default": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.default}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.background.hover}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.disabled}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.background.hover}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.background.hover}"
+                  }
+                },
+                "border": {
+                  "default": {
+                    "$scopes": [
+                      "STROKE_COLOR"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "core",
+                    "$value": "{color.utility.yellow.500}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.border.focus}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-disabled}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.border.focus}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.border.focus}"
+                  }
+                },
+                "content": {
+                  "default": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.content.default}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.content.disabled}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  }
+                }
+              },
+              "dialogue-warning": {
+                "background": {
+                  "hover": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-hover}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-hover}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-hover}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.disabled}"
+                  },
+                  "default": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.default}"
+                  }
+                },
+                "content": {
+                  "default": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.text.utility.warning}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.text.utility.warning}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.text.utility.warning}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.text.utility.warning}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.content.disabled}"
+                  }
+                },
+                "border": {
+                  "focus": {
+                    "$scopes": [
+                      "STROKE_COLOR"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base-warning.border.focus}"
+                  }
+                }
+              },
+              "icon-warning": {
+                "background": {
+                  "default": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.default}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.default}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.base.background.disabled}"
+                  }
+                },
+                "border": {
+                  "focus": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.border.utility.warning}"
+                  }
+                },
+                "content": {
+                  "default": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.text.utility.warning}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-hover}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "subatomic",
+                    "$collectionName": "Tier 2  |  semantic tokens",
+                    "$value": "{color.background.utility.warning-knockout-disabled}"
+                  }
+                }
+              },
+              "FAB-warning": {
+                "background": {
+                  "default": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.background.default}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.background.hover}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.background.focus}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.background.active}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "FRAME_FILL",
+                      "SHAPE_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.background.disabled}"
+                  }
+                },
+                "border": {
+                  "focus": {
+                    "$scopes": [
+                      "ALL_SCOPES"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.border.focus}"
+                  }
+                },
+                "content": {
+                  "default": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.content.default}"
+                  },
+                  "hover": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.content.hover}"
+                  },
+                  "focus": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.content.focus}"
+                  },
+                  "active": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.content.active}"
+                  },
+                  "disabled": {
+                    "$scopes": [
+                      "SHAPE_FILL",
+                      "TEXT_FILL"
+                    ],
+                    "$type": "color",
+                    "$libraryName": "",
+                    "$collectionName": "semantic tokens",
+                    "$value": "{button.color.primary-warning.content.disabled}"
+                  }
+                }
               }
             },
             "border": {
@@ -3649,62 +4387,6 @@
                   "$collectionName": "Tier 1  |  base values",
                   "$value": "{border.width.border-sm}"
                 }
-              }
-            },
-            "typography": {
-              "font-family": {
-                "$scopes": [
-                  "FONT_FAMILY"
-                ],
-                "$type": "string",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 2  |  semantic tokens",
-                "$value": "{typography.font-family.base}"
-              },
-              "font-weight": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{typography.font-weight.500}"
-              },
-              "font-size": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{typography.font-size.12}"
-              },
-              "line-height": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{typography.line-height.16}"
-              },
-              "letter-spacing": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{typography.letter-spacing.half}"
-              },
-              "text-transform": {
-                "$scopes": [
-                  "FONT_STYLE"
-                ],
-                "$type": "string",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{typography.text-transform.uppercase}"
               }
             },
             "focus-ring": {
@@ -3976,8 +4658,8 @@
                   ],
                   "$type": "color",
                   "$libraryName": "subatomic",
-                  "$collectionName": "core",
-                  "$value": "{color.utility.blue.100}"
+                  "$collectionName": "Tier 2  |  semantic tokens",
+                  "$value": "{color.background.hover}"
                 },
                 "focus": {
                   "$scopes": [
@@ -5260,6 +5942,16 @@
                   "$collectionName": "Tier 2  |  semantic tokens",
                   "$value": "{color.text.body}"
                 },
+                "header": {
+                  "$scopes": [
+                    "SHAPE_FILL",
+                    "TEXT_FILL"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 2  |  semantic tokens",
+                  "$value": "{color.text.secondary}"
+                },
                 "hyperlink": {
                   "$scopes": [
                     "SHAPE_FILL",
@@ -5992,6 +6684,15 @@
                   "$libraryName": "subatomic",
                   "$collectionName": "Tier 2  |  semantic tokens",
                   "$value": "{color.text.disabled}"
+                },
+                "amplify": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "semantic tokens",
+                  "$value": "{button.color.secondary-amplify.content.default}"
                 }
               },
               "background": {
@@ -6152,7 +6853,7 @@
                 "$type": "float",
                 "$libraryName": "subatomic",
                 "$collectionName": "Tier 1  |  base values",
-                "$value": "{spacing.padding.none}"
+                "$value": "{spacing.padding.md}"
               },
               "gap": {
                 "$scopes": [
@@ -6261,7 +6962,7 @@
                   "$type": "float",
                   "$libraryName": "subatomic",
                   "$collectionName": "Tier 1  |  base values",
-                  "$value": "{spacing.gap.sm}"
+                  "$value": "{spacing.gap.xsm}"
                 },
                 "default": {
                   "$scopes": [
@@ -6417,15 +7118,6 @@
                 "$collectionName": "Tier 1  |  base values",
                 "$value": "{spacing.gap.xsm}"
               },
-              "padding-horizontal": {
-                "$scopes": [
-                  "GAP"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{spacing.padding.lg}"
-              },
               "header": {
                 "gap": {
                   "$scopes": [
@@ -6436,6 +7128,15 @@
                   "$collectionName": "Tier 1  |  base values",
                   "$value": "{spacing.gap.sm}"
                 }
+              },
+              "padding-horizontal": {
+                "$scopes": [
+                  "GAP"
+                ],
+                "$type": "float",
+                "$libraryName": "subatomic",
+                "$collectionName": "Tier 1  |  base values",
+                "$value": "{spacing.padding.lg}"
               },
               "padding-vertical": {
                 "$scopes": [
@@ -6989,6 +7690,90 @@
               }
             }
           },
+          "popover": {
+            "spacing": {
+              "max-width": {
+                "$scopes": [
+                  "ALL_SCOPES"
+                ],
+                "$type": "float",
+                "$value": 480
+              },
+              "gap": {
+                "$scopes": [
+                  "ALL_SCOPES"
+                ],
+                "$type": "float",
+                "$libraryName": "subatomic",
+                "$collectionName": "Tier 1  |  base values",
+                "$value": "{spacing.gap.sm}"
+              },
+              "padding-horizontal": {
+                "$scopes": [
+                  "ALL_SCOPES"
+                ],
+                "$type": "float",
+                "$libraryName": "subatomic",
+                "$collectionName": "Tier 1  |  base values",
+                "$value": "{spacing.padding.md}"
+              },
+              "padding-vertical": {
+                "$scopes": [
+                  "ALL_SCOPES"
+                ],
+                "$type": "float",
+                "$libraryName": "subatomic",
+                "$collectionName": "Tier 1  |  base values",
+                "$value": "{spacing.padding.md}"
+              }
+            },
+            "color": {
+              "background": {
+                "default": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "semantic tokens",
+                  "$value": "{card.color.background.contents}"
+                }
+              },
+              "border": {
+                "default": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "semantic tokens",
+                  "$value": "{card.color.border.default}"
+                }
+              },
+              "content": {
+                "default": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "semantic tokens",
+                  "$value": "{card.color.content.body}"
+                }
+              }
+            },
+            "border": {
+              "radius": {
+                "$scopes": [
+                  "ALL_SCOPES"
+                ],
+                "$type": "float",
+                "$libraryName": "",
+                "$collectionName": "semantic tokens",
+                "$value": "{tooltip.border.radius.small}"
+              }
+            }
+          },
           "pagination": {
             "min-height": {
               "$scopes": [
@@ -7132,90 +7917,6 @@
                   "$type": "float",
                   "$value": 0
                 }
-              }
-            }
-          },
-          "popover": {
-            "spacing": {
-              "max-width": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$value": 480
-              },
-              "gap": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{spacing.gap.sm}"
-              },
-              "padding-horizontal": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{spacing.padding.md}"
-              },
-              "padding-vertical": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "subatomic",
-                "$collectionName": "Tier 1  |  base values",
-                "$value": "{spacing.padding.md}"
-              }
-            },
-            "color": {
-              "background": {
-                "default": {
-                  "$scopes": [
-                    "ALL_SCOPES"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "",
-                  "$collectionName": "semantic tokens",
-                  "$value": "{card.color.background.contents}"
-                }
-              },
-              "border": {
-                "default": {
-                  "$scopes": [
-                    "ALL_SCOPES"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "",
-                  "$collectionName": "semantic tokens",
-                  "$value": "{card.color.border.default}"
-                }
-              },
-              "content": {
-                "default": {
-                  "$scopes": [
-                    "ALL_SCOPES"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "",
-                  "$collectionName": "semantic tokens",
-                  "$value": "{card.color.content.body}"
-                }
-              }
-            },
-            "border": {
-              "radius": {
-                "$scopes": [
-                  "ALL_SCOPES"
-                ],
-                "$type": "float",
-                "$libraryName": "",
-                "$collectionName": "semantic tokens",
-                "$value": "{tooltip.border.radius.small}"
               }
             }
           },
@@ -8615,14 +9316,14 @@
                   "$collectionName": "semantic tokens",
                   "$value": "{card.color.background.contents}"
                 },
-                "subtle": {
+                "muted": {
                   "$scopes": [
                     "ALL_SCOPES"
                   ],
                   "$type": "color",
                   "$libraryName": "subatomic",
-                  "$collectionName": "core",
-                  "$value": "{color.gray.50}"
+                  "$collectionName": "Tier 2  |  semantic tokens",
+                  "$value": "{color.background.muted}"
                 }
               },
               "border": {
@@ -9336,134 +10037,6 @@
               }
             },
             "color": {
-              "background": {
-                "default": {
-                  "$scopes": [
-                    "FRAME_FILL",
-                    "SHAPE_FILL"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.background.default}"
-                },
-                "hover": {
-                  "$scopes": [
-                    "FRAME_FILL",
-                    "SHAPE_FILL"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{color.DO NOT USE - deprecated.lightest-blue}"
-                },
-                "focus": {
-                  "$scopes": [
-                    "FRAME_FILL",
-                    "SHAPE_FILL"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.background.default}"
-                },
-                "active": {
-                  "$scopes": [
-                    "FRAME_FILL",
-                    "SHAPE_FILL"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.background.default}"
-                },
-                "selected": {
-                  "$scopes": [
-                    "FRAME_FILL",
-                    "SHAPE_FILL"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{color.blue.light-blue}"
-                },
-                "indeterminate": {
-                  "$scopes": [
-                    "FRAME_FILL",
-                    "SHAPE_FILL"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{color.blue.light-blue}"
-                },
-                "disabled": {
-                  "$scopes": [
-                    "FRAME_FILL",
-                    "SHAPE_FILL"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.background.subtle}"
-                }
-              },
-              "border": {
-                "default": {
-                  "$scopes": [
-                    "STROKE_COLOR"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.text.subtle}"
-                },
-                "hover": {
-                  "$scopes": [
-                    "STROKE_COLOR"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.text.subtle}"
-                },
-                "focus": {
-                  "$scopes": [
-                    "STROKE_COLOR"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.text.utility.positive}"
-                },
-                "disabled": {
-                  "$scopes": [
-                    "STROKE_COLOR"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.text.disabled}"
-                },
-                "selected": {
-                  "$scopes": [
-                    "STROKE_COLOR"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.text.utility.positive}"
-                },
-                "indeterminate": {
-                  "$scopes": [
-                    "STROKE_COLOR"
-                  ],
-                  "$type": "color",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 2  |  semantic tokens",
-                  "$value": "{color.text.subtle}"
-                }
-              },
               "content": {
                 "label": {
                   "$scopes": [
@@ -9522,8 +10095,8 @@
                   ],
                   "$type": "color",
                   "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{color.blue.navigation-blue}"
+                  "$collectionName": "Tier 2  |  semantic tokens",
+                  "$value": "{color.border.focus}"
                 },
                 "disabled": {
                   "$scopes": [
@@ -9570,66 +10143,6 @@
                   "$libraryName": "subatomic",
                   "$collectionName": "Tier 1  |  base values",
                   "$value": "{color.DO NOT USE - deprecated.grayscale.white}"
-                }
-              }
-            },
-            "border": {
-              "radius": {
-                "checkbox": {
-                  "$scopes": [
-                    "CORNER_RADIUS"
-                  ],
-                  "$type": "float",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{border.radius.xxsm}"
-                },
-                "radio": {
-                  "$scopes": [
-                    "CORNER_RADIUS"
-                  ],
-                  "$type": "float",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{border.radius.round}"
-                },
-                "read-only": {
-                  "$scopes": [
-                    "CORNER_RADIUS"
-                  ],
-                  "$type": "float",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{border.radius.none}"
-                },
-                "search": {
-                  "$scopes": [
-                    "CORNER_RADIUS"
-                  ],
-                  "$type": "float",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{border.radius.round}"
-                },
-                "text": {
-                  "$scopes": [
-                    "CORNER_RADIUS"
-                  ],
-                  "$type": "float",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{border.radius.xsm}"
-                }
-              },
-              "width": {
-                "default": {
-                  "$scopes": [
-                    "ALL_SCOPES"
-                  ],
-                  "$type": "float",
-                  "$libraryName": "subatomic",
-                  "$collectionName": "Tier 1  |  base values",
-                  "$value": "{border.width.border-default}"
                 }
               }
             }
@@ -9806,6 +10319,116 @@
                   "$libraryName": "subatomic",
                   "$collectionName": "Tier 1  |  base values",
                   "$value": "{border.width.border-default}"
+                }
+              }
+            }
+          },
+          "Empty State": {
+            "spacing": {
+              "content": {
+                "min-height": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "float",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "core",
+                  "$value": "{spacing.128}"
+                },
+                "gap": {
+                  "$scopes": [
+                    "GAP"
+                  ],
+                  "$type": "float",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 1  |  base values",
+                  "$value": "{spacing.gap.md}"
+                },
+                "padding-horizontal": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "float",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 1  |  base values",
+                  "$value": "{spacing.padding.lg}"
+                },
+                "padding-vertical": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "float",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 1  |  base values",
+                  "$value": "{spacing.padding.lg}"
+                }
+              }
+            },
+            "color": {
+              "background": {
+                "default": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "semantic tokens",
+                  "$value": "{card.color.background.contents}"
+                }
+              },
+              "border": {
+                "default": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "",
+                  "$collectionName": "semantic tokens",
+                  "$value": "{card.color.border.default}"
+                }
+              },
+              "content": {
+                "heading": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 2  |  semantic tokens",
+                  "$value": "{color.text.body}"
+                },
+                "body": {
+                  "$scopes": [
+                    "ALL_SCOPES"
+                  ],
+                  "$type": "color",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 2  |  semantic tokens",
+                  "$value": "{color.text.secondary}"
+                }
+              }
+            },
+            "border": {
+              "width": {
+                "default": {
+                  "$scopes": [
+                    "STROKE_FLOAT"
+                  ],
+                  "$type": "float",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 1  |  base values",
+                  "$value": "{border.width.border-default}"
+                }
+              },
+              "radius": {
+                "default": {
+                  "$scopes": [
+                    "CORNER_RADIUS"
+                  ],
+                  "$type": "float",
+                  "$libraryName": "subatomic",
+                  "$collectionName": "Tier 1  |  base values",
+                  "$value": "{border.radius.md}"
                 }
               }
             }

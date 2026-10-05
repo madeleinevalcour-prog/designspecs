@@ -5,11 +5,11 @@
    ===================================================================== */
 :root {
   /* avatar */
+  --avatar-spacing-width: var(--spacing-24);
+  --avatar-spacing-height: var(--spacing-24);
   --avatar-color-background-default: var(--color-utility-blue-200);
   --avatar-color-border-default: var(--color-utility-blue-200);
   --avatar-color-content-default: var(--color-utility-blue-800);
-  --avatar-spacing-width: var(--spacing-24);
-  --avatar-spacing-height: var(--spacing-24);
   --avatar-border-radius-round: var(--border-radius-round);
   --avatar-border-radius-square: var(--border-radius-xsm);
 
@@ -351,6 +351,76 @@
   --button-color-select-border-radius-search: var(--border-radius-round);
   --button-color-select-border-radius-text: var(--border-radius-xsm);
   --button-color-select-border-width-default: var(--border-width-border-default);
+  --button-color-base-warning-background-default: var(--button-color-base-background-default);
+  --button-color-base-warning-background-hover: var(--color-background-utility-warning-hover);
+  --button-color-base-warning-background-disabled: var(--button-color-base-background-disabled);
+  --button-color-base-warning-background-focus: var(--color-background-utility-warning-hover);
+  --button-color-base-warning-background-active: var(--color-background-utility-warning-hover);
+  --button-color-base-warning-content-default: var(--color-text-utility-warning);
+  --button-color-base-warning-content-disabled: var(--color-background-utility-warning-knockout-disabled);
+  --button-color-base-warning-content-hover: var(--color-background-utility-warning-knockout-hover);
+  --button-color-base-warning-content-focus: var(--color-background-utility-warning-knockout-hover);
+  --button-color-base-warning-content-active: var(--color-background-utility-warning-knockout-hover);
+  --button-color-base-warning-border-focus: var(--color-border-utility-warning);
+  --button-color-primary-warning-background-default: var(--color-background-utility-warning-knockout);
+  --button-color-primary-warning-background-hover: var(--color-background-utility-warning-knockout-hover);
+  --button-color-primary-warning-background-disabled: var(--color-background-utility-warning-knockout-disabled);
+  --button-color-primary-warning-background-focus: var(--color-background-utility-warning-knockout-hover);
+  --button-color-primary-warning-background-active: var(--color-background-utility-warning-knockout-hover);
+  --button-color-primary-warning-content-default: var(--button-color-primary-content-default);
+  --button-color-primary-warning-content-disabled: var(--color-text-disabled-knockout);
+  --button-color-primary-warning-content-hover: var(--button-color-primary-content-hover);
+  --button-color-primary-warning-content-focus: var(--button-color-primary-content-focus);
+  --button-color-primary-warning-content-active: var(--button-color-primary-content-active);
+  --button-color-primary-warning-border-focus: var(--color-border-utility-warning);
+  --button-color-secondary-warning-background-default: var(--button-color-base-background-default);
+  --button-color-secondary-warning-background-hover: var(--button-color-base-warning-background-hover);
+  --button-color-secondary-warning-background-disabled: var(--button-color-base-background-disabled);
+  --button-color-secondary-warning-background-focus: var(--button-color-base-warning-background-hover);
+  --button-color-secondary-warning-background-active: var(--button-color-base-warning-background-hover);
+  --button-color-secondary-warning-border-default: var(--color-utility-yellow-500);
+  --button-color-secondary-warning-border-hover: var(--button-color-base-warning-border-focus);
+  --button-color-secondary-warning-border-disabled: var(--color-background-utility-warning-knockout-disabled);
+  --button-color-secondary-warning-border-active: var(--button-color-base-warning-border-focus);
+  --button-color-secondary-warning-border-focus: var(--button-color-base-warning-border-focus);
+  --button-color-secondary-warning-content-default: var(--button-color-base-warning-content-default);
+  --button-color-secondary-warning-content-disabled: var(--button-color-base-warning-content-disabled);
+  --button-color-secondary-warning-content-focus: var(--color-background-utility-warning-knockout-hover);
+  --button-color-secondary-warning-content-active: var(--color-background-utility-warning-knockout-hover);
+  --button-color-secondary-warning-content-hover: var(--color-background-utility-warning-knockout-hover);
+  --button-color-dialogue-warning-background-hover: var(--color-background-utility-warning-hover);
+  --button-color-dialogue-warning-background-focus: var(--color-background-utility-warning-hover);
+  --button-color-dialogue-warning-background-active: var(--color-background-utility-warning-hover);
+  --button-color-dialogue-warning-background-disabled: var(--button-color-base-background-disabled);
+  --button-color-dialogue-warning-background-default: var(--button-color-base-background-default);
+  --button-color-dialogue-warning-content-default: var(--color-text-utility-warning);
+  --button-color-dialogue-warning-content-hover: var(--color-text-utility-warning);
+  --button-color-dialogue-warning-content-focus: var(--color-text-utility-warning);
+  --button-color-dialogue-warning-content-active: var(--color-text-utility-warning);
+  --button-color-dialogue-warning-content-disabled: var(--button-color-base-warning-content-disabled);
+  --button-color-dialogue-warning-border-focus: var(--button-color-base-warning-border-focus);
+  --button-color-icon-warning-background-default: var(--button-color-base-background-default);
+  --button-color-icon-warning-background-hover: var(--color-background-utility-warning);
+  --button-color-icon-warning-background-focus: var(--button-color-base-background-default);
+  --button-color-icon-warning-background-active: var(--color-background-utility-warning);
+  --button-color-icon-warning-background-disabled: var(--button-color-base-background-disabled);
+  --button-color-icon-warning-border-focus: var(--color-border-utility-warning);
+  --button-color-icon-warning-content-default: var(--color-text-utility-warning);
+  --button-color-icon-warning-content-hover: var(--color-background-utility-warning-knockout-hover);
+  --button-color-icon-warning-content-focus: var(--color-background-utility-warning-knockout-hover);
+  --button-color-icon-warning-content-active: var(--color-background-utility-warning-knockout-hover);
+  --button-color-icon-warning-content-disabled: var(--color-background-utility-warning-knockout-disabled);
+  --button-color-fab-warning-background-default: var(--button-color-primary-warning-background-default);
+  --button-color-fab-warning-background-hover: var(--button-color-primary-warning-background-hover);
+  --button-color-fab-warning-background-focus: var(--button-color-primary-warning-background-focus);
+  --button-color-fab-warning-background-active: var(--button-color-primary-warning-background-active);
+  --button-color-fab-warning-background-disabled: var(--button-color-primary-warning-background-disabled);
+  --button-color-fab-warning-border-focus: var(--button-color-primary-warning-border-focus);
+  --button-color-fab-warning-content-default: var(--button-color-primary-warning-content-default);
+  --button-color-fab-warning-content-hover: var(--button-color-primary-warning-content-hover);
+  --button-color-fab-warning-content-focus: var(--button-color-primary-warning-content-focus);
+  --button-color-fab-warning-content-active: var(--button-color-primary-warning-content-active);
+  --button-color-fab-warning-content-disabled: var(--button-color-primary-warning-content-disabled);
   --button-border-radius-default: var(--border-radius-round);
   --button-border-radius-primary: var(--border-radius-round);
   --button-border-radius-secondary: var(--border-radius-round);
@@ -360,12 +430,6 @@
   --button-border-radius-no-container: var(--border-radius-xsm);
   --button-border-width-default: var(--border-width-border-default);
   --button-border-width-focus: var(--border-width-border-sm);
-  --button-typography-font-family: var(--typography-font-family-base);
-  --button-typography-font-weight: var(--typography-font-weight-500);
-  --button-typography-font-size: var(--typography-font-size-12);
-  --button-typography-line-height: var(--typography-line-height-16);
-  --button-typography-letter-spacing: var(--typography-letter-spacing-half);
-  --button-typography-text-transform: var(--typography-text-transform-uppercase);
   --button-focus-ring-in-progress-string: in progress;
 
   /* card */
@@ -395,7 +459,7 @@
   --checkbox-spacing-inline-gap: var(--spacing-gap-md);
   --checkbox-spacing-nested-padding-left: var(--spacing-padding-lg);
   --checkbox-color-background-default: var(--color-background-default);
-  --checkbox-color-background-hover: var(--color-utility-blue-100);
+  --checkbox-color-background-hover: var(--color-background-hover);
   --checkbox-color-background-focus: var(--color-background-default);
   --checkbox-color-background-checked: var(--color-background-utility-positive);
   --checkbox-color-background-indeterminate: var(--color-background-utility-positive);
@@ -531,6 +595,7 @@
   --data-table-color-border-hover: var(--color-border-medium);
   --data-table-color-border-focus: var(--color-border-utility-positive);
   --data-table-color-content-default: var(--color-text-body);
+  --data-table-color-content-header: var(--color-text-secondary);
   --data-table-color-content-hyperlink: var(--color-text-link);
   --data-table-color-content-hyperlink-hover: var(--color-text-link-hover);
   --data-table-color-content-hover: var(--color-text-headline);
@@ -612,6 +677,7 @@
   --field-color-content-negative: var(--value-color-content-negative);
   --field-color-content-success: var(--color-text-utility-success);
   --field-color-content-disabled: var(--color-text-disabled);
+  --field-color-content-amplify: var(--button-color-secondary-amplify-content-default);
   --field-color-background-default: var(--color-gray-0);
   --field-color-background-hover: var(--color-gray-50);
   --field-color-background-focus: var(--color-background-default);
@@ -631,7 +697,7 @@
   /* header */
   --header-spacing-padding-horizontal: var(--spacing-padding-xlg);
   --header-spacing-padding-top: var(--spacing-padding-xlg);
-  --header-spacing-padding-bottom: var(--spacing-padding-none);
+  --header-spacing-padding-bottom: var(--spacing-padding-md);
   --header-spacing-gap: var(--spacing-gap-md);
   --header-spacing-candidate-header-title: var(--spacing-gap-md);
   --header-spacing-candidate-header-social-links: var(--spacing-gap-sm);
@@ -645,7 +711,7 @@
   --icon-container-icon: var(--color-icon-icon-knockout);
 
   /* link-text */
-  --link-text-spacing-gap-large: var(--spacing-gap-sm);
+  --link-text-spacing-gap-large: var(--spacing-gap-xsm);
   --link-text-spacing-gap-default: var(--spacing-gap-xsm);
   --link-text-spacing-gap-small: var(--spacing-gap-xsm);
   --link-text-color-default: var(--color-text-link);
@@ -665,8 +731,8 @@
   /* list-item */
   --list-item-spacing-gap-vertical: var(--spacing-gap-sm);
   --list-item-spacing-gap-horizontal: var(--spacing-gap-xsm);
-  --list-item-spacing-padding-horizontal: var(--spacing-padding-lg);
   --list-item-spacing-header-gap: var(--spacing-gap-sm);
+  --list-item-spacing-padding-horizontal: var(--spacing-padding-lg);
   --list-item-spacing-padding-vertical: var(--spacing-padding-md);
   --list-item-spacing-content-gap: var(--spacing-gap-md);
   --list-item-color-background-default: var(--color-background-default);
@@ -728,6 +794,16 @@
   --page-padding-vertical: var(--spacing-padding-lg);
   --page-color-background: var(--color-background-subtle);
 
+  /* popover */
+  --popover-spacing-max-width: 480px;
+  --popover-spacing-gap: var(--spacing-gap-sm);
+  --popover-spacing-padding-horizontal: var(--spacing-padding-md);
+  --popover-spacing-padding-vertical: var(--spacing-padding-md);
+  --popover-color-background-default: var(--card-color-background-contents);
+  --popover-color-border-default: var(--card-color-border-default);
+  --popover-color-content-default: var(--card-color-content-body);
+  --popover-border-radius: var(--tooltip-border-radius-small);
+
   /* pagination */
   --pagination-min-height: var(--spacing-40);
   --pagination-min-width: 240px;
@@ -743,16 +819,6 @@
   --pagination-border-radius-text: var(--border-radius-xsm);
   --pagination-border-width-default: var(--border-width-border-default);
   --pagination-focus-ring-inner-shadow-x: 0px;
-
-  /* popover */
-  --popover-spacing-max-width: 480px;
-  --popover-spacing-gap: var(--spacing-gap-sm);
-  --popover-spacing-padding-horizontal: var(--spacing-padding-md);
-  --popover-spacing-padding-vertical: var(--spacing-padding-md);
-  --popover-color-background-default: var(--card-color-background-contents);
-  --popover-color-border-default: var(--card-color-border-default);
-  --popover-color-content-default: var(--card-color-content-body);
-  --popover-border-radius: var(--tooltip-border-radius-small);
 
   /* radio */
   --radio-default-spacing-gap-horizontal: var(--spacing-gap-sm);
@@ -901,7 +967,7 @@
   --tip-well-spacing-padding-vertical: var(--spacing-padding-md);
   --tip-well-spacing-padding-icon-top: var(--spacing-padding-xxsm);
   --tip-well-color-background-default: var(--card-color-background-contents);
-  --tip-well-color-background-subtle: var(--color-gray-50);
+  --tip-well-color-background-muted: var(--color-background-muted);
   --tip-well-color-border-default: var(--card-color-border-default);
   --tip-well-color-border-subtle: var(--card-color-border-default);
   --tip-well-color-content-default: var(--card-color-content-body);
@@ -980,33 +1046,15 @@
   --value-spacing-gap-vertical: var(--spacing-gap-xsm);
   --value-spacing-padding-vertical: var(--spacing-padding-sm);
   --value-spacing-padding-horizontal: var(--spacing-padding-lg);
-  --value-color-background-default: var(--color-background-default);
-  --value-color-background-focus: var(--color-background-default);
-  --value-color-background-active: var(--color-background-default);
-  --value-color-background-selected: var(--color-blue-light-blue);
-  --value-color-background-indeterminate: var(--color-blue-light-blue);
-  --value-color-background-disabled: var(--color-background-subtle);
-  --value-color-border-default: var(--color-text-subtle);
-  --value-color-border-hover: var(--color-text-subtle);
-  --value-color-border-focus: var(--color-text-utility-positive);
-  --value-color-border-disabled: var(--color-text-disabled);
-  --value-color-border-selected: var(--color-text-utility-positive);
-  --value-color-border-indeterminate: var(--color-text-subtle);
   --value-color-content-label: var(--color-text-secondary);
   --value-color-content-placeholder: var(--color-text-disabled);
   --value-color-content-value: var(--color-text-body);
   --value-color-content-hyperlink: var(--color-text-link);
   --value-color-content-hyperlink-hover: var(--color-text-link-hover);
-  --value-color-content-focus: var(--color-blue-navigation-blue);
+  --value-color-content-focus: var(--color-border-focus);
   --value-color-content-disabled: var(--color-text-disabled);
   --value-color-content-selected: var(--color-text-link);
   --value-color-content-negative: var(--color-text-utility-negative);
-  --value-border-radius-checkbox: var(--border-radius-xxsm);
-  --value-border-radius-radio: var(--border-radius-round);
-  --value-border-radius-read-only: var(--border-radius-none);
-  --value-border-radius-search: var(--border-radius-round);
-  --value-border-radius-text: var(--border-radius-xsm);
-  --value-border-width-default: var(--border-width-border-default);
 
   /* workflow */
   --workflow-spacing-worflow-items-gap: var(--spacing-gap-sm);
@@ -1025,4 +1073,16 @@
   --workflow-color-content-workflow-tooltip: var(--workflow-color-background-icon-complete);
   --workflow-border-radius-default: var(--border-radius-md);
   --workflow-border-width-default: var(--border-width-border-default);
+
+  /* Empty State */
+  --empty-state-spacing-content-min-height: var(--spacing-128);
+  --empty-state-spacing-content-gap: var(--spacing-gap-md);
+  --empty-state-spacing-content-padding-horizontal: var(--spacing-padding-lg);
+  --empty-state-spacing-content-padding-vertical: var(--spacing-padding-lg);
+  --empty-state-color-background-default: var(--card-color-background-contents);
+  --empty-state-color-border-default: var(--card-color-border-default);
+  --empty-state-color-content-heading: var(--color-text-body);
+  --empty-state-color-content-body: var(--color-text-secondary);
+  --empty-state-border-width-default: var(--border-width-border-default);
+  --empty-state-border-radius-default: var(--border-radius-md);
 }

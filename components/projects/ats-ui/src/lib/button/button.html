@@ -1,7 +1,11 @@
-@if (showIcons() && iconLeft(); as name) {
-  <img class="ats-btn__ic" [src]="iconSrc(name)" alt="" />
+@if (iconOnly()) {
+  @if (icon(); as name) {
+    <ats-icon [name]="name" [size]="iconSize()" />
+  }
+} @else if (iconLeft(); as name) {
+  <ats-icon [name]="name" [size]="iconSize()" />
 }
 <ng-content />
-@if (showIcons() && iconRight(); as name) {
-  <img class="ats-btn__ic" [src]="iconSrc(name)" alt="" />
+@if (!iconOnly() && iconRight(); as name) {
+  <ats-icon [name]="name" [size]="iconSize()" />
 }

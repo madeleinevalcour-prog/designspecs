@@ -69,7 +69,7 @@ doc-media figure.showcase{margin:0}
 doc-body>*:first-child{margin-top:0}
 doc-body p{max-width:none}
 /* Block-level content components: without this they default to inline and stack tight */
-doc-callout,doc-quote,doc-recommendation,doc-spec,doc-swatches,doc-token-list,doc-showcase,doc-example{display:block}
+doc-callout,doc-quote,doc-recommendation,doc-spec,doc-swatches,doc-token-list,doc-showcase,doc-example,doc-code{display:block}
 
 /* Two-column split: image left, text right */
 doc-split,.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:40px;align-items:start;margin-top:16px}
@@ -130,6 +130,9 @@ figure.showcase .ph code{background:var(--chip);padding:1px 5px;border-radius:4p
 figure.showcase img{display:block;width:100%;height:auto;max-height:68vh;object-fit:contain;cursor:zoom-in}
 figure.showcase.example iframe{display:block;width:100%;border:0;background:transparent}
 figure.showcase.example figcaption{border-top:1px solid var(--hairline)}
+figure.code{margin:0 0 16px;background:var(--chip);border-radius:8px;overflow:hidden}
+figure.code figcaption{padding:8px 14px 0}
+figure.code pre{margin:0;padding:12px 14px 14px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink)}
 figcaption{font-size:13px;color:var(--ink-muted);font-weight:500;padding:10px 14px}
 
 /* Recommendation */

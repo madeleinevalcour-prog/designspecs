@@ -1,0 +1,15 @@
+:host { display: block; padding: 32px 40px 80px; }
+:host:has(.embed-row) { padding: 24px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+.lede { color: #5d7798; margin: 0 0 20px; font-size: 14px; max-width: 70ch; }
+.search { font: inherit; font-size: 14px; padding: 8px 12px; border: 1px solid #c2c5cb; border-radius: 8px; width: 280px; }
+.count { color: #8ca1b9; font-size: 12px; margin: 8px 0 16px; }
+.set { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.tile {
+  display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 16px 8px 12px;
+  background: #fff; border: 1px solid #f0f5f9; border-radius: 8px;
+}
+.tile span { font-size: 11px; color: #5d7798; text-align: center; word-break: break-word; }
+.embed-row { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+.embed-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.caption { font-size: 13px; font-weight: 500; color: #5d7798; }

@@ -119,6 +119,17 @@
         '<figcaption>'+(cap?esc(cap)+' · ':'')+'<a href="/examples/'+esc(src)+'" target="_blank" rel="noopener">Open live example ↗</a></figcaption></figure>';
     }
   });
+  // Code sample. Write the code HTML-escaped (&lt; &gt;); indentation is normalized.
+  // <doc-code caption="Angular">&lt;button ats-button theme="primary"&gt;Save&lt;/button&gt;</doc-code>
+  customElements.define("doc-code", class extends HTMLElement{
+    connectedCallback(){
+      if(this._done)return; this._done=true;
+      var cap=attr(this,"caption")||"", lines=this.textContent.replace(/^\n+|\s+$/g,"").split("\n");
+      var indent=Math.min.apply(null,lines.filter(function(l){return l.trim();}).map(function(l){return l.match(/^\s*/)[0].length;}));
+      var code=lines.map(function(l){return l.slice(indent);}).join("\n");
+      this.innerHTML='<figure class="code">'+(cap?'<figcaption>'+esc(cap)+'</figcaption>':'')+'<pre><code>'+esc(code)+'</code></pre></figure>';
+    }
+  });
   window.addEventListener("message",function(e){
     var d=e.data; if(!d||d.type!=="ats-example-height")return;
     var frames=document.querySelectorAll("figure.example iframe");
@@ -292,6 +303,10 @@
       {t:"Spacing", href:"/docs/foundations/spacing.html"},
       {t:"Elevation", href:"/docs/foundations/elevation.html"},
       {t:"Typography", href:"/docs/foundations/typography.html"}
+    ]},
+    {label:"Components", pages:[
+      {t:"Button", href:"/docs/components/button.html"},
+      {t:"Icon", href:"/docs/components/icon.html"}
     ]},
     {label:"Amplify", pages:[
       {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}

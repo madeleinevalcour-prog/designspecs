@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Button" meta="Status: in review · Figma: Component Migration 68:2694 · Code: ats-ui Button · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Button triggers a single action. It comes in seven themes, three sizes and five colors, and every color is bound to a Tier-3 button token.</p>
+    <p>Pick the theme by emphasis: the strongest theme goes to the one action you most want taken, and everything else steps down from it. Pick the color only when the action carries a meaning the color names (destructive, confirming, cautionary, AI).</p>
+    <doc-example src="button?theme=primary&amp;label=Save%20changes&amp;states=default" caption="Primary button" height="100"></doc-example>
+  </doc-section>
+
+  <doc-section id="themes" label="Themes" desc="Seven levels of emphasis">
+    <p>Themes run from most to least emphasis. Each has its own background, content, border and focus tokens.</p>
+    <table class="tbl">
+      <thead><tr><th>Theme</th><th>What it looks like</th><th>Radius</th></tr></thead>
+      <tbody>
+        <tr><td>Primary</td><td>Filled blue, white text, raised</td><td>999px (pill)</td></tr>
+        <tr><td>Secondary</td><td>White with a 1px border, raised</td><td>999px</td></tr>
+        <tr><td>Base</td><td>White, no border, raised</td><td>999px</td></tr>
+        <tr><td>Standard</td><td>Light gray fill, raised</td><td>999px</td></tr>
+        <tr><td>Dialogue</td><td>No container until hover; for actions inside dialogs and menus</td><td>8px</td></tr>
+        <tr><td>Fab</td><td>Filled round icon-only button</td><td>999px</td></tr>
+        <tr><td>Icon</td><td>Square icon-only button, no shadow</td><td>8px</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="button?theme=primary&amp;label=Primary&amp;states=default&amp;captions=false" caption="Primary" height="90"></doc-example>
+    <doc-example src="button?theme=secondary&amp;label=Secondary&amp;states=default&amp;captions=false" caption="Secondary" height="90"></doc-example>
+    <doc-example src="button?theme=base&amp;label=Base&amp;states=default&amp;captions=false" caption="Base" height="90"></doc-example>
+    <doc-example src="button?theme=standard&amp;label=Standard&amp;states=default&amp;captions=false" caption="Standard" height="90"></doc-example>
+    <doc-example src="button?theme=dialogue&amp;label=Dialogue&amp;states=default,hover&amp;captions=false" caption="Dialogue — resting and hover" height="90"></doc-example>
+    <doc-example src="button?theme=fab&amp;icon=add&amp;label=Add&amp;states=default&amp;captions=false" caption="Fab" height="90"></doc-example>
+    <doc-example src="button?theme=icon&amp;icon=more-2&amp;label=More&amp;states=default,hover&amp;captions=false" caption="Icon — resting and hover" height="90"></doc-example>
+  </doc-section>
+
+  <doc-section id="sizes" label="Sizes">
+    <p>Default fits most layouts. Use small in dense surfaces like table rows and toolbars, and large for a page's single main call to action.</p>
+    <doc-example src="button?theme=primary&amp;label=Save%20changes&amp;iconLeft=add&amp;vary=sizes" caption="Small, default, large" height="110"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Size</th><th>Height</th><th>Padding (v / h)</th><th>Gap</th><th>Text style</th><th>Icon</th></tr></thead>
+      <tbody>
+        <tr><td>Small</td><td>32px</td><td>4 / 12px</td><td>8px</td><td><span class="chip">button/sm</span> · 12 / 16px, 500</td><td>12px</td></tr>
+        <tr><td>Default</td><td>40px</td><td>8 / 16px</td><td>8px</td><td><span class="chip">button/default</span> · 14 / 20px, 500</td><td>14px</td></tr>
+        <tr><td>Large</td><td>48px</td><td>16 / 24px</td><td>8px</td><td><span class="chip">button/lg</span> · 16 / 24px, 500</td><td>16px</td></tr>
+      </tbody>
+    </table>
+    <p>Fab and icon buttons are square at the same heights: 32, 40 and 48px. Height, padding and gap come from <span class="chip">button/spacing/&lt;size&gt;/*</span>; text comes from the subatomic <span class="chip">typography/button/&lt;sm|default|lg&gt;/*</span> tokens.</p>
+  </doc-section>
+
+  <doc-section id="states" label="States">
+    <p>Every theme has five states. Each state swaps the background, content and (for secondary) border tokens; nothing else moves, so the button never shifts layout.</p>
+    <doc-example src="button?theme=primary&amp;label=Save%20changes" caption="Primary — all states" height="110"></doc-example>
+    <doc-example src="button?theme=secondary&amp;label=Cancel" caption="Secondary — all states" height="110"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>When it applies</th><th>What changes</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>Resting and interactive</td><td><span class="chip">…/background/default</span>, <span class="chip">…/content/default</span>; resting elevation</td></tr>
+        <tr><td>Hover</td><td>Pointer is over the button</td><td><span class="chip">…/background/hover</span>, <span class="chip">…/content/hover</span>; hover elevation (fab keeps resting)</td></tr>
+        <tr><td>Focus</td><td>Reached by keyboard</td><td>Focus background and content, plus a 2px inset ring in <span class="chip">…/border/focus</span></td></tr>
+        <tr><td>Active</td><td>Being pressed</td><td>Active background and content; active elevation (dialogue gets an inset shadow)</td></tr>
+        <tr><td>Disabled</td><td>Action isn’t available</td><td>Disabled background and content, no shadow, not-allowed cursor</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="colors" label="Colors" desc="Meaning, not decoration">
+    <p>Color changes what the button means. Default is neutral; the others name the outcome of the action.</p>
+    <table class="tbl">
+      <thead><tr><th>Color</th><th>Use for</th><th>Available on</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>Most actions</td><td>All themes</td></tr>
+        <tr><td>Negative</td><td>Destructive or irreversible actions (delete, remove)</td><td>All themes</td></tr>
+        <tr><td>Success</td><td>Confirming a positive outcome (approve, mark complete)</td><td>All themes</td></tr>
+        <tr><td>Warning</td><td>Actions that need caution</td><td>All except standard</td></tr>
+        <tr><td>Amplify</td><td>AI actions powered by Amplify</td><td>Primary, secondary, dialogue, icon</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="button?theme=primary&amp;vary=colors&amp;label=Button" caption="Primary colors" height="110"></doc-example>
+    <doc-example src="button?theme=secondary&amp;vary=colors&amp;label=Button" caption="Secondary colors" height="110"></doc-example>
+    <doc-example src="button?theme=dialogue&amp;vary=colors&amp;label=Button" caption="Dialogue colors" height="110"></doc-example>
+    <doc-callout type="note" heading="Unsupported combinations.">A color that has no tokens for a theme (for example warning on standard) renders as that theme’s default color.</doc-callout>
+  </doc-section>
+
+  <doc-section id="icons" label="Icons">
+    <p>Text buttons take an optional leading and/or trailing icon. Fab and icon buttons take a single glyph. Icons come from the icon set and take the button’s content color, so they follow every state and color automatically.</p>
+    <doc-example src="button?theme=secondary&amp;label=Search&amp;iconLeft=search&amp;states=default" caption="Leading icon" height="90"></doc-example>
+    <doc-example src="button?theme=secondary&amp;label=Open%20record&amp;iconRight=external-open&amp;states=default" caption="Trailing icon" height="90"></doc-example>
+    <doc-example src="button?theme=icon&amp;icon=delete-outline&amp;label=Delete&amp;color=negative" caption="Icon button, negative — all states" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage">
+    <doc-callout type="do" heading="Do.">Use one primary button per view for the single most important action.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Put two primary buttons side by side; the emphasis cancels out.</doc-callout>
+    <doc-callout type="do" heading="Do.">Label with a verb that names the action, like “Save changes” or “Send invite”.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use vague labels like “OK”, “Submit” or “Click here”.</doc-callout>
+    <doc-callout type="do" heading="Do.">Use negative for actions that destroy or remove something, so the risk is visible before the click.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use color for decoration. If the action doesn’t carry that meaning, keep it default.</doc-callout>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It’s a native <span class="chip">&lt;button&gt;</span> (or <span class="chip">&lt;a&gt;</span> for navigation), so keyboard, forms and screen readers work without extra code.</li>
+      <li>Fab and icon buttons have no visible text: always give them an <span class="chip">aria-label</span> that names the action.</li>
+      <li>Focus is a 2px ring drawn inside the edge, so it’s visible without shifting layout.</li>
+      <li>Disabled buttons are skipped by the keyboard. If people need to discover why an action is unavailable, keep it enabled and explain instead.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <p>Every color comes from one token pattern. Change the token in Figma, re-export, and every button updates.</p>
+    <doc-spec><span class="pair"><b>Color:</b> <span class="chip">button/color/&lt;theme&gt;[-&lt;color&gt;]/&lt;background|content|border&gt;/&lt;state&gt;</span></span></doc-spec>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Primary background, resting</td><td><span class="chip">button/color/primary/background/default</span></td></tr>
+        <tr><td>Secondary negative border</td><td><span class="chip">button/color/secondary-negative/border/default</span></td></tr>
+        <tr><td>Focus ring</td><td><span class="chip">button/color/&lt;theme&gt;/border/focus</span> at <span class="chip">button/border/width/focus</span> (2px)</td></tr>
+        <tr><td>Radius</td><td><span class="chip">button/border/radius/&lt;theme&gt;</span></td></tr>
+        <tr><td>Text</td><td><span class="chip">typography/button/&lt;sm|default|lg&gt;/*</span> (subatomic), via the text styles <span class="chip">button/sm</span>, <span class="chip">button/default</span>, <span class="chip">button/lg</span></td></tr>
+        <tr><td>Spacing</td><td><span class="chip">button/spacing/&lt;size&gt;/padding-*</span>, <span class="chip">…/gap</span>, <span class="chip">…/min-height</span></td></tr>
+        <tr><td>Elevation</td><td>Button elevation styles: default, hover, active, active (no container)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>The component lives in the <span class="chip">ats-ui</span> Angular library. It’s an attribute on a native element, so standard attributes like <span class="chip">disabled</span> and <span class="chip">type</span> work as usual.</p>
+    <doc-code caption="Angular">
+      &lt;button ats-button theme="primary" iconLeft="add"&gt;Add candidate&lt;/button&gt;
+      &lt;button ats-button theme="secondary" color="negative"&gt;Delete&lt;/button&gt;
+      &lt;button ats-button theme="icon" icon="close" aria-label="Close"&gt;&lt;/button&gt;
+      &lt;a ats-button theme="dialogue" href="/jobs"&gt;View jobs&lt;/a&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">theme</span></td><td>base · standard · primary · secondary · dialogue · fab · icon</td><td>standard</td></tr>
+        <tr><td><span class="chip">size</span></td><td>small · default · large</td><td>default</td></tr>
+        <tr><td><span class="chip">color</span></td><td>default · negative · success · warning · amplify</td><td>default</td></tr>
+        <tr><td><span class="chip">iconLeft</span> / <span class="chip">iconRight</span></td><td>Icon name (text themes)</td><td>—</td></tr>
+        <tr><td><span class="chip">icon</span></td><td>Icon name (fab / icon themes)</td><td>—</td></tr>
+        <tr><td><span class="chip">pill</span></td><td>Forces a fully round radius</td><td>false</td></tr>
+        <tr><td><span class="chip">state</span></td><td>hover · focus · active — forces a state, for documentation only</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Amplify gradient.">Primary amplify uses the “Buttons/Amplify Radial” fill captured from Figma. There’s no gradient token yet.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

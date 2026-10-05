@@ -25,12 +25,23 @@ brought over if rebuilt in Angular, and only when needed. Components are ported
 - `tokens/css/index.css` imports the whole chain; the showcase and the `ats-ui`
   package both use it. CSS var names = Figma variable paths with `/` → `-`.
 
+## Workflow: every component ships with a doc page
+When a component is built or ported, in the same change:
+1. Component in `components/projects/ats-ui/src/lib/<name>/` (+ export in `public-api.ts`).
+2. Showcase route in `components/projects/showcase/src/app/pages/<name>/` with an embed
+   mode (query params), registered in `app.routes.ts` + the home list.
+3. Doc page `docs-site/docs/components/<name>.html` (create-design-documentation skill,
+   Components type), using `<doc-example>` live embeds — never stand-ins or screenshots.
+4. Link it in `docs-site/index.html` (Components group) and the `SITE` list in `assets/docs.js`.
+Docs are committed only after the user approves the page.
+
 ## Live examples in the docs
 - Each component has a showcase route (`components/projects/showcase/src/app/pages/`).
   No query params → full reference matrix; with params → a compact embed.
 - `npm run build` compiles the showcase into `docs-site/examples/` (gitignored) with
   base href `/examples/`. Vercel runs this on deploy; `vercel.json` rewrites
   `/examples/*` to the app.
+- `<doc-code caption="Angular">` renders an HTML-escaped code sample.
 - In a doc page: `<doc-example src="button?theme=primary&label=Save" caption="…"></doc-example>`
   (defined in `docs-site/assets/docs.js`; the iframe auto-sizes via postMessage).
 

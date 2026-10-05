@@ -1,0 +1,23 @@
+@if (embed()) {
+  <div class="embed-row">
+    @for (n of embedNames(); track n) {
+      <div class="embed-cell">
+        <ats-icon [name]="n" [size]="embedSize()" [color]="color()" />
+        @if (labels()) { <span class="caption">{{ n }}</span> }
+      </div>
+    }
+  </div>
+} @else {
+  <h1>Icon</h1>
+  <p class="lede">
+    {{ all.length }} glyphs from the Bullhorn icon set, rendered as a CSS mask so the color comes from a token
+    (default <code>--color-icon-illustration</code>) or <code>currentColor</code>.
+  </p>
+  <input class="search" type="search" placeholder="Filter icons…" [value]="query()" (input)="query.set($any($event.target).value)" />
+  <p class="count">{{ filtered().length }} shown</p>
+  <div class="set">
+    @for (n of filtered(); track n) {
+      <div class="tile"><ats-icon [name]="n" [size]="24" /><span>{{ n }}</span></div>
+    }
+  </div>
+}

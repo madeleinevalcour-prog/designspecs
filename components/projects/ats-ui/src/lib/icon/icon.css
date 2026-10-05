@@ -1,0 +1,7 @@
+/* Icon — ported from the prototype repo's Icon.astro. */
+.ats-icon {
+  display: inline-block; flex: 0 0 auto;
+  background-color: var(--color-icon-illustration);
+  -webkit-mask: var(--ats-icon) center / contain no-repeat;
+  mask: var(--ats-icon) center / contain no-repeat;
+}

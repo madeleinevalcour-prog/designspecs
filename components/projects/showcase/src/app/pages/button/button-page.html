@@ -1,28 +1,23 @@
-<ng-template #chevron>
-  <svg viewBox="0 0 14 14" aria-hidden="true">
-    <path d="M4 5.5 L7 8.5 L10 5.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
-  </svg>
-</ng-template>
-
 @if (embed()) {
   <div class="embed-row">
-    @for (st of embedStates(); track st) {
+    @for (cell of cells(); track cell.caption) {
       <div class="embed-cell">
         <button
           ats-button
           [theme]="theme()!"
-          [size]="embedSize()"
-          [color]="embedColor()"
-          [state]="forced(st)"
+          [size]="cell.size"
+          [color]="cell.color"
+          [state]="forced(cell.state)"
           [pill]="pill()"
           [iconLeft]="iconLeft()"
           [iconRight]="iconRight()"
-          [disabled]="st === 'disabled'"
+          [icon]="embedIcon()"
+          [disabled]="cell.state === 'disabled'"
           [attr.aria-label]="iconOnly(theme()) ? embedLabel() : null"
         >
-          @if (iconOnly(theme())) { <ng-container [ngTemplateOutlet]="chevron" /> } @else { {{ embedLabel() }} }
+          @if (!iconOnly(theme())) { {{ embedLabel() }} }
         </button>
-        @if (captions()) { <span class="caption">{{ st }}</span> }
+        @if (captions()) { <span class="caption">{{ cell.caption }}</span> }
       </div>
     }
   </div>
@@ -47,14 +42,14 @@
           <span class="row-head">{{ size }}</span>
           @for (st of matrixStates; track $index) {
             <span class="cell">
-              <button ats-button [theme]="theme" [size]="size" [state]="st" [attr.aria-label]="iconOnly(theme) ? 'Expand' : null">
-                @if (iconOnly(theme)) { <ng-container [ngTemplateOutlet]="chevron" /> } @else { Button }
+              <button ats-button [theme]="theme" [size]="size" [state]="st" icon="chevron-down" [attr.aria-label]="iconOnly(theme) ? 'Expand' : null">
+                @if (!iconOnly(theme)) { Button }
               </button>
             </span>
           }
           <span class="cell">
-            <button ats-button [theme]="theme" [size]="size" disabled [attr.aria-label]="iconOnly(theme) ? 'Expand' : null">
-              @if (iconOnly(theme)) { <ng-container [ngTemplateOutlet]="chevron" /> } @else { Button }
+            <button ats-button [theme]="theme" [size]="size" disabled icon="chevron-down" [attr.aria-label]="iconOnly(theme) ? 'Expand' : null">
+              @if (!iconOnly(theme)) { Button }
             </button>
           </span>
         }
@@ -63,11 +58,23 @@
   }
 
   <section>
-    <h2>Color variants</h2>
-    <div class="extra">
-      <button ats-button theme="base" color="warning">Warning</button>
-      <button ats-button theme="primary" color="amplify"><ng-container [ngTemplateOutlet]="chevron" /> Amplify</button>
-      <button ats-button theme="primary" color="amplify" state="hover"><ng-container [ngTemplateOutlet]="chevron" /> Amplify hover</button>
+    <h2>Colors</h2>
+    <p class="lede">Every theme × color from the button tokens (default state; hover a button to see its live states). Blank = no tokens for that combination.</p>
+    <div class="grid grid--colors">
+      <span class="col-head"></span>
+      @for (c of colors; track c) { <span class="col-head">{{ c }}</span> }
+      @for (theme of themes; track theme) {
+        <span class="row-head">{{ theme }}</span>
+        @for (c of colors; track c) {
+          <span class="cell">
+            @if (supports(theme, c)) {
+              <button ats-button [theme]="theme" [color]="c" icon="check" iconLeft="check" [attr.aria-label]="iconOnly(theme) ? c : null">
+                @if (!iconOnly(theme)) { {{ c === 'default' ? 'Button' : c }} }
+              </button>
+            }
+          </span>
+        }
+      }
     </div>
   </section>
 
@@ -91,7 +98,7 @@
   <section>
     <h2>Link + pill</h2>
     <div class="extra">
-      <a ats-button theme="secondary" iconRight="external-open" href="https://ats-redesign.vercel.app/components/buttons" target="_blank">Astro original</a>
+      <a ats-button theme="secondary" iconLeft="arrow-left" href="./">All components</a>
       <button ats-button theme="dialogue" pill>Pill segment</button>
     </div>
   </section>

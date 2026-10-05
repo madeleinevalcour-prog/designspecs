@@ -60,7 +60,7 @@
   --color-text-disabled: var(--color-gray-500);
   --color-text-disabled-knockout: var(--color-gray-75);
   --color-text-utility-negative: var(--color-utility-red-600);
-  --color-text-utility-warning: var(--color-utility-yellow-600);
+  --color-text-utility-warning: var(--color-utility-yellow-700);
   --color-text-utility-success: var(--color-utility-green-600);
   --color-text-utility-positive: var(--color-utility-blue-600);
   --color-text-utility-knockout: var(--color-gray-0);
@@ -73,7 +73,7 @@
   --color-icon-disabled: var(--color-gray-400);
   --color-icon-disabled-knockout: var(--color-gray-50);
   --color-icon-utility-negative: var(--color-utility-red-600);
-  --color-icon-utility-warning: var(--color-utility-yellow-600);
+  --color-icon-utility-warning: var(--color-utility-yellow-700);
   --color-icon-utility-success: var(--color-utility-green-600);
   --color-icon-utility-positive: var(--color-utility-blue-600);
 

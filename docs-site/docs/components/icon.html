@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Icon" meta="Status: in review · Figma: Component Migration → Iconography · Code: ats-ui Icon · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Icon draws one glyph from the Bullhorn icon set (321 icons). The glyph is a mask, so its color comes from a token, not from the file.</p>
+    <doc-example src="icon?names=search,add,edit,delete-outline,filter,download,send,close" caption="A few icons from the set" height="110"></doc-example>
+    <p><a href="/examples/icon" target="_blank" rel="noopener">Browse and search the full set ↗</a></p>
+  </doc-section>
+
+  <doc-section id="color" label="Color">
+    <p>By default an icon uses <span class="chip">color/icon/illustration</span>. Pass any color token to change it. Inside a Button, icons take the button’s content color automatically, including every state and color variant.</p>
+    <doc-example src="icon?names=check-circle,close-circle-outline,amplify&amp;color=var(--color-icon-utility-warning)&amp;labels=false" caption="Colored with color/icon/utility/warning" height="90"></doc-example>
+    <doc-callout type="dont" heading="Don’t.">Recolor icons with a raw hex or by editing the SVG. Bind a token so grayscale modes and theme changes flow through.</doc-callout>
+  </doc-section>
+
+  <doc-section id="size" label="Size">
+    <p>Icons are square. The default is 16px; Button sizes them to 12, 14 and 16px to match its small, default and large sizes.</p>
+    <doc-example src="icon?names=search&amp;size=12&amp;labels=false" caption="12px" height="70"></doc-example>
+    <doc-example src="icon?names=search&amp;size=16&amp;labels=false" caption="16px (default)" height="70"></doc-example>
+    <doc-example src="icon?names=search&amp;size=24&amp;labels=false" caption="24px" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>Icons are decorative and hidden from screen readers.</li>
+      <li>When an icon is the only content of a control, give the control the accessible name, for example <span class="chip">aria-label="Close"</span> on an icon Button.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-icon name="search" /&gt;
+      &lt;ats-icon name="add" [size]="24" color="var(--color-icon-subtle)" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">name</span></td><td>Icon file name from the set (required)</td><td>—</td></tr>
+        <tr><td><span class="chip">size</span></td><td>Pixels</td><td>16</td></tr>
+        <tr><td><span class="chip">color</span></td><td>Any CSS color or token <span class="chip">var()</span></td><td>color/icon/illustration</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+</doc-page>
+</body>
+</html>

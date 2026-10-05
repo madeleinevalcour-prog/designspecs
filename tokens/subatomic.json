@@ -2415,7 +2415,7 @@
                   "$type": "color",
                   "$libraryName": "",
                   "$collectionName": "core",
-                  "$value": "{color.utility.yellow.600}"
+                  "$value": "{color.utility.yellow.700}"
                 },
                 "success": {
                   "$scopes": [
@@ -2536,7 +2536,7 @@
                   "$type": "color",
                   "$libraryName": "",
                   "$collectionName": "core",
-                  "$value": "{color.utility.yellow.600}"
+                  "$value": "{color.utility.yellow.700}"
                 },
                 "success": {
                   "$scopes": [

@@ -20,4 +20,4 @@ content (icons) can be styled.
 
 Commands: `npm start` (showcase on :4200) · `npm run build:lib` · `npm run build:examples` (→ `../docs-site/examples`).
 
-Ported so far: Button.
+Ported so far: Button (wired to the Tier-3 button tokens), Icon.
