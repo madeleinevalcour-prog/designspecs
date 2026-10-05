@@ -2,16 +2,16 @@
   <ats-novo-list>
     @switch (v) {
       @case ('notes') {
-        <ats-novo-list-item-note date="07/16/2026" time="12:00 PM" label="Pre-screen" user="Chloe Davis" [body]="noteBody" />
-        <ats-novo-list-item-note date="07/14/2026" time="9:30 AM" label="Call" user="Marcus Lee" body="Left a voicemail about the React opening; will follow up Thursday." />
+        <ats-novo-list-item-note date="07/16/2026" time="12:00 PM" action="Pre-screen" user="Chloe Davis" [body]="noteBody" />
+        <ats-novo-list-item-note date="07/14/2026" time="9:30 AM" action="Call" user="Marcus Lee" body="Left a voicemail about the React opening; will follow up Thursday." />
       }
       @case ('tasks') {
         <ats-novo-list-item-task title="Call Tyler Brooks" [comment]="noteBody" />
         <ats-novo-list-item-task title="Send offer to Dana Whitfield" [fields]="offerFields" />
       }
       @case ('submissions') {
-        <ats-novo-list-item-submission title="Senior React Developer" />
-        <ats-novo-list-item-submission title="Cloud Engineer" status="Submitted" company="Brightline Labs" datetime="7/18/2026, 11:00 AM" />
+        <ats-novo-list-item-job title="Senior React Developer" />
+        <ats-novo-list-item-job title="Cloud Engineer" status="Submitted" company="Brightline Labs" date="7/18/2026, 11:00 AM" />
       }
     }
   </ats-novo-list>

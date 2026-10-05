@@ -1,28 +1,107 @@
 <ng-template #defaultList let-items>
   <ats-novo-list>
     @for (c of items; track $index) {
-      <ats-novo-list-item-default [entity]="c.entity" [title]="c.title" [fields]="c.fields" [comment]="c.comment" />
+      <ats-novo-list-item-default [entity]="c.entity" [title]="c.title" [fields]="c.fields" [comment]="c.comment" [state]="stateAt($index)" />
+    }
+  </ats-novo-list>
+</ng-template>
+<ng-template #fastFindList let-items>
+  <ats-novo-list>
+    @for (c of items; track $index) {
+      <ats-novo-list-item-fast-find [entity]="c.entity" [title]="c.title" [fields]="c.fields" [state]="stateAt($index)" />
     }
   </ats-novo-list>
 </ng-template>
 <ng-template #taskList let-items>
   <ats-novo-list>
-    @for (t of items; track $index) { <ats-novo-list-item-task [title]="t.title" [fields]="t.fields" [comment]="t.comment" /> }
+    @for (t of items; track $index) {
+      <ats-novo-list-item-task [title]="t.title" [fields]="t.fields" [comment]="t.comment" [state]="stateAt($index)" />
+    }
+  </ats-novo-list>
+</ng-template>
+<ng-template #jobList let-items>
+  <ats-novo-list>
+    @for (j of items; track $index) {
+      <ats-novo-list-item-job [title]="j.title" [company]="j.company" [date]="j.date" [status]="j.status" [state]="stateAt($index)" />
+    }
   </ats-novo-list>
 </ng-template>
 <ng-template #noteList let-items>
   <ats-novo-list>
     @for (n of items; track $index) {
-      <ats-novo-list-item-note [date]="n.date" [time]="n.time" [label]="n.label" [user]="n.user" [body]="n.body" />
+      <ats-novo-list-item-note [date]="n.date" [time]="n.time" [user]="n.user" [phone]="n.phone" [action]="n.action" [body]="n.body" [state]="stateAt($index)" />
     }
   </ats-novo-list>
 </ng-template>
-<ng-template #submissionList let-items>
+<ng-template #suggestedList>
   <ats-novo-list>
-    @for (s of items; track $index) {
-      <ats-novo-list-item-submission [title]="s.title" [datetime]="s.datetime" [status]="s.status" [company]="s.company" />
-    }
+    <ats-novo-list-item-suggested-action title="3 Record Updates Available" [state]="stateAt(0)" />
   </ats-novo-list>
+</ng-template>
+<ng-template #statesList>
+  <ats-novo-list>
+    <ats-novo-list-item-default title="2034 | Tyler Brooks" [comment]="body" />
+    <ats-novo-list-item-default title="2034 | Tyler Brooks" [comment]="body" state="hover" />
+    <ats-novo-list-item-default title="2034 | Tyler Brooks" [comment]="body" state="focus" />
+  </ats-novo-list>
+</ng-template>
+<ng-template #clickDemo>
+  <ats-novo-list>
+    <ats-novo-list-item-default title="2034 | Tyler Brooks" [comment]="body" (itemClick)="onItem('2034 | Tyler Brooks', $event)" />
+    <ats-novo-list-item-task title="Call Tyler Brooks" (itemClick)="onItem('Call Tyler Brooks', $event)" />
+    <ats-novo-list-item-suggested-action title="3 Record Updates Available"
+      (itemClick)="onItem('3 Record Updates Available', $event)" (action)="onItem('View button', $event)" />
+  </ats-novo-list>
+  <p class="click-log" aria-live="polite">Last activated: {{ lastClick() ?? 'nothing yet. Click a row, or Tab to one and press Enter or Space.' }}</p>
+</ng-template>
+<ng-template #composed>
+  <ats-novo-list>
+    <ats-novo-list-item label="Tyler Brooks" (itemClick)="onItem('Tyler Brooks', $event)">
+      <ats-item-header theme="candidate-list" link="Tyler Brooks" linkCircle="var(--color-entity-candidate)" secondTitle="Senior Software Engineer" [relevancy]="3">
+        <input controls ats-checkbox aria-label="Select Tyler Brooks" />
+        <ats-item-avatar controls option="content" />
+      </ats-item-header>
+      <ats-item-content [fields]="dataFields" [body]="body" />
+    </ats-novo-list-item>
+  </ats-novo-list>
+</ng-template>
+<ng-template #avatars>
+  <div class="row">
+    <span class="labelled"><ats-item-avatar /><span class="caption">header</span></span>
+    <span class="labelled"><ats-item-avatar option="content" /><span class="caption">content</span></span>
+    @for (e of embedEntities(); track e) {
+      <span class="labelled"><ats-item-avatar option="entity" [entity]="e" /><span class="caption">{{ e }}</span></span>
+    }
+  </div>
+</ng-template>
+<ng-template #headers>
+  <div class="stack">
+    @if (showTheme('standard')) {
+      <div class="card card--pad"><ats-item-header [title]="embedHeaderTitle()" link="Label" linkCircle="var(--color-entity-candidate)"><ats-item-avatar avatar option="entity" /></ats-item-header></div>
+    }
+    @if (showTheme('candidate-list')) {
+      <div class="card card--pad">
+        <ats-item-header theme="candidate-list" link="Tyler Brooks" linkCircle="var(--color-entity-candidate)" secondTitle="Senior Software Engineer" [relevancy]="3">
+          <input controls ats-checkbox aria-label="Select Tyler Brooks" />
+          <ats-item-avatar controls option="content" />
+        </ats-item-header>
+      </div>
+    }
+  </div>
+</ng-template>
+<ng-template #fields>
+  <div class="fields">
+    @for (t of fieldTypes; track t) { <ats-item-field [type]="t" [text]="fieldText[t]" /> }
+    <ats-item-field type="date-time" date="May 23, 2024" time="12:00 PM" />
+  </div>
+</ng-template>
+<ng-template #contents>
+  <div class="stack">
+    @if (showType('vertical-list')) { <div class="card card--pad"><ats-item-content [fields]="dataFields" [body]="body" /></div> }
+    @if (showType('horizontal-list')) {
+      <div class="card card--pad"><ats-item-content type="horizontal-list" date="May 23, 2024" time="12:00 PM" [fields]="noteFields" [body]="body" /></div>
+    }
+  </div>
 </ng-template>
 
 @if (embed()) {
@@ -30,60 +109,63 @@
     @switch (view()) {
       @case ('list') { <div class="card"><ng-container *ngTemplateOutlet="defaultList; context: { $implicit: embedDefaults() }" /></div> }
       @case ('default') { <div class="card"><ng-container *ngTemplateOutlet="defaultList; context: { $implicit: embedDefaults() }" /></div> }
+      @case ('fast-find') { <div class="card"><ng-container *ngTemplateOutlet="fastFindList; context: { $implicit: embedFastFind() }" /></div> }
       @case ('task') { <div class="card"><ng-container *ngTemplateOutlet="taskList; context: { $implicit: embedTasks() }" /></div> }
+      @case ('job') { <div class="card"><ng-container *ngTemplateOutlet="jobList; context: { $implicit: embedJobs() }" /></div> }
       @case ('note') { <div class="card"><ng-container *ngTemplateOutlet="noteList; context: { $implicit: embedNotes() }" /></div> }
-      @case ('submission') { <div class="card"><ng-container *ngTemplateOutlet="submissionList; context: { $implicit: embedSubmissions() }" /></div> }
-      @case ('entity-icon') {
-        <div class="row">@for (e of embedEntities(); track e) { <span class="labelled"><ats-entity-icon [entity]="e" /><span class="caption">{{ e }}</span></span> }</div>
-      }
-      @case ('field') {
-        <div class="row"><ats-field icon="email" text="name@email.com" /><ats-field icon="location" text="Boston, MA" /><ats-field icon="calendar" text="7/20/2026" /></div>
-      }
-      @case ('date-time') { <ats-date-time date="07/16/2026" time="12:00 PM" /> }
-      @case ('item-header') {
-        <div class="card card--pad"><ats-item-header [title]="embedHeaderTitle()"><ats-entity-icon avatar [entity]="embedHeaderEntity()" /></ats-item-header></div>
-      }
-      @case ('item-content') {
-        <div class="card card--pad"><ats-item-content [fields]="contentFields" [comment]="embedComment()" /></div>
+      @case ('suggested-action') { <div class="card"><ng-container *ngTemplateOutlet="suggestedList" /></div> }
+      @case ('states') { <div class="card"><ng-container *ngTemplateOutlet="statesList" /></div> }
+      @case ('composed') { <div class="card"><ng-container *ngTemplateOutlet="composed" /></div> }
+      @case ('click') { <div class="card"><ng-container *ngTemplateOutlet="clickDemo" /></div> }
+      @case ('item-avatar') { <ng-container *ngTemplateOutlet="avatars" /> }
+      @case ('item-header') { <ng-container *ngTemplateOutlet="headers" /> }
+      @case ('item-field') { <ng-container *ngTemplateOutlet="fields" /> }
+      @case ('item-data') { <div class="card card--pad"><ats-item-data [fields]="dataFields" /></div> }
+      @case ('comment') { <div class="card card--pad"><ats-item-comment [fields]="dataFields" [body]="body" /></div> }
+      @case ('item-content') { <ng-container *ngTemplateOutlet="contents" /> }
+      @case ('relevancy-dots') {
+        <div class="row">@for (v of [0, 1, 2, 3, 4, 5]; track v) { <span class="labelled"><ats-relevancy-dots [value]="v" /><span class="caption">{{ v }}</span></span> }</div>
       }
     }
   </div>
 } @else {
   <h1>Novo List</h1>
   <p class="lede">
-    Angular port of the Figma novo-list family (692:20779): <code>ats-novo-list</code> → <code>ats-novo-list-item</code>
-    → <code>ats-item-header</code> + <code>ats-item-content</code>, plus the four item presets. Authored against Tier-3 list-item tokens.
+    Angular build of the Figma novo-list family (Component Migration 46:3355): <code>ats-novo-list</code> →
+    <code>ats-novo-list-item</code> → <code>ats-item-header</code> + <code>ats-item-content</code>, plus the item presets.
+    Rows are clickable (hover, focus, <code>(itemClick)</code>); not draggable.
   </p>
 
-  <section>
-    <h2>novo-list — default (candidate / job items)</h2>
-    <div class="card"><ng-container *ngTemplateOutlet="defaultList; context: { $implicit: candidates }" /></div>
-  </section>
-  <section>
-    <h2>Preset · task</h2>
-    <div class="card"><ng-container *ngTemplateOutlet="taskList; context: { $implicit: tasks }" /></div>
-  </section>
-  <section>
-    <h2>Preset · note</h2>
-    <div class="card"><ng-container *ngTemplateOutlet="noteList; context: { $implicit: notes }" /></div>
-  </section>
-  <section>
-    <h2>Preset · submission</h2>
-    <div class="card"><ng-container *ngTemplateOutlet="submissionList; context: { $implicit: submissions }" /></div>
-  </section>
+  <section><h2>novo-list — default items</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="defaultList; context: { $implicit: defaults }" /></div></section>
+  <section><h2>list-item states — default · hover · focus (forced)</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="statesList" /></div></section>
+  <section><h2>Click and keyboard</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="clickDemo" /></div></section>
+  <section><h2>Composed row — candidate-list header (checkbox stays its own control)</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="composed" /></div></section>
+  <section><h2>Preset · note</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="noteList; context: { $implicit: notes }" /></div></section>
+  <section><h2>Preset · task</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="taskList; context: { $implicit: tasks }" /></div></section>
+  <section><h2>Preset · job</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="jobList; context: { $implicit: jobs }" /></div></section>
+  <section><h2>Preset · fast-find</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="fastFindList; context: { $implicit: fastFind }" /></div></section>
+  <section><h2>Preset · suggested action</h2>
+    <div class="card"><ng-container *ngTemplateOutlet="suggestedList" /></div></section>
 
   <section>
-    <h2>Building blocks</h2>
+    <h2>Sub-components</h2>
     <div class="subs">
-      <div class="sub"><span class="sub-l">EntityIcon</span>
-        <div class="row">@for (e of entities; track e) { <ats-entity-icon [entity]="e" /> }</div></div>
-      <div class="sub"><span class="sub-l">Field</span>
-        <div class="row"><ats-field icon="email" text="name@email.com" /><ats-field icon="location" text="Boston, MA" /><ats-field icon="calendar" text="7/20/2026" /></div></div>
-      <div class="sub"><span class="sub-l">DateTime</span><ats-date-time date="07/16/2026" time="12:00 PM" /></div>
-      <div class="sub"><span class="sub-l">ItemHeader</span>
-        <div class="card card--pad"><ats-item-header title="2034 | Tyler Brooks"><ats-entity-icon avatar entity="candidate" /></ats-item-header></div></div>
-      <div class="sub"><span class="sub-l">ItemContent</span>
-        <div class="card card--pad"><ats-item-content [fields]="contentFields" comment="Short note preview text." /></div></div>
+      <div class="sub"><span class="sub-l">ItemAvatar — header · content · entity</span><ng-container *ngTemplateOutlet="avatars" /></div>
+      <div class="sub"><span class="sub-l">ItemHeader — standard · candidate-list</span><ng-container *ngTemplateOutlet="headers" /></div>
+      <div class="sub"><span class="sub-l">ItemField (Figma item-content type=…)</span><ng-container *ngTemplateOutlet="fields" /></div>
+      <div class="sub"><span class="sub-l">ItemContent — vertical-list · horizontal-list</span><ng-container *ngTemplateOutlet="contents" /></div>
+      <div class="sub"><span class="sub-l">ItemComment (Figma comment)</span><div class="card card--pad"><ats-item-comment [fields]="dataFields" [body]="body" /></div></div>
+      <div class="sub"><span class="sub-l">ItemData</span><div class="card card--pad"><ats-item-data [fields]="dataFields" /></div></div>
+      <div class="sub"><span class="sub-l">RelevancyDots</span>
+        <div class="row">@for (v of [0, 1, 2, 3, 4, 5]; track v) { <ats-relevancy-dots [value]="v" /> }</div></div>
     </div>
   </section>
 }

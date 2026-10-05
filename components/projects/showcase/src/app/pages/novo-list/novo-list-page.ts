@@ -1,36 +1,44 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, input, numberAttribute } from '@angular/core';
+import { Component, computed, input, numberAttribute, signal } from '@angular/core';
 import {
-  DateTime, EntityIcon, Field, ItemContent, ItemHeader, NovoList, NovoListEntity, NovoListField,
-  NovoListItemDefault, NovoListItemNote, NovoListItemSubmission, NovoListItemTask,
+  Checkbox, ItemAvatar, ItemComment, ItemContent, ItemData, ItemField, ItemFieldType, ItemHeader, NovoList,
+  NovoListEntity, NovoListField, NovoListItem, NovoListItemDefault, NovoListItemFastFind, NovoListItemJob,
+  NovoListItemNote, NovoListItemState, NovoListItemSuggestedAction, NovoListItemTask, RelevancyDots,
 } from 'ats-ui';
 
 type View =
-  | 'list' | 'default' | 'task' | 'note' | 'submission'
-  | 'entity-icon' | 'field' | 'date-time' | 'item-header' | 'item-content';
+  | 'list' | 'default' | 'fast-find' | 'task' | 'job' | 'note' | 'suggested-action' | 'states' | 'click' | 'composed'
+  | 'item-avatar' | 'item-header' | 'item-field' | 'item-data' | 'comment' | 'item-content' | 'relevancy-dots';
 
-interface DefaultSample { title: string; entity?: NovoListEntity; fields?: NovoListField[]; comment?: string; }
+interface Sample { title: string; entity?: NovoListEntity; fields?: NovoListField[]; comment?: string; }
+
+const BODY = 'Tyler is Pre‑Registered and available starting June 23, 2026, seeking entry‑level cloud/infrastructure...';
 
 /**
- * /novo-list — full reference (mirrors the prototype repo's /components/novo-list,
- * plus the submission preset).
+ * /novo-list — full reference of the Figma novo-list family (Component Migration 46:3355).
  *
  * Embed mode: pass `view` to render one piece for a docs page, e.g.
  *   /examples/novo-list?view=task&count=1
  * Params:
- *   view    = list | default | task | note | submission (a list of that item preset)
- *           | entity-icon | field | date-time | item-header | item-content (building blocks)
- *   count   = how many sample items to show for list views (default: all samples)
- *   entity  = candidate | job | note | company | contact — for default, entity-icon,
- *             item-header (entity-icon with no entity shows all five)
+ *   view    = list | default | fast-find | task | job | note | suggested-action  (a list of that preset)
+ *           | states  (default + forced hover + forced focus rows)
+ *           | click   (a live list that reports the last activated row)
+ *           | composed (a NovoListItem built from parts: candidate-list header + item-content)
+ *           | item-avatar | item-header | item-field | item-data | comment | item-content | relevancy-dots
+ *   count   = how many sample items for list views (default: all samples)
+ *   entity  = candidate | contact | company | lead | opportunity | job | submission | placement | note | task
+ *             (default / fast-find first item; item-avatar shows all entities when unset)
  *   title   = overrides the first item's title (list views, item-header)
- *   comment = overrides the first item's comment (default / task / item-content);
- *             `none` removes it
+ *   comment = overrides the first item's comment (default / task); `none` removes it
+ *   state   = hover | focus — forces that state on the first item of a list view
+ *   theme   = standard | candidate-list (item-header; default: both)
+ *   type    = vertical-list | horizontal-list (item-content; default: both)
  */
 @Component({
   imports: [
-    NovoList, NovoListItemDefault, NovoListItemTask, NovoListItemNote, NovoListItemSubmission,
-    ItemHeader, ItemContent, EntityIcon, DateTime, Field, NgTemplateOutlet,
+    NovoList, NovoListItem, NovoListItemDefault, NovoListItemFastFind, NovoListItemTask, NovoListItemJob,
+    NovoListItemNote, NovoListItemSuggestedAction, ItemAvatar, ItemHeader, ItemField, ItemData, ItemComment,
+    ItemContent, RelevancyDots, Checkbox, NgTemplateOutlet,
   ],
   selector: 'app-novo-list-page',
   styleUrl: './novo-list-page.css',
@@ -43,33 +51,58 @@ export class NovoListPage {
   readonly entity = input<NovoListEntity>();
   readonly title = input<string>();
   readonly comment = input<string>();
+  readonly state = input<NovoListItemState>();
+  readonly theme = input<'standard' | 'candidate-list'>();
+  readonly type = input<'vertical-list' | 'horizontal-list'>();
 
   protected readonly embed = computed(() => !!this.view());
+  protected readonly body = BODY;
 
-  protected readonly entities: NovoListEntity[] = ['candidate', 'job', 'company', 'contact', 'note'];
-
-  protected readonly candidates: DefaultSample[] = [
-    { title: '2034 | Tyler Brooks', comment: 'Tyler is Pre-Registered and available starting June 23, 2026, seeking entry-level cloud/infrastructure roles.' },
-    { title: '1897 | Dana Whitfield', entity: 'candidate', fields: [
-      { icon: 'company', text: 'Orbit Systems' }, { icon: 'contact', text: 'Priya Anand' },
-      { icon: 'email', text: 'dana.w@email.com' }, { icon: 'location', text: 'Austin, TX' } ] },
-    { title: '5521 | Senior React Developer', entity: 'job', fields: [
-      { icon: 'company', text: 'Nexus Dynamics' }, { icon: 'location', text: 'Remote — US' } ] },
+  protected readonly entities: NovoListEntity[] = [
+    'candidate', 'contact', 'company', 'lead', 'opportunity', 'job', 'submission', 'placement', 'note', 'task',
   ];
-  protected readonly tasks = [
-    { title: 'Call Tyler Brooks', comment: 'Tyler is Pre-Registered and available starting June 23, 2026, seeking entry-level cloud/infrastructure...' },
-    { title: 'Send offer to Dana Whitfield', fields: [
-      { icon: 'calendar', text: '7/22/2026, 10:00 AM' }, { icon: 'info', text: 'Offer' }, { icon: 'user', text: 'Marcus Lee' } ] as NovoListField[] },
+  protected readonly fieldTypes: ItemFieldType[] = [
+    'caption', 'status', 'company', 'email', 'phone', 'location', 'date', 'contact', 'owner', 'note-action', 'candidate',
+  ];
+  protected readonly fieldText: Record<string, string> = {
+    caption: 'Pre-Registered', status: 'Status', company: 'Company Name', email: 'Email', phone: '(784) 432 - 5293',
+    location: 'Location', date: 'May 23, 2024', contact: 'Contact Name', owner: 'Owner Name',
+    'note-action': 'Note Action', candidate: 'Candidate Name',
+  };
+
+  protected readonly defaults: Sample[] = [
+    { title: '2034 | Tyler Brooks', comment: BODY },
+    { title: '1897 | Dana Whitfield', comment: 'Dana has two offers pending and prefers hybrid roles in Austin.' },
+    { title: '5521 | Senior React Developer', entity: 'job', fields: [
+      { type: 'company', text: 'Nexus Dynamics' }, { type: 'location', text: 'Remote — US' }, { type: 'status', text: 'Accepting candidates' } ] },
+    { title: '311 | Nexus Dynamics', entity: 'company', fields: [
+      { type: 'phone', text: '(617) 555 - 0142' }, { type: 'location', text: 'Boston, MA' } ] },
+  ];
+  protected readonly fastFind: Sample[] = [
+    { title: '2034 | Tyler Brooks' },
+    { title: '88 | Priya Anand', entity: 'contact' },
+    { title: '702 | Orbit Systems', entity: 'lead' },
+  ];
+  protected readonly tasks: Sample[] = [
+    { title: 'Call Tyler Brooks' },
+    { title: 'Send offer to Dana Whitfield', comment: 'Confirm start date before sending.', fields: [
+      { type: 'date', text: 'Jul 22, 2026' }, { type: 'status', text: 'Offer' }, { type: 'owner', text: 'Marcus Lee' } ] },
+  ];
+  protected readonly jobs = [
+    { title: '425 | Software Engineer' },
+    { title: '5480 | Cloud Infrastructure Engineer', company: 'Orbit Systems', date: 'Jul 22, 2026', status: 'Interviewing' },
   ];
   protected readonly notes = [
-    { date: '07/16/2026', time: '12:00 PM', label: 'Pre-screen', user: 'Chloe Davis', body: 'Tyler is Pre-Registered and available starting June 23, 2026, seeking entry-level cloud/infrastructure...' },
-    { date: '07/14/2026', time: '9:30 AM', label: 'Call', user: 'Marcus Lee', body: 'Left a voicemail about the React opening; will follow up Thursday.' },
+    { date: 'May 23, 2024', time: '12:00 PM', user: 'Owner Name', phone: '(784) 432 - 5293', action: 'Note Action', body: BODY },
+    { date: 'Jul 14, 2026', time: '9:30 AM', user: 'Marcus Lee', action: 'Call', body: 'Left a voicemail about the React opening; will follow up Thursday.' },
   ];
-  protected readonly submissions = [
-    { title: '5521 | Senior React Developer' },
-    { title: '5480 | Cloud Infrastructure Engineer', datetime: '7/22/2026, 10:00 AM', status: 'Submitted', company: 'Orbit Systems' },
+  protected readonly dataFields: NovoListField[] = [
+    { type: 'company', text: 'Company Name' }, { type: 'owner', text: 'Owner Name' }, { type: 'phone', text: '(784) 432 - 5293' },
+    { type: 'email', text: 'Email' }, { type: 'location', text: 'Location' }, { type: 'status', text: 'Status' },
   ];
-  protected readonly contentFields: NovoListField[] = [{ icon: 'company', text: 'Nexus Dynamics' }, { icon: 'contact', text: 'Steve Smith' }];
+  protected readonly noteFields: NovoListField[] = [
+    { type: 'owner', text: 'Owner Name' }, { type: 'phone', text: '(784) 432 - 5293' }, { type: 'note-action', text: 'Note Action' },
+  ];
 
   /** Slice to `count`, then apply the title/comment overrides to the first item. */
   protected pick<T extends { title?: string; comment?: string }>(items: T[]): T[] {
@@ -80,17 +113,26 @@ export class NovoListPage {
     }
     return out;
   }
+  private withEntity(items: Sample[]): Sample[] {
+    return this.pick(items).map((c, i) => (i === 0 && this.entity() ? { ...c, entity: this.entity() } : c));
+  }
 
-  protected readonly embedDefaults = computed(() =>
-    this.pick(this.candidates).map((c, i) => (i === 0 && this.entity() ? { ...c, entity: this.entity() } : c)),
-  );
+  protected readonly embedDefaults = computed(() => this.withEntity(this.defaults));
+  protected readonly embedFastFind = computed(() => this.withEntity(this.fastFind));
   protected readonly embedTasks = computed(() => this.pick(this.tasks));
+  protected readonly embedJobs = computed(() => this.pick(this.jobs));
   protected readonly embedNotes = computed(() => this.notes.slice(0, this.count() ?? this.notes.length));
-  protected readonly embedSubmissions = computed(() => this.pick(this.submissions));
   protected readonly embedEntities = computed(() => (this.entity() ? [this.entity()!] : this.entities));
   protected readonly embedHeaderTitle = computed(() => this.title() ?? '2034 | Tyler Brooks');
-  protected readonly embedHeaderEntity = computed(() => this.entity() ?? 'candidate');
-  protected readonly embedComment = computed(() =>
-    this.comment() === 'none' ? undefined : (this.comment() ?? 'Short note preview text.'),
-  );
+  protected readonly showTheme = (t: string) => !this.theme() || this.theme() === t;
+  protected readonly showType = (t: string) => !this.type() || this.type() === t;
+  /** Forced state for item `i` of a list view (first item only). */
+  protected stateAt(i: number): NovoListItemState | undefined { return i === 0 ? this.state() : undefined; }
+
+  // ---- click demo ----
+  protected readonly lastClick = signal<string | null>(null);
+  protected onItem(name: string, e: MouseEvent): void {
+    // Keyboard activation of a button fires a click with detail 0.
+    this.lastClick.set(`${name} (${e.detail === 0 ? 'keyboard' : 'pointer'})`);
+  }
 }

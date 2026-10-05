@@ -1,84 +1,158 @@
-/* novo-list family (Figma: List / novo-list, 692:20779), ported 1:1 from the
-   prototype repo's styles/novo-list.css. Tier-3 list-item / card tokens first,
-   then Tier-2 semantic + spacing/radius primitives. Unencapsulated, namespaced
-   .ats-*. Structure: novo-list > novo-list-item > item-header? + item-content. */
+/* novo-list family (Figma Component Migration, panel 46:3355). Every value is
+   bound to the token Figma binds (Tier-3 list / list-item / link-text first, then
+   Tier-2 semantic + spacing/radius primitives). Unencapsulated, namespaced .ats-*.
+   Structure: novo-list > list-item > item-header? + item-content. */
 
 .ats-novo-list { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
 .ats-novo-list-preset { display: block; }
 
-/* list-item container (182:18861) */
+/* ---- list-item (692:19339) ---- */
 .ats-novo-list-item {
-  display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-horizontal);
-  box-sizing: border-box;
-  padding: var(--card-spacing-content-padding-vertical) var(--card-spacing-content-padding-horizontal);
+  position: relative; /* anchors the full-row action */
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: var(--list-item-spacing-gap-vertical);
+  box-sizing: border-box; width: 100%;
+  padding: var(--list-item-spacing-padding-vertical) var(--list-item-spacing-padding-horizontal);
+  background: var(--list-color-background-default);
   border-bottom: var(--list-item-border-width-default) solid var(--list-item-color-border-default);
   overflow: clip;
 }
-/* last row drops its divider (direct item, or the item inside a preset) */
-.ats-novo-list > .ats-novo-list-item:last-child,
-.ats-novo-list > :last-child > .ats-novo-list-item { border-bottom: 0; }
+.ats-novo-list-item > * { max-width: 100%; }
 
-/* item-header (182:18818): avatar + link title */
+/* Clickable: a native button/link covers the row. Positioned, so it paints above
+   the in-flow text; real controls are lifted above it below. */
+.ats-novo-list-item__action {
+  position: absolute; inset: 0; z-index: 0;
+  margin: 0; padding: 0; border: 0; background: transparent;
+  cursor: pointer; appearance: none; -webkit-appearance: none;
+}
+.ats-novo-list-item__action:focus { outline: none; }
+.ats-novo-list-item--clickable :is(button, a, input, select, textarea, label, [tabindex]):not(.ats-novo-list-item__action) {
+  position: relative; z-index: 1;
+}
+/* hover (692:19388) */
+.ats-novo-list-item--clickable:hover,
+.ats-novo-list-item.is-hover { background: var(--list-color-background-hover); }
+/* focus: Figma has no list-item focus state; this is Button's focus-ring pattern */
+.ats-novo-list-item--clickable:has(> .ats-novo-list-item__action:focus-visible),
+.ats-novo-list-item.is-focus {
+  outline: var(--button-border-width-focus) solid var(--color-border-focus);
+  outline-offset: calc(var(--button-border-width-focus) * -1);
+}
+
+/* ---- item-header (2200:30194) ---- */
 .ats-item-header {
   display: flex; align-items: center; gap: var(--list-item-spacing-header-gap);
-  min-width: 80px; border-radius: var(--border-radius-xsm); width: 100%;
+  box-sizing: border-box; width: 100%;
+  min-width: 80px; /* no token: Figma min-width */
+  border-radius: var(--border-radius-xsm); /* Figma binds spacing/xs (4), not in the export */
 }
-.ats-item-avatar { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+.ats-item-header[data-theme="candidate-list"] { gap: var(--list-item-spacing-content-gap); }
 .ats-item-header__title {
-  flex: 1 0 0; min-width: 0; margin: 0; color: var(--list-item-color-content-link);
+  flex: 1 0 0; min-width: 0; margin: 0; color: var(--list-item-color-content-header);
+  font-family: var(--typography-body-lg-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-lg-font-weight-medium); font-size: var(--typography-body-lg-font-size);
+  line-height: var(--typography-body-lg-line-height); letter-spacing: var(--typography-body-lg-letter-spacing);
+}
+.ats-item-header__controls { display: flex; align-items: center; gap: var(--list-item-spacing-gap-vertical); flex: 0 0 auto; }
+.ats-item-header__controls:empty { display: none; }
+.ats-item-header__item-title { display: flex; align-items: baseline; gap: var(--list-item-spacing-header-gap); flex: 1 0 0; min-width: 0; }
+.ats-item-header__second-title {
+  color: var(--list-item-color-content-subtle); white-space: nowrap;
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-default-font-weight-default); font-size: var(--typography-body-default-font-size);
+  line-height: var(--typography-body-default-line-height); letter-spacing: var(--typography-body-default-letter-spacing);
+}
+
+/* ---- link-text (737:11402, size=large) ---- */
+.ats-link-text { display: inline-flex; align-items: center; gap: var(--link-text-spacing-gap-large); flex: 0 0 auto; }
+.ats-link-text__label {
+  color: var(--link-text-color-default); white-space: nowrap;
   font-family: var(--typography-body-lg-font-family), 'Inter', sans-serif;
   font-weight: var(--typography-body-lg-font-weight-medium); font-size: var(--typography-body-lg-font-size);
   line-height: var(--typography-body-lg-line-height); letter-spacing: var(--typography-body-lg-letter-spacing);
 }
 
-/* entity icon chip (item-avatar variant, 164:17911) */
-.ats-entity-icon {
-  width: 24px; height: 24px; /* no token: fixed 24px chip from the source */
-  border-radius: var(--border-radius-xsm);
-  display: flex; align-items: center; justify-content: center; flex: 0 0 auto;
-  background: var(--color-entity-candidate);
+/* ---- item-avatar (573:2747) ---- */
+.ats-item-avatar { display: flex; align-items: flex-start; flex: 0 0 auto; }
+.ats-item-avatar[data-option="content"] { align-items: center; justify-content: center; }
+.ats-item-avatar[data-option="entity"] {
+  width: 24px; height: 24px; /* no token: Figma's fixed 24px entity avatar */
 }
-.ats-entity-icon[data-entity="candidate"] { background: var(--color-entity-candidate); }
-.ats-entity-icon[data-entity="job"]       { background: var(--color-entity-job); }
-.ats-entity-icon[data-entity="note"]      { background: var(--color-entity-note); }
-.ats-entity-icon[data-entity="company"]   { background: var(--color-entity-company); }
-.ats-entity-icon[data-entity="contact"]   { background: var(--color-entity-contact); }
-.ats-entity-icon .ats-icon { display: block; }
+.ats-item-avatar__container {
+  flex: 1 0 0; display: flex; align-items: center; justify-content: center;
+  border-radius: var(--border-radius-xsm); background: var(--color-entity-candidate);
+}
+.ats-item-avatar .ats-icon { display: block; }
+.ats-item-avatar[data-entity="candidate"]   .ats-item-avatar__container { background: var(--color-entity-candidate); }
+.ats-item-avatar[data-entity="contact"]     .ats-item-avatar__container { background: var(--color-entity-contact); }
+.ats-item-avatar[data-entity="company"]     .ats-item-avatar__container { background: var(--color-entity-company); }
+.ats-item-avatar[data-entity="lead"]        .ats-item-avatar__container { background: var(--color-entity-lead); }
+.ats-item-avatar[data-entity="opportunity"] .ats-item-avatar__container { background: var(--color-entity-opportunity); }
+.ats-item-avatar[data-entity="job"]         .ats-item-avatar__container { background: var(--color-entity-job); }
+.ats-item-avatar[data-entity="submission"]  .ats-item-avatar__container { background: var(--color-entity-submission); }
+.ats-item-avatar[data-entity="placement"]   .ats-item-avatar__container { background: var(--color-entity-placement); }
+.ats-item-avatar[data-entity="note"]        .ats-item-avatar__container { background: var(--color-entity-note); }
+.ats-item-avatar[data-entity="task"]        .ats-item-avatar__container { background: var(--color-entity-task); }
 
-/* item-content (574:3106): fields + optional comment */
+/* ---- item-content (573:1676) ---- */
 .ats-item-content {
-  display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical);
-  box-sizing: border-box; padding: 0 var(--spacing-padding-xxsm); width: 100%;
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: var(--list-item-spacing-gap-vertical); box-sizing: border-box; width: 100%;
 }
-.ats-item-content--row { flex-direction: row; align-items: flex-start; gap: var(--spacing-gap-md); padding: 0; }
+.ats-item-content[data-type="horizontal-list"] { flex-direction: row; gap: var(--list-item-spacing-content-gap); }
+.ats-item-content[data-type="horizontal-list"] > .ats-item-comment { flex: 1 0 0; }
 
-.ats-item-fields { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--spacing-gap-md) var(--spacing-gap-lg); } /* row 16 / col 24 */
-
-/* field (182:18710): 12px illustration-color icon + body/sm label */
-.ats-field { display: inline-flex; align-items: center; gap: var(--spacing-gap-sm); }
-.ats-field__text {
-  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
-  font-weight: var(--typography-body-sm-font-weight-default);
-  font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing); color: var(--color-text-body); white-space: nowrap;
-}
-
-.ats-item-comment { display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical); min-width: 0; flex: 1 0 0; }
+/* ---- comment (574:2866) ---- */
+.ats-item-comment { display: flex; flex-direction: column; align-items: flex-start; gap: var(--list-item-spacing-gap-vertical); width: 100%; min-width: 0; }
 .ats-item-comment__body {
-  margin: 0; color: var(--list-item-color-content-body);
-  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
-  font-weight: var(--typography-meta-default-font-weight);
-  font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height);
-  letter-spacing: var(--typography-meta-default-letter-spacing);
+  margin: 0; width: 100%; color: var(--list-item-color-content-body);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-default-font-weight-default); font-size: var(--typography-body-default-font-size);
+  line-height: var(--typography-body-default-line-height); letter-spacing: var(--typography-body-default-letter-spacing);
 }
 
-/* date-time stack (574:2764, note preset) */
-.ats-date-time {
-  flex: 0 0 auto; display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical);
-  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
-  font-weight: var(--typography-meta-default-font-weight);
-  font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height);
+/* ---- item-data (182:18804): row gap 8 / column gap 16 ---- */
+.ats-item-data {
+  display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start; width: 100%;
+  gap: var(--list-item-spacing-gap-vertical) var(--list-item-spacing-content-gap);
 }
-.ats-date-time p { margin: 0; white-space: nowrap; }
-.ats-date-time__date { color: var(--list-item-color-content-body); }
-.ats-date-time__time { color: var(--list-item-color-content-subtle); }
+.ats-novo-list-preset--suggested-action .ats-item-data { align-items: center; align-content: center; }
+.ats-novo-list-preset--suggested-action .ats-item-field { flex: 1 0 0; min-width: 0; }
+
+/* ---- item-content field (157:2960) ---- */
+.ats-item-field {
+  display: inline-flex; align-items: center; gap: var(--list-item-spacing-gap-horizontal);
+  border-radius: var(--border-radius-round); flex: 0 0 auto;
+}
+.ats-item-field .ats-icon { flex: 0 0 auto; }
+.ats-item-field__text {
+  color: var(--color-text-body); white-space: nowrap;
+  font-family: var(--typography-input-value-sm-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-input-value-sm-font-weight); font-size: var(--typography-input-value-sm-font-size);
+  line-height: var(--typography-input-value-sm-line-height); letter-spacing: var(--typography-input-value-sm-letter-spacing);
+}
+.ats-item-field[data-type="caption"] .ats-item-field__text {
+  color: var(--list-item-color-content-disabled);
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight); font-size: var(--typography-meta-small-font-size);
+  line-height: var(--typography-meta-small-line-height); letter-spacing: var(--typography-meta-small-letter-spacing);
+}
+.ats-item-field[data-type="date-time"] {
+  flex-direction: column; align-items: flex-start; gap: var(--list-item-spacing-gap-vertical); border-radius: 0;
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-default-font-weight); font-size: var(--typography-meta-default-font-size);
+  line-height: var(--typography-meta-default-line-height); letter-spacing: var(--typography-meta-default-letter-spacing);
+}
+.ats-item-field__date { color: var(--list-item-color-content-body); white-space: nowrap; }
+.ats-item-field__time { color: var(--list-item-color-content-subtle); white-space: nowrap; }
+
+/* ---- relevancy-dots (709:22231) ---- */
+.ats-relevancy-dots { display: inline-flex; align-items: flex-start; gap: var(--spacing-gap-xsm); flex: 0 0 auto; }
+.ats-relevancy-dots__dot {
+  box-sizing: border-box; width: 8px; height: 8px; /* no token: Figma 8px dot */
+  border-radius: var(--border-radius-round);
+  background: var(--color-utility-blue-100);
+  border: var(--border-width-border-default) solid var(--color-blue-medium-blue);
+}
+.ats-relevancy-dots__dot.is-on { background: var(--color-blue-medium-blue); }

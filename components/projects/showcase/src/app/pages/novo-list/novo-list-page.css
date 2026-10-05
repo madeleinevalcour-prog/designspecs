@@ -20,3 +20,6 @@ code { background: #f0f5f9; padding: 1px 5px; border-radius: 4px; font-size: 12p
 .embed { max-width: 640px; }
 .labelled { display: inline-flex; flex-direction: column; align-items: center; gap: 8px; }
 .caption { font-size: 13px; font-weight: 500; color: #5d7798; text-transform: capitalize; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.fields { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+.click-log { margin: 0; padding: 12px 24px; font-size: 13px; color: #5d7798; border-top: 1px solid var(--color-border-default); }
