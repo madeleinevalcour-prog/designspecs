@@ -36,5 +36,6 @@ export class HomePage {
     { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
     { path: 'list-variations', name: 'List Variations (Toggle, AdvancedSearch, ListHeader, ListDataTable…)', figma: 'List Variations 0LCuwDp7YHGGqK6WiseTRi' },
     { path: 'sophia-fab', name: 'Sophia FAB', figma: 'Component Migration 6084:152232' },
+    { path: 'rail', name: 'Rail (Bowling Alley) + Header + Amplify', figma: 'Component Migration: Bowling Alley · Header 157:2557 · Amplify 157:2984' },
   ];
 }

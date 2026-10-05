@@ -316,7 +316,8 @@
       {t:"Card", href:"/docs/components/card.html"},
       {t:"Icon", href:"/docs/components/icon.html"},
       {t:"List Variations", href:"/docs/components/list-variations.html"},
-      {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"}
+      {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"},
+      {t:"Rail", href:"/docs/components/rail.html"}
     ]},
     {label:"Amplify", pages:[
       {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}

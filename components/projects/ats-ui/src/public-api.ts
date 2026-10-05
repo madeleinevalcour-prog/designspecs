@@ -30,3 +30,16 @@ export * from './lib/list-variations/list-data-table-container/list-data-table-c
 export * from './lib/list-variations/list-header/list-header';
 export * from './lib/sophia-fab/sophia-fab-geometry';
 export * from './lib/sophia-fab/sophia-fab';
+export * from './lib/rail/rail-controller';
+export * from './lib/rail/rail-data';
+export * from './lib/rail/rail-shell';
+export * from './lib/rail/rail';
+export * from './lib/rail/main-tabs';
+export * from './lib/rail/record-tabs-divider';
+export * from './lib/rail/entity-tabs';
+export * from './lib/rail/search-input';
+export * from './lib/rail/list-item';
+export * from './lib/rail/tooltip';
+export * from './lib/rail/overlays';
+export * from './lib/rail/amplify';
+export * from './lib/rail/header';

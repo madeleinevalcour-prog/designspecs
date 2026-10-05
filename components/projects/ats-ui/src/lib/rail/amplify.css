@@ -1,0 +1,107 @@
+/* Amplify chat panel (Figma 157:2984). Ported from the prototype's rail.css.
+   Always in flow; opens by animating flex-basis 0 → 420px (literal values). */
+.ats-amplify {
+  flex: 0 0 0; min-width: 0; overflow: hidden; display: flex; flex-direction: column;
+  box-sizing: border-box; align-self: stretch;
+  background: var(--color-transparency-white-white-70);
+  border-left: 0 solid var(--color-border-default);
+  transition: flex-basis .18s ease;
+  font-family: var(--typography-font-family-base), 'Inter', sans-serif;
+}
+.ats-amplify.is-open {
+  flex-basis: 420px; border-left-width: 1px;
+  /* no token: -4px 8px 12px + 0 4px 8px at 8% charcoal */
+  box-shadow: -4px 8px 12px 0 var(--color-transparency-charcoal-charcoal-08), 0 4px 8px 0 var(--color-transparency-charcoal-charcoal-08);
+}
+
+.ats-amp__head {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; padding: 12px 16px;
+  background: var(--color-transparency-white-white-80);
+  border-bottom: 1px solid var(--color-border-default);
+}
+.ats-amp__title { display: flex; align-items: center; gap: 8px; min-width: 80px;
+  font-weight: 500; font-size: 16px; line-height: 24px; color: var(--color-text-headline); }
+.ats-amp__head-actions { display: flex; align-items: center; gap: 10px; }
+.ats-amp__icobtn { width: 32px; height: 32px; border: 0; padding: 0; background: transparent;
+  border-radius: var(--button-border-radius-dialogue, var(--border-radius-sm)); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; }
+.ats-amp__icobtn:hover { background: var(--color-background-subtle); }
+
+.ats-amp__thread { flex: 1 0 0; min-height: 0; overflow: auto;
+  padding: 16px 12px; display: flex; flex-direction: column; gap: 16px; }
+.ats-amp__user { align-self: stretch; margin-left: 32px;
+  background: var(--color-background-subtle); color: var(--color-text-body);
+  border-radius: var(--border-radius-sm); padding: 12px; font-size: 14px; line-height: 20px; }
+.ats-amp__ai { font-size: 14px; line-height: 20px; color: var(--color-text-body); padding: 0 12px; }
+.ats-amp__ai a { color: var(--color-text-amplify); font-weight: 600; text-decoration: none; }
+.ats-amp__ai a:hover { text-decoration: underline; }
+
+.ats-amp__results { display: flex; flex-direction: column; gap: 8px; padding: 0 12px; }
+.ats-amp__result { display: flex; align-items: center; gap: 8px; width: 100%; box-sizing: border-box; margin: 0;
+  padding: 8px 12px; border: 1px solid var(--color-border-default); font-family: inherit;
+  background: var(--color-background-default); border-radius: var(--border-radius-sm);
+  filter: drop-shadow(0 2px 4px var(--color-transparency-charcoal-charcoal-04)); /* source: 3% — nearest token 4% */
+  cursor: pointer; text-align: left; }
+.ats-amp__avatar { flex: 0 0 auto; width: 36px; height: 36px; border-radius: 50%;
+  background: #ccd1f6; color: #34409e; /* no token: Amplify contact avatar colors */
+  display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 400; }
+.ats-amp__result-text { display: flex; flex-direction: column; min-width: 0; flex: 1 0 0; }
+.ats-amp__result-name { font-size: 14px; line-height: 24px; font-weight: 500; color: var(--color-text-headline);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ats-amp__result-sub { font-size: 12px; line-height: 16px; color: var(--color-text-body);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ats-amp__badge { flex: 0 0 auto; font-size: 10px; line-height: 16px; font-weight: 500;
+  text-transform: uppercase; padding: 2px 8px; border-radius: var(--border-radius-round);
+  background: var(--color-background-subtle);
+  border: 1px solid var(--color-amplify-amplify-light-blue); /* primitive: no semantic token for #aae1f4 */
+  color: var(--color-text-amplify); }
+
+.ats-amp__msg-actions { display: flex; align-items: center; gap: 8px; padding: 0 12px; }
+.ats-amp__msg-actions button { border: 0; background: transparent; padding: 4px; border-radius: 24px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; }
+.ats-amp__msg-actions button:hover { background: var(--color-background-subtle); }
+
+.ats-amp__composer { flex: 0 0 auto; padding: 0 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+.ats-amp__context { display: flex; align-items: center; gap: 10px;
+  background: var(--color-background-default);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-sm);
+  padding: 8px 12px; filter: drop-shadow(0 2px 4px var(--color-transparency-charcoal-charcoal-04)); }
+.ats-amp__context-label { flex: 0 0 auto; font-size: 10px; line-height: 16px; font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-subtle); }
+.ats-amp__context-chips { flex: 1 0 0; min-width: 0; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.ats-amp__context-chip { display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 12px; border-radius: var(--border-radius-round);
+  background: #f3f5f7; /* no token: context chip fill */
+  font-size: 12px; line-height: 16px; color: var(--color-text-body); }
+.ats-amp__context-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--color-entity-candidate); }
+.ats-amp__chip-x { border: 0; background: transparent; padding: 0; cursor: pointer; display: flex; opacity: .6; }
+.ats-amp__context-add { flex: 0 0 auto; border: 0; background: transparent; padding: 4px;
+  border-radius: var(--border-radius-round); cursor: pointer; display: flex; }
+.ats-amp__context-add:hover { background: var(--color-background-subtle); }
+
+.ats-amp__inputbox { background: var(--color-background-default);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-sm);
+  padding: 12px; display: flex; flex-direction: column; gap: 12px;
+  filter: drop-shadow(0 2px 4px var(--color-transparency-charcoal-charcoal-04)); }
+.ats-amp__input { border: 0; outline: 0; background: transparent; width: 100%; padding: 0;
+  height: 44px; font-family: inherit; font-size: 14px; line-height: 20px; color: var(--color-text-body); }
+.ats-amp__input::placeholder { color: #8ca1b9; /* no token: composer placeholder */ }
+.ats-amp__inputbar { display: flex; align-items: center; justify-content: space-between; }
+.ats-amp__tools { display: flex; align-items: center; gap: 8px; }
+.ats-amp__tools button { border: 0; background: transparent; padding: 4px 8px;
+  border-radius: var(--border-radius-round); cursor: pointer; display: flex; align-items: center; }
+.ats-amp__tools button:hover { background: var(--color-background-subtle); }
+.ats-amp__send { width: 24px; height: 24px; border-radius: 24px; border: 0; padding: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  /* no token: Amplify radial gradient + send shadow */
+  background: radial-gradient(circle at 18% 12%,
+    #37fc97 0%, #6efab4 6%, #a5f7d0 10%, #85e5d3 22%, #64d3d6 35%,
+    #23afdc 47%, #009bdf 65%, #0979b1 81%, #125783 97%);
+  box-shadow: 0 8px 24px -16px rgba(0,0,0,0.4); }
+.ats-amplify button:focus-visible, .ats-amplify a:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
+
+.ats-icon.ats-amplify-glyph {
+  /* no token: Amplify glyph gradient (stops from the Figma asset amplify.svg) */
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}

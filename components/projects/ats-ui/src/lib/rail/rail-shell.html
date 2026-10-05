@@ -1,0 +1,38 @@
+<div class="ats-rail-shell__stage" #stage>
+  <ng-content select="ats-rail" />
+
+  <!-- main region (header + content) sits right of the rail and shifts with it -->
+  <div class="ats-rail-shell__main">
+    <ng-content select="ats-header" />
+    <div class="ats-rail-shell__body">
+      <div class="ats-rail-shell__canvas"><ng-content /></div>
+      <ng-content select="ats-amplify" />
+    </div>
+  </div>
+
+  <!-- overlay layer: positioning only, never intercepts clicks itself -->
+  <div class="ats-rail-shell__overlays">
+    @if (ctrl.overlay(); as o) {
+      <div #ovl class="ats-overlay" role="dialog" [attr.aria-label]="overlayLabel()"
+        [class.ats-overlay--find]="inlineFind()" [style.width.px]="o.width">
+        @switch (o.kind) {
+          @case ('menu') { <ats-menu-overlay (closed)="ctrl.dismissSearch()" (selected)="select(o.kind, $event)" /> }
+          @case ('add') { <ats-add-overlay (selected)="select(o.kind, $event)" /> }
+          @case ('find') {
+            @if (inlineFind()) {
+              <ats-fast-find-overlay variant="inline" [query]="ctrl.findQuery()" (selected)="select(o.kind, $event)" />
+            } @else {
+              <ats-fast-find-overlay variant="wide" (closed)="ctrl.dismissSearch()" (selected)="select(o.kind, $event)" />
+            }
+          }
+          @case ('tbfind') { <ats-fast-find-overlay variant="header" [query]="ctrl.findQuery()" (selected)="select(o.kind, $event)" /> }
+          @default { <ats-user-overlay (selected)="select(o.kind, $event)" /> }
+        }
+      </div>
+    }
+  </div>
+
+  @if (ctrl.tooltip(); as t) {
+    <ats-tooltip class="ats-rail-shell__tooltip" [text]="t.text" [style.left.px]="t.x" [style.top.px]="t.y" />
+  }
+</div>
