@@ -27,5 +27,6 @@ export class HomePage {
   protected readonly components = [
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
+    { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
   ];
 }

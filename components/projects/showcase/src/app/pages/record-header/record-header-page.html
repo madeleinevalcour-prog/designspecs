@@ -1,0 +1,71 @@
+@if (embed()) {
+  <div class="embed" [class.embed--menu-room]="!!embedWidth()" [style.width]="embedWidth()">
+    <header
+      ats-record-header
+      [title]="embedTitle()"
+      [entity]="embedEntity()"
+      [fields]="preset().fields"
+      [tabs]="preset().tabs"
+      [verified]="embedVerified()"
+      [social]="embedSocial()"
+      [activeTab]="embedTab()"
+    ></header>
+  </div>
+} @else {
+  <h1>Record Header</h1>
+  <p class="lede">
+    Angular port of the record Overview header (Figma 222:16011, variants 3040:88434). Tabs, the More menu and the
+    toolbar buttons are live. Last event: <code>{{ lastEvent() }}</code>
+  </p>
+
+  <section>
+    <h2>Company header</h2>
+    <div class="frame">
+      <header
+        ats-record-header
+        [title]="presets.company.title"
+        entity="company"
+        [fields]="presets.company.fields"
+        [tabs]="presets.company.tabs"
+        verified
+        [social]="presets.company.social"
+        (tabSelect)="onTab($event, presets.company.tabs)"
+        (action)="onAction($event)"
+      ></header>
+    </div>
+  </section>
+
+  <section>
+    <h2>Candidate header</h2>
+    <div class="frame">
+      <header
+        ats-record-header
+        [title]="presets.candidate.title"
+        entity="candidate"
+        [fields]="presets.candidate.fields"
+        [tabs]="presets.candidate.tabs"
+        [social]="presets.candidate.social"
+        (tabSelect)="onTab($event, presets.candidate.tabs)"
+        (action)="onAction($event)"
+      ></header>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tab overflow (760px frame)</h2>
+    <p class="lede">Tabs that don't fit before More / Layout move into the More menu. The active tab always stays visible.</p>
+    <div class="frame" style="width: 760px">
+      <header
+        ats-record-header
+        [title]="presets.company.title"
+        entity="company"
+        [fields]="presets.company.fields"
+        [tabs]="presets.company.tabs"
+        verified
+        [social]="presets.company.social"
+        (tabSelect)="onTab($event, presets.company.tabs)"
+        (action)="onAction($event)"
+      ></header>
+    </div>
+  </section>
+}

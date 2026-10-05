@@ -1,0 +1,102 @@
+<!-- toolbar -->
+<div class="ats-rh__top">
+  <div class="ats-rh__left">
+    <div class="ats-rh__name-group">
+      <span class="ats-rh__avatar"><ats-icon [name]="avatarIcon()" [size]="24" color="var(--color-icon-icon-knockout)" /></span>
+      <span class="ats-rh__name">{{ title() }}</span>
+    </div>
+    @if (verified() || social().length) {
+      <div class="ats-rh__social">
+        @if (verified()) {
+          <span class="ats-rh-verified"><ats-icon name="check" [size]="12" color="var(--color-text-utility-positive)" />Verified</span>
+        }
+        @for (s of social(); track s) {
+          <button ats-button theme="icon" size="small" [icon]="s" [attr.aria-label]="s" (click)="emitSocial(s)"></button>
+        }
+      </div>
+    }
+  </div>
+  <div class="ats-rh__icons">
+    <button ats-button theme="icon" icon="link" aria-label="Copy link" (click)="action.emit('copy-link')"></button>
+    <button ats-button theme="icon" icon="pin-outline" aria-label="Pin" (click)="action.emit('pin')"></button>
+    <button ats-button theme="icon" icon="refresh-outline" aria-label="Refresh" (click)="action.emit('refresh')"></button>
+  </div>
+  <div class="ats-rh__buttons">
+    <button ats-button theme="secondary" iconRight="chevron-down" (click)="action.emit('actions')">Actions</button>
+    <button ats-button theme="primary" color="amplify" iconLeft="amplify" (click)="action.emit('amplify')">Amplify</button>
+  </div>
+</div>
+
+<!-- profile-header-fields -->
+<div class="ats-rh__fields">
+  @for (f of fields(); track $index) {
+    <div class="ats-rh-field">
+      <span class="ats-rh-field__label">{{ f.label }}</span>
+      @switch (f.kind) {
+        @case ('link') {
+          <span class="ats-rh-field__value ats-rh-field__value--link">
+            @if (f.dot) { <span class="ats-rh-field__dot" [style.background]="f.dot"></span> }
+            <a [attr.href]="f.href ?? null">{{ f.value }}</a>
+          </span>
+        }
+        @case ('select') {
+          <span class="ats-rh-field__value ats-rh-field__value--select">{{ f.value }}<ats-icon name="chevron-down" [size]="10" color="var(--color-icon-subtle)" /></span>
+        }
+        @case ('chip') {
+          <span class="ats-rh-field__value">
+            <span class="ats-rh-chip">
+              @if (f.icon) { <ats-icon [name]="f.icon" [size]="10" color="var(--color-icon-subtle)" /> }
+              {{ f.value }}<ats-icon name="arrow-right" [size]="10" color="var(--color-icon-subtle)" />
+            </span>
+          </span>
+        }
+        @default {
+          <span class="ats-rh-field__value">{{ f.value }}</span>
+        }
+      }
+    </div>
+  }
+</div>
+
+<!-- novo-toolbar-row -->
+<div class="ats-rh__tabrow">
+  <nav #nav class="ats-rh__tabs" aria-label="Record sections">
+    @for (t of tabs(); track $index; let i = $index) {
+      <button
+        #tab
+        type="button"
+        class="ats-rh-tab"
+        [class.is-active]="i === current()"
+        [attr.aria-current]="i === current() ? 'page' : null"
+        [hidden]="overflow().includes(i)"
+        (click)="selectTab(i)"
+      >
+        @if (t.icon) { <ats-icon class="ats-rh-tab__icon" [name]="t.icon" [size]="12" color="var(--ats-rh-accent)" /> }
+        {{ t.label }}@if (t.count != null) {<span class="ats-rh-tab__count">&nbsp;({{ t.count }})</span>}
+      </button>
+    }
+  </nav>
+  <div class="ats-rh__tabrow-right">
+    <div #more class="ats-rh-more">
+      <button
+        #moreBtn
+        ats-button
+        theme="dialogue"
+        iconRight="chevron-down"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="menuOpen()"
+        (click)="toggleMenu($event)"
+      >More</button>
+      @if (menuOpen() && overflow().length) {
+        <div class="ats-rh-more__menu" role="menu" aria-label="More sections" (keydown)="onMenuKeydown($event)">
+          @for (i of overflow(); track i) {
+            <button #menuItem type="button" class="ats-rh-more__item" role="menuitem" (click)="pickFromMenu(i)">
+              {{ tabs()[i].label }}@if (tabs()[i].count != null) {&nbsp;({{ tabs()[i].count }})}
+            </button>
+          }
+        </div>
+      }
+    </div>
+    <button ats-button theme="dialogue" iconRight="layout" (click)="action.emit('layout')">Layout</button>
+  </div>
+</div>
