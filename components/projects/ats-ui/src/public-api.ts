@@ -14,3 +14,4 @@ export * from './lib/novo-list/presets';
 export * from './lib/novo-data-table/novo-data-table';
 export * from './lib/novo-data-table/novo-data-table-header-cell';
 export * from './lib/novo-data-table/novo-data-table-cell';
+export * from './lib/record-header/record-header';

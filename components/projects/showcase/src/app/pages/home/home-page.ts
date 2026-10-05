@@ -32,5 +32,6 @@ export class HomePage {
     { path: 'workflow-stepper', name: 'Workflow Stepper', figma: 'Component Migration 589:6990' },
     { path: 'novo-list', name: 'Novo List', figma: 'List / novo-list 692:20779' },
     { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
+    { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
   ];
 }

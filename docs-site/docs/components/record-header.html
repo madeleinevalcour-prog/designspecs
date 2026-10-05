@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Record Header — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Record Header" meta="Status: in review · Figma: Component Migration 222:16011 (variants 3040:88434) · Code: ats-ui RecordHeader · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Record Header sits at the top of a record’s Overview. It names the record, shows its key fields, and holds the record-level actions and section tabs.</p>
+    <doc-example src="record-header?variant=company" caption="Company header" height="300"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy" desc="Three rows">
+    <table class="tbl">
+      <thead><tr><th>Row</th><th>What’s in it</th></tr></thead>
+      <tbody>
+        <tr><td>1. Toolbar</td><td>Entity avatar (48px, entity color), title, optional Verified chip and social-link icon buttons, then Copy link / Pin / Refresh icon buttons, a secondary <b>Actions</b> button and a primary amplify <b>Amplify</b> button</td></tr>
+        <tr><td>2. Field summary</td><td>Label + value pairs that wrap onto more lines when they don’t fit</td></tr>
+        <tr><td>3. Tab row</td><td>Section tabs on the left; <b>More</b> and <b>Layout</b> dialogue buttons on the right</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants">
+    <p>Both variants are the same component with different data. The entity sets the avatar glyph, the avatar color and the active-tab underline.</p>
+    <doc-example src="record-header?variant=company" caption="Company — Verified chip, social links, an icon tab (Prospect) and a tab count (References)" height="300"></doc-example>
+    <doc-example src="record-header?variant=candidate" caption="Candidate — “ID | Name” title, select, link and chip field values" height="300"></doc-example>
+  </doc-section>
+
+  <doc-section id="fields" label="Field values">
+    <p>Each field has an uppercase label and one of four value kinds.</p>
+    <table class="tbl">
+      <thead><tr><th>Kind</th><th>Looks like</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td>text</td><td>Plain value, 14 / 20px, 500</td><td>Category</td></tr>
+        <tr><td>select</td><td>Value with a 1px underline and a 10px chevron</td><td>Status</td></tr>
+        <tr><td>link</td><td>Link-colored value; optional 10px leading dot</td><td>Primary Email, Owner</td></tr>
+        <tr><td>chip</td><td>24px chip with an optional leading icon and a trailing arrow</td><td>Risk Level</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior">
+    <ul>
+      <li>Click a tab to make it active. The active tab gets weight 500 and a 2px underline in the entity color.</li>
+      <li>Tabs that would run into More / Layout move into the More menu, last tab first. The active tab never moves. The split updates whenever the header resizes.</li>
+      <li>More opens a menu of the moved tabs. Pick one to make it active. Click outside or press Escape to close.</li>
+    </ul>
+    <doc-example src="record-header?variant=company&amp;width=760" caption="760px wide: the last tabs move into More (open it to see them)" height="480"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It’s a native <span class="chip">&lt;header&gt;</span>; the tabs sit in a <span class="chip">&lt;nav aria-label="Record sections"&gt;</span>, and the active tab has <span class="chip">aria-current="page"</span>.</li>
+      <li>Icon-only buttons have an <span class="chip">aria-label</span>: Copy link, Pin, Refresh, and the social-link icon name.</li>
+      <li>More has <span class="chip">aria-haspopup="menu"</span> and <span class="chip">aria-expanded</span>. Opening it moves focus to the first item; arrow keys move between items; Escape closes it and returns focus to More.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Background / bottom border</td><td><span class="chip">header/color/background/record</span>, <span class="chip">header/color/border/default</span></td></tr>
+        <tr><td>Padding / row gap</td><td><span class="chip">header/spacing/padding-top</span>, <span class="chip">…/padding-horizontal</span> (32px), <span class="chip">header/spacing/gap</span> (16px)</td></tr>
+        <tr><td>Title</td><td><span class="chip">typography/title/default/*</span>, <span class="chip">color/text/headline</span></td></tr>
+        <tr><td>Avatar, active underline</td><td><span class="chip">color/entity/&lt;entity&gt;</span></td></tr>
+        <tr><td>Field label / value</td><td><span class="chip">value/color/content/label</span>, <span class="chip">value/color/content/value</span></td></tr>
+        <tr><td>Tabs</td><td><span class="chip">tabs/color/tab-items/*</span>, <span class="chip">tabs/spacing/tab-items/*</span>, <span class="chip">typography/tabs/*</span></td></tr>
+        <tr><td>More menu</td><td><span class="chip">color/background/default</span>, <span class="chip">color/border/default</span>, elevation level 3</td></tr>
+        <tr><td>Buttons</td><td>ats-ui Button: secondary, primary amplify, icon, dialogue</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>The component lives in the <span class="chip">ats-ui</span> Angular library, applied to a native <span class="chip">&lt;header&gt;</span>.</p>
+    <doc-code caption="Angular">
+      &lt;header ats-record-header
+              title="Nexus Dynamics" entity="company"
+              [fields]="fields" [tabs]="tabs"
+              verified [social]="['linkedin', 'location']"
+              [(activeTab)]="tab"
+              (action)="onAction($event)"&gt;&lt;/header&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">title</span></td><td>Record title</td><td>—</td></tr>
+        <tr><td><span class="chip">entity</span></td><td>candidate · company · job · contact · note · task</td><td>candidate</td></tr>
+        <tr><td><span class="chip">fields</span></td><td><span class="chip">{ label, value, kind?: text|select|link|chip, href?, icon?, dot? }[]</span></td><td>[]</td></tr>
+        <tr><td><span class="chip">tabs</span></td><td><span class="chip">{ label, count?, active?, icon? }[]</span></td><td>[]</td></tr>
+        <tr><td><span class="chip">verified</span></td><td>Shows the Verified chip</td><td>false</td></tr>
+        <tr><td><span class="chip">social</span></td><td>Icon names, one icon button each</td><td>[]</td></tr>
+        <tr><td><span class="chip">activeTab</span></td><td>Active tab index (two-way)</td><td>Tab marked <span class="chip">active</span>, else 0</td></tr>
+        <tr><td><span class="chip">(tabSelect)</span></td><td>Emits the picked tab index</td><td>—</td></tr>
+        <tr><td><span class="chip">(action)</span></td><td>copy-link · pin · refresh · actions · amplify · layout · social:&lt;name&gt;</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Header shadow.">The sticky-header elevation (and its 8px backdrop blur) has no elevation token yet, so the values are hardcoded.</doc-callout>
+    <doc-callout type="note" heading="Verified chip fill.">The green-to-blue tint is a raw 12% gradient of the amplify green and blue. There’s no token for it.</doc-callout>
+    <doc-callout type="note" heading="Entity colors.">Entity colors exist only as primitives (<span class="chip">color/entity/*</span>); there’s no semantic or header token.</doc-callout>
+    <doc-callout type="note" heading="Bottom padding and tab padding.">The header has 0 bottom padding and tabs use 4px horizontal padding, matching the prototype. The tokens say 16px (<span class="chip">header/spacing/padding-bottom</span>) and 8px (<span class="chip">tabs/spacing/tab-items/padding-horizontal</span>).</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>
