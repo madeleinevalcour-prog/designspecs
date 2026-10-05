@@ -4,9 +4,9 @@ How Amplify chat looks and behaves: the structure of a response, the components 
 
 ## Overview
 
-- What this covers: the anatomy of an Amplify response, response components (prose, lists, data tables, cards, draft and literal value blocks), selection and bulk actions, chat surfaces and behavior, text styles, records and sources, status and clarifying questions, spacing and layout, and user messages.
+- What this covers: chat surfaces and behavior, the anatomy of an Amplify response, response components (prose, lists, data tables, cards, draft and literal value blocks), selection and bulk actions, text styles, records and sources, status and clarifying questions, spacing and layout, and user messages.
 - Who it's for: designers and PMs designing Amplify chat into their area, engineers building the chat renderer, and the prompt owners who control output format. A condensed developer handoff covers the build rules only.
-- How to use it: start with Response structure and Response components to decide what a reply contains. Use the later sections for exact styles, tokens and behavior.
+- How to use it: start with Surfaces and behavior for where chat appears, then Response structure and Response components to decide what a reply contains. Use the later sections for exact styles, tokens and behavior.
 - Not covered: composer redesign, Prompt Library, Tools menu, and Digital Worker output outside chat.
 - Figma: the `amplify-chat/*` components in the "new amplify chat components" section of the Component Migration file.
 - Text style, color, spacing, radius and elevation names come from the Modern UI Design System reference (`[role]/[size]` naming, for example `body/default`).
@@ -17,6 +17,37 @@ How Amplify chat looks and behaves: the structure of a response, the components 
 - Recruiters use chat mid-workflow and switch context constantly (Amplify Design Reference, Users). A response has to be scannable in seconds.
 - Core chat jobs: find candidates, prioritize job orders, build pipeline, match candidates to jobs, look up companies and contacts. Almost every answer is a set of records plus a recommendation.
 - A response should make three things obvious: the answer, the records it came from, and what to do next.
+
+## Surfaces and behavior
+
+Amplify chat can appear as a full page, docked beside the current page, or as a pop over, depending on the workflow and where the user starts from. All three are one assistant: they share the same conversation and context, so the user can move between them without starting over.
+
+### Surfaces
+
+| Surface | What it is |
+| --- | --- |
+| Docked chat | The persistent panel that stays with the user as they move around Bullhorn. It doesn't need to be reopened on each new record or page |
+| Full-page chat | The expanded, standalone chat. A valid entry point to a workflow, not just an overflow view of the dock |
+| Pop over | An alternate presentation of docked chat, switched with a button in the top left of the panel. A resizable, movable window over the page, with all the same functionality. No scrim: the user can keep working with the page underneath |
+
+- Docked is the default presentation.
+
+### Principles
+
+1. Context persists across navigation. The conversation and its working context (records in play, an active search, applied filters, stated intent) carry across page changes. Example: a search built on a job record carries to the candidate list intact.
+2. Chat can drive cross-page workflows, in both directions. Docked chat can take the user to the next page in their task; full-page chat can be the starting point that brings them into a record or list. Directional: the detailed interaction patterns are still being defined.
+3. Chat follows the user everywhere. On pages without area-specific context, chat falls back to global chat behavior instead of disappearing. Directional: confirm the fallback per page.
+4. History is always reachable. Users can return to a past conversation from the dock and carry it into a new context.
+5. The surfaces stay aligned. Docked and full-page chat feel like one assistant, consistent with global chat UX (H4, consistency).
+
+### Applying this to other product areas
+
+1. Identify the workflows chat should support, and which cross more than one page.
+2. For each workflow, list the context that must survive navigation: records, searches, filters, selections, intent.
+3. Define entry points: docked, full page, or both, and where each takes the user.
+4. Map page-to-page handoffs: what state passes at each transition and what the destination does with it.
+5. Mark which pages support context-aware chat and which fall back to global chat.
+6. Confirm the experience is continuous across docked and full-page chat.
 
 ## Response structure
 
@@ -198,38 +229,6 @@ Data tables and cards share the same selection pattern.
 - Long values wrap within the block. Wrapping is visual only: copy takes the original string with no added line breaks.
 - The separate tonal block shows where the exact text starts and ends (Gestalt, common region; H6).
 - Use inline code for short values inside a sentence (`JOB-10482`). It has no copy action.
-
-## Surfaces and behavior
-
-How Amplify chat appears across Bullhorn and carries the user through work. Merged from the former Amplify Chat Functionality Guidelines. The principles combine direction from the Amplify roadmap (Dockable Chat Phase II, APF-266, and Phase III, APF-278) with product goals for docked and full-page chat. Items that are directional rather than committed scope are marked as such.
-
-### Surfaces
-
-| Surface | What it is |
-| --- | --- |
-| Docked chat | The persistent panel that stays with the user as they move around Bullhorn. It doesn't need to be reopened on each new record or page |
-| Full-page chat | The expanded, standalone chat. A valid entry point to a workflow, not just an overflow view of the dock |
-| Pop over | An alternate presentation of docked chat, switched with a button in the top left of the panel. A resizable, movable window over the page, with all the same functionality. No scrim: the user can keep working with the page underneath |
-
-- The surfaces share one conversation and context. A conversation started in one is available in the other.
-- Docked is the default presentation.
-
-### Principles
-
-1. Context persists across navigation. The conversation and its working context (records in play, an active search, applied filters, stated intent) carry across page changes. Example: a search built on a job record carries to the candidate list intact.
-2. Chat can drive cross-page workflows, in both directions. Docked chat can take the user to the next page in their task; full-page chat can be the starting point that brings them into a record or list. Directional: the detailed interaction patterns are still being defined.
-3. Chat follows the user everywhere. On pages without area-specific context, chat falls back to global chat behavior instead of disappearing. Directional: confirm the fallback per page.
-4. History is always reachable. Users can return to a past conversation from the dock and carry it into a new context.
-5. The surfaces stay aligned. Docked and full-page chat feel like one assistant, consistent with global chat UX (H4, consistency).
-
-### Applying this to your area
-
-1. Identify the workflows chat should support, and which cross more than one page.
-2. For each workflow, list the context that must survive navigation: records, searches, filters, selections, intent.
-3. Define entry points: docked, full page, or both, and where each takes the user.
-4. Map page-to-page handoffs: what state passes at each transition and what the destination does with it.
-5. Mark which pages support context-aware chat and which fall back to global chat.
-6. Confirm the experience is continuous across docked and full-page chat.
 
 ## Text styles
 
