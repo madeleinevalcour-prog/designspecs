@@ -1,0 +1,33 @@
+:host { display: block; padding: 32px 40px 80px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+p.lede { color: #5d7798; margin: 0 0 24px; font-size: 14px; max-width: 80ch; }
+h2 { font-size: 15px; margin: 32px 0 8px; color: #314158; }
+.note { font-size: 13px; color: #5d7798; margin: 8px 0 0; }
+.row { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; margin-top: 12px; }
+.cell { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.cell.narrow, .embed-pad.narrow { width: 360px; }
+.caption { font-size: 13px; font-weight: 500; color: #5d7798; }
+.frame { position: relative; border: 1px solid #e3e8ef; border-radius: 12px; overflow: hidden; background: #fff; }
+.frame--rail { width: 300px; }
+.frame--amp { width: 420px; display: flex; }
+.card { background: #fff; border: 1px solid #f0f5f9; border-radius: 12px; box-shadow: 0 4px 8px rgba(40,40,40,.04); overflow: hidden; }
+.card.flush, .embed-pad.flush { padding: 0; }
+.ats-overlay.static { position: relative; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 12px; }
+.ctl-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #8ca1b9; margin: 0 4px 0 12px; }
+.ctl-label:first-child { margin-left: 0; }
+.ctl { font: inherit; font-size: 12px; padding: 5px 10px; border-radius: 999px; border: 1px solid #dee0e3; background: #fff; color: #314158; cursor: pointer; }
+.ctl.on { background: #314158; border-color: #314158; color: #fff; }
+
+/* placeholder page content */
+.ph-page { padding: 24px 32px; }
+.ph-title { font-size: 20px; font-weight: 600; color: #2f2f33; }
+.ph-sub { font-size: 13px; color: #677079; margin: 4px 0 20px; }
+.ph-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ph-card { height: 120px; border-radius: 8px; background: #f7f8f8; border: 1px solid #ebedef; }
+.ph-card--tall { height: 220px; }
+
+/* ---- embed mode ---- */
+:host:has(.embed-pad), :host:has(> .frame) { padding: 24px; }
+.embed-pad.flush { margin: -24px; }
+.embed-pad .card.list { width: 600px; }

@@ -296,6 +296,7 @@ export const ICON_NAMES = [
   'submission-circle',
   'submission-list',
   'tab',
+  'task',
   'tearsheet',
   'thumbs-down-line',
   'thumbs-up-line',

@@ -1,0 +1,161 @@
+<ng-template #page>
+  <div class="ph-page">
+    <div class="ph-title">213 | Tyler Brooks</div>
+    <div class="ph-sub">Placeholder page content</div>
+    <div class="ph-grid"><div class="ph-card"></div><div class="ph-card"></div><div class="ph-card ph-card--tall"></div><div class="ph-card ph-card--tall"></div></div>
+  </div>
+</ng-template>
+
+@if (embed()) {
+  @switch (view()) {
+    @case ('layout') {
+      <div class="frame" [style.height.px]="embedHeight()">
+        <ats-rail-shell [nav]="embedNav()" [hover]="embedHover()" [fastFind]="embedFastFind()" [topbar]="topbar()" [amplifyOpen]="amplify()" [lockNav]="lock()">
+          <ats-rail [userOnlyCollapsed]="userOnly()" />
+          <ats-header />
+          <ng-container *ngTemplateOutlet="page" />
+          <ats-amplify />
+        </ats-rail-shell>
+      </div>
+    }
+    @case ('rail') {
+      <div class="frame frame--rail" [style.height.px]="embedHeight()">
+        <ats-rail-shell [nav]="embedNav()" [hover]="embedHover()" [fastFind]="embedFastFind()" [topbar]="topbar()" [lockNav]="lock()">
+          <ats-rail [userOnlyCollapsed]="userOnly()" />
+        </ats-rail-shell>
+      </div>
+    }
+    @case ('search-input') {
+      <div class="embed-pad narrow"><ats-search-input [active]="state() === 'active'" [placeholder]="embedPlaceholder()" /></div>
+    }
+    @case ('list-item') {
+      <div class="embed-pad"><div class="card list">
+        @for (r of embedResults(); track r.title) { <button ats-list-item [entity]="r.entity" [label]="r.title" [fields]="r.fields"></button> }
+      </div></div>
+    }
+    @case ('tooltip') { <div class="embed-pad"><ats-tooltip [text]="embedText()" /></div> }
+    @case ('overlay') {
+      <div class="embed-pad">
+        @switch (embedOverlay()) {
+          @case ('add') { <div class="ats-overlay static" style="width: 232px"><ats-add-overlay /></div> }
+          @case ('user') { <div class="ats-overlay static" style="width: 200px"><ats-user-overlay /></div> }
+          @case ('find') { <div class="ats-overlay static" style="width: 600px"><ats-fast-find-overlay variant="wide" [autofocus]="false" /></div> }
+          @case ('find-inline') { <div class="ats-overlay ats-overlay--find static" style="width: 230px"><ats-fast-find-overlay variant="inline" /></div> }
+          @default { <div class="ats-overlay static" style="width: 320px"><ats-menu-overlay [autofocus]="false" /></div> }
+        }
+      </div>
+    }
+    @case ('amplify') {
+      <div class="frame frame--amp" [style.height.px]="embedHeight()"><ats-amplify [open]="true" /></div>
+    }
+    @case ('header') { <div class="embed-pad flush"><ats-header /></div> }
+  }
+} @else {
+  <h1>Rail</h1>
+  <p class="lede">
+    Angular port of the Figma "Bowling Alley" navigation rail, with the Header (157:2557) and the Amplify panel (157:2984).
+    Everything here is live: hover the rail (600ms intent), press ⌘/Ctrl+B, open the overlays, pin and drag the record tabs.
+  </p>
+
+  <section>
+    <h2>Full layout</h2>
+    <div class="controls">
+      <span class="ctl-label">Hover</span>
+      @for (h of hoverOptions; track h.id) {
+        <button type="button" class="ctl" [class.on]="demoHover() === h.id" (click)="demoHover.set(h.id)">{{ h.id }} · {{ h.name }}</button>
+      }
+      <span class="ctl-label">Fast Find</span>
+      <button type="button" class="ctl" [class.on]="demoFastFind() === '1'" (click)="demoFastFind.set('1')">1 · inline</button>
+      <button type="button" class="ctl" [class.on]="demoFastFind() === '2'" (click)="demoFastFind.set('2')">2 · overlay</button>
+      <span class="ctl-label">Layout</span>
+      <button type="button" class="ctl" [class.on]="!demoTopbar()" (click)="demoTopbar.set(false)">Rail only</button>
+      <button type="button" class="ctl" [class.on]="demoTopbar()" (click)="demoTopbar.set(true)">Top Bar</button>
+    </div>
+    <div class="frame" style="height: 680px">
+      <ats-rail-shell [hover]="demoHover()" [fastFind]="demoFastFind()" [topbar]="demoTopbar()" (overlaySelect)="lastPick.set($event.overlay + ' → ' + $event.value)">
+        <ats-rail />
+        <ats-header />
+        <ng-container *ngTemplateOutlet="page" />
+        <ats-amplify />
+      </ats-rail-shell>
+    </div>
+    @if (lastPick()) { <p class="note">Last pick: {{ lastPick() }}</p> }
+  </section>
+
+  <section>
+    <h2>Nav states</h2>
+    <p class="lede">Collapsed, hover (hover option 1) and open, frozen with <code>lockNav</code>.</p>
+    <div class="row">
+      @for (n of navStates; track n) {
+        <div class="cell">
+          <div class="frame frame--rail" style="height: 560px"><ats-rail-shell [nav]="n" lockNav><ats-rail /></ats-rail-shell></div>
+          <span class="caption">{{ n }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Hover options</h2>
+    <div class="row">
+      @for (h of hoverOptions; track h.id) {
+        <div class="cell">
+          <div class="frame frame--rail" style="height: 560px"><ats-rail-shell nav="hover" [hover]="h.id" lockNav><ats-rail /></ats-rail-shell></div>
+          <span class="caption">{{ h.id }} · {{ h.name }}</span>
+        </div>
+      }
+      <div class="cell">
+        <div class="frame frame--rail" style="height: 560px"><ats-rail-shell nav="collapsed" hover="3" lockNav><ats-rail /></ats-rail-shell></div>
+        <span class="caption">3 · collapsed</span>
+      </div>
+      <div class="cell">
+        <div class="frame frame--rail" style="height: 560px"><ats-rail-shell nav="collapsed" lockNav><ats-rail userOnlyCollapsed /></ats-rail-shell></div>
+        <span class="caption">userOnlyCollapsed</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Overlays</h2>
+    <p class="lede">Menu, Add, user menu and both Fast Find panels, shown outside the rail. In the rail they open beside their tab.</p>
+    <div class="row">
+      <div class="cell"><div class="ats-overlay static" style="width: 320px"><ats-menu-overlay [autofocus]="false" /></div><span class="caption">Menu</span></div>
+      <div class="cell"><div class="ats-overlay static" style="width: 232px"><ats-add-overlay /></div><span class="caption">Add</span></div>
+      <div class="cell"><div class="ats-overlay static" style="width: 200px"><ats-user-overlay /></div><span class="caption">User</span></div>
+      <div class="cell"><div class="ats-overlay ats-overlay--find static" style="width: 230px"><ats-fast-find-overlay variant="inline" /></div><span class="caption">Fast Find 1 · inline</span></div>
+    </div>
+    <div class="row">
+      <div class="cell"><div class="ats-overlay static" style="width: 600px"><ats-fast-find-overlay variant="wide" [autofocus]="false" /></div><span class="caption">Fast Find 2 · overlay</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Search input</h2>
+    <div class="row">
+      <div class="cell narrow"><ats-search-input /><span class="caption">default (hover / focus live)</span></div>
+      <div class="cell narrow"><ats-search-input active placeholder="Search" /><span class="caption">active</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>List item</h2>
+    <div class="card list" style="width: 600px">
+      @for (r of results; track r.title) { <button ats-list-item [entity]="r.entity" [label]="r.title" [fields]="r.fields"></button> }
+    </div>
+  </section>
+
+  <section>
+    <h2>Tooltip</h2>
+    <div class="row"><ats-tooltip text="Pin" /><ats-tooltip text="Remove pin" /></div>
+  </section>
+
+  <section>
+    <h2>Header</h2>
+    <div class="card flush"><ats-header /></div>
+  </section>
+
+  <section>
+    <h2>Amplify panel</h2>
+    <div class="frame frame--amp" style="height: 680px"><ats-amplify [open]="true" /></div>
+  </section>
+}

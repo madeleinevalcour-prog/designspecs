@@ -1,0 +1,61 @@
+<div class="ats-amp__head">
+  <span class="ats-amp__title"><ats-icon class="ats-amplify-glyph" name="amplify" [size]="24" /><span>Amplify</span></span>
+  <span class="ats-amp__head-actions">
+    <button class="ats-amp__icobtn" type="button" aria-label="Expand" (click)="expanded.emit()"><ats-icon name="external-open" [size]="12" color="var(--color-icon-subtle)" /></button>
+    <button class="ats-amp__icobtn" type="button" aria-label="Close" (click)="close()"><ats-icon name="close" [size]="12" color="var(--color-icon-subtle)" /></button>
+  </span>
+</div>
+
+<div class="ats-amp__thread">
+  <div class="ats-amp__user">Can you find me some contacts that might be interested in this candidate?</div>
+  <div class="ats-amp__ai">
+    I've found 3 contacts that would likely be interested in Tyler Brooks and are hiring for roles that match his profile — to refine my search or view more info on these contacts,
+    <a href="#" (click)="$event.preventDefault()">open the full list</a>. Alternatively, you can tell me to add these contacts to a Tearsheet or Outreach campaign.
+  </div>
+  <div class="ats-amp__results">
+    @for (r of results; track $index) {
+      <button class="ats-amp__result" type="button">
+        <span class="ats-amp__avatar">{{ r.initials }}</span>
+        <span class="ats-amp__result-text">
+          <span class="ats-amp__result-name">{{ r.name }}</span>
+          <span class="ats-amp__result-sub">{{ r.sub }}</span>
+        </span>
+        <span class="ats-amp__badge">{{ r.badge }}</span>
+      </button>
+    }
+  </div>
+  <div class="ats-amp__msg-actions">
+    <button type="button" aria-label="Copy"><ats-icon name="copy" [size]="12" color="var(--color-icon-subtle)" /></button>
+    <button type="button" aria-label="Good"><ats-icon name="thumbs-up-line" [size]="12" color="var(--color-icon-subtle)" /></button>
+    <button type="button" aria-label="Bad"><ats-icon name="thumbs-down-line" [size]="12" color="var(--color-icon-subtle)" /></button>
+    <button type="button" aria-label="Save"><ats-icon name="bookmark-outline" [size]="12" color="var(--color-icon-subtle)" /></button>
+  </div>
+</div>
+
+<div class="ats-amp__composer">
+  <div class="ats-amp__context">
+    <span class="ats-amp__context-label">Context:</span>
+    <span class="ats-amp__context-chips">
+      @for (c of context(); track c) {
+        <span class="ats-amp__context-chip">
+          <span class="ats-amp__context-dot"></span><span>{{ c }}</span>
+          <button type="button" class="ats-amp__chip-x" [attr.aria-label]="'Remove ' + c" (click)="context.set([])">
+            <ats-icon name="close" [size]="10" color="var(--color-icon-subtle)" />
+          </button>
+        </span>
+      }
+    </span>
+    <button class="ats-amp__context-add" type="button" aria-label="Add context"><ats-icon name="add-thin" [size]="10" color="var(--color-icon-subtle)" /></button>
+  </div>
+  <div class="ats-amp__inputbox">
+    <input class="ats-amp__input" type="text" placeholder="Ask Amplify Anything..." aria-label="Ask Amplify" [value]="draft()" (input)="draft.set($any($event.target).value)" />
+    <div class="ats-amp__inputbar">
+      <span class="ats-amp__tools">
+        <button type="button" aria-label="Attach"><ats-icon name="attach" [size]="12" color="var(--color-icon-subtle)" /></button>
+        <button type="button" aria-label="Tools"><ats-icon name="tools" [size]="12" color="var(--color-icon-subtle)" /></button>
+        <button type="button" aria-label="Prompts"><ats-icon name="book" [size]="12" color="var(--color-icon-subtle)" /></button>
+      </span>
+      <button class="ats-amp__send" type="button" aria-label="Send"><ats-icon name="arrow-up" [size]="12" color="var(--color-icon-icon-knockout)" /></button>
+    </div>
+  </div>
+</div>

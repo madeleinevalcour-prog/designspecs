@@ -27,5 +27,6 @@ export class HomePage {
   protected readonly components = [
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
+    { path: 'rail', name: 'Rail (Bowling Alley) + Header + Amplify', figma: 'Component Migration: Bowling Alley · Header 157:2557 · Amplify 157:2984' },
   ];
 }

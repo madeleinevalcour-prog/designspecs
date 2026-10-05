@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Check Outline" clip-path="url(#clip0_0_123)">
+<path id="Union" d="M7.98535 0V1.5H1.5V10.5H10.5L10.502 5.3457H12.002V10.6689C12.0018 11.4001 11.4021 12 10.6709 12H1.33105C0.599893 11.9999 0 11.3997 0 10.6709V1.33105C0.000106466 0.597615 0.599958 0.00010639 1.33105 0H7.98535ZM11.8965 1.5957L5.24512 8.25L2.25 5.25488L3.18066 4.32422L5.24512 6.38672L10.9668 0.666016L11.8965 1.5957Z" fill="var(--fill-0, white)"/>
+</g>
+<defs>
+<clipPath id="clip0_0_123">
+<rect width="12" height="12" fill="white"/>
+</clipPath>
+</defs>
+</svg>
