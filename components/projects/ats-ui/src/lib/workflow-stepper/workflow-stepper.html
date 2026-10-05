@@ -1,0 +1,27 @@
+<button class="ats-wf__more ats-wf__more--left" type="button" aria-label="Scroll workflow left" (click)="scroll(-1)">
+  <ats-icon name="previous" [size]="16" color="var(--color-icon-subtle)" />
+</button>
+<ol #row class="ats-wf__items" [attr.aria-label]="ariaLabel()" (scroll)="update()">
+  @for (step of items(); track $index; let last = $last) {
+    <li
+      class="ats-wf-step"
+      [class.is-complete]="step.status === 'complete'"
+      [class.is-current]="step.status === 'current'"
+      [attr.aria-current]="step.status === 'current' ? 'step' : null"
+    >
+      <span class="ats-wf-step__dot">
+        @if (step.status === 'current' && step.badge) {
+          <span class="ats-wf-step__badge">{{ step.badge }}</span>
+        }
+      </span>
+      <span class="ats-wf-step__label">{{ step.label }}</span>
+      @if (step.status === 'complete') { <span class="ats-wf__sr">(complete)</span> }
+      @if (!last) {
+        <span class="ats-wf-step__line" [class.is-active]="step.status !== 'upcoming'" aria-hidden="true"></span>
+      }
+    </li>
+  }
+</ol>
+<button class="ats-wf__more ats-wf__more--right" type="button" aria-label="Scroll workflow right" (click)="scroll(1)">
+  <ats-icon name="next" [size]="16" color="var(--color-icon-subtle)" />
+</button>

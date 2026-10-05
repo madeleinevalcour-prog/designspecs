@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify Chat — Primary actions on record cards</title>
+<style>
+:root{
+  /* Semantic tokens pulled from Figma (Component Migration, node 6267:181805) */
+  --text-headline:#2f2f33; --text-body:#3d464d; --text-secondary:#525b63; --text-subtle:#677079;
+  --text-link:#296cc3; --text-disabled:#89909a;
+  --bg-default:#ffffff; --bg-subtle:#f7f8f8; --bg-hover:#e6f1ff; --bg-user:#ebedef;
+  --border-subtle:#dee0e3; --border-default:#c2c5cb; --border-focus:#4a89dc;
+  --btn-primary:#1450a0; --avatar-bg:#accdf8; --avatar-fg:#011e44;
+  --elev-1:0 2px 4px 0 rgba(40,40,40,.04);                                   /* general/level 1, button/default */
+  --elev-btn-hover:0 2px 4px 0 rgba(40,40,40,.04),4px 8px 12px 0 rgba(47,47,51,.08); /* button/hover */
+  --elev-4:0 4px 8px 0 rgba(40,40,40,.04),8px 12px 16px 0 rgba(47,47,51,.08);  /* general/level 4 */
+  --r-xsm:4px; --r-sm:8px; --r-round:999px;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text-body);background:var(--bg-subtle);font-size:14px;line-height:20px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
+
+/* Prototype-only controls (not product UI) */
+.proto{max-width:800px;margin:24px auto 0;padding:8px 16px;border:1px dashed var(--border-default);border-radius:var(--r-sm);display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;line-height:16px;color:var(--text-secondary)}
+.proto b{font-weight:600;margin-right:4px}
+.proto button{padding:4px 8px;border:1px solid var(--border-default);border-radius:var(--r-round);background:var(--bg-default)}
+.proto button[aria-pressed=true]{background:var(--bg-hover);border-color:var(--text-link);color:var(--text-link);font-weight:500}
+
+/* Chat column */
+.chat{max-width:800px;margin:32px auto 48px;display:flex;flex-direction:column;gap:32px}
+.user{align-self:flex-end;max-width:440px;background:var(--bg-user);border-radius:var(--r-sm);padding:8px 16px}
+.dot{color:var(--text-link);font-size:14px}
+.block{display:flex;flex-direction:column;gap:16px}
+.identity{display:flex;gap:4px;align-items:center;font-size:12px;line-height:16px;font-weight:500;color:var(--text-secondary)}
+.title{font-size:18px;line-height:24px;font-weight:600;color:var(--text-headline);padding-top:8px}
+a{color:var(--text-link);text-decoration:none;font-weight:500}
+
+/* Record cards (amplify-chat/chat-list, chat-list-item theme=prospect) */
+.list{display:flex;flex-direction:column;gap:8px}
+.card{position:relative;display:flex;gap:16px;padding:16px;background:var(--bg-default);border:1px solid var(--border-default);border-radius:var(--r-sm);box-shadow:var(--elev-1)}
+.card.added{background:var(--bg-subtle)}
+.cbcol{padding:12px 0;flex:none}
+.cb{width:16px;height:16px;display:inline-flex;padding:0;border-radius:2px}
+.cb svg{display:block}
+.body{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
+.hdr{display:flex;gap:8px;align-items:center}
+.av{width:40px;height:40px;border-radius:var(--r-round);background:var(--avatar-bg);color:var(--avatar-fg);font-size:14px;line-height:20px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.details{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.titlerow{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.name{display:inline-flex;align-items:center;gap:4px;font-size:16px;line-height:24px}
+.data{display:flex;gap:16px;font-size:12px;line-height:16px;color:var(--text-secondary)}
+.data span{display:inline-flex;align-items:center;gap:4px}
+.chip{display:inline-flex;align-items:center;padding:3px;border:1px solid #9ba1a9;border-radius:var(--r-xsm);background:var(--bg-subtle);color:var(--text-subtle);font-size:10px;line-height:12px;font-weight:500}
+.chip.success{background:#f3ffe6;border-color:#78b732;color:#4d8a0c}
+.chip.added{background:var(--bg-hover);border-color:var(--text-link);color:var(--text-link)}
+/* Border/Amplify Gradient — stops from Figma; angle approximated (note 7) */
+.signals{display:flex;gap:8px;align-items:center;padding:8px;border:1px solid transparent;border-radius:var(--r-sm);
+  background:linear-gradient(var(--bg-default),var(--bg-default)) padding-box,
+  linear-gradient(270deg,#008eff 0%,#0690fe 1.4%,#3fadfa 15.7%,#6dc3f7 28.9%,#8ed3f5 40.5%,#a2ddf4 50.2%,#aae1f4 56.7%,#a6e0f0 63.5%,#9de0e5 69.7%,#8ddfd2 75.7%,#77deb8 81.5%,#5adc97 87.2%,#36da6d 92.8%,#0dd73e 98.3%,#00d72e 99.9%) border-box}
+.card.added .signals{background:linear-gradient(var(--bg-subtle),var(--bg-subtle)) padding-box,linear-gradient(270deg,#008eff,#aae1f4 56.7%,#00d72e) border-box}
+.signals .lbl{display:inline-flex;align-items:center;gap:4px;font-size:12px;line-height:16px;color:var(--text-body)}
+.signals .chips{display:flex;gap:2px}
+.status{display:inline-flex;align-items:center;gap:4px}
+
+/* NEW: list action bar — same shell as the cards so it reads as part of the list */
+.listbar{position:sticky;bottom:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 16px;background:var(--bg-default);border:1px solid var(--border-default);border-radius:var(--r-sm);box-shadow:var(--elev-1)}
+.selall{display:flex;align-items:center;gap:16px}
+.actionbar{display:flex;align-items:center;justify-content:flex-end;gap:16px;flex:1}
+.listbar.isdone .selall{display:none}
+.listbar.isdone .actionbar{justify-content:space-between}
+.count{font-size:12px;line-height:16px;font-weight:500;color:var(--text-secondary)}
+.done{display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:var(--text-body)}
+.split{position:relative;display:inline-flex;border-radius:var(--r-round);box-shadow:var(--elev-1)}
+.split:hover{box-shadow:var(--elev-btn-hover)}
+.seg{height:32px;display:inline-flex;align-items:center;gap:8px;background:var(--btn-primary);color:#fff;font-size:12px;line-height:16px;font-weight:500}
+.seg.main{padding:4px 12px;border-radius:var(--r-round) 0 0 var(--r-round)}
+.seg.more{padding:4px 10px 4px 8px;border-radius:0 var(--r-round) var(--r-round) 0;border-left:1px solid rgba(255,255,255,.32)}
+.seg.more svg path{fill:#fff} /* icon color override on Chevron Down instance — see note 6 */
+.split.disabled .seg{background:var(--bg-user);color:var(--text-disabled);cursor:not-allowed}
+.split.disabled .seg.more{border-left-color:var(--border-default)}
+.split.disabled .seg.more svg path{fill:var(--text-disabled)}
+.split.disabled{box-shadow:none}
+.btn2{height:32px;padding:4px 12px;border:1px solid var(--border-default);border-radius:var(--r-round);background:var(--bg-default);color:var(--text-subtle);font-size:12px;line-height:16px;font-weight:500;box-shadow:var(--elev-1)}
+
+/* Menu (general/level 4) */
+.menu{position:absolute;right:0;top:calc(100% + 4px);z-index:2;min-width:264px;background:var(--bg-default);border:1px solid var(--border-subtle);border-radius:var(--r-sm);box-shadow:var(--elev-4);padding:4px 0;display:none}
+.menu.open{display:block}
+.menu button{width:100%;text-align:left;padding:6px 16px;display:flex;flex-direction:column;color:var(--text-body)}
+.menu button:hover,.menu button:focus-visible{background:var(--bg-hover);outline:none}
+.menu .meta{font-size:12px;line-height:16px;color:var(--text-subtle)}
+.menu hr{border:0;border-top:1px solid var(--border-subtle);margin:4px 0}
+
+/* Footer: sources, follow-ups, response controls (unchanged components) */
+.sources{display:flex;align-items:center;gap:4px;font-size:12px;line-height:14px;font-weight:500;color:var(--text-secondary)}
+.ibtn{width:24px;height:24px;padding:4px;border-radius:var(--r-xsm);display:inline-flex;align-items:center;justify-content:center}
+.ibtn:hover{background:var(--bg-hover)}
+.fus{display:flex;gap:8px;flex-wrap:wrap}
+.fu{height:32px;padding:4px 12px;border:1px solid var(--border-default);border-radius:var(--r-round);background:var(--bg-default);color:var(--text-subtle);font-size:12px;line-height:16px;font-weight:500;box-shadow:var(--elev-1)}
+.fu:hover{box-shadow:var(--elev-btn-hover)}
+.controls{display:flex;gap:8px;height:32px;align-items:center}
+
+/* Rationale notes */
+.notes{max-width:800px;margin:0 auto 64px;padding-top:24px}
+.notes h2{font-size:18px;line-height:24px;font-weight:600;color:var(--text-headline);margin-bottom:16px}
+.notes h3{font-size:14px;line-height:20px;font-weight:600;color:var(--text-headline);margin:24px 0 8px}
+.notes ul{padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.notes li{color:var(--text-body)}
+.notes .src{color:var(--text-subtle);font-size:12px;line-height:16px}
+.notes q{font-style:italic}
+.tag{display:inline-block;font-size:10px;line-height:12px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:var(--r-xsm);background:var(--bg-user);color:var(--text-secondary);margin-right:4px}
+</style>
+</head>
+<body>
+<div class="proto" role="group" aria-label="Prototype states">
+  <b>Prototype state:</b>
+  <button data-state="all" aria-pressed="true">All selected</button>
+  <button data-state="some" aria-pressed="false">Partial selection</button>
+  <button data-state="none" aria-pressed="false">None selected</button>
+  <button data-state="menu" aria-pressed="false">Menu open</button>
+  <button data-state="done" aria-pressed="false">Action completed</button>
+  <span>Controls are also live: toggle checkboxes, open the chevron, click Add, then Undo.</span>
+</div>
+
+<main class="chat">
+  <div class="user">Can you show me 3 contacts at <span class="dot">●</span> <a href="#">Comcast</a> that aren’t in the ATS yet?</div>
+
+  <section class="block" aria-label="Amplify response">
+    <div class="identity"><span id="ic-amp"></span>Amplify</div>
+    <p>Here are 3 <span class="dot">●</span> <a href="#">Comcast</a> contacts I found from external/contact discovery that do not appear to be in your ATS yet (I checked existing ATS contacts tied to your <span class="dot">●</span> <a href="#">Comcast</a> client-company records, and only found the two “Default Contact” entries).</p>
+    <h2 class="title">Suggested 3 new Comcast contacts (not in ATS)</h2>
+
+    <div class="list" role="list" aria-label="Suggested contacts">
+      <div id="rows" style="display:contents"></div>
+      <!-- NEW: list action bar, last item in the list -->
+      <div class="listbar" id="listbar">
+        <div class="selall"><button class="cb" id="cb-all" aria-label="Select all contacts"></button><span class="count" id="count"></span></div>
+        <div class="actionbar" id="actionbar" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <div class="sources"><span>Based on Prospect · 1,240 Comcast contacts, excluding those already in your ATS · Updated today</span><button class="ibtn" aria-label="Show sources" id="ic-src"></button></div>
+
+    <div class="fus" aria-label="Suggested follow-ups">
+      <button class="fu">Show 10 more</button>
+      <button class="fu">Find matches for #1</button>
+      <button class="fu">Why this order?</button>
+    </div>
+
+    <div class="controls" aria-label="Response controls">
+      <button class="ibtn" aria-label="Copy" id="ic-copy"></button>
+      <button class="ibtn" aria-label="Good response" id="ic-up"></button>
+      <button class="ibtn" aria-label="Bad response" id="ic-down"></button>
+      <button class="ibtn" aria-label="Save prompt" id="ic-save"></button>
+    </div>
+  </section>
+</main>
+
+<section class="notes" aria-label="Design rationale">
+  <h2>Design rationale — card variant</h2>
+  <p class="src" style="margin-bottom:8px">Companion to amplify-chat-record-actions.html (table variant). Same action pattern, same states, adapted for cards that don't share a container.</p>
+
+  <h3>1. Cards need a shared region; the list bar provides it</h3>
+  <ul>
+    <li>In the table, the action sits inside the table's border. Cards have no shared border, so the action bar becomes the last item in the list: same shell as the cards (border/default, radius 8, general/level 1) and the same 8px gap.</li>
+    <li>Principles: Gestalt similarity and proximity (the bar reads as part of the list); Gestalt continuity (the select-all checkbox sits in the same column as each card's checkbox).</li>
+    <li>I didn't wrap the cards in an extra outer container. That would put a border inside a border, against the Modern UI <q>clean</q> principle (separation from tonal borders and spacing, not heavy lines).</li>
+    <li class="src">Research doc §1, assessment: <q>Make confirmation cards the only way chat can write data.</q> The action stays attached to the records it writes.</li>
+  </ul>
+
+  <h3>2. Select-all moves into the bar</h3>
+  <ul>
+    <li>The table has a header checkbox; cards don't. The bar carries select-all plus "3 of 3 selected", so the scope sits next to the action.</li>
+    <li>Principles: H1 visibility of system status; H6 recognition rather than recall; H7 flexibility and efficiency (one click to clear or reselect all).</li>
+  </ul>
+
+  <h3>3. Bar is sticky to the bottom of the viewport</h3>
+  <ul>
+    <li>Cards are about 132px tall each, so five or more push the action off screen. The bar pins to the bottom of the chat viewport while the list is in view, and releases when the list scrolls past.</li>
+    <li>Principles: H1; H6. The action stays visible without the user scrolling back.</li>
+    <li class="src"><span class="tag">Not in research doc</span>Sticky bulk-action bars are common in list views (Linear, Gmail). From product knowledge; verify before citing.</li>
+  </ul>
+
+  <h3>4. Same split button, label and completion state as the table</h3>
+  <ul>
+    <li>Same component, label logic ("Add 2 contacts", "Select contacts to add"), menu and Undo. Users who learn it on a table can use it on cards.</li>
+    <li>Principles: H4 consistency and standards; Rams 7, long-lasting (one pattern across artifacts).</li>
+    <li class="src">Research doc §5, assessment: name the action with a specific verb (<q>"Send 12 emails," "Update 3 submissions"</q>). Research doc §1: Microsoft's <q>confirmation of the completion of the action… in the form of a card</q>.</li>
+  </ul>
+
+  <h3>5. Completion shows on each card</h3>
+  <ul>
+    <li>After Add, each added card switches its "Strong Match" chip to "Added to Bullhorn", tints to background/subtle and locks its checkbox. The bar changes at the same moment.</li>
+    <li>Principles: Gestalt common fate; H1. The change is carried by text and the locked checkbox, not by color alone (Modern UI: never signal state with color alone).</li>
+  </ul>
+
+  <h3>6. Follow-ups and response controls are unchanged</h3>
+  <ul>
+    <li>Same reasoning as the table variant: selection is the list's state, not the conversation's.</li>
+    <li class="src">Amplify Design Reference principle 2: AI <q>should only add control — never remove it</q>. Research doc §1: follow-ups are <q>Chips under the latest response</q>.</li>
+  </ul>
+
+  <h3>Assumptions and known gaps</h3>
+  <ul>
+    <li><span class="tag">Fixed</span>The Figma copy said "Here are 5 Verizon contacts", with verizon.com emails, while the title said "3 new Comcast contacts". The mockup uses 3 Comcast contacts throughout, including the prompt and emails. Correct this if the source data differs.</li>
+    <li><span class="tag">Flag</span>"Strong Match" uses the success (green) chip. Modern UI reserves success for completion, not ranking. I left it as-is because it's out of scope. I didn't use green for "Added to Bullhorn" either, so the two don't compete.</li>
+    <li><span class="tag">Inferred</span>The "Added to Bullhorn" chip uses background/hover with a link-blue border. I didn't find an "added" or "informational" chip variant in the file.</li>
+    <li><span class="tag">Approximated</span>The Amplify Gradient border uses the exact Figma stops. The angle is approximated as 270° (green left, blue right) from the screenshot, because the Figma gradient transform doesn't map 1:1 to CSS.</li>
+    <li><span class="tag">Illustrative</span>The menu items are placeholders, same as the table variant.</li>
+    <li><span class="tag">Prototype</span>Sticky behaviour depends on the chat scroll container. In this standalone page it pins to the browser window.</li>
+    <li><span class="tag">Font</span>Inter is not bundled; the preview falls back to system sans.</li>
+  </ul>
+  <p class="src" style="margin-top:16px">Sources: Figma Component Migration, node 6267:179652 (chat-list-item theme=prospect, novo-chip, relevance-signals, Border/Amplify Gradient); ai-chat-ui-patterns-research.md; Amplify Design Reference.md; modern-ui-design-system skill.</p>
+</section>
+<script>
+/* Icon assets exported as SVG from the Figma file (Component Migration). Not redrawn. */
+const BOX='M0 2C0 0.895431 0.895431 0 2 0H14C15.1046 0 16 0.895431 16 2V14C16 15.1046 15.1046 16 14 16H2C0.895431 16 0 15.1046 0 14V2Z';
+const BORDER='M2 0V1H14V0V-1H2V0ZM16 2H15V14H16H17V2H16ZM14 16V15H2V16V17H14V16ZM0 14H1V2H0H-1V14H0ZM2 16V15C1.44772 15 1 14.5523 1 14H0H-1C-1 15.6569 0.343146 17 2 17V16ZM16 14H15C15 14.5523 14.5523 15 14 15V16V17C15.6569 17 17 15.6569 17 14H16ZM14 0V1C14.5523 1 15 1.44772 15 2H16H17C17 0.343146 15.6569 -1 14 -1V0ZM2 0V-1C0.343146 -1 -1 0.343146 -1 2H0H1C1 1.44772 1.44772 1 2 1V0Z';
+const TICK='M12.917 5.43262L7.43457 10.9141L7.41699 10.8965L7.39844 10.9141L3.70605 7.22168L4.43262 6.49609L7.41797 9.48145L7.77148 9.12793L12.1914 4.70703L12.917 5.43262Z';
+let mid=0;
+const cbSvg=(fill,stroke,extra='')=>{const id='m'+(mid++);return `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><mask id="${id}" fill="white"><path d="${BOX}"/></mask><path d="${BOX}" fill="${fill}"/><path d="${BORDER}" fill="${stroke}" mask="url(#${id})"/>${extra}</svg>`;};
+const CB={
+  default:()=>cbSvg('white','#78808A'),
+  checked:()=>cbSvg('#E6F1FF','#1450A0',`<path d="${TICK}" stroke="#1450A0"/>`),
+  indeterminate:()=>cbSvg('#E6F1FF','#1450A0','<rect x="4.5" y="7.5" width="7" height="1" fill="#E6F1FF" stroke="#1450A0"/>'),
+  disabledChecked:()=>cbSvg('#E6F1FF','#DEE0E3',`<path d="${TICK}" stroke="#DEE0E3"/>`)
+};
+const AMP=(s)=>{const id='g'+(mid++);return `<svg width="${s}" height="${s}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13.706 7.36176C9.75445 8.36806 8.53339 9.58834 7.52646 13.5374C7.41377 13.9794 6.78393 13.9794 6.67125 13.5374C5.66431 9.58834 4.44325 8.36806 0.491688 7.36176C0.0494421 7.24915 0.0494421 6.61971 0.491688 6.5071C4.44325 5.5008 5.66431 4.28052 6.67125 0.331473C6.78393 -0.110491 7.41377 -0.110491 7.52646 0.331473C8.53339 4.28052 9.75445 5.5008 13.706 6.5071C14.1483 6.61971 14.1483 7.24915 13.706 7.36176ZM15.6866 12.5941C13.8584 12.1286 13.2935 11.5638 12.8275 9.73679C12.7753 9.53235 12.4839 9.53235 12.4319 9.73679C11.9661 11.5638 11.401 12.1284 9.5728 12.5941C9.36823 12.6462 9.36823 12.9374 9.5728 12.9894C11.401 13.4549 11.9659 14.0196 12.4319 15.8467C12.4841 16.0511 12.7755 16.0511 12.8275 15.8467C13.2933 14.0196 13.8584 13.4551 15.6866 12.9894C15.8911 12.9372 15.8911 12.646 15.6866 12.5941Z" fill="url(#${id})"/><defs><radialGradient id="${id}" cx="0" cy="0" r="1" gradientTransform="matrix(18.6074 0.668995 0.25982 18.6112 2.65632 10.1667)" gradientUnits="userSpaceOnUse"><stop offset="0.0143653" stop-color="#37FC97"/><stop offset="0.113546" stop-color="#95F7D0"/><stop offset="0.325773" stop-color="#23AFDC"/><stop offset="0.63186" stop-color="#009BDF"/><stop offset="0.93048" stop-color="#125783"/></radialGradient></defs></svg>`;};
+const BINO='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M15.0063 7.25H15.0125L10.8375 2.47187H10.8344C10.5344 2.18125 10.125 2 9.67188 2C9.1125 2 8.61875 2.27813 8.31563 2.7C8.2125 2.6875 8.10938 2.66875 8 2.66875C7.89062 2.66875 7.79062 2.6875 7.68437 2.7C7.38125 2.27813 6.8875 2 6.32812 2C5.875 2 5.46875 2.18125 5.16563 2.47187H5.1625L0.9875 7.25H0.99375C0.3625 7.85938 -0.03125 8.70625 -0.03125 9.65312C-0.03125 11.5 1.46875 13 3.31562 13C4.8875 13 6.19688 11.9094 6.55625 10.4438L6.79063 9.53125C7.00313 9.075 7.4625 8.025 8 8.025C8.5375 8.025 8.99375 9.07813 9.20938 9.53125L9.44375 10.4438C9.8 11.9094 11.1125 13 12.6844 13C14.5344 13 16.0312 11.5 16.0312 9.65312C16.0312 8.70625 15.6344 7.85938 15.0063 7.25ZM3.31562 10.9937C2.575 10.9937 1.975 10.3938 1.975 9.65312C1.975 8.91562 2.575 8.31563 3.31562 8.31563C4.05312 8.31563 4.65312 8.91562 4.65312 9.65312C4.65312 10.3906 4.05312 10.9937 3.31562 10.9937ZM8 6.68437C7.75 6.68437 7.5125 6.73125 7.28438 6.79375L7.95312 4.07188L7.95 4.06875C7.95625 4.05 7.9625 4.02813 7.96875 4.00938C7.98125 4.00938 7.99063 4.00625 8.00313 4.00625C8.01563 4.00625 8.025 4.00938 8.0375 4.00938C8.04063 4.03125 8.05 4.05 8.05625 4.06875L8.05313 4.07188L8.72188 6.79375C8.4875 6.73125 8.25 6.68437 8 6.68437ZM12.6812 10.9937C11.9437 10.9937 11.3437 10.3938 11.3437 9.65312C11.3437 8.91562 11.9437 8.31563 12.6812 8.31563C13.4187 8.31563 14.0219 8.91562 14.0219 9.65312C14.0219 10.3906 13.4219 10.9937 12.6812 10.9937Z" fill="#677079"/></svg>';
+const CHEV='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.74298 3L6.00001 6.74297L2.25704 3L1.11798 4.13906L6.00001 9.02109L10.882 4.13906L9.74298 3Z" fill="#89909A"/></svg>';
+const DOT='<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 10C7.76142 10 10 7.76142 10 5C10 2.23858 7.76142 0 5 0C2.23858 0 0 2.23858 0 5C0 7.76142 2.23858 10 5 10Z" fill="#4F5361"/></svg>';
+const COPY='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3.5 3V1.5C3.5 1.36739 3.55268 1.24021 3.64645 1.14645C3.74021 1.05268 3.86739 1 4 1H10C10.1326 1 10.2598 1.05268 10.3536 1.14645C10.4473 1.24021 10.5 1.36739 10.5 1.5V8.5C10.5 8.63261 10.4473 8.75979 10.3536 8.85355C10.2598 8.94732 10.1326 9 10 9H8.5V10.5C8.5 10.776 8.275 11 7.9965 11H2.0035C1.93756 11.0004 1.8722 10.9878 1.81116 10.9628C1.75012 10.9379 1.69462 10.9011 1.64783 10.8546C1.60104 10.8082 1.5639 10.7529 1.53853 10.6921C1.51316 10.6312 1.50006 10.5659 1.5 10.5L1.5015 3.5C1.5015 3.224 1.7265 3 2.005 3H3.5ZM2.5015 4L2.5 10H7.5V4H2.5015ZM4.5 3H8.5V8H9.5V2H4.5V3Z" fill="#677079"/></svg>';
+const UP='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.04453 12H1.68046C0.778119 12 0.0445251 11.2664 0.0445251 10.3641V6C0.0445251 5.09766 0.778119 4.36406 1.68046 4.36406H3.18515C3.39374 4.36406 3.58124 4.24688 3.67265 4.06172L5.55468 0.302344C5.64843 0.114844 5.84062 0.0117188 6.04921 0C6.65156 0.00703125 7.21406 0.248438 7.63359 0.679688C8.05312 1.11094 8.28046 1.67813 8.27343 2.28047C8.27109 2.45391 8.24999 2.625 8.20781 2.79141L7.82812 4.36406H10.3148C11.2172 4.36406 11.9508 5.09766 11.9508 6C11.9508 6.15469 11.9297 6.30703 11.8852 6.45703L10.6148 10.8211C10.4133 11.5148 9.7664 12 9.04453 12ZM3.86249 10.9102H9.04453C9.28593 10.9102 9.50156 10.7484 9.56718 10.5164L10.8375 6.15234C10.8516 6.10313 10.8586 6.05156 10.8586 6C10.8586 5.7 10.6148 5.45391 10.3125 5.45391H7.13437C6.96796 5.45391 6.80859 5.37656 6.70546 5.24531C6.60234 5.11406 6.56484 4.94297 6.60468 4.77891L7.15078 2.53125V2.52891C7.17187 2.44219 7.18359 2.35547 7.18359 2.26641C7.18828 1.95703 7.07109 1.66172 6.85312 1.44141C6.71249 1.29844 6.5414 1.19531 6.35624 1.13906L4.64999 4.54688C4.4789 4.89141 4.19999 5.15625 3.86249 5.30859V10.9102ZM1.68046 5.45391C1.38046 5.45391 1.13437 5.69766 1.13437 6V10.3641C1.13437 10.6641 1.37812 10.9102 1.68046 10.9102H2.77031V5.45391H1.68046Z" fill="#677079"/></svg>';
+const DOWN='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.95547 12C5.95313 12 5.95079 12 5.94844 12C4.70626 11.9836 3.70782 10.9617 3.72422 9.71953C3.72657 9.54844 3.74766 9.375 3.78985 9.20859L4.17188 7.63594H1.68516C0.782819 7.63594 0.0492249 6.90234 0.0492249 6C0.0492249 5.84531 0.0703186 5.69062 0.11485 5.54062L1.38516 1.17891C1.58672 0.485156 2.2336 0 2.95547 0H10.3195C11.2219 0 11.9555 0.733594 11.9555 1.63594V6C11.9555 6.90234 11.2219 7.63594 10.3195 7.63594H8.81485C8.60626 7.63594 8.41876 7.75313 8.32735 7.93828L6.44532 11.6977C6.35157 11.8828 6.16173 12 5.95547 12ZM2.95547 1.08984C2.71407 1.08984 2.49844 1.25156 2.43282 1.48359L1.16016 5.84766C1.1461 5.89687 1.13907 5.94844 1.13907 6C1.13907 6.3 1.38282 6.54609 1.68516 6.54609H4.86563C5.03204 6.54609 5.19141 6.62344 5.29454 6.75469C5.39766 6.88594 5.43516 7.05703 5.39532 7.22109L4.84922 9.46875V9.47109C4.82813 9.55781 4.81641 9.64453 4.81641 9.73359C4.81172 10.043 4.92891 10.3383 5.14688 10.5586C5.28751 10.7016 5.4586 10.8047 5.64376 10.8609L7.35001 7.45312C7.5211 7.10859 7.80235 6.84375 8.13751 6.69141V1.08984H2.95547ZM9.22735 6.54609H10.3172C10.6172 6.54609 10.8633 6.30234 10.8633 6V1.63594C10.8633 1.33594 10.6195 1.08984 10.3172 1.08984H9.22735V6.54609Z" fill="#677079"/></svg>';
+const SAVE='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.33328 0H2.66672C2.31409 0.001303 1.97638 0.142409 1.72765 0.392368C1.47892 0.642328 1.33948 0.980733 1.33992 1.33336L1.33336 12L6 10.0001L10.6666 12V1.33336C10.6656 0.980054 10.5248 0.641519 10.2749 0.391693C10.0251 0.141867 9.68659 0.00105105 9.33328 0V0ZM9.33328 10.0001L6 8.54672L2.66672 9.99984V1.33336H9.33328V10.0001Z" fill="#677079"/></svg>';
+const EMAIL='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.7977 1.25H1.17427C0.51333 1.25 -0.0280762 1.79141 -0.0280762 2.45234V9.79531C-0.0280762 10.4563 0.51333 10.9977 1.17427 10.9977H10.7954C11.4563 10.9977 11.9977 10.4563 11.9977 9.79531V2.45234C12 1.79141 11.4586 1.25 10.7977 1.25ZM10.7977 3.65703L5.98599 6.66172L1.17427 3.65703V2.45234L5.98599 5.45938L10.7977 2.45234V3.65703Z" fill="#89909A"/></svg>';
+const DOT12=DOT.replace('width="10" height="10"','width="12" height="12"');
+const people=[
+  {i:'MS',n:'Marie Smith',t:'Head of HR',e:'marie.smith@comcast.com',s:['HR leader','Dept: People','Prior contact']},
+  {i:'JC',n:'James Chen',t:'VP of Engineering',e:'james.chen@comcast.com',s:['Tech leader','Dept: Network','Mutual intro']},
+  {i:'PP',n:'Priya Patel',t:'Director of Operations',e:'priya.patel@comcast.com',s:['Ops leader','Dept: Field Ops','High activity']}
+];
+const S={sel:people.map(()=>true),menu:false,done:false};
+const $=id=>document.getElementById(id);
+const plural=n=>`${n} contact${n===1?'':'s'}`;
+
+function render(){
+  const n=S.sel.filter(Boolean).length, total=people.length;
+  $('rows').innerHTML=people.map((p,k)=>{const added=S.done&&S.sel[k];return `
+    <article class="card${added?' added':''}" role="listitem" aria-label="${p.n}">
+      <div class="cbcol"><button class="cb" data-k="${k}" ${S.done?'disabled':''} aria-pressed="${S.sel[k]}" aria-label="Select ${p.n}">${added?CB.disabledChecked():S.sel[k]?CB.checked():CB.default()}</button></div>
+      <div class="body">
+        <div class="hdr"><span class="av">${p.i}</span>
+          <div class="details">
+            <div class="titlerow"><a href="#" class="name">${DOT12}${p.n}</a>${added?'<span class="chip added">Added to Bullhorn</span>':'<span class="chip success">Strong Match</span>'}</div>
+            <div class="data"><span>${p.t}</span><span>${EMAIL}${p.e}</span></div>
+          </div>
+        </div>
+        <div class="signals"><span class="lbl">${AMP(12)}Relevance Signals</span><span class="chips">${p.s.map(x=>`<span class="chip">${x}</span>`).join('')}</span></div>
+      </div>
+    </article>`;}).join('');
+  const all=$('cb-all');
+  all.innerHTML=S.done?CB.disabledChecked():n===total?CB.checked():n===0?CB.default():CB.indeterminate();
+  all.disabled=S.done;
+  all.setAttribute('aria-pressed',n===total?'true':n===0?'false':'mixed');
+  $('count').textContent=S.done?'':`${n} of ${total} selected`;
+  $('listbar').classList.toggle('isdone',S.done);
+  const bar=$('actionbar');
+  if(S.done){
+    bar.innerHTML=`<div class="done">${plural(n)} added to Bullhorn · <a href="#">View in Bullhorn ↗</a></div>
+      <button class="btn2" id="undo">Undo</button>`;
+    $('undo').onclick=()=>{S.done=false;render();};
+    return;
+  }
+  const dis=n===0;
+  bar.innerHTML=`<div class="split${dis?' disabled':''}">
+      <button class="seg main" id="primary" ${dis?'disabled':''}>${dis?'Select contacts to add':'Add '+plural(n)}</button>
+      <button class="seg more" id="more" ${dis?'disabled':''} aria-haspopup="menu" aria-expanded="${S.menu}" aria-label="More actions for selected contacts">${CHEV}</button>
+      <div class="menu${S.menu?' open':''}" role="menu">
+        <button role="menuitem">Add to a list…<span class="meta">Choose or create a list</span></button>
+        <button role="menuitem">Add to an Outreach sequence…<span class="meta">Opens a preview before anything is sent</span></button>
+        <hr>
+        <button role="menuitem">Export ${plural(n)} as CSV</button>
+      </div>
+    </div>`;
+  $('primary').onclick=()=>{S.done=true;S.menu=false;render();};
+  $('more').onclick=e=>{e.stopPropagation();S.menu=!S.menu;render();};
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.cb');
+  if(b&&b.id==='cb-all'){const all=S.sel.every(Boolean);S.sel=S.sel.map(()=>!all);render();return;}
+  if(b&&b.dataset.k){S.sel[+b.dataset.k]=!S.sel[+b.dataset.k];render();return;}
+  if(S.menu&&!e.target.closest('.menu')){S.menu=false;render();}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.menu){S.menu=false;render();$('more').focus();}});
+document.querySelectorAll('.proto button').forEach(b=>b.onclick=e=>{
+  e.stopPropagation();
+  const s=b.dataset.state;
+  S.done=s==='done';S.menu=s==='menu';
+  S.sel=people.map((_,k)=>s==='none'?false:s==='some'?k<2:true);
+  document.querySelectorAll('.proto button').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  render();
+});
+$('ic-amp').innerHTML=AMP(16);$('ic-src').innerHTML=CHEV;
+$('ic-copy').innerHTML=COPY;$('ic-up').innerHTML=UP;$('ic-down').innerHTML=DOWN;$('ic-save').innerHTML=SAVE;
+render();
+</script>
+</body>
+</html>

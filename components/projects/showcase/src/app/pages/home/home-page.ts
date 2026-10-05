@@ -29,5 +29,6 @@ export class HomePage {
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
     { path: 'icon-button-no-container', name: 'Icon Button - no container', figma: 'Component Migration 164:17717' },
     { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
+    { path: 'workflow-stepper', name: 'Workflow Stepper', figma: 'Component Migration 589:6990' },
   ];
 }
