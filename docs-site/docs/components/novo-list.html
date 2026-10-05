@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novo List — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Novo List" meta="Status: in review · Figma: List / novo-list 692:20779 · Code: ats-ui NovoList family · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Novo List stacks record rows: candidates, jobs, tasks, notes and submissions. Each row is a list item with an optional header and a content area, separated by a 1px divider.</p>
+    <doc-example src="novo-list?view=list" caption="Default list — candidate and job items" height="320"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy" desc="List → item → header + content">
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Figma</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td>NovoList</td><td>novo-list (692:20779)</td><td>Vertical stack of items. The last item drops its divider.</td></tr>
+        <tr><td>NovoListItem</td><td>novo-list-item (182:18861)</td><td>Row container: padding plus a bottom divider</td></tr>
+        <tr><td>ItemHeader</td><td>item-header (182:18818)</td><td>Avatar plus a link-colored title</td></tr>
+        <tr><td>ItemContent</td><td>item-content (574:3106)</td><td>Wrapping row of fields plus an optional comment</td></tr>
+        <tr><td>EntityIcon</td><td>item-avatar (164:17911)</td><td>24px square in the entity color with a white glyph</td></tr>
+        <tr><td>Field</td><td>field (182:18710)</td><td>12px icon plus a 12px label</td></tr>
+        <tr><td>DateTime</td><td>date-time (574:2764)</td><td>Date over time, used by the note item</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="variants" label="Item variants" desc="Four presets">
+    <p>Each preset is a list item already composed from the building blocks. Use the preset that matches the record type.</p>
+    <h3>Default</h3>
+    <p>An entity header (EntityIcon + title) over a fields row and an optional comment. Without fields, it shows company, contact, email and location.</p>
+    <doc-example src="novo-list?view=default&amp;count=1" caption="Default item with comment" height="160"></doc-example>
+    <h3>Task</h3>
+    <p>A circle-outline avatar and title over calendar, info and user fields, with an optional comment.</p>
+    <doc-example src="novo-list?view=task" caption="Task items" height="220"></doc-example>
+    <h3>Note</h3>
+    <p>A horizontal row: preview icon, date and time, then the note label and author over the note body.</p>
+    <doc-example src="novo-list?view=note" caption="Note items" height="180"></doc-example>
+    <h3>Submission</h3>
+    <p>A 12px circle in the job entity color and the job title over calendar, status and company fields.</p>
+    <doc-example src="novo-list?view=submission" caption="Submission items" height="180"></doc-example>
+  </doc-section>
+
+  <doc-section id="building-blocks" label="Building blocks">
+    <p>Compose these inside a NovoListItem when no preset fits.</p>
+    <h3>EntityIcon</h3>
+    <p>The chip color comes from the entity token; the glyph is the entity icon in the knockout color.</p>
+    <doc-example src="novo-list?view=entity-icon" caption="Candidate, job, company, contact, note" height="110"></doc-example>
+    <h3>Field</h3>
+    <doc-example src="novo-list?view=field" caption="Fields" height="70"></doc-example>
+    <h3>DateTime</h3>
+    <doc-example src="novo-list?view=date-time" caption="Date and time" height="90"></doc-example>
+    <h3>ItemHeader</h3>
+    <doc-example src="novo-list?view=item-header" caption="Header with a candidate EntityIcon" height="90"></doc-example>
+    <h3>ItemContent</h3>
+    <doc-example src="novo-list?view=item-content" caption="Fields and a comment" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="spacing" label="Measurements and spacing">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Value</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Item padding (v / h)</td><td>16 / 24px</td><td><span class="chip">card/spacing/content/padding-vertical</span> · <span class="chip">…/padding-horizontal</span></td></tr>
+        <tr><td>Header to content gap</td><td>4px</td><td><span class="chip">list-item/spacing/gap-horizontal</span></td></tr>
+        <tr><td>Avatar to title gap</td><td>8px</td><td><span class="chip">list-item/spacing/header-gap</span></td></tr>
+        <tr><td>Fields to comment gap</td><td>8px</td><td><span class="chip">list-item/spacing/gap-vertical</span></td></tr>
+        <tr><td>Field row / column gap</td><td>16 / 24px</td><td><span class="chip">spacing/gap/md</span> · <span class="chip">spacing/gap/lg</span></td></tr>
+        <tr><td>Field icon to label gap</td><td>8px</td><td><span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td>Note row gap</td><td>16px</td><td><span class="chip">spacing/gap/md</span></td></tr>
+        <tr><td>Divider</td><td>1px</td><td><span class="chip">list-item/border/width/default</span></td></tr>
+        <tr><td>EntityIcon</td><td>24px, 4px radius, 12px glyph</td><td><span class="chip">border-radius/xsm</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Title</td><td><span class="chip">list-item/color/content/link</span> · <span class="chip">typography/body/lg</span>, medium</td></tr>
+        <tr><td>Comment body, date</td><td><span class="chip">list-item/color/content/body</span> · <span class="chip">typography/meta/default</span></td></tr>
+        <tr><td>Time</td><td><span class="chip">list-item/color/content/subtle</span></td></tr>
+        <tr><td>Field label</td><td><span class="chip">color/text/body</span> · <span class="chip">typography/body/sm</span></td></tr>
+        <tr><td>Field and avatar icons</td><td><span class="chip">color/icon/illustration</span></td></tr>
+        <tr><td>Divider</td><td><span class="chip">list-item/color/border/default</span></td></tr>
+        <tr><td>EntityIcon fill</td><td><span class="chip">color/entity/&lt;candidate|job|note|company|contact&gt;</span></td></tr>
+        <tr><td>EntityIcon glyph</td><td><span class="chip">color/icon/icon-knockout</span></td></tr>
+        <tr><td>Submission circle</td><td><span class="chip">color/entity/job</span> (overridable)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>NovoList has <span class="chip">role="list"</span> and each NovoListItem has <span class="chip">role="listitem"</span>, so screen readers announce the item count.</li>
+      <li>All icons are decorative (<span class="chip">aria-hidden</span>); every field carries its meaning in its text.</li>
+      <li>Rows aren’t interactive yet. The title is link-colored but is not a link.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>All parts are exported from <span class="chip">ats-ui</span>. Use a preset, or compose a NovoListItem from the building blocks. Project the header avatar with the <span class="chip">avatar</span> attribute.</p>
+    <doc-code caption="Angular">
+      &lt;ats-novo-list&gt;
+        &lt;ats-novo-list-item-default entity="job" title="5521 | Senior React Developer" [fields]="fields" /&gt;
+        &lt;ats-novo-list-item-task title="Call Tyler Brooks" comment="Follow up on availability." /&gt;
+        &lt;ats-novo-list-item-note date="07/16/2026" time="12:00 PM" body="Left a voicemail." /&gt;
+        &lt;ats-novo-list-item-submission title="5521 | Senior React Developer" status="Interviewing" /&gt;
+        &lt;ats-novo-list-item&gt;
+          &lt;ats-item-header title="Custom row"&gt;&lt;ats-entity-icon avatar entity="company" /&gt;&lt;/ats-item-header&gt;
+          &lt;ats-item-content [fields]="[{ icon: 'location', text: 'Boston, MA' }]" /&gt;
+        &lt;/ats-novo-list-item&gt;
+      &lt;/ats-novo-list&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">ats-novo-list</span>, <span class="chip">ats-novo-list-item</span></td><td>—</td><td>Content projection</td><td>—</td></tr>
+        <tr><td rowspan="4"><span class="chip">ats-novo-list-item-default</span></td><td><span class="chip">title</span></td><td>Text (required)</td><td>—</td></tr>
+        <tr><td><span class="chip">entity</span></td><td>candidate · job · note · company · contact</td><td>candidate</td></tr>
+        <tr><td><span class="chip">fields</span></td><td><span class="chip">{ icon, text }[]</span></td><td>company, contact, email, location samples</td></tr>
+        <tr><td><span class="chip">comment</span></td><td>Text</td><td>—</td></tr>
+        <tr><td><span class="chip">ats-novo-list-item-task</span></td><td><span class="chip">title</span>, <span class="chip">fields</span>, <span class="chip">comment</span></td><td>As default</td><td>fields: calendar, info, user samples</td></tr>
+        <tr><td rowspan="2"><span class="chip">ats-novo-list-item-note</span></td><td><span class="chip">date</span>, <span class="chip">time</span>, <span class="chip">body</span></td><td>Text (required)</td><td>—</td></tr>
+        <tr><td><span class="chip">label</span>, <span class="chip">labelIcon</span>, <span class="chip">user</span></td><td>Text / icon name</td><td>Pre-screen · note · Chloe Davis</td></tr>
+        <tr><td rowspan="2"><span class="chip">ats-novo-list-item-submission</span></td><td><span class="chip">title</span>, <span class="chip">datetime</span>, <span class="chip">status</span>, <span class="chip">company</span></td><td>Text (title required)</td><td>7/20/2026, 3:00 PM · Interviewing · Nexus Dynamics</td></tr>
+        <tr><td><span class="chip">color</span></td><td>Any CSS color or var()</td><td>var(--color-entity-job)</td></tr>
+        <tr><td><span class="chip">ats-item-header</span></td><td><span class="chip">title</span></td><td>Text (required); avatar via <span class="chip">[avatar]</span> slot</td><td>—</td></tr>
+        <tr><td><span class="chip">ats-item-content</span></td><td><span class="chip">fields</span>, <span class="chip">comment</span></td><td><span class="chip">{ icon, text }[]</span>, text</td><td>[] · —</td></tr>
+        <tr><td><span class="chip">ats-entity-icon</span></td><td><span class="chip">entity</span></td><td>candidate · job · note · company · contact</td><td>candidate</td></tr>
+        <tr><td><span class="chip">ats-field</span></td><td><span class="chip">icon</span>, <span class="chip">text</span></td><td>Icon name, text (required)</td><td>—</td></tr>
+        <tr><td><span class="chip">ats-date-time</span></td><td><span class="chip">date</span>, <span class="chip">time</span></td><td>Text (required)</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Interaction.">The list-item tokens define a hover background and a drag-handle color, but the prototype has no hover, selection or drag behavior. Confirm whether rows are clickable.</doc-callout>
+    <doc-callout type="note" heading="More entities.">EntityIcon covers the five entities in the prototype. Tokens and glyphs also exist for lead, opportunity, placement and submission.</doc-callout>
+    <doc-callout type="note" heading="EntityIcon size.">The 24px chip and 12px glyph are fixed sizes with no token.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

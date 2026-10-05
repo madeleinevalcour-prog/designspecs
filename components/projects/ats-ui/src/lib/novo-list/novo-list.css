@@ -1,0 +1,84 @@
+/* novo-list family (Figma: List / novo-list, 692:20779), ported 1:1 from the
+   prototype repo's styles/novo-list.css. Tier-3 list-item / card tokens first,
+   then Tier-2 semantic + spacing/radius primitives. Unencapsulated, namespaced
+   .ats-*. Structure: novo-list > novo-list-item > item-header? + item-content. */
+
+.ats-novo-list { display: flex; flex-direction: column; align-items: stretch; width: 100%; }
+.ats-novo-list-preset { display: block; }
+
+/* list-item container (182:18861) */
+.ats-novo-list-item {
+  display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-horizontal);
+  box-sizing: border-box;
+  padding: var(--card-spacing-content-padding-vertical) var(--card-spacing-content-padding-horizontal);
+  border-bottom: var(--list-item-border-width-default) solid var(--list-item-color-border-default);
+  overflow: clip;
+}
+/* last row drops its divider (direct item, or the item inside a preset) */
+.ats-novo-list > .ats-novo-list-item:last-child,
+.ats-novo-list > :last-child > .ats-novo-list-item { border-bottom: 0; }
+
+/* item-header (182:18818): avatar + link title */
+.ats-item-header {
+  display: flex; align-items: center; gap: var(--list-item-spacing-header-gap);
+  min-width: 80px; border-radius: var(--border-radius-xsm); width: 100%;
+}
+.ats-item-avatar { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+.ats-item-header__title {
+  flex: 1 0 0; min-width: 0; margin: 0; color: var(--list-item-color-content-link);
+  font-family: var(--typography-body-lg-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-lg-font-weight-medium); font-size: var(--typography-body-lg-font-size);
+  line-height: var(--typography-body-lg-line-height); letter-spacing: var(--typography-body-lg-letter-spacing);
+}
+
+/* entity icon chip (item-avatar variant, 164:17911) */
+.ats-entity-icon {
+  width: 24px; height: 24px; /* no token: fixed 24px chip from the source */
+  border-radius: var(--border-radius-xsm);
+  display: flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  background: var(--color-entity-candidate);
+}
+.ats-entity-icon[data-entity="candidate"] { background: var(--color-entity-candidate); }
+.ats-entity-icon[data-entity="job"]       { background: var(--color-entity-job); }
+.ats-entity-icon[data-entity="note"]      { background: var(--color-entity-note); }
+.ats-entity-icon[data-entity="company"]   { background: var(--color-entity-company); }
+.ats-entity-icon[data-entity="contact"]   { background: var(--color-entity-contact); }
+.ats-entity-icon .ats-icon { display: block; }
+
+/* item-content (574:3106): fields + optional comment */
+.ats-item-content {
+  display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical);
+  box-sizing: border-box; padding: 0 var(--spacing-padding-xxsm); width: 100%;
+}
+.ats-item-content--row { flex-direction: row; align-items: flex-start; gap: var(--spacing-gap-md); padding: 0; }
+
+.ats-item-fields { display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--spacing-gap-md) var(--spacing-gap-lg); } /* row 16 / col 24 */
+
+/* field (182:18710): 12px illustration-color icon + body/sm label */
+.ats-field { display: inline-flex; align-items: center; gap: var(--spacing-gap-sm); }
+.ats-field__text {
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-sm-font-weight-default);
+  font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing); color: var(--color-text-body); white-space: nowrap;
+}
+
+.ats-item-comment { display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical); min-width: 0; flex: 1 0 0; }
+.ats-item-comment__body {
+  margin: 0; color: var(--list-item-color-content-body);
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-default-font-weight);
+  font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height);
+  letter-spacing: var(--typography-meta-default-letter-spacing);
+}
+
+/* date-time stack (574:2764, note preset) */
+.ats-date-time {
+  flex: 0 0 auto; display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical);
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-default-font-weight);
+  font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height);
+}
+.ats-date-time p { margin: 0; white-space: nowrap; }
+.ats-date-time__date { color: var(--list-item-color-content-body); }
+.ats-date-time__time { color: var(--list-item-color-content-subtle); }
