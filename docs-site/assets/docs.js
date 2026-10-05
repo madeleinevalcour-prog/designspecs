@@ -311,7 +311,6 @@
       {t:"Data Table", href:"/docs/components/data-table.html"},
       {t:"Icon", href:"/docs/components/icon.html"},
       {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html"},
-      {t:"List Variations", href:"/docs/components/list-variations.html"},
       {t:"Novo List", href:"/docs/components/novo-list.html"},
       {t:"Rail", href:"/docs/components/rail.html"},
       {t:"Record Header", href:"/docs/components/record-header.html"},

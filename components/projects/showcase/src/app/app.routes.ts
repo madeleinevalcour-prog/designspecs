@@ -13,7 +13,6 @@ export const routes: Routes = [
   { path: 'checkbox', loadComponent: () => import('./pages/checkbox/checkbox-page').then((m) => m.CheckboxPage), title: 'Checkbox — ats-ui' },
   { path: 'card', loadComponent: () => import('./pages/card/card-page').then((m) => m.CardPage), title: 'Card — ats-ui' },
   { path: 'data-table', loadComponent: () => import('./pages/data-table/data-table-page').then((m) => m.DataTablePage), title: 'Novo Data Table — ats-ui' },
-  { path: 'list-variations', loadComponent: () => import('./pages/list-variations/list-variations-page').then((m) => m.ListVariationsPage), title: 'List Variations — ats-ui' },
   { path: 'novo-list', loadComponent: () => import('./pages/novo-list/novo-list-page').then((m) => m.NovoListPage), title: 'Novo List — ats-ui' },
   { path: 'rail', loadComponent: () => import('./pages/rail/rail-page').then((m) => m.RailPage), title: 'Rail — ats-ui' },
   { path: 'record-header', loadComponent: () => import('./pages/record-header/record-header-page').then((m) => m.RecordHeaderPage), title: 'Record Header — ats-ui' },

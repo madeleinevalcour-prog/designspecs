@@ -22,12 +22,13 @@
 .ats-icon-button-no-container .ats-icon { background-color: currentColor; } /* glyph follows the content token */
 
 .ats-icon-button-no-container:hover, .ats-icon-button-no-container.is-hover {
-  background: var(--button-color-icon-background-hover);
+  background: var(--button-color-icon-background-hover); color: var(--button-color-icon-content-hover);
 }
 .ats-icon-button-no-container:active, .ats-icon-button-no-container.is-active {
-  background: var(--button-color-icon-background-active);
+  background: var(--button-color-icon-background-active); color: var(--button-color-icon-content-active);
 }
 .ats-icon-button-no-container:focus-visible, .ats-icon-button-no-container.is-focus {
+  background: var(--button-color-icon-background-focus); color: var(--button-color-icon-content-focus);
   outline: var(--button-border-width-focus) solid var(--button-color-icon-border-focus);
   outline-offset: calc(var(--button-border-width-focus) * -1);
 }

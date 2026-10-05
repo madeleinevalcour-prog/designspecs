@@ -20,5 +20,5 @@ content (icons) can be styled.
 
 Commands: `npm start` (showcase on :4200) · `npm run build:lib` · `npm run build:examples` (→ `../docs-site/examples`).
 
-Ported so far: Button, Icon, IconButtonNoContainer, Checkbox, Card family, Novo data table, Novo list family, RecordHeader, WorkflowStepper, Rail family (nav rail, tabs, overlays, Header, Amplify), list-variations (Toggle, AdvancedSearch, ListHeader, ListDataTable*), SophiaFab.
-Not ported (prototype-only): ScreenShell, DemoPanel, StylingPanel, TestingControls, prospect/*, RecordPage, testing-july-2026/* and bowling-alley/* (superseded by rail).
+Ported so far: Button, Icon, IconButtonNoContainer, Checkbox, Card family, Novo data table, Novo list family, RecordHeader, WorkflowStepper, Rail family (nav rail, tabs, overlays, Header, Amplify), SophiaFab.
+Not ported (prototype-only): list-variations (removed — not a real component), ScreenShell, DemoPanel, StylingPanel, TestingControls, prospect/*, RecordPage, testing-july-2026/* and bowling-alley/* (superseded by rail).

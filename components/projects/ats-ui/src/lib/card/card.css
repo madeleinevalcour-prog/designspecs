@@ -49,7 +49,7 @@
 .ats-card__footer {
   display: flex; background: var(--card-color-background-header);
   border-top: var(--card-border-width-default) solid var(--card-color-border-default);
-  padding: var(--card-spacing-header-gap) var(--card-spacing-header-padding-horizontal);
+  padding: var(--card-spacing-footer-padding-vertical) var(--card-spacing-footer-padding-horizontal);
 }
 .ats-card__footer .ats-btn.ats-btn--base {
   --_bg: transparent;
@@ -61,7 +61,7 @@
   --_fg-focus: var(--color-text-subtle);
   --_fg-active: var(--color-text-subtle);
   --_sh: none; --_sh-hover: none; --_sh-active: none;
-  flex: 1 0 0; gap: var(--spacing-gap-sm);
+  flex: 1 0 0; gap: var(--card-spacing-footer-gap);
   border-radius: var(--border-radius-sm);
 }
 .ats-card__footer .ats-btn .ats-icon { background-color: var(--color-icon-illustration); }

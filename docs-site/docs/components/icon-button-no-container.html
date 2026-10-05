@@ -25,7 +25,7 @@
       <thead><tr><th>State</th><th>When it applies</th><th>What changes</th></tr></thead>
       <tbody>
         <tr><td>Default</td><td>Resting</td><td>Transparent background; glyph in <span class="chip">button/color/icon/content/default</span></td></tr>
-        <tr><td>Hover</td><td>Pointer is over the button</td><td>Background fills with <span class="chip">button/color/icon/background/hover</span></td></tr>
+        <tr><td>Hover</td><td>Pointer is over the button</td><td>Background fills with <span class="chip">button/color/icon/background/hover</span>; glyph darkens to <span class="chip">…/content/hover</span></td></tr>
         <tr><td>Focus</td><td>Reached by keyboard</td><td>2px inset ring in <span class="chip">button/color/icon/border/focus</span></td></tr>
         <tr><td>Active</td><td>Being pressed</td><td>Background fills with <span class="chip">button/color/icon/background/active</span></td></tr>
         <tr><td>Disabled</td><td>Action isn’t available</td><td>Transparent background; glyph in <span class="chip">button/color/icon/content/disabled</span>; not-allowed cursor</td></tr>
@@ -88,9 +88,7 @@
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="Color bindings.">There are no no-container color tokens, so colors use the icon-button tokens (<span class="chip">button/color/icon/*</span>), with a transparent resting and disabled background. Confirm against the Figma bindings for 164:17717.</doc-callout>
-    <doc-callout type="note" heading="Hover glyph color.">The prototype keeps the glyph color on hover and press; the icon-button tokens would darken it (<span class="chip">…/content/hover</span>). Confirm which the design intends.</doc-callout>
-    <doc-callout type="note" heading="Disabled.">The prototype dimmed the whole button to 50% opacity. This version uses the disabled content token instead.</doc-callout>
+    <doc-callout type="note" heading="Color bindings.">There are no no-container color tokens, so colors use the icon-button tokens (<span class="chip">button/color/icon/*</span>), including the darker glyph on hover, focus and press. The resting and disabled backgrounds stay transparent (the icon-button token is white), since this variant has no container.</doc-callout>
   </doc-section>
 </doc-page>
 </body>

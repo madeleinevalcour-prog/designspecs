@@ -30,7 +30,6 @@ export class HomePage {
     { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
     { path: 'icon-button-no-container', name: 'Icon Button - no container', figma: 'Component Migration 164:17717' },
-    { path: 'list-variations', name: 'List Variations (Toggle, AdvancedSearch, ListHeader, ListDataTable…)', figma: 'List Variations 0LCuwDp7YHGGqK6WiseTRi' },
     { path: 'data-table', name: 'Novo Data Table', figma: 'Component Migration 46:1541 / 254:6720' },
     { path: 'novo-list', name: 'Novo List', figma: 'List / novo-list 692:20779' },
     { path: 'rail', name: 'Rail (Bowling Alley) + Header + Amplify', figma: 'Component Migration: Bowling Alley · Header 157:2557 · Amplify 157:2984' },
