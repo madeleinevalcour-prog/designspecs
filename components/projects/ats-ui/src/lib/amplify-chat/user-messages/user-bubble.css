@@ -1,0 +1,43 @@
+/* AmplifyChatUserBubble (Figma "amplify-chat/user-bubble" 6213:168866).
+   Unencapsulated, namespaced .ats-amplify-chat-user-bubble. */
+.ats-amplify-chat-user-bubble {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: var(--amplify-chat-user-bubble-content-spacing-gap-spacing-4);
+  box-sizing: border-box; width: fit-content;
+  max-width: min(440px, 100%); /* no token: Figma max width 440 */
+  padding: var(--amplify-chat-user-bubble-spacing-padding-vertical-spacing-padding-sm) var(--amplify-chat-user-bubble-spacing-padding-horizontal-spacing-padding-md);
+  border-radius: var(--amplify-chat-user-bubble-border-radius-border-radius-sm);
+  background: var(--amplify-chat-user-bubble-color-background-color-background-subtle-hover);
+}
+/* long text (either state) fills the 440 max, as in Figma */
+.ats-amplify-chat-user-bubble.is-long { width: min(440px, 100%); }
+
+/* message viewport: capped at 8 lines (the cap follows the type scale, not pixels) */
+.ats-amplify-chat-user-bubble__viewport {
+  --_line: var(--amplify-chat-user-bubble-message-typography-line-height-typography-body-default-line-height);
+  --_cap: calc(var(--_line) * 8);
+  align-self: stretch; min-width: 0;
+  max-height: var(--_cap); overflow: hidden;
+}
+/* collapsed: the last 2 lines fade out through an alpha mask, so the text keeps its token color */
+.ats-amplify-chat-user-bubble.is-long:not(.is-expanded) .ats-amplify-chat-user-bubble__viewport {
+  height: var(--_cap);
+  -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 2 * var(--_line)), transparent);
+  mask-image: linear-gradient(to bottom, black calc(100% - 2 * var(--_line)), transparent);
+}
+.ats-amplify-chat-user-bubble.is-expanded .ats-amplify-chat-user-bubble__viewport { max-height: none; }
+
+.ats-amplify-chat-user-bubble__message {
+  overflow-wrap: break-word; word-break: break-word; white-space: pre-line;
+  color: var(--amplify-chat-user-bubble-message-color-content-text-color-text-body);
+  font-family: var(--amplify-chat-user-bubble-message-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-user-bubble-message-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-user-bubble-message-typography-font-weight-typography-body-default-font-weight-default);
+  line-height: var(--amplify-chat-user-bubble-message-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-user-bubble-message-typography-letter-spacing-typography-body-default-letter-spacing);
+}
+.ats-amplify-chat-user-bubble__message > p { margin: 0 0 var(--amplify-chat-user-bubble-message-spacing-paragraph-spacing-padding-sm); }
+.ats-amplify-chat-user-bubble__message > p:last-child { margin-bottom: 0; }
+
+/* Show More / Show Less: Button Dialogue Small; its label lines up with the text */
+.ats-amplify-chat-user-bubble__toggle { flex: 0 0 auto; }

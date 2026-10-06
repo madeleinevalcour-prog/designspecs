@@ -25,7 +25,10 @@ import { RouterLink } from '@angular/router';
 })
 export class HomePage {
   protected readonly components = [
+    { path: 'amplify-chat-blocks', name: 'Amplify Chat — Blocks', figma: 'Amplify Chat Interface Patterns 6300:27081 (draft-block 6149:20803, literal-value-block 6152:117821)' },
+    { path: 'amplify-chat-sources', name: 'Amplify Chat — Sources', figma: 'Amplify Chat Interface Patterns 6300:27092 (sources-row 6149:20865)' },
     { path: 'amplify-chat-text', name: 'Amplify Chat — Text', figma: 'Amplify Chat Interface Patterns: doc/text 6299:27096' },
+    { path: 'amplify-chat-user-messages', name: 'Amplify Chat — User messages', figma: 'Amplify Chat Interface Patterns 6300:27101 (user-bubble 6213:168866)' },
     { path: 'bowling-alley', name: 'Bowling Alley', figma: 'Component Migration: Bowling Alley 157:2575 · overlays 157:511 · Fast Find 1323:67008' },
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'card', name: 'Card', figma: 'Component Migration 311:29059 (+ subcomponents)' },

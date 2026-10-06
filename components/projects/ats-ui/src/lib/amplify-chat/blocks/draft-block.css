@@ -1,0 +1,63 @@
+/* AmplifyChatDraftBlock (Figma "amplify-chat/draft-block" 6149:20803).
+   Unencapsulated, namespaced .ats-amplify-chat-draft-block. */
+.ats-amplify-chat-draft-block {
+  position: relative; display: flex; flex-direction: column; align-items: stretch;
+  box-sizing: border-box; width: 100%;
+  border: var(--amplify-chat-draft-block-border-width-border-width-border-default) solid var(--amplify-chat-draft-block-color-border-card-color-border-default);
+  border-radius: var(--amplify-chat-draft-block-border-radius-border-radius-xsm);
+  background: var(--amplify-chat-draft-block-color-background-color-background-default);
+}
+
+/* 1. subject row */
+.ats-amplify-chat-draft-block__subject {
+  display: flex; align-items: baseline; gap: var(--amplify-chat-draft-block-subject-spacing-gap-spacing-gap-sm);
+  padding: var(--amplify-chat-draft-block-subject-spacing-padding-vertical-spacing-padding-sm) var(--amplify-chat-draft-block-subject-spacing-padding-horizontal-spacing-padding-md);
+  border-bottom: var(--amplify-chat-draft-block-border-width-border-width-border-default) solid var(--amplify-chat-draft-block-subject-color-border-card-color-border-default);
+  overflow-wrap: break-word;
+}
+.ats-amplify-chat-draft-block__subject-label {
+  flex: 0 0 auto; white-space: nowrap;
+  color: var(--amplify-chat-draft-block-subject-label-color-content-text-color-text-secondary);
+  font-family: var(--amplify-chat-draft-block-subject-label-typography-font-family-typography-body-sm-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-draft-block-subject-label-typography-font-size-typography-body-sm-font-size);
+  font-weight: var(--amplify-chat-draft-block-subject-label-typography-font-weight-typography-body-sm-font-weight-medium);
+  line-height: var(--amplify-chat-draft-block-subject-label-typography-line-height-typography-body-sm-line-height);
+  letter-spacing: var(--amplify-chat-draft-block-subject-label-typography-letter-spacing-typography-body-sm-letter-spacing);
+}
+.ats-amplify-chat-draft-block__subject-value {
+  flex: 1 1 0; min-width: 0;
+  color: var(--amplify-chat-draft-block-subject-label-color-content-text-color-text-body);
+  font-family: var(--amplify-chat-draft-block-subject-label-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-draft-block-subject-label-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-draft-block-subject-label-typography-font-weight-typography-body-default-font-weight-default);
+  line-height: var(--amplify-chat-draft-block-subject-label-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-draft-block-subject-label-typography-letter-spacing-typography-body-default-letter-spacing);
+}
+
+/* 2. body: each line is a paragraph with body/paragraph spacing after it */
+.ats-amplify-chat-draft-block__body {
+  padding: var(--amplify-chat-draft-block-body-spacing-padding-vertical-spacing-padding-sm) var(--amplify-chat-draft-block-body-spacing-padding-horizontal-spacing-padding-md);
+  overflow-wrap: break-word;
+  color: var(--amplify-chat-draft-block-body-color-content-text-color-text-body);
+  font-family: var(--amplify-chat-draft-block-body-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-draft-block-body-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-draft-block-body-typography-font-weight-typography-body-default-font-weight-default);
+  line-height: var(--amplify-chat-draft-block-body-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-draft-block-body-typography-letter-spacing-typography-body-default-letter-spacing);
+}
+.ats-amplify-chat-draft-block__body > p { margin: 0 0 var(--amplify-chat-draft-block-body-spacing-paragraph-spacing-padding-sm); white-space: pre-wrap; }
+.ats-amplify-chat-draft-block__body > p:last-child { margin-bottom: 0; }
+
+/* 3. actions row: Buttons, right-aligned */
+.ats-amplify-chat-draft-block__actions {
+  display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: flex-start;
+  gap: var(--amplify-chat-draft-block-actions-spacing-gap-spacing-gap-sm);
+  padding: var(--amplify-chat-draft-block-actions-spacing-padding-vertical-spacing-padding-sm) var(--amplify-chat-draft-block-actions-spacing-padding-horizontal-spacing-padding-sm);
+  border-top: var(--amplify-chat-draft-block-border-width-border-width-border-default) solid var(--amplify-chat-draft-block-actions-color-border-card-color-border-default);
+}
+
+/* visually hidden live region ("Draft copied") */
+.ats-amplify-chat-draft-block__status {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}

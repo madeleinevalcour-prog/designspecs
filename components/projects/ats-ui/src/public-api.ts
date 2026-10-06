@@ -47,4 +47,7 @@ export * from './lib/menu/menu-option';
 export * from './lib/menu/menu-edit';
 
 // Amplify chat
+export * from './lib/amplify-chat/blocks';
+export * from './lib/amplify-chat/sources';
 export * from './lib/amplify-chat/text/index';
+export * from './lib/amplify-chat/user-messages';

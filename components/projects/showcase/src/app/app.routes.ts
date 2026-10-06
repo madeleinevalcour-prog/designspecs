@@ -7,7 +7,10 @@ import { HomePage } from './pages/home/home-page';
 // site and embedded with <doc-example>. Keep this list in the same order as the home list.
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
+  { path: 'amplify-chat-blocks', loadComponent: () => import('./pages/amplify-chat-blocks/amplify-chat-blocks-page').then((m) => m.AmplifyChatBlocksPage), title: 'Amplify Chat — Blocks — ats-ui' },
+  { path: 'amplify-chat-sources', loadComponent: () => import('./pages/amplify-chat-sources/amplify-chat-sources-page').then((m) => m.AmplifyChatSourcesPage), title: 'Amplify Chat — Sources — ats-ui' },
   { path: 'amplify-chat-text', loadComponent: () => import('./pages/amplify-chat-text/amplify-chat-text-page').then((m) => m.AmplifyChatTextPage), title: 'Amplify Chat — Text — ats-ui' },
+  { path: 'amplify-chat-user-messages', loadComponent: () => import('./pages/amplify-chat-user-messages/amplify-chat-user-messages-page').then((m) => m.AmplifyChatUserMessagesPage), title: 'Amplify Chat — User messages — ats-ui' },
   { path: 'bowling-alley', loadComponent: () => import('./pages/bowling-alley/bowling-alley-page').then((m) => m.BowlingAlleyPage), title: 'Bowling Alley — ats-ui' },
   { path: 'button', loadComponent: () => import('./pages/button/button-page').then((m) => m.ButtonPage), title: 'Button — ats-ui' },
   { path: 'icon', loadComponent: () => import('./pages/icon/icon-page').then((m) => m.IconPage), title: 'Icon — ats-ui' },

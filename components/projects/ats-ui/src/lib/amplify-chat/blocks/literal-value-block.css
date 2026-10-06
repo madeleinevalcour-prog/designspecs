@@ -1,0 +1,59 @@
+/* AmplifyChatLiteralValueBlock (Figma "amplify-chat/literal-value-block" 6152:117821).
+   Unencapsulated, namespaced .ats-amplify-chat-literal-value-block. */
+.ats-amplify-chat-literal-value-block {
+  position: relative; display: flex; align-items: flex-start;
+  gap: var(--amplify-chat-literal-value-block-spacing-gap-spacing-gap-md);
+  box-sizing: border-box; width: 100%;
+  padding: var(--amplify-chat-literal-value-block-spacing-padding-vertical-spacing-padding-sm)
+    var(--amplify-chat-literal-value-block-spacing-padding-right-spacing-padding-sm)
+    var(--amplify-chat-literal-value-block-spacing-padding-vertical-spacing-padding-sm)
+    var(--amplify-chat-literal-value-block-spacing-padding-left-spacing-padding-md);
+  border: var(--border-width-border-default) solid var(--amplify-chat-literal-value-block-color-border-card-color-border-default);
+  border-radius: var(--amplify-chat-literal-value-block-border-radius-border-radius-xsm);
+  background: var(--amplify-chat-literal-value-block-color-background-color-background-muted);
+}
+.ats-amplify-chat-literal-value-block__viewport { flex: 1 1 0; min-width: 0; overflow: hidden; }
+
+/* the value renders unchanged: spaces and line breaks preserved; wrapping is visual only */
+.ats-amplify-chat-literal-value-block__value {
+  margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-variant-ligatures: none;
+  color: var(--amplify-chat-literal-value-block-value-color-content-text-color-text-body);
+  font-family: var(--amplify-chat-literal-value-block-value-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-literal-value-block-value-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-literal-value-block-value-typography-font-weight-typography-body-default-font-weight-default);
+  line-height: var(--amplify-chat-literal-value-block-value-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-literal-value-block-value-typography-letter-spacing-typography-body-default-letter-spacing);
+}
+
+/* copy action: icon-button-no-container, theme=secondary (secondary fill + 1px border).
+   It keeps its slot at rest (transparent), so the value doesn't reflow on hover. */
+.ats-amplify-chat-literal-value-block__copy.ats-icon-button-no-container {
+  opacity: 0; /* not visibility: it stays in the tab order, and focusing it reveals it */
+  border: var(--border-width-border-default) solid var(--button-color-secondary-border-default);
+  background: var(--button-color-secondary-background-default);
+  color: var(--amplify-chat-literal-value-block-copy-copy-vector-color-content-icon-button-color-secondary-content-default);
+}
+.ats-amplify-chat-literal-value-block__copy.ats-icon-button-no-container:hover {
+  border-color: var(--button-color-secondary-border-hover);
+  background: var(--button-color-secondary-background-hover); color: var(--button-color-secondary-content-hover);
+}
+.ats-amplify-chat-literal-value-block__copy.ats-icon-button-no-container:focus-visible {
+  border-color: var(--button-color-secondary-border-focus);
+  background: var(--button-color-secondary-background-focus); color: var(--button-color-secondary-content-focus);
+}
+
+/* hover: live, keyboard focus inside, forced (docs), or just copied */
+.ats-amplify-chat-literal-value-block:hover, .ats-amplify-chat-literal-value-block:focus-within,
+.ats-amplify-chat-literal-value-block.is-hover, .ats-amplify-chat-literal-value-block.is-copied {
+  border-color: var(--amplify-chat-literal-value-block-color-border-chip-color-border-default-hover);
+}
+.ats-amplify-chat-literal-value-block:hover .ats-amplify-chat-literal-value-block__copy,
+.ats-amplify-chat-literal-value-block:focus-within .ats-amplify-chat-literal-value-block__copy,
+.ats-amplify-chat-literal-value-block.is-hover .ats-amplify-chat-literal-value-block__copy,
+.ats-amplify-chat-literal-value-block.is-copied .ats-amplify-chat-literal-value-block__copy { opacity: 1; }
+
+/* visually hidden live region ("Copied") */
+.ats-amplify-chat-literal-value-block__status {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
