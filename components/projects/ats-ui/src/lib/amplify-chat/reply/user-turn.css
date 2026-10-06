@@ -1,0 +1,2 @@
+/* AmplifyChatUserTurn (Figma "user-turn" 6237:176861): right-aligns the user bubble in the chat column. */
+.ats-amplify-chat-user-turn { display: flex; justify-content: flex-end; box-sizing: border-box; width: 100%; min-width: 0; }

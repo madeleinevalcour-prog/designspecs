@@ -1,0 +1,87 @@
+/* AmplifyChatChatBlock (Figma "amplify-chat/chat-block" 6150:20828).
+   Unencapsulated, namespaced .ats-amplify-chat-chat-block. */
+.ats-amplify-chat-chat-block {
+  display: flex; flex-direction: column; align-items: stretch;
+  gap: var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md);
+  box-sizing: border-box; width: 100%; min-width: 0;
+}
+
+/* identity: Icon/Amplify Radial 16 + "Amplify" body/sm-medium color/text/secondary */
+.ats-amplify-chat-chat-block__identity {
+  display: flex; align-items: center;
+  gap: var(--amplify-chat-chat-block-identity-spacing-gap-spacing-gap-xsm);
+  color: var(--amplify-chat-chat-block-identity-color-content-text-color-text-secondary);
+  font-family: var(--amplify-chat-chat-block-identity-typography-font-family-typography-body-sm-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-chat-block-identity-typography-font-size-typography-body-sm-font-size);
+  font-weight: var(--amplify-chat-chat-block-identity-typography-font-weight-typography-body-sm-font-weight-medium);
+  line-height: var(--amplify-chat-chat-block-identity-typography-line-height-typography-body-sm-line-height);
+  letter-spacing: var(--amplify-chat-chat-block-identity-typography-letter-spacing-typography-body-sm-letter-spacing);
+}
+/* Icon/Amplify Radial: the glyph mask filled with the Amplify radial gradient
+   (no token: gradient stops from the Figma asset amplify.svg, as in amplify-chat/text) */
+.ats-icon.ats-amplify-chat-chat-block__identity-icon {
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}
+
+/* thinking state: the status line (amplify-chat/text type=status) + Stop */
+.ats-amplify-chat-chat-block__status {
+  display: flex; align-items: center;
+  gap: var(--amplify-chat-chat-block-controls-spacing-gap-spacing-8);
+}
+.ats-amplify-chat-chat-block__status > .ats-amplify-chat-text { flex: 0 1 auto; }
+.ats-amplify-chat-chat-block__stop { flex: 0 0 auto; }
+
+/* body: the projected reply, in order. Paragraph to block = gap/md (16). */
+.ats-amplify-chat-chat-block__body {
+  display: flex; flex-direction: column; align-items: stretch;
+  gap: var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md);
+  min-width: 0;
+}
+.ats-amplify-chat-chat-block__body[hidden] { display: none; }
+.ats-amplify-chat-chat-block__body:empty { display: none; }
+/* prose (text, headings, lists): ~70ch reading cap; tables, cards and blocks use the full column
+   (no token: patterns doc "Spacing and layout", prose max 560) */
+.ats-amplify-chat-chat-block__body > :is(.ats-amplify-chat-text, .ats-amplify-chat-header, .ats-amplify-chat-numbered-list) {
+  max-width: 560px;
+}
+/* paragraph to paragraph: gap/sm (8) — Figma answer frame gap */
+.ats-amplify-chat-chat-block__body > .ats-amplify-chat-text + .ats-amplify-chat-text {
+  margin-top: calc(var(--amplify-chat-chat-block-answer-spacing-gap-spacing-gap-sm) - var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md));
+}
+/* section: 24 above a heading (gap/md + section padding-top 8), heading to its content gap/sm (8) */
+.ats-amplify-chat-chat-block__body > .ats-amplify-chat-header {
+  margin-top: var(--amplify-chat-chat-block-section-spacing-padding-top-spacing-padding-sm);
+}
+.ats-amplify-chat-chat-block__body > .ats-amplify-chat-header:first-child { margin-top: 0; }
+.ats-amplify-chat-chat-block__body > .ats-amplify-chat-header + * {
+  margin-top: calc(var(--amplify-chat-chat-block-section-spacing-gap-spacing-gap-sm) - var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md));
+}
+
+/* footer: sources row, then follow-up chips gap/sm (8) below it */
+.ats-amplify-chat-chat-block__footer {
+  display: flex; flex-direction: column; align-items: stretch;
+  gap: var(--amplify-chat-chat-block-footer-spacing-gap-spacing-gap-sm);
+}
+.ats-amplify-chat-chat-block__follow-ups {
+  display: flex; flex-wrap: wrap; align-items: flex-start;
+  gap: var(--amplify-chat-chat-block-footer-follow-ups-spacing-gap-spacing-gap-sm);
+}
+
+/* controls: chat actions (left) + optional primary action (right) */
+.ats-amplify-chat-chat-block__controls {
+  display: flex; align-items: center;
+  gap: var(--amplify-chat-chat-block-controls-spacing-gap-spacing-8);
+}
+.ats-amplify-chat-chat-block__actions {
+  display: flex; align-items: center; flex: 1 0 0; min-width: 1px;
+  gap: var(--amplify-chat-chat-block-actions-spacing-gap-button-spacing-default-gap);
+}
+.ats-amplify-chat-chat-block__actions > .ats-icon-button-no-container:not(:hover):not(:active):not(.is-active):not(:focus-visible) {
+  color: var(--amplify-chat-chat-block-actions-color-content-icon-button-color-icon-content-default);
+}
+
+/* visually hidden live region ("Copied") */
+.ats-amplify-chat-chat-block__sr {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
