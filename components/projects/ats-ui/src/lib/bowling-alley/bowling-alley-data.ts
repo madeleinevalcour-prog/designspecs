@@ -1,20 +1,20 @@
-import { ListItemField } from '../list-item/list-item';
+import { NovoListEntity, NovoListField } from '../novo-list/parts';
 
 /* Sample content for the overlays, taken from the Figma frames under 157:511. */
 
 export interface FastFindResult {
-  entity: string;
+  entity: NovoListEntity;
   title: string;
-  fields: ListItemField[];
+  fields: NovoListField[];
   body?: string;
 }
 
-const RESULT_FIELDS: ListItemField[] = [
-  { icon: 'company', text: 'Company Name', color: 'var(--color-entity-company)' },
-  { icon: 'user', text: 'Owner Name' },
-  { icon: 'phone', text: '(784) 432 - 5293' },
-  { icon: 'email', text: 'Email' },
-  { icon: 'location', text: 'Location' },
+const RESULT_FIELDS: NovoListField[] = [
+  { type: 'company', text: 'Company Name' },
+  { type: 'owner', text: 'Owner Name' },
+  { type: 'phone', text: '(784) 432 - 5293' },
+  { type: 'email', text: 'Email' },
+  { type: 'location', text: 'Location' },
 ];
 const RESULT_BODY = 'Tyler is Pre‑Registered and available starting June 23, 2026, seeking entry‑level cloud/infrastructure...';
 

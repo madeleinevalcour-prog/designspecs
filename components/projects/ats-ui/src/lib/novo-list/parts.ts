@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 import { Icon } from '../icon/icon';
+import { IconContainer, IconContainerTheme } from '../icon-container/icon-container';
+import { NovoChip } from '../novo-chip/novo-chip';
 
 // Sub-components of the Figma novo-list family (Component Migration, panel 46:3355).
 // Inputs accept `undefined` and fall back in computeds, so an unset binding (e.g. a
@@ -18,6 +20,13 @@ export type ItemFieldType =
 /** One field in an item-data row. `type` picks the Figma icon + color; `icon` overrides the glyph. */
 export interface NovoListField { type?: ItemFieldType; icon?: string; text: string; }
 
+// item-avatar `entity` → icon-container theme. Figma names jobs `jobs` and note `neutral`;
+// task has no icon-container theme, so it keeps its own entity color as a fill override.
+const ENTITY_THEME: Record<NovoListEntity, IconContainerTheme> = {
+  candidate: 'candidate', contact: 'contact', company: 'company', lead: 'lead', opportunity: 'opportunity',
+  job: 'jobs', submission: 'submission', placement: 'placement', note: 'neutral', task: 'neutral',
+};
+
 const FIELD_ICON: Record<Exclude<ItemFieldType, 'date-time'>, string> = {
   caption: 'info', status: 'info', company: 'company', email: 'email', phone: 'phone',
   location: 'location', date: 'calendar', contact: 'contact', owner: 'user',
@@ -33,8 +42,8 @@ const FIELD_COLOR: Partial<Record<ItemFieldType, string>> = {
 /**
  * ItemAvatar (Figma: "item-avatar", 573:2747). Three options:
  * - `header`  (573:2051): a 14px icon (default `preview`), e.g. the task circle-outline.
- * - `entity`  (1071:21094): 24px icon-container in `--color-entity-<entity>` with a 12px
- *   glyph in `icon-container/icon`.
+ * - `entity`  (1071:21094): an IconContainer instance (size sm: 24px, entity fill,
+ *   12px glyph in `icon-container/icon`).
  * - `content` (573:2748): a 16px icon (default `preview`), used by the horizontal list.
  *
  *   <ats-item-avatar option="entity" entity="job" />
@@ -42,12 +51,10 @@ const FIELD_COLOR: Partial<Record<ItemFieldType, string>> = {
  */
 @Component({
   selector: 'ats-item-avatar',
-  imports: [Icon],
+  imports: [Icon, IconContainer],
   template: `
     @if (opt() === 'entity') {
-      <span class="ats-item-avatar__container">
-        <ats-icon [name]="icon() ?? entityName()" [size]="12" color="var(--icon-container-icon)" />
-      </span>
+      <ats-icon-container size="sm" [theme]="theme()" [icon]="icon() ?? entityName()" [background]="fill()" />
     } @else {
       <ats-icon [name]="icon() ?? 'preview'" [size]="opt() === 'content' ? 16 : 14" [color]="color()" />
     }
@@ -66,6 +73,8 @@ export class ItemAvatar {
   readonly color = input<string>();
   protected readonly opt = computed(() => this.option() ?? 'header');
   protected readonly entityName = computed(() => this.entity() ?? 'candidate');
+  protected readonly theme = computed(() => ENTITY_THEME[this.entityName()]);
+  protected readonly fill = computed(() => (this.entityName() === 'task' ? 'var(--color-entity-task)' : undefined));
 }
 
 /**
@@ -245,13 +254,17 @@ export class RelevancyDots {
  * - `candidate-list` (6213:169090): [controls] slot (Figma: checkbox + content avatar,
  *   gap 8), then link text + a body/default second title in `content/subtle`
  *   (baseline-aligned), RelevancyDots, [indicator] slot. Gap 16.
+ * Both end with Figma's "caption" group (2868:68046, gap 4): an optional caption
+ * field (`caption`) and the indicator chip (`indicator`): a NovoChip, positive /
+ * medium with the bolt glyph, e.g. "10 New Results". Hidden unless set.
  *
  *   <ats-item-header title="2034 | Tyler Brooks"><ats-item-avatar avatar option="entity" /></ats-item-header>
  *   <ats-item-header link="Call Tyler Brooks"><ats-item-avatar avatar icon="circle-outline" /></ats-item-header>
+ *   <ats-item-header title="Saved search" indicator="10 New Results" />
  */
 @Component({
   selector: 'ats-item-header',
-  imports: [LinkText, RelevancyDots],
+  imports: [LinkText, RelevancyDots, ItemField, NovoChip],
   template: `
     @if (themeName() === 'candidate-list') {
       <span class="ats-item-header__controls"><ng-content select="[controls]" /></span>
@@ -264,6 +277,12 @@ export class RelevancyDots {
       <ng-content select="[avatar]" />
       @if (link()) { <ats-link-text [text]="link()!" [circle]="linkCircle()" /> }
       @if (title()) { <p class="ats-item-header__title">{{ title() }}</p> }
+    }
+    @if (caption() || indicator()) {
+      <span class="ats-item-header__caption">
+        @if (caption()) { <ats-item-field type="caption" [text]="caption()" /> }
+        @if (indicator()) { <ats-novo-chip color="positive" size="medium" icon="bolt" [label]="indicator()" /> }
+      </span>
     }
     <ng-content select="[indicator]" />
   `,
@@ -285,5 +304,9 @@ export class ItemHeader {
   readonly secondTitle = input<string>();
   /** candidate-list only: 0–5; omit to hide the dots. */
   readonly relevancy = input<number>();
+  /** Caption field before the indicator chip (Figma caption > item-content). */
+  readonly caption = input<string>();
+  /** Indicator chip label, e.g. "10 New Results"; omit to hide the chip. */
+  readonly indicator = input<string>();
   protected readonly themeName = computed(() => this.theme() ?? 'standard');
 }

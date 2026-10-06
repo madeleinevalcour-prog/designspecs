@@ -33,6 +33,8 @@ const BODY = 'Tyler is Pre‑Registered and available starting June 23, 2026, se
  *   state   = hover | focus — forces that state on the first item of a list view
  *   theme   = standard | candidate-list (item-header; default: both)
  *   type    = vertical-list | horizontal-list (item-content; default: both)
+ *   indicator = label of the header's indicator chip (a NovoChip), e.g. "10 New Results":
+ *             on the first item of default / fast-find lists, and on item-header
  */
 @Component({
   imports: [
@@ -54,6 +56,7 @@ export class NovoListPage {
   readonly state = input<NovoListItemState>();
   readonly theme = input<'standard' | 'candidate-list'>();
   readonly type = input<'vertical-list' | 'horizontal-list'>();
+  readonly indicator = input<string>();
 
   protected readonly embed = computed(() => !!this.view());
   protected readonly body = BODY;
@@ -128,6 +131,8 @@ export class NovoListPage {
   protected readonly showType = (t: string) => !this.type() || this.type() === t;
   /** Forced state for item `i` of a list view (first item only). */
   protected stateAt(i: number): NovoListItemState | undefined { return i === 0 ? this.state() : undefined; }
+  /** Indicator chip label for item `i` of a list view (first item only). */
+  protected indicatorAt(i: number): string | undefined { return i === 0 ? this.indicator() : undefined; }
 
   // ---- click demo ----
   protected readonly lastClick = signal<string | null>(null);

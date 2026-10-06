@@ -39,13 +39,13 @@ const presetHost = { class: 'ats-novo-list-preset', '[attr.title]': 'null' };
 /**
  * NovoListItemDefault (Figma: novo-list's list-item, 182:18861). Entity avatar +
  * headline title over company / owner / phone / email / location / status and an
- * optional comment.
+ * optional comment. `indicator` shows the header's indicator chip (a NovoChip).
  */
 @Component({
   selector: 'ats-novo-list-item-default',
   imports: [NovoListItem, ItemHeader, ItemContent, ItemAvatar],
   template: `${ROW}
-      <ats-item-header [title]="title()"><ats-item-avatar avatar option="entity" [entity]="entity()" /></ats-item-header>
+      <ats-item-header [title]="title()" [indicator]="indicator()"><ats-item-avatar avatar option="entity" [entity]="entity()" /></ats-item-header>
       <ats-item-content [fields]="fieldList()" [body]="comment()" />
     </ats-novo-list-item>`,
   encapsulation: ViewEncapsulation.None,
@@ -55,6 +55,8 @@ const presetHost = { class: 'ats-novo-list-preset', '[attr.title]': 'null' };
 export class NovoListItemDefault extends NovoListItemPreset {
   readonly entity = input<NovoListEntity | undefined>('candidate');
   readonly title = input.required<string>();
+  /** Header indicator chip label, e.g. "10 New Results"; omit to hide. */
+  readonly indicator = input<string>();
   readonly fields = input<NovoListField[] | undefined>(DEFAULT_FIELDS);
   readonly comment = input<string>();
   protected readonly fieldList = computed(() => this.fields() ?? DEFAULT_FIELDS);
@@ -69,7 +71,7 @@ export class NovoListItemDefault extends NovoListItemPreset {
   selector: 'ats-novo-list-item-fast-find',
   imports: [NovoListItem, ItemHeader, ItemContent, ItemAvatar],
   template: `${ROW}
-      <ats-item-header [title]="title()"><ats-item-avatar avatar option="entity" [entity]="entity()" /></ats-item-header>
+      <ats-item-header [title]="title()" [indicator]="indicator()"><ats-item-avatar avatar option="entity" [entity]="entity()" /></ats-item-header>
       <ats-item-content [fields]="fieldList()" />
     </ats-novo-list-item>`,
   encapsulation: ViewEncapsulation.None,
@@ -79,6 +81,8 @@ export class NovoListItemDefault extends NovoListItemPreset {
 export class NovoListItemFastFind extends NovoListItemPreset {
   readonly entity = input<NovoListEntity | undefined>('candidate');
   readonly title = input.required<string>();
+  /** Header indicator chip label, e.g. "10 New Results"; omit to hide. */
+  readonly indicator = input<string>();
   readonly fields = input<NovoListField[] | undefined>(FAST_FIND_FIELDS);
   protected readonly fieldList = computed(() => this.fields() ?? FAST_FIND_FIELDS);
   protected readonly rowLabel = computed(() => this.label() ?? this.title());

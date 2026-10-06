@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novo Chip — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Novo Chip" meta="Status: in review · Figma: Component Migration novo-chip 157:2949 (panel 45:445) · Code: ats-ui NovoChip · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Novo Chip shows a short value, such as a tag, a filter or a status, with an optional leading glyph and an optional remove button. It’s styled from the <span class="chip">chip/*</span> tokens.</p>
+    <doc-example src="novo-chip?colors=default,negative,warning,positive,success" caption="The five colors, medium" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="types" label="Types">
+    <table class="tbl">
+      <thead><tr><th>Type</th><th>Label</th><th>Icons</th></tr></thead>
+      <tbody>
+        <tr><td>default</td><td><span class="chip">chip/color/content/&lt;color&gt;/default</span></td><td>Same color as the label</td></tr>
+        <tr><td>link</td><td><span class="chip">chip/color/content/&lt;color&gt;/link</span>, <span class="chip">…/link-hover</span> on hover</td><td>Default color: stay gray. Other colors: follow the label</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="novo-chip?types=default,link&amp;colors=default,negative" caption="default and link, in default and negative" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="sizes" label="Sizes">
+    <doc-example src="novo-chip?sizes=small,medium,large" caption="small · medium · large" height="110"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Size</th><th>Text</th><th>Icons</th><th>Padding (v / h)</th><th>Gap</th><th>Height</th></tr></thead>
+      <tbody>
+        <tr><td>small</td><td><span class="chip">typography/meta/small</span></td><td>10px</td><td><span class="chip">chip/spacing/sm/*</span> 4 / 4px</td><td>4px</td><td>max 24px</td></tr>
+        <tr><td>medium</td><td><span class="chip">typography/meta/default</span></td><td>12px</td><td><span class="chip">chip/spacing/md/*</span> 4 / 8px</td><td>8px</td><td>24px (min 24, max 32)</td></tr>
+        <tr><td>large</td><td><span class="chip">typography/meta/large</span></td><td>14px</td><td><span class="chip">chip/spacing/lg/*</span> 8 / 12px</td><td>8px</td><td>32px (min 24, max 40)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="states" label="States">
+    <p>Hover applies when the chip is interactive (removable, or a link). Focus shows while its remove button or link has keyboard focus. Every color uses the same focus fill and a 2px stroke.</p>
+    <doc-example src="novo-chip?states=default,hover,focus" caption="Default color — default · hover · focus" height="110"></doc-example>
+    <doc-example src="novo-chip?colors=negative&amp;states=default,hover,focus" caption="Negative — default · hover · focus" height="110"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Fill</th><th>Stroke</th><th>Content</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td><span class="chip">chip/color/background/&lt;color&gt;/default</span></td><td><span class="chip">chip/color/border/&lt;color&gt;/default</span>, 1px</td><td><span class="chip">chip/color/content/&lt;color&gt;/default</span></td></tr>
+        <tr><td>Hover</td><td><span class="chip">…/background/&lt;color&gt;/hover</span></td><td><span class="chip">…/border/&lt;color&gt;/hover</span></td><td><span class="chip">…/content/&lt;color&gt;/hover</span></td></tr>
+        <tr><td>Focus</td><td><span class="chip">chip/color/background/default/focus</span></td><td><span class="chip">chip/color/border/default/focus</span>, <span class="chip">chip/border/focus-width</span> (2px)</td><td><span class="chip">…/content/&lt;color&gt;/focus</span></td></tr>
+      </tbody>
+    </table>
+    <p>Warning has no visible stroke: Figma strokes it with its own fill token. Strokes are drawn inside the chip, so focus doesn’t change its size.</p>
+  </doc-section>
+
+  <doc-section id="remove" label="Removing a chip">
+    <doc-example src="novo-chip?demo=group" caption="Removable group — try it" height="90"></doc-example>
+    <doc-example src="novo-chip?colors=positive&amp;removable=false&amp;label=10%20New%20Results" caption="No remove button: the Novo List indicator chip" height="100"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>The remove control is a native button labelled “Remove &lt;label&gt;”. Enter or Space removes the chip.</li>
+      <li>With <span class="chip">href</span>, the label is a real link. Without it, a link-type chip is only styled as a link.</li>
+      <li>Glyphs are decorative and hidden from screen readers.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>The component lives in the <span class="chip">ats-ui</span> Angular library. The app removes the chip in its <span class="chip">(removed)</span> handler.</p>
+    <doc-code caption="Angular">
+      &lt;ats-novo-chip label="Java" removable (removed)="drop('Java')" /&gt;
+      &lt;ats-novo-chip color="positive" icon="bolt" label="10 New Results" /&gt;
+      &lt;ats-novo-chip type="link" href="/jobs/425" label="425 | Project Manager" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">label</span></td><td>Text</td><td>—</td></tr>
+        <tr><td><span class="chip">type</span></td><td>default · link</td><td>default</td></tr>
+        <tr><td><span class="chip">size</span></td><td>small · medium · large</td><td>medium</td></tr>
+        <tr><td><span class="chip">color</span></td><td>default · negative · warning · positive · success</td><td>default</td></tr>
+        <tr><td><span class="chip">icon</span></td><td>Leading glyph name; omit to hide</td><td>—</td></tr>
+        <tr><td><span class="chip">removable</span></td><td>boolean. Shows the remove button; emits <span class="chip">(removed)</span></td><td>false</td></tr>
+        <tr><td><span class="chip">removeAriaLabel</span></td><td>Accessible name of the remove button</td><td>“Remove &lt;label&gt;”</td></tr>
+        <tr><td><span class="chip">href</span></td><td>Renders the label as a link</td><td>—</td></tr>
+        <tr><td><span class="chip">state</span></td><td>hover · focus — forces a state, for documentation only</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Warning stroke.">Figma binds the warning stroke to <span class="chip">chip/color/background/warning/*</span>, although <span class="chip">chip/color/border/warning/*</span> tokens exist. The code follows Figma.</doc-callout>
+    <doc-callout type="note" heading="Hover on static chips.">Figma shows a hover state for every chip. The code applies it only to removable or linked chips, so a static chip doesn’t look clickable.</doc-callout>
+    <doc-callout type="note" heading="Default link label.">The default-color link label is unbound in Figma (#296cc3, #1450a0 on hover and focus). The code uses <span class="chip">chip/color/content/default/link</span> and <span class="chip">…/link-hover</span>.</doc-callout>
+    <doc-callout type="note" heading="Disabled and chip-group.">Disabled tokens exist but Figma draws no disabled chip. The chip-group set (5666:132573) isn’t built yet.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

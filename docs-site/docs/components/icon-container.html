@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon Container — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Icon Container" meta="Status: in review · Figma: Component Migration icon-container 164:17910 · Code: ats-ui IconContainer · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">Icon Container marks a record type or an app with a colored square and one white glyph. Each theme uses its entity color from <span class="chip">color/entity/*</span>.</p>
+    <doc-example src="icon-container?themes=candidate,contact,company,lead,opportunity,jobs,placement,submission,neutral,amplify&amp;sizes=md" caption="Every theme, md" height="130"></doc-example>
+  </doc-section>
+
+  <doc-section id="themes" label="Themes">
+    <table class="tbl">
+      <thead><tr><th>Theme</th><th>Fill</th><th>Default glyph</th></tr></thead>
+      <tbody>
+        <tr><td>candidate · contact · company · lead · opportunity · placement · submission</td><td><span class="chip">color/entity/&lt;theme&gt;</span></td><td>The entity’s own glyph</td></tr>
+        <tr><td>jobs</td><td><span class="chip">color/entity/job</span></td><td><span class="chip">job</span></td></tr>
+        <tr><td>neutral</td><td><span class="chip">color/entity/note</span></td><td><span class="chip">note</span>. Apps that aren’t an entity pass their own glyph</td></tr>
+        <tr><td>amplify</td><td>The Amplify Radial gradient (Figma style, no variable)</td><td><span class="chip">amplify</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="icon-container?themes=neutral&amp;sizes=md&amp;icon=dashboard&amp;captions=false" caption="Neutral with an app glyph (dashboard), as in the bowling alley Menu" height="100"></doc-example>
+  </doc-section>
+
+  <doc-section id="sizes" label="Sizes">
+    <doc-example src="icon-container?themes=candidate&amp;sizes=sm,md,lg" caption="sm · md · lg" height="140"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Size</th><th>Box</th><th>Glyph</th><th>Radius</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>sm</td><td>24 × 24px</td><td>12px</td><td><span class="chip">border/radius/xsm</span> (4px)</td><td>Novo List entity avatar, bowling alley Add menu</td></tr>
+        <tr><td>md</td><td>40 × 40px</td><td>20px</td><td><span class="chip">border/radius/sm</span> (8px)</td><td>Bowling alley Menu app chips</td></tr>
+        <tr><td>lg</td><td>48 × 48px</td><td>24px</td><td><span class="chip">border/radius/sm</span> (8px)</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It’s decorative: the glyph is hidden from screen readers. Put the meaning in the text beside it (the record title or app name), or label the control that contains it.</li>
+      <li>The glyph is white (<span class="chip">icon-container/icon</span>) on every fill. Check contrast on the light fills (contact, submission) before using the container without a text label.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Glyph color</td><td><span class="chip">icon-container/icon</span></td></tr>
+        <tr><td>Fill</td><td><span class="chip">color/entity/&lt;entity&gt;</span>; neutral: <span class="chip">color/entity/note</span></td></tr>
+        <tr><td>Radius</td><td><span class="chip">border/radius/xsm</span> (sm), <span class="chip">border/radius/sm</span> (md, lg)</td></tr>
+        <tr><td>Box size</td><td>None: 24 / 40 / 48px are fixed in Figma</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <p>The component lives in the <span class="chip">ats-ui</span> Angular library and wraps an <span class="chip">&lt;ats-icon&gt;</span>.</p>
+    <doc-code caption="Angular">
+      &lt;ats-icon-container theme="candidate" /&gt;
+      &lt;ats-icon-container theme="amplify" size="md" /&gt;
+      &lt;ats-icon-container theme="neutral" size="md" icon="dashboard" /&gt;
+      &lt;ats-icon-container size="md" icon="task" background="var(--color-entity-task)" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">theme</span></td><td>jobs · candidate · contact · company · neutral · opportunity · lead · placement · submission · amplify</td><td>jobs</td></tr>
+        <tr><td><span class="chip">size</span></td><td>sm · md · lg</td><td>sm</td></tr>
+        <tr><td><span class="chip">icon</span></td><td>Any glyph name from the icon set</td><td>The theme’s glyph</td></tr>
+        <tr><td><span class="chip">background</span></td><td>Any CSS color or <span class="chip">var()</span>. Overrides the theme fill, for an entity with no theme (task)</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Task color.">Figma has no task theme. The bowling alley Menu paints Tasks with <span class="chip">color/entity/task</span> through <span class="chip">background</span>, while Figma’s Add menu shows Task as neutral. Confirm which is right, or add a task theme.</doc-callout>
+    <doc-callout type="note" heading="Default glyph.">Every Figma variant shows the Candidate glyph as a placeholder. The code defaults each theme to its own entity glyph instead.</doc-callout>
+    <doc-callout type="note" heading="Amplify gradient.">The gradient is a Figma style, not a variable. The code reuses the stops used by the other Amplify surfaces in ats-ui.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

@@ -24,8 +24,8 @@
       <tbody>
         <tr><td>NovoList</td><td>novo-list (3775:94850)</td><td>Vertical stack of list items, no gap. Every item keeps its divider, including the last.</td></tr>
         <tr><td>NovoListItem</td><td>list-item (692:19339), state default / hover</td><td>The row: padding, white background, bottom divider, and the full-row click target</td></tr>
-        <tr><td>ItemHeader</td><td>item-header (2200:30194), theme standard / candidate-list</td><td>Avatar, link text and/or title, plus an indicator slot</td></tr>
-        <tr><td>ItemAvatar</td><td>item-avatar (573:2747), option header / entity / content</td><td>14px icon, 24px entity chip, or 16px icon</td></tr>
+        <tr><td>ItemHeader</td><td>item-header (2200:30194), theme standard / candidate-list</td><td>Avatar, link text and/or title, then an optional caption and indicator chip (a <a href="novo-chip.html">Novo Chip</a>)</td></tr>
+        <tr><td>ItemAvatar</td><td>item-avatar (573:2747), option header / entity / content</td><td>14px icon, an <a href="icon-container.html">Icon Container</a> (sm, 24px), or 16px icon</td></tr>
         <tr><td>LinkText</td><td>link-text (737:11402), size large</td><td>Optional 12px circle plus a link-colored label</td></tr>
         <tr><td>ItemContent</td><td>item-content (573:1676), type vertical-list / horizontal-list</td><td>A comment block; horizontal adds an avatar and date-time in front</td></tr>
         <tr><td>ItemComment</td><td>comment (574:2866)</td><td>Item data over an optional body paragraph</td></tr>
@@ -79,6 +79,9 @@
     <h3>ItemHeader</h3>
     <p>Standard: avatar, optional link text, headline title. Candidate-list: checkbox and avatar controls, link text with a subtle second title, and relevancy dots.</p>
     <doc-example src="novo-list?view=item-header" caption="Standard and candidate-list" height="160"></doc-example>
+    <p>Both themes end with Figma’s caption group: an optional caption field and the indicator chip, a positive / medium Novo Chip with the bolt glyph. Set <span class="chip">indicator</span> to show it.</p>
+    <doc-example src="novo-list?view=item-header&amp;theme=standard&amp;indicator=10%20New%20Results" caption="Standard header with the indicator chip" height="90"></doc-example>
+    <doc-example src="novo-list?view=default&amp;count=1&amp;indicator=10%20New%20Results" caption="Default item with the indicator chip" height="150"></doc-example>
     <doc-example src="novo-list?view=composed" caption="A row composed with the candidate-list header. The checkbox stays its own control." height="150"></doc-example>
     <h3>ItemField</h3>
     <p>Company, contact and candidate icons use their entity color; the rest use the illustration color. Caption is smaller and muted. Date-time stacks the date over the time.</p>
@@ -124,7 +127,8 @@
         <tr><td>Caption label</td><td><span class="chip">list-item/color/content/disabled</span> · <span class="chip">typography/meta/small</span></td></tr>
         <tr><td>Date / time</td><td><span class="chip">list-item/color/content/body</span> / <span class="chip">list-item/color/content/subtle</span> · <span class="chip">typography/meta/default</span></td></tr>
         <tr><td>Field and avatar icons</td><td><span class="chip">color/icon/illustration</span>; company, contact, candidate fields use <span class="chip">color/entity/&lt;entity&gt;</span></td></tr>
-        <tr><td>Entity chip fill / glyph</td><td><span class="chip">color/entity/&lt;entity&gt;</span> / <span class="chip">icon-container/icon</span></td></tr>
+        <tr><td>Entity avatar (Icon Container)</td><td><span class="chip">color/entity/&lt;entity&gt;</span> / <span class="chip">icon-container/icon</span></td></tr>
+        <tr><td>Indicator chip (Novo Chip, positive)</td><td><span class="chip">chip/color/background/positive/default</span>, <span class="chip">chip/color/border/positive/default</span>, <span class="chip">chip/color/content/positive/default</span></td></tr>
         <tr><td>Job circle</td><td><span class="chip">color/entity/job</span></td></tr>
         <tr><td>Relevancy dots</td><td><span class="chip">color/blue/medium-blue</span> · <span class="chip">color/utility/blue/100</span> · <span class="chip">border/width/border-default</span></td></tr>
       </tbody>
@@ -173,13 +177,13 @@
         <tr><td><span class="chip">href</span></td><td>URL; renders the row action as a link</td><td>— (button)</td></tr>
         <tr><td><span class="chip">label</span></td><td>Accessible name of the row action</td><td>Presets: the title</td></tr>
         <tr><td><span class="chip">state</span></td><td>hover · focus (forced, for docs)</td><td>—</td></tr>
-        <tr><td><span class="chip">ats-novo-list-item-default</span></td><td><span class="chip">title</span>, <span class="chip">entity</span>, <span class="chip">fields</span>, <span class="chip">comment</span></td><td>Text (title required), entity, <span class="chip">NovoListField[]</span>, text</td><td>entity candidate; six sample fields</td></tr>
-        <tr><td><span class="chip">ats-novo-list-item-fast-find</span></td><td><span class="chip">title</span>, <span class="chip">entity</span>, <span class="chip">fields</span></td><td>As default</td><td>Five sample fields (no owner)</td></tr>
+        <tr><td><span class="chip">ats-novo-list-item-default</span></td><td><span class="chip">title</span>, <span class="chip">entity</span>, <span class="chip">fields</span>, <span class="chip">comment</span>, <span class="chip">indicator</span></td><td>Text (title required), entity, <span class="chip">NovoListField[]</span>, text, indicator chip label</td><td>entity candidate; six sample fields</td></tr>
+        <tr><td><span class="chip">ats-novo-list-item-fast-find</span></td><td><span class="chip">title</span>, <span class="chip">entity</span>, <span class="chip">fields</span>, <span class="chip">indicator</span></td><td>As default</td><td>Five sample fields (no owner)</td></tr>
         <tr><td><span class="chip">ats-novo-list-item-task</span></td><td><span class="chip">title</span>, <span class="chip">fields</span>, <span class="chip">comment</span></td><td>As default</td><td>date, status, owner samples</td></tr>
         <tr><td><span class="chip">ats-novo-list-item-job</span></td><td><span class="chip">title</span>, <span class="chip">company</span>, <span class="chip">date</span>, <span class="chip">status</span>, <span class="chip">entity</span></td><td>Text; entity tints the circle</td><td>Company Name · May 23, 2024 · Internally submitted · job</td></tr>
         <tr><td><span class="chip">ats-novo-list-item-note</span></td><td><span class="chip">date</span>, <span class="chip">time</span>, <span class="chip">body</span> (required), <span class="chip">user</span>, <span class="chip">phone</span>, <span class="chip">action</span></td><td>Text; phone hidden when unset</td><td>Owner Name · — · Note Action</td></tr>
         <tr><td><span class="chip">ats-novo-list-item-suggested-action</span></td><td><span class="chip">title</span>, <span class="chip">text</span>, <span class="chip">actionLabel</span>, <span class="chip">(action)</span></td><td>Text; <span class="chip">(action)</span> fires on the View button</td><td>View</td></tr>
-        <tr><td><span class="chip">ats-item-header</span></td><td><span class="chip">theme</span>, <span class="chip">title</span>, <span class="chip">link</span>, <span class="chip">linkCircle</span>, <span class="chip">secondTitle</span>, <span class="chip">relevancy</span></td><td>standard · candidate-list; text; CSS color; 0–5</td><td>standard</td></tr>
+        <tr><td><span class="chip">ats-item-header</span></td><td><span class="chip">theme</span>, <span class="chip">title</span>, <span class="chip">link</span>, <span class="chip">linkCircle</span>, <span class="chip">secondTitle</span>, <span class="chip">relevancy</span>, <span class="chip">caption</span>, <span class="chip">indicator</span></td><td>standard · candidate-list; text; CSS color; 0–5; caption text; indicator chip label</td><td>standard</td></tr>
         <tr><td><span class="chip">ats-item-avatar</span></td><td><span class="chip">option</span>, <span class="chip">entity</span>, <span class="chip">icon</span>, <span class="chip">color</span></td><td>header · entity · content; entity; icon name; CSS color</td><td>header · candidate · preview</td></tr>
         <tr><td><span class="chip">ats-link-text</span></td><td><span class="chip">text</span>, <span class="chip">circle</span></td><td>Text; CSS color (unset hides the circle)</td><td>—</td></tr>
         <tr><td><span class="chip">ats-item-content</span></td><td><span class="chip">type</span>, <span class="chip">fields</span>, <span class="chip">body</span>, <span class="chip">date</span>, <span class="chip">time</span>, <span class="chip">avatarIcon</span></td><td>vertical-list · horizontal-list; date/time/avatar for horizontal</td><td>vertical-list</td></tr>
@@ -193,7 +197,7 @@
 
   <doc-section id="to-confirm" label="To confirm">
     <doc-callout type="note" heading="Focus state.">Figma has no list-item focus variant. Rows use Button’s 2px inset ring in <span class="chip">color/border/focus</span>.</doc-callout>
-    <doc-callout type="note" heading="Indicator chip.">The item header’s caption and “10 New Results” chip (novo-chip) aren’t built here; the header exposes an <span class="chip">indicator</span> slot for them.</doc-callout>
+    <doc-callout type="note" heading="Indicator chip.">Figma’s header instance is an older novo-chip variant (“novo-chip/default/removable/medium”) bound to <span class="chip">color/background/utility/positive</span> directly, 22px tall. The code uses the current Novo Chip (positive, medium, 24px). The task entity has no Icon Container theme, so its avatar keeps <span class="chip">color/entity/task</span> as a fill override.</doc-callout>
     <doc-callout type="note" heading="View button border.">Figma’s suggested-action View button has a raw #008eff border. Code uses the Button component’s secondary Amplify styling instead (Figma also lists an Amplify gradient border style).</doc-callout>
     <doc-callout type="note" heading="Hover token.">Figma binds <span class="chip">list/color/background/hover</span>. A separate <span class="chip">list-item/color/background/hover</span> token also exists (same value today). Confirm which one should own the row hover.</doc-callout>
   </doc-section>

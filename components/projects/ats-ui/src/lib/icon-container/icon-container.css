@@ -1,0 +1,35 @@
+/* icon-container (Figma Component Migration 164:17910). Fill = color/entity/*
+   (bound in Figma), glyph = icon-container/icon, radius = border/radius/xsm (sm)
+   or border/radius/sm (md, lg). Unencapsulated, namespaced .ats-icon-container. */
+
+.ats-icon-container {
+  display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center;
+  box-sizing: border-box; vertical-align: middle;
+  width: 24px; height: 24px; /* no token: Figma's fixed sm box */
+  border-radius: var(--border-radius-xsm);
+  background: var(--color-entity-job);
+}
+.ats-icon-container .ats-icon { display: block; flex: 0 0 auto; }
+
+.ats-icon-container[data-size="md"] {
+  width: 40px; height: 40px; /* no token: Figma's fixed md box */
+  border-radius: var(--border-radius-sm);
+}
+.ats-icon-container[data-size="lg"] {
+  width: 48px; height: 48px; /* no token: Figma's fixed lg box */
+  border-radius: var(--border-radius-sm);
+}
+
+.ats-icon-container[data-theme="jobs"]        { background: var(--color-entity-job); }
+.ats-icon-container[data-theme="candidate"]   { background: var(--color-entity-candidate); }
+.ats-icon-container[data-theme="contact"]     { background: var(--color-entity-contact); }
+.ats-icon-container[data-theme="company"]     { background: var(--color-entity-company); }
+.ats-icon-container[data-theme="neutral"]     { background: var(--color-entity-note); }
+.ats-icon-container[data-theme="opportunity"] { background: var(--color-entity-opportunity); }
+.ats-icon-container[data-theme="lead"]        { background: var(--color-entity-lead); }
+.ats-icon-container[data-theme="placement"]   { background: var(--color-entity-placement); }
+.ats-icon-container[data-theme="submission"]  { background: var(--color-entity-submission); }
+.ats-icon-container[data-theme="amplify"] {
+  /* no token: Figma style "Amplify Radial" (same stops as the Amplify glyph elsewhere in ats-ui) */
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}

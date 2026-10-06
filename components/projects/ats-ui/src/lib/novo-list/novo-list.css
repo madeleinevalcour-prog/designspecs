@@ -57,6 +57,7 @@
 .ats-item-header__controls { display: flex; align-items: center; gap: var(--list-item-spacing-gap-vertical); flex: 0 0 auto; }
 .ats-item-header__controls:empty { display: none; }
 .ats-item-header__item-title { display: flex; align-items: baseline; gap: var(--list-item-spacing-header-gap); flex: 1 0 0; min-width: 0; }
+.ats-item-header__caption { display: inline-flex; align-items: center; gap: var(--list-item-spacing-gap-horizontal); flex: 0 0 auto; }
 .ats-item-header__second-title {
   color: var(--list-item-color-content-subtle); white-space: nowrap;
   font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
@@ -76,24 +77,8 @@
 /* ---- item-avatar (573:2747) ---- */
 .ats-item-avatar { display: flex; align-items: flex-start; flex: 0 0 auto; }
 .ats-item-avatar[data-option="content"] { align-items: center; justify-content: center; }
-.ats-item-avatar[data-option="entity"] {
-  width: 24px; height: 24px; /* no token: Figma's fixed 24px entity avatar */
-}
-.ats-item-avatar__container {
-  flex: 1 0 0; display: flex; align-items: center; justify-content: center;
-  border-radius: var(--border-radius-xsm); background: var(--color-entity-candidate);
-}
 .ats-item-avatar .ats-icon { display: block; }
-.ats-item-avatar[data-entity="candidate"]   .ats-item-avatar__container { background: var(--color-entity-candidate); }
-.ats-item-avatar[data-entity="contact"]     .ats-item-avatar__container { background: var(--color-entity-contact); }
-.ats-item-avatar[data-entity="company"]     .ats-item-avatar__container { background: var(--color-entity-company); }
-.ats-item-avatar[data-entity="lead"]        .ats-item-avatar__container { background: var(--color-entity-lead); }
-.ats-item-avatar[data-entity="opportunity"] .ats-item-avatar__container { background: var(--color-entity-opportunity); }
-.ats-item-avatar[data-entity="job"]         .ats-item-avatar__container { background: var(--color-entity-job); }
-.ats-item-avatar[data-entity="submission"]  .ats-item-avatar__container { background: var(--color-entity-submission); }
-.ats-item-avatar[data-entity="placement"]   .ats-item-avatar__container { background: var(--color-entity-placement); }
-.ats-item-avatar[data-entity="note"]        .ats-item-avatar__container { background: var(--color-entity-note); }
-.ats-item-avatar[data-entity="task"]        .ats-item-avatar__container { background: var(--color-entity-task); }
+/* entity option = an <ats-icon-container size="sm"> (24px, its own fill + radius) */
 
 /* ---- item-content (573:1676) ---- */
 .ats-item-content {

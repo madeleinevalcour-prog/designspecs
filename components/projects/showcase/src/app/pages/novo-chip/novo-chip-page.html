@@ -1,0 +1,64 @@
+@if (embed() && !groupOnly()) {
+  <div class="embed-row">
+    @for (c of cells(); track c.caption) {
+      <div class="embed-cell">
+        <ats-novo-chip [type]="c.type" [size]="c.size" [color]="c.color" [state]="forced(c.state)"
+          [label]="embedLabel()" [icon]="embedIcon()" [removable]="embedRemovable()" />
+        @if (captions()) { <span class="caption">{{ c.caption }}</span> }
+      </div>
+    }
+  </div>
+} @else if (groupOnly()) {
+  <div class="embed-row">
+    <div class="group" role="group" aria-label="Skills">
+      @for (s of skills(); track s) { <ats-novo-chip [label]="s" removable (removed)="remove(s)" /> }
+      @if (!skills().length) { <button type="button" class="reset" (click)="reset()">Reset</button> }
+    </div>
+  </div>
+} @else {
+  <h1>Novo Chip</h1>
+  <p class="lede">
+    Angular build of the Figma <code>novo-chip</code> component set (157:2949): type × size × state × color,
+    bound to the <code>chip/*</code> tokens. Hover and focus columns are forced; the remove buttons are live
+    (Tab to one to see the real focus state).
+  </p>
+
+  @for (color of allColors; track color) {
+    <section>
+      <h2>color = {{ color }}</h2>
+      <div class="grid">
+        <span class="col-head"></span>
+        @for (t of allTypes; track t) { @for (s of allSizes; track s) { <span class="col-head">{{ t }} · {{ s }}</span> } }
+        @for (st of allStates; track st) {
+          <span class="row-head">{{ st }}</span>
+          @for (t of allTypes; track t) {
+            @for (s of allSizes; track s) {
+              <span class="cell"><ats-novo-chip [type]="t" [size]="s" [color]="color" [state]="forced(st)" label="label" icon="bolt" removable /></span>
+            }
+          }
+        }
+      </div>
+    </section>
+  }
+
+  <section>
+    <h2>Options</h2>
+    <p class="lede">Leading icon and remove button are optional; a link chip with <code>href</code> renders its label as a link.</p>
+    <div class="row">
+      <ats-novo-chip label="Label only" />
+      <ats-novo-chip label="With icon" icon="bolt" />
+      <ats-novo-chip label="Removable" removable />
+      <ats-novo-chip type="link" label="425 | Project Manager" href="#" />
+      <ats-novo-chip color="positive" icon="bolt" label="10 New Results" />
+    </div>
+  </section>
+
+  <section>
+    <h2>Live: removable group</h2>
+    <p class="lede">Each remove button is a native button labelled "Remove &lt;label&gt;".</p>
+    <div class="group" role="group" aria-label="Skills">
+      @for (s of skills(); track s) { <ats-novo-chip [label]="s" removable (removed)="remove(s)" /> }
+      @if (!skills().length) { <button type="button" class="reset" (click)="reset()">Reset</button> }
+    </div>
+  </section>
+}

@@ -13,7 +13,9 @@ import {
 } from '@angular/core';
 import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
-import { ListItem } from '../list-item/list-item';
+import { IconContainer, IconContainerTheme } from '../icon-container/icon-container';
+import { NovoList } from '../novo-list/novo-list';
+import { NovoListItemDefault } from '../novo-list/presets';
 import { SearchInput } from '../search-input/search-input';
 import {
   BOWLING_ALLEY_ADD_ITEMS,
@@ -29,10 +31,14 @@ import {
  * `<ats-bowling-alley-shell>` positions it next to the tab that opened it.
  */
 
+/** Data color → icon-container theme (Figma: job = `jobs`, note / neutral = `neutral`). */
+const chipTheme = (color: string): IconContainerTheme =>
+  color === 'job' ? 'jobs' : color === 'note' || color === 'neutral' || color === 'task' ? 'neutral' : (color as IconContainerTheme);
+
 /** Menu (Figma novo-drag-container 1323:68245): header + Filter, then app sections. */
 @Component({
   selector: 'ats-menu-overlay',
-  imports: [Button, Icon, SearchInput],
+  imports: [Button, IconContainer, SearchInput],
   template: `
     <div class="ats-menu__header">
       <div class="ats-menu__title-row">
@@ -45,9 +51,7 @@ import {
       <div class="ats-menu__grid">
         @for (item of apps; track $index) {
           <button class="ats-menu__item" type="button" [hidden]="!show(item.label)" (click)="selected.emit(item.label)">
-            <span class="ats-menu__chip" [class.ats-menu__chip--amplify]="item.color === 'amplify'" [style.background]="chipColor(item.color)">
-              <ats-icon [name]="item.glyph" [size]="20" color="var(--color-icon-icon-knockout)" />
-            </span>
+            <ats-icon-container class="ats-menu__chip" size="md" [theme]="chipTheme(item.color)" [icon]="item.glyph" [background]="chipFill(item.color)" />
             <span class="ats-menu__item-label">{{ item.label }}</span>
           </button>
         }
@@ -66,8 +70,10 @@ export class MenuOverlay implements AfterViewInit {
   readonly selected = output<string>();
   readonly addRemove = output<void>();
   protected readonly apps = BOWLING_ALLEY_MENU_APPS;
-  protected chipColor = (color: string) =>
-    color === 'amplify' ? null : color === 'neutral' ? 'var(--color-entity-note)' : `var(--color-entity-${color})`;
+  // App chips are icon-container instances (size md). Figma calls jobs `jobs`; task has
+  // no icon-container theme, so it keeps --color-entity-task as a fill override.
+  protected chipTheme = chipTheme;
+  protected chipFill = (color: string) => (color === 'task' ? 'var(--color-entity-task)' : undefined);
   protected readonly query = signal('');
   private readonly search = viewChild.required<SearchInput>('search');
   protected show = (label: string) => matches(label, this.query());
@@ -76,16 +82,14 @@ export class MenuOverlay implements AfterViewInit {
   }
 }
 
-/** Add (Figma fast-add-menu 4711:109319): menu-options with an entity chip. */
+/** Add (Figma fast-add-menu 4711:109319): menu-options with an icon-container (sm). */
 @Component({
   selector: 'ats-add-overlay',
-  imports: [Icon],
+  imports: [IconContainer],
   template: `
     @for (item of items; track item.label) {
       <button class="ats-menu-option" type="button" (click)="selected.emit(item.label)">
-        <span class="ats-menu-option__chip" [style.background]="'var(--color-entity-' + item.color + ')'">
-          <ats-icon [name]="item.glyph" [size]="12" color="var(--color-icon-icon-knockout)" />
-        </span>
+        <ats-icon-container class="ats-menu-option__chip" size="sm" [theme]="chipTheme(item.color)" [icon]="item.glyph" />
         <span class="ats-menu-option__label">{{ item.label }}</span>
       </button>
     }
@@ -98,6 +102,7 @@ export class MenuOverlay implements AfterViewInit {
 export class AddOverlay {
   readonly selected = output<string>();
   protected readonly items = BOWLING_ALLEY_ADD_ITEMS;
+  protected chipTheme = chipTheme;
 }
 
 /** User menu (Figma user-dropdown 491:38833): Preferences, Logout. */
@@ -181,13 +186,15 @@ export class HelpOverlay {
 }
 
 /**
- * Fast Find results (Figma fast-find-results 1323:67009 / 1780:24700). Empty query:
+ * Fast Find results (Figma fast-find-results 1323:67009 / 1780:24700). Each row is a
+ * Novo List item (NovoListItemDefault: entity icon-container + title, wrapping
+ * fields, body), clickable and keyboard-activatable through its row button. Empty query:
  * "Recently Viewed" label + recent records. While typing: the matches, headed by a
  * "View All" action. Filtered by `query` (typed in the bowling alley's search).
  */
 @Component({
   selector: 'ats-fast-find-results',
-  imports: [Button, ListItem],
+  imports: [Button, NovoList, NovoListItemDefault],
   template: `
     @if (query().trim()) {
       <div class="ats-ff__view-all">
@@ -196,13 +203,13 @@ export class HelpOverlay {
     } @else {
       <div class="ats-ff__label">Recently Viewed</div>
     }
-    <div class="ats-ff__list" role="list">
+    <ats-novo-list class="ats-ff__list">
       @for (r of visible(); track r.title) {
-        <button ats-list-item role="listitem" [entity]="r.entity" [label]="r.title" [fields]="r.fields" [body]="r.body" (click)="selected.emit(r.title)"></button>
+        <ats-novo-list-item-default [entity]="r.entity" [title]="r.title" [fields]="r.fields" [comment]="r.body" (itemClick)="selected.emit(r.title)" />
       } @empty {
         <div class="ats-ff__empty">No matches</div>
       }
-    </div>
+    </ats-novo-list>
   `,
   styleUrl: './overlays.css',
   encapsulation: ViewEncapsulation.None,

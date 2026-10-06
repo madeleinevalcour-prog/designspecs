@@ -1,14 +1,14 @@
 <ng-template #defaultList let-items>
   <ats-novo-list>
     @for (c of items; track $index) {
-      <ats-novo-list-item-default [entity]="c.entity" [title]="c.title" [fields]="c.fields" [comment]="c.comment" [state]="stateAt($index)" />
+      <ats-novo-list-item-default [entity]="c.entity" [title]="c.title" [fields]="c.fields" [comment]="c.comment" [state]="stateAt($index)" [indicator]="indicatorAt($index)" />
     }
   </ats-novo-list>
 </ng-template>
 <ng-template #fastFindList let-items>
   <ats-novo-list>
     @for (c of items; track $index) {
-      <ats-novo-list-item-fast-find [entity]="c.entity" [title]="c.title" [fields]="c.fields" [state]="stateAt($index)" />
+      <ats-novo-list-item-fast-find [entity]="c.entity" [title]="c.title" [fields]="c.fields" [state]="stateAt($index)" [indicator]="indicatorAt($index)" />
     }
   </ats-novo-list>
 </ng-template>
@@ -77,15 +77,18 @@
 <ng-template #headers>
   <div class="stack">
     @if (showTheme('standard')) {
-      <div class="card card--pad"><ats-item-header [title]="embedHeaderTitle()" link="Label" linkCircle="var(--color-entity-candidate)"><ats-item-avatar avatar option="entity" /></ats-item-header></div>
+      <div class="card card--pad"><ats-item-header [title]="embedHeaderTitle()" link="Label" linkCircle="var(--color-entity-candidate)" [indicator]="indicator()"><ats-item-avatar avatar option="entity" /></ats-item-header></div>
     }
     @if (showTheme('candidate-list')) {
       <div class="card card--pad">
-        <ats-item-header theme="candidate-list" link="Tyler Brooks" linkCircle="var(--color-entity-candidate)" secondTitle="Senior Software Engineer" [relevancy]="3">
+        <ats-item-header theme="candidate-list" link="Tyler Brooks" linkCircle="var(--color-entity-candidate)" secondTitle="Senior Software Engineer" [relevancy]="3" [indicator]="indicator()">
           <input controls ats-checkbox aria-label="Select Tyler Brooks" />
           <ats-item-avatar controls option="content" />
         </ats-item-header>
       </div>
+    }
+    @if (!embed()) {
+      <div class="card card--pad"><ats-item-header title="2034 | Tyler Brooks" caption="Pre-Registered" indicator="10 New Results"><ats-item-avatar avatar option="entity" /></ats-item-header></div>
     }
   </div>
 </ng-template>
@@ -158,8 +161,8 @@
   <section>
     <h2>Sub-components</h2>
     <div class="subs">
-      <div class="sub"><span class="sub-l">ItemAvatar — header · content · entity</span><ng-container *ngTemplateOutlet="avatars" /></div>
-      <div class="sub"><span class="sub-l">ItemHeader — standard · candidate-list</span><ng-container *ngTemplateOutlet="headers" /></div>
+      <div class="sub"><span class="sub-l">ItemAvatar — header · content · entity (an IconContainer, size sm)</span><ng-container *ngTemplateOutlet="avatars" /></div>
+      <div class="sub"><span class="sub-l">ItemHeader — standard · candidate-list · caption + indicator chip (NovoChip)</span><ng-container *ngTemplateOutlet="headers" /></div>
       <div class="sub"><span class="sub-l">ItemField (Figma item-content type=…)</span><ng-container *ngTemplateOutlet="fields" /></div>
       <div class="sub"><span class="sub-l">ItemContent — vertical-list · horizontal-list</span><ng-container *ngTemplateOutlet="contents" /></div>
       <div class="sub"><span class="sub-l">ItemComment (Figma comment)</span><div class="card card--pad"><ats-item-comment [fields]="dataFields" [body]="body" /></div></div>

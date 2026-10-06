@@ -1,0 +1,145 @@
+/* novo-chip (Figma Component Migration 157:2949, panel 45:445). Every value is the
+   Tier-3 chip/* token Figma binds; typography meta/sm | meta/default | meta/large.
+   Figma strokes are inside the box, so the border is an inset box-shadow (a 2px
+   focus stroke doesn't change the chip's size). Unencapsulated, .ats-novo-chip. */
+
+.ats-novo-chip {
+  --_chip-bg: var(--chip-color-background-default-default);
+  --_chip-border: var(--chip-color-border-default-default);
+  --_chip-border-width: var(--chip-border-width);
+  --_chip-fg: var(--chip-color-content-default-default);
+  --_chip-label: var(--_chip-fg);
+  --_chip-icon: var(--_chip-fg);
+  display: inline-flex; align-items: center; flex: 0 0 auto; box-sizing: border-box; vertical-align: middle;
+  gap: var(--chip-spacing-md-gap);
+  min-height: var(--chip-spacing-xs-min-height);
+  max-height: var(--chip-spacing-md-max-height);
+  padding: var(--chip-spacing-md-padding-vertical) var(--chip-spacing-md-padding-horizontal);
+  border-radius: var(--chip-border-radius);
+  background: var(--_chip-bg);
+  box-shadow: inset 0 0 0 var(--_chip-border-width) var(--_chip-border);
+  color: var(--_chip-fg);
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-default-font-weight); font-size: var(--typography-meta-default-font-size);
+  line-height: var(--typography-meta-default-line-height); letter-spacing: var(--typography-meta-default-letter-spacing);
+}
+.ats-novo-chip .ats-icon { display: block; flex: 0 0 auto; }
+.ats-novo-chip__label { color: var(--_chip-label); white-space: nowrap; text-decoration: none; }
+a.ats-novo-chip__label:focus { outline: none; }
+.ats-novo-chip__remove {
+  display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer;
+  appearance: none; -webkit-appearance: none; color: inherit; border-radius: var(--chip-border-radius);
+}
+.ats-novo-chip__remove:focus { outline: none; }
+
+/* ---- sizes ---- */
+.ats-novo-chip[data-size="small"] {
+  gap: var(--chip-spacing-sm-gap); min-height: 0; max-height: var(--chip-spacing-sm-max-height);
+  padding: var(--chip-spacing-sm-padding-vertical) var(--chip-spacing-sm-padding-horizontal);
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight); font-size: var(--typography-meta-small-font-size);
+  line-height: var(--typography-meta-small-line-height); letter-spacing: var(--typography-meta-small-letter-spacing);
+}
+.ats-novo-chip[data-size="large"] {
+  max-height: var(--chip-spacing-lg-max-height); /* gap stays chip/spacing/md/gap, as Figma binds */
+  padding: var(--chip-spacing-lg-padding-vertical) var(--chip-spacing-lg-padding-horizontal);
+  font-family: var(--typography-meta-large-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-large-font-weight); font-size: var(--typography-meta-large-font-size);
+  line-height: var(--typography-meta-large-line-height); letter-spacing: var(--typography-meta-large-letter-spacing);
+}
+
+/* ---- colors: default state ---- */
+/* warning: Figma strokes the chip with its own background token (no visible border). */
+.ats-novo-chip[data-color="default"] { --_chip-bg: var(--chip-color-background-default-default); --_chip-border: var(--chip-color-border-default-default); --_chip-fg: var(--chip-color-content-default-default); }
+.ats-novo-chip[data-color="negative"] { --_chip-bg: var(--chip-color-background-negative-default); --_chip-border: var(--chip-color-border-negative-default); --_chip-fg: var(--chip-color-content-negative-default); }
+.ats-novo-chip[data-color="warning"] { --_chip-bg: var(--chip-color-background-warning-default); --_chip-border: var(--chip-color-background-warning-default); --_chip-fg: var(--chip-color-content-warning-default); }
+.ats-novo-chip[data-color="positive"] { --_chip-bg: var(--chip-color-background-positive-default); --_chip-border: var(--chip-color-border-positive-default); --_chip-fg: var(--chip-color-content-positive-default); }
+.ats-novo-chip[data-color="success"] { --_chip-bg: var(--chip-color-background-success-default); --_chip-border: var(--chip-color-border-success-default); --_chip-fg: var(--chip-color-content-success-default); }
+
+/* ---- hover (interactive chips, or forced) ---- */
+.ats-novo-chip--interactive[data-color="default"]:hover,
+.ats-novo-chip.is-hover[data-color="default"] {
+  --_chip-bg: var(--chip-color-background-default-hover); --_chip-border: var(--chip-color-border-default-hover); --_chip-fg: var(--chip-color-content-default-hover);
+}
+.ats-novo-chip--interactive[data-color="negative"]:hover,
+.ats-novo-chip.is-hover[data-color="negative"] {
+  --_chip-bg: var(--chip-color-background-negative-hover); --_chip-border: var(--chip-color-border-negative-hover); --_chip-fg: var(--chip-color-content-negative-hover);
+}
+.ats-novo-chip--interactive[data-color="warning"]:hover,
+.ats-novo-chip.is-hover[data-color="warning"] {
+  --_chip-bg: var(--chip-color-background-warning-hover); --_chip-border: var(--chip-color-background-warning-hover); --_chip-fg: var(--chip-color-content-warning-hover);
+}
+.ats-novo-chip--interactive[data-color="positive"]:hover,
+.ats-novo-chip.is-hover[data-color="positive"] {
+  --_chip-bg: var(--chip-color-background-positive-hover); --_chip-border: var(--chip-color-border-positive-hover); --_chip-fg: var(--chip-color-content-positive-hover);
+}
+.ats-novo-chip--interactive[data-color="success"]:hover,
+.ats-novo-chip.is-hover[data-color="success"] {
+  --_chip-bg: var(--chip-color-background-success-hover); --_chip-border: var(--chip-color-border-success-hover); --_chip-fg: var(--chip-color-content-success-hover);
+}
+
+/* ---- focus: every color uses the default focus fill + stroke ---- */
+.ats-novo-chip[data-color="default"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-color="default"] {
+  --_chip-bg: var(--chip-color-background-default-focus); --_chip-border: var(--chip-color-border-default-focus);
+  --_chip-border-width: var(--chip-border-focus-width); --_chip-fg: var(--chip-color-content-default-focus);
+}
+.ats-novo-chip[data-color="negative"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-color="negative"] {
+  --_chip-bg: var(--chip-color-background-default-focus); --_chip-border: var(--chip-color-border-default-focus);
+  --_chip-border-width: var(--chip-border-focus-width); --_chip-fg: var(--chip-color-content-negative-focus);
+}
+.ats-novo-chip[data-color="warning"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-color="warning"] {
+  --_chip-bg: var(--chip-color-background-default-focus); --_chip-border: var(--chip-color-border-default-focus);
+  --_chip-border-width: var(--chip-border-focus-width); --_chip-fg: var(--chip-color-content-warning-focus);
+}
+.ats-novo-chip[data-color="positive"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-color="positive"] {
+  --_chip-bg: var(--chip-color-background-default-focus); --_chip-border: var(--chip-color-border-default-focus);
+  --_chip-border-width: var(--chip-border-focus-width); --_chip-fg: var(--chip-color-content-positive-focus);
+}
+.ats-novo-chip[data-color="success"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-color="success"] {
+  --_chip-bg: var(--chip-color-background-default-focus); --_chip-border: var(--chip-color-border-default-focus);
+  --_chip-border-width: var(--chip-border-focus-width); --_chip-fg: var(--chip-color-content-success-focus);
+}
+
+/* ---- type=link: link-colored label; icons follow the label on colored chips ---- */
+.ats-novo-chip[data-type="link"] { --_chip-icon: var(--_chip-label); }
+.ats-novo-chip[data-type="link"][data-color="default"] { --_chip-label: var(--chip-color-content-default-link); }
+.ats-novo-chip[data-type="link"][data-color="negative"] { --_chip-label: var(--chip-color-content-negative-link); }
+.ats-novo-chip[data-type="link"][data-color="warning"] { --_chip-label: var(--chip-color-content-warning-link); }
+.ats-novo-chip[data-type="link"][data-color="positive"] { --_chip-label: var(--chip-color-content-positive-link); }
+.ats-novo-chip[data-type="link"][data-color="success"] { --_chip-label: var(--chip-color-content-success-link); }
+.ats-novo-chip--interactive[data-type="link"][data-color="default"]:hover,
+.ats-novo-chip.is-hover[data-type="link"][data-color="default"] { --_chip-label: var(--chip-color-content-default-link-hover); }
+.ats-novo-chip--interactive[data-type="link"][data-color="negative"]:hover,
+.ats-novo-chip.is-hover[data-type="link"][data-color="negative"] { --_chip-label: var(--chip-color-content-negative-link-hover); }
+.ats-novo-chip--interactive[data-type="link"][data-color="warning"]:hover,
+.ats-novo-chip.is-hover[data-type="link"][data-color="warning"] { --_chip-label: var(--chip-color-content-warning-link-hover); }
+.ats-novo-chip--interactive[data-type="link"][data-color="positive"]:hover,
+.ats-novo-chip.is-hover[data-type="link"][data-color="positive"] { --_chip-label: var(--chip-color-content-positive-link-hover); }
+.ats-novo-chip--interactive[data-type="link"][data-color="success"]:hover,
+.ats-novo-chip.is-hover[data-type="link"][data-color="success"] { --_chip-label: var(--chip-color-content-success-link-hover); }
+.ats-novo-chip[data-type="link"][data-color="negative"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-type="link"][data-color="negative"] { --_chip-label: var(--_chip-fg); }
+.ats-novo-chip[data-type="link"][data-color="warning"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-type="link"][data-color="warning"] { --_chip-label: var(--_chip-fg); }
+.ats-novo-chip[data-type="link"][data-color="positive"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-type="link"][data-color="positive"] { --_chip-label: var(--_chip-fg); }
+.ats-novo-chip[data-type="link"][data-color="success"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-type="link"][data-color="success"] { --_chip-label: var(--_chip-fg); }
+/* default-color link: only the label reacts; fill, stroke and icons stay default
+   (focus adds only the focus stroke). Figma leaves the focus label unbound
+   (#1450a0), which is chip/color/content/default/link-hover. */
+.ats-novo-chip[data-type="link"][data-color="default"] { --_chip-icon: var(--chip-color-content-default-default); }
+.ats-novo-chip--interactive[data-type="link"][data-color="default"]:hover,
+.ats-novo-chip.is-hover[data-type="link"][data-color="default"] {
+  --_chip-bg: var(--chip-color-background-default-default); --_chip-border: var(--chip-color-border-default-default);
+}
+.ats-novo-chip[data-type="link"][data-color="default"]:has(:focus-visible),
+.ats-novo-chip.is-focus[data-type="link"][data-color="default"] {
+  --_chip-bg: var(--chip-color-background-default-default); --_chip-label: var(--chip-color-content-default-link-hover);
+}
