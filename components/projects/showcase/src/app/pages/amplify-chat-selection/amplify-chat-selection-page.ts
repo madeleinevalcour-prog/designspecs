@@ -2,9 +2,9 @@ import { Component, computed, input, signal } from '@angular/core';
 import { AmplifyChatSelectionAction, AmplifyChatSelectionSplitButton, AmplifyChatSelectionSplitButtonState } from 'ats-ui';
 
 const ACTIONS: AmplifyChatSelectionAction[] = [
-  { id: 'list', label: 'Add to list' },
-  { id: 'tearsheet', label: 'Add to tearsheet' },
-  { id: 'sequence', label: 'Add to Outreach sequence', preview: true },
+  { id: 'list', label: 'Add to list', icon: 'list-outline' },
+  { id: 'tearsheet', label: 'Add to tearsheet', icon: 'tearsheet' },
+  { id: 'sequence', label: 'Add to Outreach sequence', icon: 'automation', preview: true },
 ];
 
 /**
