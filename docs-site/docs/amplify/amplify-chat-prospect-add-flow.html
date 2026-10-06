@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify Chat — Add Prospect contacts flow</title>
+<style>
+:root{
+  /* Semantic tokens (Modern UI, Component Migration file) */
+  --text-headline:#2f2f33; --text-body:#3d464d; --text-secondary:#525b63; --text-subtle:#677079;
+  --text-link:#296cc3; --text-disabled:#89909a;
+  --bg-default:#ffffff; --bg-subtle:#f7f8f8; --bg-hover:#e6f1ff; --bg-user:#ebedef;
+  --border-subtle:#dee0e3; --border-default:#c2c5cb; --border-focus:#4a89dc;
+  --btn-primary:#1450a0; --avatar-bg:#accdf8; --avatar-fg:#011e44;
+  /* Status tokens (toast/chip variables in Figma) */
+  --warn-bg:#fff5e6; --warn-border:#f6b042; --warn-text:#7e4f04;
+  --neg-bg:#ffe6e8; --neg-border:#da4453; --neg-text:#9f111f;
+  --elev-1:0 2px 4px 0 rgba(40,40,40,.04);
+  --elev-btn-hover:0 2px 4px 0 rgba(40,40,40,.04),4px 8px 12px 0 rgba(47,47,51,.08);
+  --elev-4:0 4px 8px 0 rgba(40,40,40,.04),8px 12px 16px 0 rgba(47,47,51,.08);
+  --r-xsm:4px; --r-sm:8px; --r-round:999px;
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text-body);background:var(--bg-subtle);font-size:14px;line-height:20px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+button:disabled{cursor:not-allowed}
+:focus-visible{outline:2px solid var(--border-focus);outline-offset:2px}
+a{color:var(--text-link);text-decoration:none;font-weight:500}
+a:hover{text-decoration:underline}
+
+/* Prototype-only controls (not product UI) */
+.proto{max-width:800px;margin:24px auto 0;padding:8px 16px;border:1px dashed var(--border-default);border-radius:var(--r-sm);display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12px;line-height:16px;color:var(--text-secondary)}
+.proto b{font-weight:600;margin-right:4px}
+.proto button{padding:4px 8px;border:1px solid var(--border-default);border-radius:var(--r-round);background:var(--bg-default)}
+.proto button[aria-pressed=true]{background:var(--bg-hover);border-color:var(--text-link);color:var(--text-link);font-weight:500}
+.proto .sep{width:1px;height:16px;background:var(--border-default)}
+
+/* Chat column */
+.chat{max-width:800px;margin:32px auto 48px;display:flex;flex-direction:column;gap:32px}
+.user{align-self:flex-end;max-width:440px;background:var(--bg-user);border-radius:var(--r-sm);padding:8px 16px}
+.block{display:flex;flex-direction:column;gap:16px}
+.identity{display:flex;gap:4px;align-items:center;font-size:12px;line-height:16px;font-weight:500;color:var(--text-secondary)}
+.title{font-size:18px;line-height:24px;font-weight:600;color:var(--text-headline);padding-top:8px}
+
+/* Record cards */
+.list{display:flex;flex-direction:column;gap:8px}
+.card{display:flex;gap:16px;padding:16px;background:var(--bg-default);border:1px solid var(--border-default);border-radius:var(--r-sm);box-shadow:var(--elev-1)}
+.card.added{background:var(--bg-subtle)}
+.cbcol{padding:12px 0;flex:none}
+.cb{width:16px;height:16px;display:inline-flex;padding:0;border-radius:2px}
+.cb svg{display:block}
+.body{flex:1;min-width:0;display:flex;flex-direction:column;gap:16px}
+.hdr{display:flex;gap:8px;align-items:center}
+.av{width:40px;height:40px;border-radius:var(--r-round);background:var(--avatar-bg);color:var(--avatar-fg);font-size:14px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;flex:none}
+.details{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.titlerow{display:flex;justify-content:space-between;gap:16px;align-items:center}
+.name{display:inline-flex;align-items:center;gap:4px;font-size:16px;line-height:24px;font-weight:500;color:var(--text-headline)}
+button.name{color:var(--text-link)}
+button.name:hover{text-decoration:underline}
+.right{display:flex;gap:8px;align-items:center}
+.data{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;line-height:16px;color:var(--text-secondary)}
+.data span{display:inline-flex;align-items:center;gap:4px}
+.data .masked{color:var(--text-subtle);letter-spacing:.5px}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 4px;border:1px solid #9ba1a9;border-radius:var(--r-xsm);background:var(--bg-subtle);color:var(--text-subtle);font-size:10px;line-height:12px;font-weight:500;white-space:nowrap}
+.chip.warning{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn-text)}
+.chip.added{background:var(--bg-hover);border-color:var(--text-link);color:var(--text-link)}
+.ibtn{width:24px;height:24px;padding:4px;border-radius:var(--r-xsm);display:inline-flex;align-items:center;justify-content:center}
+.ibtn:hover{background:var(--bg-hover)}
+.signals{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px;border:1px solid transparent;border-radius:var(--r-sm);
+  background:linear-gradient(var(--bg-default),var(--bg-default)) padding-box,
+  linear-gradient(270deg,#008eff 0%,#0690fe 1.4%,#3fadfa 15.7%,#6dc3f7 28.9%,#8ed3f5 40.5%,#a2ddf4 50.2%,#aae1f4 56.7%,#a6e0f0 63.5%,#9de0e5 69.7%,#8ddfd2 75.7%,#77deb8 81.5%,#5adc97 87.2%,#36da6d 92.8%,#0dd73e 98.3%,#00d72e 99.9%) border-box}
+.card.added .signals{background:linear-gradient(var(--bg-subtle),var(--bg-subtle)) padding-box,linear-gradient(270deg,#008eff,#aae1f4 56.7%,#00d72e) border-box}
+.signals .lbl{display:inline-flex;align-items:center;gap:4px;font-size:12px;line-height:16px}
+.signals .chips{display:flex;gap:2px;flex-wrap:wrap}
+
+/* Possible match (adapted from Prospect "Matching Contact Records") */
+.match{display:flex;flex-direction:column;gap:8px;padding:8px;background:var(--bg-subtle);border:1px solid var(--border-subtle);border-radius:var(--r-xsm)}
+.match .note{display:flex;gap:4px;align-items:center;font-size:12px;line-height:16px;color:var(--text-secondary)}
+.mrec{display:flex;align-items:center;gap:16px;padding:8px;background:var(--bg-default);border:1px solid var(--border-subtle);border-radius:var(--r-xsm)}
+.mrec .l{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.mrec .n{display:inline-flex;align-items:center;gap:4px;font-size:14px;line-height:20px;font-weight:500}
+</style>
+</head>
+<body>
+<style>
+/* List action bar: same shell as the cards */
+.listbar{position:sticky;bottom:0;z-index:1;display:flex;flex-direction:column;gap:16px;padding:8px 16px;background:var(--bg-default);border:1px solid var(--border-default);border-radius:var(--r-sm);box-shadow:var(--elev-1)}
+.listbar.confirm{padding:16px;border-color:var(--btn-primary)}
+.barrow{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.selall{display:flex;align-items:center;gap:16px}
+.count{font-size:12px;line-height:16px;font-weight:500;color:var(--text-secondary)}
+.hint{display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;color:var(--text-subtle)}
+.btns{display:flex;gap:8px;align-items:center}
+.btn{height:32px;padding:4px 12px;display:inline-flex;align-items:center;gap:8px;border-radius:var(--r-round);background:var(--btn-primary);color:#fff;font-size:12px;line-height:16px;font-weight:500;box-shadow:var(--elev-1);white-space:nowrap}
+.btn:hover:not(:disabled){box-shadow:var(--elev-btn-hover)}
+.btn:disabled{background:var(--bg-user);color:var(--text-disabled);box-shadow:none}
+.btn2{height:32px;padding:4px 12px;display:inline-flex;align-items:center;gap:4px;border:1px solid var(--border-default);border-radius:var(--r-round);background:var(--bg-default);color:var(--text-subtle);font-size:12px;line-height:16px;font-weight:500;box-shadow:var(--elev-1);white-space:nowrap}
+.btn2:hover{box-shadow:var(--elev-btn-hover)}
+.btn2.sm{height:24px;padding:2px 8px;font-size:12px}
+
+/* Confirmation content */
+.ctitle{font-size:14px;line-height:20px;font-weight:600;color:var(--text-headline)}
+.facts{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+.facts li{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:20px}
+.facts li svg{flex:none;margin-top:4px}
+.facts .sub{display:block;font-size:12px;line-height:16px;color:var(--text-subtle)}
+.alert{display:flex;gap:8px;align-items:flex-start;padding:8px 16px;border:1px solid;border-radius:var(--r-xsm);font-size:14px;line-height:20px}
+.alert svg{flex:none;margin-top:2px}
+.alert.warning{background:var(--warn-bg);border-color:var(--warn-border);color:var(--warn-text)}
+.alert.negative{background:var(--neg-bg);border-color:var(--neg-border);color:var(--neg-text)}
+.alert b{font-weight:600;display:block}
+.done{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.extl{display:inline-flex;align-items:center;gap:4px}
+
+/* Footer components (unchanged) */
+.sources{display:flex;align-items:center;gap:4px;font-size:12px;line-height:14px;font-weight:500;color:var(--text-secondary)}
+.fus{display:flex;gap:8px;flex-wrap:wrap}
+.fu{height:32px;padding:4px 12px;border:1px solid var(--border-default);border-radius:var(--r-round);background:var(--bg-default);color:var(--text-subtle);font-size:12px;line-height:16px;font-weight:500;box-shadow:var(--elev-1)}
+.fu:hover{box-shadow:var(--elev-btn-hover)}
+.controls{display:flex;gap:8px;height:32px;align-items:center}
+
+/* Peek preview (general/level 4 overlay inside the chat panel) */
+.peek{position:fixed;top:24px;right:24px;bottom:24px;width:400px;z-index:3;display:none;flex-direction:column;background:var(--bg-default);border:1px solid var(--border-subtle);border-radius:var(--r-sm);box-shadow:var(--elev-4)}
+.peek.open{display:flex}
+.phead{display:flex;align-items:center;gap:8px;padding:16px;border-bottom:1px solid var(--border-subtle)}
+.phead .t{flex:1;min-width:0;display:flex;flex-direction:column}
+.phead .t b{font-size:16px;line-height:24px;font-weight:600;color:var(--text-headline)}
+.phead .t span{font-size:12px;line-height:16px;color:var(--text-secondary)}
+.pbody{padding:16px;display:flex;flex-direction:column;gap:16px;overflow:auto}
+.fields{display:grid;grid-template-columns:96px 1fr;gap:8px 16px;font-size:14px;line-height:20px}
+.fields dt{font-size:12px;line-height:20px;font-weight:500;color:var(--text-secondary)}
+.pfoot{margin-top:auto;padding:16px;border-top:1px solid var(--border-subtle);display:flex;justify-content:flex-end}
+
+/* Rationale notes */
+.notes{max-width:800px;margin:0 auto 64px;padding-top:24px}
+.notes h2{font-size:18px;line-height:24px;font-weight:600;color:var(--text-headline);margin-bottom:16px}
+.notes h3{font-size:14px;line-height:20px;font-weight:600;color:var(--text-headline);margin:24px 0 8px}
+.notes ul{padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.notes .src{color:var(--text-subtle);font-size:12px;line-height:16px}
+.notes q{font-style:italic}
+.tag{display:inline-block;font-size:10px;line-height:12px;font-weight:500;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:var(--r-xsm);background:var(--bg-user);color:var(--text-secondary);margin-right:4px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+
+<div class="proto" role="group" aria-label="Prototype states">
+  <b>Step:</b>
+  <button data-step="select" aria-pressed="true">1 Review results</button>
+  <button data-step="confirm" aria-pressed="false">2 Confirm</button>
+  <button data-step="adding" aria-pressed="false">3 Adding</button>
+  <button data-step="done" aria-pressed="false">4 Added</button>
+  <button data-step="peek" aria-pressed="false">5 Preview a record</button>
+  <span class="sep"></span>
+  <b>Confirm variant:</b>
+  <button data-variant="default" aria-pressed="true">Default</button>
+  <button data-variant="newco" aria-pressed="false">Company not in Bullhorn</button>
+  <button data-variant="last" aria-pressed="false">Uses last activities</button>
+  <button data-variant="blocked" aria-pressed="false">Not enough activities</button>
+  <span>Controls are live: toggle checkboxes, Link contact, Add, Cancel, open a record.</span>
+</div>
+
+<main class="chat">
+  <div class="user">Find me 5 contacts at Verizon that are not in my system and may be hiring</div>
+
+  <section class="block" aria-label="Amplify response">
+    <div class="identity"><span id="ic-amp"></span>Amplify</div>
+    <p>I found 5 Verizon contacts in Prospect whose teams show hiring signals. 4 aren’t in Bullhorn. 1 may already be in Bullhorn as an existing contact, so I’ve left it unselected.</p>
+    <h2 class="title">5 Verizon contacts who may be hiring</h2>
+
+    <div class="list" role="list" aria-label="Contacts found in Prospect">
+      <div id="rows" style="display:contents"></div>
+      <div class="listbar" id="listbar" aria-live="polite"></div>
+    </div>
+
+    <div class="sources"><span>Based on Prospect · Verizon contacts with hiring signals, checked against your Bullhorn contacts · Updated today</span><button class="ibtn" aria-label="Show sources" id="ic-src"></button></div>
+
+    <div class="fus" aria-label="Suggested follow-ups" id="fus"></div>
+
+    <div class="controls" aria-label="Response controls">
+      <button class="ibtn" aria-label="Copy" id="ic-copy"></button>
+      <button class="ibtn" aria-label="Good response" id="ic-up"></button>
+      <button class="ibtn" aria-label="Bad response" id="ic-down"></button>
+      <button class="ibtn" aria-label="Save prompt" id="ic-save"></button>
+    </div>
+  </section>
+</main>
+
+<aside class="peek" id="peek" role="dialog" aria-modal="false" aria-labelledby="peek-name"></aside>
+<section class="notes" aria-label="Design rationale">
+  <h2>Design rationale: adding Prospect contacts from chat</h2>
+  <p class="src" style="margin-bottom:8px">Builds on amplify-chat-record-actions-cards.html. Changes: an inline confirm step, generic activity copy, possible-match handling, no undo, and a record preview.</p>
+
+  <h3>1. Cost is mentioned once, at the reveal, in generic terms</h3>
+  <ul>
+    <li>Before Add, the bar says "Email and phone are revealed when you add contacts. This uses Digital Worker Activities." The confirm step repeats it once. No amounts and no balance, because users can't see either.</li>
+    <li>Contact details stay masked (<q>••••••@verizon.com</q>) until the contact is added, the same as the Prospect slideout. The mask shows what the user is paying to reveal.</li>
+    <li>Principles: Rams 6, honest (no invented numbers); Amplify principle 4, set honest expectations; H1, visibility of system status.</li>
+    <li class="src">Research doc §5: <q>ask … only when the answer changes the result or the action is costly.</q></li>
+  </ul>
+
+  <h3>2. Inline confirm step, because the action can't be undone</h3>
+  <ul>
+    <li>Add expands the action bar into a confirmation in the same place. It's not a modal, so the records the user is confirming stay in view.</li>
+    <li>It lists what will happen: records created, details revealed, Activities used, can't be undone. The primary button repeats the verb and count ("Add 4 contacts").</li>
+    <li>The selection locks while the confirmation is open, so the scope the user confirms is the scope that runs. Cancel unlocks it and keeps the selection.</li>
+    <li>Principles: H5, error prevention; H3, user control and freedom (Cancel is the exit, since there's no undo); Gestalt common region (the confirmation stays attached to its records); Amplify "no auto-act without review".</li>
+    <li class="src">Research doc §1/§5: Cowork <q>approval dialog shows a preview … and a button labeled with the specific action.</q> Assessment: <q>Make confirmation cards the only way chat can write data.</q></li>
+  </ul>
+
+  <h3>3. Notify or block only at the edge of the balance</h3>
+  <ul>
+    <li><b>Uses last activities:</b> a warning alert inside the confirmation. The user can still proceed.</li>
+    <li><b>Not enough activities:</b> an error alert. The primary button is disabled and says why, and the alert says who can fix it (your Amplify admin).</li>
+    <li>Both use icon plus text plus the toast warning/negative tokens, never color alone.</li>
+    <li>Principles: H9, help users recognize, diagnose and recover from errors; Amplify principle 8, be honest about limitations; Rams 8, thorough (the edge states are designed).</li>
+  </ul>
+
+  <h3>4. Possible matches reuse the Prospect pattern</h3>
+  <ul>
+    <li>Adapted from the Prospect slideout's "Matching Contact Records": an info line ("Prospect found 1 possible matching contact in Bullhorn"), a compact record with company, email and status, and "Link contact".</li>
+    <li>The card is unselected by default and carries a "Possible match" warning chip. The user can still select it to add as a new contact.</li>
+    <li>"Link contact" is a secondary button. The response keeps one filled primary action, the Add button.</li>
+    <li>Principles: Amplify principle 5, design for the full range of data quality; H5; H4, consistency (same pattern as the existing Prospect UI); Gestalt common region (the match sits inside the card it belongs to).</li>
+    <li class="src">Research doc §5: <q>Resolve records with a picker, never a guess.</q></li>
+  </ul>
+
+  <h3>5. Completion shows results and routes to the records</h3>
+  <ul>
+    <li>The bar becomes "4 contacts added to Bullhorn · View all in Bullhorn ↗". There's no Undo.</li>
+    <li>Each added card swaps to "Added to Bullhorn", shows the revealed email and phone, and locks its checkbox. The bar and the cards change together.</li>
+    <li>The name opens a preview in the chat, so the user stays in context. "Open in Bullhorn ↗" is the separate, labelled way out.</li>
+    <li>Principles: Gestalt common fate; H1; Amplify "keep the recruiter inside Bullhorn"; research doc §1, <q>Treat navigation-out as a deliberate, labelled action.</q></li>
+  </ul>
+
+  <h3>Assumptions and open questions</h3>
+  <ul>
+    <li><span class="tag">Assumption</span>Adding a Prospect contact always reveals its email and phone (no free path). Adding means create + reveal in one step.</li>
+    <li><span class="tag">Assumption</span>The company record is created without revealing extra company data, so the "Company not in Bullhorn" variant carries no separate cost line.</li>
+    <li><span class="tag">Open</span>Does "Link contact" reveal data or use Activities? The mockup treats it as free. Confirm with product.</li>
+    <li><span class="tag">Open</span>When the balance is too low, can the system tell whether a smaller selection would fit? If yes, the blocked state could suggest "Try fewer contacts". The mockup doesn't suggest it.</li>
+    <li><span class="tag">Open</span>Is the balance per user or per organization? The copy says "your organization's".</li>
+    <li><span class="tag">Gap</span>Partial failure (for example, one contact's details can't be revealed) is not designed yet. Billing for failed reveals is unknown.</li>
+    <li><span class="tag">Gap</span>No loading spinner component was pulled from Figma. The adding state uses text only.</li>
+    <li><span class="tag">Inferred</span>Warning and error alerts use the toast/warning and toast/negative variables. I didn't find an inline alert component in the file.</li>
+    <li><span class="tag">Illustrative</span>The names, titles and hiring signals are sample data. The split-button menu items are carried over from the earlier mockup.</li>
+    <li><span class="tag">Font</span>Inter is not bundled; the preview falls back to system sans.</li>
+  </ul>
+  <p class="src" style="margin-top:16px">Sources: Figma Amplify Prospect, Contact Slideout 751:34151 (Link Contacts 985:47808, Contact Details Card 985:47769); Figma Component Migration (icons, toast/chip variables); amplify-chat-record-actions.md; ai-chat-ui-patterns-research.md; Amplify Design Reference.md; modern-ui-design-system skill.</p>
+</section>
+<script>
+/* Icons reused from amplify-chat-record-actions-cards.html (exported from Figma Component Migration). */
+const BOX='M0 2C0 0.895431 0.895431 0 2 0H14C15.1046 0 16 0.895431 16 2V14C16 15.1046 15.1046 16 14 16H2C0.895431 16 0 15.1046 0 14V2Z';
+const BORDER='M2 0V1H14V0V-1H2V0ZM16 2H15V14H16H17V2H16ZM14 16V15H2V16V17H14V16ZM0 14H1V2H0H-1V14H0ZM2 16V15C1.44772 15 1 14.5523 1 14H0H-1C-1 15.6569 0.343146 17 2 17V16ZM16 14H15C15 14.5523 14.5523 15 14 15V16V17C15.6569 17 17 15.6569 17 14H16ZM14 0V1C14.5523 1 15 1.44772 15 2H16H17C17 0.343146 15.6569 -1 14 -1V0ZM2 0V-1C0.343146 -1 -1 0.343146 -1 2H0H1C1 1.44772 1.44772 1 2 1V0Z';
+const TICK='M12.917 5.43262L7.43457 10.9141L7.41699 10.8965L7.39844 10.9141L3.70605 7.22168L4.43262 6.49609L7.41797 9.48145L7.77148 9.12793L12.1914 4.70703L12.917 5.43262Z';
+let mid=0;
+const cbSvg=(fill,stroke,extra='')=>{const id='m'+(mid++);return `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><mask id="${id}" fill="white"><path d="${BOX}"/></mask><path d="${BOX}" fill="${fill}"/><path d="${BORDER}" fill="${stroke}" mask="url(#${id})"/>${extra}</svg>`;};
+const CB={
+  default:()=>cbSvg('white','#78808A'),
+  checked:()=>cbSvg('#E6F1FF','#1450A0',`<path d="${TICK}" stroke="#1450A0"/>`),
+  indeterminate:()=>cbSvg('#E6F1FF','#1450A0','<rect x="4.5" y="7.5" width="7" height="1" fill="#E6F1FF" stroke="#1450A0"/>'),
+  disabledChecked:()=>cbSvg('#E6F1FF','#DEE0E3',`<path d="${TICK}" stroke="#DEE0E3"/>`)
+};
+const AMP=(s)=>{const id='g'+(mid++);return `<svg width="${s}" height="${s}" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13.706 7.36176C9.75445 8.36806 8.53339 9.58834 7.52646 13.5374C7.41377 13.9794 6.78393 13.9794 6.67125 13.5374C5.66431 9.58834 4.44325 8.36806 0.491688 7.36176C0.0494421 7.24915 0.0494421 6.61971 0.491688 6.5071C4.44325 5.5008 5.66431 4.28052 6.67125 0.331473C6.78393 -0.110491 7.41377 -0.110491 7.52646 0.331473C8.53339 4.28052 9.75445 5.5008 13.706 6.5071C14.1483 6.61971 14.1483 7.24915 13.706 7.36176ZM15.6866 12.5941C13.8584 12.1286 13.2935 11.5638 12.8275 9.73679C12.7753 9.53235 12.4839 9.53235 12.4319 9.73679C11.9661 11.5638 11.401 12.1284 9.5728 12.5941C9.36823 12.6462 9.36823 12.9374 9.5728 12.9894C11.401 13.4549 11.9659 14.0196 12.4319 15.8467C12.4841 16.0511 12.7755 16.0511 12.8275 15.8467C13.2933 14.0196 13.8584 13.4551 15.6866 12.9894C15.8911 12.9372 15.8911 12.646 15.6866 12.5941Z" fill="url(#${id})"/><defs><radialGradient id="${id}" cx="0" cy="0" r="1" gradientTransform="matrix(18.6074 0.668995 0.25982 18.6112 2.65632 10.1667)" gradientUnits="userSpaceOnUse"><stop offset="0.0143653" stop-color="#37FC97"/><stop offset="0.113546" stop-color="#95F7D0"/><stop offset="0.325773" stop-color="#23AFDC"/><stop offset="0.63186" stop-color="#009BDF"/><stop offset="0.93048" stop-color="#125783"/></radialGradient></defs></svg>`;};
+const CHEV='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.74298 3L6.00001 6.74297L2.25704 3L1.11798 4.13906L6.00001 9.02109L10.882 4.13906L9.74298 3Z" fill="#89909A"/></svg>';
+const DOT='<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 10C7.76142 10 10 7.76142 10 5C10 2.23858 7.76142 0 5 0C2.23858 0 0 2.23858 0 5C0 7.76142 2.23858 10 5 10Z" fill="#4F5361"/></svg>';
+const COPY='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3.5 3V1.5C3.5 1.36739 3.55268 1.24021 3.64645 1.14645C3.74021 1.05268 3.86739 1 4 1H10C10.1326 1 10.2598 1.05268 10.3536 1.14645C10.4473 1.24021 10.5 1.36739 10.5 1.5V8.5C10.5 8.63261 10.4473 8.75979 10.3536 8.85355C10.2598 8.94732 10.1326 9 10 9H8.5V10.5C8.5 10.776 8.275 11 7.9965 11H2.0035C1.93756 11.0004 1.8722 10.9878 1.81116 10.9628C1.75012 10.9379 1.69462 10.9011 1.64783 10.8546C1.60104 10.8082 1.5639 10.7529 1.53853 10.6921C1.51316 10.6312 1.50006 10.5659 1.5 10.5L1.5015 3.5C1.5015 3.224 1.7265 3 2.005 3H3.5ZM2.5015 4L2.5 10H7.5V4H2.5015ZM4.5 3H8.5V8H9.5V2H4.5V3Z" fill="#677079"/></svg>';
+const UP='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.04453 12H1.68046C0.778119 12 0.0445251 11.2664 0.0445251 10.3641V6C0.0445251 5.09766 0.778119 4.36406 1.68046 4.36406H3.18515C3.39374 4.36406 3.58124 4.24688 3.67265 4.06172L5.55468 0.302344C5.64843 0.114844 5.84062 0.0117188 6.04921 0C6.65156 0.00703125 7.21406 0.248438 7.63359 0.679688C8.05312 1.11094 8.28046 1.67813 8.27343 2.28047C8.27109 2.45391 8.24999 2.625 8.20781 2.79141L7.82812 4.36406H10.3148C11.2172 4.36406 11.9508 5.09766 11.9508 6C11.9508 6.15469 11.9297 6.30703 11.8852 6.45703L10.6148 10.8211C10.4133 11.5148 9.7664 12 9.04453 12ZM3.86249 10.9102H9.04453C9.28593 10.9102 9.50156 10.7484 9.56718 10.5164L10.8375 6.15234C10.8516 6.10313 10.8586 6.05156 10.8586 6C10.8586 5.7 10.6148 5.45391 10.3125 5.45391H7.13437C6.96796 5.45391 6.80859 5.37656 6.70546 5.24531C6.60234 5.11406 6.56484 4.94297 6.60468 4.77891L7.15078 2.53125V2.52891C7.17187 2.44219 7.18359 2.35547 7.18359 2.26641C7.18828 1.95703 7.07109 1.66172 6.85312 1.44141C6.71249 1.29844 6.5414 1.19531 6.35624 1.13906L4.64999 4.54688C4.4789 4.89141 4.19999 5.15625 3.86249 5.30859V10.9102ZM1.68046 5.45391C1.38046 5.45391 1.13437 5.69766 1.13437 6V10.3641C1.13437 10.6641 1.37812 10.9102 1.68046 10.9102H2.77031V5.45391H1.68046Z" fill="#677079"/></svg>';
+const DOWN='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.95547 12C5.95313 12 5.95079 12 5.94844 12C4.70626 11.9836 3.70782 10.9617 3.72422 9.71953C3.72657 9.54844 3.74766 9.375 3.78985 9.20859L4.17188 7.63594H1.68516C0.782819 7.63594 0.0492249 6.90234 0.0492249 6C0.0492249 5.84531 0.0703186 5.69062 0.11485 5.54062L1.38516 1.17891C1.58672 0.485156 2.2336 0 2.95547 0H10.3195C11.2219 0 11.9555 0.733594 11.9555 1.63594V6C11.9555 6.90234 11.2219 7.63594 10.3195 7.63594H8.81485C8.60626 7.63594 8.41876 7.75313 8.32735 7.93828L6.44532 11.6977C6.35157 11.8828 6.16173 12 5.95547 12ZM2.95547 1.08984C2.71407 1.08984 2.49844 1.25156 2.43282 1.48359L1.16016 5.84766C1.1461 5.89687 1.13907 5.94844 1.13907 6C1.13907 6.3 1.38282 6.54609 1.68516 6.54609H4.86563C5.03204 6.54609 5.19141 6.62344 5.29454 6.75469C5.39766 6.88594 5.43516 7.05703 5.39532 7.22109L4.84922 9.46875V9.47109C4.82813 9.55781 4.81641 9.64453 4.81641 9.73359C4.81172 10.043 4.92891 10.3383 5.14688 10.5586C5.28751 10.7016 5.4586 10.8047 5.64376 10.8609L7.35001 7.45312C7.5211 7.10859 7.80235 6.84375 8.13751 6.69141V1.08984H2.95547ZM9.22735 6.54609H10.3172C10.6172 6.54609 10.8633 6.30234 10.8633 6V1.63594C10.8633 1.33594 10.6195 1.08984 10.3172 1.08984H9.22735V6.54609Z" fill="#677079"/></svg>';
+const SAVE='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.33328 0H2.66672C2.31409 0.001303 1.97638 0.142409 1.72765 0.392368C1.47892 0.642328 1.33948 0.980733 1.33992 1.33336L1.33336 12L6 10.0001L10.6666 12V1.33336C10.6656 0.980054 10.5248 0.641519 10.2749 0.391693C10.0251 0.141867 9.68659 0.00105105 9.33328 0V0ZM9.33328 10.0001L6 8.54672L2.66672 9.99984V1.33336H9.33328V10.0001Z" fill="#677079"/></svg>';
+const DOT12=DOT.replace('width="10" height="10"','width="12" height="12"');
+/* Exported as SVG from Figma Component Migration (QxXJfpYajGitTbThkkQCXm), page "Amplify - In Progress". Not redrawn. */
+const INFO='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5.99766 0.00244141C2.69766 0.00244141 0 2.7001 0 5.99775C0 9.29541 2.69766 11.9954 5.99766 11.9954C9.29766 11.9954 11.9953 9.29775 11.9953 5.99775C11.9953 2.69775 9.29531 0.00244141 5.99766 0.00244141ZM6.59766 8.99775H5.39766V5.39775H6.59766V8.99775ZM6.59766 4.2001H5.39766V3.0001H6.59766V4.2001Z" fill="#605E5C"/></svg>';
+const CAUTION=(c)=>`<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M0 15H16L8 1L0 15ZM9 13H7V11.1812H9V13ZM9 9.72812H7V6H9V9.72812Z" fill="${c}"/></svg>`;
+const PHONE='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2.40938 5.21963C3.34688 7.09229 4.95 8.62978 6.82266 9.63291L8.29453 8.16104C8.49609 7.95947 8.76328 7.89385 8.9625 8.02744C9.69844 8.29463 10.5 8.42822 11.3695 8.42822C11.7703 8.42822 12.0375 8.69541 12.0375 9.09619V11.3696C12.0375 11.7704 11.7703 12.0376 11.3695 12.0376C5.08359 12.0399 0 6.95869 0 0.67041C0 0.269629 0.267187 0.00244141 0.667969 0.00244141H3.00937C3.41016 0.00244141 3.67734 0.269629 3.67734 0.67041C3.67734 1.47197 3.81094 2.27588 4.07812 3.07744C4.14375 3.279 4.07812 3.54619 3.94453 3.74541L2.40938 5.21963Z" fill="#89909A"/></svg>';
+const COMPANY='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M8.30371 10.9824H3.75V0.75H8.30371V10.9824ZM11.25 10.8096H9V9.95117H10.4932V8.84766H9V8.24316H10.4932V7.1416H9V6.53418H10.4932V5.43262H9V4.5H11.25V10.8096ZM3 3V3.89062H1.57227V4.95703H3V5.54492H1.57227V6.61426H3V7.20215H1.57227V8.27148H3V8.85938H1.57227V9.92773H3V10.7598H0.75V3H3ZM4.65039 10.0732H7.5V8.9043H4.65039V10.0732ZM4.65039 8.26172H7.5V7.0918H4.65039V8.26172ZM4.65039 6.4502H7.5V5.2832H4.65039V6.4502ZM4.65039 4.64062H7.5V3.4707H4.65039V4.64062ZM4.65039 2.8291H7.5V1.65918H4.65039V2.8291Z" fill="#605E5C"/></svg>';
+const EXT='<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4.375 0.625V1.875H1.25V8.75H8.125V5.625H9.375V8.89062C9.37392 9.18436 9.25648 9.46607 9.04883 9.67383C8.84124 9.88141 8.56017 9.99871 8.2666 10H1.1084C0.814828 9.99871 0.533757 9.88141 0.326172 9.67383C0.11852 9.46607 0.00107961 9.18436 0 8.89062V1.7334C0.00128493 1.43983 0.118583 1.15876 0.326172 0.951172C0.533761 0.743583 0.814832 0.626285 1.1084 0.625H4.375ZM10 0V3.75H8.75V2.0293L5.32324 5.45508L4.54492 4.67676L5.63477 3.59766L5.62891 3.5918L5.80469 3.42871L8.00586 1.25H6.25V0H10Z" fill="#296CC3"/></svg>';
+const LINK='<svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4.17773 6.57227L7.17773 3.57227L6.42773 2.82227L3.42773 5.82227L4.17773 6.57227ZM2.26562 7.73438C1.40234 6.87109 1.40234 5.52148 2.26562 4.66016L3.39063 3.53516L2.67773 2.82227L1.55273 3.94727C0.314453 5.18555 0.314453 7.20898 1.55273 8.44727C2.79102 9.68555 4.81445 9.68555 6.05273 8.44727L7.17773 7.32227L6.46484 6.60937L5.33984 7.73438C4.47852 8.5957 3.12891 8.5957 2.26562 7.73438ZM4.55273 0.947266L3.42773 2.07227L4.14062 2.78516L5.26562 1.66016C6.12891 0.796875 7.47852 0.796875 8.33984 1.66016C9.20117 2.52344 9.20312 3.87305 8.33984 4.73438L7.21484 5.85938L7.92773 6.57227L9.05273 5.44727C10.291 4.20898 10.291 2.18555 9.05273 0.947266C7.81445 -0.291016 5.79102 -0.291016 4.55273 0.947266Z" fill="#677079"/></svg>';
+const CLOSE='<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.5836 5.42207C12.3618 5.20023 12.0034 5.20023 11.7816 5.42207L9 8.19795L6.21843 5.41638C5.99659 5.19454 5.63823 5.19454 5.41638 5.41638C5.19454 5.63823 5.19454 5.99659 5.41638 6.21843L8.19795 9L5.41638 11.7816C5.19454 12.0034 5.19454 12.3618 5.41638 12.5836C5.63823 12.8055 5.99659 12.8055 6.21843 12.5836L9 9.80205L11.7816 12.5836C12.0034 12.8055 12.3618 12.8055 12.5836 12.5836C12.8055 12.3618 12.8055 12.0034 12.5836 11.7816L9.80205 9L12.5836 6.21843C12.7998 6.00228 12.7998 5.63823 12.5836 5.42207Z" fill="#3D464D"/></svg>';
+const EMAIL='<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M10.7975 0.75H1.17402C0.513086 0.75 -0.0283203 1.29141 -0.0283203 1.95234V9.29531C-0.0283203 9.95625 0.513086 10.4977 1.17402 10.4977H10.7951C11.4561 10.4977 11.9975 9.95625 11.9975 9.29531V1.95234C11.9998 1.29141 11.4584 0.75 10.7975 0.75ZM10.7975 3.15703L5.98574 6.16172L1.17402 3.15703V1.95234L5.98574 4.95938L10.7975 1.95234V3.15703Z" fill="#89909A"/></svg>';
+const people=[
+  {i:'AR',n:'Alicia Reyes',t:'VP, Talent Acquisition',e:'alicia.reyes@verizon.com',p:'+1 (212) 555 0142',s:['12 open roles','Team grew 18% in 6 mo']},
+  {i:'MK',n:'Marcus Kim',t:'Director of Network Engineering',e:'marcus.kim@verizon.com',p:'+1 (908) 555 0177',s:['8 network roles posted','New Dallas office']},
+  {i:'DO',n:'Daniel Ortiz',t:'Head of Field Operations',e:'daniel.ortiz@verizon.com',p:'+1 (972) 555 0119',s:['5 field roles posted'],dup:{n:'Daniel Ortiz',co:'Verizon',e:'d.ortiz@verizon.com',st:'Active',owner:'Sam Patel'}},
+  {i:'PN',n:'Priya Nair',t:'Senior Manager, Cloud Platforms',e:'priya.nair@verizon.com',p:'+1 (469) 555 0163',s:['Hiring 3 SREs','Backfill posted']},
+  {i:'TB',n:'Tom Becker',t:'VP, Enterprise Sales',e:'tom.becker@verizon.com',p:'+1 (646) 555 0108',s:['6 sales roles posted','Q4 expansion']}
+];
+const S={sel:people.map(p=>!p.dup),step:'select',variant:'default',linked:false,menu:false,peek:null,added:[]};
+const $=id=>document.getElementById(id);
+const plural=n=>`${n} contact${n===1?'':'s'}`;
+const mask=p=>({e:'••••••@verizon.com',p:'+1 (•••) ••• ••••'});
+
+function cardHTML(p,k){
+  const added=S.added.includes(k);
+  const isDup=!!p.dup&&!added;
+  const locked=S.step!=='select'||added||(isDup&&S.linked);
+  const cb=added?CB.disabledChecked():locked?(S.sel[k]?CB.disabledChecked():CB.disabledDefault()):(S.sel[k]?CB.checked():CB.default());
+  let chip='<span class="chip">Not in Bullhorn</span>';
+  if(added) chip='<span class="chip added">Added to Bullhorn</span>';
+  else if(isDup&&S.linked) chip='<span class="chip">Linked to existing contact</span>';
+  else if(isDup) chip=`<span class="chip warning">Possible match</span>`;
+  if(S.step==='adding'&&S.sel[k]) chip='<span class="chip">Adding…</span>';
+  const m=mask(p);
+  const email=added?p.e:m.e, phone=added?p.p:m.p;
+  const nameEl=added?`<button class="name" data-peek="${k}">${DOT12}${p.n}</button>`:`<span class="name">${DOT12}${p.n}</span>`;
+  const open=added?`<a class="ibtn" href="#" aria-label="Open ${p.n} in Bullhorn">${EXT}</a>`:'';
+  let match='';
+  if(isDup){
+    match=S.linked
+      ?`<div class="match"><div class="note">${INFO}Linked to existing contact ${p.dup.n} (owner: ${p.dup.owner}). No new record will be created.</div></div>`
+      :`<div class="match">
+          <div class="note">${INFO}Prospect found 1 possible matching contact in Bullhorn.</div>
+          <div class="mrec">
+            <div class="l"><a href="#" class="n">${DOT12}${p.dup.n}</a>
+              <div class="data"><span>${COMPANY}${p.dup.co}</span><span>${EMAIL}${p.dup.e}</span><span>${INFO}${p.dup.st}</span><span>Owner: ${p.dup.owner}</span></div>
+            </div>
+            <button class="btn2 sm" data-link="${k}" ${S.step!=='select'?'disabled':''}>${LINK}Link contact</button>
+          </div>
+        </div>`;
+  }
+  return `<article class="card${added?' added':''}" role="listitem" aria-label="${p.n}">
+    <div class="cbcol"><button class="cb" data-k="${k}" ${locked?'disabled':''} aria-pressed="${S.sel[k]}" aria-label="Select ${p.n}">${cb}</button></div>
+    <div class="body">
+      <div class="hdr"><span class="av">${p.i}</span>
+        <div class="details">
+          <div class="titlerow">${nameEl}<span class="right">${chip}${open}</span></div>
+          <div class="data"><span>${p.t}</span><span class="${added?'':'masked'}">${EMAIL}${email}</span><span class="${added?'':'masked'}">${PHONE}${phone}</span></div>
+        </div>
+      </div>
+      ${match}
+      <div class="signals"><span class="lbl">${AMP(12)}Hiring signals</span><span class="chips">${p.s.map(x=>`<span class="chip">${x}</span>`).join('')}</span></div>
+    </div>
+  </article>`;
+}
+CB.disabledDefault=()=>cbSvg('#F7F8F8','#DEE0E3');
+const CAUTION_W=CAUTION('#7E4F04'), CAUTION_N=CAUTION('#9F111F');
+
+function barHTML(){
+  const n=S.sel.filter(Boolean).length,total=people.length;
+  if(S.step==='select'){
+    const avail=people.filter((p,k)=>!(p.dup&&S.linked)).length;
+    const all=S.sel.filter((v,k)=>v).length===avail&&avail>0;
+    const allIcon=n===0?CB.default():all?CB.checked():CB.indeterminate();
+    const dis=n===0;
+    return `<div class="barrow">
+      <div class="selall"><button class="cb" id="cb-all" aria-label="Select all contacts" aria-pressed="${all?'true':n?'mixed':'false'}">${allIcon}</button><span class="count">${n} of ${total} selected</span></div>
+      <div class="btns"><button class="btn" id="add" ${dis?'disabled':''}>${dis?'Select contacts to add':'Add '+plural(n)}</button></div>
+    </div>
+    <div class="hint">${INFO}Email and phone are revealed when you add contacts. This uses Digital Worker Activities.</div>`;
+  }
+  if(S.step==='confirm'){
+    const v=S.variant;
+    const co=v==='newco'
+      ?`<li>${COMPANY}<span>Creates ${plural(n)} and 1 new company record: Verizon<span class="sub">Verizon isn’t in Bullhorn yet. The new contacts will be linked to it.</span></span></li>`
+      :`<li>${COMPANY}<span>Creates ${plural(n)} at Verizon<span class="sub">Linked to your existing Verizon company record · Owner: you</span></span></li>`;
+    const alert=v==='last'
+      ?`<div class="alert warning" role="status">${CAUTION_W}<span><b>This will use the rest of your organization’s Digital Worker Activities.</b>Prospect reveals won’t be available after this until your Amplify admin adds more.</span></div>`
+      :v==='blocked'
+      ?`<div class="alert negative" role="alert">${CAUTION_N}<span><b>Not enough Digital Worker Activities to add these contacts.</b>Ask your Amplify admin to add more. Nothing has been added or revealed.</span></div>`:'';
+    const blocked=v==='blocked';
+    return `<div class="ctitle" id="ctitle">Add ${plural(n)} to Bullhorn?</div>
+      <ul class="facts" aria-labelledby="ctitle">
+        ${co}
+        <li>${EMAIL}<span>Reveals email and phone for ${plural(n)}</span></li>
+        <li>${INFO}<span>Uses Digital Worker Activities<span class="sub">This can’t be undone.</span></span></li>
+      </ul>
+      ${alert}
+      <div class="barrow"><span></span><div class="btns">
+        <button class="btn2" id="cancel">Cancel</button>
+        <button class="btn" id="go" ${blocked?'disabled':''}>${blocked?'Not enough activities':'Add '+plural(n)}</button>
+      </div></div>`;
+  }
+  if(S.step==='adding'){
+    return `<div class="barrow"><span class="count">Adding ${plural(n)} to Bullhorn and revealing contact details…</span><div class="btns"><button class="btn" disabled>Adding…</button></div></div>`;
+  }
+  const a=S.added.length;
+  return `<div class="barrow"><div class="done">${plural(a)} added to Bullhorn · <a href="#" class="extl">View all ${a} in Bullhorn ${EXT}</a></div></div>`;
+}
+
+function peekHTML(k){
+  const p=people[k];
+  return `<div class="phead"><span class="av">${p.i}</span><div class="t"><b id="peek-name">${p.n}</b><span>${p.t} · Verizon</span></div>
+      <button class="ibtn" id="peek-close" aria-label="Close preview">${CLOSE}</button></div>
+    <div class="pbody">
+      <dl class="fields">
+        <dt>Status</dt><dd><span class="chip added">Added to Bullhorn</span></dd>
+        <dt>Company</dt><dd><a href="#">Verizon</a></dd>
+        <dt>Email</dt><dd>${p.e}</dd>
+        <dt>Phone</dt><dd>${p.p}</dd>
+        <dt>Owner</dt><dd>You</dd>
+        <dt>Source</dt><dd>Added by Amplify Prospect · Today</dd>
+      </dl>
+      <div class="signals"><span class="lbl">${AMP(12)}Hiring signals</span><span class="chips">${p.s.map(x=>`<span class="chip">${x}</span>`).join('')}</span></div>
+    </div>
+    <div class="pfoot"><a href="#" class="btn2 extl">Open in Bullhorn ${EXT}</a></div>`;
+}
+
+function render(){
+  $('rows').innerHTML=people.map(cardHTML).join('');
+  const bar=$('listbar'); bar.innerHTML=barHTML(); bar.classList.toggle('confirm',S.step==='confirm');
+  $('fus').innerHTML=(S.step==='done'
+    ?['Add these to an Outreach sequence','Find 5 more at Verizon','Show open Verizon job orders']
+    :['Show 5 more','Only show directors and above','Why these hiring signals?']).map(t=>`<button class="fu">${t}</button>`).join('');
+  const pk=$('peek'); pk.classList.toggle('open',S.peek!==null); pk.innerHTML=S.peek!==null?peekHTML(S.peek):'';
+  wire();
+}
+function wire(){
+  const add=$('add'); if(add) add.onclick=()=>{S.step='confirm';render();$('go')&&$('go').focus();};
+  const c=$('cancel'); if(c) c.onclick=()=>{S.step='select';render();$('add').focus();};
+  const go=$('go'); if(go) go.onclick=()=>{S.step='adding';render();setTimeout(()=>{S.added=S.sel.map((v,k)=>v?k:-1).filter(k=>k>=0);S.step='done';render();},1200);};
+  const pc=$('peek-close'); if(pc) pc.onclick=()=>{const k=S.peek;S.peek=null;render();const b=document.querySelector(`[data-peek="${k}"]`);b&&b.focus();};
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest('.cb');
+  if(b&&!b.disabled&&b.id==='cb-all'){const idx=people.map((p,k)=>k).filter(k=>!(people[k].dup&&S.linked));const all=idx.every(k=>S.sel[k]);idx.forEach(k=>S.sel[k]=!all);render();return;}
+  if(b&&!b.disabled&&b.dataset.k){S.sel[+b.dataset.k]=!S.sel[+b.dataset.k];render();return;}
+  const l=e.target.closest('[data-link]'); if(l){S.linked=true;S.sel[+l.dataset.link]=false;render();return;}
+  const pv=e.target.closest('[data-peek]'); if(pv){S.peek=+pv.dataset.peek;render();$('peek-close').focus();return;}
+  if(e.target.closest('a[href="#"]')) e.preventDefault();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.peek!==null){$('peek-close').click();}});
+function setProto(attr,val){document.querySelectorAll(`.proto [data-${attr}]`).forEach(x=>x.setAttribute('aria-pressed',x.dataset[attr]===val));}
+document.querySelectorAll('.proto [data-step]').forEach(b=>b.onclick=()=>{
+  const s=b.dataset.step; S.linked=false; S.sel=people.map(p=>!p.dup); S.peek=null; S.added=[];
+  if(s==='done'||s==='peek'){S.step='done';S.added=S.sel.map((v,k)=>v?k:-1).filter(k=>k>=0);if(s==='peek')S.peek=0;}
+  else S.step=s;
+  setProto('step',s); render();
+});
+document.querySelectorAll('.proto [data-variant]').forEach(b=>b.onclick=()=>{
+  S.variant=b.dataset.variant; setProto('variant',S.variant);
+  if(S.step==='select'){S.step='confirm';setProto('step','confirm');}
+  render();
+});
+$('ic-amp').innerHTML=AMP(16);$('ic-src').innerHTML=CHEV;
+$('ic-copy').innerHTML=COPY;$('ic-up').innerHTML=UP;$('ic-down').innerHTML=DOWN;$('ic-save').innerHTML=SAVE;
+render();
+</script></body></html>

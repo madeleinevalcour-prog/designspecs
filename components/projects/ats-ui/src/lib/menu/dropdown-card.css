@@ -7,8 +7,8 @@
   background: var(--dropdown-color-background-default);
   /* Figma binds button/color/border/default (#f0f5f9), not in the code tokens: dropdown border used */
   border: var(--dropdown-border-width) solid var(--dropdown-color-border-default); border-radius: var(--dropdown-border-radius);
-  /* no token: Figma effect style "MadeleineNav/modals" (0 24px 88px -16px #28282833) */
-  box-shadow: 0 24px 88px -16px var(--color-transparency-charcoal-charcoal-20);
+  /* general/level 4 */
+  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
   overflow: hidden;
   font-family: var(--typography-button-lg-font-family), 'Inter', sans-serif;
 }

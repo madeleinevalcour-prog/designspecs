@@ -63,7 +63,7 @@
     <table class="tbl">
       <thead><tr><th>Part</th><th>Figma property</th><th>Built from</th></tr></thead>
       <tbody>
-        <tr><td>Title (“Menu”)</td><td>—</td><td>Text style <span class="chip">card/header</span></td></tr>
+        <tr><td>Title (“Menu”)</td><td>—</td><td>Text style <span class="chip">title/sm</span> (subatomic)</td></tr>
         <tr><td>Add/Remove</td><td><span class="chip">edit</span>, on by default</td><td><a href="button.html">Button</a>, dialogue, small</td></tr>
         <tr><td>Done (edit mode)</td><td><span class="chip">editMenu</span>, off by default</td><td>Button, dialogue, small, success color, check icon on the left</td></tr>
         <tr><td>Close</td><td><span class="chip">close</span>, off by default</td><td>Button, icon theme, small, close glyph</td></tr>
@@ -84,7 +84,7 @@
         <tr><td>Background, bottom border</td><td><span class="chip">menu/color/background/header</span>, <span class="chip">menu/color/border/default</span></td></tr>
         <tr><td>Padding</td><td><span class="chip">menu/spacing/header/padding-vertical</span>, <span class="chip">…/padding-horizontal</span></td></tr>
         <tr><td>Gap</td><td><span class="chip">menu/spacing/header/gap</span> (Figma binds <span class="chip">card/spacing/header/gap</span>; same value)</td></tr>
-        <tr><td>Title</td><td>Text style <span class="chip">card/header</span>, <span class="chip">menu/color/content/heading</span></td></tr>
+        <tr><td>Title</td><td>Text style <span class="chip">title/sm</span> (subatomic), <span class="chip">menu/color/content/heading</span></td></tr>
       </tbody>
     </table>
   </doc-section>
@@ -166,6 +166,7 @@
         <tr><td>Contents</td><td><span class="chip">menu/spacing/contents/padding-vertical</span>, <span class="chip">…/padding-horizontal</span>, <span class="chip">menu/spacing/contents/gap</span>; grid gap <span class="chip">spacing/gap/md</span></td></tr>
         <tr><td>Section title (Grouped)</td><td><span class="chip">menu/spacing/header/padding-*</span>, <span class="chip">input/label/md</span>, <span class="chip">card/color/content/heading</span></td></tr>
         <tr><td>Add / User card</td><td><span class="chip">menu/spacing/fastadd/min-width</span>, <span class="chip">…/gap</span>, <span class="chip">…/padding-*</span>, <span class="chip">dropdown/color/*</span>, <span class="chip">dropdown/border/radius</span></td></tr>
+        <tr><td>Shadow (all variants)</td><td>Effect style <span class="chip">general/level 4</span> (<span class="chip">--elevation-4</span> with its background blur)</td></tr>
         <tr><td>Minimum height</td><td>520px, no token (Figma annotation 4266:86971)</td></tr>
       </tbody>
     </table>
@@ -209,13 +210,9 @@
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="Sub-menu.">Figma’s assembled panel also has a “sub-menu” (a header over a grid of menu items, minimum height 172px). It isn’t built; confirm where it opens from.</doc-callout>
+    <doc-callout type="note" heading="Not built yet: sub-menu.">A sub-menu is a folder of menu items: a menu item that is a folder opens it (Figma “sub-menu” 1217:58485, a header over a grid of menu items, minimum height 172px). It hasn’t been added to the build yet.</doc-callout>
     <doc-callout type="note" heading="Folder contents.">Most Figma rows are “checked” placeholders, and Pay &amp; Bill repeats Primary’s first four labels. Figma also lists Scheduler, Bullhorn Apps, Canvas, Compliance Manager and Back Office, which aren’t in the Menu’s apps, and says “Internal Submissions” where the Menu says “Submissions”. Confirm the real apps in each folder.</doc-callout>
     <doc-callout type="note" heading="Edit Menu card.">Figma rounds only the top corners and uses <span class="chip">button/color/border/default</span> (#f0f5f9, not in the code tokens). The build matches the Menu’s card. The Add and User cards also use the dropdown border for that reason.</doc-callout>
-    <doc-callout type="note" heading="Title style.">There’s no code token for the card/header text style (18/24 medium); the build uses the title/small size with the medium weight.</doc-callout>
-    <doc-callout type="note" heading="Drag.">Figma has no drop-position indicator; the bar is the build’s. The drag variant’s minimum width is 80px (no token), not the 96px token.</doc-callout>
-    <doc-callout type="note" heading="Menu Option states.">Figma has only default and hover. The focus ring is the system one; there is no disabled state yet. The default-type glyph color isn’t bound in Figma.</doc-callout>
-    <doc-callout type="note" heading="Dropdown shadow.">The Add and User cards use Figma effect style MadeleineNav/modals, which has no token.</doc-callout>
   </doc-section>
 </doc-page>
 </body>

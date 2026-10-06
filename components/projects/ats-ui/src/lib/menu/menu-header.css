@@ -9,7 +9,9 @@
 .ats-menu-header__title-row { display: flex; align-items: center; justify-content: space-between; }
 .ats-menu-header__title {
   flex: 1 0 0; min-width: 0; color: var(--menu-color-content-heading);
-  /* Figma text style card/header (18/24 medium) has no code token: title/small size + medium weight */
+  /* subatomic text style title/sm */
+  font-family: var(--typography-title-small-font-family), 'Inter', sans-serif;
   font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height);
-  font-weight: var(--typography-body-lg-font-weight-medium);
+  font-weight: var(--typography-title-small-font-weight); letter-spacing: var(--typography-title-small-letter-spacing);
+  text-transform: var(--typography-title-small-text-transform);
 }
