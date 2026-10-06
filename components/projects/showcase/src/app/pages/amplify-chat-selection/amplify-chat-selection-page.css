@@ -12,3 +12,7 @@ h2 { font-size: 15px; margin: 40px 0 4px; color: #314158; }
 .menu-room { padding-bottom: 160px; }
 .row.menu-room { padding-left: 240px; } /* the menu right-aligns under the chevron */
 .embed.menu-room { display: flex; justify-content: flex-end; width: 400px; }
+.bars { display: flex; flex-direction: column; gap: 24px; margin-bottom: 24px; }
+.w601 { width: 601px; max-width: 100%; }
+.bar-host { width: 800px; max-width: 100%; background: #fff; border: 1px solid #c2c5cb; border-top: 0; border-radius: 0 0 8px 8px; overflow: hidden; } /* stand-in for the table card's bottom edge */
+.bar-embed { width: 601px; max-width: 100%; }

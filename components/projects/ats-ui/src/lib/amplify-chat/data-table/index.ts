@@ -2,3 +2,4 @@
 export * from './models';
 export * from './data-table-header-row';
 export * from './data-table-row';
+export * from './data-table';

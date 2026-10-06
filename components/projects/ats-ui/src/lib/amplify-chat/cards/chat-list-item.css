@@ -105,6 +105,13 @@
   /* no token: Icon/Amplify Radial gradient stops, as in icon-container.css */
   background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
 }
+/* ---- amplify-chat/chat-cards (6271:183686): the card stack + selection bar, gap 8 ---- */
+.ats-amplify-chat-chat-cards,
+.ats-amplify-chat-chat-cards__stack {
+  display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
+  gap: var(--amplify-chat-chat-cards-spacing-gap-spacing-gap-sm);
+}
+
 .ats-amplify-chat-relevance-signals__signals {
   display: flex; flex-wrap: wrap; align-items: flex-start; flex: 1 0 0; min-width: 0; overflow: clip;
   gap: var(--spacing-gap-xxsm);

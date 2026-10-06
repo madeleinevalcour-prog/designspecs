@@ -1,4 +1,9 @@
-@if (embed()) {
+@if (component() === 'selection-bar') {
+  <div class="embed bar-embed">
+    <ats-amplify-chat-selection-bar [count]="embedCount()" [total]="total()" [appearance]="embedAppearance()" [verb]="verb()" [noun]="noun()"
+      [label]="label()" [actions]="actions" [pageCount]="pageCount()" [page]="embedPage()" [idleLabel]="'1–3 of 8'" />
+  </div>
+} @else if (embed()) {
   <div class="embed" [class.menu-room]="embedOpen()">
     <ats-amplify-chat-selection-split-button [count]="embedCount()" [verb]="verb()" [noun]="noun()" [label]="label()"
       [actions]="actions" [open]="embedOpen()" [state]="state()" />
@@ -33,6 +38,29 @@
     <div class="cell">
       <ats-amplify-chat-selection-split-button [count]="3" [actions]="actions" [open]="true" />
       <span class="caption">menu open</span>
+    </div>
+  </div>
+
+  <h2>amplify-chat/selection-bar</h2>
+  <p class="note">The <code>novo-data-table-pagination</code> instance under a chat table (6271:183633, attached) or card stack
+    (6271:184050, card): "N of M selected" + the split button. Hidden when nothing is selected. Used by
+    <code>ats-amplify-chat-data-table</code> and <code>ats-amplify-chat-chat-cards</code>.</p>
+  <div class="bars">
+    <div class="cell">
+      <div class="bar-host"><ats-amplify-chat-selection-bar appearance="attached" [count]="5" [total]="10" [actions]="actions" /></div>
+      <span class="caption">appearance=attached (inside the table card) · 5 of 10</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-selection-bar class="w601" appearance="card" [count]="5" [total]="5" [actions]="actions" />
+      <span class="caption">appearance=card (under a card stack) · 5 of 5</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-selection-bar class="w601" appearance="card" [count]="2" [total]="8" [actions]="actions" [pageCount]="3" [(page)]="barPage" idleLabel="1–3 of 8" />
+      <span class="caption">with the pager (pageCount=3) · page {{ barPage() }}</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-selection-bar class="w601" appearance="card" [count]="0" [total]="8" [actions]="actions" [pageCount]="3" idleLabel="1–3 of 8" />
+      <span class="caption">0 selected with a pager: range label, no split button (without a pager the bar is hidden)</span>
     </div>
   </div>
 

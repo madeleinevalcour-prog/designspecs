@@ -1,0 +1,56 @@
+/* AmplifyChatSelectionBar — the novo-data-table-pagination instance under amplify-chat/data-table
+   (6271:183633, attached) and amplify-chat/chat-cards (6271:184050, card). Pagination tokens.
+   Unencapsulated, namespaced .ats-amplify-chat-selection-bar. */
+
+.ats-amplify-chat-selection-bar {
+  display: flex; align-items: center; box-sizing: border-box; width: 100%;
+  gap: var(--spacing-gap-sm);
+  min-height: var(--pagination-min-height);
+  padding: var(--pagination-spacing-padding-vertical) var(--pagination-spacing-padding-horizontal);
+  background: var(--pagination-color-background-default);
+}
+.ats-amplify-chat-selection-bar[hidden] { display: none; }
+
+/* attached: inside the table card, a divider above (border-t, pagination/color/border/default) */
+.ats-amplify-chat-selection-bar[data-appearance="attached"] {
+  border-top: var(--pagination-border-width-default) solid var(--pagination-color-border-default);
+}
+/* card: its own card under the stack (border, dropdown/border/radius, general/level 2) */
+.ats-amplify-chat-selection-bar[data-appearance="card"] {
+  border: var(--pagination-border-width-default) solid var(--pagination-color-border-default);
+  border-radius: var(--dropdown-border-radius);
+  box-shadow: var(--elevation-2);
+}
+
+/* items-select: "5 of 5 selected", meta/small at font-size/12, uppercase, pagination/color/content/label */
+.ats-amplify-chat-selection-bar__count {
+  flex: 1 0 0; min-width: 0; white-space: nowrap; text-transform: uppercase;
+  color: var(--pagination-color-content-label);
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight);
+  font-size: var(--typography-font-size-12);
+  line-height: var(--typography-meta-small-line-height);
+  letter-spacing: var(--typography-meta-small-letter-spacing);
+}
+
+/* pages: previous · page numbers · next (novo-data-table-pagination "pages") */
+.ats-amplify-chat-selection-bar__pages { display: flex; align-items: center; flex: 0 0 auto; gap: var(--data-table-spacing-gap-header); }
+.ats-amplify-chat-selection-bar__page {
+  display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box;
+  min-width: 24px; height: 24px; /* no token: Figma pager-page 24 */
+  padding: 0 var(--spacing-padding-sm); margin: 0; cursor: pointer;
+  border: var(--pagination-border-width-default) solid transparent;
+  border-radius: var(--border-radius-xsm); background: none;
+  color: var(--pagination-color-content-label);
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight);
+  font-size: var(--typography-font-size-12);
+  line-height: var(--typography-meta-small-line-height);
+}
+.ats-amplify-chat-selection-bar__page:hover { background: var(--color-background-subtle); }
+.ats-amplify-chat-selection-bar__page.is-current {
+  background: var(--color-background-subtle); border-color: var(--pagination-color-border-default);
+}
+.ats-amplify-chat-selection-bar__page:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 1px; }
+
+.ats-amplify-chat-selection-bar__action { flex: 0 0 auto; }

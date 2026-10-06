@@ -9,3 +9,6 @@ h2 { font-size: 15px; margin: 40px 0 4px; color: #314158; }
 .caption { font-size: 13px; font-weight: 500; color: #5d7798; }
 .w601 { width: 601px; max-width: 100%; }   /* Figma card width */
 .w535 { width: 535px; max-width: 100%; }   /* Figma relevance-signals width */
+.row { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; margin-bottom: 24px; }
+/* the split button menu opens below the bar */
+.menu-room { padding-bottom: 160px; }

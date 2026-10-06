@@ -1,4 +1,9 @@
-@if (embed()) {
+@if (component() === 'data-table') {
+  <div class="embed">
+    <ats-amplify-chat-data-table [records]="embedTable()" [width]="width()" [selection]="embedSelection()"
+      [verb]="verb()" [noun]="noun()" [actions]="actions" [selectable]="isSelectable()" [class.w480]="width() === 'docked'" />
+  </div>
+} @else if (embed()) {
   <div class="embed">
     <div class="frame">
       <table class="ats-ndt__table" aria-label="Prospects">
@@ -17,8 +22,34 @@
   </div>
 } @else {
   <h1>Amplify Chat — Data table</h1>
-  <p class="lede">Figma <code>doc/data-table</code> (6300:127565). The leaf rows of <code>amplify-chat/data-table</code>, built on the
-    novo-data-table cells and Checkbox. Chat tables compare 2–10 records on short fields; no sort or filter.</p>
+  <p class="lede">Figma <code>doc/data-table</code> (6300:127565). <code>amplify-chat/data-table</code> and its rows, built on the
+    novo-data-table cells and Checkbox. Chat tables compare 2–10 records on short fields; no sort or filter. The table owns
+    selection: header select-all, row checkboxes and the selection bar (hidden when nothing is selected).</p>
+
+  <h2>amplify-chat/data-table</h2>
+  <p class="note">6271:183099 · table card + selection bar. Live: click checkboxes, the select-all, the split button or its menu.</p>
+  <div class="stack">
+    <div class="cell full">
+      <ats-amplify-chat-data-table [records]="table" [actions]="actions" />
+      <span class="caption">Property 1=default (nothing selected: no selection bar)</span>
+    </div>
+    <div class="cell full menu-room">
+      <ats-amplify-chat-data-table [records]="table" [actions]="actions" [(selection)]="tableSel"
+        (primary)="tableLog.set('primary: add ' + $event.length)"
+        (action)="tableLog.set('action: ' + $event.action.id + ' for ' + $event.records.length)"
+        (open)="tableLog.set('open ' + $event.name)" (preview)="tableLog.set('preview ' + $event.name)"
+        (reveal)="tableLog.set('reveal ' + $event.field + ' for ' + $event.record.name)" />
+      <span class="caption">Property 1=selected · {{ tableSel().length }} selected · {{ tableLog() || 'try the controls' }}</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-data-table class="w480" width="docked" [records]="table.slice(0, 4)" [actions]="actions" [(selection)]="dockedSel" />
+      <span class="caption">width=docked (4 columns: name, in Bullhorn, job title, email) · select a row to show the bar</span>
+    </div>
+    <div class="cell full">
+      <ats-amplify-chat-data-table [records]="table.slice(0, 3)" [selectable]="false" [columns]="['name', 'title', 'email']" />
+      <span class="caption">selectable=false (no bulk action: no checkboxes, no bar) · 3 columns</span>
+    </div>
+  </div>
 
   <h2>novo-data-table-header-row-chat</h2>
   <p class="note">6171:165361 · select-all checkbox, empty preview column, label-only header cells.</p>

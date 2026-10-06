@@ -11,3 +11,8 @@ h2 { font-size: 15px; margin: 40px 0 4px; color: #314158; }
 .frame { max-width: 100%; overflow: auto; background: #fff; border: 1px solid #dee0e3; border-radius: 8px; }
 .frame.w640 { width: 640px; }
 .frame table { width: 100%; }
+.full { width: 800px; max-width: 100%; }
+.full > ats-amplify-chat-data-table { width: 100%; }
+.w480 { width: 480px; max-width: 100%; }  /* docked chat column */
+/* the split button menu opens below the bar: leave room so it isn't clipped */
+.menu-room { padding-bottom: 160px; }

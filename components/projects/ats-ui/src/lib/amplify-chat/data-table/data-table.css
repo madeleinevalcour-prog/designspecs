@@ -76,3 +76,25 @@
 
 /* empty value: "Not on file" in color/text/disabled (patterns doc) */
 .ats-ndt-cell__text.ats-amplify-chat-data-table-row__empty { color: var(--color-text-disabled); }
+
+/* ---- amplify-chat/data-table (6271:183099): the table card + selection bar ---- */
+.ats-amplify-chat-data-table {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  width: 100%; max-width: 800px; /* no token: Figma max-w 800 (the chat column) */
+  background: var(--amplify-chat-data-table-header-row-color-background-data-table-color-background-default);
+  border: var(--border-width-border-default) solid var(--amplify-chat-data-table-color-border-card-color-border-default);
+  border-radius: var(--amplify-chat-data-table-border-radius-border-radius-sm);
+  box-shadow: 0 var(--amplify-chat-data-table-effects-shadow-1-offset-y-spacing-2)
+    var(--amplify-chat-data-table-effects-shadow-1-blur-spacing-4)
+    var(--amplify-chat-data-table-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+  /* not overflow: clip, so the split button menu can open below the card */
+}
+/* the table scrolls sideways inside the card; the inherited radius clips the header corners */
+.ats-amplify-chat-data-table__scroll { overflow-x: auto; border-radius: inherit; }
+.ats-amplify-chat-data-table .ats-ndt__table { width: 100%; }
+/* last row: no divider against the card edge (the attached selection bar brings its own) */
+.ats-amplify-chat-data-table tbody > .ats-amplify-chat-data-table-row:last-child > .ats-ndt-td { border-bottom-color: transparent; }
+/* attached selection bar: the card's bottom corners */
+.ats-amplify-chat-data-table > .ats-amplify-chat-selection-bar {
+  border-bottom-left-radius: inherit; border-bottom-right-radius: inherit;
+}
