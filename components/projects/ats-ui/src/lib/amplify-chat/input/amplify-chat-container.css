@@ -1,0 +1,6 @@
+/* AmplifyChatContainer (Figma "amplify-chat-container" 4527:169494): context row (or
+   the clarifying-questions card) stacked over the chat input. */
+.ats-amplify-chat-container {
+  display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
+  gap: var(--spacing-8); /* no token: Figma gap 8 (no amplify-chat-container variable) */
+}

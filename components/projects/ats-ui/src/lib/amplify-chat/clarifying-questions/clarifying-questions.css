@@ -1,0 +1,65 @@
+/* AmplifyChatClarifyingQuestions (Figma "clarifying-questions" 6336:28366). Values are
+   the --amplify-chat-clarifying-questions-* tokens Figma binds. Unencapsulated. */
+.ats-amplify-chat-clarifying-questions {
+  display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
+  gap: var(--amplify-chat-clarifying-questions-spacing-gap-spacing-8);
+  padding: var(--amplify-chat-clarifying-questions-spacing-padding-top-card-spacing-header-padding-vertical)
+    var(--amplify-chat-clarifying-questions-spacing-padding-horizontal-spacing-padding-md)
+    var(--amplify-chat-clarifying-questions-spacing-padding-bottom-spacing-padding-md);
+  /* Border/Amplify Gradient (no token for the style): a 1px gradient ring via border-box,
+     as in chat-list-item.css. Marks a live Amplify ask. */
+  border: 1px solid transparent; /* no token: Figma 1px stroke */
+  background:
+    linear-gradient(var(--amplify-chat-clarifying-questions-color-background-card-color-background-contents), var(--amplify-chat-clarifying-questions-color-background-card-color-background-contents)) padding-box,
+    linear-gradient(to top right, var(--color-amplify-amplify-green), var(--color-amplify-amplify-blue)) border-box;
+  border-radius: var(--amplify-chat-clarifying-questions-border-radius-card-border-radius-default);
+  /* general/level 2 */
+  box-shadow: 0 var(--amplify-chat-clarifying-questions-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-clarifying-questions-effects-shadow-1-blur-spacing-8) 0
+    var(--amplify-chat-clarifying-questions-effects-shadow-1-color-color-transparency-charcoal-charcoal-08);
+}
+.ats-amplify-chat-clarifying-questions[data-size="docked"] {
+  padding: var(--amplify-chat-clarifying-questions-spacing-padding-top-spacing-16)
+    var(--amplify-chat-clarifying-questions-spacing-padding-horizontal-spacing-16)
+    var(--amplify-chat-clarifying-questions-spacing-padding-bottom-spacing-padding-md);
+  border-radius: var(--amplify-chat-clarifying-questions-border-radius-border-radius-sm);
+  /* general/level 1 */
+  box-shadow: 0 var(--amplify-chat-clarifying-questions-effects-shadow-1-offset-y-spacing-2) var(--amplify-chat-clarifying-questions-effects-shadow-1-blur-spacing-4) 0
+    var(--amplify-chat-clarifying-questions-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+}
+
+.ats-amplify-chat-clarifying-questions__header {
+  display: flex; align-items: center; width: 100%;
+  gap: var(--amplify-chat-clarifying-questions-header-spacing-gap-spacing-8);
+}
+.ats-amplify-chat-clarifying-questions__question {
+  flex: 1 0 0; min-width: 0; margin: 0;
+  color: var(--amplify-chat-clarifying-questions-header-question-color-content-text-color-text-headline);
+  font-family: var(--amplify-chat-clarifying-questions-header-question-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-clarifying-questions-header-question-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-clarifying-questions-header-question-typography-font-weight-typography-body-default-font-weight-medium);
+  line-height: var(--amplify-chat-clarifying-questions-header-question-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-clarifying-questions-header-question-typography-letter-spacing-typography-body-default-letter-spacing);
+}
+.ats-amplify-chat-clarifying-questions__pager {
+  display: flex; align-items: center; flex: 0 0 auto;
+  gap: var(--amplify-chat-clarifying-questions-header-pager-spacing-gap-spacing-4);
+}
+.ats-amplify-chat-clarifying-questions__step, .ats-amplify-chat-clarifying-questions__help {
+  font-family: var(--amplify-chat-clarifying-questions-help-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-clarifying-questions-help-typography-font-size-typography-input-label-field-label-font-size);
+  font-weight: var(--amplify-chat-clarifying-questions-help-typography-font-weight-typography-input-label-field-label-font-weight);
+  line-height: var(--amplify-chat-clarifying-questions-help-typography-line-height-typography-input-label-field-label-line-height);
+  letter-spacing: var(--amplify-chat-clarifying-questions-help-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+}
+.ats-amplify-chat-clarifying-questions__step {
+  white-space: nowrap;
+  color: var(--amplify-chat-clarifying-questions-header-pager-step-color-content-text-color-text-subtle);
+}
+.ats-amplify-chat-clarifying-questions__help {
+  margin: 0;
+  color: var(--amplify-chat-clarifying-questions-help-color-content-text-color-text-subtle);
+}
+.ats-amplify-chat-clarifying-questions__options {
+  display: flex; flex-direction: column; width: 100%;
+  gap: var(--amplify-chat-clarifying-questions-options-spacing-gap-field-spacing-gap);
+}

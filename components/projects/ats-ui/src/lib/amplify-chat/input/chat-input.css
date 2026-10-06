@@ -1,0 +1,20 @@
+/* AmplifyChatInput (Figma "chat-input" 4608:172361). Values are the
+   --amplify-chat-chat-input-* tokens Figma binds. Unencapsulated, namespaced. */
+.ats-amplify-chat-input {
+  display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
+  gap: var(--amplify-chat-chat-input-spacing-gap-card-spacing-content-gap);
+  padding: var(--amplify-chat-chat-input-spacing-padding-vertical-card-spacing-header-padding-vertical) var(--amplify-chat-chat-input-spacing-padding-horizontal-spacing-padding-md);
+  background: var(--amplify-chat-chat-input-color-background-card-color-background-contents);
+  border: 1px solid var(--amplify-chat-chat-input-color-border-card-color-border-default); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-chat-input-border-radius-card-border-radius-default);
+  /* general/level 2 */
+  box-shadow: 0 var(--amplify-chat-chat-input-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-chat-input-effects-shadow-1-blur-spacing-8) 0
+    var(--amplify-chat-chat-input-effects-shadow-1-color-color-transparency-charcoal-charcoal-08);
+}
+.ats-amplify-chat-input[data-size="docked"] {
+  padding: var(--amplify-chat-chat-input-spacing-padding-vertical-spacing-16) var(--amplify-chat-chat-input-spacing-padding-horizontal-spacing-16);
+  border-radius: var(--amplify-chat-chat-input-border-radius-border-radius-sm);
+  /* general/level 1 */
+  box-shadow: 0 var(--amplify-chat-chat-input-effects-shadow-1-offset-y-spacing-2) var(--amplify-chat-chat-input-effects-shadow-1-blur-spacing-4) 0
+    var(--amplify-chat-chat-input-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+}

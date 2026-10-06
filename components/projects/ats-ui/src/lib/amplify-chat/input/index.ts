@@ -2,3 +2,6 @@
 export * from './amplify-text-area';
 export * from './button-row';
 export * from './amplify-context-container';
+export * from './chat-input';
+export * from './amplify-chat-container';
+export * from './global-chat-container';

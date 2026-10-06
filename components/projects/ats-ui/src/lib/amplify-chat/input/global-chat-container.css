@@ -1,0 +1,19 @@
+/* AmplifyChatGlobalChatContainer (Figma "global-chat-container" 4527:171709). */
+.ats-amplify-chat-global-chat-container {
+  display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
+  gap: var(--amplify-chat-global-chat-container-spacing-gap-page-gap-vertical);
+}
+/* novo-title: title/default, headline color */
+.ats-amplify-chat-global-chat-container__greeting {
+  margin: 0;
+  color: var(--color-text-headline);
+  font-family: var(--typography-title-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-title-default-font-size);
+  font-weight: var(--typography-title-default-font-weight);
+  line-height: var(--typography-title-default-line-height);
+  letter-spacing: var(--typography-title-default-letter-spacing);
+}
+/* The starting input is taller: Figma's chat-input here is 128px (text area 46px) */
+.ats-amplify-chat-global-chat-container .ats-amplify-chat-text-area {
+  min-height: 46px; /* no token: Figma text-area height 46 in global-chat-container */
+}
