@@ -1,0 +1,41 @@
+/* MenuItem (Figma "menu-item" 1143:19746). Unencapsulated, namespaced .ats-menu-item. */
+.ats-menu-item {
+  display: flex; flex-direction: column; align-items: center; gap: var(--menu-spacing-menu-item-gap);
+  box-sizing: border-box; margin: 0; cursor: pointer;
+  min-width: var(--menu-spacing-menu-item-min-width); max-width: var(--menu-spacing-menu-item-max-width);
+  padding: var(--menu-spacing-menu-item-padding-vertical) var(--menu-spacing-menu-item-padding-horizontal);
+  border: 0; border-radius: var(--border-radius-sm); background: transparent;
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+}
+.ats-menu-item[hidden] { display: none; }
+.ats-menu-item > .ats-icon-container { flex: 0 0 auto; }
+
+/* "move" handle: shown on hover / drag, rotated 90° (Figma) */
+.ats-menu-item__handle { display: none; width: 12px; height: 12px; flex: 0 0 auto; align-items: center; justify-content: center; }
+.ats-menu-item__handle .ats-icon { transform: rotate(90deg); }
+
+/* hover + drag: handle on top; the top padding gives way to the handle + gap */
+.ats-menu-item:hover:not(:focus-visible):not(.is-focus), .ats-menu-item.is-hover, .ats-menu-item.is-drag {
+  background: var(--color-background-hover); padding-top: 0;
+}
+.ats-menu-item:hover:not(:focus-visible):not(.is-focus) .ats-menu-item__handle,
+.ats-menu-item.is-hover .ats-menu-item__handle, .ats-menu-item.is-drag .ats-menu-item__handle { display: flex; }
+
+/* focus: hover background + 2px focus border (drawn inside, so the tile doesn't grow) */
+.ats-menu-item:focus-visible, .ats-menu-item.is-focus {
+  outline: 0; background: var(--color-background-hover);
+  box-shadow: inset 0 0 0 var(--button-border-width-focus) var(--color-border-focus);
+}
+/* drag: focus look + general/level 3 */
+.ats-menu-item.is-drag {
+  min-width: 80px; /* no token: Figma drag variant min-width 80 */
+  box-shadow: inset 0 0 0 var(--button-border-width-focus) var(--color-border-focus), var(--elevation-3);
+}
+
+/* text style body/sm in color/text/body, one line */
+.ats-menu-item__label {
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;
+  color: var(--color-text-body);
+  font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height);
+  font-weight: var(--typography-body-sm-font-weight-default); letter-spacing: var(--typography-body-sm-letter-spacing);
+}

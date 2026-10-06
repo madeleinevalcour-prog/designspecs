@@ -39,7 +39,7 @@ const ALL_SIZES: IconContainerSize[] = ['sm', 'md', 'lg'];
       <p class="lede">
         Angular build of the Figma <code>icon-container</code> component set (164:17910): an entity-colored
         square (<code>color/entity/*</code>) with one knockout glyph (<code>icon-container/icon</code>).
-        Used by the Novo List entity avatar and the bowling alley's Menu and Add chips.
+        Used by the Novo List entity avatar, Menu Item, Menu Option and the bowling alley's entity tabs.
       </p>
       <section>
         <h2>Theme × size</h2>

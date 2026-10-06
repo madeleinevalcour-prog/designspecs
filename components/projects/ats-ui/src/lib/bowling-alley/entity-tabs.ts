@@ -1,16 +1,18 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, inject, output, signal } from '@angular/core';
 import { Icon } from '../icon/icon';
+import { IconContainer, IconContainerTheme } from '../icon-container/icon-container';
 import { BowlingAlleyController, BowlingAlleyEntityTab } from './bowling-alley-controller';
 
 /**
  * EntityTabs (Figma: "entity-tabs") — the open record tabs. Click to activate;
  * pin / close actions show on hover when the bowling alley is expanded (a pinned tab keeps
  * its pin visible); drag a tab to reorder, with a drop line marking where it lands.
- * Tabs live in the BowlingAlleyController (`tabs` signal).
+ * Tabs live in the BowlingAlleyController (`tabs` signal). Each tab's icon is an
+ * icon-container (size sm), as in Figma.
  */
 @Component({
   selector: 'ats-entity-tabs',
-  imports: [Icon],
+  imports: [Icon, IconContainer],
   template: `
     @for (t of ctrl.tabs(); track t.id; let i = $index) {
       @if (dropIndex() === i) { <div class="ats-bowling-alley-drop-line"></div> }
@@ -32,9 +34,7 @@ import { BowlingAlleyController, BowlingAlleyEntityTab } from './bowling-alley-c
         (dragover)="onDragOver($event, i)"
         (drop)="onDrop($event)"
       >
-        <span class="ats-bowling-alley-tab__icon">
-          <ats-icon [name]="t.icon ?? t.type" [size]="12" color="var(--color-icon-icon-knockout)" />
-        </span>
+        <ats-icon-container class="ats-bowling-alley-tab__icon" size="sm" [theme]="iconTheme(t.type)" [icon]="t.icon ?? t.type" />
         <span class="ats-bowling-alley-tab__label">{{ t.label }}</span>
         @if (t.pinnable !== false) {
           <span class="ats-bowling-alley-tab__actions">
@@ -62,6 +62,9 @@ export class EntityTabs {
   /** A tab was activated (clicked / Enter / Space). */
   readonly activated = output<BowlingAlleyEntityTab>();
   readonly closed = output<BowlingAlleyEntityTab>();
+
+  /** Entity type → icon-container theme (Figma: job = `jobs`, note = `neutral`). */
+  protected iconTheme = (type: string): IconContainerTheme => (type === 'job' ? 'jobs' : type === 'note' ? 'neutral' : (type as IconContainerTheme));
 
   protected readonly dragId = signal<string | null>(null);
   /** Where the drop line sits: before the tab at this index (length = after the last). */

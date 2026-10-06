@@ -75,6 +75,7 @@
   flex: 0 0 auto; width: 24px; height: 24px; box-sizing: border-box; border-radius: var(--border-radius-xsm);
   display: flex; align-items: center; justify-content: center;
 }
+/* entity tabs: the icon is an <ats-icon-container size="sm"> (Figma icon-container instance), which paints its own fill */
 .ats-bowling-alley-tab__label {
   display: none; flex: 1 0 0; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   font-size: var(--typography-bowling-alley-main-nav-font-size); line-height: var(--typography-bowling-alley-main-nav-line-height);
@@ -85,13 +86,6 @@
   font-weight: var(--typography-bowling-alley-entity-font-weight);
 }
 .ats-bowling-alley-tab--entity.is-active .ats-bowling-alley-tab__label { font-weight: var(--typography-bowling-alley-entity-font-weight-active); }
-.ats-bowling-alley-tab--entity[data-entity] .ats-bowling-alley-tab__icon { background: var(--ats-entity-color); }
-.ats-bowling-alley-tab--entity[data-entity="candidate"] { --ats-entity-color: var(--color-entity-candidate); }
-.ats-bowling-alley-tab--entity[data-entity="job"] { --ats-entity-color: var(--color-entity-job); }
-.ats-bowling-alley-tab--entity[data-entity="company"] { --ats-entity-color: var(--color-entity-company); }
-.ats-bowling-alley-tab--entity[data-entity="contact"] { --ats-entity-color: var(--color-entity-contact); }
-.ats-bowling-alley-tab--entity[data-entity="note"] { --ats-entity-color: var(--color-entity-note); }
-
 /* pin / close actions (entity tabs) */
 .ats-bowling-alley-tab__actions { margin-left: auto; display: none; align-items: center; gap: var(--spacing-gap-xsm); }
 .ats-bowling-alley-tab__actions button {

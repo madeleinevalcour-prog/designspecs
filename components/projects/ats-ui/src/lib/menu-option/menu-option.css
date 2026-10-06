@@ -1,0 +1,19 @@
+/* MenuOption (Figma "menu-option" 157:2911). Unencapsulated, namespaced .ats-menu-option. */
+.ats-menu-option {
+  display: flex; align-items: center; gap: var(--spacing-gap-sm); box-sizing: border-box; width: 100%; margin: 0;
+  padding: var(--button-spacing-default-gap) var(--button-spacing-default-padding-horizontal);
+  border: 0; background: transparent; cursor: pointer; text-align: left;
+  color: var(--color-text-body);
+  font-family: var(--typography-button-lg-font-family), 'Inter', sans-serif;
+}
+.ats-menu-option:hover, .ats-menu-option.is-hover { background: var(--bowling-alley-color-tab-items-background-hover); }
+/* Figma has no focus variant: the system focus ring (color/border/focus), inset */
+.ats-menu-option:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
+.ats-menu-option > .ats-icon, .ats-menu-option > .ats-icon-container { flex: 0 0 auto; }
+/* text style button/lg; the entity type ellipsizes */
+.ats-menu-option__label {
+  white-space: nowrap;
+  font-size: var(--typography-button-lg-font-size); line-height: var(--typography-button-lg-line-height);
+  font-weight: var(--typography-button-lg-font-weight); letter-spacing: var(--typography-button-lg-letter-spacing);
+}
+.ats-menu-option[data-type="entity"] .ats-menu-option__label { flex: 1 0 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; }

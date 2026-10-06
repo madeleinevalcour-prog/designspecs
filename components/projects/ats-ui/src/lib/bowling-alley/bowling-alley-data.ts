@@ -26,14 +26,15 @@ export const BOWLING_ALLEY_FAST_FIND_RESULTS: FastFindResult[] = [
   { entity: 'job', title: '425 | Project Manager', fields: RESULT_FIELDS, body: RESULT_BODY },
 ];
 
-export interface MenuItem {
-  /** Chip color: --color-entity-<color>. */
+/** One app in the Menu, rendered as a MenuItem. */
+export interface BowlingAlleyMenuApp {
+  /** Icon-container color: an entity name (--color-entity-<color>), `amplify`, or `neutral`. */
   color: string;
   glyph: string;
   label: string;
 }
 
-const mi = (color: string, glyph: string, label: string): MenuItem => ({ color, glyph, label });
+const mi = (color: string, glyph: string, label: string): BowlingAlleyMenuApp => ({ color, glyph, label });
 
 /**
  * Menu (novo-drag-container 1323:68245): every app the user can open in the ATS,
@@ -41,7 +42,7 @@ const mi = (color: string, glyph: string, label: string): MenuItem => ({ color, 
  * `color` is an entity token name, `amplify` (radial gradient), or `neutral` for
  * apps that aren't an entity.
  */
-export const BOWLING_ALLEY_MENU_APPS: MenuItem[] = [
+export const BOWLING_ALLEY_MENU_APPS: BowlingAlleyMenuApp[] = [
   mi('amplify', 'amplify', 'Amplify'),
   mi('candidate', 'candidate', 'Candidates'),
   mi('task', 'task', 'Tasks'),
@@ -62,7 +63,9 @@ export const BOWLING_ALLEY_MENU_APPS: MenuItem[] = [
   mi('candidate', 'candidate-circle', 'Candidates'),
 ];
 
+/** One row of the Add menu, rendered as a MenuOption (type entity). */
 export interface AddItem {
+  /** Icon-container color: an entity name, or `note` (neutral). */
   color: string;
   glyph: string;
   label: string;

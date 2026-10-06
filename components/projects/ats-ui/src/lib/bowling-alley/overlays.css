@@ -1,6 +1,6 @@
 /* Bowling-alley overlays (Figma "Overlays" 491:38819). */
 
-/* dropdown card: fast-add-menu / user-dropdown / help-dropdown-container */
+/* dropdown card: fast-add-menu / user-dropdown-panel / help-dropdown-container; rows = <button ats-menu-option> (lib/menu-option) */
 .ats-dropdown-card {
   display: flex; flex-direction: column; gap: var(--menu-spacing-fastadd-gap); box-sizing: border-box;
   min-width: var(--menu-spacing-fastadd-min-width);
@@ -16,24 +16,11 @@
 .ats-add-overlay { width: 248px; }
 .ats-user-overlay { width: 240px; }
 
-/* menu-option */
-.ats-menu-option {
-  display: flex; align-items: center; gap: var(--spacing-gap-sm); box-sizing: border-box; width: 100%; margin: 0;
-  padding: var(--button-spacing-default-gap) var(--button-spacing-default-padding-horizontal);
-  border: 0; background: transparent; cursor: pointer; text-align: left; border-radius: var(--border-radius-xsm);
-  font-family: inherit; color: var(--color-text-body);
-}
-.ats-menu-option:hover { background: var(--dropdown-color-content-background-hover); color: var(--dropdown-color-content-text-hover); }
-.ats-menu-option__label {
-  min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  font-size: var(--typography-button-lg-font-size); line-height: var(--typography-button-lg-line-height);
-  font-weight: var(--typography-button-lg-font-weight); letter-spacing: var(--typography-button-lg-letter-spacing);
-}
-.ats-menu-option:focus-visible, .ats-menu__item:focus-visible, .ats-chat-pos__spot:focus-visible, .ats-help__link:focus-visible {
+.ats-chat-pos__spot:focus-visible, .ats-help__link:focus-visible {
   outline: 2px solid var(--color-border-focus); outline-offset: -2px;
 }
 
-/* ---- Menu (novo-drag-container 1323:68245) ---- */
+/* ---- Menu (novo-drag-container 1323:68245 / 1217:58484) ---- */
 .ats-menu-overlay {
   display: flex; flex-direction: column; width: 480px; box-sizing: border-box; overflow: hidden;
   border: var(--menu-border-width) solid var(--menu-color-border-default); border-radius: var(--menu-border-radius);
@@ -41,37 +28,12 @@
   box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
   font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
 }
-.ats-menu__header {
-  display: flex; flex-direction: column; gap: var(--card-spacing-header-gap);
-  padding: var(--menu-spacing-header-padding-vertical) var(--menu-spacing-header-padding-horizontal);
-  background: var(--menu-color-background-header); border-bottom: 1px solid var(--card-color-border-default);
-}
-.ats-menu__title-row { display: flex; align-items: center; justify-content: space-between; }
-.ats-menu__title {
-  flex: 1 0 0; color: var(--menu-color-content-heading);
-  /* Figma text style card/header (18/24 medium) has no code token: title/small size + medium weight */
-  font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height);
-  font-weight: var(--typography-body-lg-font-weight-medium);
-}
 .ats-menu__contents {
   display: flex; flex-direction: column; gap: var(--menu-spacing-contents-gap);
   padding: var(--menu-spacing-contents-padding-vertical) var(--menu-spacing-contents-padding-horizontal);
 }
 .ats-menu__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-gap-md); }
-.ats-menu__item {
-  min-width: var(--menu-spacing-menu-item-min-width); max-width: var(--menu-spacing-menu-item-max-width);
-  display: flex; flex-direction: column; align-items: center; gap: var(--menu-spacing-menu-item-gap); box-sizing: border-box;
-  padding: var(--menu-spacing-menu-item-padding-vertical) var(--menu-spacing-menu-item-padding-horizontal); margin: 0;
-  border: 0; background: transparent; cursor: pointer; font-family: inherit; border-radius: var(--border-radius-sm);
-}
-.ats-menu__item:hover { background: var(--color-background-subtle); }
-.ats-menu__item[hidden] { display: none; }
-/* app chip = <ats-icon-container size="md"> (amplify theme = the Amplify gradient, neutral = color/entity/note) */
-.ats-menu__item-label {
-  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center; color: var(--color-text-body);
-  font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height);
-  font-weight: var(--typography-body-sm-font-weight-default); letter-spacing: var(--typography-body-sm-letter-spacing);
-}
+/* app tiles = <button ats-menu-item> (lib/menu-item); header = <ats-menu-header> (lib/menu-header) */
 
 /* ---- Help (help-dropdown-container 4711:109561) ---- */
 .ats-help-overlay {

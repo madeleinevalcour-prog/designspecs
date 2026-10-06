@@ -13,10 +13,12 @@ import {
 } from '@angular/core';
 import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
-import { IconContainer, IconContainerTheme } from '../icon-container/icon-container';
+import { IconContainerTheme } from '../icon-container/icon-container';
+import { MenuHeader } from '../menu-header/menu-header';
+import { MenuItem } from '../menu-item/menu-item';
+import { MenuOption } from '../menu-option/menu-option';
 import { NovoList } from '../novo-list/novo-list';
 import { NovoListItemDefault } from '../novo-list/presets';
-import { SearchInput } from '../search-input/search-input';
 import {
   BOWLING_ALLEY_ADD_ITEMS,
   BOWLING_ALLEY_FAST_FIND_RESULTS,
@@ -31,29 +33,24 @@ import {
  * `<ats-bowling-alley-shell>` positions it next to the tab that opened it.
  */
 
-/** Data color → icon-container theme (Figma: job = `jobs`, note / neutral = `neutral`). */
-const chipTheme = (color: string): IconContainerTheme =>
+/** Data color → icon-container theme (Figma: job = `jobs`; note, task, neutral = `neutral`). */
+const iconContainerTheme = (color: string): IconContainerTheme =>
   color === 'job' ? 'jobs' : color === 'note' || color === 'neutral' || color === 'task' ? 'neutral' : (color as IconContainerTheme);
 
-/** Menu (Figma novo-drag-container 1323:68245): header + Filter, then app sections. */
+/**
+ * Menu (Figma novo-drag-container 1323:68245 / 1217:58484): a MenuHeader (title,
+ * Add/Remove, Filter), then the apps as MenuItems (icon-container md + label).
+ */
 @Component({
   selector: 'ats-menu-overlay',
-  imports: [Button, IconContainer, SearchInput],
+  imports: [MenuHeader, MenuItem],
   template: `
-    <div class="ats-menu__header">
-      <div class="ats-menu__title-row">
-        <span class="ats-menu__title">Menu</span>
-        <button ats-button theme="dialogue" size="small" (click)="addRemove.emit()">Add/Remove</button>
-      </div>
-      <ats-search-input #search variant="pill" placeholder="Filter Items" [(value)]="query" (closed)="closed.emit()" />
-    </div>
+    <ats-menu-header #header placeholder="Filter Items" [(filter)]="query" (closed)="closed.emit()" (addRemove)="addRemove.emit()" />
     <div class="ats-menu__contents">
       <div class="ats-menu__grid">
         @for (item of apps; track $index) {
-          <button class="ats-menu__item" type="button" [hidden]="!show(item.label)" (click)="selected.emit(item.label)">
-            <ats-icon-container class="ats-menu__chip" size="md" [theme]="chipTheme(item.color)" [icon]="item.glyph" [background]="chipFill(item.color)" />
-            <span class="ats-menu__item-label">{{ item.label }}</span>
-          </button>
+          <button ats-menu-item [theme]="iconTheme(item.color)" [icon]="item.glyph" [background]="iconFill(item.color)"
+            [hidden]="!show(item.label)" (click)="selected.emit(item.label)">{{ item.label }}</button>
         }
       </div>
     </div>
@@ -70,28 +67,25 @@ export class MenuOverlay implements AfterViewInit {
   readonly selected = output<string>();
   readonly addRemove = output<void>();
   protected readonly apps = BOWLING_ALLEY_MENU_APPS;
-  // App chips are icon-container instances (size md). Figma calls jobs `jobs`; task has
-  // no icon-container theme, so it keeps --color-entity-task as a fill override.
-  protected chipTheme = chipTheme;
-  protected chipFill = (color: string) => (color === 'task' ? 'var(--color-entity-task)' : undefined);
+  // Each app icon is an icon-container (size md). Task has no icon-container theme,
+  // so it keeps --color-entity-task as a fill override.
+  protected iconTheme = iconContainerTheme;
+  protected iconFill = (color: string) => (color === 'task' ? 'var(--color-entity-task)' : undefined);
   protected readonly query = signal('');
-  private readonly search = viewChild.required<SearchInput>('search');
+  private readonly header = viewChild.required<MenuHeader>('header');
   protected show = (label: string) => matches(label, this.query());
   ngAfterViewInit() {
-    if (this.autofocus()) setTimeout(() => this.search().focus());
+    if (this.autofocus()) setTimeout(() => this.header().focusFilter());
   }
 }
 
-/** Add (Figma fast-add-menu 4711:109319): menu-options with an icon-container (sm). */
+/** Add (Figma fast-add-menu 4711:42682): menu-options, type entity (icon-container sm). */
 @Component({
   selector: 'ats-add-overlay',
-  imports: [IconContainer],
+  imports: [MenuOption],
   template: `
     @for (item of items; track item.label) {
-      <button class="ats-menu-option" type="button" (click)="selected.emit(item.label)">
-        <ats-icon-container class="ats-menu-option__chip" size="sm" [theme]="chipTheme(item.color)" [icon]="item.glyph" />
-        <span class="ats-menu-option__label">{{ item.label }}</span>
-      </button>
+      <button ats-menu-option type="entity" [theme]="iconTheme(item.color)" [icon]="item.glyph" (click)="selected.emit(item.label)">{{ item.label }}</button>
     }
   `,
   styleUrl: './overlays.css',
@@ -102,20 +96,16 @@ export class MenuOverlay implements AfterViewInit {
 export class AddOverlay {
   readonly selected = output<string>();
   protected readonly items = BOWLING_ALLEY_ADD_ITEMS;
-  protected chipTheme = chipTheme;
+  protected iconTheme = iconContainerTheme;
 }
 
-/** User menu (Figma user-dropdown 491:38833): Preferences, Logout. */
+/** User menu (Figma user-dropdown-panel 168:19961): menu-options, type default: Preferences, Logout. */
 @Component({
   selector: 'ats-user-overlay',
-  imports: [Icon],
+  imports: [MenuOption],
   template: `
-    <button class="ats-menu-option" type="button" (click)="selected.emit('preferences')">
-      <ats-icon name="configure-outline" [size]="16" color="var(--color-icon-subtle)" /><span class="ats-menu-option__label">Preferences</span>
-    </button>
-    <button class="ats-menu-option" type="button" (click)="selected.emit('logout')">
-      <ats-icon name="logout" [size]="16" color="var(--color-icon-subtle)" /><span class="ats-menu-option__label">Logout</span>
-    </button>
+    <button ats-menu-option icon="configure-outline" (click)="selected.emit('preferences')">Preferences</button>
+    <button ats-menu-option icon="logout" (click)="selected.emit('logout')">Logout</button>
   `,
   styleUrl: './overlays.css',
   encapsulation: ViewEncapsulation.None,

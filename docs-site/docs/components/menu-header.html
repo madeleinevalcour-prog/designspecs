@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu Header — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Menu Header" meta="Status: in review · Figma: menu-header 2469:64743 (Component Migration, 2 · Sub-components) · Code: ats-ui MenuHeader · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">The menu header sits at the top of the Menu: a title row with its actions, then a Filter search.</p>
+    <doc-example src="menu-header?edit=true" caption="Default: title, Add/Remove, Filter" height="140"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Figma property</th><th>Built from</th></tr></thead>
+      <tbody>
+        <tr><td>Title (“Menu”)</td><td>—</td><td>Text style <span class="chip">card/header</span></td></tr>
+        <tr><td>Add/Remove</td><td><span class="chip">edit</span>, on by default</td><td><a href="button.html">Button</a>, dialogue, small</td></tr>
+        <tr><td>Done (edit mode)</td><td><span class="chip">editMenu</span>, off by default</td><td>Button, dialogue, small, success color, check icon on the left</td></tr>
+        <tr><td>Close</td><td><span class="chip">close</span>, off by default</td><td>Button, icon theme, small, close glyph</td></tr>
+        <tr><td>Filter</td><td>—</td><td><a href="search-input.html">Search Input</a>, pill, placeholder “Filter”</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="menu-header?heading=Edit%20Menu&amp;edit=false&amp;editMenu=true" caption="Edit mode: Done instead of Add/Remove (as in Figma menu-edit 1217:58486)" height="140"></doc-example>
+    <doc-example src="menu-header?close=true" caption="With the close button" height="140"></doc-example>
+    <doc-example src="menu-header?state=active" caption="Filter focused" height="140"></doc-example>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour">
+    <ul>
+      <li>Typing in the Filter updates <span class="chip">[(filter)]</span>; the owner filters its list. In the bowling alley the Menu filters its apps by label.</li>
+      <li>Escape in the Filter and the close button both emit <span class="chip">closed</span>.</li>
+      <li>Add/Remove emits <span class="chip">addRemove</span> and Done emits <span class="chip">done</span>. In Figma, Add/Remove leads to the Edit Menu (menu-edit: menu-header plus inline checklists); that panel isn’t built yet.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>All actions are native buttons; the close button is labelled “Close menu”.</li>
+      <li>The Filter is a native search input labelled by its placeholder. <span class="chip">focusFilter()</span> moves focus to it; the Menu calls it on open.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Background</td><td><span class="chip">menu/color/background/header</span></td></tr>
+        <tr><td>Bottom border</td><td><span class="chip">menu/color/border/default</span></td></tr>
+        <tr><td>Padding</td><td><span class="chip">menu/spacing/header/padding-vertical</span>, <span class="chip">…/padding-horizontal</span></td></tr>
+        <tr><td>Gap</td><td><span class="chip">menu/spacing/header/gap</span> (Figma binds <span class="chip">card/spacing/header/gap</span>; same value)</td></tr>
+        <tr><td>Title</td><td>Text style <span class="chip">card/header</span>, <span class="chip">menu/color/content/heading</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-menu-header [(filter)]="query" (addRemove)="openEdit()" (closed)="dismiss()" /&gt;
+      &lt;ats-menu-header heading="Edit Menu" [edit]="false" editMenu (done)="save()" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">heading</span></td><td>Title text</td><td>Menu</td></tr>
+        <tr><td><span class="chip">edit</span></td><td>Show Add/Remove</td><td>true</td></tr>
+        <tr><td><span class="chip">editMenu</span></td><td>Show Done</td><td>false</td></tr>
+        <tr><td><span class="chip">close</span></td><td>Show the close button</td><td>false</td></tr>
+        <tr><td><span class="chip">placeholder</span></td><td>Filter placeholder</td><td>Filter</td></tr>
+        <tr><td><span class="chip">[(filter)]</span></td><td>The Filter text (two-way)</td><td>''</td></tr>
+        <tr><td><span class="chip">filterActive</span></td><td>Force the Filter’s focused look (docs)</td><td>false</td></tr>
+        <tr><td><span class="chip">(addRemove)</span>, <span class="chip">(done)</span>, <span class="chip">(closed)</span></td><td>Add/Remove; Done; close button or Escape</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>Method: <span class="chip">focusFilter()</span>.</p>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Title style.">There’s no code token for the card/header text style (18/24 medium); the build uses the title/small size with the medium weight. The annotation lists the title color as modal/color/content/body, but the layer is bound to card/color/content/heading, which the build uses.</doc-callout>
+    <doc-callout type="note" heading="Filter placeholder.">The bowling alley’s Menu says “Filter Items”; the component’s default is Figma’s “Filter”. Confirm which the Menu should use.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

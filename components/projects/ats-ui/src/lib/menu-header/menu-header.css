@@ -1,0 +1,15 @@
+/* MenuHeader (Figma "menu-header" 2469:64743). Unencapsulated, namespaced .ats-menu-header. */
+.ats-menu-header {
+  display: flex; flex-direction: column; gap: var(--menu-spacing-header-gap); box-sizing: border-box;
+  padding: var(--menu-spacing-header-padding-vertical) var(--menu-spacing-header-padding-horizontal);
+  background: var(--menu-color-background-header); border-bottom: 1px solid var(--menu-color-border-default);
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+}
+.ats-menu-header > .ats-search-input { width: 100%; }
+.ats-menu-header__title-row { display: flex; align-items: center; justify-content: space-between; }
+.ats-menu-header__title {
+  flex: 1 0 0; min-width: 0; color: var(--menu-color-content-heading);
+  /* Figma text style card/header (18/24 medium) has no code token: title/small size + medium weight */
+  font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height);
+  font-weight: var(--typography-body-lg-font-weight-medium);
+}
