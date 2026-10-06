@@ -1,0 +1,140 @@
+<!-- Each reply is one template, shared by the embed and the reference view. -->
+
+<!-- (a) prose + numbered list -->
+<ng-template #prose>
+  <ats-amplify-chat-chat-block sourcesSummary="Based on 14 job orders · Updated today" [sources]="jobSources"
+    [followUps]="chips(followUpsProse)" [showActions]="showActions()" [actionLabel]="action()"
+    (followUp)="log.set('follow-up: ' + $event)" (copied)="log.set('copied reply')" (feedback)="log.set('feedback: ' + $event)"
+    (savePrompt)="log.set('save prompt')" (action)="log.set('action')">
+    <ats-amplify-chat-text>5 of your 14 open jobs need action today, ranked by start date, open submittals, and client priority.</ats-amplify-chat-text>
+    <ats-amplify-chat-header>Needs Attention Today</ats-amplify-chat-header>
+    <ol ats-amplify-chat-numbered-list>
+      <li ats-amplify-chat-list-item>Senior Java Developer at Verizon starts Oct 6 with no submittals.</li>
+      <li ats-amplify-chat-list-item>Data Engineer at PepsiCo has 1 submittal and client priority High.</li>
+      <li ats-amplify-chat-list-item>Project Manager at Acme has an interview pending feedback.</li>
+    </ol>
+  </ats-amplify-chat-chat-block>
+</ng-template>
+
+<!-- (b) draft block -->
+<ng-template #draftReply>
+  <ats-amplify-chat-chat-block [followUps]="chips(followUpsDraft)" [showActions]="showActions()" [actionLabel]="action()"
+    (followUp)="log.set('follow-up: ' + $event)">
+    <ats-amplify-chat-text type="paragraph-with-links">
+      Here's a first outreach email to <a ats-amplify-chat-link entity="candidate" href="#">Jordan Lee</a> for
+      <a ats-amplify-chat-link entity="job" href="#">Senior Java Developer</a>. Edit it before you send.
+    </ats-amplify-chat-text>
+    <ats-amplify-chat-draft-block subject="Senior Java Developer role in Boston" [draft]="draft" />
+  </ats-amplify-chat-chat-block>
+</ng-template>
+
+<!-- (c) literal value block -->
+<ng-template #literal>
+  <ats-amplify-chat-chat-block [followUps]="chips(followUpsLiteral)" [showActions]="showActions()" [actionLabel]="action()"
+    (followUp)="log.set('follow-up: ' + $event)">
+    <ats-amplify-chat-text>Here's a Boolean string for senior Java developers with Spring and cloud experience. Paste it into candidate search.</ats-amplify-chat-text>
+    <ats-amplify-chat-literal-value-block [value]="boolean" copyLabel="Copy Boolean string" />
+  </ats-amplify-chat-chat-block>
+</ng-template>
+
+<!-- (d) thinking / status -->
+<ng-template #status>
+  <ats-amplify-chat-chat-block status="Ranking 14 job orders…" (stop)="log.set('stop')" />
+</ng-template>
+
+<!-- (e) data table — leaf rows in a stand-in frame; swap for amplify-chat/data-table when it lands -->
+<ng-template #table>
+  <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts · Updated today" [sources]="prospectSources"
+    [followUps]="chips(followUpsTable)" [showActions]="showActions()" [actionLabel]="action()"
+    (followUp)="log.set('follow-up: ' + $event)">
+    <ats-amplify-chat-text type="paragraph-with-links">
+      Found 5 <a ats-amplify-chat-link entity="company" href="#">Verizon</a> contacts in Prospect. 2 are already contacts in your ATS.
+    </ats-amplify-chat-text>
+    <div class="table-frame">
+      <table class="ats-ndt__table" aria-label="Verizon contacts">
+        <thead><tr ats-amplify-chat-data-table-header-row [columns]="tableColumns" [checked]="tableAll()" [indeterminate]="tableSome()" (toggleAll)="selectAllRows($event)"></tr></thead>
+        <tbody>
+          @for (p of prospects; track p.id) {
+            <tr ats-amplify-chat-data-table-row [record]="p" [columns]="tableColumns" [selected]="!!tableSel()[p.id]" (selectedChange)="setTableSel(p.id, $event)"></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </ats-amplify-chat-chat-block>
+</ng-template>
+
+<!-- (f) chat cards — chat-list-items in a plain stack; swap for amplify-chat/chat-cards when it lands -->
+<ng-template #cardsReply>
+  <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts, excluding those already in your ATS · Updated today"
+    [sources]="prospectSources" [followUps]="chips(followUpsCards)" [showActions]="showActions()" [actionLabel]="action()"
+    (followUp)="log.set('follow-up: ' + $event)">
+    <ats-amplify-chat-text type="paragraph-with-links">
+      Here are 3 <a ats-amplify-chat-link entity="company" href="#">Verizon</a> contacts from Prospect who aren't in your ATS yet.
+      I checked the contacts tied to your <a ats-amplify-chat-link entity="company" href="#">Verizon</a> client-company record.
+    </ats-amplify-chat-text>
+    <ats-amplify-chat-header>Suggested 3 New Verizon Contacts</ats-amplify-chat-header>
+    <div class="card-stack">
+      @for (c of cards; track c.name) {
+        <ats-amplify-chat-chat-list-item theme="prospect" [name]="c.name" [jobTitle]="c.jobTitle" [fields]="fields(c)" [inBullhorn]="false"
+          [selected]="!!cardSel()[c.name]" (selectedChange)="setCardSel(c.name, $event)">
+          <ats-amplify-chat-relevance-signals [signals]="c.signals" />
+        </ats-amplify-chat-chat-list-item>
+      }
+    </div>
+  </ats-amplify-chat-chat-block>
+</ng-template>
+
+@if (embed()) {
+  <div class="embed column">
+    @switch (embedExample()) {
+      @case ('draft') { <ng-container [ngTemplateOutlet]="draftReply" /> }
+      @case ('literal') { <ng-container [ngTemplateOutlet]="literal" /> }
+      @case ('status') { <ng-container [ngTemplateOutlet]="status" /> }
+      @case ('table') { <ng-container [ngTemplateOutlet]="table" /> }
+      @case ('cards') { <ng-container [ngTemplateOutlet]="cardsReply" /> }
+      @default { <ng-container [ngTemplateOutlet]="prose" /> }
+    }
+  </div>
+} @else {
+  <h1>Amplify Chat — Reply</h1>
+  <p class="lede">Figma <code>doc/reply</code> (6300:27072). <code>amplify-chat/chat-block</code> (6150:20828) is the full Amplify reply:
+    identity, the projected body (answer, headings, lists, evidence, blocks), sources row and follow-up chips, then the message controls.
+    The column is 800px; prose caps at 560px. {{ log() ? 'Last event: ' + log() : 'Click a follow-up chip or a control.' }}</p>
+
+  <h2>Conversation <span>user-turn 6237:176861 + chat-block</span></h2>
+  <div class="column conversation">
+    <ats-amplify-chat-user-turn>
+      <ats-amplify-chat-user-bubble>Make a list of the open jobs I should prioritize today</ats-amplify-chat-user-bubble>
+    </ats-amplify-chat-user-turn>
+    <ng-container [ngTemplateOutlet]="prose" />
+    <ats-amplify-chat-user-turn>
+      <ats-amplify-chat-user-bubble>Find matches for #1</ats-amplify-chat-user-bubble>
+    </ats-amplify-chat-user-turn>
+    <ng-container [ngTemplateOutlet]="status" />
+  </div>
+
+  <h2>Prose + numbered list <span>example=prose</span></h2>
+  <div class="column"><ng-container [ngTemplateOutlet]="prose" /></div>
+
+  <h2>Draft block <span>example=draft</span></h2>
+  <div class="column"><ng-container [ngTemplateOutlet]="draftReply" /></div>
+
+  <h2>Literal value block <span>example=literal</span></h2>
+  <div class="column"><ng-container [ngTemplateOutlet]="literal" /></div>
+
+  <h2>Thinking (status) <span>example=status</span></h2>
+  <div class="column"><ng-container [ngTemplateOutlet]="status" /></div>
+
+  <h2>Data table <span>example=table</span></h2>
+  <div class="column"><ng-container [ngTemplateOutlet]="table" /></div>
+
+  <h2>Chat cards <span>example=cards</span></h2>
+  <div class="column"><ng-container [ngTemplateOutlet]="cardsReply" /></div>
+
+  <h2>Smallest reply, with the optional action <span>action="Accept Updates"</span></h2>
+  <div class="column">
+    <ats-amplify-chat-chat-block actionLabel="Accept Updates" (action)="log.set('action: Accept Updates')">
+      <ats-amplify-chat-text>Updated 3 fields on Marie Smith from her Prospect profile. Review them before you save.</ats-amplify-chat-text>
+    </ats-amplify-chat-chat-block>
+  </div>
+}

@@ -1,0 +1,15 @@
+:host { display: block; padding: 32px 40px 80px; background: #fff; min-height: 100vh; box-sizing: border-box; }
+:host:has(> .embed) { padding: 16px 24px; min-height: 0; background: transparent; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+h2 { font-size: 15px; margin: 48px 0 16px; color: #314158; }
+h2 span { font-weight: 400; color: #8ca1b9; font-size: 12px; margin-left: 6px; }
+.lede { color: #5d7798; margin: 0 0 20px; font-size: 14px; max-width: 760px; }
+/* the 800px chat column (patterns doc "Spacing and layout") */
+.column { width: 800px; max-width: 100%; }
+/* between turns: spacing/gap/xlg */
+.conversation { display: flex; flex-direction: column; gap: var(--spacing-gap-xlg); }
+/* stand-in for the chat table card (the amplify-chat/data-table composite adds the real one) */
+.table-frame { max-width: 100%; overflow: auto; background: #fff; border: 1px solid #dee0e3; border-radius: 8px; }
+.table-frame table { width: 100%; }
+/* stand-in for amplify-chat/chat-cards (Figma: 8px between cards) */
+.card-stack { display: flex; flex-direction: column; gap: var(--spacing-gap-sm); }
