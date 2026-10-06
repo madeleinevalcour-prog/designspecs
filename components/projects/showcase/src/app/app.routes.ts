@@ -8,6 +8,8 @@ import { HomePage } from './pages/home/home-page';
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
   { path: 'amplify-chat-blocks', loadComponent: () => import('./pages/amplify-chat-blocks/amplify-chat-blocks-page').then((m) => m.AmplifyChatBlocksPage), title: 'Amplify Chat — Blocks — ats-ui' },
+  { path: 'amplify-chat-clarifying-questions', loadComponent: () => import('./pages/amplify-chat-clarifying-questions/amplify-chat-clarifying-questions-page').then((m) => m.AmplifyChatClarifyingQuestionsPage), title: 'Amplify Chat — Clarifying questions — ats-ui' },
+  { path: 'amplify-chat-input', loadComponent: () => import('./pages/amplify-chat-input/amplify-chat-input-page').then((m) => m.AmplifyChatInputPage), title: 'Amplify Chat — Chat input — ats-ui' },
   { path: 'amplify-chat-sources', loadComponent: () => import('./pages/amplify-chat-sources/amplify-chat-sources-page').then((m) => m.AmplifyChatSourcesPage), title: 'Amplify Chat — Sources — ats-ui' },
   { path: 'amplify-chat-text', loadComponent: () => import('./pages/amplify-chat-text/amplify-chat-text-page').then((m) => m.AmplifyChatTextPage), title: 'Amplify Chat — Text — ats-ui' },
   { path: 'amplify-chat-user-messages', loadComponent: () => import('./pages/amplify-chat-user-messages/amplify-chat-user-messages-page').then((m) => m.AmplifyChatUserMessagesPage), title: 'Amplify Chat — User messages — ats-ui' },

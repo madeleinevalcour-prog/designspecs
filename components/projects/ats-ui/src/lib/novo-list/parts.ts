@@ -78,28 +78,33 @@ export class ItemAvatar {
 }
 
 /**
- * LinkText (Figma: "link-text", 737:11402, size=large). Optional 12px circle (an
- * entity dot) + a body/lg-medium label in `link-text/color/default`. It is styled
- * as a link but is not one: the whole list item is the click target.
+ * LinkText (Figma: "link-text", 737:11402). Optional circle (an entity dot) + a
+ * medium-weight label in `link-text/color/default`. It is styled as a link but is
+ * not one: the whole list item is the click target.
+ *  - size `large` (default): 12px circle, body/lg-medium.
+ *  - size `default`: 10px circle, body/default-medium (e.g. the Amplify clarify-option record).
  *
  *   <ats-link-text text="425 | Software Engineer" circle="var(--color-entity-job)" />
+ *   <ats-link-text size="default" text="425 | Software Engineer" circle="var(--color-entity-job)" />
  */
 @Component({
   selector: 'ats-link-text',
   imports: [Icon],
   template: `
-    @if (circle()) { <ats-icon name="circle" [size]="12" [color]="circle()" /> }
+    @if (circle()) { <ats-icon name="circle" [size]="sizeName() === 'default' ? 10 : 12" [color]="circle()" /> }
     <span class="ats-link-text__label">{{ text() }}</span>
   `,
   styleUrl: './novo-list.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'ats-link-text' },
+  host: { class: 'ats-link-text', '[attr.data-size]': 'sizeName()' },
 })
 export class LinkText {
   readonly text = input.required<string>();
-  /** Color of the leading 12px circle; omit to hide it (Figma `showEntity`). */
+  /** Color of the leading circle; omit to hide it (Figma `showEntity`). */
   readonly circle = input<string>();
+  readonly size = input<'large' | 'default' | undefined>('large');
+  protected readonly sizeName = computed(() => this.size() ?? 'large');
 }
 
 /**

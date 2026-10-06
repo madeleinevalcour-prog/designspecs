@@ -1,0 +1,22 @@
+/* AmplifyChatTextArea (Figma "amplify-text-area" 4608:172388). Values are the
+   --amplify-chat-text-area-* tokens Figma binds. Unencapsulated, namespaced. */
+.ats-amplify-chat-text-area {
+  display: block; box-sizing: border-box; width: 100%; margin: 0; padding: 0;
+  min-height: 20px; /* no token: Figma min-height 20 (one line) */
+  max-height: 400px; /* no token: Figma max-height 400 */
+  overflow-y: auto; resize: none;
+  /* Figma binds inputs/border/width/default, which the token export leaves undefined;
+     the field shows no border inside the chat input. */
+  border: 0; outline: 0; background: transparent;
+  border-radius: var(--amplify-chat-text-area-border-radius-field-border-radius-default);
+  color: var(--amplify-chat-text-area-input-input-color-content-text-field-color-content-value);
+  font-family: var(--amplify-chat-text-area-input-input-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-text-area-input-input-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-text-area-input-input-typography-font-weight-typography-body-default-font-weight-default);
+  line-height: var(--amplify-chat-text-area-input-input-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-text-area-input-input-typography-letter-spacing-typography-body-default-letter-spacing);
+}
+.ats-amplify-chat-text-area::placeholder {
+  opacity: 1;
+  color: var(--amplify-chat-text-area-input-what-would-you-like-to-know-or-do-today-color-content-text-field-color-content-placeholder);
+}
