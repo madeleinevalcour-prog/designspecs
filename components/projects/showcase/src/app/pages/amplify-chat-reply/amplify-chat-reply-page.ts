@@ -1,10 +1,9 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, signal } from '@angular/core';
 import {
-  AmplifyChatChatBlock, AmplifyChatChatListItem, AmplifyChatDataTableHeaderRow, AmplifyChatDataTableRow, AmplifyChatDraftBlock,
+  AmplifyChatCardItem, AmplifyChatChatBlock, AmplifyChatChatCards, AmplifyChatDataTable, AmplifyChatDraftBlock,
   AmplifyChatHeader, AmplifyChatLink, AmplifyChatListItem, AmplifyChatLiteralValueBlock, AmplifyChatNumberedList, AmplifyChatProspect,
-  AmplifyChatProspectColumn, AmplifyChatRelevanceSignals, AmplifyChatSource, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn,
-  NovoListField,
+  AmplifyChatProspectColumn, AmplifyChatSelectionAction, AmplifyChatSource, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn,
 } from 'ats-ui';
 
 export type ReplyExample = 'prose' | 'draft' | 'literal' | 'status' | 'table' | 'cards';
@@ -44,9 +43,7 @@ const JOB_SOURCES: AmplifyChatSource[] = [
  * row (6237:176861). The reference view shows a short conversation and one reply per
  * response format, all composed from the step-1 amplify-chat components.
  *
- * The table and cards examples compose the leaf rows (data-table rows, chat-list-items)
- * in isolated template blocks; swap them for the amplify-chat/data-table and
- * amplify-chat/chat-cards composites when those land.
+ * The table and cards examples use the amplify-chat/data-table and chat-cards composites.
  *
  * Embed mode: any param renders one reply in an 800px column, e.g.
  *   /examples/amplify-chat-reply?example=prose
@@ -60,9 +57,9 @@ const JOB_SOURCES: AmplifyChatSource[] = [
  */
 @Component({
   imports: [
-    NgTemplateOutlet, AmplifyChatChatBlock, AmplifyChatChatListItem, AmplifyChatDataTableHeaderRow, AmplifyChatDataTableRow, AmplifyChatDraftBlock,
+    NgTemplateOutlet, AmplifyChatChatBlock, AmplifyChatChatCards, AmplifyChatDataTable, AmplifyChatDraftBlock,
     AmplifyChatHeader, AmplifyChatLink, AmplifyChatListItem, AmplifyChatLiteralValueBlock, AmplifyChatNumberedList,
-    AmplifyChatRelevanceSignals, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn,
+    AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn,
   ],
   selector: 'app-amplify-chat-reply-page',
   templateUrl: './amplify-chat-reply-page.html',
@@ -88,34 +85,21 @@ export class AmplifyChatReplyPage {
   protected readonly boolean = BOOLEAN;
   protected readonly prospects = PROSPECTS;
   protected readonly tableColumns: AmplifyChatProspectColumn[] = ['name', 'inBullhorn', 'title', 'email'];
-  protected readonly cards = CARDS;
+  protected readonly cardItems: AmplifyChatCardItem[] = CARDS.map((c) => ({
+    id: c.name, name: c.name, jobTitle: c.jobTitle, fields: [{ type: 'email', text: c.email }], inBullhorn: false, signals: c.signals,
+  }));
+  protected readonly selectionActions: AmplifyChatSelectionAction[] = [
+    { id: 'list', label: 'Add to list', icon: 'list-outline' },
+    { id: 'sequence', label: 'Add to Outreach sequence', icon: 'automation', preview: true },
+  ];
   protected readonly jobSources = JOB_SOURCES;
   protected readonly prospectSources: AmplifyChatSource[] = PROSPECTS.map((p) => ({ label: p.name, entity: p.inBullhorn ? 'contact' : 'prospect', href: '#' }));
-  protected fields(c: CardSample): NovoListField[] {
-    return [{ type: 'email', text: c.email }];
-  }
 
   protected readonly followUpsProse = ['Show all 14', 'Find matches for #1', 'Why this order?'];
   protected readonly followUpsDraft = ['Make it shorter', 'More formal', 'Add salary range'];
   protected readonly followUpsLiteral = ['Run this search', 'Add Kotlin', 'Remove location'];
   protected readonly followUpsTable = ['Show 10 more', 'Reveal emails', 'Company snapshot'];
   protected readonly followUpsCards = ['Show 10 more', 'Find matches for #1', 'Why this order?'];
-
-  /** Live selection for the table / cards examples. */
-  protected readonly tableSel = signal<Record<string, boolean>>({});
-  protected readonly tableAll = computed(() => PROSPECTS.every((p) => this.tableSel()[p.id]));
-  protected readonly tableSome = computed(() => !this.tableAll() && PROSPECTS.some((p) => this.tableSel()[p.id]));
-  protected readonly cardSel = signal<Record<string, boolean>>({});
-
-  protected setTableSel(id: string | number, v: boolean): void {
-    this.tableSel.update((s) => ({ ...s, [id]: v }));
-  }
-  protected selectAllRows(v: boolean): void {
-    this.tableSel.set(Object.fromEntries(PROSPECTS.map((p) => [p.id, v])));
-  }
-  protected setCardSel(name: string, v: boolean): void {
-    this.cardSel.update((s) => ({ ...s, [name]: v }));
-  }
 
   /** Last event from any reply in the reference view. */
   protected readonly log = signal('');

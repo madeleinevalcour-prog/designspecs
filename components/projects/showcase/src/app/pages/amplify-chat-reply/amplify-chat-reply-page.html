@@ -42,7 +42,7 @@
   <ats-amplify-chat-chat-block status="Ranking 14 job orders…" (stop)="log.set('stop')" />
 </ng-template>
 
-<!-- (e) data table — leaf rows in a stand-in frame; swap for amplify-chat/data-table when it lands -->
+<!-- (e) data table -->
 <ng-template #table>
   <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts · Updated today" [sources]="prospectSources"
     [followUps]="chips(followUpsTable)" [showActions]="showActions()" [actionLabel]="action()"
@@ -50,20 +50,12 @@
     <ats-amplify-chat-text type="paragraph-with-links">
       Found 5 <a ats-amplify-chat-link entity="company" href="#">Verizon</a> contacts in Prospect. 2 are already contacts in your ATS.
     </ats-amplify-chat-text>
-    <div class="table-frame">
-      <table class="ats-ndt__table" aria-label="Verizon contacts">
-        <thead><tr ats-amplify-chat-data-table-header-row [columns]="tableColumns" [checked]="tableAll()" [indeterminate]="tableSome()" (toggleAll)="selectAllRows($event)"></tr></thead>
-        <tbody>
-          @for (p of prospects; track p.id) {
-            <tr ats-amplify-chat-data-table-row [record]="p" [columns]="tableColumns" [selected]="!!tableSel()[p.id]" (selectedChange)="setTableSel(p.id, $event)"></tr>
-          }
-        </tbody>
-      </table>
-    </div>
+    <ats-amplify-chat-data-table [records]="prospects" [columns]="tableColumns" [actions]="selectionActions"
+      (primary)="log.set('primary: add ' + $event.length)" (action)="log.set('action: ' + $event.action.id)" />
   </ats-amplify-chat-chat-block>
 </ng-template>
 
-<!-- (f) chat cards — chat-list-items in a plain stack; swap for amplify-chat/chat-cards when it lands -->
+<!-- (f) chat cards -->
 <ng-template #cardsReply>
   <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts, excluding those already in your ATS · Updated today"
     [sources]="prospectSources" [followUps]="chips(followUpsCards)" [showActions]="showActions()" [actionLabel]="action()"
@@ -73,14 +65,8 @@
       I checked the contacts tied to your <a ats-amplify-chat-link entity="company" href="#">Verizon</a> client-company record.
     </ats-amplify-chat-text>
     <ats-amplify-chat-header>Suggested 3 New Verizon Contacts</ats-amplify-chat-header>
-    <div class="card-stack">
-      @for (c of cards; track c.name) {
-        <ats-amplify-chat-chat-list-item theme="prospect" [name]="c.name" [jobTitle]="c.jobTitle" [fields]="fields(c)" [inBullhorn]="false"
-          [selected]="!!cardSel()[c.name]" (selectedChange)="setCardSel(c.name, $event)">
-          <ats-amplify-chat-relevance-signals [signals]="c.signals" />
-        </ats-amplify-chat-chat-list-item>
-      }
-    </div>
+    <ats-amplify-chat-chat-cards theme="prospect" [items]="cardItems" [actions]="selectionActions"
+      (primary)="log.set('primary: add ' + $event.length)" (action)="log.set('action: ' + $event.action.id)" />
   </ats-amplify-chat-chat-block>
 </ng-template>
 
