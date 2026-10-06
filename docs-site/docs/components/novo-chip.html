@@ -42,7 +42,7 @@
   </doc-section>
 
   <doc-section id="states" label="States">
-    <p>Hover applies when the chip is interactive (removable, or a link). Focus shows while its remove button or link has keyboard focus. Every color uses the same focus fill and a 2px stroke.</p>
+    <p>Hover applies only when the chip is interactive (removable, or a link); a static chip has no hover state. Focus shows while its remove button or link has keyboard focus. Every color uses the same focus fill and a 2px stroke.</p>
     <doc-example src="novo-chip?states=default,hover,focus" caption="Default color — default · hover · focus" height="110"></doc-example>
     <doc-example src="novo-chip?colors=negative&amp;states=default,hover,focus" caption="Negative — default · hover · focus" height="110"></doc-example>
     <table class="tbl">
@@ -53,7 +53,7 @@
         <tr><td>Focus</td><td><span class="chip">chip/color/background/default/focus</span></td><td><span class="chip">chip/color/border/default/focus</span>, <span class="chip">chip/border/focus-width</span> (2px)</td><td><span class="chip">…/content/&lt;color&gt;/focus</span></td></tr>
       </tbody>
     </table>
-    <p>Warning has no visible stroke: Figma strokes it with its own fill token. Strokes are drawn inside the chip, so focus doesn’t change its size.</p>
+    <p>Every color, including warning, has a visible border from <span class="chip">chip/color/border/&lt;color&gt;/*</span>. Strokes are drawn inside the chip, so focus doesn’t change its size.</p>
   </doc-section>
 
   <doc-section id="remove" label="Removing a chip">
@@ -93,8 +93,6 @@
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="Warning stroke.">Figma binds the warning stroke to <span class="chip">chip/color/background/warning/*</span>, although <span class="chip">chip/color/border/warning/*</span> tokens exist. The code follows Figma.</doc-callout>
-    <doc-callout type="note" heading="Hover on static chips.">Figma shows a hover state for every chip. The code applies it only to removable or linked chips, so a static chip doesn’t look clickable.</doc-callout>
     <doc-callout type="note" heading="Default link label.">The default-color link label is unbound in Figma (#296cc3, #1450a0 on hover and focus). The code uses <span class="chip">chip/color/content/default/link</span> and <span class="chip">…/link-hover</span>.</doc-callout>
     <doc-callout type="note" heading="Disabled and chip-group.">Disabled tokens exist but Figma draws no disabled chip. The chip-group set (5666:132573) isn’t built yet.</doc-callout>
   </doc-section>

@@ -50,10 +50,10 @@ a.ats-novo-chip__label:focus { outline: none; }
 }
 
 /* ---- colors: default state ---- */
-/* warning: Figma strokes the chip with its own background token (no visible border). */
+/* warning: border from chip/color/border/warning/* (Figma binds the stroke to the background token; the designer wants the border shown). */
 .ats-novo-chip[data-color="default"] { --_chip-bg: var(--chip-color-background-default-default); --_chip-border: var(--chip-color-border-default-default); --_chip-fg: var(--chip-color-content-default-default); }
 .ats-novo-chip[data-color="negative"] { --_chip-bg: var(--chip-color-background-negative-default); --_chip-border: var(--chip-color-border-negative-default); --_chip-fg: var(--chip-color-content-negative-default); }
-.ats-novo-chip[data-color="warning"] { --_chip-bg: var(--chip-color-background-warning-default); --_chip-border: var(--chip-color-background-warning-default); --_chip-fg: var(--chip-color-content-warning-default); }
+.ats-novo-chip[data-color="warning"] { --_chip-bg: var(--chip-color-background-warning-default); --_chip-border: var(--chip-color-border-warning-default); --_chip-fg: var(--chip-color-content-warning-default); }
 .ats-novo-chip[data-color="positive"] { --_chip-bg: var(--chip-color-background-positive-default); --_chip-border: var(--chip-color-border-positive-default); --_chip-fg: var(--chip-color-content-positive-default); }
 .ats-novo-chip[data-color="success"] { --_chip-bg: var(--chip-color-background-success-default); --_chip-border: var(--chip-color-border-success-default); --_chip-fg: var(--chip-color-content-success-default); }
 
@@ -68,7 +68,7 @@ a.ats-novo-chip__label:focus { outline: none; }
 }
 .ats-novo-chip--interactive[data-color="warning"]:hover,
 .ats-novo-chip.is-hover[data-color="warning"] {
-  --_chip-bg: var(--chip-color-background-warning-hover); --_chip-border: var(--chip-color-background-warning-hover); --_chip-fg: var(--chip-color-content-warning-hover);
+  --_chip-bg: var(--chip-color-background-warning-hover); --_chip-border: var(--chip-color-border-warning-hover); --_chip-fg: var(--chip-color-content-warning-hover);
 }
 .ats-novo-chip--interactive[data-color="positive"]:hover,
 .ats-novo-chip.is-hover[data-color="positive"] {
