@@ -1,0 +1,42 @@
+/* AmplifyChatContextContainer (Figma "amplify-context-container" 6349:218552).
+   Values are the --amplify-chat-context-container-* tokens Figma binds. Unencapsulated. */
+.ats-amplify-chat-context-container {
+  display: flex; align-items: center; box-sizing: border-box; width: 100%;
+  gap: var(--amplify-chat-context-container-icon-button-no-container-spacing-gap-button-spacing-default-gap);
+  padding: var(--amplify-chat-context-container-spacing-padding-vertical-spacing-8) var(--amplify-chat-context-container-spacing-padding-horizontal-spacing-16);
+  background: var(--amplify-chat-context-container-color-background-card-color-background-contents);
+  border: 1px solid var(--amplify-chat-context-container-color-border-card-color-border-default); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-context-container-border-radius-border-radius-md);
+  box-shadow: 0 var(--amplify-chat-context-container-effects-shadow-1-offset-y-spacing-2) var(--amplify-chat-context-container-effects-shadow-1-blur-spacing-4) 0
+    var(--amplify-chat-context-container-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+}
+.ats-amplify-chat-context-container[data-size="docked"] {
+  border-radius: var(--amplify-chat-context-container-border-radius-border-radius-sm);
+}
+
+/* "Context:" — input/label/field-label in field/color/content/label */
+.ats-amplify-chat-context-container__label {
+  flex: 0 0 auto; white-space: nowrap;
+  color: var(--amplify-chat-context-container-context-color-content-text-field-color-content-label);
+  font-family: var(--amplify-chat-context-container-context-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-context-container-context-typography-font-size-typography-input-label-field-label-font-size);
+  font-weight: var(--amplify-chat-context-container-context-typography-font-weight-typography-input-label-field-label-font-weight);
+  line-height: var(--amplify-chat-context-container-context-typography-line-height-typography-input-label-field-label-line-height);
+  letter-spacing: var(--amplify-chat-context-container-context-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+}
+.ats-amplify-chat-context-container__chips {
+  display: flex; flex-wrap: wrap; align-items: center; flex: 1 0 0; min-width: 0;
+  gap: var(--chip-spacing-sm-group-gap);
+}
+.ats-amplify-chat-context-container__add { margin-left: auto; }
+.ats-amplify-chat-context-container__add .ats-icon {
+  background-color: var(--amplify-chat-context-container-icon-button-no-container-add-thin-vector-color-content-icon-button-color-icon-content-default);
+}
+
+/* Chips: Figma fills them with neutral/2. That alias is undefined in the token export,
+   so it falls back to the chip default fill. The dot takes the record's entity color
+   (NovoChip colors its icon inline, hence !important). */
+.ats-amplify-chat-context-container .ats-novo-chip.ats-amplify-chat-context-container__chip[data-type][data-color] {
+  --_chip-bg: var(--amplify-chat-context-container-chips-novo-chip-color-background-neutral-2, var(--chip-color-background-default-default));
+}
+.ats-amplify-chat-context-container__chip .ats-novo-chip__icon { background-color: var(--_ctx-entity) !important; }

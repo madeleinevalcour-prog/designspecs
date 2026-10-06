@@ -1,0 +1,17 @@
+/* AmplifyChatButtonRow (Figma "button-row" 4608:172446). The buttons are Button
+   instances (Dialogue / Small; send = Primary Amplify, Small, round), so their colors
+   come from Button's tokens (the same ones Figma binds:
+   button/color/dialogue/content/default, button/color/primary/content/default). */
+.ats-amplify-chat-button-row {
+  display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; width: 100%;
+}
+.ats-amplify-chat-button-row__tools {
+  display: flex; align-items: center; flex: 1 0 0; min-width: 0;
+  gap: var(--amplify-chat-button-row-amplify-tools-spacing-gap-spacing-8);
+}
+/* send: Button's primary + amplify gradient ("Buttons/Amplify Radial"), made a 32px circle like Figma's fab */
+.ats-amplify-chat-button-row__send.ats-btn {
+  flex: 0 0 auto; gap: 0; padding: 0;
+  width: var(--button-spacing-fab-small-min-width);
+  border-radius: var(--button-border-radius-fab);
+}

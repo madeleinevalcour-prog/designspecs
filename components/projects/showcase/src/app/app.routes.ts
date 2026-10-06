@@ -7,6 +7,8 @@ import { HomePage } from './pages/home/home-page';
 // site and embedded with <doc-example>. Keep this list in the same order as the home list.
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
+  { path: 'amplify-chat-input', loadComponent: () => import('./pages/amplify-chat-input/amplify-chat-input-page').then((m) => m.AmplifyChatInputPage), title: 'Amplify Chat — Chat input — ats-ui' },
+  { path: 'amplify-chat-clarifying-questions', loadComponent: () => import('./pages/amplify-chat-clarifying-questions/amplify-chat-clarifying-questions-page').then((m) => m.AmplifyChatClarifyingQuestionsPage), title: 'Amplify Chat — Clarifying questions — ats-ui' },
   { path: 'bowling-alley', loadComponent: () => import('./pages/bowling-alley/bowling-alley-page').then((m) => m.BowlingAlleyPage), title: 'Bowling Alley — ats-ui' },
   { path: 'button', loadComponent: () => import('./pages/button/button-page').then((m) => m.ButtonPage), title: 'Button — ats-ui' },
   { path: 'icon', loadComponent: () => import('./pages/icon/icon-page').then((m) => m.IconPage), title: 'Icon — ats-ui' },

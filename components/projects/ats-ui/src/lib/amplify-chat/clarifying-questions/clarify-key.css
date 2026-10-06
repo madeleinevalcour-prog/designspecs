@@ -1,0 +1,33 @@
+/* AmplifyChatClarifyKey (Figma "clarify-key" 6334:28241). Values are the
+   --amplify-chat-clarify-key-* tokens Figma binds. The look is driven by private
+   vars so a parent row (clarify-option / clarify-something-else) can switch it.
+   The 1px stroke is an inset shadow, so the key stays 24×24 in every state. */
+.ats-amplify-chat-clarify-key {
+  --_key-bg: var(--amplify-chat-clarify-key-color-background-color-background-subtle-hover);
+  --_key-border: transparent;
+  --_key-fg: var(--amplify-chat-clarify-key-number-color-content-text-color-text-secondary);
+  --_key-icon: var(--amplify-chat-clarify-key-icon-vector-color-content-icon-color-icon-subtle);
+  display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; box-sizing: border-box;
+  width: 24px; height: 24px; /* no token: Figma 24×24 */
+  border-radius: var(--amplify-chat-clarify-key-border-radius-border-radius-xsm);
+  background: var(--_key-bg);
+  box-shadow: inset 0 0 0 1px var(--_key-border); /* no token: Figma 1px stroke */
+  color: var(--_key-fg);
+  font-family: var(--amplify-chat-clarify-key-number-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-clarify-key-number-typography-font-size-typography-input-label-field-label-font-size);
+  font-weight: var(--amplify-chat-clarify-key-number-typography-font-weight-typography-input-label-field-label-font-weight);
+  line-height: var(--amplify-chat-clarify-key-number-typography-line-height-typography-input-label-field-label-line-height);
+  letter-spacing: var(--amplify-chat-clarify-key-number-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+  text-align: center;
+}
+.ats-amplify-chat-clarify-key .ats-icon { display: block; }
+.ats-amplify-chat-clarify-key.is-active {
+  --_key-bg: var(--amplify-chat-clarify-key-color-background-color-background-default);
+  --_key-border: var(--amplify-chat-clarify-key-color-border-color-border-default);
+  --_key-fg: var(--amplify-chat-clarify-key-number-color-content-text-color-text-body);
+}
+.ats-amplify-chat-clarify-key.is-selected {
+  --_key-bg: var(--amplify-chat-clarify-key-color-background-color-background-hover);
+  --_key-border: var(--amplify-chat-clarify-key-color-border-color-border-focus);
+  --_key-fg: var(--amplify-chat-clarify-key-number-color-content-text-color-text-link);
+}
