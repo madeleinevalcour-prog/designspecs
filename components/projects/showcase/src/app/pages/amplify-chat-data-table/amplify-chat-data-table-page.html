@@ -1,0 +1,80 @@
+@if (embed()) {
+  <div class="embed">
+    <div class="frame">
+      <table class="ats-ndt__table" aria-label="Prospects">
+        @if (component() === 'header-row') {
+          <thead><tr ats-amplify-chat-data-table-header-row [columns]="cols()" [selectable]="isSelectable()"></tr></thead>
+        } @else {
+          <tbody>
+            @for (p of embedRows(); track p.id) {
+              <tr ats-amplify-chat-data-table-row [record]="p" [columns]="cols()" [selectable]="isSelectable()"
+                [selected]="embedSelected()" [state]="state()"></tr>
+            }
+          </tbody>
+        }
+      </table>
+    </div>
+  </div>
+} @else {
+  <h1>Amplify Chat — Data table</h1>
+  <p class="lede">Figma <code>doc/data-table</code> (6300:127565). The leaf rows of <code>amplify-chat/data-table</code>, built on the
+    novo-data-table cells and Checkbox. Chat tables compare 2–10 records on short fields; no sort or filter.</p>
+
+  <h2>novo-data-table-header-row-chat</h2>
+  <p class="note">6171:165361 · select-all checkbox, empty preview column, label-only header cells.</p>
+  <div class="stack">
+    <div class="cell">
+      <div class="frame"><table class="ats-ndt__table" aria-label="Header row"><thead><tr ats-amplify-chat-data-table-header-row></tr></thead></table></div>
+      <span class="caption">default (all five columns)</span>
+    </div>
+    <div class="cell">
+      <div class="frame"><table class="ats-ndt__table" aria-label="Header row, some selected"><thead><tr ats-amplify-chat-data-table-header-row indeterminate></tr></thead></table></div>
+      <span class="caption">some rows selected (indeterminate)</span>
+    </div>
+    <div class="cell">
+      <div class="frame w640"><table class="ats-ndt__table" aria-label="Header row, docked"><thead><tr ats-amplify-chat-data-table-header-row [columns]="['name', 'inBullhorn', 'title', 'email']"></tr></thead></table></div>
+      <span class="caption">docked chat: 4 columns</span>
+    </div>
+  </div>
+
+  <h2>novo-data-table-row-chat</h2>
+  <p class="note">6174:165788 · the two Figma variants are data examples of one row (<code>record.inBullhorn</code>).</p>
+  <div class="stack">
+    <div class="cell">
+      <div class="frame"><table class="ats-ndt__table" aria-label="Existing contact"><tbody><tr ats-amplify-chat-data-table-row [record]="prospects[0]"></tr></tbody></table></div>
+      <span class="caption">variant=prospect - existing content</span>
+    </div>
+    <div class="cell">
+      <div class="frame"><table class="ats-ndt__table" aria-label="Not in Bullhorn"><tbody><tr ats-amplify-chat-data-table-row [record]="prospects[1]"></tr></tbody></table></div>
+      <span class="caption">variant=prospect - not in BH (Reveal links)</span>
+    </div>
+    <div class="cell">
+      <div class="frame"><table class="ats-ndt__table" aria-label="Selected, hover"><tbody>
+        <tr ats-amplify-chat-data-table-row [record]="prospects[0]" [selected]="true"></tr>
+        <tr ats-amplify-chat-data-table-row [record]="prospects[1]" state="hover"></tr>
+      </tbody></table></div>
+      <span class="caption">selected · hover (forced)</span>
+    </div>
+    <div class="cell">
+      <div class="frame"><table class="ats-ndt__table" aria-label="No bulk action"><tbody>
+        <tr ats-amplify-chat-data-table-row [record]="{ id: 3, name: 'Nina Patel', inBullhorn: true, title: 'IT Director', mobilePhone: null, email: 'nina.patel@verizon.com' }" [selectable]="false"></tr>
+      </tbody></table></div>
+      <span class="caption">no checkbox (no bulk action) · missing value on an existing contact → "Not on file"</span>
+    </div>
+  </div>
+
+  <h2>Header + rows, live selection</h2>
+  <div class="cell">
+    <div class="frame"><table class="ats-ndt__table" aria-label="Prospects">
+      <thead><tr ats-amplify-chat-data-table-header-row [checked]="all()" [indeterminate]="some()" (toggleAll)="selectAll($event)"></tr></thead>
+      <tbody>
+        @for (p of prospects; track p.id) {
+          <tr ats-amplify-chat-data-table-row [record]="p" [selected]="!!sel()[p.id]" (selectedChange)="setSel(p.id, $event)"
+            (open)="log.set('open ' + $event.name)" (preview)="log.set('preview ' + $event.name)"
+            (reveal)="log.set('reveal ' + $event.field + ' for ' + $event.record.name)"></tr>
+        }
+      </tbody>
+    </table></div>
+    <span class="caption">{{ log() || 'Click a checkbox, name, binoculars or Reveal link' }}</span>
+  </div>
+}

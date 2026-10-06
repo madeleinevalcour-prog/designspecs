@@ -1,0 +1,55 @@
+@if (embed()) {
+  <div class="embed" [class.menu-room]="embedOpen()">
+    <ats-amplify-chat-selection-split-button [count]="embedCount()" [verb]="verb()" [noun]="noun()" [label]="label()"
+      [actions]="actions" [open]="embedOpen()" [state]="state()" />
+  </div>
+} @else {
+  <h1>Amplify Chat — Selection</h1>
+  <p class="lede">Figma <code>doc/selection</code> (6300:127589). The primary split button of the selection bar under chat
+    tables and card stacks. The left segment runs the default action and names the verb and count; the chevron opens related
+    actions. Higher-risk actions say they open a review first. Nothing runs until the recruiter clicks.</p>
+
+  <h2>amplify-chat/selection-split-button</h2>
+  <p class="note">6271:183528 · two primary small Buttons. Hover, focus and the menu are live.</p>
+  <div class="row">
+    <div class="cell">
+      <ats-amplify-chat-selection-split-button [count]="0" [actions]="actions" />
+      <span class="caption">zero selected (disabled)</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-selection-split-button [count]="1" [actions]="actions" />
+      <span class="caption">1 selected</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-selection-split-button [count]="5" [actions]="actions" />
+      <span class="caption">many selected (Figma)</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-selection-split-button [count]="5" [actions]="actions" state="hover" />
+      <span class="caption">hover (forced)</span>
+    </div>
+    <div class="cell">
+      <ats-amplify-chat-selection-split-button [count]="5" [actions]="actions" state="focus" />
+      <span class="caption">focus (forced)</span>
+    </div>
+  </div>
+  <div class="row menu-room">
+    <div class="cell">
+      <ats-amplify-chat-selection-split-button [count]="3" [actions]="actions" [open]="true" />
+      <span class="caption">menu open</span>
+    </div>
+  </div>
+
+  <h2>Live</h2>
+  <div class="row menu-room">
+    <div class="cell">
+      <div class="controls">
+        <button type="button" (click)="step(-1)">− deselect one</button>
+        <button type="button" (click)="step(1)">+ select one</button>
+      </div>
+      <ats-amplify-chat-selection-split-button [count]="selectedCount()" [actions]="actions"
+        (primary)="log.set('primary: add ' + $event)" (action)="log.set('action: ' + $event.id + ($event.preview ? ' (opens preview)' : ''))" />
+      <span class="caption">{{ log() || 'Change the selection, then click either segment' }}</span>
+    </div>
+  </div>
+}

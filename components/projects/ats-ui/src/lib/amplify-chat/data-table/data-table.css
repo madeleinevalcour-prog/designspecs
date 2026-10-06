@@ -1,0 +1,78 @@
+/* Amplify chat data-table rows — Figma novo-data-table-header-row-chat (6171:165361) and
+   novo-data-table-row-chat (6174:165788). Built on the novo-data-table cells, so the base
+   cell layout (.ats-ndt-*) comes from novo-data-table.css; this file adds the chat tokens
+   and the chat-only cell content. Unencapsulated, namespaced .ats-amplify-chat-data-table-*. */
+
+/* row background + divider: the amplify-chat row / header-row tokens */
+.ats-amplify-chat-data-table-header-row > .ats-ndt-th {
+  background: var(--amplify-chat-data-table-header-row-color-background-data-table-color-background-default);
+  border-bottom-color: var(--amplify-chat-data-table-header-row-color-border-data-table-color-border-default);
+}
+.ats-amplify-chat-data-table-row > .ats-ndt-td {
+  background: var(--amplify-chat-data-table-row-color-background-data-table-color-background-default);
+  border-bottom-color: var(--amplify-chat-data-table-row-color-border-data-table-color-border-default);
+}
+.ats-amplify-chat-data-table-row:hover > .ats-ndt-td,
+.ats-amplify-chat-data-table-row.is-hover > .ats-ndt-td { background: var(--data-table-color-background-hover); }
+
+/* Chat columns have no minimum width (the 128 in Figma is a Figma error, per the patterns doc). */
+.ats-amplify-chat-data-table-header-row .ats-ndt-cell,
+.ats-amplify-chat-data-table-row .ats-ndt-cell { min-width: 0; }
+
+/* preview: the binoculars as a button (opens the slideout) */
+.ats-amplify-chat-data-table-row__preview {
+  display: flex; padding: 0; margin: 0; border: 0; background: none; cursor: pointer;
+  border-radius: var(--border-radius-xsm);
+}
+.ats-amplify-chat-data-table-row__preview:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+
+/* name cell: avatar + link, gap link-text/spacing/gap/default (4) */
+.ats-amplify-chat-data-table-row__name > .ats-ndt-cell {
+  gap: var(--amplify-chat-data-table-row-novo-data-table-cell-spacing-gap-link-text-spacing-gap-default);
+}
+.ats-amplify-chat-data-table-row__avatar {
+  flex: 0 0 auto; box-sizing: border-box;
+  width: var(--avatar-spacing-width); height: var(--avatar-spacing-height); /* 24: Figma's 16px slot holds a 24px avatar image */
+  border-radius: var(--avatar-border-radius-round); object-fit: cover;
+}
+.ats-amplify-chat-data-table-row__avatar--initials {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--avatar-color-background-default); color: var(--avatar-color-content-default);
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight); font-size: var(--typography-meta-small-font-size);
+  line-height: var(--typography-meta-small-line-height); letter-spacing: var(--typography-meta-small-letter-spacing);
+}
+
+/* link-text, size default: body/default-medium in link-text/color/default */
+.ats-amplify-chat-data-table-row__link,
+.ats-amplify-chat-data-table-row__reveal {
+  display: inline-flex; align-items: center; gap: var(--link-text-spacing-gap-default);
+  padding: 0; margin: 0; border: 0; background: none; cursor: pointer; text-align: left; white-space: nowrap;
+  color: var(--link-text-color-default);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-default-font-weight-medium); font-size: var(--typography-body-default-font-size);
+  line-height: var(--typography-body-default-line-height); letter-spacing: var(--typography-body-default-letter-spacing);
+}
+.ats-amplify-chat-data-table-row__link:hover,
+.ats-amplify-chat-data-table-row__reveal:hover { color: var(--link-text-color-hover); }
+.ats-amplify-chat-data-table-row__link:focus-visible,
+.ats-amplify-chat-data-table-row__reveal:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; border-radius: var(--border-radius-xsm); }
+
+/* Reveal sparkle: the amplify glyph filled with the Icon/Amplify Radial style */
+.ats-amplify-chat-data-table-row__reveal .ats-icon.ats-amplify-chat-data-table-row__sparkle {
+  /* no token: Amplify radial gradient stops, as in icon-container.css */
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}
+
+/* In Bullhorn? — link-text "disabled": circle + body/default in data-table/color/content/default */
+.ats-amplify-chat-data-table-row__status {
+  display: inline-flex; align-items: center; gap: var(--link-text-spacing-gap-default); white-space: nowrap;
+  color: var(--data-table-color-content-default);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-default-font-weight-default); font-size: var(--typography-body-default-font-size);
+  line-height: var(--typography-body-default-line-height); letter-spacing: var(--typography-body-default-letter-spacing);
+}
+.ats-amplify-chat-data-table-row__status > .ats-icon { flex: 0 0 auto; }
+
+/* empty value: "Not on file" in color/text/disabled (patterns doc) */
+.ats-ndt-cell__text.ats-amplify-chat-data-table-row__empty { color: var(--color-text-disabled); }

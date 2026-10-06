@@ -1,0 +1,57 @@
+@if (embed()) {
+  <div class="embed">
+    @if (component() === 'relevance-signals') {
+      <ats-amplify-chat-relevance-signals class="w535" [signals]="signals" />
+    } @else {
+      <div class="w601">
+        @if (embedTheme() === 'candidate') {
+          <ats-amplify-chat-chat-list-item theme="candidate" name="2034 | Tyler Brooks" [fields]="candidateFields" [body]="candidateBody"
+            [selected]="embedSelected()" [selectable]="isSelectable()">
+            <div class="ats-amplify-chat-chat-list-item__chips">@for (s of skills; track s) { <ats-novo-chip [label]="s" /> }</div>
+          </ats-amplify-chat-chat-list-item>
+        } @else {
+          <ats-amplify-chat-chat-list-item theme="prospect" name="Marie Smith" jobTitle="Head of HR" [fields]="prospectFields"
+            [selected]="embedSelected()" [selectable]="isSelectable()">
+            <ats-amplify-chat-relevance-signals [signals]="signals" />
+          </ats-amplify-chat-chat-list-item>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <h1>Amplify Chat — Cards</h1>
+  <p class="lede">Figma <code>doc/cards</code> (6300:127578). Record cards for chat replies where each record needs a reason it was
+    picked or several values of one kind. Built on the Modern UI list-item parts, Checkbox and NovoChip.</p>
+
+  <h2>amplify-chat/chat-list-item</h2>
+  <p class="note">6171:162369 · checkbox + header + content slot. Selection is two-way: click the checkboxes.</p>
+  <div class="stack">
+    <div class="cell">
+      <div class="w601">
+        <ats-amplify-chat-chat-list-item theme="prospect" name="Marie Smith" jobTitle="Head of HR" [fields]="prospectFields" [(selected)]="prospectSel">
+          <ats-amplify-chat-relevance-signals [signals]="signals" />
+        </ats-amplify-chat-chat-list-item>
+      </div>
+      <span class="caption">theme=prospect · selected: {{ prospectSel() }}</span>
+    </div>
+    <div class="cell">
+      <div class="w601">
+        <ats-amplify-chat-chat-list-item theme="candidate" name="2034 | Tyler Brooks" [fields]="candidateFields" [body]="candidateBody" [(selected)]="candidateSel">
+          <div class="ats-amplify-chat-chat-list-item__chips">@for (s of skills; track s) { <ats-novo-chip [label]="s" /> }</div>
+        </ats-amplify-chat-chat-list-item>
+      </div>
+      <span class="caption">theme=candidate · selected: {{ candidateSel() }}</span>
+    </div>
+    <div class="cell">
+      <div class="w601">
+        <ats-amplify-chat-chat-list-item theme="prospect" name="Fred Johnson" jobTitle="District Security Director" [selectable]="false"
+          [fields]="[{ type: 'company', text: 'Comcast' }]" />
+      </div>
+      <span class="caption">theme=prospect · no checkbox (no bulk action) · empty content slot</span>
+    </div>
+  </div>
+
+  <h2>relevance-signals</h2>
+  <p class="note">6152:126071 · the prospect card's content slot.</p>
+  <div class="cell"><ats-amplify-chat-relevance-signals class="w535" [signals]="signals" /></div>
+}

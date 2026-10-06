@@ -25,6 +25,9 @@ import { RouterLink } from '@angular/router';
 })
 export class HomePage {
   protected readonly components = [
+    { path: 'amplify-chat-cards', name: 'Amplify Chat — Cards', figma: 'Component Migration doc/cards 6300:127578 (chat-list-item 6171:162369)' },
+    { path: 'amplify-chat-data-table', name: 'Amplify Chat — Data table', figma: 'Component Migration doc/data-table 6300:127565 (header row 6171:165361, row 6174:165788)' },
+    { path: 'amplify-chat-selection', name: 'Amplify Chat — Selection', figma: 'Component Migration doc/selection 6300:127589 (selection-split-button 6271:183528)' },
     { path: 'bowling-alley', name: 'Bowling Alley', figma: 'Component Migration: Bowling Alley 157:2575 · overlays 157:511 · Fast Find 1323:67008' },
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'card', name: 'Card', figma: 'Component Migration 311:29059 (+ subcomponents)' },
