@@ -23,6 +23,7 @@ import {
 } from './bowling-alley-controller';
 import { AddOverlay, FastFindResults, HelpOverlay, MenuOverlay, UserOverlay } from './overlays';
 import { Tooltip } from './tooltip';
+import { MenuEdit } from '../menu-edit/menu-edit';
 
 export interface BowlingAlleySelection {
   overlay: BowlingAlleyOverlayKind | 'find';
@@ -45,7 +46,7 @@ export interface BowlingAlleySelection {
  */
 @Component({
   selector: 'ats-bowling-alley-shell',
-  imports: [MenuOverlay, AddOverlay, UserOverlay, HelpOverlay, FastFindResults, Tooltip],
+  imports: [MenuOverlay, MenuEdit, AddOverlay, UserOverlay, HelpOverlay, FastFindResults, Tooltip],
   templateUrl: './bowling-alley-shell.html',
   styleUrl: './bowling-alley-shell.css',
   encapsulation: ViewEncapsulation.None,
@@ -83,7 +84,7 @@ export class BowlingAlleyShell {
   protected readonly scrim = computed(() => !!this.ctrl.overlay() || this.ctrl.findOpen());
   protected readonly overlayLabel = computed(() => {
     const k = this.ctrl.overlay()?.kind;
-    return k === 'menu' ? 'Menu' : k === 'add' ? 'Add' : k === 'help' ? 'Help' : 'User menu';
+    return k === 'menu' ? (this.ctrl.menuMode() === 'edit' ? 'Edit Menu' : 'Menu') : k === 'add' ? 'Add' : k === 'help' ? 'Help' : 'User menu';
   });
 
   constructor() {
@@ -104,6 +105,7 @@ export class BowlingAlleyShell {
       this.ctrl.stage = this.stage().nativeElement;
       const el = this.ovl()?.nativeElement;
       this.ctrl.overlayEl = el;
+      this.ctrl.menuMode(); // Menu ⇄ Edit Menu changes the overlay's height: re-place
       if (el && this.ctrl.overlay()) this.placeOverlay(el);
       const res = this.results()?.nativeElement;
       if (res && this.ctrl.findOpen()) this.placeResults(res);
@@ -159,6 +161,8 @@ export class BowlingAlleyShell {
     if (!o) return;
     const sr = this.stage().nativeElement.getBoundingClientRect();
     const a = o.anchor.getBoundingClientRect();
+    // tall overlays (Menu, Edit Menu) scroll inside the stage (their cards use max-height: inherit)
+    el.style.maxHeight = sr.height - 16 + 'px';
     el.style.left = a.right - sr.left + BOWLING_ALLEY_OVERLAY_GAP + 'px';
     let top: number;
     if (o.align === 'bottom') top = a.bottom - sr.top - el.offsetHeight;

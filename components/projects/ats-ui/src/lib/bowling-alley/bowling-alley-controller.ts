@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
+import { BOWLING_ALLEY_MENU_APPS, BOWLING_ALLEY_MENU_FOLDERS, BowlingAlleyMenuApp, BowlingAlleyMenuFolder } from './bowling-alley-data';
 
 export type BowlingAlleyNavState = 'collapsed' | 'hover' | 'open';
 export type BowlingAlleyEntityType = 'candidate' | 'job' | 'note' | 'company' | 'contact';
@@ -27,6 +28,17 @@ export interface BowlingAlleyOverlayRequest {
   kind: BowlingAlleyOverlayKind;
   anchor: HTMLElement;
   align: 'top' | 'search' | 'bottom';
+}
+
+/** The Menu overlay shows the app grid (`menu`) or the Edit Menu (`edit`, Figma menu-edit). */
+export type BowlingAlleyMenuMode = 'menu' | 'edit';
+
+/** One block of the Menu grid: the ungrouped apps (no title), or a grouped folder. */
+export interface BowlingAlleyMenuSection {
+  id: string;
+  /** Group label; undefined for the ungrouped block. */
+  title?: string;
+  apps: BowlingAlleyMenuApp[];
 }
 
 export interface BowlingAlleyTooltip {
@@ -72,6 +84,32 @@ export class BowlingAlleyController {
   readonly hovered = signal(false);
   /** Freeze the nav state (docs / showcases): hover intent and the toggle do nothing. */
   readonly locked = signal(false);
+
+  // ---------- Menu (apps, Edit Menu, order) ----------
+  /** Menu overlay mode: the app grid or the Edit Menu. */
+  readonly menuMode = signal<BowlingAlleyMenuMode>('menu');
+  /** App order in the Menu (ids); changed by drag-and-drop or Alt+Arrow keys. */
+  readonly menuOrder = signal<string[]>(BOWLING_ALLEY_MENU_APPS.map((a) => a.id));
+  /** Apps unchecked in the Edit Menu are hidden from the Menu. */
+  readonly menuHidden = signal<ReadonlySet<string>>(new Set());
+  /** The Edit Menu's folders, with their "Grouped" switch state. */
+  readonly menuFolders = signal<BowlingAlleyMenuFolder[]>(BOWLING_ALLEY_MENU_FOLDERS.map((f) => ({ ...f })));
+
+  /**
+   * The Menu grid, in `menuOrder`: first the checked apps of folders that aren't
+   * grouped (no label), then one labelled section per grouped folder.
+   */
+  readonly menuSections = computed<BowlingAlleyMenuSection[]>(() => {
+    const byId = new Map(BOWLING_ALLEY_MENU_APPS.map((a) => [a.id, a]));
+    const order = this.menuOrder();
+    const hidden = this.menuHidden();
+    const pick = (ids: Set<string>) => order.filter((id) => ids.has(id) && !hidden.has(id)).map((id) => byId.get(id)!);
+    const folders = this.menuFolders();
+    const loose = new Set(folders.filter((f) => !f.grouped).flatMap((f) => f.apps));
+    const sections: BowlingAlleyMenuSection[] = [{ id: 'apps', apps: pick(loose) }];
+    for (const f of folders.filter((x) => x.grouped)) sections.push({ id: f.id, title: f.title, apps: pick(new Set(f.apps)) });
+    return sections.filter((x) => x.apps.length);
+  });
 
   /** Set by the shell / bowling alley / overlay layer so positions can be measured. */
   stage?: HTMLElement;
@@ -132,6 +170,7 @@ export class BowlingAlleyController {
   openOverlay(req: BowlingAlleyOverlayRequest) {
     const same = this.overlay()?.kind === req.kind;
     this.closeFind();
+    if (req.kind === 'menu') this.menuMode.set('menu');
     this.overlay.set(same ? null : req);
   }
   closeOverlay() {
@@ -158,6 +197,43 @@ export class BowlingAlleyController {
   /** Is `kind` the overlay whose opener should show as active? */
   isOpen(kind: BowlingAlleyOverlayKind) {
     return this.overlay()?.kind === kind;
+  }
+
+  // ---------- Menu ----------
+  setMenuMode(mode: BowlingAlleyMenuMode) {
+    this.menuMode.set(mode);
+  }
+  /** Edit Menu check-list: checked = shown in the Menu. */
+  setAppVisible(id: string, visible: boolean) {
+    this.menuHidden.update((h) => {
+      const next = new Set(h);
+      if (visible) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+  /** Edit Menu folder-title "Grouped" switch. */
+  setFolderGrouped(id: string, grouped: boolean) {
+    this.menuFolders.update((fs) => fs.map((f) => (f.id === id ? { ...f, grouped } : f)));
+  }
+  /** Move app `id` next to `targetId` (before it, or after it when `after`). */
+  moveApp(id: string, targetId: string, after = false) {
+    if (id === targetId) return;
+    this.menuOrder.update((order) => {
+      const rest = order.filter((x) => x !== id);
+      const at = rest.indexOf(targetId);
+      if (at < 0) return order;
+      rest.splice(after ? at + 1 : at, 0, id);
+      return rest;
+    });
+  }
+  /** Keyboard reorder: move `id` by `delta` places within its Menu section. */
+  moveAppBy(sectionId: string, id: string, delta: number) {
+    const apps = this.menuSections().find((x) => x.id === sectionId)?.apps ?? [];
+    const i = apps.findIndex((a) => a.id === id);
+    if (i < 0) return;
+    const j = Math.max(0, Math.min(apps.length - 1, i + delta));
+    if (j !== i) this.moveApp(id, apps[j].id, j > i);
   }
 
   // ---------- Fast Find ----------

@@ -39,3 +39,8 @@ export * from './lib/bowling-alley/overlays';
 export * from './lib/menu-option/menu-option';
 export * from './lib/menu-item/menu-item';
 export * from './lib/menu-header/menu-header';
+export * from './lib/switch/switch';
+export * from './lib/checkbox-label/checkbox-label';
+export * from './lib/checkbox-label/check-list';
+export * from './lib/checkbox-label/check-list-token';
+export * from './lib/menu-edit/menu-edit';

@@ -28,10 +28,13 @@ export class HomePage {
     { path: 'bowling-alley', name: 'Bowling Alley', figma: 'Component Migration: Bowling Alley 157:2575 · overlays 157:511 · Fast Find 1323:67008' },
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'card', name: 'Card', figma: 'Component Migration 311:29059 (+ subcomponents)' },
+    { path: 'check-list', name: 'Check List', figma: 'Component Migration 331:1435' },
     { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
+    { path: 'checkbox-label', name: 'Checkbox + label', figma: 'Component Migration 250:17848' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
     { path: 'icon-button-no-container', name: 'Icon Button - no container', figma: 'Component Migration 164:17717' },
     { path: 'icon-container', name: 'Icon Container', figma: 'Component Migration 164:17910' },
+    { path: 'menu-edit', name: 'Menu Edit', figma: 'Component Migration 1217:58486' },
     { path: 'menu-header', name: 'Menu Header', figma: 'Component Migration 2469:64743' },
     { path: 'menu-item', name: 'Menu Item', figma: 'Component Migration 1143:19746' },
     { path: 'menu-option', name: 'Menu Option', figma: 'Component Migration 157:2911' },
@@ -41,6 +44,7 @@ export class HomePage {
     { path: 'record-header', name: 'Record Header', figma: 'Component Migration 222:16011 / 3040:88434' },
     { path: 'search-input', name: 'Search Input', figma: 'Component Migration: search-input (1323:67011)' },
     { path: 'sophia-fab', name: 'Sophia FAB', figma: 'Component Migration 6084:152232' },
+    { path: 'switch', name: 'Switch', figma: 'Component Migration 1156:45039' },
     { path: 'workflow-stepper', name: 'Workflow Stepper', figma: 'Component Migration 589:6990' },
   ];
 }

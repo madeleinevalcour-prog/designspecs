@@ -1,0 +1,29 @@
+/* MenuEdit (Figma "menu-edit" 1217:58486). Unencapsulated, namespaced .ats-menu-edit. */
+.ats-menu-edit {
+  display: flex; flex-direction: column; width: 480px; max-height: inherit; box-sizing: border-box; overflow: hidden;
+  /* same card as the Menu (novo-drag-container). Figma draws menu-edit with
+     card/color/background/contents + button/color/border/default (#f0f5f9, not in the code tokens) */
+  border: var(--menu-border-width) solid var(--menu-color-border-default); border-radius: var(--menu-border-radius);
+  background: var(--card-color-background-contents);
+  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
+  font-family: var(--typography-body-lg-font-family), 'Inter', sans-serif;
+}
+.ats-menu-edit > .ats-menu-header { flex: 0 0 auto; }
+.ats-menu-edit__content {
+  display: flex; flex-direction: column; gap: var(--menu-spacing-contents-gap); min-height: 0; overflow: auto;
+  padding: var(--menu-spacing-contents-padding-vertical) var(--menu-spacing-contents-padding-horizontal);
+}
+.ats-menu-edit__folder { display: flex; flex-direction: column; }
+/* folder-title: body/lg in checkbox/color/content/default + the Grouped switch */
+.ats-menu-edit__folder-title {
+  display: flex; align-items: center; gap: var(--spacing-gap-sm);
+  padding: var(--spacing-padding-sm) var(--spacing-padding-sm) var(--spacing-padding-sm) 0;
+}
+.ats-menu-edit__folder-name {
+  flex: 1 0 0; min-width: 0; color: var(--checkbox-color-content-default);
+  font-size: var(--typography-body-lg-font-size); line-height: var(--typography-body-lg-line-height);
+  font-weight: var(--typography-body-lg-font-weight-default); letter-spacing: var(--typography-body-lg-letter-spacing);
+}
+.ats-menu-edit__folder-title > .ats-switch { flex: 0 0 auto; }
+.ats-menu-edit__folder-items { display: flex; flex-direction: column; }
+.ats-menu-edit__empty { color: var(--color-text-subtle); font-size: var(--typography-body-default-font-size); }

@@ -28,13 +28,15 @@ export const BOWLING_ALLEY_FAST_FIND_RESULTS: FastFindResult[] = [
 
 /** One app in the Menu, rendered as a MenuItem. */
 export interface BowlingAlleyMenuApp {
+  /** Stable id (labels repeat: there are two "Candidates" apps). */
+  id: string;
   /** Icon-container color: an entity name (--color-entity-<color>), `amplify`, or `neutral`. */
   color: string;
   glyph: string;
   label: string;
 }
 
-const mi = (color: string, glyph: string, label: string): BowlingAlleyMenuApp => ({ color, glyph, label });
+const mi = (color: string, glyph: string, label: string, id = label.toLowerCase().replace(/\s+/g, '-')): BowlingAlleyMenuApp => ({ id, color, glyph, label });
 
 /**
  * Menu (novo-drag-container 1323:68245): every app the user can open in the ATS,
@@ -60,7 +62,45 @@ export const BOWLING_ALLEY_MENU_APPS: BowlingAlleyMenuApp[] = [
   mi('neutral', 'tearsheet', 'Tearsheets'),
   mi('neutral', 'users', 'Distribution Lists'),
   mi('neutral', 'archive', 'Admin'),
-  mi('candidate', 'candidate-circle', 'Candidates'),
+  mi('candidate', 'candidate-circle', 'Candidates', 'candidates-2'),
+];
+
+/** One folder of the Edit Menu (Figma menu-edit 1217:58486 → content → folder). */
+export interface BowlingAlleyMenuFolder {
+  id: string;
+  /** folder-title text. */
+  title: string;
+  /** Apps in the folder (ids into BOWLING_ALLEY_MENU_APPS), in Figma's check-list order. */
+  apps: string[];
+  /** The folder-title's "Grouped" switch, as Figma draws it. */
+  grouped: boolean;
+}
+
+/**
+ * Edit Menu folders (Figma menu-edit 1217:58486). Figma's check-lists name 15 apps in
+ * "Primary" and fill the rest with "checked" placeholders; "Pay & Bill" repeats the
+ * first four Primary labels as placeholder copy. Mapped onto the 18-app Menu:
+ *  - Primary: the Figma-named apps that are in the Menu, in Figma's order (Placements,
+ *    Internal Submissions = Submissions, Candidates, Opportunities, Companies, Contacts,
+ *    My Dashboard, Jobs, Analytics, Change Requests), then the remaining Menu apps in
+ *    the placeholder slots. Figma-only labels with no Menu app (Scheduler, Bullhorn Apps,
+ *    Canvas, Compliance Manager, Back Office) are left out.
+ *  - Pay & Bill: Figma's four labels (Placements, Internal Submissions, Candidates,
+ *    Opportunities). An app can sit in both folders; its check is shared.
+ * Primary starts with Grouped off and Pay & Bill with Grouped on, as in Figma.
+ */
+export const BOWLING_ALLEY_MENU_FOLDERS: BowlingAlleyMenuFolder[] = [
+  {
+    id: 'primary',
+    title: 'Primary',
+    grouped: false,
+    apps: [
+      'placements', 'submissions', 'candidates', 'opportunities', 'companies', 'contacts', 'my-dashboard', 'jobs',
+      'analytics', 'change-requests', 'amplify', 'tasks', 'leads', 'automation', 'tearsheets', 'distribution-lists',
+      'admin', 'candidates-2',
+    ],
+  },
+  { id: 'pay-bill', title: 'Pay & Bill', grouped: true, apps: ['placements', 'submissions', 'candidates', 'opportunities'] },
 ];
 
 /** One row of the Add menu, rendered as a MenuOption (type entity). */

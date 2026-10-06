@@ -23,6 +23,7 @@
           @case ('add') { <ats-add-overlay /> }
           @case ('user') { <ats-user-overlay /> }
           @case ('help') { <ats-help-overlay /> }
+          @case ('edit') { <ats-menu-edit [autofocus]="false" /> }
           @case ('find') { <ats-fast-find-results class="find-static" [query]="embedQuery()" /> }
           @default { <ats-menu-overlay [autofocus]="false" /> }
         }
@@ -76,6 +77,7 @@
     <p class="lede">Shown outside the bowling alley. In place they open 8px right of their tab.</p>
     <div class="row">
       <div class="cell"><ats-menu-overlay [autofocus]="false" /><span class="caption">Menu</span></div>
+      <div class="cell"><ats-menu-edit [autofocus]="false" /><span class="caption">Edit Menu</span></div>
       <div class="cell"><ats-add-overlay /><span class="caption">Add</span></div>
       <div class="cell"><ats-user-overlay /><span class="caption">User</span></div>
       <div class="cell"><ats-help-overlay /><span class="caption">Help</span></div>

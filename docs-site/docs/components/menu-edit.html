@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu Edit — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Menu Edit" meta="Status: in review · Figma: menu-edit 1217:58486 (Component Migration, Menu page, 2 · Sub-components) · Code: ats-ui MenuEdit · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">The Edit Menu lets people choose which apps the bowling alley’s Menu shows. It opens from the Menu’s Add/Remove button and goes back to the Menu with Done.</p>
+    <doc-example src="menu-edit?view=edit" caption="Edit Menu. Check and uncheck apps, toggle Grouped" height="900"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <ol>
+      <li>Header: a <a href="menu-header.html">menu header</a> in edit mode: title “Edit Menu”, a success Done button, and the Filter.</li>
+      <li>Folder: one per app group (“Primary”, “Pay &amp; Bill”).</li>
+      <li>Folder title: the folder name in text style <span class="chip">body/lg</span>, and a <a href="switch.html">switch</a> labelled “Grouped”.</li>
+      <li>Folder items: the folder’s apps as <a href="checkbox-label.html">checkbox + label</a> rows, two per inline <a href="check-list.html">check list</a>.</li>
+    </ol>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior">
+    <ul>
+      <li><strong>Add/Remove</strong> in the Menu header swaps the Menu for the Edit Menu, in the same place. <strong>Done</strong> swaps back. Escape or a click outside closes either.</li>
+      <li><strong>Checked apps show in the Menu.</strong> Unchecking an app hides it from the Menu grid right away; checking it brings it back in its place.</li>
+      <li><strong>An app in two folders</strong> has one check, shown in both.</li>
+      <li><strong>Grouped on:</strong> the folder’s apps also appear in the Menu as their own section, labelled with the folder name (the Menu’s section-header style). Grouped off: the folder’s apps are part of the main grid.</li>
+      <li><strong>Filter</strong> narrows the check lists to apps whose name contains the text. Folders with no match are hidden.</li>
+      <li>The Filter takes focus when the Edit Menu opens.</li>
+    </ul>
+    <doc-example src="menu-edit?view=pair&amp;hide=amplify,tasks" caption="Edit Menu with the Menu it edits. Amplify and Tasks are unchecked, so the Menu leaves them out; Pay &amp; Bill is grouped" height="900"></doc-example>
+    <doc-example src="bowling-alley?view=layout&amp;nav=open&amp;lock=true&amp;height=900" caption="In place: open Menu, then Add/Remove" height="900"></doc-example>
+  </doc-section>
+
+  <doc-section id="content" label="Content">
+    <p>The folders map Figma’s check lists onto the Menu’s 18 apps.</p>
+    <ul>
+      <li><strong>Primary:</strong> Placements, Submissions, Candidates, Opportunities, Companies, Contacts, My Dashboard, Jobs, Analytics, Change Requests (named in Figma, in Figma’s order), then the other Menu apps in Figma’s “checked” placeholder slots. Grouped off.</li>
+      <li><strong>Pay &amp; Bill:</strong> Placements, Submissions, Candidates, Opportunities, as in Figma. Grouped on.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>The overlay is a dialog named “Edit Menu”. Each folder is a section named by its title.</li>
+      <li>Every app is a native checkbox with its name as the label; each Grouped switch is a native <span class="chip">role="switch"</span>.</li>
+      <li>Tab moves through Done, the Filter, then each folder’s switch and checkboxes in order.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Card</td><td><span class="chip">card/color/background/contents</span>, <span class="chip">menu/color/border/default</span>, <span class="chip">menu/border/radius</span>, <span class="chip">general/level 4</span></td></tr>
+        <tr><td>Content padding, folder gap</td><td><span class="chip">menu/spacing/contents/padding-vertical</span>, <span class="chip">…/padding-horizontal</span>, <span class="chip">menu/spacing/contents/gap</span></td></tr>
+        <tr><td>Folder title</td><td><span class="chip">spacing/gap/sm</span>, <span class="chip">spacing/padding/sm</span>; text style <span class="chip">body/lg</span>, <span class="chip">checkbox/color/content/default</span></td></tr>
+        <tr><td>Header, switch, rows</td><td>See <a href="menu-header.html">Menu Header</a>, <a href="switch.html">Switch</a>, <a href="check-list.html">Check List</a></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;!-- inside &lt;ats-bowling-alley-shell&gt; the shell shows it for you --&gt;
+      &lt;ats-menu-edit (done)="backToMenu()" (closed)="close()" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">autofocus</span></td><td>boolean: focus the Filter when shown</td><td>true</td></tr>
+        <tr><td><span class="chip">placeholder</span></td><td>Filter placeholder</td><td>Filter Items</td></tr>
+        <tr><td><span class="chip">(done)</span></td><td>Done was clicked</td><td>—</td></tr>
+        <tr><td><span class="chip">(closed)</span></td><td>Escape in the Filter</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>State lives in the <span class="chip">BowlingAlleyController</span>: <span class="chip">menuFolders</span> (with <span class="chip">grouped</span>), <span class="chip">menuHidden</span> and <span class="chip">menuSections</span>. Outside a shell the Edit Menu uses its own controller; provide one on a parent to share it with a Menu.</p>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="What Grouped does.">The annotations don’t say. The build shows a grouped folder as a labelled section in the Menu. Figma also has a “sub-menu” frame (1217:58485), so a grouped folder might instead open as one tile with a sub-menu.</doc-callout>
+    <doc-callout type="note" heading="Folder contents.">Most Figma rows are “checked” placeholders, and Pay &amp; Bill repeats Primary’s first four labels. Confirm the real apps in each folder.</doc-callout>
+    <doc-callout type="note" heading="Apps not in the Menu.">Figma lists Scheduler, Bullhorn Apps, Canvas, Compliance Manager and Back Office, which aren’t in the Menu’s 18 apps. They’re left out. Figma also says “Internal Submissions” where the Menu says “Submissions”; the build uses “Submissions”.</doc-callout>
+    <doc-callout type="note" heading="Card corners and border.">Figma rounds only the top corners and uses <span class="chip">button/color/border/default</span> (#f0f5f9, not in the code tokens). The build matches the Menu’s card: all corners, <span class="chip">menu/color/border/default</span>.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

@@ -1,0 +1,30 @@
+/* CheckboxLabel (Figma "checkbox+label" 250:17848). Unencapsulated, namespaced .ats-checkbox-label. */
+.ats-checkbox-label {
+  --_text: var(--checkbox-color-content-default);
+  display: flex; align-items: center; gap: var(--checkbox-spacing-gap-horizontal); min-width: 0; box-sizing: border-box; cursor: pointer;
+  padding: var(--checkbox-spacing-padding-vertical) var(--checkbox-spacing-padding-horizontal);
+  font-family: var(--typography-input-value-default-font-family), 'Inter', sans-serif;
+}
+.ats-checkbox-label:hover, .ats-checkbox-label.is-hover { --_text: var(--checkbox-color-content-hover); }
+.ats-checkbox-label:focus-within, .ats-checkbox-label.is-focus { --_text: var(--checkbox-color-content-focus); }
+.ats-checkbox-label.is-checked { --_text: var(--checkbox-color-content-checked); }
+.ats-checkbox-label.is-indeterminate { --_text: var(--checkbox-color-content-indeterminate); }
+.ats-checkbox-label.is-disabled { --_text: var(--checkbox-color-content-disabled); cursor: not-allowed; }
+/* hovering the row shows the box's hover look too (Figma hover variant) */
+.ats-checkbox-label:hover:not(.is-disabled) > .ats-checkbox:not(:checked):not(:indeterminate) {
+  --_bg: var(--checkbox-color-background-hover); --_bd: var(--checkbox-color-border-hover);
+}
+/* has-gripper: Figma colors the label inputs/color/content/label (no code token) */
+.ats-checkbox-label.has-gripper { --_text: var(--color-text-body); cursor: grab; }
+.ats-checkbox-label__grip { flex: 0 0 auto; }
+.ats-checkbox-label__text {
+  flex: 1 0 0; min-width: 0; color: var(--_text);
+  font-size: var(--typography-input-value-default-font-size); line-height: var(--typography-input-value-default-line-height);
+  font-weight: var(--typography-input-value-default-font-weight); letter-spacing: var(--typography-input-value-default-letter-spacing);
+}
+
+/* CheckList (Figma "check-list" 331:1435): inline = row, basic = column */
+.ats-check-list { display: flex; align-items: flex-start; gap: var(--checkbox-spacing-inline-gap); }
+.ats-check-list > .ats-checkbox-label { flex: 1 0 0; }
+.ats-check-list[data-type="basic"] { flex-direction: column; gap: 0; }
+.ats-check-list[data-type="basic"] > .ats-checkbox-label { flex: 0 0 auto; width: 100%; }

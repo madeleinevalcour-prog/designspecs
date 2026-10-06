@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check List — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Check List" meta="Status: in review · Figma: check-list 331:1435 (Component Migration, Checkbox page) · Code: ats-ui CheckList · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">A check list lays out <a href="checkbox-label.html">checkbox + label</a> rows. The <a href="menu-edit.html">Edit Menu</a> uses inline check lists, two apps per row.</p>
+    <doc-example src="check-list?type=inline" caption="Inline" height="70"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants">
+    <table class="tbl">
+      <thead><tr><th>Figma</th><th>Layout</th></tr></thead>
+      <tbody>
+        <tr><td>inline</td><td>A row. Each item takes an equal share, 16px apart (<span class="chip">checkbox/spacing/inline/gap</span>)</td></tr>
+        <tr><td>basic</td><td>A column, items full width</td></tr>
+        <tr><td>disabled</td><td>Inline, every item disabled</td></tr>
+        <tr><td>disabled-vertical</td><td>Basic, every item disabled</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="check-list?type=basic" caption="Basic" height="210"></doc-example>
+    <doc-example src="check-list?type=inline&amp;disabled=true" caption="Disabled" height="70"></doc-example>
+    <doc-example src="check-list?type=basic&amp;disabled=true" caption="Disabled vertical" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>The list is a <span class="chip">role="group"</span>. Give it an <span class="chip">aria-label</span> (or <span class="chip">aria-labelledby</span>) when the options need a shared name.</li>
+      <li>Each item keeps its own label and native checkbox.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Inline gap</td><td><span class="chip">checkbox/spacing/inline/gap</span></td></tr>
+        <tr><td>Items</td><td>See <a href="checkbox-label.html">Checkbox + label</a></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-check-list aria-label="Apps"&gt;
+        &lt;label ats-checkbox-label [(checked)]="placements"&gt;Placements&lt;/label&gt;
+        &lt;label ats-checkbox-label [(checked)]="contacts"&gt;Contacts&lt;/label&gt;
+      &lt;/ats-check-list&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">type</span></td><td>inline · basic</td><td>inline</td></tr>
+        <tr><td><span class="chip">disabled</span></td><td>boolean: disables every item</td><td>false</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+</doc-page>
+</body>
+</html>

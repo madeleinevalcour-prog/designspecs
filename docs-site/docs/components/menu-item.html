@@ -31,6 +31,16 @@
     <doc-example src="menu-item?states=default,hover,focus,drag" caption="Default, hover, focus, drag" height="170"></doc-example>
   </doc-section>
 
+  <doc-section id="reorder" label="Drag to reorder">
+    <ul>
+      <li>In the bowling alley’s Menu every tile is draggable. Drag it onto another tile: it lands before the target (left half) or after it (right half).</li>
+      <li>While dragging, the tile shows the drag state, and a 2px <span class="chip">color/border/focus</span> bar in the gap marks where it will land.</li>
+      <li>Keyboard: focus a tile and press Alt+Arrow Left/Right to move it one place, Alt+Arrow Up/Down to move it one row.</li>
+      <li>Tiles move within their section (the main grid, or a grouped folder).</li>
+    </ul>
+    <doc-example src="bowling-alley?view=overlay&amp;overlay=menu" caption="The Menu. Drag a tile, or focus one and press Alt+Arrow keys" height="980"></doc-example>
+  </doc-section>
+
   <doc-section id="content" label="Content">
     <ul>
       <li>The icon is an <a href="icon-container.html">icon container</a>, size md (40px, 20px glyph). Apps that aren’t an entity use the neutral theme with their own glyph.</li>
@@ -44,6 +54,7 @@
     <ul>
       <li>Each tile is a native <span class="chip">button</span>; the label is its accessible name. The icon and the move handle are decorative.</li>
       <li>Keyboard focus shows the focus state.</li>
+      <li>In the Menu, Alt+Arrow keys move the focused tile; the shortcut is in each tile’s description, and the new position is announced.</li>
     </ul>
   </doc-section>
 
@@ -80,7 +91,7 @@
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="Drag to reorder.">Figma has a drag state and shows the move handle on hover, but the annotations don’t describe reordering. The build supports the drag look through <span class="chip">state</span> only; the Menu doesn’t reorder yet.</doc-callout>
+    <doc-callout type="note" heading="Drop indicator.">Figma has no drop-position indicator. The build draws a 2px focus-color bar beside the target tile.</doc-callout>
     <doc-callout type="note" heading="Drag width.">The drag variant’s minimum width is 80px (no token), not the 96px token. Confirm it’s intended.</doc-callout>
   </doc-section>
 </doc-page>

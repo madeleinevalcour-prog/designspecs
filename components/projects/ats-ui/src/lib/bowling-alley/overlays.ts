@@ -2,6 +2,8 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
+  inject,
   ViewEncapsulation,
   booleanAttribute,
   computed,
@@ -19,10 +21,11 @@ import { MenuItem } from '../menu-item/menu-item';
 import { MenuOption } from '../menu-option/menu-option';
 import { NovoList } from '../novo-list/novo-list';
 import { NovoListItemDefault } from '../novo-list/presets';
+import { Switch } from '../switch/switch';
+import { BowlingAlleyController } from './bowling-alley-controller';
 import {
   BOWLING_ALLEY_ADD_ITEMS,
   BOWLING_ALLEY_FAST_FIND_RESULTS,
-  BOWLING_ALLEY_MENU_APPS,
   matches,
   resultText,
 } from './bowling-alley-data';
@@ -37,23 +40,45 @@ import {
 const iconContainerTheme = (color: string): IconContainerTheme =>
   color === 'job' ? 'jobs' : color === 'note' || color === 'neutral' || color === 'task' ? 'neutral' : (color as IconContainerTheme);
 
+let menuUid = 0;
+
 /**
  * Menu (Figma novo-drag-container 1323:68245 / 1217:58484): a MenuHeader (title,
- * Add/Remove, Filter), then the apps as MenuItems (icon-container md + label).
+ * Add/Remove, Filter), then the apps as MenuItems (icon-container md + label), in the
+ * controller's order. Apps unchecked in the Edit Menu are left out; a folder with
+ * "Grouped" on gets its own labelled section (Figma header style, as "My Applications").
+ *
+ * Reorder: drag a tile onto another (native drag and drop; the dragged tile shows the
+ * menu-item `drag` state, and a bar marks where it will land), or focus a tile and
+ * press Alt+Arrow keys (Left/Right one place, Up/Down one row). Tiles move within
+ * their section.
  */
 @Component({
   selector: 'ats-menu-overlay',
   imports: [MenuHeader, MenuItem],
   template: `
-    <ats-menu-header #header placeholder="Filter Items" [(filter)]="query" (closed)="closed.emit()" (addRemove)="addRemove.emit()" />
+    <ats-menu-header #header [placeholder]="placeholder()" [(filter)]="query" (closed)="closed.emit()" (addRemove)="addRemove.emit()" />
     <div class="ats-menu__contents">
-      <div class="ats-menu__grid">
-        @for (item of apps; track $index) {
-          <button ats-menu-item [theme]="iconTheme(item.color)" [icon]="item.glyph" [background]="iconFill(item.color)"
-            [hidden]="!show(item.label)" (click)="selected.emit(item.label)">{{ item.label }}</button>
-        }
-      </div>
+      @for (sec of ctrl.menuSections(); track sec.id) {
+        <div class="ats-menu__section" role="group" [attr.aria-label]="sec.title ?? 'Apps'">
+          @if (sec.title) { <div class="ats-menu__section-title">{{ sec.title }}</div> }
+          <div class="ats-menu__grid">
+            @for (item of sec.apps; track item.id) {
+              <button ats-menu-item [theme]="iconTheme(item.color)" [icon]="item.glyph" [background]="iconFill(item.color)"
+                [attr.data-app]="sec.id + ':' + item.id" [hidden]="!show(item.label)" draggable="true"
+                [state]="dragging()?.id === item.id ? 'drag' : undefined"
+                [class.is-drop-before]="isDrop(sec.id, item.id, false)" [class.is-drop-after]="isDrop(sec.id, item.id, true)"
+                [attr.aria-describedby]="hintId"
+                (dragstart)="dragStart($event, sec.id, item.id)" (dragend)="dragEnd()"
+                (dragover)="dragOver($event, sec.id, item.id)" (drop)="drop($event)"
+                (keydown)="keyMove($event, sec.id, item.id)" (click)="selected.emit(item.label)">{{ item.label }}</button>
+            }
+          </div>
+        </div>
+      }
     </div>
+    <span class="ats-menu__sr" [id]="hintId">Alt+Arrow keys move this app.</span>
+    <span class="ats-menu__sr" aria-live="polite">{{ announce() }}</span>
   `,
   styleUrl: './overlays.css',
   encapsulation: ViewEncapsulation.None,
@@ -61,21 +86,77 @@ const iconContainerTheme = (color: string): IconContainerTheme =>
   host: { class: 'ats-menu-overlay' },
 })
 export class MenuOverlay implements AfterViewInit {
+  protected readonly ctrl = inject(BowlingAlleyController, { optional: true }) ?? new BowlingAlleyController();
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
+
   /** Focus the Filter when shown (Figma: "Focus keyboard automatically on search input"). */
   readonly autofocus = input(true, { transform: booleanAttribute });
+  readonly placeholder = input('Filter Items');
   readonly closed = output<void>();
   readonly selected = output<string>();
+  /** Add/Remove was clicked (the shell switches to the Edit Menu). */
   readonly addRemove = output<void>();
-  protected readonly apps = BOWLING_ALLEY_MENU_APPS;
   // Each app icon is an icon-container (size md). Task has no icon-container theme,
   // so it keeps --color-entity-task as a fill override.
   protected iconTheme = iconContainerTheme;
   protected iconFill = (color: string) => (color === 'task' ? 'var(--color-entity-task)' : undefined);
   protected readonly query = signal('');
+  protected readonly hintId = `ats-menu-hint-${++menuUid}`;
+  protected readonly dragging = signal<{ section: string; id: string } | null>(null);
+  protected readonly dropAt = signal<{ id: string; after: boolean } | null>(null);
+  protected readonly announce = signal('');
   private readonly header = viewChild.required<MenuHeader>('header');
   protected show = (label: string) => matches(label, this.query());
+  protected isDrop = (section: string, id: string, after: boolean) => {
+    const d = this.dropAt();
+    return !!d && d.id === id && d.after === after && this.dragging()?.section === section && this.dragging()?.id !== id;
+  };
+
   ngAfterViewInit() {
     if (this.autofocus()) setTimeout(() => this.header().focusFilter());
+  }
+
+  protected dragStart(e: DragEvent, section: string, id: string) {
+    this.dragging.set({ section, id });
+    if (e.dataTransfer) {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', id);
+    }
+  }
+  protected dragOver(e: DragEvent, section: string, id: string) {
+    const d = this.dragging();
+    if (!d || d.section !== section) return; // tiles move within their section
+    e.preventDefault();
+    if (e.dataTransfer) e.dataTransfer.dropEffect = 'move';
+    const r = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const after = e.clientX > r.left + r.width / 2;
+    const cur = this.dropAt();
+    if (cur?.id !== id || cur.after !== after) this.dropAt.set({ id, after });
+  }
+  protected drop(e: DragEvent) {
+    e.preventDefault();
+    const d = this.dragging();
+    const t = this.dropAt();
+    if (d && t) this.ctrl.moveApp(d.id, t.id, t.after);
+    this.dragEnd();
+  }
+  protected dragEnd() {
+    this.dragging.set(null);
+    this.dropAt.set(null);
+  }
+
+  /** Alt+Arrow keys: Left/Right one place, Up/Down one row (3 tiles). */
+  protected keyMove(e: KeyboardEvent, section: string, id: string) {
+    if (!e.altKey) return;
+    const delta = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -3, ArrowDown: 3 }[e.key];
+    if (!delta) return;
+    e.preventDefault();
+    this.ctrl.moveAppBy(section, id, delta);
+    const apps = this.ctrl.menuSections().find((x) => x.id === section)?.apps ?? [];
+    const i = apps.findIndex((a) => a.id === id);
+    this.announce.set(`${apps[i]?.label} moved to position ${i + 1} of ${apps.length}`);
+    // the tile's element moves with it (tracked by id); keep focus on it
+    setTimeout(() => this.host.querySelector<HTMLElement>(`[data-app="${section}:${id}"]`)?.focus());
   }
 }
 
@@ -125,7 +206,7 @@ export type ChatPosition = 'left-top' | 'left-bottom' | 'center-bottom' | 'right
  */
 @Component({
   selector: 'ats-help-overlay',
-  imports: [Button, Icon],
+  imports: [Button, Icon, Switch],
   template: `
     <div class="ats-help__group">
       <span class="ats-help__heading">Bullhorn Hub</span>
@@ -138,11 +219,7 @@ export type ChatPosition = 'left-top' | 'left-bottom' | 'center-bottom' | 'right
       <span class="ats-help__heading">Sophia AI Powered Support</span>
       <button ats-button theme="secondary" pill iconRight="arrow-right" class="ats-help__chat" (click)="openChat.emit()">Open Chat</button>
       <div class="ats-help__chat-settings">
-        <label class="ats-switch">
-          <span class="ats-switch__label">Show Chat Button</span>
-          <input class="ats-switch__input" type="checkbox" role="switch" [checked]="showChat()" (change)="showChat.set($any($event.target).checked)" />
-          <span class="ats-switch__track" aria-hidden="true"><span class="ats-switch__thumb"></span></span>
-        </label>
+        <label ats-switch class="ats-help__switch" [(checked)]="showChat">Show Chat Button</label>
         <div class="ats-chat-pos" role="radiogroup" aria-label="Chat button position" [class.is-disabled]="!showChat()">
           <span class="ats-chat-pos__bar"></span>
           <span class="ats-chat-pos__screen">

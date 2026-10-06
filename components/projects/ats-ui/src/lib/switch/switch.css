@@ -1,0 +1,50 @@
+/* Switch (Figma "switch" 1156:45039). Unencapsulated, namespaced .ats-switch. */
+.ats-switch {
+  /* private vars always defined */
+  --_bg: var(--switch-color-off-default-background);
+  --_bd: var(--switch-color-off-default-border);
+  --_thumb-bd: var(--switch-color-switch-thumb-border-off);
+  --_text: var(--switch-color-off-default-content);
+  display: inline-flex; align-items: center; gap: var(--switch-spacing-gap); position: relative; cursor: pointer;
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+}
+.ats-switch.is-on {
+  --_bg: var(--switch-color-on-default-background);
+  --_bd: var(--switch-color-on-default-background); /* Figma: On has no stroke */
+  --_thumb-bd: var(--switch-color-switch-thumb-border-on);
+  --_text: var(--switch-color-on-default-content);
+}
+.ats-switch.is-disabled { cursor: not-allowed;
+  --_bg: var(--switch-color-off-disabled-background);
+  --_bd: var(--switch-color-off-disabled-border);
+  --_thumb-bd: var(--switch-color-switch-thumb-border-off-disabled);
+  --_text: var(--switch-color-off-disabled-content);
+}
+.ats-switch.is-on.is-disabled {
+  --_bg: var(--switch-color-on-disabled-background);
+  --_bd: var(--switch-color-on-disabled-background);
+  --_thumb-bd: var(--switch-color-switch-thumb-border-on-disabled);
+  --_text: var(--switch-color-on-disabled-content);
+}
+/* label: body/sm; hidden when empty (has-label=No) */
+.ats-switch__label {
+  color: var(--_text); white-space: nowrap;
+  font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height);
+  font-weight: var(--typography-body-sm-font-weight-default); letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.ats-switch__label:empty { display: none; }
+.ats-switch__input { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+/* track: 32px pill, 2px padding; the 1px stroke is drawn inset so On and Off are the same size */
+.ats-switch__track {
+  flex: 0 0 auto; width: 32px; box-sizing: border-box; display: flex; padding: var(--spacing-padding-xxsm);
+  border-radius: var(--border-radius-round); background: var(--_bg); box-shadow: inset 0 0 0 1px var(--_bd);
+}
+.ats-switch.is-on .ats-switch__track { justify-content: flex-end; }
+/* thumb: 16px, 1px stroke, general/level 1 */
+.ats-switch__thumb {
+  width: 16px; height: 16px; box-sizing: border-box; border-radius: var(--border-radius-round);
+  background: var(--switch-color-switch-thumb-background); border: 1px solid var(--_thumb-bd); box-shadow: var(--elevation-1);
+}
+.ats-switch__input:focus-visible + .ats-switch__track, .ats-switch.is-focus .ats-switch__track {
+  outline: 2px solid var(--color-border-focus); outline-offset: 2px;
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Switch — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Switch" meta="Status: in review · Figma: switch 1156:45039 (Component Migration, Switch page) · Code: ats-ui Switch · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">A switch turns one setting on or off and applies it right away. The Edit Menu uses it for each folder’s “Grouped” setting, and the Help menu for “Show Chat Button”.</p>
+    <doc-example src="switch?status=on&amp;label=Grouped" caption="On, with a label. Click to toggle" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants">
+    <p>Figma’s <span class="chip">status</span> × <span class="chip">has-label</span>: off, on, disabled-off and disabled-on, each with or without a label. The label sits left of the track.</p>
+    <doc-example src="switch?statuses=off,on,disabled-off,disabled-on" caption="has-label = No" height="100"></doc-example>
+    <doc-example src="switch?statuses=off,on,disabled-off,disabled-on&amp;label=Switch%20Label" caption="has-label = Yes" height="100"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <ul>
+      <li>Track: 32px wide pill, 2px padding (<span class="chip">spacing/padding/xxsm</span>). Off has a 1px border; on is filled.</li>
+      <li>Thumb: 16px circle with a 1px border and the <span class="chip">general/level 1</span> shadow. It sits left when off, right when on.</li>
+      <li>Label (optional): text style <span class="chip">body/sm</span>, 8px from the track (<span class="chip">switch/spacing/gap</span>).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>It renders a native checkbox with <span class="chip">role="switch"</span>, so it’s announced as a switch with its on/off state. Space toggles it.</li>
+      <li>The whole row is a <span class="chip">label</span>: clicking the text toggles it. Without a visible label, give it an <span class="chip">aria-label</span>.</li>
+      <li>Keyboard focus shows a 2px <span class="chip">color/border/focus</span> ring around the track.</li>
+    </ul>
+    <doc-example src="switch?status=off&amp;label=Grouped&amp;focus=true" caption="Focus ring" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Track, off</td><td><span class="chip">switch/color/off/default/background</span>, <span class="chip">…/border</span></td></tr>
+        <tr><td>Track, on</td><td><span class="chip">switch/color/on/default/background</span></td></tr>
+        <tr><td>Track, disabled</td><td><span class="chip">switch/color/off/disabled/background</span>, <span class="chip">…/border</span>, <span class="chip">switch/color/on/disabled/background</span></td></tr>
+        <tr><td>Thumb</td><td><span class="chip">switch/color/switch-thumb/background</span>, <span class="chip">…/border-off</span>, <span class="chip">…/border-on</span>, <span class="chip">…/border-off-disabled</span>, <span class="chip">…/border-on-disabled</span></td></tr>
+        <tr><td>Label</td><td><span class="chip">switch/color/on|off/default/content</span>, <span class="chip">…/disabled/content</span>; text style <span class="chip">body/sm</span></td></tr>
+        <tr><td>Gap, padding, radius</td><td><span class="chip">switch/spacing/gap</span>, <span class="chip">spacing/padding/xxsm</span>, <span class="chip">border/radius/round</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;label ats-switch [(checked)]="grouped"&gt;Grouped&lt;/label&gt;
+      &lt;label ats-switch [(checked)]="on" aria-label="Show chat button"&gt;&lt;/label&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">checked</span></td><td>boolean, two-way (<span class="chip">checkedChange</span>)</td><td>false</td></tr>
+        <tr><td><span class="chip">disabled</span></td><td>boolean</td><td>false</td></tr>
+        <tr><td><span class="chip">aria-label</span></td><td>Accessible name when there’s no visible label</td><td>—</td></tr>
+        <tr><td><span class="chip">state</span></td><td>focus (forces the ring)</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>The label is the content. Leave it empty for Figma’s has-label = No.</p>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Hover.">Figma has no hover look for the switch. The build has none.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

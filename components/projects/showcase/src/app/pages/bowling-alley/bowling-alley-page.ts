@@ -7,13 +7,14 @@ import {
   BowlingAlleyShell,
   FastFindResults,
   HelpOverlay,
+  MenuEdit,
   MenuOverlay,
   Tooltip,
   UserOverlay,
 } from 'ats-ui';
 
 type View = 'layout' | 'overlay' | 'tooltip';
-type OverlayView = 'menu' | 'add' | 'user' | 'help' | 'find';
+type OverlayView = 'menu' | 'edit' | 'add' | 'user' | 'help' | 'find';
 const flag = (v: unknown) => v != null && booleanAttribute(v);
 
 /**
@@ -26,12 +27,12 @@ const flag = (v: unknown) => v != null && booleanAttribute(v);
  *   layout: nav = collapsed | hover | open (default collapsed), lock = true (freeze nav),
  *     find = true (start in Fast Find mode), userOnly = true (collapsed footer shows only
  *     the avatar), height (px, default 640).
- *   overlay: overlay = menu | add | user | help | find (default menu); query (find only:
+ *   overlay: overlay = menu | edit | add | user | help | find (default menu; edit = the Edit Menu); query (find only:
  *     shows the "View All" search state).
  *   tooltip: text (default "Pin").
  */
 @Component({
-  imports: [NgTemplateOutlet, BowlingAlleyShell, BowlingAlley, Tooltip, MenuOverlay, AddOverlay, UserOverlay, HelpOverlay, FastFindResults],
+  imports: [NgTemplateOutlet, BowlingAlleyShell, BowlingAlley, Tooltip, MenuOverlay, MenuEdit, AddOverlay, UserOverlay, HelpOverlay, FastFindResults],
   selector: 'app-bowling-alley-page',
   styleUrl: './bowling-alley-page.css',
   templateUrl: './bowling-alley-page.html',

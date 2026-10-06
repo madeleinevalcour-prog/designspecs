@@ -308,11 +308,14 @@
       {t:"Bowling Alley", href:"/docs/components/bowling-alley.html"},
       {t:"Button", href:"/docs/components/button.html"},
       {t:"Card", href:"/docs/components/card.html"},
+      {t:"Check List", href:"/docs/components/check-list.html"},
       {t:"Checkbox", href:"/docs/components/checkbox.html"},
+      {t:"Checkbox + label", href:"/docs/components/checkbox-label.html"},
       {t:"Data Table", href:"/docs/components/data-table.html"},
       {t:"Icon", href:"/docs/components/icon.html"},
       {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html"},
       {t:"Icon Container", href:"/docs/components/icon-container.html"},
+      {t:"Menu Edit", href:"/docs/components/menu-edit.html"},
       {t:"Menu Header", href:"/docs/components/menu-header.html"},
       {t:"Menu Item", href:"/docs/components/menu-item.html"},
       {t:"Menu Option", href:"/docs/components/menu-option.html"},
@@ -321,6 +324,7 @@
       {t:"Record Header", href:"/docs/components/record-header.html"},
       {t:"Search Input", href:"/docs/components/search-input.html"},
       {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"},
+      {t:"Switch", href:"/docs/components/switch.html"},
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
     ]},
     {label:"Amplify", pages:[

@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview">
     <p class="lead" style="max-width:60ch">The bowling alley is the main navigation. It holds the openers (Find, Menu, Add, Amplify), the open record tabs and the footer (Parse Resume, Help, Privacy, user). It expands from a 64px icon strip to a 258px panel.</p>
-    <p>A shell component lays it out next to the page content and renders its overlays. The overlays and tabs are composed from their own components: <a href="menu-header.html">Menu Header</a> and <a href="menu-item.html">Menu Item</a> (the Menu), <a href="menu-option.html">Menu Option</a> (the Add and user menus), <a href="search-input.html">Search Input</a> (Fast Find and the Menu’s Filter), <a href="novo-list.html">Novo List</a> (each Fast Find result is a Novo List item) and <a href="icon-container.html">Icon Container</a> (the icons in the Menu, the Add menu and the entity tabs).</p>
+    <p>A shell component lays it out next to the page content and renders its overlays. The overlays and tabs are composed from their own components: <a href="menu-header.html">Menu Header</a> and <a href="menu-item.html">Menu Item</a> (the Menu), <a href="menu-option.html">Menu Option</a> (the Add and user menus), <a href="search-input.html">Search Input</a> (Fast Find and the Menu’s Filter), <a href="menu-edit.html">Menu Edit</a> (the Edit Menu, with <a href="switch.html">Switch</a> and <a href="check-list.html">Check List</a>), <a href="novo-list.html">Novo List</a> (each Fast Find result is a Novo List item) and <a href="icon-container.html">Icon Container</a> (the icons in the Menu, the Add menu and the entity tabs).</p>
     <doc-example src="bowling-alley?view=layout" caption="Bowling alley and page content. Hover it, press ⌘/Ctrl+B, click Find, or open an overlay" height="660"></doc-example>
   </doc-section>
 
@@ -32,6 +32,7 @@
         <tr><td>Parse Resume, Help, Privacy, user</td><td>bowling-alley-footer</td><td>part of <span class="chip">ats-bowling-alley</span></td></tr>
         <tr><td>Pin tooltip</td><td>Tooltip</td><td><span class="chip">&lt;ats-tooltip&gt;</span></td></tr>
         <tr><td>Menu parts</td><td>menu-header, menu-item, menu-option</td><td><span class="chip">&lt;ats-menu-header&gt;</span>, <span class="chip">button[ats-menu-item]</span>, <span class="chip">button[ats-menu-option]</span></td></tr>
+        <tr><td>Edit Menu</td><td>menu-edit (switch, check-list, checkbox+label)</td><td><span class="chip">&lt;ats-menu-edit&gt;</span></td></tr>
         <tr><td>Overlays</td><td>novo-drag-container, fast-add-menu, user-dropdown-panel, help-dropdown-container, fast-find-results</td><td><span class="chip">ats-menu-overlay</span>, <span class="chip">ats-add-overlay</span>, <span class="chip">ats-user-overlay</span>, <span class="chip">ats-help-overlay</span>, <span class="chip">ats-fast-find-results</span></td></tr>
         <tr><td>Page scrim</td><td>overlay</td><td>rendered by the shell</td></tr>
       </tbody>
@@ -66,13 +67,15 @@
     <table class="tbl">
       <thead><tr><th>Opener</th><th>Overlay</th><th>Placement</th></tr></thead>
       <tbody>
-        <tr><td>Menu</td><td>A <a href="menu-header.html">Menu Header</a> (title, Add/Remove, a “Filter Items” search), then a grid of <a href="menu-item.html">Menu Items</a>, one per app the user can open in the ATS (Amplify, Candidates, Tasks, My Dashboard, Leads, Contacts, Companies, Opportunities, Submissions, Jobs, Placements, Automation, Analytics, Change Requests, Tearsheets, Distribution Lists, Admin). The Filter takes focus when it opens</td><td>Its Filter in line with the top of the Menu tab</td></tr>
+        <tr><td>Menu</td><td>A <a href="menu-header.html">Menu Header</a> (title, Add/Remove, a “Filter Items” search), then a grid of <a href="menu-item.html">Menu Items</a>, one per app the user can open in the ATS (Amplify, Candidates, Tasks, My Dashboard, Leads, Contacts, Companies, Opportunities, Submissions, Jobs, Placements, Automation, Analytics, Change Requests, Tearsheets, Distribution Lists, Admin). Only apps checked in the Edit Menu show; a folder with Grouped on gets its own labelled section below the main grid. Drag tiles, or use Alt+Arrow keys, to reorder. The Filter takes focus when it opens</td><td>Its Filter in line with the top of the Menu tab</td></tr>
+        <tr><td>Edit Menu</td><td><a href="menu-edit.html">Menu Edit</a>: opens from Add/Remove in the Menu, in the Menu’s place; Done goes back. Folders of apps as checkboxes, each with a Grouped switch</td><td>Same place as the Menu</td></tr>
         <tr><td>Add</td><td><a href="menu-option.html">Menu Options</a>, entity type: Company … Distribution List</td><td>Top in line with the top of the Add tab</td></tr>
         <tr><td>Help (footer)</td><td>Bullhorn Hub link, Open Chat, Show Chat Button, chat button position</td><td>Bottom in line with the bottom of the Help tab</td></tr>
         <tr><td>User (footer)</td><td>Menu Options, default type: Preferences, Logout</td><td>Bottom in line with the bottom of the user tab</td></tr>
       </tbody>
     </table>
-    <doc-example src="bowling-alley?view=overlay&amp;overlay=menu" caption="Menu (480px)" height="820"></doc-example>
+    <doc-example src="bowling-alley?view=overlay&amp;overlay=menu" caption="Menu (480px). Drag a tile to reorder it" height="980"></doc-example>
+    <doc-example src="bowling-alley?view=overlay&amp;overlay=edit" caption="Edit Menu (480px)" height="900"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=add" caption="Add (248px)" height="540"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=help" caption="Help (364px)" height="340"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=user" caption="User menu (240px)" height="150"></doc-example>
@@ -93,6 +96,8 @@
       <li>One overlay at a time. Clicking the same opener again closes it; another opener swaps it.</li>
       <li>A click outside (on the scrim or the page) closes the overlay or Fast Find. If the bowling alley was only hovered and the pointer is off it, it collapses too.</li>
       <li>Escape closes the open overlay or Fast Find. ⌘/Ctrl+B toggles open or collapsed.</li>
+      <li>Menu: Add/Remove switches to the Edit Menu; Done switches back. Unchecking an app there hides it from the Menu; Grouped shows a folder as its own labelled section.</li>
+      <li>Menu reorder: drag a tile onto another. The dragged tile shows the menu-item drag state and a 2px <span class="chip">color/border/focus</span> bar marks where it lands (left or right half of the target). Tiles move within their section. The order is kept in the controller (<span class="chip">menuOrder</span>) while the page is open.</li>
       <li>Rows don’t navigate yet; the shell emits <span class="chip">overlaySelect</span> so a page can act on them.</li>
     </ul>
   </doc-section>
@@ -103,7 +108,8 @@
       <li>Every control is a native button. Icon-only controls carry an <span class="chip">aria-label</span>; openers expose <span class="chip">aria-expanded</span>.</li>
       <li>Entity tabs are focusable (Enter or Space activates); pin and close appear while a tab has focus. The active tab has <span class="chip">aria-current="page"</span>.</li>
       <li>Show Chat Button is a native checkbox with <span class="chip">role="switch"</span>; the chat positions are a radio group.</li>
-      <li>Drag to reorder is pointer-only; there is no keyboard reorder yet.</li>
+      <li>Menu tiles: focus a tile and press Alt+Arrow keys to move it (Left/Right one place, Up/Down one row). Each tile describes the shortcut, and a live region announces the new position.</li>
+      <li>Entity tabs: drag to reorder is pointer-only; there is no keyboard reorder for tabs yet.</li>
     </ul>
   </doc-section>
   <doc-section id="tokens" label="Tokens">
@@ -154,7 +160,7 @@
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="Menu contents.">The app list follows the live product. Apps that aren’t an entity (My Dashboard, Automation, Change Requests, Tearsheets, Distribution Lists, Admin, Submissions) use the neutral icon container (<span class="chip">color/entity/note</span>) with their own glyph. The reference ends with a second “Candidates” (circle glyph); it’s kept as shown. Add/Remove emits an event; Figma’s Edit Menu (menu-edit 1217:58486: menu-header with Done, plus inline checklists) isn’t built yet. Menu items have a drag state in Figma, but the annotations don’t describe reordering, so the Menu doesn’t reorder.</doc-callout>
+    <doc-callout type="note" heading="Menu contents.">The app list follows the live product. Apps that aren’t an entity (My Dashboard, Automation, Change Requests, Tearsheets, Distribution Lists, Admin, Submissions) use the neutral icon container (<span class="chip">color/entity/note</span>) with their own glyph. The reference ends with a second “Candidates” (circle glyph); it’s kept as shown. Figma has no drop-position indicator for the Menu; the bar is the build’s. Reorder and Edit Menu choices aren’t saved across page loads. See <a href="menu-edit.html">Menu Edit</a> for the Grouped question.</doc-callout>
     <doc-callout type="note" heading="Fast Find search state.">Figma shows a second results frame (1780:24700) with View All at the top. The build shows it while the user types. Confirm that trigger, what View All opens, and the empty-results message (the build says “No matches”).</doc-callout>
     <doc-callout type="note" heading="Help menu.">Open Chat, the switch and the position picker emit values but aren’t wired to the Sophia button yet. Confirm the Bullhorn Hub URL.</doc-callout>
     <doc-callout type="note" heading="Missing tokens.">The widths (64 / 258 / 556px), the card padding (12 / 14px), the dropdown shadow (Figma style MadeleineNav/modals) and the Amplify glyph gradient have no tokens. Figma binds the Add / user / Help border to <span class="chip">button/color/border/default</span>, which isn’t in the code tokens; the dropdown border is used.</doc-callout>

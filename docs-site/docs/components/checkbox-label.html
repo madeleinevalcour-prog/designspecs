@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkbox + label — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Checkbox + label" meta="Status: in review · Figma: checkbox+label 250:17848 (Component Migration, Checkbox page) · Code: ats-ui CheckboxLabel · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">A <a href="checkbox.html">checkbox</a> with its label. Use it for one option in a list of independent choices, like the apps in the <a href="menu-edit.html">Edit Menu</a>. Lay several out with a <a href="check-list.html">check list</a>.</p>
+    <doc-example src="checkbox-label?variant=checked&amp;label=Placements" caption="Checked. Click the box or the label" height="70"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants">
+    <p>Figma’s <span class="chip">Property 1</span> has nine values. Hover and focus are live; the rest follow the value and <span class="chip">disabled</span>.</p>
+    <doc-example src="checkbox-label?variants=default,hover,focus,checked,indeterminate" caption="Default, hover, focus, checked, indeterminate" height="210"></doc-example>
+    <doc-example src="checkbox-label?variants=disabled,disabled-checked,disabled-indeterminate" caption="Disabled: unchecked, checked, indeterminate" height="140"></doc-example>
+    <doc-example src="checkbox-label?variant=has-gripper&amp;label=has-gripper" caption="has-gripper: a 16px grip handle before the box" height="70"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <ul>
+      <li>Box: the 16px <a href="checkbox.html">checkbox</a>.</li>
+      <li>Label: text style <span class="chip">input/value/default</span>, filling the rest of the row.</li>
+      <li>Row: 8px between box and label (<span class="chip">checkbox/spacing/gap-horizontal</span>), 8px top and bottom (<span class="chip">checkbox/spacing/padding-vertical</span>).</li>
+      <li>Grip (has-gripper only): <span class="chip">grip-vertical</span>, 16px, before the box.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>The row is a native <span class="chip">label</span> wrapping a native checkbox, so the text is its accessible name and clicking it toggles the box.</li>
+      <li>Space toggles the focused box. Indeterminate is announced as “mixed”.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Label color</td><td><span class="chip">checkbox/color/content/default</span>, <span class="chip">…/hover</span>, <span class="chip">…/focus</span>, <span class="chip">…/checked</span>, <span class="chip">…/indeterminate</span>, <span class="chip">…/disabled</span></td></tr>
+        <tr><td>Label type</td><td>Text style <span class="chip">input/value/default</span></td></tr>
+        <tr><td>Gap, padding</td><td><span class="chip">checkbox/spacing/gap-horizontal</span>, <span class="chip">checkbox/spacing/padding-vertical</span>, <span class="chip">checkbox/spacing/padding-horizontal</span></td></tr>
+        <tr><td>Box</td><td>See <a href="checkbox.html">Checkbox</a></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;label ats-checkbox-label [(checked)]="shown"&gt;Placements&lt;/label&gt;
+      &lt;label ats-checkbox-label gripper&gt;Drag me&lt;/label&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">checked</span></td><td>boolean, two-way</td><td>false</td></tr>
+        <tr><td><span class="chip">indeterminate</span></td><td>boolean, two-way (cleared on click)</td><td>false</td></tr>
+        <tr><td><span class="chip">disabled</span></td><td>boolean (also set by a disabled check list)</td><td>false</td></tr>
+        <tr><td><span class="chip">gripper</span></td><td>boolean: Figma has-gripper / drag-and-drop</td><td>false</td></tr>
+        <tr><td><span class="chip">showCheckbox</span></td><td>boolean: Figma “show checkbox”</td><td>true</td></tr>
+        <tr><td><span class="chip">state</span></td><td>hover · focus (forces the look)</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>The label is the content.</p>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Gripper behaviour.">Figma shows the has-gripper look but doesn’t describe dragging rows. The build draws the grip only.</doc-callout>
+    <doc-callout type="note" heading="Gripper colors.">The has-gripper label uses <span class="chip">inputs/color/content/label</span> and the grip #5D7798; neither is in the code tokens. The build uses <span class="chip">color/text/body</span> and <span class="chip">color/icon/subtle</span>.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>
