@@ -1,7 +1,30 @@
 import { Component, computed, input, signal } from '@angular/core';
-import { AmplifyChatButtonRow, AmplifyChatContextContainer, AmplifyChatContextContainerSize, AmplifyChatContextItem, AmplifyChatTextArea } from 'ats-ui';
+import {
+  AmplifyChatButtonRow, AmplifyChatClarifyAnswer, AmplifyChatClarifyingQuestion, AmplifyChatContainer, AmplifyChatContextContainer,
+  AmplifyChatContextContainerSize, AmplifyChatContextItem, AmplifyChatGlobalChatContainer, AmplifyChatInput, AmplifyChatTextArea,
+} from 'ats-ui';
 
-type InputComponent = 'text-area' | 'button-row' | 'context-container';
+type InputComponent = 'chat-input' | 'amplify-chat-container' | 'global-chat-container' | 'text-area' | 'button-row' | 'context-container';
+
+/** Sample round for the container's clarifying-questions state (Figma 6337:209113). */
+const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
+  {
+    question: 'How far from Boston should Amplify look?',
+    options: [
+      { label: 'Within 25 mi of Boston', recommended: 'Recommended · from', recordLink: 'JO-4821' },
+      { label: 'Within 50 mi of Boston' },
+      { label: 'Include remote candidates' },
+    ],
+  },
+  {
+    question: 'Which candidates should Amplify include?',
+    help: 'Amplify only searches records you can access.',
+    options: [
+      { label: 'Active candidates only', recommended: 'Recommended · your saved search' },
+      { label: 'Active and passive candidates' },
+    ],
+  },
+];
 
 /**
  * /amplify-chat-input — Amplify Chat — Chat input (Figma doc frame 6300:127598,
@@ -13,20 +36,36 @@ type InputComponent = 'text-area' | 'button-row' | 'context-container';
  *   /examples/amplify-chat-input?component=text-area&placeholder=Or%20reply%20directly…
  *   /examples/amplify-chat-input?component=button-row&showLabels=no&canSend=true
  *   /examples/amplify-chat-input?component=context-container&size=docked&items=Tyler%20Brooks,Verizon
+ *   /examples/amplify-chat-input?component=chat-input&size=docked
+ *   /examples/amplify-chat-input?component=amplify-chat-container&questions=yes
+ *   /examples/amplify-chat-input?component=global-chat-container&name=Chloe
  * Params:
- *   component = text-area | button-row | context-container
+ *   component = chat-input | amplify-chat-container | global-chat-container | text-area | button-row | context-container
+ *   chat-input:             size = full page | docked (default full page), placeholder, value
+ *   amplify-chat-container: size, items (context chips, default "Tyler Brooks"; "none" hides the row),
+ *                           questions = yes (sample clarifying-questions round replaces the context row)
+ *   global-chat-container:  size, name (default Chloe), greeting (whole headline), items (default none)
  *   text-area:          placeholder, value
  *   button-row:         showLabels = yes | no (default yes), canSend = true | false (default false)
  *   context-container:  size = full page | docked (default full page),
  *                       items (comma list of chip labels, default "Tyler Brooks")
  */
 @Component({
-  imports: [AmplifyChatTextArea, AmplifyChatButtonRow, AmplifyChatContextContainer],
+  imports: [AmplifyChatTextArea, AmplifyChatButtonRow, AmplifyChatContextContainer, AmplifyChatInput, AmplifyChatContainer, AmplifyChatGlobalChatContainer],
   selector: 'app-amplify-chat-input-page',
   template: `
     @if (component()) {
       <div class="embed">
         @switch (component()) {
+          @case ('chat-input') {
+            <ats-amplify-chat-input [size]="size()" [placeholder]="placeholder()" [value]="value() ?? ''" />
+          }
+          @case ('amplify-chat-container') {
+            <ats-amplify-chat-container [size]="size()" [context]="embedItems()" [questions]="questions() === 'yes' ? round : undefined" (removed)="drop($event)" />
+          }
+          @case ('global-chat-container') {
+            <ats-amplify-chat-global-chat-container [size]="size()" [name]="name()" [greeting]="greeting()" [context]="items() ? embedItems() : []" />
+          }
           @case ('text-area') {
             <textarea ats-amplify-chat-text-area aria-label="Message Amplify" [placeholder]="placeholder()" [value]="value() ?? ''"></textarea>
           }
@@ -41,6 +80,53 @@ type InputComponent = 'text-area' | 'button-row' | 'context-container';
     } @else {
       <h1>Amplify Chat — Chat input</h1>
       <p class="lede">Figma <code>amplify-chat/chat-input</code> group (doc frame 6300:127598, subsection/input 6352:28898). The input where the recruiter asks Amplify for something and sets what it works from.</p>
+
+      <section>
+        <h2>Live demo</h2>
+        <p class="note">Type and press ↵ to send (Shift+↵ for a new line). "Ask a clarifying question" opens the card above the input; answer with a click, 1–4, ↑ ↓ + ↵, Skip, or by typing in the input.</p>
+        <div class="demo w800">
+          <div class="toolbar">
+            <button type="button" (click)="ask()">Ask a clarifying question</button>
+            <label><input type="checkbox" [checked]="demoDocked()" (change)="demoDocked.set(!demoDocked())" /> docked</label>
+          </div>
+          <ol class="log" aria-live="polite">
+            @for (m of log(); track $index) { <li>{{ m }}</li> } @empty { <li class="muted">Nothing sent yet.</li> }
+          </ol>
+          <ats-amplify-chat-container [size]="demoDocked() ? 'docked' : 'full page'" [context]="demoContext()" [questions]="demoQuestions()"
+            (send)="say('You: ' + $event)" (completed)="done($event)" (dismissed)="say('(questions dismissed)')" (removed)="demoContext.set([])" />
+        </div>
+      </section>
+
+      <section>
+        <h2>chat-input <span class="node">4608:172361</span></h2>
+        <p class="note">Text area + button row in the card box. Owns the draft: Send enables when there is text; ↵ sends and clears.</p>
+        <div class="stack w750">
+          <div class="item"><span class="caption">size=full page (4510:141056)</span><ats-amplify-chat-input /></div>
+          <div class="item"><span class="caption">size=docked (4608:172362) · icon-only buttons</span><ats-amplify-chat-input size="docked" /></div>
+          <div class="item"><span class="caption">size=full page · with a draft (Send enabled)</span><ats-amplify-chat-input value="Find Java developers within 25 miles of Boston" /></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>amplify-chat-container <span class="node">4527:169494</span></h2>
+        <p class="note">Context row over the chat input. With a clarifying-questions round, the card replaces the context row and the placeholder becomes "Or reply directly…".</p>
+        <div class="stack w750">
+          <div class="item"><span class="caption">size=full page · show context</span><ats-amplify-chat-container [context]="['Tyler Brooks']" /></div>
+          <div class="item"><span class="caption">size=docked · show context</span><ats-amplify-chat-container size="docked" [context]="['Tyler Brooks']" /></div>
+          <div class="item"><span class="caption">show context off</span><ats-amplify-chat-container /></div>
+          <div class="item"><span class="caption">clarifying questions open (6337:209113)</span><ats-amplify-chat-container [context]="['Tyler Brooks']" [questions]="round" /></div>
+          <div class="item"><span class="caption">clarifying questions open · docked</span><ats-amplify-chat-container size="docked" [context]="['Tyler Brooks']" [questions]="round" /></div>
+        </div>
+      </section>
+
+      <section>
+        <h2>global-chat-container <span class="node">4527:171709</span></h2>
+        <p class="note">The starting point for a new chat: greeting + input (context row hidden, taller text area).</p>
+        <div class="stack w750">
+          <div class="item"><span class="caption">default</span><ats-amplify-chat-global-chat-container /></div>
+          <div class="item"><span class="caption">with the current record as context</span><ats-amplify-chat-global-chat-container [context]="[{ label: 'Verizon', entity: 'company' }]" /></div>
+        </div>
+      </section>
 
       <section>
         <h2>amplify-text-area <span class="node">4608:172388</span></h2>
@@ -90,7 +176,12 @@ type InputComponent = 'text-area' | 'button-row' | 'context-container';
     .note { color: #5d7798; margin: 0 0 16px; font-size: 13px; }
     section { margin: 0 0 48px; }
     .stack { display: flex; flex-direction: column; gap: 24px; }
-    .w600 { width: 600px; } .w625 { width: 625px; } .w828 { width: 828px; }
+    .w600 { width: 600px; } .w625 { width: 625px; } .w828 { width: 828px; } .w750 { width: 750px; } .w800 { width: 800px; max-width: 100%; }
+    .embed { max-width: 800px; }
+    .demo { display: flex; flex-direction: column; gap: 12px; padding: 16px; border: 1px dashed #c2c5cb; border-radius: 8px; background: #f7f8f9; }
+    .toolbar { display: flex; gap: 16px; align-items: center; font-size: 13px; }
+    .log { margin: 0; padding: 0 0 0 20px; min-height: 60px; font-size: 13px; color: #3d464d; display: flex; flex-direction: column; gap: 4px; }
+    .muted { color: #5d7798; list-style: none; margin-left: -20px; }
     .item { display: flex; flex-direction: column; gap: 8px; }
     .caption { font-size: 13px; font-weight: 500; color: #5d7798; }
     .frame { padding: 12px 16px; border: 1px dashed #c2c5cb; border-radius: 8px; background: #fff; }
@@ -105,6 +196,15 @@ export class AmplifyChatInputPage {
   readonly canSend = input<string>();
   readonly size = input<AmplifyChatContextContainerSize>();
   readonly items = input<string>();
+  readonly questions = input<string>();
+  readonly name = input<string>();
+  readonly greeting = input<string>();
+
+  protected readonly round = QUESTIONS;
+  protected readonly log = signal<string[]>([]);
+  protected readonly demoDocked = signal(false);
+  protected readonly demoContext = signal<AmplifyChatContextItem[]>(['Tyler Brooks']);
+  protected readonly demoQuestions = signal<AmplifyChatClarifyingQuestion[] | undefined>(undefined);
 
   protected readonly draft = signal('');
   protected readonly contextItems = signal<AmplifyChatContextItem[]>(['Tyler Brooks']);
@@ -117,8 +217,22 @@ export class AmplifyChatInputPage {
   private readonly removedLabels = signal<string[]>([]);
 
   protected readonly embedItems = computed<AmplifyChatContextItem[]>(() =>
-    (this.items()?.split(',').map((s) => s.trim()).filter(Boolean) ?? ['Tyler Brooks']).filter((l) => !this.removedLabels().includes(l)),
+    (this.items() === 'none' ? [] : this.items()?.split(',').map((s) => s.trim()).filter(Boolean) ?? ['Tyler Brooks']).filter((l) => !this.removedLabels().includes(l)),
   );
+
+  protected say(line: string): void {
+    this.log.update((l) => [...l, line]);
+  }
+
+  protected ask(): void {
+    this.say('Amplify: I found 500 candidates that match Product Manager. A few details will help narrow the search.');
+    this.demoQuestions.set([...QUESTIONS]);
+  }
+
+  protected done(answers: AmplifyChatClarifyAnswer[]): void {
+    this.say('You: ' + answers.map((a) => `${a.question} ${a.value}`).join(' · '));
+    this.demoQuestions.set(undefined);
+  }
 
   protected drop(label: string): void {
     this.contextItems.update((list) => list.filter((i) => (typeof i === 'string' ? i : i.label) !== label));
