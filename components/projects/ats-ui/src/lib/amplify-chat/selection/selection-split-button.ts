@@ -38,17 +38,16 @@ export type AmplifyChatSelectionSplitButtonState = 'hover' | 'focus' | 'active';
  * AmplifyChatSelectionSplitButton (Figma: "amplify-chat/selection-split-button", 6271:183528).
  * The primary action of a selection bar under a chat data table or card stack: two primary
  * small Buttons 1px apart. The left segment runs the default action and names the verb and
- * the count ("Add 5 contacts"); the chevron segment opens a menu of related actions.
+ * the count ("Add 5 Contacts"); the chevron segment opens a menu of related actions.
  *
- *   <ats-amplify-chat-selection-split-button verb="Add" noun="contact" [count]="selected().length"
+ *   <ats-amplify-chat-selection-split-button verb="Add" noun="Contact" [count]="selected().length"
  *       [actions]="[{ id: 'list', label: 'Add to list' }, { id: 'seq', label: 'Add to Outreach sequence', preview: true }]"
  *       (primary)="addContacts()" (action)="run($event)" />
  *
- * Behaviour (amplify-chat-record-actions.md):
- *  - The label is verb + count + noun in sentence case and follows the selection live.
- *    `label` overrides it entirely.
- *  - Zero selected: the button stays in place, disabled, reading "Select contacts to add"
- *    (`emptyLabel` overrides). The menu is disabled too.
+ * Behaviour (amplify-chat-interface-patterns.md, which takes precedence; then record-actions):
+ *  - The label is verb + count + noun ("Add 5 Contacts", as Figma and the patterns doc) and
+ *    follows the selection live. `label` overrides it entirely.
+ *  - Zero selected: hidden. The selection bar it sits in is hidden too.
  *  - No check icon on the button: nothing has happened yet.
  *  - Menu items with `preview: true` say they open a review step first.
  *  - The action runs only on click; selecting never writes on its own.
@@ -85,6 +84,7 @@ export type AmplifyChatSelectionSplitButtonState = 'hover' | 'focus' | 'active';
   host: {
     class: 'ats-amplify-chat-selection-split-button',
     role: 'group',
+    '[hidden]': 'isEmpty()',
     '(document:click)': 'onDocumentClick($event)',
   },
 })
@@ -94,7 +94,7 @@ export class AmplifyChatSelectionSplitButton {
 
   /** Verb of the default action. Default "Add". */
   readonly verb = input<string>();
-  /** Record noun, singular. Default "contact". */
+  /** Record noun, singular. Default "Contact". */
   readonly noun = input<string>();
   /** Plural noun. Default `noun` + "s". */
   readonly nounPlural = input<string>();
@@ -102,8 +102,6 @@ export class AmplifyChatSelectionSplitButton {
   readonly count = input<number | undefined, unknown>(0, { transform: (v: unknown) => (v == null || v === '' ? undefined : Number(v)) });
   /** Full label override (otherwise verb + count + noun). */
   readonly label = input<string>();
-  /** Zero-selected label. Default "Select <plural> to <verb>". */
-  readonly emptyLabel = input<string>();
   /** Related actions for the menu (about 2–4). With none, the chevron is disabled. */
   readonly actions = input<AmplifyChatSelectionAction[] | undefined>([]);
   /** Menu hint for `preview` actions. Default "Review first". */
@@ -127,11 +125,10 @@ export class AmplifyChatSelectionSplitButton {
   protected readonly isEmpty = computed(() => this.countValue() === 0);
   protected readonly actionList = computed(() => this.actions() ?? []);
   private readonly verbText = computed(() => this.verb() ?? 'Add');
-  private readonly singular = computed(() => this.noun() ?? 'contact');
+  private readonly singular = computed(() => this.noun() ?? 'Contact');
   private readonly plural = computed(() => this.nounPlural() ?? `${this.singular()}s`);
 
   protected readonly text = computed(() => {
-    if (this.isEmpty()) return this.emptyLabel() ?? `Select ${this.plural()} to ${this.verbText().toLowerCase()}`;
     if (this.label()) return this.label()!;
     const n = this.countValue();
     return `${this.verbText()} ${n} ${n === 1 ? this.singular() : this.plural()}`;

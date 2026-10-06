@@ -7,6 +7,8 @@
   position: relative; display: inline-flex; align-items: center;
   gap: 1px; /* no token: Figma gap-px between the segments */
 }
+/* nothing selected: hidden (patterns doc) */
+.ats-amplify-chat-selection-split-button[hidden] { display: none; }
 /* outer corners round (border/radius/round), inner corners square */
 .ats-amplify-chat-selection-split-button > .ats-btn.ats-amplify-chat-selection-split-button__primary {
   border-radius: var(--border-radius-round) 0 0 var(--border-radius-round);

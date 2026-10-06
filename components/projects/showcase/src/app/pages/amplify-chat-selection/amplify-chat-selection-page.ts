@@ -9,7 +9,7 @@ const ACTIONS: AmplifyChatSelectionAction[] = [
 
 /**
  * /amplify-chat-selection — Amplify Chat — Selection (Figma doc/selection 6300:127589).
- * amplify-chat/selection-split-button (6271:183528): zero, one and many selected, the
+ * amplify-chat/selection-split-button (6271:183528): one and many selected (hidden at zero), the
  * menu open, and a live example.
  *
  * Embed mode: `component=selection-split-button` renders one button, e.g.
@@ -18,7 +18,7 @@ const ACTIONS: AmplifyChatSelectionAction[] = [
  *   /examples/amplify-chat-selection?component=selection-split-button&count=3&open=true
  * Params:
  *   component = selection-split-button
- *   count (default 5) · verb (default "Add") · noun (default "contact") · label (full override)
+ *   count (default 5) · verb (default "Add") · noun (default "Contact") · label (full override)
  *   open = true (menu open) · state = hover | focus | active
  */
 @Component({

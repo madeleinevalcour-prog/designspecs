@@ -12,7 +12,7 @@ export type AmplifyChatListItemTheme = 'prospect' | 'candidate';
  * a selection checkbox, then the list-item (header + content slot), in a card (card border,
  * 8px radius, 0 2 4 charcoal-04 shadow).
  *  - theme `prospect` (6223:172861): header-section = 40px initials avatar (or photo), the
- *    name as a link-text with the contact circle, then the job title + item fields (email).
+ *    name as a link-text with the contact circle (neutral grey when not in the ATS), then the job title + item fields (email).
  *    The content slot holds <ats-amplify-chat-relevance-signals>.
  *  - theme `candidate` (6223:173284): an item-header (entity icon-container + title), then
  *    the item comment (fields + summary). The content slot holds a chip group (skills).
@@ -48,7 +48,7 @@ export type AmplifyChatListItemTheme = 'prospect' | 'candidate';
           }
           <div class="ats-amplify-chat-chat-list-item__details">
             <button type="button" class="ats-amplify-chat-chat-list-item__name" (click)="open.emit()">
-              <ats-link-text [text]="name()" [circle]="circle" />
+              <ats-link-text [text]="name()" [circle]="circle()" />
             </button>
             <div class="ats-amplify-chat-chat-list-item__data">
               @if (jobTitle()) { <span class="ats-amplify-chat-chat-list-item__job-title">{{ jobTitle() }}</span> }
@@ -97,10 +97,14 @@ export class AmplifyChatChatListItem {
   /** candidate: the header icon-container entity. Default candidate. */
   readonly entity = input<NovoListEntity | undefined>('candidate');
 
+  /** prospect: already saved as a Contact in the ATS (contact circle) or not (neutral grey). Default true. */
+  readonly inBullhorn = input<boolean | undefined>(true);
+
   /** prospect: the name link was clicked (open the record). */
   readonly open = output<void>();
 
-  protected readonly circle = 'var(--color-entity-contact)';
+  // Same rule as the data table: contact color once saved as a Contact, neutral grey otherwise.
+  protected readonly circle = computed(() => (this.inBullhorn() ?? true) ? 'var(--color-entity-contact)' : 'var(--color-entity-task)');
   protected readonly themeName = computed(() => this.theme() ?? 'prospect');
   protected readonly isSelectable = computed(() => this.selectable() ?? true);
   protected readonly fieldList = computed(() => this.fields() ?? []);

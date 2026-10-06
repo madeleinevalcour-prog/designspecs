@@ -81,7 +81,8 @@ export class AmplifyChatSourcesRow {
   protected readonly isExpanded = computed(() => this.expanded() ?? this.state() === 'expanded');
 
   protected circle(s: AmplifyChatSource): string {
-    if (s.entity === 'prospect') return 'var(--color-entity-contact)'; // no prospect token
+    // A prospect not yet in the ATS is neutral grey; once saved it is a contact (entity: 'contact').
+    if (s.entity === 'prospect') return 'var(--color-entity-task)';
     return s.entity && s.entity !== 'job'
       ? `var(--color-entity-${s.entity})`
       : 'var(--amplify-chat-sources-row-sources-link-text-circle-vector-color-content-icon-color-entity-job)';
