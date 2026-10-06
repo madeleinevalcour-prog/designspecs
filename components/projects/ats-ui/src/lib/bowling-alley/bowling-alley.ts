@@ -51,7 +51,8 @@ export class BowlingAlley {
   readonly userInitials = input('CD');
 
   /** Expanded → collapse (contract-left); collapsed → expand (expand-right). */
-  protected readonly toggleIcon = computed(() => (this.ctrl.nav() === 'collapsed' ? 'expand-right' : 'contract-left'));
+  // Pinned open → collapse; collapsed or hover (floating card) → expand-right.
+  protected readonly toggleIcon = computed(() => (this.ctrl.nav() === 'open' ? 'contract-left' : 'expand-right'));
 
   constructor() {
     this.ctrl.alley = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;

@@ -18,7 +18,7 @@ import { SearchInput } from '../search-input/search-input';
 import {
   BOWLING_ALLEY_ADD_ITEMS,
   BOWLING_ALLEY_FAST_FIND_RESULTS,
-  BOWLING_ALLEY_MENU_SECTIONS,
+  BOWLING_ALLEY_MENU_APPS,
   matches,
   resultText,
 } from './bowling-alley-data';
@@ -37,28 +37,21 @@ import {
     <div class="ats-menu__header">
       <div class="ats-menu__title-row">
         <span class="ats-menu__title">Menu</span>
-        <button ats-button theme="base" size="small" (click)="addRemove.emit()">Add/Remove</button>
+        <button ats-button theme="dialogue" size="small" (click)="addRemove.emit()">Add/Remove</button>
       </div>
-      <ats-search-input #search variant="pill" placeholder="Filter" [(value)]="query" (closed)="closed.emit()" />
+      <ats-search-input #search variant="pill" placeholder="Filter Items" [(value)]="query" (closed)="closed.emit()" />
     </div>
     <div class="ats-menu__contents">
-      @for (section of sections; track section.label) {
-        <div class="ats-menu__section" [hidden]="!sectionVisible(section.rows)">
-          <div class="ats-menu__label">{{ section.label }}</div>
-          @for (row of section.rows; track $index) {
-            <div class="ats-menu__row">
-              @for (item of row; track $index) {
-                <button class="ats-menu__item" type="button" [hidden]="!show(item.label)" (click)="selected.emit(item.label)">
-                  <span class="ats-menu__chip" [style.background]="'var(--color-entity-' + item.color + ')'">
-                    <ats-icon [name]="item.glyph" [size]="20" color="var(--color-icon-icon-knockout)" />
-                  </span>
-                  <span class="ats-menu__item-label">{{ item.label }}</span>
-                </button>
-              }
-            </div>
-          }
-        </div>
-      }
+      <div class="ats-menu__grid">
+        @for (item of apps; track $index) {
+          <button class="ats-menu__item" type="button" [hidden]="!show(item.label)" (click)="selected.emit(item.label)">
+            <span class="ats-menu__chip" [class.ats-menu__chip--amplify]="item.color === 'amplify'" [style.background]="chipColor(item.color)">
+              <ats-icon [name]="item.glyph" [size]="20" color="var(--color-icon-icon-knockout)" />
+            </span>
+            <span class="ats-menu__item-label">{{ item.label }}</span>
+          </button>
+        }
+      </div>
     </div>
   `,
   styleUrl: './overlays.css',
@@ -72,11 +65,12 @@ export class MenuOverlay implements AfterViewInit {
   readonly closed = output<void>();
   readonly selected = output<string>();
   readonly addRemove = output<void>();
-  protected readonly sections = BOWLING_ALLEY_MENU_SECTIONS;
+  protected readonly apps = BOWLING_ALLEY_MENU_APPS;
+  protected chipColor = (color: string) =>
+    color === 'amplify' ? null : color === 'neutral' ? 'var(--color-entity-note)' : `var(--color-entity-${color})`;
   protected readonly query = signal('');
   private readonly search = viewChild.required<SearchInput>('search');
   protected show = (label: string) => matches(label, this.query());
-  protected sectionVisible = (rows: { label: string }[][]) => rows.some((r) => r.some((i) => this.show(i.label)));
   ngAfterViewInit() {
     if (this.autofocus()) setTimeout(() => this.search().focus());
   }

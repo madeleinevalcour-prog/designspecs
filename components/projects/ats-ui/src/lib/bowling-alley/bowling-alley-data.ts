@@ -34,30 +34,32 @@ export interface MenuItem {
 }
 
 const mi = (color: string, glyph: string, label: string): MenuItem => ({ color, glyph, label });
-const CANDIDATES = mi('candidate', 'candidate', 'Candidates');
-const JOBS = mi('job', 'job', 'Jobs');
-const OPPORTUNITIES = mi('opportunity', 'opportunity', 'Opportunities');
-const PAY_BILL = mi('note', 'file', 'Pay & Bill');
-const LEADS = mi('lead', 'lead', 'Leads');
-const CONTACTS = mi('contact', 'contact', 'Contacts');
 
-export interface MenuSection {
-  label: string;
-  rows: MenuItem[][];
-}
-
-/** Menu (novo-drag-container 1323:68245): rows of three menu-items per section. */
-export const BOWLING_ALLEY_MENU_SECTIONS: MenuSection[] = [
-  { label: 'Recently used', rows: [[CANDIDATES, JOBS, OPPORTUNITIES], [PAY_BILL, LEADS, CONTACTS]] },
-  {
-    label: 'My Applications',
-    rows: [
-      [CANDIDATES, JOBS, OPPORTUNITIES],
-      [CONTACTS, PAY_BILL, LEADS],
-      [CANDIDATES, JOBS, OPPORTUNITIES],
-      [LEADS, CONTACTS, PAY_BILL],
-    ],
-  },
+/**
+ * Menu (novo-drag-container 1323:68245): every app the user can open in the ATS,
+ * in the product's order (per the designer's reference screenshot of the live product).
+ * `color` is an entity token name, `amplify` (radial gradient), or `neutral` for
+ * apps that aren't an entity.
+ */
+export const BOWLING_ALLEY_MENU_APPS: MenuItem[] = [
+  mi('amplify', 'amplify', 'Amplify'),
+  mi('candidate', 'candidate', 'Candidates'),
+  mi('task', 'task', 'Tasks'),
+  mi('neutral', 'dashboard', 'My Dashboard'),
+  mi('lead', 'lead', 'Leads'),
+  mi('contact', 'contact', 'Contacts'),
+  mi('company', 'company', 'Companies'),
+  mi('opportunity', 'opportunity', 'Opportunities'),
+  mi('neutral', 'submission', 'Submissions'),
+  mi('job', 'job', 'Jobs'),
+  mi('placement', 'placement', 'Placements'),
+  mi('neutral', 'automation', 'Automation'),
+  mi('lead', 'analytics', 'Analytics'),
+  mi('neutral', 'refresh', 'Change Requests'),
+  mi('neutral', 'tearsheet', 'Tearsheets'),
+  mi('neutral', 'users', 'Distribution Lists'),
+  mi('neutral', 'archive', 'Admin'),
+  mi('candidate', 'candidate-circle', 'Candidates'),
 ];
 
 export interface AddItem {
