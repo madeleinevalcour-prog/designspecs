@@ -5,8 +5,8 @@
   min-height: 20px; /* no token: Figma min-height 20 (one line) */
   max-height: 400px; /* no token: Figma max-height 400 */
   overflow-y: auto; resize: none;
-  /* Figma binds inputs/border/width/default, which the token export leaves undefined;
-     the field shows no border inside the chat input. */
+  /* No border: the field sits borderless inside the chat input (design owner; the
+     text-area border-width token is unused). */
   border: 0; outline: 0; background: transparent;
   border-radius: var(--amplify-chat-text-area-border-radius-field-border-radius-default);
   color: var(--amplify-chat-text-area-input-input-color-content-text-field-color-content-value);

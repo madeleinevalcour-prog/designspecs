@@ -33,10 +33,9 @@
   background-color: var(--amplify-chat-context-container-icon-button-no-container-add-thin-vector-color-content-icon-button-color-icon-content-default);
 }
 
-/* Chips: Figma fills them with neutral/2. That alias is undefined in the token export,
-   so it falls back to the chip default fill. The dot takes the record's entity color
+/* Chips: the context-container chip fill token. The dot takes the record's entity color
    (NovoChip colors its icon inline, hence !important). */
 .ats-amplify-chat-context-container .ats-novo-chip.ats-amplify-chat-context-container__chip[data-type][data-color] {
-  --_chip-bg: var(--amplify-chat-context-container-chips-novo-chip-color-background-neutral-2, var(--chip-color-background-default-default));
+  --_chip-bg: var(--amplify-chat-context-container-chips-novo-chip-color-background-neutral-2);
 }
 .ats-amplify-chat-context-container__chip .ats-novo-chip__icon { background-color: var(--_ctx-entity) !important; }

@@ -1271,7 +1271,7 @@
   --amplify-chat-context-container-context-typography-letter-spacing-typography-input-label-field-label-letter-spacing: var(--typography-input-label-field-label-letter-spacing);
   --amplify-chat-context-container-context-typography-line-height-typography-input-label-field-label-line-height: var(--typography-input-label-field-label-line-height);
   --amplify-chat-context-container-context-color-content-text-field-color-content-label: var(--field-color-content-label);
-  --amplify-chat-context-container-chips-novo-chip-color-background-neutral-2: var(--neutral-2);
+  --amplify-chat-context-container-chips-novo-chip-color-background-neutral-2: var(--chip-color-background-default-default);
   --amplify-chat-context-container-chips-novo-chip-circle-vector-color-content-icon-color-entity-candidate: var(--color-entity-candidate);
   --amplify-chat-context-container-icon-button-no-container-spacing-gap-button-spacing-default-gap: var(--button-spacing-default-gap);
   --amplify-chat-context-container-icon-button-no-container-add-thin-vector-color-content-icon-button-color-icon-content-default: var(--button-color-icon-content-default);

@@ -13864,7 +13864,9 @@
                           ],
                           "$description": "Amplify chat context-container fills. Direct alias to Neutral/2. Preserves the original binding.",
                           "$type": "color",
-                          "$value": "{Neutral.2}"
+                          "$libraryName": "",
+                          "$collectionName": "semantic tokens",
+                          "$value": "{chip.color.background.default.default}"
                         }
                       }
                     }
