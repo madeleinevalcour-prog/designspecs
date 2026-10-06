@@ -11,8 +11,13 @@
   outline: var(--button-border-width-focus) solid var(--color-border-focus); outline-offset: 1px;
 }
 
-/* The circle stays the entity color in every state. The glyph is regular weight, as in Figma. */
-.ats-amplify-chat-link__circle { font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-default); }
+/* The circle stays the entity color in every state. Figma's "●" renders ~10px; Inter's is
+   ~0.43em, so the glyph is scaled up (line-height 0 keeps the line box unchanged). It stays a
+   text glyph so the no-break space really keeps it on the same line as the name. */
+.ats-amplify-chat-link__circle {
+  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-default);
+  font-size: 1.65em; line-height: 0; vertical-align: -0.12em; /* no token: matches Figma's 10px circle */
+}
 .ats-amplify-chat-link[data-entity="job"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-job); }
 .ats-amplify-chat-link[data-entity="company"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-company); }
 .ats-amplify-chat-link[data-entity="candidate"] .ats-amplify-chat-link__circle { color: var(--color-entity-candidate); }

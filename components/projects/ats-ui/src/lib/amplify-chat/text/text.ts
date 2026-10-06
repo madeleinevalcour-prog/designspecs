@@ -30,10 +30,9 @@ export type AmplifyChatTextType = 'paragraph' | 'status' | 'paragraph-with-links
   template: `
     @if (resolvedType() === 'status') {
       <ats-icon class="ats-amplify-chat-text__icon" name="amplify" [size]="16" />
-      <span class="ats-amplify-chat-text__status"><ng-content /></span>
-    } @else {
-      <ng-content />
     }
+    <!-- one projection slot: content can only be projected once, never inside @if branches -->
+    <span class="ats-amplify-chat-text__content"><ng-content /></span>
   `,
   styleUrl: './text.css',
   encapsulation: ViewEncapsulation.None,

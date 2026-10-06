@@ -11,7 +11,7 @@ export type AmplifyChatLinkState = 'default' | 'hover' | 'focus';
 /**
  * AmplifyChatLink — the inline entity record link inside Amplify chat prose
  * (Figma: amplify-chat/text type=paragraph-with-links, 6154:20875; mirrors the
- * `link-text` component at its default size). A "●" in the entity color
+ * `link-text` component at its default size). A 10px circle in the entity color
  * (`color/entity/*`), joined to the record name with a no-break space so the circle
  * never sits alone at a line end, then the name in body/default-medium,
  * link-text/color/default (hover link-text/color/hover). Weight, color and the

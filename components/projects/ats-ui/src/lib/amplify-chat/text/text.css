@@ -15,8 +15,8 @@
   font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-medium);
 }
 /* Several projected <p>: Figma paragraph spacing between them */
-.ats-amplify-chat-text--paragraph > p { margin: 0; }
-.ats-amplify-chat-text--paragraph > p + p { margin-top: var(--amplify-chat-text-paragraph-spacing-paragraph-spacing-padding-sm); }
+.ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p { margin: 0; }
+.ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p + p { margin-top: var(--amplify-chat-text-paragraph-spacing-paragraph-spacing-padding-sm); }
 
 /* type=status: Amplify icon + body/sm in color/text/secondary */
 .ats-amplify-chat-text--status {
@@ -28,7 +28,8 @@
   line-height: var(--amplify-chat-text-status-typography-line-height-typography-body-sm-line-height);
   letter-spacing: var(--amplify-chat-text-status-typography-letter-spacing-typography-body-sm-letter-spacing);
 }
-.ats-amplify-chat-text__status { flex: 1 0 0; min-width: 1px; }
+.ats-amplify-chat-text__content { display: contents; }
+.ats-amplify-chat-text--status .ats-amplify-chat-text__content { display: block; flex: 1 0 0; min-width: 1px; }
 /* Icon/Amplify Radial: the glyph mask filled with the Amplify radial gradient
    (no token: gradient stops from the Figma asset amplify.svg, as in bowling-alley.css) */
 .ats-icon.ats-amplify-chat-text__icon {
