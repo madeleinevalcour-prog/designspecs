@@ -16,7 +16,7 @@
 <doc-section id="overview" label="Overview" desc="What this page covers">
 <p>How Amplify chat looks and behaves: how chat works across docked, full-page and pop over surfaces, the structure of a response, the components a response is built from, and the text, spacing and layout rules behind them. Use it when designing Amplify chat into your area, building the chat renderer, or writing prompts that control output format.</p>
 <ul>
-<li>Start with <a href="#surfaces">Surfaces and behavior</a> for where chat appears, then <a href="#response-structure">Response structure</a> and <a href="#components">Response components</a> to decide what a reply contains.</li>
+<li>Start with <a href="#surfaces">Surfaces and behavior</a> for where chat appears and <a href="#chat-input">Chat input</a> for how the recruiter asks, then <a href="#response-structure">Response structure</a> and <a href="#components">Response components</a> to decide what a reply contains.</li>
 <li>Use the later sections for exact text styles, tokens, spacing and behavior.</li>
 <li>Components live in the "new amplify chat components" section of the Component Migration file (<span class="chip">amplify-chat/*</span>).</li>
 <li>Not covered: composer redesign, Prompt Library, Tools menu, and Digital Worker output outside chat.</li>
@@ -45,6 +45,190 @@
 <li>List the workflows chat should support, which cross pages, and the context each must carry (records, searches, filters, selections, intent).</li>
 <li>Define entry points (docked, full page, or both), the page-to-page handoffs, and which pages fall back to global chat.</li>
 <li>Confirm the experience is continuous across docked and full-page chat.</li>
+</ul>
+</doc-section>
+
+<doc-section id="chat-input" label="Chat input" desc="Components, behavior, clarifying questions">
+<p>The chat input is where the recruiter asks Amplify for something and sets what Amplify should work from. It sits at the bottom of every surface and keeps the same parts in full-page, docked and pop over chat.</p>
+<p class="lead">Figma: the <span class="chip">amplify-chat/chat-input</span> group in the "new amplify chat components" section.</p>
+<h3 id="chat-input-components">Components</h3>
+<doc-showcase src="../images/amplify-chat/component-chat-input-with-context.png" alt="Context row with a Tyler Brooks chip above the chat input" caption="amplify-chat-container · context row and input" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-169494"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/component-chat-input.png" alt="chat-input in full page size with labeled buttons and docked size with icon-only buttons" caption="chat-input · full page and docked" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-172361"></doc-showcase>
+<table class="tbl">
+<tr><th>Component</th><th>What it is</th><th>Variants and properties</th></tr>
+<tr><td><span class="chip">chat-input</span></td><td>The input box: text area, button row and send button</td><td><span class="chip">size</span>: <span class="chip">full page</span> or <span class="chip">docked</span></td></tr>
+<tr><td><span class="chip">amplify-text-area</span></td><td>The text field inside the input</td><td><span class="chip">show placeholder</span>, <span class="chip">show input</span>, <span class="chip">show chips</span></td></tr>
+<tr><td><span class="chip">button-row</span></td><td>Add File, Add Tools and Prompt Library, plus the send button</td><td><span class="chip">size</span>: <span class="chip">full page</span> shows icons with labels; <span class="chip">docked</span> shows icons only</td></tr>
+<tr><td><span class="chip">amplify-context-container</span></td><td>The context row above the input: "Context:" followed by removable record chips, and a + button to add context</td><td></td></tr>
+<tr><td><span class="chip">amplify-chat-container</span></td><td>The context row and the input together</td><td><span class="chip">show context</span></td></tr>
+<tr><td><span class="chip">global-chat-container</span></td><td>The starting point for a new chat: a greeting ("Hi Chloe, how can I help you today?"), the current record, and the input</td><td></td></tr>
+<tr><td><span class="chip">clarifying-questions</span></td><td>A card that replaces the context row while Amplify asks questions. See <a href="#clarifying-questions">Clarifying questions</a></td><td><span class="chip">size</span>: <span class="chip">full page</span> or <span class="chip">docked</span></td></tr>
+</table>
+<h3 id="chat-input-behavior">Behavior</h3>
+<ul>
+<li><b>Placeholder:</b> "What would you like to know or do today?" While clarifying questions are open, it changes to "Or reply directly…".</li>
+<li><b>Context row:</b> shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Context carries across navigation and between surfaces (see <a href="#surfaces">Surfaces and behavior</a>).</li>
+<li><b>Adding context:</b> the + button in the context row adds records to the context.</li>
+<li><b>Button row:</b> use the existing labels in full-page chat and icon-only buttons in docked chat, so the input fits the narrower panel. Icon-only buttons need accessible names that match the full-page labels (WCAG 4.1.2).</li>
+<li><b>Send:</b> the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). While a reply is generating, show a Stop control (see <a href="#status">Status and loading</a>).</li>
+<li><b>Layout:</b> the input shares the chat column's edges (800px max in full-page chat) and sits on <span class="chip">general/level 2 - scroll</span> so replies scroll behind it (see <a href="#spacing">Spacing and layout</a>).</li>
+</ul>
+<p>To be confirmed: what Add File and Add Tools open, and how Prompt Library inserts a prompt, aren't defined in the components yet.</p>
+<h3 id="clarifying-questions">Clarifying questions</h3>
+<p class="linkrow"><a href="https://claude.ai/artifacts/latest/72d13279-5a88-4fa7-8320-710fef0c393a" target="_blank" rel="noopener">Interactive Prototype ↗</a></p>
+<doc-carousel>
+<doc-showcase src="../images/amplify-chat/example-clarifying-record-question.png" alt="Full-page chat: Amplify asks which job order to search on, with three job order options as record cards, Something else and Skip" caption="Question 1 of 3 · record options" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6337-209104"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/example-clarifying-text-question.png" alt="Full-page chat: Amplify asks how far from Boston to look, with three text options, the first recommended from JO-4821" caption="Question 2 of 3 · text options" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6340-211271"></doc-showcase>
+</doc-carousel>
+<p>When a recruiter's request is ambiguous, Amplify asks up to 3 short questions in a card directly above the chat input, replacing the context row while it is open.</p>
+<p class="lead">Figma: <span class="chip">clarifying-questions</span> (node 6336:28366), <span class="chip">clarify-option</span> (6335:28257), <span class="chip">clarify-something-else</span> (6335:128906) and <span class="chip">clarify-key</span> (6334:28241), in the <span class="chip">amplify-chat/chat-input</span> group. They use the existing Button (Secondary, Small) for Skip, <span class="chip">icon-button-no-container</span> (dialogue, Small) with the Previous, Next and Close icons, the Edit Outline icon, <span class="chip">link-text</span> and <span class="chip">list-item</span>.</p>
+<h4>Overview</h4>
+<p>Clarifying questions let Amplify narrow a recruiter's request before it runs, using one short round of tappable options instead of a back-and-forth conversation.</p>
+<ul>
+<li><b>Purpose:</b> get the one or two details that change the result (which job order, how far, which candidates), then run.</li>
+<li><b>Placement:</b> directly above the chat input, replacing the context row while Amplify is asking. The context row returns once the questions are answered or dismissed.</li>
+<li><b>Output:</b> all answers are sent together as one user message, and Amplify's reply names the record and filters it used.</li>
+</ul>
+<h4>When to use</h4>
+<ul>
+<li><b>Use it when the answer changes the result.</b> For example, two open job orders match "Java developer," or a search needs a radius. <span class="lead">(Nielsen H7; Amplify "set honest expectations")</span></li>
+<li><b>Use it when the action is costly</b> and a wrong guess would waste a long run.</li>
+<li><b>Don't use it when context already answers the question.</b> If the open record, an @-mention or a context chip identifies the record, assume it and say so. <span class="lead">(Nielsen H6)</span></li>
+<li><b>Don't use it for long or bulk runs.</b> Show an editable plan instead of more questions. <span class="lead">(Amplify "no auto-act without review")</span></li>
+<li><b>Don't use it before writes or outbound messages.</b> Use an action preview with a button that names the action ("Send 12 emails"). <span class="lead">(Nielsen H5)</span></li>
+</ul>
+<h4>Anatomy</h4>
+<p>Component: <a href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6336-28366" target="_blank" rel="noopener"><span class="chip">clarifying-questions</span> ↗</a></p>
+<doc-showcase src="../images/amplify-chat/component-clarifying-questions.png" alt="clarifying-questions card asking How far from Boston should Amplify look, with three options, Something else and Skip, in full page and docked sizes" caption="clarifying-questions · full page and docked" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6336-28366"></doc-showcase>
+<ul>
+<li><b>Card</b> (<span class="chip">clarifying-questions</span>)</li>
+<ul>
+<li><b>Question:</b> body/default-medium in <span class="chip">color/text/headline</span>.</li>
+<li><b>Pager:</b> previous and next icon buttons with a step count ("2 of 3") in input/label/field-label, <span class="chip">color/text/subtle</span>.</li>
+<li><b>Dismiss:</b> Close icon button. Closes the card so the recruiter can type freely.</li>
+<li><b>Help text (optional):</b> input/label/field-label in <span class="chip">color/text/subtle</span>. Use it to state data scope.</li>
+<li><b>Options:</b> 2–4 <span class="chip">clarify-option</span> rows.</li>
+<li><b>Something else row:</b> <span class="chip">clarify-something-else</span>, with Skip.</li>
+</ul>
+<li><b>Option row</b> (<span class="chip">clarify-option</span>)</li>
+<ul>
+<li><b>Key:</b> <span class="chip">clarify-key</span> showing the number shortcut (1–4).</li>
+<li><b>Content (type=text):</b> label, plus an optional recommended note and optional description.</li>
+<li><b>Content (type=record):</b> a <span class="chip">list-item</span> with the record title as an entity link, record details below, and the recommended note in the top-right caption.</li>
+</ul>
+<li><b>Something else row</b> (<span class="chip">clarify-something-else</span>)</li>
+<ul>
+<li><b>Key:</b> <span class="chip">clarify-key</span> with the pencil icon.</li>
+<li><b>Value:</b> placeholder "Something else", or the typed answer.</li>
+<li><b>Skip:</b> Button (Secondary, Small).</li>
+</ul>
+</ul>
+<doc-showcase src="../images/amplify-chat/component-clarify-option-record.png" alt="clarify-option record variant in default, active and selected states: job order title as an entity link with company, date and status" caption="clarify-option · type=record" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-28257"></doc-showcase>
+<doc-callout type="note" heading="Record variant">Use <span class="chip">type=record</span> when the options are different records, such as "Which job order?". Each option shows the record title as an entity link and the details that tell the records apart. The recommended note sits in the top-right caption, on the recommended option only.</doc-callout>
+<h4>Variants and properties</h4>
+<p class="kicker">clarifying-questions</p>
+<ul>
+<li><b>size:</b> <span class="chip">full page</span> or <span class="chip">docked</span>, matching the <span class="chip">chat-input</span> variant it sits above.</li>
+<ul>
+<li><span class="chip">full page</span>: <span class="chip">card/border/radius/default</span>, <span class="chip">general/level 2</span>.</li>
+<li><span class="chip">docked</span>: <span class="chip">border/radius/sm</span>, <span class="chip">general/level 1</span>.</li>
+</ul>
+<li><b>question</b> (text): the question.</li>
+<li><b>step</b> (text): position in the round, e.g. "2 of 3".</li>
+<li><b>show pager</b> (boolean): hide for a single question.</li>
+<li><b>show help / help</b> (boolean, text): optional line under the question.</li>
+<li><b>show option 3 / show option 4</b> (boolean): set the number of options (2–4).</li>
+<li><b>Exposed instances:</b> each option and the Something else row can be edited from the card instance.</li>
+</ul>
+<p class="kicker">clarify-option</p>
+<ul>
+<li><b>type:</b></li>
+<ul>
+<li><span class="chip">text</span> for plain answers ("Within 25 mi of Boston").</li>
+<li><span class="chip">record</span> when the options are different records ("Which job order?").</li>
+</ul>
+<li><b>state:</b></li>
+<ul>
+<li><span class="chip">default</span>.</li>
+<li><span class="chip">active</span>: hovered or keyboard-focused. <span class="chip">color/background/subtle</span> fill.</li>
+<li><span class="chip">selected</span>: an answer already chosen, shown when paging back. Selected key and Medium label weight.</li>
+</ul>
+<li><b>label</b> (text): the answer.</li>
+<li><b>show recommended / recommended</b> (boolean, text): the reason this is the default, e.g. "Recommended · your access".</li>
+<li><b>show record link</b> (boolean): when the recommendation comes from a record, shows that record as an entity link, e.g. "Recommended · from ● JO-4821".</li>
+<li><b>show description / description</b> (boolean, text): optional supporting detail under the label.</li>
+<li><b>type=record specifics:</b></li>
+<ul>
+<li>The <span class="chip">list-item</span> is exposed, so the record title, entity color, details and caption can be edited per option.</li>
+<li>The recommended note goes in the item-header caption (top right). <span class="chip">show caption</span> is off by default; turn it on only for the recommended option.</li>
+<li>The list-item has no border, fill or padding of its own and always stays in its default state. The option row supplies border, padding and all states, so record and text options look and behave the same.</li>
+</ul>
+</ul>
+<p class="kicker">clarify-key</p>
+<ul>
+<li><b>type:</b> <span class="chip">number</span> (shows the 1–4 shortcut) or <span class="chip">icon</span> (pencil, for Something else).</li>
+<li><b>state:</b> follows the option row.</li>
+<ul>
+<li><span class="chip">default</span>: <span class="chip">color/background/subtle-hover</span>, <span class="chip">color/text/secondary</span>.</li>
+<li><span class="chip">active</span>: <span class="chip">color/background/default</span> with a <span class="chip">color/border/default</span> border, <span class="chip">color/text/body</span>.</li>
+<li><span class="chip">selected</span>: <span class="chip">color/background/hover</span> with a <span class="chip">color/border/focus</span> border, <span class="chip">color/text/link</span>.</li>
+</ul>
+</ul>
+<p class="kicker">clarify-something-else</p>
+<ul>
+<li><b>state:</b> <span class="chip">default</span> or <span class="chip">typing</span> (<span class="chip">color/border/focus</span> border, value in <span class="chip">color/text/body</span>).</li>
+<li><b>value</b> (text): placeholder or typed answer.</li>
+<li><b>show skip</b> (boolean).</li>
+</ul>
+<h4>Usage</h4>
+<p class="kicker">Do</p>
+<ul>
+<li><b>Ask one round only:</b> at most 3 questions, one at a time, with 2–4 options each. <span class="lead">(Nielsen H6; research: Glean 1–3, Claude 1–4)</span></li>
+<li><b>Put the recommended option first</b> and say where it came from: "from JO-4821", "your access". <span class="lead">(Amplify principle 3 "show your work"; principle 4 "Amplify suggests")</span></li>
+<li><b>Show a recommendation's source record as an entity link</b> with <span class="chip">show record link</span>. <span class="lead">(Nielsen H6)</span></li>
+<li><b>Use type=record whenever options are records,</b> with enough detail to tell them apart: ID, client, location, owner, date. <span class="lead">(Nielsen H5; Amplify "design for thin/messy data")</span></li>
+<li><b>State data scope when it matters,</b> e.g. "Amplify only searches records you can access." <span class="lead">(Amplify principle 7)</span></li>
+<li><b>Adapt later questions to earlier answers.</b> A remote job order changes the location question.</li>
+<li><b>Keep Skip and Something else on every question,</b> so the recruiter is never forced into an option. <span class="lead">(Nielsen H3)</span></li>
+</ul>
+<p class="kicker">Don't</p>
+<ul>
+<li><b>Don't guess between matching records.</b> Ask with type=record options. <span class="lead">(Nielsen H5)</span></li>
+<li><b>Don't ask what the context already answers.</b> <span class="lead">(Nielsen H6; research: Attio context)</span></li>
+<li><b>Don't signal selection with color alone.</b> The key border and label weight change together. <span class="lead">(Modern UI color rule; WCAG 1.4.1)</span></li>
+<li><b>Don't use the card for confirmations or long-run plans.</b> Use an action preview or plan review instead.</li>
+<li><b>Don't show the gradient border outside the asking state.</b> Border/Amplify Gradient marks a live Amplify ask, not decoration. <span class="lead">(Modern UI Amplify rule)</span></li>
+</ul>
+<h4>Content</h4>
+<ul>
+<li><b>Question:</b> one short sentence in recruiter language, e.g. "Which job order?", "How far from Boston should Amplify look?" <span class="lead">(Nielsen H2)</span></li>
+<li><b>Options:</b> 2–5 words, parallel structure, no trailing punctuation.</li>
+<li><b>Recommended note:</b> start with "Recommended ·" followed by the reason or source, e.g. "Recommended · you own it", "Recommended · from ● JO-4821".</li>
+<li><b>Help text:</b> only when it changes the decision, usually data scope.</li>
+<li><b>Avoid:</b> filler openers, "Amplify determined," or questions that only confirm what the recruiter already said.</li>
+</ul>
+<h4>Behavior</h4>
+<ul>
+<li><b>Opening:</b> the card replaces the context row above the chat input. The chat input placeholder changes to "Or reply directly…".</li>
+<li><b>Answering:</b> one click answers and moves to the next question. Previous answers stay selected when paging back. <span class="lead">(Nielsen H3, H7)</span></li>
+<li><b>Typing:</b> typing in the chat input and sending counts as a custom answer. For record questions, the text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing. <span class="lead">(Amplify principle 8; Nielsen H9)</span></li>
+<li><b>Skip:</b> answers with the recommended option, so the flow never stalls. <span class="lead">(Research: Glean)</span></li>
+<li><b>Dismiss:</b> closes the card and brings back the context row. The recruiter can then type freely.</li>
+<li><b>Finishing:</b> all answers post as one user message, laid out as label and value pairs. Amplify's reply names the record and filters used, then shows progress as a step list. The chosen record is added to the context row as a removable chip, so follow-ups don't ask again. <span class="lead">(Amplify principle 3; Nielsen H1, H6)</span></li>
+<li><b>Thin results:</b> if the narrowed scope returns little or nothing, say which filter caused it and offer to relax it. <span class="lead">(Amplify principle 8)</span></li>
+</ul>
+<h4>Keyboard and accessibility</h4>
+<ul>
+<li><b>Keys:</b> ↑ ↓ move between options, ↵ selects, 1–4 choose directly, and typing goes to the chat input. <span class="lead">(Nielsen H7)</span></li>
+<li><b>Key alignment:</b> the clarify-key is centered on the first line of each option, so the shortcut stays next to the answer when an option grows taller.</li>
+<li><b>Selection:</b> shown by the key border, key color and label weight together, never color alone. <span class="lead">(WCAG 1.4.1)</span></li>
+<li><b>Focus:</b> keyboard focus uses the active state; focused controls use the existing focus ring.</li>
+<li><b>Screen readers (to be confirmed with engineering):</b> the options behave as a radio group labelled by the question, and the step count should be announced when the question changes.</li>
+</ul>
+<h4>Open questions</h4>
+<ul>
+<li><b>Recommending the job order the recruiter owns</b> is a proposed rule, not validated with users.</li>
+<li><b>Whether the record question should count toward the 3-question cap</b> is undecided.</li>
 </ul>
 </doc-section>
 
@@ -219,12 +403,12 @@
 <!-- Hidden (to be confirmed): <doc-callout type="note" heading="To be confirmed"><span class="chip">color/entity/*</span> tokens are primitive-only today, a known Modern UI gap.</doc-callout> -->
 </doc-section>
 
-<doc-section id="status" label="Status and questions" desc="Loading, errors, clarifying">
+<doc-section id="status" label="Status and loading" desc="Loading, errors, stop">
 <ul>
 <li>Replace "Amplify is thinking…" with a specific step: "Searching open jobs…", then "Ranking 14 job orders…". Attio shows tool activity the same way (H1).</li>
 <li>Show a Stop control while the reply is generating (H3).</li>
 <li>When Amplify can't help, say so in the first line, then give the cause and a fix (NN/g; H9).</li>
-<li>Ask at most 3 clarifying questions per turn. For choice questions, use a card with preset options and an "Other" field, as HubSpot Breeze does (H6; H7).</li>
+<li>Clarifying questions: see <a href="#clarifying-questions">Clarifying questions</a> in Chat input.</li>
 </ul>
 </doc-section>
 
@@ -370,6 +554,8 @@
   .tag{font-size:11px;font-weight:600;color:var(--do-ink);background:var(--do-fill);border-radius:4px;padding:1px 6px;margin-left:4px}
   .tag.opt{color:var(--ink-2);background:var(--chip)}
   doc-section h3[id]{scroll-margin-top:32px}
+  doc-section h4{font-size:15px;font-weight:600;margin:20px 0 8px}
+  doc-section#chat-input figure.showcase img{width:auto;max-width:100%;margin:0 auto;padding:16px 0}
   doc-section#components figure.showcase img{width:auto;max-width:100%;margin:0 auto;padding:16px 0}
 </style>
 </body>

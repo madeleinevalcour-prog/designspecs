@@ -4,9 +4,9 @@ How Amplify chat looks and behaves: the structure of a response, the components 
 
 ## Overview
 
-- What this covers: chat surfaces and behavior, the anatomy of an Amplify response, response components (prose, lists, data tables, cards, draft and literal value blocks), selection and bulk actions, text styles, records and sources, status and clarifying questions, spacing and layout, and user messages.
+- What this covers: chat surfaces and behavior, the chat input and clarifying questions, the anatomy of an Amplify response, response components (prose, lists, data tables, cards, draft and literal value blocks), selection and bulk actions, text styles, records and sources, status and loading, spacing and layout, and user messages.
 - Who it's for: designers and PMs designing Amplify chat into their area, engineers building the chat renderer, and the prompt owners who control output format. A condensed developer handoff covers the build rules only.
-- How to use it: start with Surfaces and behavior for where chat appears, then Response structure and Response components to decide what a reply contains. Use the later sections for exact styles, tokens and behavior.
+- How to use it: start with Surfaces and behavior for where chat appears and Chat input for how the recruiter asks, then Response structure and Response components to decide what a reply contains. Use the later sections for exact styles, tokens and behavior.
 - Not covered: composer redesign, Prompt Library, Tools menu, and Digital Worker output outside chat.
 - Figma: the `amplify-chat/*` components in the "new amplify chat components" section of the Component Migration file.
 - Text style, color, spacing, radius and elevation names come from the Modern UI Design System reference (`[role]/[size]` naming, for example `body/default`).
@@ -48,6 +48,178 @@ Amplify chat can appear as a full page, docked beside the current page, or as a 
 4. Map page-to-page handoffs: what state passes at each transition and what the destination does with it.
 5. Mark which pages support context-aware chat and which fall back to global chat.
 6. Confirm the experience is continuous across docked and full-page chat.
+
+## Chat input
+
+The chat input is where the recruiter asks Amplify for something and sets what Amplify should work from. It sits at the bottom of every surface and keeps the same parts in full-page, docked and pop over chat.
+
+Figma: the `amplify-chat/chat-input` group in the "new amplify chat components" section.
+
+### Components
+
+| Component | What it is | Variants and properties |
+| --- | --- | --- |
+| `chat-input` | The input box: text area, button row and send button | `size`: `full page` or `docked` |
+| `amplify-text-area` | The text field inside the input | `show placeholder`, `show input`, `show chips` |
+| `button-row` | Add File, Add Tools and Prompt Library, plus the send button | `size`: `full page` shows icons with labels; `docked` shows icons only |
+| `amplify-context-container` | The context row above the input: "Context:" followed by removable record chips, and a + button to add context | |
+| `amplify-chat-container` | The context row and the input together | `show context` |
+| `global-chat-container` | The starting point for a new chat: a greeting ("Hi Chloe, how can I help you today?"), the current record, and the input | |
+| `clarifying-questions` | A card that replaces the context row while Amplify asks questions. See [Clarifying questions](#clarifying-questions) | `size`: `full page` or `docked` |
+
+### Behavior
+
+- **Placeholder:** "What would you like to know or do today?" While clarifying questions are open, it changes to "Or reply directly…".
+- **Context row:** shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Context carries across navigation and between surfaces (see [Surfaces and behavior](#surfaces-and-behavior)).
+- **Adding context:** the + button in the context row adds records to the context.
+- **Button row:** use the existing labels in full-page chat and icon-only buttons in docked chat, so the input fits the narrower panel. Icon-only buttons need accessible names that match the full-page labels (WCAG 4.1.2).
+- **Send:** the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). While a reply is generating, show a Stop control (see [Status and loading](#status-and-loading)).
+- **Layout:** the input shares the chat column's edges (800px max in full-page chat) and sits on `general/level 2 - scroll` so replies scroll behind it (see [Spacing and layout](#spacing-and-layout)).
+
+To be confirmed: what Add File and Add Tools open, and how Prompt Library inserts a prompt, aren't defined in the components yet.
+
+### Clarifying questions
+
+[Interactive Prototype](https://claude.ai/artifacts/latest/72d13279-5a88-4fa7-8320-710fef0c393a)
+
+When a recruiter's request is ambiguous, Amplify asks up to 3 short questions in a card directly above the chat input, replacing the context row while it is open.
+
+Figma: `clarifying-questions` (node 6336:28366), `clarify-option` (6335:28257), `clarify-something-else` (6335:128906) and `clarify-key` (6334:28241), in the `amplify-chat/chat-input` group. They use the existing Button (Secondary, Small) for Skip, `icon-button-no-container` (dialogue, Small) with the Previous, Next and Close icons, the Edit Outline icon, `link-text` and `list-item`.
+
+#### Overview
+
+Clarifying questions let Amplify narrow a recruiter's request before it runs, using one short round of tappable options instead of a back-and-forth conversation.
+
+- **Purpose:** get the one or two details that change the result (which job order, how far, which candidates), then run.
+- **Placement:** directly above the chat input, replacing the context row while Amplify is asking. The context row returns once the questions are answered or dismissed.
+- **Output:** all answers are sent together as one user message, and Amplify's reply names the record and filters it used.
+
+#### When to use
+
+- **Use it when the answer changes the result.** For example, two open job orders match "Java developer," or a search needs a radius. *(Nielsen H7; Amplify "set honest expectations")*
+- **Use it when the action is costly** and a wrong guess would waste a long run.
+- **Don't use it when context already answers the question.** If the open record, an @-mention or a context chip identifies the record, assume it and say so. *(Nielsen H6)*
+- **Don't use it for long or bulk runs.** Show an editable plan instead of more questions. *(Amplify "no auto-act without review")*
+- **Don't use it before writes or outbound messages.** Use an action preview with a button that names the action ("Send 12 emails"). *(Nielsen H5)*
+
+#### Anatomy
+
+Component: [`clarifying-questions`](https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6336-28366) in Figma.
+
+- **Card** (`clarifying-questions`)
+  - **Question:** body/default-medium in `color/text/headline`.
+  - **Pager:** previous and next icon buttons with a step count ("2 of 3") in input/label/field-label, `color/text/subtle`.
+  - **Dismiss:** Close icon button. Closes the card so the recruiter can type freely.
+  - **Help text (optional):** input/label/field-label in `color/text/subtle`. Use it to state data scope.
+  - **Options:** 2–4 `clarify-option` rows.
+  - **Something else row:** `clarify-something-else`, with Skip.
+- **Option row** (`clarify-option`)
+  - **Key:** `clarify-key` showing the number shortcut (1–4).
+  - **Content (type=text):** label, plus an optional recommended note and optional description.
+  - **Content (type=record):** a `list-item` with the record title as an entity link, record details below, and the recommended note in the top-right caption.
+
+Record variant: when the options are different records (for example "Which job order?"), use `clarify-option` with `type=record`. Each option is a `list-item` showing the record title as an entity link with its entity color, and the details that tell the records apart (company, date, status). The recommended note sits in the top-right caption, on the recommended option only. Record and text options share the same border, padding and states.
+- **Something else row** (`clarify-something-else`)
+  - **Key:** `clarify-key` with the pencil icon.
+  - **Value:** placeholder "Something else", or the typed answer.
+  - **Skip:** Button (Secondary, Small).
+
+#### Variants and properties
+
+##### clarifying-questions
+
+- **size:** `full page` or `docked`, matching the `chat-input` variant it sits above.
+  - `full page`: `card/border/radius/default`, `general/level 2`.
+  - `docked`: `border/radius/sm`, `general/level 1`.
+- **question** (text): the question.
+- **step** (text): position in the round, e.g. "2 of 3".
+- **show pager** (boolean): hide for a single question.
+- **show help / help** (boolean, text): optional line under the question.
+- **show option 3 / show option 4** (boolean): set the number of options (2–4).
+- **Exposed instances:** each option and the Something else row can be edited from the card instance.
+
+##### clarify-option
+
+- **type:**
+  - `text` for plain answers ("Within 25 mi of Boston").
+  - `record` when the options are different records ("Which job order?").
+- **state:**
+  - `default`.
+  - `active`: hovered or keyboard-focused. `color/background/subtle` fill.
+  - `selected`: an answer already chosen, shown when paging back. Selected key and Medium label weight.
+- **label** (text): the answer.
+- **show recommended / recommended** (boolean, text): the reason this is the default, e.g. "Recommended · your access".
+- **show record link** (boolean): when the recommendation comes from a record, shows that record as an entity link, e.g. "Recommended · from ● JO-4821".
+- **show description / description** (boolean, text): optional supporting detail under the label.
+- **type=record specifics:**
+  - The `list-item` is exposed, so the record title, entity color, details and caption can be edited per option.
+  - The recommended note goes in the item-header caption (top right). `show caption` is off by default; turn it on only for the recommended option.
+  - The list-item has no border, fill or padding of its own and always stays in its default state. The option row supplies border, padding and all states, so record and text options look and behave the same.
+
+##### clarify-key
+
+- **type:** `number` (shows the 1–4 shortcut) or `icon` (pencil, for Something else).
+- **state:** follows the option row.
+  - `default`: `color/background/subtle-hover`, `color/text/secondary`.
+  - `active`: `color/background/default` with a `color/border/default` border, `color/text/body`.
+  - `selected`: `color/background/hover` with a `color/border/focus` border, `color/text/link`.
+
+##### clarify-something-else
+
+- **state:** `default` or `typing` (`color/border/focus` border, value in `color/text/body`).
+- **value** (text): placeholder or typed answer.
+- **show skip** (boolean).
+
+#### Usage
+
+##### Do
+
+- **Ask one round only:** at most 3 questions, one at a time, with 2–4 options each. *(Nielsen H6; research: Glean 1–3, Claude 1–4)*
+- **Put the recommended option first** and say where it came from: "from JO-4821", "your access". *(Amplify principle 3 "show your work"; principle 4 "Amplify suggests")*
+- **Show a recommendation's source record as an entity link** with `show record link`. *(Nielsen H6)*
+- **Use type=record whenever options are records,** with enough detail to tell them apart: ID, client, location, owner, date. *(Nielsen H5; Amplify "design for thin/messy data")*
+- **State data scope when it matters,** e.g. "Amplify only searches records you can access." *(Amplify principle 7)*
+- **Adapt later questions to earlier answers.** A remote job order changes the location question.
+- **Keep Skip and Something else on every question,** so the recruiter is never forced into an option. *(Nielsen H3)*
+
+##### Don't
+
+- **Don't guess between matching records.** Ask with type=record options. *(Nielsen H5)*
+- **Don't ask what the context already answers.** *(Nielsen H6; research: Attio context)*
+- **Don't signal selection with color alone.** The key border and label weight change together. *(Modern UI color rule; WCAG 1.4.1)*
+- **Don't use the card for confirmations or long-run plans.** Use an action preview or plan review instead.
+- **Don't show the gradient border outside the asking state.** Border/Amplify Gradient marks a live Amplify ask, not decoration. *(Modern UI Amplify rule)*
+
+#### Content
+
+- **Question:** one short sentence in recruiter language, e.g. "Which job order?", "How far from Boston should Amplify look?" *(Nielsen H2)*
+- **Options:** 2–5 words, parallel structure, no trailing punctuation.
+- **Recommended note:** start with "Recommended ·" followed by the reason or source, e.g. "Recommended · you own it", "Recommended · from ● JO-4821".
+- **Help text:** only when it changes the decision, usually data scope.
+- **Avoid:** filler openers, "Amplify determined," or questions that only confirm what the recruiter already said.
+
+#### Behavior
+
+- **Opening:** the card replaces the context row above the chat input. The chat input placeholder changes to "Or reply directly…".
+- **Answering:** one click answers and moves to the next question. Previous answers stay selected when paging back. *(Nielsen H3, H7)*
+- **Typing:** typing in the chat input and sending counts as a custom answer. For record questions, the text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing. *(Amplify principle 8; Nielsen H9)*
+- **Skip:** answers with the recommended option, so the flow never stalls. *(Research: Glean)*
+- **Dismiss:** closes the card and brings back the context row. The recruiter can then type freely.
+- **Finishing:** all answers post as one user message, laid out as label and value pairs. Amplify's reply names the record and filters used, then shows progress as a step list. The chosen record is added to the context row as a removable chip, so follow-ups don't ask again. *(Amplify principle 3; Nielsen H1, H6)*
+- **Thin results:** if the narrowed scope returns little or nothing, say which filter caused it and offer to relax it. *(Amplify principle 8)*
+
+#### Keyboard and accessibility
+
+- **Keys:** ↑ ↓ move between options, ↵ selects, 1–4 choose directly, and typing goes to the chat input. *(Nielsen H7)*
+- **Key alignment:** the clarify-key is centered on the first line of each option, so the shortcut stays next to the answer when an option grows taller.
+- **Selection:** shown by the key border, key color and label weight together, never color alone. *(WCAG 1.4.1)*
+- **Focus:** keyboard focus uses the active state; focused controls use the existing focus ring.
+- **Screen readers (to be confirmed with engineering):** the options behave as a radio group labelled by the question, and the step count should be announced when the question changes.
+
+#### Open questions
+
+- **Recommending the job order the recruiter owns** is a proposed rule, not validated with users.
+- **Whether the record question should count toward the 3-question cap** is undecided.
 
 ## Response structure
 
@@ -248,7 +420,7 @@ Every markdown element the model can output maps to one Modern UI text style. No
 | Sources row, citation markers | `meta/default` | Medium 500 · 12/14 | `color/text/secondary` | See [Records and sources](#records-and-sources) |
 | Result counts, timestamps, "Not on file" outside tables | `meta/default` | Medium 500 · 12/14 | `color/text/subtle` | `color/text/subtle` is the lightest color safe for readable text |
 | Assistant / user name label | `body/sm-medium` | Medium 500 · 12/16 | `color/text/secondary` | |
-| Status line ("Searching open jobs…") | `body/sm` | Regular 400 · 12/16 | `color/text/secondary` | Not link blue. See [Status and clarifying questions](#status-and-clarifying-questions) |
+| Status line ("Searching open jobs…") | `body/sm` | Regular 400 · 12/16 | `color/text/secondary` | Not link blue. See [Status and loading](#status-and-loading) |
 | Follow-up chips, message actions | `button/sm` | Medium 500 · 12/16 | Per the existing button component | Use existing components. Don't restyle them |
 | User message | `body/default` in a bubble, radius `border/radius/sm` | Regular 400 · 14/20 | `color/text/body` | Bubble fill `color/background/subtle-hover` |
 | Literal value block (fenced code block, ```) | `body/default` on `color/background/muted`, 1px `card/color/border/default`, radius `border/radius/xsm` | Regular 400 · 14/20 | `color/text/body` | For Boolean strings, exact field values, and templates. See [Response components](#response-components) |
@@ -297,21 +469,14 @@ Emphasis:
 - When the answer depends on specific records or fields, show a sources row under the reply: `meta/default` text reading "Based on 14 job orders · Updated today" that expands to the list. HubSpot Breeze, Ashby, and ChatGPT all do this (Amplify principle 3; general-design-review AI governors, citations).
 - Name the fields a ranking used, for example "Ranked by start date, submissions, and client priority" (Amplify principle 3). Don't claim a reason the data doesn't support (Amplify principle 4, "Amplify suggests" not "Amplify determined").
 
-## Status and clarifying questions
-
-Status and loading:
+## Status and loading
 
 - Replace "Amplify is thinking…" with a specific status: "Searching open jobs…", then "Ranking 14 job orders…". Attio shows tool activity the same way (H1, visibility of system status; Amplify principle 8, be honest about errors and limitations).
 - Style: `body/sm`, `color/text/secondary`, next to the Amplify icon (`Icon/Amplify Radial` paint style). Don't use link blue, because blue means clickable (Gestalt, similarity).
 - Show a Stop control while the reply is generating (H3, user control).
 - When Amplify can't answer, say so in the first line, then name the cause and a fix: "No open jobs found for Verizon. Check the job status filter or ask about all jobs." (NN/g; H9, recognize and recover from errors).
 
-Clarifying questions:
-
-- Ask at most 3 questions per turn. If more are needed, ask the most important ones first and state an assumption for the rest (NN/g: ask sparingly; Claude guidance: one question per reply when possible).
-- Where the answer is a choice, use a question card with preset options and an "Other" field, as HubSpot Breeze does (H6, recognition over recall; H7, efficiency).
-- Keep question text to one line. Don't list example answers inline in bold.
-- Say why you're asking only when the reason isn't obvious.
+Clarifying questions: see [Clarifying questions](#clarifying-questions) in Chat input.
 
 ## Spacing and layout
 
@@ -449,6 +614,7 @@ Column width:
 - NN/g, Less chat, more answer: https://www.nngroup.com/articles/less-chat-more-answer/
 - NN/g, GenAI writing for the web: https://www.nngroup.com/articles/genai-write-for-the-web/
 - Baymard, line length: https://baymard.com/research-articles/line-length-readability
+- AI chat UI patterns research, section 5 (Claude, Glean, HubSpot, Notion, Gemini, Copilot, Agentforce, Intercom, Linear, Attio, LinkedIn Hiring Assistant): clarifying question behavior
 - Dockable Chat: Phase II — better context switching and history (APF-266)
 - Dockable Chat: Phase III — take Chat anywhere in Bullhorn (APF-278)
 - Additional docked and full-page chat goals from the Amplify design lead (cross-page workflow orchestration; full-page chat as a navigation entry point)
