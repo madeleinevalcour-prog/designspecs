@@ -87,7 +87,8 @@ export interface BowlingAlleyMenuFolder {
  *    Canvas, Compliance Manager, Back Office) are left out.
  *  - Pay & Bill: Figma's four labels (Placements, Internal Submissions, Candidates,
  *    Opportunities). An app can sit in both folders; its check is shared.
- * Primary starts with Grouped off and Pay & Bill with Grouped on, as in Figma.
+ * Both folders start with Grouped off so the default Menu is the single app grid of the
+ * live product (Figma draws Pay & Bill switched on).
  */
 export const BOWLING_ALLEY_MENU_FOLDERS: BowlingAlleyMenuFolder[] = [
   {
@@ -100,7 +101,7 @@ export const BOWLING_ALLEY_MENU_FOLDERS: BowlingAlleyMenuFolder[] = [
       'admin', 'candidates-2',
     ],
   },
-  { id: 'pay-bill', title: 'Pay & Bill', grouped: true, apps: ['placements', 'submissions', 'candidates', 'opportunities'] },
+  { id: 'pay-bill', title: 'Pay & Bill', grouped: false, apps: ['placements', 'submissions', 'candidates', 'opportunities'] },
 ];
 
 /** One row of the Add menu, rendered as a MenuOption (type entity). */
