@@ -34,7 +34,10 @@
 
 /* text style body/sm in color/text/body, one line */
 .ats-menu-item__label {
-  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;
+  /* Labels may run into the side padding so names like "Change Requests" fit, as in the
+     live product; they still ellipsize at the tile's full width. */
+  max-width: calc(100% + 2 * var(--menu-spacing-menu-item-padding-horizontal));
+  margin-inline: calc(-1 * var(--menu-spacing-menu-item-padding-horizontal)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: center;
   color: var(--color-text-body);
   font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height);
   font-weight: var(--typography-body-sm-font-weight-default); letter-spacing: var(--typography-body-sm-letter-spacing);
