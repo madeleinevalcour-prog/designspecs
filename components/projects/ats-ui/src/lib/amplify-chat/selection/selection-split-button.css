@@ -1,0 +1,26 @@
+/* AmplifyChatSelectionSplitButton — Figma amplify-chat/selection-split-button (6271:183528).
+   Two primary small Buttons (button.css) 1px apart, rounded on the outer sides only; the
+   menu is a dropdown card (menu/dropdown-card.css) of MenuOptions.
+   Unencapsulated, namespaced .ats-amplify-chat-selection-split-button. */
+
+.ats-amplify-chat-selection-split-button {
+  position: relative; display: inline-flex; align-items: center;
+  gap: 1px; /* no token: Figma gap-px between the segments */
+}
+/* outer corners round (border/radius/round), inner corners square */
+.ats-amplify-chat-selection-split-button > .ats-btn.ats-amplify-chat-selection-split-button__primary {
+  border-radius: var(--border-radius-round) 0 0 var(--border-radius-round);
+}
+.ats-amplify-chat-selection-split-button > .ats-btn.ats-amplify-chat-selection-split-button__toggle {
+  border-radius: 0 var(--border-radius-round) var(--border-radius-round) 0;
+}
+/* keep the focus ring above the neighbouring segment */
+.ats-amplify-chat-selection-split-button > .ats-btn:focus-visible { z-index: 1; }
+
+/* menu: opens under the button, right-aligned with the chevron */
+.ats-amplify-chat-selection-split-button__menu {
+  position: absolute; top: calc(100% + var(--spacing-gap-xsm)); right: 0; z-index: 10;
+  padding-inline: 0; gap: 0;
+}
+.ats-amplify-chat-selection-split-button__menu .ats-menu-option__label { display: inline-flex; align-items: baseline; }
+.ats-amplify-chat-selection-split-button__hint { color: var(--color-text-subtle); white-space: pre; }

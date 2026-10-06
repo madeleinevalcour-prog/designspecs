@@ -10,6 +10,7 @@ import { Icon } from '../icon/icon';
  *
  *   <th ats-novo-data-table-header-cell label="Name" [width]="240"></th>
  *   <th ats-novo-data-table-header-cell label="ID" [filter]="false"></th>
+ *   <th ats-novo-data-table-header-cell label="Name" [sortable]="false" [filter]="false"></th>  (label only, as in chat tables)
  *
  * The sort and filter icons are visual only, as in the source: no sorting or
  * filtering behaviour is attached.
@@ -20,7 +21,9 @@ import { Icon } from '../icon/icon';
   template: `
     <div class="ats-ndt-cell ats-ndt-hcell" [style.width.px]="width()">
       <span class="ats-ndt-hcell__label">{{ label() }}<ng-content /></span>
-      <ats-icon class="ats-ndt-ic" name="sortable" [size]="12" />
+      @if (sortable()) {
+        <ats-icon class="ats-ndt-ic" name="sortable" [size]="12" />
+      }
       @if (filter()) {
         <ats-icon class="ats-ndt-ic" name="filter" [size]="12" />
       }
@@ -33,6 +36,8 @@ import { Icon } from '../icon/icon';
 })
 export class NovoDataTableHeaderCell {
   readonly label = input<string>('');
+  /** Show the sort icon. Default true; chat tables turn it off (label only). */
+  readonly sortable = input(true, { transform: booleanAttribute });
   /** Show the filter icon after the sort icon. */
   readonly filter = input(true, { transform: booleanAttribute });
   /** Fixed column width in px. */

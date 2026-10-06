@@ -26,8 +26,11 @@ import { RouterLink } from '@angular/router';
 export class HomePage {
   protected readonly components = [
     { path: 'amplify-chat-blocks', name: 'Amplify Chat — Blocks', figma: 'Amplify Chat Interface Patterns 6300:27081 (draft-block 6149:20803, literal-value-block 6152:117821)' },
+    { path: 'amplify-chat-cards', name: 'Amplify Chat — Cards', figma: 'Component Migration doc/cards 6300:127578 (chat-list-item 6171:162369)' },
     { path: 'amplify-chat-clarifying-questions', name: 'Amplify Chat — Clarifying questions', figma: 'Amplify Chat Interface Patterns: subsection/clarifying-questions 6352:28917' },
+    { path: 'amplify-chat-data-table', name: 'Amplify Chat — Data table', figma: 'Component Migration doc/data-table 6300:127565 (header row 6171:165361, row 6174:165788)' },
     { path: 'amplify-chat-input', name: 'Amplify Chat — Chat input', figma: 'Amplify Chat Interface Patterns: subsection/input 6352:28898' },
+    { path: 'amplify-chat-selection', name: 'Amplify Chat — Selection', figma: 'Component Migration doc/selection 6300:127589 (selection-split-button 6271:183528)' },
     { path: 'amplify-chat-sources', name: 'Amplify Chat — Sources', figma: 'Amplify Chat Interface Patterns 6300:27092 (sources-row 6149:20865)' },
     { path: 'amplify-chat-text', name: 'Amplify Chat — Text', figma: 'Amplify Chat Interface Patterns: doc/text 6299:27096' },
     { path: 'amplify-chat-user-messages', name: 'Amplify Chat — User messages', figma: 'Amplify Chat Interface Patterns 6300:27101 (user-bubble 6213:168866)' },

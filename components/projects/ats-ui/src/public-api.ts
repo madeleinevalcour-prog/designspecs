@@ -48,8 +48,11 @@ export * from './lib/menu/menu-edit';
 
 // Amplify chat
 export * from './lib/amplify-chat/blocks';
+export * from './lib/amplify-chat/cards';
 export * from './lib/amplify-chat/clarifying-questions';
+export * from './lib/amplify-chat/data-table';
 export * from './lib/amplify-chat/input';
+export * from './lib/amplify-chat/selection';
 export * from './lib/amplify-chat/sources';
 export * from './lib/amplify-chat/text';
 export * from './lib/amplify-chat/user-messages';
