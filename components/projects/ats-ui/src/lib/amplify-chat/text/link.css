@@ -1,0 +1,23 @@
+/* AmplifyChatLink (inline entity link, Figma amplify-chat/text type=paragraph-with-links 6154:20875).
+   Unencapsulated, namespaced .ats-amplify-chat-link. Inherits font family / size / line height
+   from the surrounding paragraph; sets the medium weight and link color. */
+.ats-amplify-chat-link {
+  color: var(--amplify-chat-text-paragraph-color-content-text-link-text-color-default);
+  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-medium);
+  text-decoration: none; cursor: pointer; border-radius: var(--border-radius-xsm);
+}
+.ats-amplify-chat-link:hover, .ats-amplify-chat-link.is-hover { color: var(--link-text-color-hover); }
+.ats-amplify-chat-link:focus-visible, .ats-amplify-chat-link.is-focus {
+  outline: var(--button-border-width-focus) solid var(--color-border-focus); outline-offset: 1px;
+}
+
+/* The circle stays the entity color in every state. The glyph is regular weight, as in Figma. */
+.ats-amplify-chat-link__circle { font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-default); }
+.ats-amplify-chat-link[data-entity="job"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-job); }
+.ats-amplify-chat-link[data-entity="company"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-company); }
+.ats-amplify-chat-link[data-entity="candidate"] .ats-amplify-chat-link__circle { color: var(--color-entity-candidate); }
+.ats-amplify-chat-link[data-entity="contact"] .ats-amplify-chat-link__circle { color: var(--color-entity-contact); }
+.ats-amplify-chat-link[data-entity="lead"] .ats-amplify-chat-link__circle { color: var(--color-entity-lead); }
+.ats-amplify-chat-link[data-entity="opportunity"] .ats-amplify-chat-link__circle { color: var(--color-entity-opportunity); }
+.ats-amplify-chat-link[data-entity="placement"] .ats-amplify-chat-link__circle { color: var(--color-entity-placement); }
+.ats-amplify-chat-link[data-entity="submission"] .ats-amplify-chat-link__circle { color: var(--color-entity-submission); }

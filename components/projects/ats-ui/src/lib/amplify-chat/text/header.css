@@ -1,0 +1,24 @@
+/* AmplifyChatHeader (Figma "amplify-chat/header" 6147:20798). Unencapsulated, namespaced .ats-amplify-chat-header. */
+.ats-amplify-chat-header {
+  display: block; box-sizing: border-box; margin: 0; min-width: 0;
+  overflow-wrap: break-word; color: var(--amplify-chat-header-section-heading-color-content-text-color-text-headline);
+}
+
+/* level=section: title/sm */
+.ats-amplify-chat-header--section {
+  font-family: var(--amplify-chat-header-section-heading-typography-font-family-typography-title-small-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-header-section-heading-typography-font-size-typography-title-small-font-size);
+  font-weight: var(--amplify-chat-header-section-heading-typography-font-weight-typography-title-small-font-weight);
+  line-height: var(--amplify-chat-header-section-heading-typography-line-height-typography-title-small-line-height);
+  letter-spacing: var(--amplify-chat-header-section-heading-typography-letter-spacing-typography-title-small-letter-spacing);
+}
+
+/* level=label: body/default-medium */
+.ats-amplify-chat-header--label {
+  color: var(--amplify-chat-header-label-heading-color-content-text-color-text-headline);
+  font-family: var(--amplify-chat-header-label-heading-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-header-label-heading-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-header-label-heading-typography-font-weight-typography-body-default-font-weight-medium);
+  line-height: var(--amplify-chat-header-label-heading-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-header-label-heading-typography-letter-spacing-typography-body-default-letter-spacing);
+}
