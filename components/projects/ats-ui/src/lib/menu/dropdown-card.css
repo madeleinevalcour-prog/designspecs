@@ -1,0 +1,14 @@
+/* Dropdown card shared by the Menu's add / user variants (fast-add-menu,
+   user-dropdown-panel) and the bowling alley's Help overlay (help-dropdown-container). */
+.ats-dropdown-card {
+  display: flex; flex-direction: column; gap: var(--menu-spacing-fastadd-gap); box-sizing: border-box;
+  min-width: var(--menu-spacing-fastadd-min-width);
+  padding: var(--menu-spacing-fastadd-padding-vertical) var(--menu-spacing-fastadd-padding-horizontal);
+  background: var(--dropdown-color-background-default);
+  /* Figma binds button/color/border/default (#f0f5f9), not in the code tokens: dropdown border used */
+  border: var(--dropdown-border-width) solid var(--dropdown-color-border-default); border-radius: var(--dropdown-border-radius);
+  /* no token: Figma effect style "MadeleineNav/modals" (0 24px 88px -16px #28282833) */
+  box-shadow: 0 24px 88px -16px var(--color-transparency-charcoal-charcoal-20);
+  overflow: hidden;
+  font-family: var(--typography-button-lg-font-family), 'Inter', sans-serif;
+}

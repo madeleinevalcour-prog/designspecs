@@ -20,12 +20,12 @@
     @case ('overlay') {
       <div class="embed-pad">
         @switch (embedOverlay()) {
-          @case ('add') { <ats-add-overlay /> }
-          @case ('user') { <ats-user-overlay /> }
+          @case ('add') { <ats-menu variant="add" /> }
+          @case ('user') { <ats-menu variant="user" /> }
           @case ('help') { <ats-help-overlay /> }
-          @case ('edit') { <ats-menu-edit [autofocus]="false" /> }
+          @case ('edit') { <ats-menu variant="apps" mode="edit" [autofocus]="false" /> }
           @case ('find') { <ats-fast-find-results class="find-static" [query]="embedQuery()" /> }
-          @default { <ats-menu-overlay [autofocus]="false" /> }
+          @default { <ats-menu variant="apps" [autofocus]="false" /> }
         }
       </div>
     }
@@ -74,12 +74,12 @@
 
   <section>
     <h2>Overlays</h2>
-    <p class="lede">Shown outside the bowling alley. In place they open 8px right of their tab.</p>
+    <p class="lede">Shown outside the bowling alley. In place they open 8px right of their tab. Menu, Edit Menu, Add and User are variants of the Menu component (see the Menu page).</p>
     <div class="row">
-      <div class="cell"><ats-menu-overlay [autofocus]="false" /><span class="caption">Menu</span></div>
-      <div class="cell"><ats-menu-edit [autofocus]="false" /><span class="caption">Edit Menu</span></div>
-      <div class="cell"><ats-add-overlay /><span class="caption">Add</span></div>
-      <div class="cell"><ats-user-overlay /><span class="caption">User</span></div>
+      <div class="cell"><ats-menu variant="apps" [autofocus]="false" /><span class="caption">Menu</span></div>
+      <div class="cell"><ats-menu variant="apps" mode="edit" [autofocus]="false" /><span class="caption">Edit Menu</span></div>
+      <div class="cell"><ats-menu variant="add" /><span class="caption">Add</span></div>
+      <div class="cell"><ats-menu variant="user" /><span class="caption">User</span></div>
       <div class="cell"><ats-help-overlay /><span class="caption">Help</span></div>
     </div>
     <div class="row">

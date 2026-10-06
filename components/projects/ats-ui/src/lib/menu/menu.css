@@ -1,0 +1,55 @@
+/* Menu (Figma "✅ Menu - Finalized" 46:3526). Unencapsulated, namespaced .ats-menu.
+   The host is a flex column that passes the overlay layer's max-height down to its card:
+   variant apps → <ats-menu-apps> (the app grid) or <ats-menu-edit> (edit mode);
+   variant add / user → a .ats-dropdown-card of menu-options (lib/menu/dropdown-card.css). */
+.ats-menu { display: flex; flex-direction: column; max-height: inherit; box-sizing: border-box; }
+.ats-menu > * { flex: 1 1 auto; min-height: 0; }
+/* Figma 4266:86971 "Minimum Height for Menu = 520" — the app Menu, in both modes, so the
+   card doesn't jump when it swaps to the Edit Menu. Capped by --ats-menu-max-height
+   (set by the bowling-alley shell to the room left in the stage).
+   no token: 520px (Figma annotation only) */
+.ats-menu[data-variant="apps"] {
+  --ats-menu-min-height: 520px;
+  min-height: min(var(--ats-menu-min-height), var(--ats-menu-max-height, 520px));
+}
+
+/* fast-add-menu 4711:42682 / user-dropdown-panel 168:19961 */
+.ats-menu__add { width: 248px; }
+.ats-menu__user { width: 240px; }
+
+/* ---- Menu (novo-drag-container 1323:68245 / 1217:58484) ---- */
+.ats-menu-apps {
+  display: flex; flex-direction: column; width: 480px; box-sizing: border-box; overflow: hidden;
+  border: var(--menu-border-width) solid var(--menu-color-border-default); border-radius: var(--menu-border-radius);
+  background: var(--menu-color-background-container);
+  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+}
+.ats-menu__contents {
+  display: flex; flex-direction: column; gap: var(--menu-spacing-contents-gap);
+  padding: var(--menu-spacing-contents-padding-vertical) var(--menu-spacing-contents-padding-horizontal);
+}
+.ats-menu-apps { max-height: inherit; }
+.ats-menu-apps > .ats-menu-header { flex: 0 0 auto; }
+.ats-menu__contents { min-height: 0; overflow: auto; }
+.ats-menu__section { display: flex; flex-direction: column; }
+/* group label: Figma novo-drag-container section header (2627:70591), input/label/md, uppercase */
+.ats-menu__section-title {
+  padding: var(--menu-spacing-header-padding-vertical) var(--menu-spacing-header-padding-horizontal);
+  text-align: center; text-transform: uppercase; color: var(--card-color-content-heading);
+  font-size: var(--typography-input-label-md-font-size); line-height: var(--typography-input-label-md-line-height);
+  font-weight: var(--typography-input-label-md-font-weight); letter-spacing: var(--typography-input-label-md-letter-spacing);
+}
+.ats-menu__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-gap-md); }
+/* drop position while dragging: a 2px color/border/focus bar beside the target tile
+   (no Figma spec for the indicator; the bar sits in the grid gap) */
+.ats-menu__grid > .ats-menu-item { position: relative; }
+.ats-menu-item.is-drop-before::after, .ats-menu-item.is-drop-after::after {
+  content: ""; position: absolute; top: 8px; bottom: 8px; width: 2px; border-radius: 1px;
+  background: var(--color-border-focus); pointer-events: none;
+}
+.ats-menu-item.is-drop-before::after { left: calc(-1 * var(--spacing-gap-md) / 2 - 1px); }
+.ats-menu-item.is-drop-after::after { right: calc(-1 * var(--spacing-gap-md) / 2 - 1px); }
+.ats-menu__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* app tiles = <button ats-menu-item> (menu-item.ts); header = <ats-menu-header> (menu-header.ts) */
+

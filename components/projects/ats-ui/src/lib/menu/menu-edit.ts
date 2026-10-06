@@ -3,11 +3,12 @@ import { BowlingAlleyController } from '../bowling-alley/bowling-alley-controlle
 import { BOWLING_ALLEY_MENU_APPS, BowlingAlleyMenuApp, matches } from '../bowling-alley/bowling-alley-data';
 import { CheckList } from '../checkbox-label/check-list';
 import { CheckboxLabel } from '../checkbox-label/checkbox-label';
-import { MenuHeader } from '../menu-header/menu-header';
+import { MenuHeader } from './menu-header';
 import { Switch } from '../switch/switch';
 
 /**
- * MenuEdit (Figma: "menu-edit", 1217:58486). The bowling alley's Edit Menu: a
+ * MenuEdit (Figma: "menu-edit", 1217:58486). The Edit Menu, the edit mode of the
+ * apps Menu (`<ats-menu variant="apps">` swaps to it on Add/Remove): a
  * MenuHeader in edit mode ("Edit Menu", Done, Filter), then one folder per app group.
  * Each folder has a folder-title (body/lg + a "Grouped" Switch) and folder-items: the
  * apps as CheckboxLabels, two per inline CheckList row.

@@ -21,9 +21,9 @@ import {
   BowlingAlleyNavState,
   BowlingAlleyOverlayKind,
 } from './bowling-alley-controller';
-import { AddOverlay, FastFindResults, HelpOverlay, MenuOverlay, UserOverlay } from './overlays';
+import { FastFindResults, HelpOverlay } from './overlays';
 import { Tooltip } from './tooltip';
-import { MenuEdit } from '../menu-edit/menu-edit';
+import { Menu } from '../menu/menu';
 
 export interface BowlingAlleySelection {
   overlay: BowlingAlleyOverlayKind | 'find';
@@ -33,8 +33,8 @@ export interface BowlingAlleySelection {
 /**
  * BowlingAlleyShell — layout + behaviour root for the bowling alley. Provides the
  * BowlingAlleyController, lays out the bowling alley and the scrolling page content
- * (default slot), and renders the page scrim, the overlays, the Fast Find results and
- * the pin tooltip. Fills its container: give it a height.
+ * (default slot), and renders the page scrim, the overlays (the Menu, Add and user
+ * menus are `<ats-menu>` variants; Help), the Fast Find results and the pin tooltip. Fills its container: give it a height.
  *
  *   <ats-bowling-alley-shell style="height: 100vh" (amplifyClick)="amplifyOpen = !amplifyOpen">
  *     <ats-bowling-alley />
@@ -46,7 +46,7 @@ export interface BowlingAlleySelection {
  */
 @Component({
   selector: 'ats-bowling-alley-shell',
-  imports: [MenuOverlay, MenuEdit, AddOverlay, UserOverlay, HelpOverlay, FastFindResults, Tooltip],
+  imports: [Menu, HelpOverlay, FastFindResults, Tooltip],
   templateUrl: './bowling-alley-shell.html',
   styleUrl: './bowling-alley-shell.css',
   encapsulation: ViewEncapsulation.None,
@@ -163,6 +163,8 @@ export class BowlingAlleyShell {
     const a = o.anchor.getBoundingClientRect();
     // tall overlays (Menu, Edit Menu) scroll inside the stage (their cards use max-height: inherit)
     el.style.maxHeight = sr.height - 16 + 'px';
+    // the Menu's 520px minimum height gives way when the stage is shorter
+    el.style.setProperty('--ats-menu-max-height', sr.height - 16 + 'px');
     el.style.left = a.right - sr.left + BOWLING_ALLEY_OVERLAY_GAP + 'px';
     let top: number;
     if (o.align === 'bottom') top = a.bottom - sr.top - el.offsetHeight;

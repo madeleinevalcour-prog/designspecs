@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Menu" meta="Status: in review · Figma: ✅ Menu - Finalized 46:3526 (Component Migration): novo-drag-container 1217:58484, menu-edit 1217:58486, fast-add-menu 4711:42682, user-dropdown-panel 168:19961 · Code: ats-ui Menu (+ MenuHeader, MenuItem, MenuOption, MenuEdit) · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">The Menu is one component with three variants: the app Menu, the Add menu and the user menu. In the <a href="bowling-alley.html">bowling alley</a> they open from the Menu, Add and user tabs. Each is built from the Menu’s sub-components: Menu Header, Menu Item, Menu Option and Menu Edit.</p>
+    <doc-example src="menu?variant=apps" caption="The app Menu. Filter, click Add/Remove, drag a tile" height="900"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants" desc="Menu, Add, User">
+    <table class="tbl">
+      <thead><tr><th>Variant</th><th>Figma</th><th>Contents</th><th>Width</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">apps</span> (Menu)</td><td>novo-drag-container 1217:58484</td><td>A <a href="#menu-header">Menu Header</a> (title, Add/Remove, a “Filter Items” search), then the apps as <a href="#menu-item">Menu Items</a>, three to a row: Amplify, Candidates, Tasks, My Dashboard, Leads, Contacts, Companies, Opportunities, Submissions, Jobs, Placements, Automation, Analytics, Change Requests, Tearsheets, Distribution Lists, Admin</td><td>480px</td></tr>
+        <tr><td><span class="chip">apps</span>, edit mode (Edit Menu)</td><td>menu-edit 1217:58486</td><td>The <a href="#menu-edit">Menu Edit</a>: a header in edit mode (“Edit Menu”, Done, Filter), then folders of apps as checkboxes, each with a Grouped switch</td><td>480px</td></tr>
+        <tr><td><span class="chip">add</span> (Add)</td><td>fast-add-menu 4711:42682</td><td><a href="#menu-option">Menu Options</a>, entity type: Company, Contact, Lead, Candidate, Opportunity, Job, Placement, Note, Task, Distribution List</td><td>248px</td></tr>
+        <tr><td><span class="chip">user</span> (User)</td><td>user-dropdown-panel 168:19961</td><td>Menu Options, default type: Preferences, Logout</td><td>240px</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="menu?variant=apps&amp;state=edit" caption="The Menu in edit mode: the Edit Menu. Done goes back to the app grid" height="900"></doc-example>
+    <doc-example src="menu?variant=add" caption="Add (248px)" height="540"></doc-example>
+    <doc-example src="menu?variant=user" caption="User (240px)" height="160"></doc-example>
+    <p>Add and User share a dropdown card (padding <span class="chip">menu/spacing/fastadd/*</span>, <span class="chip">dropdown/color/background/default</span>, <span class="chip">dropdown/color/border/default</span>, <span class="chip">dropdown/border/radius</span>) with the bowling alley’s Help menu.</p>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour">
+    <ul>
+      <li><strong>Filter.</strong> Typing in the header’s Filter narrows the Menu to apps whose name contains the text. In the Edit Menu it narrows the check lists; folders with no match are hidden. The Filter takes focus when the Menu or Edit Menu opens.</li>
+      <li><strong>Add/Remove ↔ Done.</strong> Add/Remove swaps the Menu for the Edit Menu, in the same place. Done swaps back. Escape or a click outside closes either.</li>
+      <li><strong>Check and uncheck.</strong> Checked apps show in the Menu. Unchecking an app hides it from the grid right away; checking it brings it back in its place. An app in two folders has one check, shown in both.</li>
+      <li><strong>Grouped.</strong> With Grouped on, a folder shows in the Menu as its own section, labelled with the folder name in the section-header style (<span class="chip">input/label/md</span>, uppercase), below the main grid. With Grouped off, its apps are part of the main grid. Both folders start off, so the default Menu is one grid.</li>
+      <li><strong>Reorder.</strong> Drag a tile onto another: it lands before the target (left half) or after it (right half). The dragged tile shows the Menu Item drag state, and a 2px <span class="chip">color/border/focus</span> bar in the gap marks where it will land. Keyboard: focus a tile and press Alt+Arrow Left/Right to move it one place, Alt+Arrow Up/Down to move it one row. Tiles move within their section.</li>
+      <li><strong>Minimum height.</strong> The Menu is at least 520px tall (Figma 4266:86971), in both modes, so the card keeps its size when it swaps to the Edit Menu. Taller content scrolls inside the card. In the bowling alley the minimum gives way when the window is shorter.</li>
+      <li><strong>Picking.</strong> Clicking an app tile, an Add row or a user row emits its label (<span class="chip">preferences</span> / <span class="chip">logout</span> for the user menu).</li>
+      <li>Order, checks and Grouped are kept while the page is open, not across page loads.</li>
+    </ul>
+    <doc-example src="menu?variant=apps&amp;state=pair&amp;hide=amplify,tasks&amp;grouped=pay-bill" caption="Edit Menu beside the Menu it edits. Amplify and Tasks are unchecked; Pay &amp; Bill is Grouped, so it shows as its own section" height="900"></doc-example>
+    <doc-example src="bowling-alley?view=layout&amp;nav=open&amp;lock=true&amp;height=900" caption="In place: open the Menu, Add or user menu from the bowling alley" height="900"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>In the bowling alley each menu opens as a dialog named Menu, Edit Menu, Add or User menu.</li>
+      <li>App tiles, Add rows and user rows are native buttons; the label is the accessible name and the icons are decorative.</li>
+      <li>The Menu’s grid is a group per section. Alt+Arrow keys move the focused tile; the shortcut is in each tile’s description, and the new position is announced.</li>
+      <li>In the Edit Menu each folder is a section named by its title; apps are native checkboxes and Grouped is a native <span class="chip">role="switch"</span>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="menu-header" label="Menu Header" desc="Sub-component">
+    <p>Figma <span class="chip">menu-header</span> 2469:64743. The top of the Menu and the Edit Menu: a title row with its actions, then a pill Filter.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Figma property</th><th>Built from</th></tr></thead>
+      <tbody>
+        <tr><td>Title (“Menu”)</td><td>—</td><td>Text style <span class="chip">card/header</span></td></tr>
+        <tr><td>Add/Remove</td><td><span class="chip">edit</span>, on by default</td><td><a href="button.html">Button</a>, dialogue, small</td></tr>
+        <tr><td>Done (edit mode)</td><td><span class="chip">editMenu</span>, off by default</td><td>Button, dialogue, small, success color, check icon on the left</td></tr>
+        <tr><td>Close</td><td><span class="chip">close</span>, off by default</td><td>Button, icon theme, small, close glyph</td></tr>
+        <tr><td>Filter</td><td>—</td><td><a href="search-input.html">Search Input</a>, pill, placeholder “Filter” (the Menu uses “Filter Items”)</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="menu?part=header" caption="Default: title, Add/Remove, Filter" height="140"></doc-example>
+    <doc-example src="menu?part=header&amp;state=edit" caption="Edit mode: Done instead of Add/Remove" height="140"></doc-example>
+    <doc-example src="menu?part=header&amp;state=close" caption="With the close button" height="140"></doc-example>
+    <doc-example src="menu?part=header&amp;state=active" caption="Filter focused" height="140"></doc-example>
+    <ul>
+      <li>Escape in the Filter and the close button both emit <span class="chip">closed</span>. Add/Remove emits <span class="chip">addRemove</span>; Done emits <span class="chip">done</span>.</li>
+      <li>The close button is labelled “Close menu”. <span class="chip">focusFilter()</span> moves focus to the Filter.</li>
+    </ul>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Background, bottom border</td><td><span class="chip">menu/color/background/header</span>, <span class="chip">menu/color/border/default</span></td></tr>
+        <tr><td>Padding</td><td><span class="chip">menu/spacing/header/padding-vertical</span>, <span class="chip">…/padding-horizontal</span></td></tr>
+        <tr><td>Gap</td><td><span class="chip">menu/spacing/header/gap</span> (Figma binds <span class="chip">card/spacing/header/gap</span>; same value)</td></tr>
+        <tr><td>Title</td><td>Text style <span class="chip">card/header</span>, <span class="chip">menu/color/content/heading</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="menu-item" label="Menu Item" desc="Sub-component">
+    <p>Figma <span class="chip">menu-item</span> 1143:19746. An app tile in the Menu: an <a href="icon-container.html">icon container</a> (size md, 40px, 20px glyph) over a one-line <span class="chip">body/sm</span> label, centered, truncated with an ellipsis. Tiles are 96 to 128px wide. Apps that aren’t an entity use the neutral theme with their own glyph.</p>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td>default</td><td>No background</td></tr>
+        <tr><td>hover</td><td><span class="chip">color/background/hover</span>, and a 12px move handle on top. The top padding drops by the handle plus the gap, so the tile keeps its height</td></tr>
+        <tr><td>focus</td><td>The hover background with a 2px <span class="chip">color/border/focus</span> border, no handle</td></tr>
+        <tr><td>drag</td><td>The focus look plus the handle and the <span class="chip">general/level 3</span> shadow</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="menu?part=item&amp;state=all" caption="Default, hover, focus, drag. Hover and focus are live" height="170"></doc-example>
+    <doc-example src="menu?part=item&amp;theme=neutral&amp;icon=dashboard&amp;label=My%20Dashboard" caption="Neutral theme with an app glyph" height="140"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Gap, padding</td><td><span class="chip">menu/spacing/menu-item/gap</span>, <span class="chip">…/padding-horizontal</span>, <span class="chip">…/padding-vertical</span></td></tr>
+        <tr><td>Width</td><td><span class="chip">menu/spacing/menu-item/min-width</span>, <span class="chip">…/max-width</span></td></tr>
+        <tr><td>Radius</td><td><span class="chip">border/radius/sm</span></td></tr>
+        <tr><td>Hover / focus</td><td><span class="chip">color/background/hover</span>, <span class="chip">button/border/width/focus</span>, <span class="chip">color/border/focus</span></td></tr>
+        <tr><td>Drag shadow</td><td>Effect style <span class="chip">general/level 3</span> (<span class="chip">--elevation-3</span>)</td></tr>
+        <tr><td>Label</td><td>Text style <span class="chip">body/sm</span>, <span class="chip">color/text/body</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="menu-option" label="Menu Option" desc="Sub-component">
+    <p>Figma <span class="chip">menu-option</span> 157:2911. One row of the Add and user menus: an icon and a label. Hover is live.</p>
+    <table class="tbl">
+      <thead><tr><th>Type</th><th>Icon</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>default</td><td>A 16px glyph (Figma example: configure-outline), <span class="chip">color/icon/subtle</span></td><td>User menu: Preferences, Logout</td></tr>
+        <tr><td>entity</td><td>An <a href="icon-container.html">icon container</a>, size sm. The label truncates with an ellipsis</td><td>Add menu</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="menu?part=option&amp;state=all" caption="Type × State: default and entity, default and hover" height="110"></doc-example>
+    <doc-example src="menu?part=option&amp;type=entity&amp;theme=candidate&amp;label=Candidate" caption="Entity type, candidate theme" height="90"></doc-example>
+    <p>Keyboard focus shows a 2px inset ring (<span class="chip">color/border/focus</span>).</p>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Padding</td><td><span class="chip">button/spacing/default/gap</span> (vertical), <span class="chip">button/spacing/default/padding-horizontal</span></td></tr>
+        <tr><td>Gap</td><td><span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td>Hover background</td><td><span class="chip">bowling-alley/color/tab-items/background/hover</span></td></tr>
+        <tr><td>Label</td><td>Text style <span class="chip">button/lg</span>, <span class="chip">color/text/body</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="menu-edit" label="Menu Edit" desc="Sub-component: the Edit Menu">
+    <p>Figma <span class="chip">menu-edit</span> 1217:58486. The Menu’s edit mode, where people choose which apps the Menu shows.</p>
+    <ol>
+      <li>Header: a <a href="#menu-header">Menu Header</a> in edit mode: “Edit Menu”, a success Done button, and the Filter.</li>
+      <li>Folder: one per app group (“Primary”, “Pay &amp; Bill”).</li>
+      <li>Folder title: the folder name in <span class="chip">body/lg</span>, and a <a href="switch.html">Switch</a> labelled “Grouped”.</li>
+      <li>Folder items: the folder’s apps as <a href="checkbox-label.html">Checkbox + label</a> rows, two per inline <a href="check-list.html">Check List</a>.</li>
+    </ol>
+    <doc-example src="menu?part=edit" caption="The Edit Menu on its own. Check and uncheck apps, toggle Grouped" height="900"></doc-example>
+    <p><strong>Primary</strong> holds Placements, Submissions, Candidates, Opportunities, Companies, Contacts, My Dashboard, Jobs, Analytics, Change Requests (named in Figma, in Figma’s order), then the other Menu apps in Figma’s “checked” placeholder slots. <strong>Pay &amp; Bill</strong> holds Placements, Submissions, Candidates, Opportunities, as in Figma. Grouped starts off for both (Figma draws Pay &amp; Bill switched on).</p>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Card</td><td><span class="chip">card/color/background/contents</span>, <span class="chip">menu/color/border/default</span>, <span class="chip">menu/border/radius</span>, <span class="chip">general/level 4</span></td></tr>
+        <tr><td>Content padding, folder gap</td><td><span class="chip">menu/spacing/contents/padding-vertical</span>, <span class="chip">…/padding-horizontal</span>, <span class="chip">menu/spacing/contents/gap</span></td></tr>
+        <tr><td>Folder title</td><td><span class="chip">spacing/gap/sm</span>, <span class="chip">spacing/padding/sm</span>; <span class="chip">body/lg</span>, <span class="chip">checkbox/color/content/default</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="The Menu card">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Menu card</td><td><span class="chip">menu/color/background/container</span>, <span class="chip">menu/color/border/default</span>, <span class="chip">menu/border/width</span>, <span class="chip">menu/border/radius</span>, <span class="chip">general/level 4</span> (with its backdrop blur)</td></tr>
+        <tr><td>Contents</td><td><span class="chip">menu/spacing/contents/padding-vertical</span>, <span class="chip">…/padding-horizontal</span>, <span class="chip">menu/spacing/contents/gap</span>; grid gap <span class="chip">spacing/gap/md</span></td></tr>
+        <tr><td>Section title (Grouped)</td><td><span class="chip">menu/spacing/header/padding-*</span>, <span class="chip">input/label/md</span>, <span class="chip">card/color/content/heading</span></td></tr>
+        <tr><td>Add / User card</td><td><span class="chip">menu/spacing/fastadd/min-width</span>, <span class="chip">…/gap</span>, <span class="chip">…/padding-*</span>, <span class="chip">dropdown/color/*</span>, <span class="chip">dropdown/border/radius</span></td></tr>
+        <tr><td>Minimum height</td><td>520px, no token (Figma annotation 4266:86971)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;!-- inside &lt;ats-bowling-alley-shell&gt; the shell renders these for you --&gt;
+      &lt;ats-menu variant="apps" (selected)="openApp($event)" (closed)="close()" /&gt;
+      &lt;ats-menu variant="add" (selected)="create($event)" /&gt;
+      &lt;ats-menu variant="user" (selected)="onUser($event)" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>ats-menu input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">variant</span></td><td>apps · add · user</td><td>apps</td></tr>
+        <tr><td><span class="chip">mode</span></td><td>apps: start in menu · edit (the Edit Menu)</td><td>The controller’s mode (menu)</td></tr>
+        <tr><td><span class="chip">autofocus</span></td><td>apps: focus the Filter when shown</td><td>true</td></tr>
+        <tr><td><span class="chip">placeholder</span></td><td>apps: Filter placeholder</td><td>Filter Items</td></tr>
+        <tr><td><span class="chip">(selected)</span></td><td>The app or record-type label; preferences · logout (user)</td><td>—</td></tr>
+        <tr><td><span class="chip">(closed)</span></td><td>apps: Escape in the Filter</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>State (<span class="chip">menuMode</span>, <span class="chip">menuOrder</span>, <span class="chip">menuHidden</span>, <span class="chip">menuFolders</span>, <span class="chip">menuSections</span>) lives in the <span class="chip">BowlingAlleyController</span>. Inside the shell the Menu uses the shell’s; on its own it creates one, shared with its parts. Provide one on a parent to share it between Menus.</p>
+    <doc-code caption="Sub-components">
+      &lt;ats-menu-header [(filter)]="query" (addRemove)="openEdit()" (closed)="dismiss()" /&gt;
+      &lt;ats-menu-header heading="Edit Menu" [edit]="false" editMenu (done)="save()" /&gt;
+      &lt;button ats-menu-item theme="neutral" icon="dashboard"&gt;My Dashboard&lt;/button&gt;
+      &lt;button ats-menu-option type="entity" theme="candidate"&gt;Candidate&lt;/button&gt;
+      &lt;ats-menu-edit (done)="backToMenu()" (closed)="close()" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Sub-component</th><th>Inputs / outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">ats-menu-header</span></td><td><span class="chip">heading</span> (Menu) · <span class="chip">edit</span> (true) · <span class="chip">editMenu</span> (false) · <span class="chip">close</span> (false) · <span class="chip">placeholder</span> (Filter) · <span class="chip">[(filter)]</span> · <span class="chip">filterActive</span> (docs) · <span class="chip">(addRemove)</span>, <span class="chip">(done)</span>, <span class="chip">(closed)</span> · method <span class="chip">focusFilter()</span></td></tr>
+        <tr><td><span class="chip">button[ats-menu-item]</span></td><td><span class="chip">theme</span> (icon container theme) · <span class="chip">icon</span> (the theme’s glyph) · <span class="chip">background</span> (fill override) · <span class="chip">state</span> default · hover · focus · drag. The label is the content</td></tr>
+        <tr><td><span class="chip">button[ats-menu-option]</span></td><td><span class="chip">type</span> default · entity · <span class="chip">icon</span> (configure-outline / the theme’s glyph) · <span class="chip">theme</span> · <span class="chip">background</span> · <span class="chip">state</span> default · hover. The label is the content</td></tr>
+        <tr><td><span class="chip">ats-menu-edit</span></td><td><span class="chip">autofocus</span> (true) · <span class="chip">placeholder</span> (Filter Items) · <span class="chip">(done)</span>, <span class="chip">(closed)</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Sub-menu.">Figma’s assembled panel also has a “sub-menu” (a header over a grid of menu items, minimum height 172px). It isn’t built; confirm where it opens from.</doc-callout>
+    <doc-callout type="note" heading="Folder contents.">Most Figma rows are “checked” placeholders, and Pay &amp; Bill repeats Primary’s first four labels. Figma also lists Scheduler, Bullhorn Apps, Canvas, Compliance Manager and Back Office, which aren’t in the Menu’s apps, and says “Internal Submissions” where the Menu says “Submissions”. Confirm the real apps in each folder.</doc-callout>
+    <doc-callout type="note" heading="Edit Menu card.">Figma rounds only the top corners and uses <span class="chip">button/color/border/default</span> (#f0f5f9, not in the code tokens). The build matches the Menu’s card. The Add and User cards also use the dropdown border for that reason.</doc-callout>
+    <doc-callout type="note" heading="Title style.">There’s no code token for the card/header text style (18/24 medium); the build uses the title/small size with the medium weight.</doc-callout>
+    <doc-callout type="note" heading="Drag.">Figma has no drop-position indicator; the bar is the build’s. The drag variant’s minimum width is 80px (no token), not the 96px token.</doc-callout>
+    <doc-callout type="note" heading="Menu Option states.">Figma has only default and hover. The focus ring is the system one; there is no disabled state yet. The default-type glyph color isn’t bound in Figma.</doc-callout>
+    <doc-callout type="note" heading="Dropdown shadow.">The Add and User cards use Figma effect style MadeleineNav/modals, which has no token.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

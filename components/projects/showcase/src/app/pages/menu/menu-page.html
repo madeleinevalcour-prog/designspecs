@@ -1,0 +1,125 @@
+@if (embed()) {
+  <div class="embed">
+    @if (part(); as p) {
+      @switch (p) {
+        @case ('header') {
+          <div class="w480">
+            @switch (embedState()) {
+              @case ('edit') { <ats-menu-header heading="Edit Menu" [edit]="false" editMenu placeholder="Filter Items" /> }
+              @case ('close') { <ats-menu-header close /> }
+              @case ('active') { <ats-menu-header filterActive /> }
+              @default { <ats-menu-header /> }
+            }
+          </div>
+        }
+        @case ('item') {
+          <div class="row">
+            @for (s of itemStates(); track s) {
+              <div class="cell center">
+                <button ats-menu-item [state]="s" [theme]="itemTheme()" [icon]="icon()">{{ itemLabel() }}</button>
+                @if (state() === 'all') { <span class="caption">{{ s }}</span> }
+              </div>
+            }
+          </div>
+        }
+        @case ('option') {
+          @if (state() === 'all') {
+            <div class="row">
+              @for (o of optionMatrix; track $index) {
+                <div class="cell"><div class="frame"><button ats-menu-option [type]="o.type" [state]="o.state">Label</button></div>
+                  <span class="caption">{{ o.type }} · {{ o.state }}</span></div>
+              }
+            </div>
+          } @else {
+            <div class="frame" [style.width.px]="optionWidth()">
+              <button ats-menu-option [type]="type()" [state]="$any(state())" [icon]="icon()" [theme]="optionTheme()">{{ optionLabel() }}</button>
+            </div>
+          }
+        }
+        @default {
+          <app-menu-stage [hide]="hide()" [grouped]="grouped()"><ats-menu-edit [autofocus]="false" /></app-menu-stage>
+        }
+      }
+    } @else {
+      <app-menu-stage [hide]="hide()" [grouped]="grouped()">
+        @switch (variant()) {
+          @case ('add') { <ats-menu variant="add" /> }
+          @case ('user') { <ats-menu variant="user" /> }
+          @default {
+            @if (embedState() === 'pair') {
+              <ats-menu-edit [autofocus]="false" />
+              <ats-menu variant="apps" mode="menu" [autofocus]="false" />
+            } @else {
+              <ats-menu variant="apps" [mode]="embedState() === 'edit' ? 'edit' : 'menu'" [autofocus]="false" />
+            }
+          }
+        }
+      </app-menu-stage>
+    }
+  </div>
+} @else {
+  <h1>Menu</h1>
+  <p class="lede">
+    Figma <code>✅ Menu - Finalized</code> (46:3526). One component, <code>&lt;ats-menu&gt;</code>, with three variants:
+    the app Menu (<code>novo-drag-container</code>, with its edit mode <code>menu-edit</code>), Add (<code>fast-add-menu</code>)
+    and User (<code>user-dropdown-panel</code>). Built from Menu Header, Menu Item, Menu Option and Menu Edit.
+  </p>
+
+  <section>
+    <h2>Variants</h2>
+    <p class="lede">Each is live and has its own state. Add/Remove swaps the Menu to its Edit Menu; Done swaps back.</p>
+    <div class="row">
+      <div class="cell"><app-menu-stage><ats-menu variant="apps" [autofocus]="false" (selected)="last.set('apps → ' + $event)" /></app-menu-stage><span class="caption">variant="apps" (Menu)</span></div>
+      <div class="cell"><app-menu-stage><ats-menu variant="apps" mode="edit" [autofocus]="false" /></app-menu-stage><span class="caption">variant="apps", edit mode (Edit Menu)</span></div>
+      <div class="cell"><ats-menu variant="add" (selected)="last.set('add → ' + $event)" /><span class="caption">variant="add" (Add)</span></div>
+      <div class="cell"><ats-menu variant="user" (selected)="last.set('user → ' + $event)" /><span class="caption">variant="user" (User)</span></div>
+    </div>
+    @if (last()) { <p class="note">Last pick: {{ last() }}</p> }
+  </section>
+
+  <section>
+    <h2>Edit Menu beside the Menu (shared state)</h2>
+    <p class="lede">Uncheck an app to hide it from the Menu; turn Grouped on to show a folder as its own labelled section. Drag a tile, or focus it and press Alt+Arrow keys, to reorder.</p>
+    <app-menu-stage>
+      <div class="cell"><ats-menu-edit [autofocus]="false" /><span class="caption">Edit Menu</span></div>
+      <div class="cell"><ats-menu variant="apps" mode="menu" [autofocus]="false" /><span class="caption">Menu (live result)</span></div>
+    </app-menu-stage>
+  </section>
+
+  <section>
+    <h2>Menu Header</h2>
+    <p class="lede">Figma <code>menu-header</code> (2469:64743). Title row, then a pill Filter.</p>
+    <div class="stack w480">
+      <div class="cell"><ats-menu-header [(filter)]="filter" (addRemove)="last.set('header → Add/Remove')" /><span class="caption">default (edit on)</span></div>
+      <div class="cell"><ats-menu-header heading="Edit Menu" [edit]="false" editMenu placeholder="Filter Items" (done)="last.set('header → Done')" /><span class="caption">edit mode (editMenu on, edit off)</span></div>
+      <div class="cell"><ats-menu-header close (closed)="last.set('header → closed')" /><span class="caption">with close</span></div>
+      <div class="cell"><ats-menu-header filterActive /><span class="caption">Filter focused</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Menu Item</h2>
+    <p class="lede">Figma <code>menu-item</code> (1143:19746). An app tile. Hover and focus are live; <code>state</code> forces one.</p>
+    <div class="row">
+      @for (s of allItemStates; track s) {
+        <div class="cell center"><button ats-menu-item [state]="s" theme="candidate">Candidates</button><span class="caption">{{ s }}</span></div>
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Menu Option</h2>
+    <p class="lede">Figma <code>menu-option</code> (157:2911). A row in the Add and User menus. Hover is live; <code>state</code> forces it.</p>
+    <div class="row">
+      @for (o of optionMatrix; track $index) {
+        <div class="cell"><div class="frame"><button ats-menu-option [type]="o.type" [state]="o.state">Label</button></div><span class="caption">{{ o.type }} · {{ o.state }}</span></div>
+      }
+    </div>
+  </section>
+
+  <section>
+    <h2>Menu Edit</h2>
+    <p class="lede">Figma <code>menu-edit</code> (1217:58486). The Menu's edit mode, shown on its own (it brings its own state when outside a Menu or bowling alley).</p>
+    <ats-menu-edit [autofocus]="false" />
+  </section>
+}

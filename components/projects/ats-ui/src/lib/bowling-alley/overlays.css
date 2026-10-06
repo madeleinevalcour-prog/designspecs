@@ -1,60 +1,9 @@
-/* Bowling-alley overlays (Figma "Overlays" 491:38819). */
-
-/* dropdown card: fast-add-menu / user-dropdown-panel / help-dropdown-container; rows = <button ats-menu-option> (lib/menu-option) */
-.ats-dropdown-card {
-  display: flex; flex-direction: column; gap: var(--menu-spacing-fastadd-gap); box-sizing: border-box;
-  min-width: var(--menu-spacing-fastadd-min-width);
-  padding: var(--menu-spacing-fastadd-padding-vertical) var(--menu-spacing-fastadd-padding-horizontal);
-  background: var(--dropdown-color-background-default);
-  /* Figma binds button/color/border/default (#f0f5f9), not in the code tokens: dropdown border used */
-  border: var(--dropdown-border-width) solid var(--dropdown-color-border-default); border-radius: var(--dropdown-border-radius);
-  /* no token: Figma effect style "MadeleineNav/modals" (0 24px 88px -16px #28282833) */
-  box-shadow: 0 24px 88px -16px var(--color-transparency-charcoal-charcoal-20);
-  overflow: hidden;
-  font-family: var(--typography-button-lg-font-family), 'Inter', sans-serif;
-}
-.ats-add-overlay { width: 248px; }
-.ats-user-overlay { width: 240px; }
+/* Bowling-alley overlays (Figma "Overlays" 491:38819): Help + Fast Find results.
+   The dropdown card is lib/menu/dropdown-card.css; the Menu / Add / user overlays are <ats-menu> (lib/menu/). */
 
 .ats-chat-pos__spot:focus-visible, .ats-help__link:focus-visible {
   outline: 2px solid var(--color-border-focus); outline-offset: -2px;
 }
-
-/* ---- Menu (novo-drag-container 1323:68245 / 1217:58484) ---- */
-.ats-menu-overlay {
-  display: flex; flex-direction: column; width: 480px; box-sizing: border-box; overflow: hidden;
-  border: var(--menu-border-width) solid var(--menu-color-border-default); border-radius: var(--menu-border-radius);
-  background: var(--menu-color-background-container);
-  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
-  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
-}
-.ats-menu__contents {
-  display: flex; flex-direction: column; gap: var(--menu-spacing-contents-gap);
-  padding: var(--menu-spacing-contents-padding-vertical) var(--menu-spacing-contents-padding-horizontal);
-}
-.ats-menu-overlay { max-height: inherit; }
-.ats-menu-overlay > .ats-menu-header { flex: 0 0 auto; }
-.ats-menu__contents { min-height: 0; overflow: auto; }
-.ats-menu__section { display: flex; flex-direction: column; }
-/* group label: Figma novo-drag-container section header (2627:70591), input/label/md, uppercase */
-.ats-menu__section-title {
-  padding: var(--menu-spacing-header-padding-vertical) var(--menu-spacing-header-padding-horizontal);
-  text-align: center; text-transform: uppercase; color: var(--card-color-content-heading);
-  font-size: var(--typography-input-label-md-font-size); line-height: var(--typography-input-label-md-line-height);
-  font-weight: var(--typography-input-label-md-font-weight); letter-spacing: var(--typography-input-label-md-letter-spacing);
-}
-.ats-menu__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-gap-md); }
-/* drop position while dragging: a 2px color/border/focus bar beside the target tile
-   (no Figma spec for the indicator; the bar sits in the grid gap) */
-.ats-menu__grid > .ats-menu-item { position: relative; }
-.ats-menu-item.is-drop-before::after, .ats-menu-item.is-drop-after::after {
-  content: ""; position: absolute; top: 8px; bottom: 8px; width: 2px; border-radius: 1px;
-  background: var(--color-border-focus); pointer-events: none;
-}
-.ats-menu-item.is-drop-before::after { left: calc(-1 * var(--spacing-gap-md) / 2 - 1px); }
-.ats-menu-item.is-drop-after::after { right: calc(-1 * var(--spacing-gap-md) / 2 - 1px); }
-.ats-menu__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-/* app tiles = <button ats-menu-item> (lib/menu-item); header = <ats-menu-header> (lib/menu-header) */
 
 /* ---- Help (help-dropdown-container 4711:109561) ---- */
 .ats-help-overlay {

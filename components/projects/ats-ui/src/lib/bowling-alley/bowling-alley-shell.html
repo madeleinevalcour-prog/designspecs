@@ -14,16 +14,10 @@
     @if (ctrl.overlay(); as o) {
       <div #ovl class="ats-bowling-alley-shell__overlay" role="dialog" [attr.aria-label]="overlayLabel()">
         @switch (o.kind) {
-          @case ('menu') {
-            @if (ctrl.menuMode() === 'edit') {
-              <ats-menu-edit (done)="ctrl.setMenuMode('menu')" (closed)="ctrl.dismiss()" />
-            } @else {
-              <ats-menu-overlay (closed)="ctrl.dismiss()" (selected)="select(o.kind, $event)" (addRemove)="ctrl.setMenuMode('edit')" />
-            }
-          }
-          @case ('add') { <ats-add-overlay (selected)="select(o.kind, $event)" /> }
+          @case ('menu') { <ats-menu variant="apps" (closed)="ctrl.dismiss()" (selected)="select(o.kind, $event)" /> }
+          @case ('add') { <ats-menu variant="add" (selected)="select(o.kind, $event)" /> }
           @case ('help') { <ats-help-overlay /> }
-          @default { <ats-user-overlay (selected)="select(o.kind, $event)" /> }
+          @default { <ats-menu variant="user" (selected)="select(o.kind, $event)" /> }
         }
       </div>
     }
