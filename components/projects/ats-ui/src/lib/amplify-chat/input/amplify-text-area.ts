@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, afterNextRender, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, DestroyRef, Component, ElementRef, ViewEncapsulation, afterNextRender, computed, inject, input } from '@angular/core';
 
 /** Figma amplify-text-area `size` (only `default` exists). */
 export type AmplifyChatTextAreaSize = 'default';
@@ -39,6 +39,7 @@ export const AMPLIFY_CHAT_PLACEHOLDER = 'What would you like to know or do today
 })
 export class AmplifyChatTextArea {
   private readonly el = inject<ElementRef<HTMLTextAreaElement>>(ElementRef).nativeElement;
+  private readonly destroyRef = inject(DestroyRef);
 
   /** Placeholder text; defaults to "What would you like to know or do today?". */
   readonly placeholder = input<string>();
@@ -48,12 +49,24 @@ export class AmplifyChatTextArea {
   protected readonly sizeName = computed(() => this.size() ?? 'default');
 
   constructor() {
-    afterNextRender(() => this.resize());
+    afterNextRender(() => {
+      this.resize();
+      // Wrapping changes with the width (panel resize, docked ↔ full page): re-fit.
+      let width = this.el.clientWidth;
+      const ro = new ResizeObserver(() => {
+        if (this.el.clientWidth !== width) { width = this.el.clientWidth; this.resize(); }
+      });
+      ro.observe(this.el);
+      this.destroyRef.onDestroy(() => ro.disconnect());
+    });
   }
 
   /** Fit the height to the content (capped by the CSS max-height). Call after setting the value in code. */
   resize(): void {
     const el = this.el;
+    // Empty: back to one line. (Chrome counts the placeholder in scrollHeight, so measuring an
+    // empty field before it has its real width makes it tall.)
+    if (!el.value) { el.style.height = ''; return; }
     el.style.height = 'auto';
     el.style.height = `${el.scrollHeight}px`;
   }
