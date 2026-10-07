@@ -30,7 +30,8 @@
 
 /* ---- full page: one 800px column (turns and input share its edges), centered ---- */
 .ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__scroll {
-  padding: 0 var(--spacing-margin); /* narrow windows: spacing/margin (24) per side */
+  /* Figma full page: chat column 24 below the header; narrow windows: spacing/margin (24) per side */
+  padding: var(--spacing-margin) var(--spacing-margin) 0;
 }
 .ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__column,
 .ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__input {
@@ -38,7 +39,7 @@
   margin-inline: auto;
 }
 .ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__input {
-  padding-bottom: var(--spacing-padding-md);
+  padding-bottom: var(--spacing-margin); /* Figma full page: input 24 above the page bottom */
 }
 
 /* ---- docked: fills the panel; turns inset padding/sm, user turns a further padding/lg ---- */

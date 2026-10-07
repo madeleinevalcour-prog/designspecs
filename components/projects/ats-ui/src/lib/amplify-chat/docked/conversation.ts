@@ -30,9 +30,16 @@ const STICK_THRESHOLD = 48;
  *    spacing/padding/sm (8) and user turns another spacing/padding/lg (24) on the left
  *    (Figma chat-column / user-turn padding).
  *
+ * Alignment: while the turns fit, they are top-aligned in the column and the input
+ * sits at the bottom of the view (Figma full-page "short conversation" 6237:176854).
+ * Once they overflow, the conversation is bottom-anchored (Figma "long conversation"
+ * 6267:181805): the newest content sits just above the input and older turns scroll
+ * off the top.
+ *
  * Auto-scroll: when a turn is added or grows (e.g. a thinking block turns into the
- * reply), the view follows to the newest content only if the user was already at the
- * bottom; if they scrolled up to read, they stay where they are. Call
+ * reply), or the input area / viewport changes size, the view follows to the newest
+ * content only if the user was already at the bottom; if they scrolled up to read,
+ * they stay where they are. Call
  * `scrollToBottom()` to jump to the latest (e.g. right after the user sends).
  * The turns column is a `role="log"` region so new replies are announced politely.
  * The host fills its parent (`height: 100%`), so give the parent a bounded height.
@@ -52,7 +59,7 @@ const STICK_THRESHOLD = 48;
       <div class="ats-amplify-chat-conversation__column" #column role="log" aria-live="polite" [attr.aria-label]="label() ?? 'Conversation'">
         <ng-content />
       </div>
-      <div class="ats-amplify-chat-conversation__input">
+      <div class="ats-amplify-chat-conversation__input" #inputArea>
         <ng-content select="[slot=input], ats-amplify-chat-container, ats-amplify-chat-global-chat-container" />
       </div>
     </div>
@@ -72,6 +79,7 @@ export class AmplifyChatConversation {
 
   private readonly scroller = viewChild.required<ElementRef<HTMLElement>>('scroller');
   private readonly column = viewChild.required<ElementRef<HTMLElement>>('column');
+  private readonly inputArea = viewChild.required<ElementRef<HTMLElement>>('inputArea');
   /** True while the user is at (or near) the bottom: new content keeps the view pinned there. */
   private atBottom = true;
 
@@ -81,11 +89,15 @@ export class AmplifyChatConversation {
       const column = this.column().nativeElement;
       this.scrollToBottom();
       // A turn added, or a turn that grew (thinking → reply): follow only if already at the bottom.
+      // Also follow when the input area grows (a clarifying-questions card opens) or the
+      // viewport itself resizes, so the newest turn stays just above the input.
       const follow = () => { if (this.atBottom) this.scrollToBottom(); };
       const mo = new MutationObserver(follow);
       mo.observe(column, { childList: true, subtree: true, characterData: true });
       const ro = new ResizeObserver(follow);
       ro.observe(column);
+      ro.observe(this.inputArea().nativeElement);
+      ro.observe(this.scroller().nativeElement);
       destroyRef.onDestroy(() => { mo.disconnect(); ro.disconnect(); });
     });
   }

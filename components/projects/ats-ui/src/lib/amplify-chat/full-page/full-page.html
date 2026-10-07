@@ -1,0 +1,44 @@
+<!-- novo-header: page-title (Amplify mark, title, close) + tabs -->
+<header class="ats-amplify-chat-full-page__header">
+  <div class="ats-amplify-chat-full-page__title-row">
+    <div class="ats-amplify-chat-full-page__title">
+      <ats-icon-container theme="amplify" size="lg" />
+      <h1 class="ats-amplify-chat-full-page__label">{{ titleText() }}</h1>
+    </div>
+    @if (closable() !== false) {
+      <div class="ats-amplify-chat-full-page__actions">
+        <button ats-button theme="icon" icon="close" aria-label="Close Amplify" (click)="closed.emit()"></button>
+      </div>
+    }
+  </div>
+  @if (tabList().length) {
+    <nav class="ats-amplify-chat-full-page__tabs" aria-label="Amplify sections">
+      @for (t of tabList(); track $index; let i = $index) {
+        <button type="button" class="ats-amplify-chat-full-page__tab" [class.is-active]="i === currentTab()"
+          [attr.aria-current]="i === currentTab() ? 'page' : null" (click)="selectTab(i)">{{ t }}</button>
+      }
+    </nav>
+  }
+</header>
+
+<div class="ats-amplify-chat-full-page__body">
+  <!-- one projection slot, never inside @if: the conversation is hidden (not removed) while empty -->
+  <ats-amplify-chat-conversation size="full page" [label]="label()" [hidden]="isEmpty()">
+    <ng-content />
+    @if (!isEmpty()) {
+      <ats-amplify-chat-container slot="input" size="full page" [context]="context()" [questions]="questions()"
+        [placeholder]="placeholder()" [generating]="generating()" (send)="onSend($event)" (stop)="stop.emit()"
+        (answered)="answered.emit($event)" (completed)="completed.emit($event)" (dismissed)="dismissed.emit()"
+        (removed)="removed.emit($event)" (add)="add.emit()"
+        (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
+    }
+  </ats-amplify-chat-conversation>
+
+  @if (isEmpty()) {
+    <div class="ats-amplify-chat-full-page__start">
+      <ats-amplify-chat-global-chat-container [name]="greetingName()" [greeting]="greeting()" [placeholder]="placeholder()"
+        [generating]="generating()" (send)="onStartSend($event)" (stop)="stop.emit()"
+        (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
+    </div>
+  }
+</div>

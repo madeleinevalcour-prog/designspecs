@@ -1,0 +1,87 @@
+/* AmplifyChatFullPage (Figma global-chat-full-page 6267:179466 / 6237:176854 / 6267:181805).
+   Unencapsulated, namespaced .ats-amplify-chat-full-page. */
+.ats-amplify-chat-full-page {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  width: 100%; height: 100%; min-height: 0; min-width: 0;
+  font-family: var(--typography-font-family-base), 'Inter', sans-serif;
+}
+
+/* ---- novo-header (page-title + tabs) ---- */
+.ats-amplify-chat-full-page__header {
+  position: relative; z-index: 2; flex: 0 0 auto; box-sizing: border-box;
+  display: flex; flex-direction: column;
+  gap: var(--toolbar-spacing-candidate-title-padding-bottom);
+  padding: var(--header-spacing-padding-top) var(--header-spacing-padding-horizontal) 0;
+  background: var(--card-color-background-header);
+  border-bottom: 1px solid var(--header-color-border-default); /* no token: Figma 1px stroke */
+  box-shadow: var(--elevation-2); /* general/level 2 */
+}
+.ats-amplify-chat-full-page__title-row {
+  display: flex; align-items: center; gap: var(--card-spacing-header-gap);
+}
+.ats-amplify-chat-full-page__title {
+  display: flex; align-items: center; flex: 1 0 0; min-width: 1px;
+  gap: var(--header-spacing-candidate-header-title);
+}
+/* title/default in color/text/headline */
+.ats-amplify-chat-full-page__label {
+  margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--color-text-headline);
+  font-family: var(--typography-title-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-title-default-font-size);
+  font-weight: var(--typography-title-default-font-weight);
+  line-height: var(--typography-title-default-line-height);
+  letter-spacing: var(--typography-title-default-letter-spacing);
+}
+.ats-amplify-chat-full-page__actions {
+  display: flex; align-items: center; justify-content: flex-end; flex: 0 0 auto;
+  gap: var(--header-spacing-candidate-header-actions);
+}
+
+/* tabs: tab-link items, gap tabs/spacing/tab-items/gap (24) */
+.ats-amplify-chat-full-page__tabs { display: flex; align-items: center; gap: var(--tabs-spacing-tab-items-gap); }
+.ats-amplify-chat-full-page__tab {
+  position: relative; flex: 0 0 auto; box-sizing: border-box;
+  min-height: var(--spacing-40);
+  padding: var(--tabs-spacing-tab-items-padding-vertical) calc(var(--tabs-spacing-tab-items-padding-horizontal) * 2) 0;
+  display: inline-flex; align-items: flex-start; justify-content: center;
+  border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+  color: var(--tabs-color-tab-items-default);
+  font-family: var(--typography-tabs-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-tabs-default-font-size);
+  font-weight: var(--typography-tabs-default-font-weight);
+  line-height: var(--typography-tabs-default-line-height);
+  letter-spacing: var(--typography-tabs-default-letter-spacing);
+}
+.ats-amplify-chat-full-page__tab:hover { color: var(--tabs-color-tab-items-hover); }
+.ats-amplify-chat-full-page__tab:focus-visible { outline: var(--border-width-border-sm) solid var(--color-border-focus); outline-offset: -2px; }
+.ats-amplify-chat-full-page__tab.is-active {
+  color: var(--tabs-color-tab-items-active-text);
+  font-size: var(--typography-tabs-active-font-size);
+  font-weight: var(--typography-tabs-active-font-weight);
+  line-height: var(--typography-tabs-active-line-height);
+}
+/* active-tab-underline: 2px, Amplify Radial (no token: stops from the Figma asset, as in icon-container) */
+.ats-amplify-chat-full-page__tab.is-active::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: var(--border-width-border-sm);
+  border-radius: var(--tabs-border-tab-active-indicator-radius-default) var(--tabs-border-tab-active-indicator-radius-default) 0 0;
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}
+
+/* ---- body: the conversation, or the starting point ---- */
+.ats-amplify-chat-full-page__body {
+  position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column;
+  background: var(--color-background-muted);
+}
+.ats-amplify-chat-full-page__body > .ats-amplify-chat-conversation { flex: 1 1 auto; min-height: 0; }
+.ats-amplify-chat-full-page__body > .ats-amplify-chat-conversation[hidden] { display: none; }
+
+/* starting point: global-chat-container (750 wide) in the upper middle, 200 below the header */
+.ats-amplify-chat-full-page__start {
+  position: absolute; inset: 0; overflow-y: auto; box-sizing: border-box;
+  display: flex; justify-content: center; align-items: flex-start;
+  padding: min(200px, 20vh) var(--spacing-margin) var(--spacing-margin); /* no token: Figma 200 from the header (capped on short windows) */
+}
+.ats-amplify-chat-full-page__start > .ats-amplify-chat-global-chat-container {
+  max-width: 750px; /* no token: Figma global-chat-container width 750 */
+}

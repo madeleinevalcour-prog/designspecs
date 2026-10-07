@@ -52,6 +52,7 @@ export * from './lib/amplify-chat/cards';
 export * from './lib/amplify-chat/clarifying-questions';
 export * from './lib/amplify-chat/data-table';
 export * from './lib/amplify-chat/docked';
+export * from './lib/amplify-chat/full-page';
 export * from './lib/amplify-chat/input';
 export * from './lib/amplify-chat/reply';
 export * from './lib/amplify-chat/selection';

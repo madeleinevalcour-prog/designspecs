@@ -1,0 +1,89 @@
+<div class="frame" [class.embed]="embed()">
+  <ats-bowling-alley-shell nav="open">
+    <ats-bowling-alley />
+    <ats-amplify-chat-full-page greetingName="Chloe" [context]="context" [questions]="questions()" [generating]="generating()"
+      (send)="ask($event)" (stop)="stop()" (completed)="answeredAll($event)" (dismissed)="questions.set(undefined)"
+      (closed)="log.set('closed')" (tabSelect)="log.set('tab ' + $event)">
+      @for (turn of turns(); track turn.id) {
+        @if (turn.kind === 'user') {
+          <ats-amplify-chat-user-turn>
+            <ats-amplify-chat-user-bubble>{{ turn.text }}</ats-amplify-chat-user-bubble>
+          </ats-amplify-chat-user-turn>
+        } @else if (turn.thinking) {
+          <ats-amplify-chat-chat-block [status]="thinking[turn.format]" />
+        } @else if (turn.stopped) {
+          <ats-amplify-chat-chat-block [showActions]="false">
+            <ats-amplify-chat-text>You stopped this response.</ats-amplify-chat-text>
+          </ats-amplify-chat-chat-block>
+        } @else {
+          @switch (turn.format) {
+            @case ('table') {
+              <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts, excluding those already in your ATS · Updated today"
+                [sources]="prospectSources" [followUps]="['Show 10 more', 'Find matches for #1', 'Why this order?']" (followUp)="ask($event)">
+                <ats-amplify-chat-text type="paragraph-with-links">
+                  Here are 5 <a ats-amplify-chat-link entity="company" href="#">Verizon</a> contacts I found from external/contact discovery that
+                  do not appear to be in your ATS yet (I checked existing ATS contacts tied to your
+                  <a ats-amplify-chat-link entity="company" href="#">Verizon</a> client-company records, and only found the two “Default Contact” entries).
+                </ats-amplify-chat-text>
+                <ats-amplify-chat-header>Suggested 5 new Verizon contacts (not in ATS)</ats-amplify-chat-header>
+                <ats-amplify-chat-data-table [records]="prospects" [columns]="columns" [actions]="selectionActions" [selection]="turn.selection ?? []" />
+              </ats-amplify-chat-chat-block>
+            }
+            @case ('prose') {
+              <ats-amplify-chat-chat-block sourcesSummary="Based on 14 job orders · Updated today" [sources]="jobSources"
+                [followUps]="['Show all 14', 'Find matches for #1', 'Why this order?']" (followUp)="ask($event)">
+                <ats-amplify-chat-text>5 of your 14 open jobs need action today, ranked by start date, open submittals, and client priority.</ats-amplify-chat-text>
+                <ats-amplify-chat-header>Needs Attention Today</ats-amplify-chat-header>
+                <ol ats-amplify-chat-numbered-list>
+                  <li ats-amplify-chat-list-item>Senior Java Developer at Verizon starts Oct 6 with no submittals.</li>
+                  <li ats-amplify-chat-list-item>Data Engineer at PepsiCo has 1 submittal and client priority High.</li>
+                  <li ats-amplify-chat-list-item>Project Manager at Acme has an interview pending feedback.</li>
+                </ol>
+              </ats-amplify-chat-chat-block>
+            }
+            @case ('cards') {
+              <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts, excluding those already in your ATS · Updated today"
+                [sources]="prospectSources" [followUps]="['Show 10 more', 'Draft an intro email', 'Why these 3?']" (followUp)="ask($event)">
+                <ats-amplify-chat-text type="paragraph-with-links">
+                  Here are 3 <a ats-amplify-chat-link entity="company" href="#">Verizon</a> contacts from Prospect who aren't in your ATS yet,
+                  ranked by seniority and recent activity.
+                </ats-amplify-chat-text>
+                <ats-amplify-chat-header>Suggested 3 New Verizon Contacts</ats-amplify-chat-header>
+                <ats-amplify-chat-chat-cards theme="prospect" [items]="cardItems" [actions]="selectionActions" />
+              </ats-amplify-chat-chat-block>
+            }
+            @case ('clarify') {
+              <ats-amplify-chat-chat-block [showActions]="false">
+                <ats-amplify-chat-text>I can find matching candidates. Two quick questions first, so I search the right job and area.</ats-amplify-chat-text>
+              </ats-amplify-chat-chat-block>
+            }
+            @case ('answer') {
+              <ats-amplify-chat-chat-block sourcesSummary="Based on 312 candidates · Updated today"
+                [followUps]="['Show all 12', 'Draft outreach to #1', 'Only active candidates']" (followUp)="ask($event)">
+                <ats-amplify-chat-text>I found 12 candidates for 425 | Software Engineer within 25 miles of Boston. The top 3 have Java and Spring Boot and were active this month.</ats-amplify-chat-text>
+                <ol ats-amplify-chat-numbered-list>
+                  <li ats-amplify-chat-list-item>Jordan Lee, Senior Java Developer, Cambridge (available in 2 weeks).</li>
+                  <li ats-amplify-chat-list-item>Tyler Brooks, Backend Engineer, Boston (open to contract).</li>
+                  <li ats-amplify-chat-list-item>Ana Ruiz, Java Engineer, Quincy (placed by you in 2022).</li>
+                </ol>
+              </ats-amplify-chat-chat-block>
+            }
+            @default {
+              <ats-amplify-chat-chat-block [followUps]="['Make it shorter', 'More formal', 'Add salary range']" (followUp)="ask($event)">
+                <ats-amplify-chat-text type="paragraph-with-links">
+                  Here's a first outreach email to <a ats-amplify-chat-link entity="candidate" href="#">Jordan Lee</a> for
+                  <a ats-amplify-chat-link entity="job" href="#">Senior Java Developer</a>. Edit it before you send.
+                </ats-amplify-chat-text>
+                <ats-amplify-chat-draft-block subject="Senior Java Developer role in Boston" [draft]="draft" />
+              </ats-amplify-chat-chat-block>
+            }
+          }
+        }
+      }
+    </ats-amplify-chat-full-page>
+  </ats-bowling-alley-shell>
+
+  @if (!embed()) {
+    <button ats-button class="reset" theme="secondary" size="small" (click)="reset()">Reset</button>
+  }
+</div>

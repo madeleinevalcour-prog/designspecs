@@ -12,6 +12,7 @@ export const routes: Routes = [
   { path: 'amplify-chat-clarifying-questions', loadComponent: () => import('./pages/amplify-chat-clarifying-questions/amplify-chat-clarifying-questions-page').then((m) => m.AmplifyChatClarifyingQuestionsPage), title: 'Amplify Chat — Clarifying questions — ats-ui' },
   { path: 'amplify-chat-data-table', loadComponent: () => import('./pages/amplify-chat-data-table/amplify-chat-data-table-page').then((m) => m.AmplifyChatDataTablePage), title: 'Amplify Chat — Data table — ats-ui' },
   { path: 'amplify-chat-docked', loadComponent: () => import('./pages/amplify-chat-docked/amplify-chat-docked-page').then((m) => m.AmplifyChatDockedPage), title: 'Amplify Chat — Docked chat — ats-ui' },
+  { path: 'amplify-chat-full-page', loadComponent: () => import('./pages/amplify-chat-full-page/amplify-chat-full-page-page').then((m) => m.AmplifyChatFullPagePage), title: 'Amplify Chat — Full page — ats-ui' },
   { path: 'amplify-chat-input', loadComponent: () => import('./pages/amplify-chat-input/amplify-chat-input-page').then((m) => m.AmplifyChatInputPage), title: 'Amplify Chat — Chat input — ats-ui' },
   { path: 'amplify-chat-reply', loadComponent: () => import('./pages/amplify-chat-reply/amplify-chat-reply-page').then((m) => m.AmplifyChatReplyPage), title: 'Amplify Chat — Reply — ats-ui' },
   { path: 'amplify-chat-selection', loadComponent: () => import('./pages/amplify-chat-selection/amplify-chat-selection-page').then((m) => m.AmplifyChatSelectionPage), title: 'Amplify Chat — Selection — ats-ui' },
