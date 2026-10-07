@@ -5,7 +5,7 @@
   <ats-amplify-chat-chat-block sourcesSummary="Based on 14 job orders · Updated today" [sources]="jobSources"
     [followUps]="chips(followUpsProse)" [showActions]="showActions()" [actionLabel]="action()"
     (followUp)="log.set('follow-up: ' + $event)" (copied)="log.set('copied reply')" (feedback)="log.set('feedback: ' + $event)"
-    (savePrompt)="log.set('save prompt')" (action)="log.set('action')">
+    (savePrompt)="log.set($event ? 'prompt saved' : 'prompt unsaved')" (action)="log.set('action')">
     <ats-amplify-chat-text>5 of your 14 open jobs need action today, ranked by start date, open submittals, and client priority.</ats-amplify-chat-text>
     <ats-amplify-chat-header>Needs Attention Today</ats-amplify-chat-header>
     <ol ats-amplify-chat-numbered-list>
@@ -39,7 +39,7 @@
 
 <!-- (d) thinking / status -->
 <ng-template #status>
-  <ats-amplify-chat-chat-block status="Ranking 14 job orders…" (stop)="log.set('stop')" />
+  <ats-amplify-chat-chat-block status="Ranking 14 job orders…" />
 </ng-template>
 
 <!-- (e) data table -->

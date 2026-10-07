@@ -23,14 +23,6 @@
   background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
 }
 
-/* thinking state: the status line (amplify-chat/text type=status) + Stop */
-.ats-amplify-chat-chat-block__status {
-  display: flex; align-items: center;
-  gap: var(--amplify-chat-chat-block-controls-spacing-gap-spacing-8);
-}
-.ats-amplify-chat-chat-block__status > .ats-amplify-chat-text { flex: 0 1 auto; }
-.ats-amplify-chat-chat-block__stop { flex: 0 0 auto; }
-
 /* body: the projected reply, in order. Paragraph to block = gap/md (16). */
 .ats-amplify-chat-chat-block__body {
   display: flex; flex-direction: column; align-items: stretch;
@@ -39,11 +31,6 @@
 }
 .ats-amplify-chat-chat-block__body[hidden] { display: none; }
 .ats-amplify-chat-chat-block__body:empty { display: none; }
-/* prose (text, headings, lists): ~70ch reading cap; tables, cards and blocks use the full column
-   (no token: patterns doc "Spacing and layout", prose max 560) */
-.ats-amplify-chat-chat-block__body > :is(.ats-amplify-chat-text, .ats-amplify-chat-header, .ats-amplify-chat-numbered-list) {
-  max-width: 560px;
-}
 /* paragraph to paragraph: gap/sm (8) — Figma answer frame gap */
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-text + .ats-amplify-chat-text {
   margin-top: calc(var(--amplify-chat-chat-block-answer-spacing-gap-spacing-gap-sm) - var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md));

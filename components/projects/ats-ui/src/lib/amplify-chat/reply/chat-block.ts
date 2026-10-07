@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewEncapsulation, computed, inject, input, output, signal, viewChild,
+  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewEncapsulation, computed, inject, input, model, output, signal, viewChild,
 } from '@angular/core';
 import { Button } from '../../button/button';
 import { Icon } from '../../icon/icon';
@@ -24,12 +24,13 @@ export type AmplifyChatFeedback = 'up' | 'down';
  *     and an optional right-aligned primary action (`actionLabel`).
  * Groups sit spacing/gap/md (16) apart. Inside the body: paragraph to block 16,
  * paragraph to paragraph and heading to its content spacing/gap/sm (8), 24 above a
- * section heading. Prose (text, headings, lists) is capped at ~70ch (560px); tables,
- * cards and blocks use the full column (800 max, set by the chat column).
+ * section heading. Everything, prose included, uses the full chat column (800 max, set
+ * by the column), as in Figma.
  *
  * Thinking state: set `status` ("Searching open jobs…") and the block shows only the
- * status line (amplify-chat/text type=status: Amplify icon + body/sm secondary) with a
- * Stop control; the body, footer and controls are hidden until `status` is cleared.
+ * status line (amplify-chat/text type=status: Amplify icon + body/sm secondary); the body,
+ * footer and controls are hidden until `status` is cleared. Stop lives in the chat input
+ * (`ats-amplify-chat-input [generating]`), next to Send.
  *
  *   <ats-amplify-chat-chat-block sourcesSummary="Based on 14 job orders · Updated today"
  *     [followUps]="['Show all 14', 'Find matches for #1', 'Why this order?']" (followUp)="send($event)">
@@ -40,22 +41,18 @@ export type AmplifyChatFeedback = 'up' | 'down';
  *       <li ats-amplify-chat-list-item>Data Engineer at PepsiCo has 1 submittal and client priority High.</li>
  *     </ol>
  *   </ats-amplify-chat-chat-block>
- *   <ats-amplify-chat-chat-block status="Ranking 14 job orders…" (stop)="cancel()" />
+ *   <ats-amplify-chat-chat-block status="Ranking 14 job orders…" />
  *
  * Copy writes the body's visible text to the clipboard and emits it. Thumbs up / down
- * are toggle buttons (aria-pressed); pressing one clears the other.
+ * are toggle buttons (aria-pressed); pressing one clears the other. Save prompt is a toggle
+ * too: once saved the bookmark is filled (`[(saved)]`).
  */
 @Component({
   selector: 'ats-amplify-chat-chat-block',
   imports: [AmplifyChatSourcesRow, AmplifyChatText, Button, Icon, IconButtonNoContainer],
   template: `
     @if (status()) {
-      <div class="ats-amplify-chat-chat-block__status">
-        <ats-amplify-chat-text type="status">{{ status() }}</ats-amplify-chat-text>
-        @if (showStop() !== false) {
-          <button ats-button theme="dialogue" size="small" class="ats-amplify-chat-chat-block__stop" (click)="stop.emit()">Stop</button>
-        }
-      </div>
+      <ats-amplify-chat-text type="status">{{ status() }}</ats-amplify-chat-text>
     } @else {
       <div class="ats-amplify-chat-chat-block__identity">
         <ats-icon class="ats-amplify-chat-chat-block__identity-icon" name="amplify" [size]="16" />
@@ -94,7 +91,8 @@ export type AmplifyChatFeedback = 'up' | 'down';
               <button ats-icon-button-no-container icon="thumbs-down-line" aria-label="Bad response"
                 [attr.aria-pressed]="rating() === 'down'" [state]="rating() === 'down' ? 'active' : undefined"
                 (click)="rate('down')"></button>
-              <button ats-icon-button-no-container icon="bookmark-outline" aria-label="Save prompt" (click)="savePrompt.emit()"></button>
+              <button ats-icon-button-no-container [icon]="saved() ? 'bookmark' : 'bookmark-outline'" aria-label="Save prompt"
+                [attr.aria-pressed]="saved()" (click)="toggleSaved()"></button>
               <span class="ats-amplify-chat-chat-block__sr" aria-live="polite">{{ isCopied() ? 'Copied' : '' }}</span>
             }
           </div>
@@ -119,8 +117,6 @@ export type AmplifyChatFeedback = 'up' | 'down';
 export class AmplifyChatChatBlock {
   /** Thinking state: the current step, e.g. "Searching open jobs…". Set → only the status line shows. */
   readonly status = input<string>();
-  /** Show the Stop control in the thinking state (default true). */
-  readonly showStop = input<boolean | undefined>();
   /** Sources row summary (meta/default), e.g. "Based on 14 job orders · Updated today". Shows the row. */
   readonly sourcesSummary = input<string>();
   /** The records the answer used (the sources row's expanded list). */
@@ -140,9 +136,11 @@ export class AmplifyChatChatBlock {
   readonly copied = output<string>();
   /** Thumbs up / down pressed, or `null` when the pressed one is clicked again (cleared). */
   readonly feedback = output<AmplifyChatFeedback | null>();
-  readonly savePrompt = output<void>();
+  /** Prompt saved (two-way): the bookmark is filled once saved. */
+  readonly saved = model(false);
+  /** Save prompt toggled: true = saved, false = removed. */
+  readonly savePrompt = output<boolean>();
   readonly action = output<void>();
-  readonly stop = output<void>();
   /** A source in the expanded sources row was activated. */
   readonly sourceClick = output<AmplifyChatSource>();
 
@@ -161,6 +159,11 @@ export class AmplifyChatChatBlock {
     const next = this.rating() === value ? null : value;
     this.rating.set(next);
     this.feedback.emit(next);
+  }
+
+  protected toggleSaved(): void {
+    this.saved.set(!this.saved());
+    this.savePrompt.emit(this.saved());
   }
 
   protected async copyReply(): Promise<void> {
