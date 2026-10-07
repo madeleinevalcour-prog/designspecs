@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, model, output } from '@angular/core';
 import { Button } from '../../button/button';
 import { Dropdown, DropdownTrigger } from '../../dropdown/dropdown';
-import { Optgroup } from '../../dropdown/optgroup';
-import { Option } from '../../dropdown/option';
+import { DropdownOptgroup } from '../../dropdown/optgroup';
+import { DropdownOption } from '../../dropdown/option';
 
 /** One related action in the split button's menu. */
 export interface AmplifyChatSelectionAction {
@@ -47,7 +47,7 @@ export type AmplifyChatSelectionSplitButtonState = 'hover' | 'focus' | 'active';
  */
 @Component({
   selector: 'ats-amplify-chat-selection-split-button',
-  imports: [Button, Dropdown, DropdownTrigger, Optgroup, Option],
+  imports: [Button, Dropdown, DropdownTrigger, DropdownOptgroup, DropdownOption],
   template: `
     <button ats-button theme="primary" size="small" class="ats-amplify-chat-selection-split-button__primary"
       [state]="state()" [disabled]="isEmpty()" (click)="primary.emit(countValue())">{{ text() }}</button>

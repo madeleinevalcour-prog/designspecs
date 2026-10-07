@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input } from '@angular/core';
 
 /** Figma novo-optgroup `Property 1` (built ones). */
-export type OptgroupType = 'default' | 'check-list';
+export type DropdownOptgroupType = 'default' | 'check-list';
 
 /**
- * Optgroup (Figma: "novo-optgroup", 338:7812). A group of rows inside a Dropdown.
+ * DropdownOptgroup (Figma: "novo-optgroup", 338:7812). A group of rows inside a Dropdown.
  *  - default (338:7813): a column of Options (`[ats-option]`), no gap.
  *  - check-list (1779:42497): a column of CheckboxLabels (`label[ats-checkbox-label]`,
  *    lib/checkbox-label) — multi-select. The arrow keys move between the checkboxes;
@@ -41,9 +41,9 @@ export type OptgroupType = 'default' | 'check-list';
     '[attr.data-type]': 'typeName()',
   },
 })
-export class Optgroup {
-  readonly type = input<OptgroupType>();
+export class DropdownOptgroup {
+  readonly type = input<DropdownOptgroupType>();
   /** Optional group heading (not in Figma). */
   readonly label = input<string>();
-  protected readonly typeName = computed<OptgroupType>(() => this.type() ?? 'default');
+  protected readonly typeName = computed<DropdownOptgroupType>(() => this.type() ?? 'default');
 }

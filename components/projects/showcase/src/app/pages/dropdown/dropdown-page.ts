@@ -1,5 +1,5 @@
 import { Component, computed, input, signal } from '@angular/core';
-import { Button, CheckboxLabel, Dropdown, DropdownTrigger, Optgroup, Option, OptionState } from 'ats-ui';
+import { Button, CheckboxLabel, Dropdown, DropdownTrigger, DropdownOptgroup, DropdownOption, DropdownOptionState } from 'ats-ui';
 
 type Part = 'dropdown' | 'optgroup' | 'option';
 
@@ -21,7 +21,7 @@ type Part = 'dropdown' | 'optgroup' | 'option';
  *   live = true (dropdown: a trigger button that opens it)
  */
 @Component({
-  imports: [Button, CheckboxLabel, Dropdown, DropdownTrigger, Optgroup, Option],
+  imports: [Button, CheckboxLabel, Dropdown, DropdownTrigger, DropdownOptgroup, DropdownOption],
   selector: 'app-dropdown-page',
   template: `
     @if (component() === 'option') {
@@ -159,6 +159,7 @@ type Part = 'dropdown' | 'optgroup' | 'option';
     .w320 { width: 320px; }
     .line { display: flex; align-items: center; gap: 16px; }
     .line > [ats-option] { flex: 1; }
+    .line > .caption { flex: 0 0 140px; }
     .caption { font-size: 13px; font-weight: 500; color: #5d7798; }
     .anchor { position: relative; display: inline-block; }
     .menu-room { padding-bottom: 200px; }
@@ -166,17 +167,17 @@ type Part = 'dropdown' | 'optgroup' | 'option';
 })
 export class DropdownPage {
   readonly component = input<Part>();
-  readonly state = input<OptionState>();
+  readonly state = input<DropdownOptionState>();
   readonly label = input<string>();
   readonly icon = input<string>();
   readonly type = input<'default' | 'check-list'>();
   readonly live = input<string>();
 
-  protected readonly states: OptionState[] = ['default', 'hover', 'selected'];
+  protected readonly states: DropdownOptionState[] = ['default', 'hover', 'selected'];
   protected readonly placeholder = [1, 2, 3, 4, 5];
   protected readonly companies = ['Verizon', 'Comcast', 'AT&T', 'T-Mobile'];
   protected readonly checkItems = ['Details', 'Amplify', 'Recent Notes', 'Open Internal Submissions', 'Open Tasks', 'CV'];
-  protected readonly optionState = computed<OptionState>(() => this.state() ?? 'default');
+  protected readonly optionState = computed<DropdownOptionState>(() => this.state() ?? 'default');
   protected readonly picked = signal('Verizon');
   protected readonly liveOpen = signal<boolean | undefined>(false);
   protected readonly embedOpen = signal<boolean | undefined>(false);

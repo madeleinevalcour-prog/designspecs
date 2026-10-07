@@ -3,10 +3,10 @@ import { Icon } from '../icon/icon';
 import { DROPDOWN } from './dropdown-token';
 
 /** Figma option `Property 1`. Hover is also live (keyboard focus shows it too); `state` forces one for docs. */
-export type OptionState = 'default' | 'hover' | 'selected';
+export type DropdownOptionState = 'default' | 'hover' | 'selected';
 
 /**
- * Option (Figma: "option", 364:8124 — default 364:8144, hover 364:8125, selected 1474:50703).
+ * DropdownOption (Figma: "option", 364:8124 — default 364:8144, hover 364:8125, selected 1474:50703).
  * One row of a Dropdown: an optional 16px icon (Figma `show icon`), the label in
  * input/value/default (projected), and on `selected` the check indicator (bhi-check).
  * Hover and selected fill with dropdown/color/content/background/*.
@@ -51,12 +51,12 @@ export type OptionState = 'default' | 'hover' | 'selected';
     '(keydown.space)': 'onKey($event)',
   },
 })
-export class Option {
+export class DropdownOption {
   private readonly dropdown = inject(DROPDOWN, { optional: true });
   protected readonly isButton = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement.tagName === 'BUTTON';
 
   /** Forces the Figma variant (docs). `selected` also shows the check. */
-  readonly state = input<OptionState>();
+  readonly state = input<DropdownOptionState>();
   /** Selected (Figma selected: fill + check). */
   readonly selected = input(false, { transform: booleanAttribute });
   /** Figma `show icon`: a 16px glyph before the label. */
