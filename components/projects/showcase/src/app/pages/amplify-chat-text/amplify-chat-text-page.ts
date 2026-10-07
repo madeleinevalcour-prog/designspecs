@@ -12,7 +12,7 @@ type Part = 'header' | 'text' | 'numbered-list' | 'list-item' | 'link';
  * 6299:27096): amplify-chat/header, amplify-chat/text (+ the inline entity link),
  * amplify-chat/numbered-list, amplify-chat/list-item.
  *
- * Embed mode: any param renders one component, 560px wide (the prose cap), e.g.
+ * Embed mode: any param renders one component, up to 800px wide (the chat column), e.g.
  *   /examples/amplify-chat-text?component=header&level=label
  *   /examples/amplify-chat-text?component=text&type=paragraph-with-links
  *   /examples/amplify-chat-text?component=link&entity=company&state=hover
@@ -54,7 +54,7 @@ type Part = 'header' | 'text' | 'numbered-list' | 'list-item' | 'link';
       </div>
     } @else {
       <h1>Amplify Chat — Text</h1>
-      <p class="lede">Figma doc frame <code>doc/text</code> (6299:27096). Prose building blocks for an Amplify chat reply. Each fills its parent's width; shown here at the 560px prose cap.</p>
+      <p class="lede">Figma doc frame <code>doc/text</code> (6299:27096). Prose building blocks for an Amplify chat reply. Each fills its parent's width (the 800px chat column).</p>
 
       <h2>amplify-chat/header <span>6147:20798</span></h2>
       <div class="col">
@@ -112,7 +112,7 @@ type Part = 'header' | 'text' | 'numbered-list' | 'list-item' | 'link';
     h2 { font-size: 15px; margin: 32px 0 12px; }
     h2 span { font-weight: 400; color: #5d7798; font-size: 13px; margin-left: 6px; }
     .lede { color: #5d7798; margin: 0 0 8px; font-size: 14px; }
-    .embed { max-width: 560px; }
+    .embed { max-width: 800px; }
     .col { display: flex; flex-direction: column; gap: 16px; }
     .line { display: flex; align-items: flex-start; gap: 24px; }
     .line > :first-child { flex: 0 0 560px; width: 560px; }

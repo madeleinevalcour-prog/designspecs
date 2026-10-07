@@ -515,7 +515,7 @@ Column width:
 | Tables, cards, draft and literal value blocks | Full column width |
 | User bubble | Up to 440px, right-aligned |
 | Narrow windows | Column = available width minus `spacing/margin` (24) on each side |
-| Docked chat | No separate column. Content fills the panel minus its side padding; the prose cap still applies |
+| Docked chat | No separate column. Content, prose included, fills the panel minus its side padding |
 
 - Messages, tables and the composer share the same left and right edges, so the conversation reads as one column (Gestalt, continuity).
 - Two widths do two jobs: the column is wide enough for the 6-column table limit (about 133px per column at 800px), and the prose cap keeps paragraphs readable (Baymard; WCAG 1.4.8; H8).
