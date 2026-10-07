@@ -1,0 +1,114 @@
+/* AmplifyChatDocked (Figma "docked-chat" 4608:182872). Values are the
+   --amplify-chat-docked-chat-* tokens Figma binds. Unencapsulated, namespaced. */
+.ats-amplify-chat-docked {
+  --_panel-w: 420px; /* no token: Figma docked width 420 */
+  display: block; box-sizing: border-box; position: relative;
+  overflow: hidden;
+}
+
+/* The panel: header over main, on color/background/muted */
+.ats-amplify-chat-docked__panel {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  width: 100%; height: 100%; min-height: 0;
+  background: var(--amplify-chat-docked-chat-color-background-color-background-muted);
+}
+
+/* ---- docked (state=Default): a right-hand flex item; the page beside it contracts ---- */
+.ats-amplify-chat-docked[data-mode="docked"] {
+  flex: 0 0 auto; align-self: stretch; height: 100%;
+  width: 0;
+  transition: width 200ms ease-out, visibility 0s linear 200ms; /* no token: motion */
+  visibility: hidden;
+}
+.ats-amplify-chat-docked[data-mode="docked"].is-open {
+  width: var(--_panel-w);
+  visibility: visible;
+  transition: width 200ms ease-out, visibility 0s;
+}
+.ats-amplify-chat-docked[data-mode="docked"] .ats-amplify-chat-docked__panel {
+  /* fixed width inside the animating host, so the content slides in instead of reflowing */
+  width: var(--_panel-w);
+  border-left: 1px solid var(--amplify-chat-docked-chat-color-border-modal-color-border-default); /* no token: Figma 1px stroke */
+}
+/* general/level 3 - right, on the panel's left edge only (clip-path trims the shadow at the
+   top, right and bottom so it never spills over the app chrome) */
+.ats-amplify-chat-docked[data-mode="docked"].is-open {
+  overflow: visible;
+  clip-path: inset(0 0 0 -24px); /* no token: room for the shadow on the left only */
+  box-shadow:
+    0 var(--amplify-chat-docked-chat-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-docked-chat-effects-shadow-1-blur-spacing-8) 0
+      var(--amplify-chat-docked-chat-effects-shadow-1-color-color-transparency-charcoal-charcoal-08),
+    -2px var(--amplify-chat-docked-chat-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-docked-chat-effects-shadow-1-blur-spacing-8) 0
+      var(--amplify-chat-docked-chat-effects-shadow-1-color-color-transparency-charcoal-charcoal-04); /* no token: x offset -2 (general/level 3 - right) */
+}
+@media (prefers-reduced-motion: reduce) {
+  .ats-amplify-chat-docked[data-mode="docked"],
+  .ats-amplify-chat-docked[data-mode="docked"].is-open { transition: none; }
+}
+
+/* ---- pop over (state=pop-over): a fixed window over the page, no scrim ---- */
+.ats-amplify-chat-docked[data-mode="pop-over"] {
+  position: fixed; z-index: 1000; /* no token: overlay layer */
+  min-width: 420px; min-height: 360px; /* no token: smallest usable pop over */
+  resize: both;
+  border: 1px solid var(--amplify-chat-docked-chat-color-border-modal-color-border-default); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-docked-chat-border-radius-modal-border-radius-default);
+  /* general/level 4 */
+  box-shadow:
+    0 var(--amplify-chat-docked-chat-effects-shadow-2-offset-y-spacing-4) var(--amplify-chat-docked-chat-effects-shadow-2-blur-spacing-8) 0
+      var(--amplify-chat-docked-chat-effects-shadow-2-color-color-transparency-charcoal-charcoal-04),
+    var(--amplify-chat-docked-chat-effects-shadow-2-offset-x-spacing-8) var(--amplify-chat-docked-chat-effects-shadow-2-offset-y-spacing-12)
+      var(--amplify-chat-docked-chat-effects-shadow-2-blur-spacing-16) 0
+      var(--amplify-chat-docked-chat-effects-shadow-2-color-color-transparency-charcoal-charcoal-08);
+}
+.ats-amplify-chat-docked[data-mode="pop-over"]:not(.is-open) { display: none; }
+.ats-amplify-chat-docked[data-mode="pop-over"] .ats-amplify-chat-docked__header { cursor: move; touch-action: none; }
+.ats-amplify-chat-docked.is-dragging { user-select: none; }
+
+/* ---- header (novo-header / slideout-title) ---- */
+.ats-amplify-chat-docked__header {
+  display: flex; align-items: center; flex: 0 0 auto; box-sizing: border-box; position: relative; z-index: 1;
+  gap: var(--card-spacing-header-gap);
+  padding: var(--card-spacing-header-padding-vertical) var(--card-spacing-header-padding-horizontal);
+  background: var(--card-color-background-header);
+  border-bottom: 1px solid var(--header-color-border-default); /* no token: Figma 1px stroke */
+  box-shadow: var(--elevation-1); /* general/level 1 */
+}
+.ats-amplify-chat-docked__title {
+  display: flex; align-items: center; flex: 1 0 0; min-width: 1px;
+  gap: var(--header-spacing-candidate-header-title);
+}
+/* novo-icon frame 40 × 28 holding Icon/Amplify Radial */
+.ats-amplify-chat-docked__mark { display: flex; align-items: center; flex: 0 0 auto; width: 40px; height: 28px; } /* no token: Figma novo-icon 40×28 */
+/* the glyph mask filled with the Amplify radial gradient (no token: stops from the Figma asset, as in chat-block) */
+.ats-icon.ats-amplify-chat-docked__mark-icon {
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}
+/* title/medium in color/text/headline */
+.ats-amplify-chat-docked__label {
+  margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--color-text-headline);
+  font-family: var(--typography-title-medium-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-title-medium-font-size);
+  font-weight: var(--typography-title-medium-font-weight);
+  line-height: var(--typography-title-medium-line-height);
+  letter-spacing: var(--typography-title-medium-letter-spacing);
+}
+.ats-amplify-chat-docked__actions {
+  display: flex; align-items: center; justify-content: flex-end; flex: 0 0 auto;
+  gap: var(--header-spacing-candidate-header-actions);
+}
+.ats-amplify-chat-docked__actions .ats-btn--icon:not(:hover):not(:active):not(:focus-visible) {
+  color: var(--amplify-chat-docked-chat-novo-header-slideout-title-actions-button-external-open-vector-color-content-icon-button-color-icon-content-default);
+}
+
+/* ---- main: padding 16 top, 8 sides and bottom; holds the conversation ---- */
+.ats-amplify-chat-docked__main {
+  display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; box-sizing: border-box;
+  padding:
+    var(--amplify-chat-docked-chat-main-spacing-padding-top-spacing-padding-md)
+    var(--amplify-chat-docked-chat-main-spacing-padding-right-spacing-8)
+    var(--amplify-chat-docked-chat-main-spacing-padding-bottom-spacing-padding-sm)
+    var(--amplify-chat-docked-chat-main-spacing-padding-left-spacing-padding-sm);
+}
+.ats-amplify-chat-docked__main > * { flex: 1 1 auto; min-height: 0; }

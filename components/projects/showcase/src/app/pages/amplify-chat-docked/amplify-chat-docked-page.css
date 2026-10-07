@@ -1,0 +1,23 @@
+:host { display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; background: #fff; }
+:host:has(> .frame.embed) { height: auto; background: transparent; }
+.intro { padding: 32px 40px 16px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+.lede { color: #5d7798; margin: 0 0 16px; font-size: 14px; max-width: 880px; }
+.toolbar { display: flex; gap: 8px; }
+
+/* the app area: page content and the docked chat side by side (the page contracts) */
+.frame {
+  display: flex; flex: 1 1 auto; min-height: 0;
+  border-top: 1px solid var(--color-border-default);
+  background: var(--color-background-default);
+}
+.frame.embed { flex: 0 0 auto; height: 760px; border-top: 0; }
+
+.page { flex: 1 1 auto; min-width: 0; overflow: auto; display: flex; flex-direction: column; }
+.page__body { display: flex; flex-direction: column; gap: 16px; padding: 16px 24px; background: var(--color-background-muted); flex: 1 0 auto; }
+.placeholder {
+  padding: 16px 24px; border: 1px solid var(--card-color-border-default); border-radius: var(--card-border-radius-default);
+  background: var(--card-color-background-contents); min-height: 120px;
+}
+.placeholder h3 { margin: 0 0 8px; font: 600 16px/24px Inter, sans-serif; color: var(--color-text-headline); }
+.placeholder p { margin: 0; font: 14px/20px Inter, sans-serif; color: var(--color-text-body); }

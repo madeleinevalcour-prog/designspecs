@@ -1,0 +1,50 @@
+/* AmplifyChatConversation (Figma "conversation" frame in docked-chat 6327:204603).
+   Unencapsulated, namespaced .ats-amplify-chat-conversation. */
+.ats-amplify-chat-conversation {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  width: 100%; height: 100%; min-height: 0; min-width: 0;
+}
+
+/* The scroller holds both the turns and the (sticky) input, so replies scroll behind the
+   input and the last turn always clears it. */
+.ats-amplify-chat-conversation__scroll {
+  display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0;
+  overflow-y: auto; overscroll-behavior: contain;
+  gap: var(--amplify-chat-docked-chat-main-conversation-spacing-gap-page-gap-vertical);
+}
+
+/* chat column: turns spacing/gap/xlg (32) apart; grows so the input sits at the bottom */
+.ats-amplify-chat-conversation__column {
+  display: flex; flex-direction: column; flex: 1 0 auto; box-sizing: border-box; min-width: 0;
+  gap: var(--amplify-chat-docked-chat-main-conversation-chat-column-spacing-gap-spacing-gap-xlg);
+}
+
+/* input area: general/level 2 - scroll (color/background/scroll + background blur) */
+.ats-amplify-chat-conversation__input {
+  position: sticky; bottom: 0; z-index: 1;
+  display: flex; flex-direction: column; box-sizing: border-box; min-width: 0;
+  background: var(--color-background-scroll);
+  backdrop-filter: blur(var(--elevation-4-blur)); /* no token for the level-2-scroll blur: reuses the elevation blur (4) */
+}
+.ats-amplify-chat-conversation__input:empty { display: none; }
+
+/* ---- full page: one 800px column (turns and input share its edges), centered ---- */
+.ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__scroll {
+  padding: 0 var(--spacing-margin); /* narrow windows: spacing/margin (24) per side */
+}
+.ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__column,
+.ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__input {
+  width: 100%; max-width: 800px; /* no token: chat column 800 max (patterns doc) */
+  margin-inline: auto;
+}
+.ats-amplify-chat-conversation[data-size="full page"] .ats-amplify-chat-conversation__input {
+  padding-bottom: var(--spacing-padding-md);
+}
+
+/* ---- docked: fills the panel; turns inset padding/sm, user turns a further padding/lg ---- */
+.ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__column {
+  padding-inline: var(--amplify-chat-docked-chat-main-conversation-chat-column-spacing-padding-horizontal-spacing-padding-sm);
+}
+.ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__column > .ats-amplify-chat-user-turn {
+  padding-left: var(--amplify-chat-docked-chat-main-conversation-chat-column-user-turn-spacing-padding-left-spacing-padding-lg);
+}

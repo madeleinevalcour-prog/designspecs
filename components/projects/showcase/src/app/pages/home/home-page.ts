@@ -29,6 +29,7 @@ export class HomePage {
     { path: 'amplify-chat-cards', name: 'Amplify Chat — Cards', figma: 'Component Migration doc/cards 6300:127578 (chat-list-item 6171:162369)' },
     { path: 'amplify-chat-clarifying-questions', name: 'Amplify Chat — Clarifying questions', figma: 'Amplify Chat Interface Patterns: subsection/clarifying-questions 6352:28917' },
     { path: 'amplify-chat-data-table', name: 'Amplify Chat — Data table', figma: 'Component Migration doc/data-table 6300:127565 (header row 6171:165361, row 6174:165788)' },
+    { path: 'amplify-chat-docked', name: 'Amplify Chat — Docked chat', figma: 'Amplify Chat Interface Patterns: docked-chat 4608:182872 (Default 4608:182871, pop-over 4608:182873)' },
     { path: 'amplify-chat-input', name: 'Amplify Chat — Chat input', figma: 'Amplify Chat Interface Patterns: subsection/input 6352:28898' },
     { path: 'amplify-chat-reply', name: 'Amplify Chat — Reply', figma: 'Amplify Chat Interface Patterns: doc/reply 6300:27072 (chat-block 6150:20828, user-turn 6237:176861)' },
     { path: 'amplify-chat-selection', name: 'Amplify Chat — Selection', figma: 'Component Migration doc/selection 6300:127589 (selection-split-button 6271:183528)' },

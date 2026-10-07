@@ -1,0 +1,56 @@
+@if (!embed()) {
+  <div class="intro">
+    <h1>Amplify Chat — Docked chat</h1>
+    <p class="lede">Figma <code>docked-chat</code> (4608:182872): state=Default (4608:182871), the 420px panel beside the page, and
+      state=pop-over (4608:182873), the same chat as a movable, resizable window with no scrim. The body is
+      <code>ats-amplify-chat-conversation</code>: turns 32px apart, input pinned at the bottom. Send a message for a live reply;
+      Stop sits next to Send while Amplify is thinking. {{ log() }}</p>
+    <div class="toolbar">
+      <button ats-button theme="secondary" size="small" (click)="toggleOpen()">{{ chatOpen() ? 'Close chat' : 'Open chat' }}</button>
+      <button ats-button theme="secondary" size="small" [pill]="true" [state]="chatMode() === 'docked' ? 'active' : undefined" (click)="chatMode.set('docked')">Docked</button>
+      <button ats-button theme="secondary" size="small" [pill]="true" [state]="chatMode() === 'pop-over' ? 'active' : undefined" (click)="chatMode.set('pop-over')">Pop over</button>
+    </div>
+  </div>
+}
+
+<div class="frame" [class.embed]="embed()">
+  <main class="page">
+    <header ats-record-header title="Verizon" entity="company" [fields]="recordFields" [tabs]="recordTabs"
+      (action)="$event === 'amplify' ? toggleOpen() : null"></header>
+    <div class="page__body">
+      <section class="placeholder"><h3>Company Overview</h3><p>Verizon Communications · New York, NY · 117,100 employees</p></section>
+      <section class="placeholder"><h3>Open Jobs</h3><p>Senior Java Developer · Network Engineer · Project Manager</p></section>
+      <section class="placeholder"><h3>Recent Activity</h3><p>Call with Fred Johnson · Note added by Pod Racer · Placement: Data Analyst</p></section>
+    </div>
+  </main>
+
+  <ats-amplify-chat-docked [(open)]="chatOpen" [(mode)]="chatMode" expandable
+    (closed)="log.set('Last event: closed')" (expand)="log.set('Last event: open full page')">
+    <ats-amplify-chat-conversation size="docked">
+      @for (turn of turns(); track turn.id) {
+        @if (turn.kind === 'user') {
+          <ats-amplify-chat-user-turn>
+            <ats-amplify-chat-user-bubble>{{ turn.text }}</ats-amplify-chat-user-bubble>
+          </ats-amplify-chat-user-turn>
+        } @else if (turn.seed) {
+          <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · Updated today" [sources]="sources"
+            [followUps]="['Show 10 more', 'Open in full page']" (followUp)="ask($event)">
+            <ats-amplify-chat-text type="paragraph-with-links">
+              Here are 5 <a ats-amplify-chat-link entity="company" href="#">Verizon</a> contacts I found from external/contact discovery that
+              do not appear to be in your ATS yet (I checked existing ATS contacts tied to your
+              <a ats-amplify-chat-link entity="company" href="#">Verizon</a> client-company records, and only found the two “Default Contact” entries).
+            </ats-amplify-chat-text>
+            <ats-amplify-chat-header>Suggested 5 new Verizon contacts (not in ATS)</ats-amplify-chat-header>
+            <ats-amplify-chat-data-table [records]="prospects" [columns]="columns" [actions]="selectionActions" />
+          </ats-amplify-chat-chat-block>
+        } @else {
+          <ats-amplify-chat-chat-block [status]="turn.status" [showActions]="!turn.stopped">
+            <ats-amplify-chat-text>{{ turn.text }}</ats-amplify-chat-text>
+          </ats-amplify-chat-chat-block>
+        }
+      }
+      <ats-amplify-chat-container slot="input" size="docked" [context]="context" [generating]="generating()"
+        (send)="ask($event)" (stop)="stop()" />
+    </ats-amplify-chat-conversation>
+  </ats-amplify-chat-docked>
+</div>
