@@ -70,7 +70,8 @@
 <li><b>Context row:</b> shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Context carries across navigation and between surfaces (see <a href="#surfaces">Surfaces and behavior</a>).</li>
 <li><b>Adding context:</b> the + button in the context row adds records to the context.</li>
 <li><b>Button row:</b> use the existing labels in full-page chat and icon-only buttons in docked chat, so the input fits the narrower panel. Icon-only buttons need accessible names that match the full-page labels (WCAG 4.1.2).</li>
-<li><b>Send:</b> the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). While a reply is generating, show a Stop control (see <a href="#status">Status and loading</a>).</li>
+<li><b>Send:</b> the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). It is disabled while the input is empty.</li>
+<li><b>Stop:</b> while a reply is generating, a Stop button sits in the button row next to Send: Button (Dialogue), icon only (<span class="chip">bhi-stop-circle</span>), accessible name "Stop generating". Send is disabled until generation stops (see <a href="#status">Status and loading</a>).</li>
 <li><b>Layout:</b> the input shares the chat column's edges (800px max in full-page chat) and sits on <span class="chip">general/level 2 - scroll</span> so replies scroll behind it (see <a href="#spacing">Spacing and layout</a>).</li>
 </ul>
 <p>To be confirmed: what Add File and Add Tools open, and how Prompt Library inserts a prompt, aren't defined in the components yet.</p>
@@ -108,7 +109,7 @@
 <li><b>Dismiss:</b> Close icon button. Closes the card so the recruiter can type freely.</li>
 <li><b>Help text (optional):</b> input/label/field-label in <span class="chip">color/text/subtle</span>. Use it to state data scope.</li>
 <li><b>Options:</b> 2–4 <span class="chip">clarify-option</span> rows.</li>
-<li><b>Something else row:</b> <span class="chip">clarify-something-else</span>, with Skip.</li>
+<li><b>Something else row:</b> <span class="chip">clarify-something-else</span>, with Skip (or the submit button once the recruiter types).</li>
 </ul>
 <li><b>Option row</b> (<span class="chip">clarify-option</span>)</li>
 <ul>
@@ -120,7 +121,8 @@
 <ul>
 <li><b>Key:</b> <span class="chip">clarify-key</span> with the pencil icon.</li>
 <li><b>Value:</b> placeholder "Something else", or the typed answer.</li>
-<li><b>Skip:</b> Button (Secondary, Small).</li>
+<li><b>Skip:</b> Button (Secondary, Small), while the field is empty.</li>
+<li><b>Submit:</b> once the recruiter has typed, Skip is replaced by a small primary FAB with the right-arrow icon (<span class="chip">state=typing</span>, Figma 6335:128895). Clearing the field brings Skip back.</li>
 </ul>
 </ul>
 <doc-showcase src="../images/amplify-chat/component-clarify-option-record.png" alt="clarify-option record variant in default, active and selected states: job order title as an entity link with company, date and status" caption="clarify-option · type=record" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-28257"></doc-showcase>
@@ -176,7 +178,7 @@
 </ul>
 <p class="kicker">clarify-something-else</p>
 <ul>
-<li><b>state:</b> <span class="chip">default</span> or <span class="chip">typing</span> (<span class="chip">color/border/focus</span> border, value in <span class="chip">color/text/body</span>).</li>
+<li><b>state:</b> <span class="chip">default</span> or <span class="chip">typing</span> (<span class="chip">color/border/focus</span> border, value in <span class="chip">color/text/body</span>, and the submit FAB in place of Skip).</li>
 <li><b>value</b> (text): placeholder or typed answer.</li>
 <li><b>show skip</b> (boolean).</li>
 </ul>
@@ -211,15 +213,15 @@
 <ul>
 <li><b>Opening:</b> the card replaces the context row above the chat input. The chat input placeholder changes to "Or reply directly…".</li>
 <li><b>Answering:</b> one click answers and moves to the next question. Previous answers stay selected when paging back. <span class="lead">(Nielsen H3, H7)</span></li>
-<li><b>Typing:</b> typing in the chat input and sending counts as a custom answer. For record questions, the text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing. <span class="lead">(Amplify principle 8; Nielsen H9)</span></li>
-<li><b>Skip:</b> answers with the recommended option, so the flow never stalls. <span class="lead">(Research: Glean)</span></li>
+<li><b>Typing:</b> while the card is open, typing goes to the Something else field by default, so the recruiter can answer in their own words without clicking first. Tab moves to the chat input; typing there and sending also counts as a custom answer. For record questions, the text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing. <span class="lead">(Amplify principle 8; Nielsen H9)</span></li>
+<li><b>Skip:</b> answers with the recommended option, so the flow never stalls. <span class="lead">(Research: Glean)</span> Once the recruiter types in Something else, Skip becomes the submit button; ↵ also submits.</li>
 <li><b>Dismiss:</b> closes the card and brings back the context row. The recruiter can then type freely.</li>
 <li><b>Finishing:</b> all answers post as one user message, laid out as label and value pairs. Amplify's reply names the record and filters used, then shows progress as a step list. The chosen record is added to the context row as a removable chip, so follow-ups don't ask again. <span class="lead">(Amplify principle 3; Nielsen H1, H6)</span></li>
 <li><b>Thin results:</b> if the narrowed scope returns little or nothing, say which filter caused it and offer to relax it. <span class="lead">(Amplify principle 8)</span></li>
 </ul>
 <h4>Keyboard and accessibility</h4>
 <ul>
-<li><b>Keys:</b> ↑ ↓ move between options, ↵ selects, 1–4 choose directly, and typing goes to the chat input. <span class="lead">(Nielsen H7)</span></li>
+<li><b>Keys:</b> ↑ ↓ move between options, ↵ selects, 1–4 choose directly (until the recruiter starts typing an answer), and typing goes to Something else. Tab moves on to the chat input. <span class="lead">(Nielsen H7)</span></li>
 <li><b>Key alignment:</b> the clarify-key is centered on the first line of each option, so the shortcut stays next to the answer when an option grows taller.</li>
 <li><b>Selection:</b> shown by the key border, key color and label weight together, never color alone. <span class="lead">(WCAG 1.4.1)</span></li>
 <li><b>Focus:</b> keyboard focus uses the active state; focused controls use the existing focus ring.</li>
@@ -250,11 +252,11 @@
 <li><b>Selection bar.</b> Selected count and the bulk action. Only when rows or cards are selected. <span class="tag opt">Optional</span></li>
 <li><b>Sources row.</b> When the answer uses records. <span class="tag opt">Optional</span></li>
 <li><b>Follow-up chips.</b> 2–3 next steps instead of "Want me to…?" in prose. <span class="tag opt">Optional</span></li>
-<li><b>Message controls.</b> Copy, thumbs up, thumbs down, Save prompt. <span class="tag">Always</span></li>
+<li><b>Message controls.</b> Copy, thumbs up, thumbs down, Save prompt. Thumbs and Save prompt are toggles: the bookmark is filled once the prompt is saved. <span class="tag">Always</span></li>
 </ol>
 <ul>
 <li>Also optional: a rationale line under the evidence (how it was ranked or filtered), and a <a href="#draft-block">draft block</a> or <a href="#literal-value-block">literal value block</a>.</li>
-<li>While generating, a status line names the current step ("Searching open jobs…") with a Stop control. Memory changes show as a status line with View and Undo.</li>
+<li>While generating, a status line names the current step ("Searching open jobs…"); the Stop control is in the chat input, next to Send. Memory changes show as a status line with View and Undo.</li>
 <li>Never in a reply: filler openers, feedback requests in prose, more than 3 clarifying questions, numbered headings, or a retry control.</li>
 <li>The smallest reply is identity, a one-sentence answer and the controls (Rams 10).</li>
 </ul>
@@ -313,7 +315,7 @@
 <tr><th>Card limits</th><th>Recommendation</th></tr>
 <tr><td>Default</td><td>3 cards. About 150px each, so 3 plus the answer fit in the visible full-page chat area</td></tr>
 <tr><td>Maximum</td><td>5 cards. Past 5, the answer and sources move off screen (NN/g truncated pyramid)</td></tr>
-<tr><td>More results</td><td>Top 3, then a "Show N more" chip. Above 5, use a table (10-row cap) or link to the list view</td></tr>
+<tr><td>More results</td><td>Show a page of cards (3–5) and paginate the rest in the bar under the stack: the range ("1–5 of 12"), previous, page numbers and next. Selection carries across pages and the count covers every page. Link to the list view for a full review</td></tr>
 <tr><td>Order</td><td>Rank by relevance, and state how in the rationale line</td></tr>
 </table>
 <p class="lead">Show any one set of records in one format only: cards or a table.</p>
@@ -324,7 +326,8 @@
 <ul>
 <li>Show checkboxes only when the reply offers a bulk action, such as adding prospect contacts to the ATS (Rams 10). The table header checkbox selects all visible rows.</li>
 <li>When one or more rows or cards are selected, a selection bar appears at the bottom (the <span class="chip">selected</span> variant): the count on the left ("5 of 5 selected") and a primary split button on the right that names the action and count ("Add 5 Contacts"), with related actions in the dropdown.</li>
-<li>The count updates with the selection. With nothing selected, the bar is hidden.</li>
+<li>The count updates with the selection. With nothing selected, the bar is hidden, unless a paginated card stack needs it for its pager; then it shows only the range and the pager.</li>
+<li>The split button's menu uses the ATS dropdown (<span class="chip">dropdown</span>, <span class="chip">novo-optgroup</span>, <span class="chip">option</span>), the same component as other ATS dropdowns.</li>
 <li>The action runs only on click. Selecting never writes to the ATS on its own (Amplify principle 2; H5).</li>
 </ul>
 
@@ -406,7 +409,7 @@
 <doc-section id="status" label="Status and loading" desc="Loading, errors, stop">
 <ul>
 <li>Replace "Amplify is thinking…" with a specific step: "Searching open jobs…", then "Ranking 14 job orders…". Attio shows tool activity the same way (H1).</li>
-<li>Show a Stop control while the reply is generating (H3).</li>
+<li>Show a Stop control while the reply is generating, in the chat input next to Send (H3).</li>
 <li>When Amplify can't help, say so in the first line, then give the cause and a fix (NN/g; H9).</li>
 <li>Clarifying questions: see <a href="#clarifying-questions">Clarifying questions</a> in Chat input.</li>
 </ul>
@@ -429,7 +432,7 @@
 </table>
 <ul>
 <li>The space inside a group is always smaller than the space between groups (Gestalt, proximity).</li>
-<li>Prose max width is about 70ch, roughly 520–560px at <span class="chip">body/default</span>. This is a layout constraint, not a token (WCAG 1.4.8).</li>
+<li>Prose uses the full message column (800px max), the same as tables, cards and blocks, matching the Figma chat-block. Keep paragraphs short so long lines stay readable.</li>
 <li>User bubble fill: <span class="chip">color/background/subtle-hover</span>.</li>
 <li>Radius: the user bubble uses <span class="chip">border/radius/sm</span> (8). Literal value blocks and inline literal values use <span class="chip">border/radius/xsm</span> (4).</li>
 <li>The chat panel uses <span class="chip">general/level 3 - right</span>.</li>
@@ -439,7 +442,7 @@
 <table class="tbl">
 <tr><th>Element</th><th>Width</th></tr>
 <tr><td>Chat column (messages and composer)</td><td>800px max, centered</td></tr>
-<tr><td>Prose (answers, paragraphs, lists)</td><td>About 70ch, roughly 560px max, left-aligned</td></tr>
+<tr><td>Prose (answers, paragraphs, lists)</td><td>Full column width (800px max), left-aligned</td></tr>
 <tr><td>Tables, cards, draft and literal value blocks</td><td>Full column width</td></tr>
 <tr><td>User bubble</td><td>Up to 440px, right-aligned</td></tr>
 <tr><td>Narrow windows</td><td>Available width minus <span class="chip">spacing/margin</span> (24) on each side</td></tr>

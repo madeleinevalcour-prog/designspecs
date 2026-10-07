@@ -73,7 +73,8 @@ Figma: the `amplify-chat/chat-input` group in the "new amplify chat components" 
 - **Context row:** shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Context carries across navigation and between surfaces (see [Surfaces and behavior](#surfaces-and-behavior)).
 - **Adding context:** the + button in the context row adds records to the context.
 - **Button row:** use the existing labels in full-page chat and icon-only buttons in docked chat, so the input fits the narrower panel. Icon-only buttons need accessible names that match the full-page labels (WCAG 4.1.2).
-- **Send:** the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). While a reply is generating, show a Stop control (see [Status and loading](#status-and-loading)).
+- **Send:** the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). It is disabled while the input is empty.
+- **Stop:** while a reply is generating, a Stop button sits in the button row next to the send button: Button (Dialogue), icon only (`bhi-stop-circle`), with the accessible name "Stop generating". Send is disabled until generation stops (see [Status and loading](#status-and-loading)).
 - **Layout:** the input shares the chat column's edges (800px max in full-page chat) and sits on `general/level 2 - scroll` so replies scroll behind it (see [Spacing and layout](#spacing-and-layout)).
 
 To be confirmed: what Add File and Add Tools open, and how Prompt Library inserts a prompt, aren't defined in the components yet.
@@ -112,7 +113,7 @@ Component: [`clarifying-questions`](https://www.figma.com/design/QxXJfpYajGitTbT
   - **Dismiss:** Close icon button. Closes the card so the recruiter can type freely.
   - **Help text (optional):** input/label/field-label in `color/text/subtle`. Use it to state data scope.
   - **Options:** 2–4 `clarify-option` rows.
-  - **Something else row:** `clarify-something-else`, with Skip.
+  - **Something else row:** `clarify-something-else`, with Skip (or the submit button once the recruiter types).
 - **Option row** (`clarify-option`)
   - **Key:** `clarify-key` showing the number shortcut (1–4).
   - **Content (type=text):** label, plus an optional recommended note and optional description.
@@ -122,7 +123,8 @@ Record variant: when the options are different records (for example "Which job o
 - **Something else row** (`clarify-something-else`)
   - **Key:** `clarify-key` with the pencil icon.
   - **Value:** placeholder "Something else", or the typed answer.
-  - **Skip:** Button (Secondary, Small).
+  - **Skip:** Button (Secondary, Small), while the field is empty.
+  - **Submit:** once the recruiter has typed, Skip is replaced by a small primary FAB with the right-arrow icon (`state=typing`, Figma 6335:128895). Clearing the field brings Skip back.
 
 #### Variants and properties
 
@@ -166,7 +168,7 @@ Record variant: when the options are different records (for example "Which job o
 
 ##### clarify-something-else
 
-- **state:** `default` or `typing` (`color/border/focus` border, value in `color/text/body`).
+- **state:** `default` or `typing` (`color/border/focus` border, value in `color/text/body`, and the submit FAB in place of Skip).
 - **value** (text): placeholder or typed answer.
 - **show skip** (boolean).
 
@@ -202,15 +204,15 @@ Record variant: when the options are different records (for example "Which job o
 
 - **Opening:** the card replaces the context row above the chat input. The chat input placeholder changes to "Or reply directly…".
 - **Answering:** one click answers and moves to the next question. Previous answers stay selected when paging back. *(Nielsen H3, H7)*
-- **Typing:** typing in the chat input and sending counts as a custom answer. For record questions, the text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing. *(Amplify principle 8; Nielsen H9)*
-- **Skip:** answers with the recommended option, so the flow never stalls. *(Research: Glean)*
+- **Typing:** while the card is open, typing goes to the Something else field by default, so the recruiter can answer in their own words without clicking first. Tab moves to the chat input; typing there and sending also counts as a custom answer. For record questions, the text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing. *(Amplify principle 8; Nielsen H9)*
+- **Skip:** answers with the recommended option, so the flow never stalls. *(Research: Glean)* Once the recruiter types in Something else, Skip becomes the submit button; ↵ also submits.
 - **Dismiss:** closes the card and brings back the context row. The recruiter can then type freely.
 - **Finishing:** all answers post as one user message, laid out as label and value pairs. Amplify's reply names the record and filters used, then shows progress as a step list. The chosen record is added to the context row as a removable chip, so follow-ups don't ask again. *(Amplify principle 3; Nielsen H1, H6)*
 - **Thin results:** if the narrowed scope returns little or nothing, say which filter caused it and offer to relax it. *(Amplify principle 8)*
 
 #### Keyboard and accessibility
 
-- **Keys:** ↑ ↓ move between options, ↵ selects, 1–4 choose directly, and typing goes to the chat input. *(Nielsen H7)*
+- **Keys:** ↑ ↓ move between options, ↵ selects, 1–4 choose directly (until the recruiter starts typing an answer), and typing goes to Something else. Tab moves on to the chat input. *(Nielsen H7)*
 - **Key alignment:** the clarify-key is centered on the first line of each option, so the shortcut stays next to the answer when an option grows taller.
 - **Selection:** shown by the key border, key color and label weight together, never color alone. *(WCAG 1.4.1)*
 - **Focus:** keyboard focus uses the active state; focused controls use the existing focus ring.
@@ -231,7 +233,7 @@ Always present:
 | --- | --- | --- |
 | Identity | Amplify icon and "Amplify" name label | Icon `Icon/Amplify Radial`; name `body/sm-medium`, `color/text/secondary` |
 | Answer | The first line states the result in one sentence, with no filler opener. If Amplify can't help, it says so here, with the cause and a fix | `body/default`, `color/text/body`; record names as inline entity links |
-| Message controls | Copy, thumbs up, thumbs down, Save prompt, in that order | Existing icon buttons |
+| Message controls | Copy, thumbs up, thumbs down, Save prompt, in that order. Thumbs and Save prompt are toggles: the bookmark is filled once the prompt is saved | Existing icon buttons |
 
 Optional, depending on the content:
 
@@ -247,7 +249,7 @@ Optional, depending on the content:
 
 Temporary states:
 
-- While generating: a status line names the current step ("Searching open jobs…") with a Stop control. It is replaced by the reply.
+- While generating: a status line names the current step ("Searching open jobs…"). It is replaced by the reply. The Stop control is in the chat input, next to Send.
 - Memory or preference changes: a status line with View and Undo, not text in the answer.
 
 Never in a reply: filler openers, feedback requests in prose, more than 3 clarifying questions, numbered headings, or a retry control.
@@ -363,7 +365,7 @@ Card limits:
 | --- | --- | --- |
 | Default | 3 cards | Each card is about 150px tall. In full-page chat, 3 cards plus the answer fit in the roughly 680px between the header and the composer. Docked chat is shorter |
 | Maximum | 5 cards | Past 5, the answer and sources row move well off screen, and comparing cards gets harder than scanning a table (NN/g truncated pyramid) |
-| More results | Show the top 3, then a "Show N more" follow-up chip. Above 5, switch to a table (10-row cap) or link to the full list view | Detail on demand. Chat summarizes; the list view is for full review |
+| More results | Show a page of cards (3–5) and paginate the rest in the bar under the stack: the range ("1–5 of 12"), then previous, page numbers and next. Selection carries across pages, and the count covers every page. For a full review, link to the list view | Detail on demand without leaving the reply. Chat summarizes; the list view is for full review |
 | Order | Rank by relevance, and state how in the rationale line ("Ranked by department match and seniority") | Amplify principle 4, honest expectations |
 
 - The research doesn't set a card count. The 3 and 5 come from the component height, the visible chat area and the truncated pyramid principle. Check them with recruiters.
@@ -379,7 +381,8 @@ Data tables and cards share the same selection pattern.
 - When one or more rows or cards are selected, a selection bar appears at the bottom of the table or card stack (the `selected` variant):
   - Left: the selection count, for example "5 of 5 selected".
   - Right: a primary split button that names the action and the count, for example "Add 5 Contacts". The dropdown holds related actions.
-- The count in the button updates as the selection changes. With nothing selected, the bar is hidden.
+- The count in the button updates as the selection changes. With nothing selected, the bar is hidden, unless a paginated card stack needs it for its pager; then it shows only the range and the pager.
+- The split button's menu uses the ATS dropdown (`dropdown`, `novo-optgroup`, `option`), the same component as other ATS dropdowns.
 - The action runs only when the recruiter clicks it. Selecting never writes to the ATS on its own (Amplify principle 2: AI assists, it does not replace judgment; H5, error prevention).
 
 ### Draft block
@@ -473,7 +476,7 @@ Emphasis:
 
 - Replace "Amplify is thinking…" with a specific status: "Searching open jobs…", then "Ranking 14 job orders…". Attio shows tool activity the same way (H1, visibility of system status; Amplify principle 8, be honest about errors and limitations).
 - Style: `body/sm`, `color/text/secondary`, next to the Amplify icon (`Icon/Amplify Radial` paint style). Don't use link blue, because blue means clickable (Gestalt, similarity).
-- Show a Stop control while the reply is generating (H3, user control).
+- Show a Stop control while the reply is generating, in the chat input next to Send (H3, user control).
 - When Amplify can't answer, say so in the first line, then name the cause and a fix: "No open jobs found for Verizon. Check the job status filter or ask about all jobs." (NN/g; H9, recognize and recover from errors).
 
 Clarifying questions: see [Clarifying questions](#clarifying-questions) in Chat input.
@@ -501,14 +504,14 @@ All values bind to Modern UI semantic spacing tokens. Use `gap/*` between items 
 
 - The space inside a group is always smaller than the space between groups (Gestalt proximity; Modern UI spacing rule). For example, heading to content (`gap/sm`) is tighter than the space above the heading (`gap/lg`).
 - Don't use off-scale values. `spacing/12` exists but isn't needed here.
-- Prose max width is about 70ch, roughly 520–560px at `body/default`. Tables and cards can use the full message column (Baymard; WCAG 1.4.8). This is a layout constraint, not a Modern UI token.
+- Prose uses the full message column (800px max), the same as tables, cards and blocks, matching the Figma chat-block. Keep paragraphs short so long lines stay readable.
 
 Column width:
 
 | Element | Width |
 | --- | --- |
 | Chat column (messages and composer) | 800px max, centered |
-| Prose (answers, paragraphs, lists) | About 70ch, roughly 560px max, left-aligned in the column |
+| Prose (answers, paragraphs, lists) | Full column width (800px max), left-aligned |
 | Tables, cards, draft and literal value blocks | Full column width |
 | User bubble | Up to 440px, right-aligned |
 | Narrow windows | Column = available width minus `spacing/margin` (24) on each side |
