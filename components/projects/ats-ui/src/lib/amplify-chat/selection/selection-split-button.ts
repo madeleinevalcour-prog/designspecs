@@ -1,20 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  ViewEncapsulation,
-  computed,
-  effect,
-  inject,
-  input,
-  model,
-  output,
-  untracked,
-  viewChild,
-  viewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, model, output } from '@angular/core';
 import { Button } from '../../button/button';
-import { MenuOption } from '../../menu/menu-option';
+import { Dropdown, DropdownTrigger } from '../../dropdown/dropdown';
+import { Optgroup } from '../../dropdown/optgroup';
+import { Option } from '../../dropdown/option';
 
 /** One related action in the split button's menu. */
 export interface AmplifyChatSelectionAction {
@@ -38,7 +26,8 @@ export type AmplifyChatSelectionSplitButtonState = 'hover' | 'focus' | 'active';
  * AmplifyChatSelectionSplitButton (Figma: "amplify-chat/selection-split-button", 6271:183528).
  * The primary action of a selection bar under a chat data table or card stack: two primary
  * small Buttons 1px apart. The left segment runs the default action and names the verb and
- * the count ("Add 5 Contacts"); the chevron segment opens a menu of related actions.
+ * the count ("Add 5 Contacts"); the chevron segment opens a menu of related actions — an
+ * `ats-dropdown` (role menu, right-aligned under the chevron) of `button[ats-option]`s.
  *
  *   <ats-amplify-chat-selection-split-button verb="Add" noun="Contact" [count]="selected().length"
  *       [actions]="[{ id: 'list', label: 'Add to list' }, { id: 'seq', label: 'Add to Outreach sequence', preview: true }]"
@@ -58,40 +47,34 @@ export type AmplifyChatSelectionSplitButtonState = 'hover' | 'focus' | 'active';
  */
 @Component({
   selector: 'ats-amplify-chat-selection-split-button',
-  imports: [Button, MenuOption],
+  imports: [Button, Dropdown, DropdownTrigger, Optgroup, Option],
   template: `
     <button ats-button theme="primary" size="small" class="ats-amplify-chat-selection-split-button__primary"
       [state]="state()" [disabled]="isEmpty()" (click)="primary.emit(countValue())">{{ text() }}</button>
-    <button #trigger ats-button theme="primary" size="small" iconLeft="chevron-down"
-      class="ats-amplify-chat-selection-split-button__toggle"
-      [state]="state()" [disabled]="isEmpty() || !actionList().length"
-      aria-haspopup="menu" [attr.aria-expanded]="open()" [attr.aria-controls]="menuId" [attr.aria-label]="toggleLabel()"
-      (click)="toggle()" (keydown)="onTriggerKey($event)"></button>
-    @if (open() && !isEmpty()) {
-      <div class="ats-dropdown-card ats-amplify-chat-selection-split-button__menu" role="menu" [id]="menuId"
-        [attr.aria-label]="toggleLabel()" (keydown)="onMenuKey($event)">
+    <button ats-button theme="primary" size="small" iconLeft="chevron-down"
+      class="ats-amplify-chat-selection-split-button__toggle" [atsDropdownTrigger]="menu"
+      [state]="state()" [disabled]="isEmpty() || !actionList().length" [attr.aria-label]="toggleLabel()"></button>
+    <ats-dropdown #menu role="menu" placement="bottom-end" class="ats-amplify-chat-selection-split-button__menu"
+      [open]="open() && !isEmpty()" (openChange)="open.set(!!$event)" [attr.aria-label]="toggleLabel()" (chosen)="choose($event)">
+      <ats-optgroup>
         @for (a of actionList(); track a.id) {
-          <button #item ats-menu-option role="menuitem" tabindex="-1" [icon]="a.icon" (click)="choose(a)">
+          <button ats-option [value]="a" [icon]="a.icon">
             {{ a.label }}@if (a.preview) {<span class="ats-amplify-chat-selection-split-button__hint"> · {{ previewHint() }}</span>}
           </button>
         }
-      </div>
-    }
+      </ats-optgroup>
+    </ats-dropdown>
   `,
-  styleUrls: ['../../menu/dropdown-card.css', './selection-split-button.css'],
+  styleUrl: './selection-split-button.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'ats-amplify-chat-selection-split-button',
     role: 'group',
     '[hidden]': 'isEmpty()',
-    '(document:click)': 'onDocumentClick($event)',
   },
 })
 export class AmplifyChatSelectionSplitButton {
-  private static nextId = 0;
-  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
-
   /** Verb of the default action. Default "Add". */
   readonly verb = input<string>();
   /** Record noun, singular. Default "Contact". */
@@ -116,11 +99,6 @@ export class AmplifyChatSelectionSplitButton {
   /** A menu action was chosen. */
   readonly action = output<AmplifyChatSelectionAction>();
 
-  protected readonly menuId = `ats-amplify-chat-selection-menu-${AmplifyChatSelectionSplitButton.nextId++}`;
-  private readonly trigger = viewChild.required('trigger', { read: ElementRef<HTMLButtonElement> });
-  private readonly items = viewChildren('item', { read: ElementRef });
-  private focusFirstOnOpen = false;
-
   protected readonly countValue = computed(() => Math.max(0, Math.floor(this.count() ?? 0)));
   protected readonly isEmpty = computed(() => this.countValue() === 0);
   protected readonly actionList = computed(() => this.actions() ?? []);
@@ -135,55 +113,7 @@ export class AmplifyChatSelectionSplitButton {
   });
   protected readonly toggleLabel = computed(() => `More actions for ${this.countValue()} selected`);
 
-  constructor() {
-    // Move focus into the menu when it was opened from the keyboard.
-    effect(() => {
-      const items = this.items();
-      if (this.open() && items.length && this.focusFirstOnOpen) {
-        untracked(() => {
-          this.focusFirstOnOpen = false;
-          (items[0].nativeElement as HTMLElement).focus();
-        });
-      }
-    });
-  }
-
-  protected toggle(): void {
-    this.open.set(!this.open());
-  }
-
-  protected choose(a: AmplifyChatSelectionAction): void {
-    this.open.set(false);
-    this.action.emit(a);
-    this.trigger().nativeElement.focus();
-  }
-
-  protected onTriggerKey(e: KeyboardEvent): void {
-    if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      this.focusFirstOnOpen = true;
-      if (this.open()) (this.items()[0]?.nativeElement as HTMLElement | undefined)?.focus();
-      else this.open.set(true);
-    } else if (e.key === 'Escape' && this.open()) {
-      this.open.set(false);
-    }
-  }
-
-  protected onMenuKey(e: KeyboardEvent): void {
-    const els = this.items().map((r) => r.nativeElement as HTMLElement);
-    const i = els.indexOf(document.activeElement as HTMLElement);
-    const move = (n: number) => { e.preventDefault(); els[(n + els.length) % els.length]?.focus(); };
-    switch (e.key) {
-      case 'ArrowDown': move(i + 1); break;
-      case 'ArrowUp': move(i - 1); break;
-      case 'Home': move(0); break;
-      case 'End': move(els.length - 1); break;
-      case 'Escape': e.preventDefault(); this.open.set(false); this.trigger().nativeElement.focus(); break;
-      case 'Tab': this.open.set(false); break;
-    }
-  }
-
-  protected onDocumentClick(e: MouseEvent): void {
-    if (this.open() && !this.host.nativeElement.contains(e.target as Node)) this.open.set(false);
+  protected choose(a: unknown): void {
+    this.action.emit(a as AmplifyChatSelectionAction);
   }
 }

@@ -1,0 +1,29 @@
+/* Dropdown (Figma "dropdown" 338:7828) + Optgroup (Figma "novo-optgroup" 338:7812).
+   Unencapsulated, namespaced .ats-dropdown / .ats-optgroup. */
+.ats-dropdown {
+  display: flex; flex-direction: column; gap: var(--dropdown-spacing-container-gap); box-sizing: border-box;
+  width: max-content;
+  min-width: 180px; /* no token: Figma min-w 180 */
+  padding: var(--dropdown-spacing-container-padding-vertical) var(--dropdown-spacing-container-padding-horizontal);
+  background: var(--dropdown-color-background-default);
+  border: var(--dropdown-border-width) solid var(--dropdown-color-border-default); border-radius: var(--dropdown-border-radius);
+  /* general/level 4 */
+  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
+  font-family: var(--typography-input-value-default-font-family), 'Inter', sans-serif;
+}
+.ats-dropdown[hidden] { display: none; }
+/* placement: opens under its trigger; the trigger's wrapper must be position: relative */
+.ats-dropdown[data-placement^="bottom"] { position: absolute; top: calc(100% + var(--dropdown-spacing-gap)); z-index: 10; }
+.ats-dropdown[data-placement="bottom-start"] { left: 0; }
+.ats-dropdown[data-placement="bottom-end"] { right: 0; }
+
+.ats-optgroup { display: flex; flex-direction: column; align-items: stretch; min-width: 0; margin: 0; padding: 0; }
+/* check-list: CheckboxLabels in a column (checkbox/spacing/* paddings, from checkbox-label.css) */
+.ats-optgroup[data-type="check-list"] > .ats-checkbox-label { width: 100%; }
+/* group heading: not in Figma; the option padding with subtle body/sm text */
+.ats-optgroup__label {
+  padding: var(--dropdown-spacing-option-padding) var(--dropdown-spacing-option-padding) 0;
+  color: var(--color-text-subtle);
+  font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height);
+  font-weight: var(--typography-body-sm-font-weight-medium); letter-spacing: var(--typography-body-sm-letter-spacing);
+}

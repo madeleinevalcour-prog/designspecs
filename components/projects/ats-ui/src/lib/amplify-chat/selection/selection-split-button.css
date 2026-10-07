@@ -1,6 +1,6 @@
 /* AmplifyChatSelectionSplitButton — Figma amplify-chat/selection-split-button (6271:183528).
    Two primary small Buttons (button.css) 1px apart, rounded on the outer sides only; the
-   menu is a dropdown card (menu/dropdown-card.css) of MenuOptions.
+   menu is an ats-dropdown (lib/dropdown, placement bottom-end) of Options.
    Unencapsulated, namespaced .ats-amplify-chat-selection-split-button. */
 
 .ats-amplify-chat-selection-split-button {
@@ -19,10 +19,6 @@
 /* keep the focus ring above the neighbouring segment */
 .ats-amplify-chat-selection-split-button > .ats-btn:focus-visible { z-index: 1; }
 
-/* menu: opens under the button, right-aligned with the chevron */
-.ats-amplify-chat-selection-split-button__menu {
-  position: absolute; top: calc(100% + var(--spacing-gap-xsm)); right: 0; z-index: 10;
-  padding-inline: 0; gap: 0;
-}
-.ats-amplify-chat-selection-split-button__menu .ats-menu-option__label { display: inline-flex; align-items: baseline; }
+/* menu: an ats-dropdown placed bottom-end (right-aligned under the chevron, dropdown.css) */
+.ats-amplify-chat-selection-split-button__menu .ats-option__label { white-space: nowrap; }
 .ats-amplify-chat-selection-split-button__hint { color: var(--color-text-subtle); white-space: pre; }

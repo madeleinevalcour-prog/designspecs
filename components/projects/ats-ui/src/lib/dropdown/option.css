@@ -1,0 +1,25 @@
+/* Option (Figma "option" 364:8124). Unencapsulated, namespaced .ats-option. */
+.ats-option {
+  --_bg: transparent; --_text: var(--dropdown-color-content-text-default);
+  display: flex; align-items: center; gap: var(--dropdown-spacing-option-gap); box-sizing: border-box; width: 100%; margin: 0;
+  padding: var(--dropdown-spacing-option-padding);
+  border: 0; border-radius: var(--border-radius-xsm); list-style: none;
+  background: var(--_bg); color: var(--_text); cursor: pointer; text-align: left;
+  font-family: var(--typography-input-value-default-font-family), 'Inter', sans-serif;
+}
+.ats-option:hover, .ats-option.is-hover, .ats-option:focus-visible {
+  --_bg: var(--dropdown-color-content-background-hover); --_text: var(--dropdown-color-content-text-hover);
+}
+.ats-option.is-selected {
+  --_bg: var(--dropdown-color-content-background-selected); --_text: var(--dropdown-color-content-text-selected);
+}
+/* Figma has no focus variant: the hover look plus the system focus ring (color/border/focus), inset */
+.ats-option:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
+.ats-option.is-disabled { --_bg: transparent; --_text: var(--color-text-disabled); cursor: not-allowed; }
+.ats-option > .ats-icon { flex: 0 0 auto; }
+/* text style input/value/default */
+.ats-option__label {
+  flex: 1 0 0; min-width: 0;
+  font-size: var(--typography-input-value-default-font-size); line-height: var(--typography-input-value-default-line-height);
+  font-weight: var(--typography-input-value-default-font-weight); letter-spacing: var(--typography-input-value-default-letter-spacing);
+}

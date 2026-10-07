@@ -19,6 +19,7 @@ export const routes: Routes = [
   { path: 'amplify-chat-user-messages', loadComponent: () => import('./pages/amplify-chat-user-messages/amplify-chat-user-messages-page').then((m) => m.AmplifyChatUserMessagesPage), title: 'Amplify Chat — User messages — ats-ui' },
   { path: 'bowling-alley', loadComponent: () => import('./pages/bowling-alley/bowling-alley-page').then((m) => m.BowlingAlleyPage), title: 'Bowling Alley — ats-ui' },
   { path: 'button', loadComponent: () => import('./pages/button/button-page').then((m) => m.ButtonPage), title: 'Button — ats-ui' },
+  { path: 'dropdown', loadComponent: () => import('./pages/dropdown/dropdown-page').then((m) => m.DropdownPage), title: 'Dropdown — ats-ui' },
   { path: 'icon', loadComponent: () => import('./pages/icon/icon-page').then((m) => m.IconPage), title: 'Icon — ats-ui' },
   { path: 'icon-button-no-container', loadComponent: () => import('./pages/icon-button-no-container/icon-button-no-container-page').then((m) => m.IconButtonNoContainerPage), title: 'Icon Button - no container — ats-ui' },
   { path: 'icon-container', loadComponent: () => import('./pages/icon-container/icon-container-page').then((m) => m.IconContainerPage), title: 'Icon Container — ats-ui' },
