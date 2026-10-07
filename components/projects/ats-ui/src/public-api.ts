@@ -45,6 +45,7 @@ export * from './lib/menu/menu-header';
 export * from './lib/menu/menu-item';
 export * from './lib/menu/menu-option';
 export * from './lib/menu/menu-edit';
+export * from './lib/dropdown';
 
 // Amplify chat
 export * from './lib/amplify-chat/blocks';

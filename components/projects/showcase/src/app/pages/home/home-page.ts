@@ -41,6 +41,7 @@ export class HomePage {
     { path: 'check-list', name: 'Check List', figma: 'Component Migration 331:1435' },
     { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
     { path: 'checkbox-label', name: 'Checkbox + label', figma: 'Component Migration 250:17848' },
+    { path: 'dropdown', name: 'Dropdown', figma: 'Component Migration: Appearance 46:2164 (dropdown 338:7828, novo-optgroup 338:7812, option 364:8124)' },
     { path: 'icon', name: 'Icon', figma: 'Component Migration → Iconography' },
     { path: 'icon-button-no-container', name: 'Icon Button - no container', figma: 'Component Migration 164:17717' },
     { path: 'icon-container', name: 'Icon Container', figma: 'Component Migration 164:17910' },
