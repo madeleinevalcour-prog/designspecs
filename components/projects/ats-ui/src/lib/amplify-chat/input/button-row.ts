@@ -16,8 +16,13 @@ const yesNo = (v: unknown): boolean | undefined => (v == null ? undefined : v ==
  * The parent owns the draft: pass `canSend` (false disables Send, e.g. while the
  * text area is empty) and listen to the outputs.
  *
+ * While a reply is generating (`generating`), a Stop button (Button, Dialogue / Small,
+ * icon-only `stop-circle`, aria-label "Stop generating") sits just before Send and
+ * emits `stop`; Send stays disabled until generating ends.
+ *
  *   <ats-amplify-chat-button-row [canSend]="draft().trim().length > 0" (send)="submit()" (addFile)="pickFile()" />
  *   <ats-amplify-chat-button-row [showLabels]="false" [canSend]="true" />
+ *   <ats-amplify-chat-button-row [generating]="busy()" (stop)="cancel()" />
  */
 @Component({
   selector: 'ats-amplify-chat-button-row',
@@ -28,8 +33,12 @@ const yesNo = (v: unknown): boolean | undefined => (v == null ? undefined : v ==
       <button ats-button theme="dialogue" size="small" iconLeft="tools" [attr.aria-label]="labels() ? null : 'Add Tools'" (click)="addTools.emit()">{{ labels() ? 'Add Tools' : '' }}</button>
       <button ats-button theme="dialogue" size="small" iconLeft="book" [attr.aria-label]="labels() ? null : 'Prompt Library'" (click)="promptLibrary.emit()">{{ labels() ? 'Prompt Library' : '' }}</button>
     </div>
+    @if (isGenerating()) {
+      <button ats-button class="ats-amplify-chat-button-row__stop" theme="dialogue" size="small" iconLeft="stop-circle"
+        aria-label="Stop generating" (click)="stop.emit()"></button>
+    }
     <button ats-button class="ats-amplify-chat-button-row__send" theme="primary" color="amplify" size="small" iconLeft="arrow-up"
-      aria-label="Send" [disabled]="!sendable()" (click)="send.emit()"></button>
+      aria-label="Send" [disabled]="!sendable() || isGenerating()" (click)="send.emit()"></button>
   `,
   styleUrl: './button-row.css',
   encapsulation: ViewEncapsulation.None,
@@ -41,12 +50,17 @@ export class AmplifyChatButtonRow {
   readonly showLabels = input<boolean | undefined, unknown>(true, { transform: yesNo });
   /** Enables Send. Default false (nothing to send). */
   readonly canSend = input<boolean | undefined, unknown>(false, { transform: yesNo });
+  /** A reply is generating: shows Stop and keeps Send disabled. Default false. */
+  readonly generating = input<boolean | undefined, unknown>(false, { transform: yesNo });
 
   readonly send = output<void>();
+  /** Emits when Stop is activated (only shown while `generating`). */
+  readonly stop = output<void>();
   readonly addFile = output<void>();
   readonly addTools = output<void>();
   readonly promptLibrary = output<void>();
 
   protected readonly labels = computed(() => this.showLabels() ?? true);
   protected readonly sendable = computed(() => this.canSend() ?? false);
+  protected readonly isGenerating = computed(() => this.generating() ?? false);
 }

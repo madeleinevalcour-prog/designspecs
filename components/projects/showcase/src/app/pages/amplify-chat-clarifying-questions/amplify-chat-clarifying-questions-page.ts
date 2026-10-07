@@ -63,7 +63,7 @@ const WHO: AmplifyChatClarifyingQuestion = {
  *   clarify-key:             type = number | icon, state = default | active | selected, number
  *   clarify-option:          type = text | record, state = default | active | selected, number,
  *                            label, recommended, recordLink, description (record: sample Verizon fields)
- *   clarify-something-else:  state = default | typing, value, showSkip = true | false
+ *   clarify-something-else:  state = default | typing, value (any text replaces Skip with the submit FAB), showSkip = true | false
  */
 @Component({
   imports: [AmplifyChatClarifyingQuestions, AmplifyChatClarifyKey, AmplifyChatClarifyOption, AmplifyChatClarifySomethingElse],
@@ -96,7 +96,7 @@ const WHO: AmplifyChatClarifyingQuestion = {
 
       <section>
         <h2>Live demo</h2>
-        <p class="note">Click an option, press 1–4, or move with ↑ ↓ and press ↵. Answering moves to the next question; the pager pages back (earlier answers stay selected). Type in Something else and press ↵, or Skip to take the recommended option.</p>
+        <p class="note">Click an option, press 1–4, or move with ↑ ↓ and press ↵. Answering moves to the next question; the pager pages back (earlier answers stay selected). Typing anywhere in the card (even with focus on an option) goes to Something else; once it has text, Skip turns into the submit FAB (→) — click it or press ↵. Clear the text to get Skip back, or Skip to take the recommended option. Digits choose options only while Something else is empty.</p>
         <div class="w750 col">
           @if (demoOpen()) {
             <ats-amplify-chat-clarifying-questions [questions]="demoRound()" (answered)="say('answered ' + ($event.index + 1) + ': ' + $event.answer.value + ' (' + $event.answer.via + ')')"
@@ -144,10 +144,13 @@ const WHO: AmplifyChatClarifyingQuestion = {
 
       <section>
         <h2>clarify-something-else <span class="node">6335:128906</span></h2>
-        <p class="note">Type and press ↵ to submit; the row takes the typing look while the field has focus.</p>
+        <p class="note">Type and press ↵ (or the FAB) to submit; the row takes the typing look while the field has focus. Any text replaces Skip with the small primary FAB (Button Fab / Small, arrow-right, "Submit answer").</p>
         <div class="stack w640">
           <div class="item"><span class="caption">state=default (6335:128884)</span><ats-amplify-chat-clarify-something-else /></div>
-          <div class="item"><span class="caption">state=typing (6335:128895)</span><ats-amplify-chat-clarify-something-else state="typing" value="Within 10 mi of Cambridge" /></div>
+          <div class="item"><span class="caption">state=typing (6335:128895) · text entered → submit FAB</span><ats-amplify-chat-clarify-something-else state="typing" value="Within 10 mi of Cambridge" /></div>
+          <div class="item"><span class="caption">state=typing · empty (Skip stays)</span><ats-amplify-chat-clarify-something-else state="typing" /></div>
+          <div class="item"><span class="caption">live: type to swap Skip for the FAB; clear to bring Skip back</span><ats-amplify-chat-clarify-something-else (submitted)="liveElse.set('submitted: ' + $event)" (skip)="liveElse.set('skipped')" /></div>
+          @if (liveElse()) { <span class="caption">{{ liveElse() }}</span> }
         </div>
       </section>
     }
@@ -199,6 +202,7 @@ export class AmplifyChatClarifyingQuestionsPage {
   protected readonly demoOpen = signal(true);
   protected readonly demoRound = signal<AmplifyChatClarifyingQuestion[]>([JOB, DISTANCE, WHO]);
   protected readonly log = signal<string[]>([]);
+  protected readonly liveElse = signal('');
   protected say(line: string): void {
     this.log.update((l) => [...l, line]);
   }

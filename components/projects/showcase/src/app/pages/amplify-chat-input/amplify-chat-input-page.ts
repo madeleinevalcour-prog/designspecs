@@ -37,16 +37,18 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
  *   /examples/amplify-chat-input?component=button-row&showLabels=no&canSend=true
  *   /examples/amplify-chat-input?component=context-container&size=docked&items=Tyler%20Brooks,Verizon
  *   /examples/amplify-chat-input?component=chat-input&size=docked
+ *   /examples/amplify-chat-input?component=chat-input&generating=true
  *   /examples/amplify-chat-input?component=amplify-chat-container&questions=yes
  *   /examples/amplify-chat-input?component=global-chat-container&name=Chloe
  * Params:
  *   component = chat-input | amplify-chat-container | global-chat-container | text-area | button-row | context-container
- *   chat-input:             size = full page | docked (default full page), placeholder, value
+ *   chat-input:             size = full page | docked (default full page), placeholder, value,
+ *                           generating = true (Stop next to Send, Send disabled; also on the containers and button-row)
  *   amplify-chat-container: size, items (context chips, default "Tyler Brooks"; "none" hides the row),
  *                           questions = yes (sample clarifying-questions round replaces the context row)
  *   global-chat-container:  size, name (default Chloe), greeting (whole headline), items (default none)
  *   text-area:          placeholder, value
- *   button-row:         showLabels = yes | no (default yes), canSend = true | false (default false)
+ *   button-row:         showLabels = yes | no (default yes), canSend = true | false (default false), generating = true
  *   context-container:  size = full page | docked (default full page),
  *                       items (comma list of chip labels, default "Tyler Brooks")
  */
@@ -58,19 +60,19 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
       <div class="embed">
         @switch (component()) {
           @case ('chat-input') {
-            <ats-amplify-chat-input [size]="size()" [placeholder]="placeholder()" [value]="value() ?? ''" />
+            <ats-amplify-chat-input [size]="size()" [placeholder]="placeholder()" [value]="value() ?? ''" [generating]="isGenerating()" (stop)="noop()" />
           }
           @case ('amplify-chat-container') {
-            <ats-amplify-chat-container [size]="size()" [context]="embedItems()" [questions]="questions() === 'yes' ? round : undefined" (removed)="drop($event)" />
+            <ats-amplify-chat-container [size]="size()" [context]="embedItems()" [questions]="questions() === 'yes' ? round : undefined" [generating]="isGenerating()" (removed)="drop($event)" />
           }
           @case ('global-chat-container') {
-            <ats-amplify-chat-global-chat-container [size]="size()" [name]="name()" [greeting]="greeting()" [context]="items() ? embedItems() : []" />
+            <ats-amplify-chat-global-chat-container [size]="size()" [name]="name()" [greeting]="greeting()" [context]="items() ? embedItems() : []" [generating]="isGenerating()" />
           }
           @case ('text-area') {
             <textarea ats-amplify-chat-text-area aria-label="Message Amplify" [placeholder]="placeholder()" [value]="value() ?? ''"></textarea>
           }
           @case ('button-row') {
-            <ats-amplify-chat-button-row [showLabels]="showLabels() ?? 'yes'" [canSend]="canSend() ?? false" />
+            <ats-amplify-chat-button-row [showLabels]="showLabels() ?? 'yes'" [canSend]="canSend() ?? false" [generating]="isGenerating()" />
           }
           @case ('context-container') {
             <ats-amplify-chat-context-container [size]="size()" [items]="embedItems()" (removed)="drop($event)" />
@@ -83,7 +85,7 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
 
       <section>
         <h2>Live demo</h2>
-        <p class="note">Type and press ↵ to send (Shift+↵ for a new line). "Ask a clarifying question" opens the card above the input; answer with a click, 1–4, ↑ ↓ + ↵, Skip, or by typing in the input.</p>
+        <p class="note">Type and press ↵ to send (Shift+↵ for a new line). Sending starts a ~2s "generating" state: Stop appears next to Send (Send is disabled); Stop ends it early. "Ask a clarifying question" opens the card above the input; answer with a click, 1–4, ↑ ↓ + ↵, Skip, or by typing in the input. While the card is open, typing anywhere in the container (outside the chat input) goes to Something else, which then shows the submit FAB.</p>
         <div class="demo w800">
           <div class="toolbar">
             <button type="button" (click)="ask()">Ask a clarifying question</button>
@@ -93,7 +95,7 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
             @for (m of log(); track $index) { <li>{{ m }}</li> } @empty { <li class="muted">Nothing sent yet.</li> }
           </ol>
           <ats-amplify-chat-container [size]="demoDocked() ? 'docked' : 'full page'" [context]="demoContext()" [questions]="demoQuestions()"
-            (send)="say('You: ' + $event)" (completed)="done($event)" (dismissed)="say('(questions dismissed)')" (removed)="demoContext.set([])" />
+            [generating]="demoGenerating()" (send)="sent($event)" (stop)="stopped()" (completed)="done($event)" (dismissed)="say('(questions dismissed)')" (removed)="demoContext.set([])" />
         </div>
       </section>
 
@@ -104,6 +106,8 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
           <div class="item"><span class="caption">size=full page (4510:141056)</span><ats-amplify-chat-input /></div>
           <div class="item"><span class="caption">size=docked (4608:172362) · icon-only buttons</span><ats-amplify-chat-input size="docked" /></div>
           <div class="item"><span class="caption">size=full page · with a draft (Send enabled)</span><ats-amplify-chat-input value="Find Java developers within 25 miles of Boston" /></div>
+          <div class="item"><span class="caption">generating · Stop next to Send (Send disabled)</span><ats-amplify-chat-input [generating]="true" /></div>
+          <div class="item"><span class="caption">size=docked · generating</span><ats-amplify-chat-input size="docked" [generating]="true" /></div>
         </div>
       </section>
 
@@ -145,6 +149,8 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
           <div class="item"><span class="caption">show button labels=yes (4608:172447) · canSend</span><ats-amplify-chat-button-row [canSend]="true" /></div>
           <div class="item"><span class="caption">show button labels=no (6223:173575) · canSend</span><ats-amplify-chat-button-row [showLabels]="false" [canSend]="true" /></div>
           <div class="item"><span class="caption">show button labels=yes · empty (Send disabled)</span><ats-amplify-chat-button-row /></div>
+          <div class="item"><span class="caption">generating · Stop (Dialogue, icon-only stop-circle) + Send disabled</span><ats-amplify-chat-button-row [canSend]="true" [generating]="true" /></div>
+          <div class="item"><span class="caption">show button labels=no · generating</span><ats-amplify-chat-button-row [showLabels]="false" [generating]="true" /></div>
           <div class="item">
             <span class="caption">live: text area + button row</span>
             <div class="frame col">
@@ -199,12 +205,16 @@ export class AmplifyChatInputPage {
   readonly questions = input<string>();
   readonly name = input<string>();
   readonly greeting = input<string>();
+  readonly generating = input<string>();
 
   protected readonly round = QUESTIONS;
   protected readonly log = signal<string[]>([]);
   protected readonly demoDocked = signal(false);
   protected readonly demoContext = signal<AmplifyChatContextItem[]>(['Tyler Brooks']);
   protected readonly demoQuestions = signal<AmplifyChatClarifyingQuestion[] | undefined>(undefined);
+  protected readonly demoGenerating = signal(false);
+  private genTimer?: ReturnType<typeof setTimeout>;
+  protected readonly isGenerating = computed(() => this.generating() === 'true' || this.generating() === 'yes');
 
   protected readonly draft = signal('');
   protected readonly contextItems = signal<AmplifyChatContextItem[]>(['Tyler Brooks']);
@@ -222,6 +232,25 @@ export class AmplifyChatInputPage {
 
   protected say(line: string): void {
     this.log.update((l) => [...l, line]);
+  }
+
+  protected noop(): void {}
+
+  /** Live demo: sending starts a ~2s generating state (Stop shows; Send disabled). */
+  protected sent(text: string): void {
+    this.say('You: ' + text);
+    this.demoGenerating.set(true);
+    clearTimeout(this.genTimer);
+    this.genTimer = setTimeout(() => {
+      this.demoGenerating.set(false);
+      this.say('Amplify: (reply)');
+    }, 2000);
+  }
+
+  protected stopped(): void {
+    clearTimeout(this.genTimer);
+    this.demoGenerating.set(false);
+    this.say('(generating stopped)');
   }
 
   protected ask(): void {

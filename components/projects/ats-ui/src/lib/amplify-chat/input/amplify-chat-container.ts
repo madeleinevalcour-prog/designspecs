@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, computed, input, linkedSignal, output, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, computed, input, linkedSignal, output, viewChild } from '@angular/core';
 import { AmplifyChatClarifyingQuestions } from '../clarifying-questions/clarifying-questions';
 import { AmplifyChatClarifyAnswer, AmplifyChatClarifyingQuestion } from '../clarifying-questions/clarifying-questions-model';
 import { AmplifyChatContextContainer, AmplifyChatContextItem } from './amplify-context-container';
@@ -15,7 +15,12 @@ import { AmplifyChatInput, AmplifyChatInputSize } from './chat-input';
  *    current question. The context row returns once the round is completed or
  *    dismissed (or when `questions` is cleared).
  *
- * Outputs: `send(text)` (only when no questions are open), the clarifying
+ * While the card is open, typing anywhere in the container outside a text field goes
+ * to the card's "Something else" field (see AmplifyChatClarifyingQuestions); typing
+ * in the chat input stays in the chat input. Tab goes from the card to the input.
+ * `generating` passes to the input (Stop next to Send; Stop emits `stop`).
+ *
+ * Outputs: `send(text)` (only when no questions are open), `stop`, the clarifying
  * `answered` / `completed` / `dismissed`, the context `removed` / `add`, and the
  * button-row passthroughs.
  *
@@ -33,12 +38,13 @@ import { AmplifyChatInput, AmplifyChatInputSize } from './chat-input';
       <ats-amplify-chat-context-container [size]="sizeName()" [items]="contextItems()" (removed)="removed.emit($event)" (add)="add.emit()" />
     }
     <ats-amplify-chat-input [size]="sizeName()" [placeholder]="asking() ? 'Or reply directly…' : placeholder()" (send)="onSend($event)"
+      [generating]="generating()" (stop)="stop.emit()"
       (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
   `,
   styleUrl: './amplify-chat-container.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'ats-amplify-chat-container', '[attr.data-size]': 'sizeName()' },
+  host: { class: 'ats-amplify-chat-container', '[attr.data-size]': 'sizeName()', '(keydown)': 'onKey($event)' },
 })
 export class AmplifyChatContainer {
   readonly size = input<AmplifyChatInputSize | undefined>('full page');
@@ -48,8 +54,12 @@ export class AmplifyChatContainer {
   readonly questions = input<AmplifyChatClarifyingQuestion[] | undefined>();
   /** Input placeholder when no questions are open. */
   readonly placeholder = input<string>();
+  /** A reply is generating: shows Stop in the input and keeps Send disabled. */
+  readonly generating = input<boolean | undefined, unknown>(false, { transform: (v: unknown) => (v == null ? undefined : booleanAttribute(v)) });
 
   readonly send = output<string>();
+  /** Emits when Stop is activated in the input. */
+  readonly stop = output<void>();
   readonly answered = output<{ index: number; answer: AmplifyChatClarifyAnswer }>();
   readonly completed = output<AmplifyChatClarifyAnswer[]>();
   readonly dismissed = output<void>();
@@ -70,6 +80,11 @@ export class AmplifyChatContainer {
     const card = this.card();
     if (this.asking() && card) card.answerCustom(text);
     else this.send.emit(text);
+  }
+
+  /** Keys from outside the card (and outside the chat input) go to the card's Something else. */
+  protected onKey(event: KeyboardEvent): void {
+    if (this.asking()) this.card()?.routeKey(event);
   }
 
   protected finish(answers: AmplifyChatClarifyAnswer[]): void {

@@ -1,5 +1,6 @@
 import {
-  ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, computed, effect, inject, input, linkedSignal, output, signal, untracked,
+  ChangeDetectionStrategy, Component, DOCUMENT, DestroyRef, ElementRef, ViewEncapsulation, computed, effect, inject, input, linkedSignal, output, signal,
+  untracked, viewChild,
 } from '@angular/core';
 import { IconButtonNoContainer } from '../../icon-button-no-container/icon-button-no-container';
 import { AmplifyChatClarifyOption, AmplifyChatClarifyOptionState } from './clarify-option';
@@ -10,6 +11,10 @@ import { AmplifyChatClarifyAnswer, AmplifyChatClarifyingQuestion } from './clari
 export type AmplifyChatClarifyingQuestionsSize = 'full page' | 'docked';
 
 let nextId = 0;
+
+/** Text fields keep their own keystrokes (Something else itself, the chat input, …). */
+const isEditable = (el: Element | null): boolean =>
+  !!el?.closest('input, textarea, select, [contenteditable=""], [contenteditable="true"]');
 
 /**
  * AmplifyChatClarifyingQuestions (Figma: "clarifying-questions", set 6336:28366). The
@@ -22,7 +27,15 @@ let nextId = 0;
  *
  * Behaviour (patterns doc, "Clarifying questions"):
  *  - The options are a radiogroup labelled by the question (roving tabindex).
- *    ↑ ↓ move between options, ↵ / click selects, 1–4 choose directly.
+ *    ↑ ↓ move between options, ↵ / click selects, 1–4 choose directly while the
+ *    Something else field is empty.
+ *  - Typing goes to Something else by default: printable keys (no Ctrl / ⌘ / Alt)
+ *    pressed anywhere in the card that isn't a text field land in the field. The
+ *    parent AmplifyChatContainer forwards keys from the rest of the container via
+ *    `routeKey(event)`; keys pressed with focus on the page body are routed too when
+ *    this is the only clarifying-questions card on the page. Once the field has
+ *    text, digits are text. Tab order: options → Something else → Skip / submit FAB
+ *    → (the chat input, after the card).
  *  - Choosing an option (or ↵ in Something else) answers the question and moves to
  *    the next one; answering the last emits `completed` with every answer.
  *  - Skip answers with the recommended option (first option with `recommended`,
@@ -68,7 +81,7 @@ let nextId = 0;
   styleUrl: './clarifying-questions.css',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'ats-amplify-chat-clarifying-questions', '[attr.data-size]': 'sizeName()' },
+  host: { class: 'ats-amplify-chat-clarifying-questions', '[attr.data-size]': 'sizeName()', '(keydown)': 'routeKey($event)' },
 })
 export class AmplifyChatClarifyingQuestions {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -98,6 +111,7 @@ export class AmplifyChatClarifyingQuestions {
   protected readonly options = computed(() => (this.current()?.options ?? []).slice(0, 4));
   protected readonly draft = signal<string | undefined>('');
   private readonly focusIdx = signal(-1);
+  private readonly somethingElse = viewChild(AmplifyChatClarifySomethingElse);
   protected readonly tabStop = computed(() => {
     const f = this.focusIdx();
     if (f >= 0) return f;
@@ -115,6 +129,43 @@ export class AmplifyChatClarifyingQuestions {
         this.focusIdx.set(-1);
       });
     });
+
+    // Keys typed with nothing focused (page body) go to Something else, but only when
+    // this is the only card on the page (otherwise it's ambiguous which one is meant).
+    const doc = inject(DOCUMENT);
+    const onDocKey = (e: KeyboardEvent) => {
+      if (e.target === doc.body && doc.querySelectorAll('.ats-amplify-chat-clarifying-questions').length === 1) this.routeKey(e);
+    };
+    doc.addEventListener('keydown', onDocKey);
+    inject(DestroyRef).onDestroy(() => doc.removeEventListener('keydown', onDocKey));
+  }
+
+  /**
+   * Handles a keystroke from the card, the surrounding chat container or the page
+   * body: 1–4 choose an option while Something else is empty; any other printable
+   * key (no Ctrl / ⌘ / Alt) is typed into Something else. Text fields keep their own
+   * keys. Returns true when the key was handled (and default-prevented).
+   */
+  routeKey(e: KeyboardEvent): boolean {
+    if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.isComposing || e.key.length !== 1) return false;
+    const target = e.target as HTMLElement;
+    if (isEditable(target)) return false;
+    const empty = (this.draft() ?? '') === '';
+    if (empty && /^[1-4]$/.test(e.key)) {
+      const i = Number(e.key) - 1;
+      if (i < this.options().length) {
+        e.preventDefault();
+        this.choose(i);
+        return true;
+      }
+    }
+    const field = this.somethingElse();
+    if (!field) return false;
+    // Space activates the focused button; a leading space is never meant as text.
+    if (e.key === ' ' && (empty || target.closest('button, a, [role="button"]'))) return false;
+    e.preventDefault();
+    field.insertText(e.key);
+    return true;
   }
 
   protected optionState(i: number): AmplifyChatClarifyOptionState | undefined {
@@ -168,11 +219,6 @@ export class AmplifyChatClarifyingQuestions {
   protected onKey(event: KeyboardEvent): void {
     const inField = (event.target as HTMLElement).tagName === 'INPUT';
     const count = this.options().length;
-    if (!inField && /^[1-4]$/.test(event.key) && !event.ctrlKey && !event.metaKey && !event.altKey) {
-      const i = Number(event.key) - 1;
-      if (i < count) { event.preventDefault(); this.choose(i); }
-      return;
-    }
     if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
     const buttons = this.optionButtons();
     const pos = buttons.indexOf(event.target as HTMLElement);

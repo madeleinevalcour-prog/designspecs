@@ -10,6 +10,11 @@
   gap: var(--amplify-chat-button-row-amplify-tools-spacing-gap-spacing-8);
 }
 /* send: Button's primary + amplify gradient ("Buttons/Amplify Radial"), made a 32px circle like Figma's fab */
+/* Stop (while generating): Dialogue / Small, icon-only, 8px before Send */
+.ats-amplify-chat-button-row__stop.ats-btn {
+  flex: 0 0 auto; gap: 0;
+  margin-right: var(--amplify-chat-button-row-amplify-tools-spacing-gap-spacing-8); /* no token for the stop/send gap: reuses the tools gap (8) */
+}
 .ats-amplify-chat-button-row__send.ats-btn {
   flex: 0 0 auto; gap: 0; padding: 0;
   width: var(--button-spacing-fab-small-min-width);

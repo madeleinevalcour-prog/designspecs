@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, computed, input, model, output, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, booleanAttribute, computed, input, model, output, viewChild } from '@angular/core';
 import { AmplifyChatTextArea } from './amplify-text-area';
 import { AmplifyChatButtonRow } from './button-row';
 
@@ -19,9 +19,12 @@ export type AmplifyChatInputSize = 'full page' | 'docked';
  * alone). Sending emits `send` with the trimmed text and clears the field. The
  * Add File / Add Tools / Prompt Library outputs pass through from the button row.
  * Pass `placeholder="Or reply directly…"` while clarifying questions are open.
+ * `generating` (a reply is being written) shows Stop next to Send and keeps Send
+ * disabled; Stop emits `stop`. ↵ doesn't send while generating.
  *
  *   <ats-amplify-chat-input (send)="ask($event)" />
  *   <ats-amplify-chat-input size="docked" placeholder="Or reply directly…" (send)="reply($event)" />
+ *   <ats-amplify-chat-input [generating]="busy()" (send)="ask($event)" (stop)="cancel()" />
  */
 @Component({
   selector: 'ats-amplify-chat-input',
@@ -30,6 +33,7 @@ export type AmplifyChatInputSize = 'full page' | 'docked';
     <textarea #field ats-amplify-chat-text-area [attr.aria-label]="label() ?? 'Message Amplify'" [placeholder]="placeholder()"
       [value]="value() ?? ''" (input)="value.set($any($event.target).value)" (keydown.enter)="onEnter($event)"></textarea>
     <ats-amplify-chat-button-row [showLabels]="sizeName() === 'full page'" [canSend]="canSend()" (send)="submit()"
+      [generating]="isGenerating()" (stop)="stop.emit()"
       (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
   `,
   styleUrl: './chat-input.css',
@@ -45,9 +49,13 @@ export class AmplifyChatInput {
   readonly label = input<string>();
   /** The draft text (two-way: `[(value)]`). */
   readonly value = model<string | undefined>('');
+  /** A reply is generating: Stop shows next to Send, and Send is disabled. Default false. */
+  readonly generating = input<boolean | undefined, unknown>(false, { transform: (v: unknown) => (v == null ? undefined : booleanAttribute(v)) });
 
   /** Emits the trimmed draft when the recruiter sends (↵ or Send); the field then clears. */
   readonly send = output<string>();
+  /** Emits when Stop is activated (while `generating`). */
+  readonly stop = output<void>();
   readonly addFile = output<void>();
   readonly addTools = output<void>();
   readonly promptLibrary = output<void>();
@@ -56,6 +64,7 @@ export class AmplifyChatInput {
   private readonly textArea = viewChild.required(AmplifyChatTextArea);
 
   protected readonly sizeName = computed(() => this.size() ?? 'full page');
+  protected readonly isGenerating = computed(() => this.generating() ?? false);
   protected readonly canSend = computed(() => (this.value() ?? '').trim().length > 0);
 
   /** Moves focus to the text field. */
@@ -72,7 +81,7 @@ export class AmplifyChatInput {
 
   protected submit(): void {
     const text = (this.value() ?? '').trim();
-    if (!text) return;
+    if (!text || this.isGenerating()) return;
     this.send.emit(text);
     const el = this.field().nativeElement;
     el.value = '';
