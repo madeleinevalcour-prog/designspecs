@@ -71,6 +71,8 @@ export class BowlingAlleyShell {
   readonly findOpen = input(false, { transform: booleanAttribute });
   /** Starting record tabs (defaults to the prototype's five). */
   readonly tabs = input<BowlingAlleyEntityTab[]>();
+  /** The current page is Amplify (full-page chat): highlight the Amplify tab instead of a record tab. */
+  readonly amplifyActive = input(false, { transform: booleanAttribute });
 
   /** An overlay row / menu item / Fast Find result was picked. */
   readonly overlaySelect = output<BowlingAlleySelection>();
@@ -98,6 +100,11 @@ export class BowlingAlleyShell {
     effect(() => {
       const t = this.tabs();
       if (t) this.ctrl.setTabs(t);
+    });
+    effect(() => {
+      const on = this.amplifyActive();
+      this.ctrl.amplifyActive.set(on);
+      if (on) untracked(() => this.ctrl.tabs.update((ts) => ts.map((x) => ({ ...x, active: false }))));
     });
 
     // place the overlay / results once rendered (and whenever they change)

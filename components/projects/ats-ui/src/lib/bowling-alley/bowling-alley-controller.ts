@@ -84,6 +84,8 @@ export class BowlingAlleyController {
   readonly hovered = signal(false);
   /** Freeze the nav state (docs / showcases): hover intent and the toggle do nothing. */
   readonly locked = signal(false);
+  /** The current page is Amplify (full-page chat): the Amplify tab shows as active. */
+  readonly amplifyActive = signal(false);
 
   // ---------- Menu (apps, Edit Menu, order) ----------
   /** Menu overlay mode: the app grid or the Edit Menu. */

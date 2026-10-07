@@ -1,5 +1,5 @@
 <div class="frame" [class.embed]="embed()">
-  <ats-bowling-alley-shell nav="open">
+  <ats-bowling-alley-shell nav="open" amplifyActive>
     <ats-bowling-alley />
     <ats-amplify-chat-full-page greetingName="Chloe" [context]="context" [questions]="questions()" [generating]="generating()"
       (send)="ask($event)" (stop)="stop()" (completed)="answeredAll($event)" (dismissed)="questions.set(undefined)"
