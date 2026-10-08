@@ -43,6 +43,18 @@
 }
 
 /* ---- docked: fills the panel; turns inset padding/sm, user turns a further padding/lg ---- */
+/* the docked-chat main padding (16 top, 8 sides, 8 bottom) sits inside the scroller, so
+   scrolled content isn't clipped short of the header and panel edges */
+.ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__scroll {
+  padding:
+    var(--amplify-chat-docked-chat-main-spacing-padding-top-spacing-padding-md)
+    var(--amplify-chat-docked-chat-main-spacing-padding-right-spacing-8)
+    0
+    var(--amplify-chat-docked-chat-main-spacing-padding-left-spacing-padding-sm);
+}
+.ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__input {
+  padding-bottom: var(--amplify-chat-docked-chat-main-spacing-padding-bottom-spacing-padding-sm);
+}
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__column {
   padding-inline: var(--amplify-chat-docked-chat-main-conversation-chat-column-spacing-padding-horizontal-spacing-padding-sm);
 }

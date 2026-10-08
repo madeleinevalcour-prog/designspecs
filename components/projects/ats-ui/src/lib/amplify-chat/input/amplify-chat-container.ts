@@ -37,7 +37,7 @@ import { AmplifyChatInput, AmplifyChatInputSize } from './chat-input';
     } @else if (contextItems().length) {
       <ats-amplify-chat-context-container [size]="sizeName()" [items]="contextItems()" (removed)="removed.emit($event)" (add)="add.emit()" />
     }
-    <ats-amplify-chat-input [size]="sizeName()" [placeholder]="asking() ? 'Or reply directly…' : placeholder()" (send)="onSend($event)"
+    <ats-amplify-chat-input [size]="sizeName()" [showLabels]="showLabels()" [placeholder]="asking() ? 'Or reply directly…' : placeholder()" (send)="onSend($event)"
       [generating]="generating()" (stop)="stop.emit()"
       (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
   `,
@@ -48,6 +48,8 @@ import { AmplifyChatInput, AmplifyChatInputSize } from './chat-input';
 })
 export class AmplifyChatContainer {
   readonly size = input<AmplifyChatInputSize | undefined>('full page');
+  /** Button labels in the input (default: by size). See AmplifyChatInput.showLabels. */
+  readonly showLabels = input<boolean | undefined>();
   /** Records in the context row (chips). Empty hides the row. */
   readonly context = input<AmplifyChatContextItem[] | undefined>([]);
   /** A clarifying-questions round; while open it replaces the context row. */

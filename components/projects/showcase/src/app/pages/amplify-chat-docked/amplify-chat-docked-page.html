@@ -24,8 +24,8 @@
     </div>
   </main>
 
-  <ats-amplify-chat-docked [(open)]="chatOpen" [(mode)]="chatMode" expandable
-    (closed)="log.set('Last event: closed')" (expand)="log.set('Last event: open full page')">
+  <ats-amplify-chat-docked [(open)]="chatOpen" [(mode)]="chatMode"
+    (closed)="log.set('Last event: closed')">
     <ats-amplify-chat-conversation size="docked">
       @for (turn of turns(); track turn.id) {
         @if (turn.kind === 'user') {

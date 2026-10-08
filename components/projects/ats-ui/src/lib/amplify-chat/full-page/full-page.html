@@ -26,7 +26,7 @@
   <ats-amplify-chat-conversation size="full page" [label]="label()" [hidden]="isEmpty()">
     <ng-content />
     @if (!isEmpty()) {
-      <ats-amplify-chat-container slot="input" size="full page" [context]="context()" [questions]="questions()"
+      <ats-amplify-chat-container slot="input" size="full page" [showLabels]="false" [context]="context()" [questions]="questions()"
         [placeholder]="placeholder()" [generating]="generating()" (send)="onSend($event)" (stop)="stop.emit()"
         (answered)="answered.emit($event)" (completed)="completed.emit($event)" (dismissed)="dismissed.emit()"
         (removed)="removed.emit($event)" (add)="add.emit()"

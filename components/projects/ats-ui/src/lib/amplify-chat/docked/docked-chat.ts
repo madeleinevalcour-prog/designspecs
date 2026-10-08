@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewEncapsulation, booleanAttribute, computed, effect, inject, input, model,
+  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewEncapsulation, computed, effect, inject, input, model,
   output, signal, untracked,
 } from '@angular/core';
 import { Button } from '../../button/button';
@@ -34,14 +34,12 @@ const MIN_H = 360;
  * then the actions (Button theme Icon, Small):
  *  - docked: External Open (pop out to the pop over) and Close;
  *  - pop over: Columns (dock it back) and Close.
- * Figma has no full-page button; set `expandable` to add one (icon `expand`,
- * "Open full page") that emits `expand` so the app can route to the full-page chat.
  *
  * Body: project an `ats-amplify-chat-conversation size="docked"` (turns + input).
  *
  *   <div class="page-row">            <!-- display: flex; height: 100% -->
  *     <main class="page">…</main>     <!-- flex: 1; min-width: 0 -->
- *     <ats-amplify-chat-docked [(open)]="chatOpen" [(mode)]="chatMode" expandable (expand)="goFullPage()">
+ *     <ats-amplify-chat-docked [(open)]="chatOpen" [(mode)]="chatMode">
  *       <ats-amplify-chat-conversation size="docked">
  *         …turns…
  *         <ats-amplify-chat-container slot="input" size="docked" (send)="ask($event)" />
@@ -49,7 +47,7 @@ const MIN_H = 360;
  *     </ats-amplify-chat-docked>
  *   </div>
  *
- * Outputs: `closed` (Close was activated; `open` also becomes false) and `expand`.
+ * Output: `closed` (Close was activated; `open` also becomes false).
  * The host is a `role="complementary"` landmark named "Amplify chat"; while closed it
  * is `inert` and hidden from assistive tech.
  */
@@ -64,9 +62,6 @@ const MIN_H = 360;
           <h2 class="ats-amplify-chat-docked__label">{{ title() ?? 'Amplify' }}</h2>
         </div>
         <div class="ats-amplify-chat-docked__actions">
-          @if (expandable()) {
-            <button ats-button theme="icon" size="small" icon="expand" aria-label="Open full page" (click)="expand.emit()"></button>
-          }
           <button ats-button theme="icon" size="small" [icon]="isPopOver() ? 'columns' : 'external-open'"
             [attr.aria-label]="isPopOver() ? 'Dock to side' : 'Pop out'" (click)="toggleMode()"></button>
           <button ats-button theme="icon" size="small" icon="close" aria-label="Close Amplify" (click)="close()"></button>
@@ -101,15 +96,11 @@ export class AmplifyChatDocked {
   readonly open = model<boolean | undefined>(true);
   /** `docked` (default) or `pop-over` (two-way: `[(mode)]`). */
   readonly mode = model<AmplifyChatDockedMode | undefined>('docked');
-  /** Adds an "Open full page" button (not in Figma) that emits `expand`. Default false. */
-  readonly expandable = input<boolean | undefined, unknown>(false, { transform: (v: unknown) => (v == null ? undefined : booleanAttribute(v)) });
   /** Header title. Default "Amplify". */
   readonly title = input<string>();
 
   /** Close was activated (`open` is set to false too). */
   readonly closed = output<void>();
-  /** "Open full page" was activated: go to the full-page chat. */
-  readonly expand = output<void>();
 
   protected readonly edge = EDGE;
   protected readonly isOpen = computed(() => this.open() ?? true);

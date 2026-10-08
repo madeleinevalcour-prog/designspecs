@@ -168,6 +168,7 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
           <div class="item"><span class="caption">Property 1=full page (4527:169452)</span><ats-amplify-chat-context-container [items]="contextItems()" (removed)="drop($event)" /></div>
           <div class="item"><span class="caption">Property 1=docked (6349:218553)</span><ats-amplify-chat-context-container size="docked" [items]="contextItems()" (removed)="drop($event)" /></div>
           <div class="item"><span class="caption">full page · several records</span><ats-amplify-chat-context-container [items]="many" /></div>
+          <div class="item"><span class="caption">source chip (Prospect: Amplify icon) + a record</span><ats-amplify-chat-context-container [items]="withSource" /></div>
         </div>
       </section>
     }
@@ -224,6 +225,7 @@ export class AmplifyChatInputPage {
     { label: 'Verizon', entity: 'company' },
     { label: '425 | Software Engineer', entity: 'job' },
   ];
+  protected readonly withSource: AmplifyChatContextItem[] = [{ label: 'Prospect', source: true }, { label: 'Verizon', entity: 'company' }];
   private readonly removedLabels = signal<string[]>([]);
 
   protected readonly embedItems = computed<AmplifyChatContextItem[]>(() =>

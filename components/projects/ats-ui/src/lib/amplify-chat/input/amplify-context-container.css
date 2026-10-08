@@ -39,3 +39,8 @@
   --_chip-bg: var(--amplify-chat-context-container-chips-novo-chip-color-background-neutral-2);
 }
 .ats-amplify-chat-context-container__chip .ats-novo-chip__icon { background-color: var(--_ctx-entity) !important; }
+/* source chips (e.g. Prospect): the Amplify icon in Icon/Amplify Radial
+   (no token: gradient stops from the Figma asset, as in amplify-chat/text status) */
+.ats-amplify-chat-context-container__chip.is-source .ats-novo-chip__icon {
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%) !important;
+}

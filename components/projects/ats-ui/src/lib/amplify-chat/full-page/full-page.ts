@@ -35,7 +35,8 @@ const MOVE_MS = 240;
  *    the global-chat-container greeting ("Hi {greetingName}, …") and input in the upper
  *    middle of the page (750 wide, 200 below the header).
  *  - conversation: the turns in `ats-amplify-chat-conversation` (800 column) with an
- *    `ats-amplify-chat-container` pinned at the bottom (`context` row, `questions`).
+ *    `ats-amplify-chat-container` pinned at the bottom (`context` row, `questions`), with
+ *    icon-only buttons (labels show only at the starting point; patterns doc).
  *    Top-aligned while the turns fit; once they overflow, bottom-anchored (newest just
  *    above the input) and it follows new turns unless the user scrolled up.
  *  The first send moves the input from the middle to the bottom (animated; reduced

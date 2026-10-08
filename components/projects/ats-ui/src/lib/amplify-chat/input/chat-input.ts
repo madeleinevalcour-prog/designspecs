@@ -32,7 +32,7 @@ export type AmplifyChatInputSize = 'full page' | 'docked';
   template: `
     <textarea #field ats-amplify-chat-text-area [attr.aria-label]="label() ?? 'Message Amplify'" [placeholder]="placeholder()"
       [value]="value() ?? ''" (input)="value.set($any($event.target).value)" (keydown.enter)="onEnter($event)"></textarea>
-    <ats-amplify-chat-button-row [showLabels]="sizeName() === 'full page'" [canSend]="canSend()" (send)="submit()"
+    <ats-amplify-chat-button-row [showLabels]="labels()" [canSend]="canSend()" (send)="submit()"
       [generating]="isGenerating()" (stop)="stop.emit()"
       (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
   `,
@@ -43,6 +43,9 @@ export type AmplifyChatInputSize = 'full page' | 'docked';
 })
 export class AmplifyChatInput {
   readonly size = input<AmplifyChatInputSize | undefined>('full page');
+  /** Button labels. Default: shown in full page, icon-only in docked. Full-page chat turns them
+   *  off once a conversation has started (patterns doc). */
+  readonly showLabels = input<boolean | undefined>();
   /** Placeholder; defaults to "What would you like to know or do today?". */
   readonly placeholder = input<string>();
   /** Accessible name of the text field. Default "Message Amplify". */
@@ -64,6 +67,7 @@ export class AmplifyChatInput {
   private readonly textArea = viewChild.required(AmplifyChatTextArea);
 
   protected readonly sizeName = computed(() => this.size() ?? 'full page');
+  protected readonly labels = computed(() => this.showLabels() ?? this.sizeName() === 'full page');
   protected readonly isGenerating = computed(() => this.generating() ?? false);
   protected readonly canSend = computed(() => (this.value() ?? '').trim().length > 0);
 

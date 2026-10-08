@@ -105,10 +105,8 @@
 /* ---- main: padding 16 top, 8 sides and bottom; holds the conversation ---- */
 .ats-amplify-chat-docked__main {
   display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; box-sizing: border-box;
-  padding:
-    var(--amplify-chat-docked-chat-main-spacing-padding-top-spacing-padding-md)
-    var(--amplify-chat-docked-chat-main-spacing-padding-right-spacing-8)
-    var(--amplify-chat-docked-chat-main-spacing-padding-bottom-spacing-padding-sm)
-    var(--amplify-chat-docked-chat-main-spacing-padding-left-spacing-padding-sm);
+  /* No padding here: the main padding (Figma 16 / 8 / 8 / 8) lives inside the conversation's
+     scroller, so content scrolls right up to the header and the panel edges instead of being
+     cut off 16px below the header. See conversation.css (docked). */
 }
 .ats-amplify-chat-docked__main > * { flex: 1 1 auto; min-height: 0; }

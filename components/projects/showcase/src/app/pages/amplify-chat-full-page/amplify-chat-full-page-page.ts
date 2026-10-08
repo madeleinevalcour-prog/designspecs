@@ -59,7 +59,7 @@ export class AmplifyChatFullPagePage {
   protected readonly questions = signal<AmplifyChatClarifyingQuestion[] | undefined>(undefined);
   protected readonly log = signal('');
 
-  protected readonly context: AmplifyChatContextItem[] = ['Prospect'];
+  protected readonly context: AmplifyChatContextItem[] = [{ label: 'Prospect', source: true }];
   protected readonly prospects = PROSPECTS;
   protected readonly columns = COLUMNS;
   protected readonly prospectSources = PROSPECT_SOURCES;

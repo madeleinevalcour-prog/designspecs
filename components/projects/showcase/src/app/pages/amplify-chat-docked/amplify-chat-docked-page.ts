@@ -81,7 +81,7 @@ export class AmplifyChatDockedPage {
     inject(DestroyRef).onDestroy(() => clearTimeout(this.timer));
   }
 
-  protected readonly context: AmplifyChatContextItem[] = [{ label: 'Verizon', entity: 'company' }];
+  protected readonly context: AmplifyChatContextItem[] = [{ label: 'Prospect', source: true }];
   protected readonly prospects = PROSPECTS;
   protected readonly columns: AmplifyChatProspectColumn[] = ['name', 'inBullhorn', 'title', 'mobilePhone'];
   protected readonly selectionActions: AmplifyChatSelectionAction[] = [
