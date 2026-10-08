@@ -5,7 +5,7 @@ import { IconButtonNoContainer } from '../../icon-button-no-container/icon-butto
 /** Figma amplify-chat/sources-row `state`. */
 export type AmplifyChatSourcesRowState = 'collapsed' | 'expanded';
 
-/** Record type → the circle's `color/entity/*` token. Prospect has no token; it uses the contact color. */
+/** Record type → the circle's `color/entity/*` token. `prospect` (found by Prospect, not yet in the ATS) is neutral grey; once saved it is a `contact`. */
 export type AmplifyChatSourceEntity =
   | 'candidate' | 'job' | 'contact' | 'company' | 'placement' | 'lead' | 'opportunity' | 'submission' | 'task' | 'prospect';
 

@@ -13,6 +13,14 @@ const MIXED: AmplifyChatSource[] = [
   { label: 'Jordan Lee', entity: 'candidate' },
 ];
 
+// Contacts found by Prospect: saved ones are contacts (contact color), unsaved ones are grey.
+const PROSPECTS: AmplifyChatSource[] = [
+  { label: 'Marie Smith', entity: 'contact' },
+  { label: 'Fred Johnson', entity: 'prospect' },
+  { label: 'Nina Patel', entity: 'contact' },
+  { label: 'Leila Nguyen', entity: 'prospect' },
+];
+
 /**
  * /amplify-chat-sources — Amplify Chat — Sources (Figma doc frame 6300:27092):
  * amplify-chat/sources-row (6149:20865: state=collapsed / expanded). The toggle is live.
@@ -24,7 +32,7 @@ const MIXED: AmplifyChatSource[] = [
  * Params:
  *   component = sources-row (the only one)
  *   state = collapsed | expanded (initial; default collapsed)
- *   set = jobs | mixed (sample sources; default jobs) · summary (custom summary text)
+ *   set = jobs | mixed | prospects (sample sources; default jobs) · summary (custom summary text)
  */
 @Component({
   imports: [AmplifyChatSourcesRow],
@@ -32,8 +40,8 @@ const MIXED: AmplifyChatSource[] = [
   template: `
     @if (embed()) {
       <div class="embed block">
-        <ats-amplify-chat-sources-row [state]="state()" [summary]="summary() ?? (set() === 'mixed' ? mixedSummary : jobsSummary)"
-          [sources]="set() === 'mixed' ? mixed : jobs" />
+        <ats-amplify-chat-sources-row [state]="state()" [summary]="summary() ?? (set() === 'mixed' ? mixedSummary : set() === 'prospects' ? prospectsSummary : jobsSummary)"
+          [sources]="set() === 'mixed' ? mixed : set() === 'prospects' ? prospects : jobs" />
       </div>
     } @else {
       <h1>Amplify Chat — Sources</h1>
@@ -45,6 +53,8 @@ const MIXED: AmplifyChatSource[] = [
         <div class="block"><ats-amplify-chat-sources-row state="expanded" [summary]="jobsSummary" [sources]="jobs" /></div>
         <span class="caption">expanded, mixed record types</span>
         <div class="block"><ats-amplify-chat-sources-row state="expanded" [summary]="mixedSummary" [sources]="mixed" /></div>
+        <span class="caption">expanded, Prospect contacts (saved = contact color, not in the ATS = grey)</span>
+        <div class="block"><ats-amplify-chat-sources-row state="expanded" [summary]="prospectsSummary" [sources]="prospects" /></div>
       </div>
     }
   `,
@@ -61,11 +71,13 @@ const MIXED: AmplifyChatSource[] = [
 export class AmplifyChatSourcesPage {
   readonly component = input<string>();
   readonly state = input<AmplifyChatSourcesRowState>();
-  readonly set = input<'jobs' | 'mixed'>();
+  readonly set = input<'jobs' | 'mixed' | 'prospects'>();
   readonly summary = input<string>();
 
   protected readonly jobs = JOBS;
   protected readonly mixed = MIXED;
+  protected readonly prospects = PROSPECTS;
+  protected readonly prospectsSummary = 'Based on Prospect · 4 Verizon contacts · Updated today';
   protected readonly jobsSummary = 'Based on 14 job orders · Updated today';
   protected readonly mixedSummary = 'Based on 4 records · Updated today';
   protected readonly embed = computed(() => !!(this.component() || this.state() || this.set() || this.summary()));
