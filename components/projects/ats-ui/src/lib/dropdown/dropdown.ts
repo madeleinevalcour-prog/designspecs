@@ -197,6 +197,7 @@ export class DropdownTrigger {
       dd.open.set(true);
       if (e.key === 'ArrowUp') dd.focusLast(); else dd.focusFirst();
     } else if (e.key === 'Escape' && dd.open()) {
+      e.preventDefault(); // handled: an enclosing pop-over / dialog shouldn't also close
       dd.close();
     }
   }

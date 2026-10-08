@@ -8,7 +8,11 @@ import {
 /** One turn in the live conversation. `seed` = the Figma Verizon reply (data table). */
 type Turn =
   | { id: number; kind: 'user'; text: string }
-  | { id: number; kind: 'reply'; status?: string; text?: string; seed?: boolean; stopped?: boolean };
+  | { id: number; kind: 'reply'; status?: string; text?: string; seed?: boolean; stopped?: boolean }
+  | { id: number; kind: 'greeting'; text: string };
+
+/** Empty docked chat: Amplify opens with a greeting message in the chat column (input as normal below). */
+const GREETING = 'Hi Chloe, how can I help you today?';
 
 const FIRST_QUESTION = "Can you show me 5 contacts at Verizon that aren't in the ATS yet?";
 
@@ -66,7 +70,7 @@ export class AmplifyChatDockedPage {
 
   private nextId = 1;
   protected readonly turns = linkedSignal<Turn[]>(() =>
-    this.state() === 'empty' ? [] : [
+    this.state() === 'empty' ? [{ id: this.nextId++, kind: 'greeting', text: GREETING }] : [
       { id: this.nextId++, kind: 'user', text: FIRST_QUESTION },
       { id: this.nextId++, kind: 'reply', seed: true },
     ],

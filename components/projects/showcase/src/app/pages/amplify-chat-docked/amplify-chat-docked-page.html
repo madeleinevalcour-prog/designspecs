@@ -32,6 +32,10 @@
           <ats-amplify-chat-user-turn>
             <ats-amplify-chat-user-bubble>{{ turn.text }}</ats-amplify-chat-user-bubble>
           </ats-amplify-chat-user-turn>
+        } @else if (turn.kind === 'greeting') {
+          <ats-amplify-chat-chat-block [showActions]="false">
+            <ats-amplify-chat-text>{{ turn.text }}</ats-amplify-chat-text>
+          </ats-amplify-chat-chat-block>
         } @else if (turn.seed) {
           <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · Updated today" [sources]="sources"
             [followUps]="['Show 10 more', 'Open in full page']" (followUp)="ask($event)">

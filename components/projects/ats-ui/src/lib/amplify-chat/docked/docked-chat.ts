@@ -48,6 +48,10 @@ const MIN_H = 360;
  *   </div>
  *
  * Output: `closed` (Close was activated; `open` also becomes false).
+ * Escape closes the pop-over (the docked panel stays; it is persistent).
+ * Empty state: start the turns with an Amplify greeting, a chat-block with no actions —
+ *   `<ats-amplify-chat-chat-block [showActions]="false"><ats-amplify-chat-text>Hi Chloe, how can I
+ *   help you today?</ats-amplify-chat-text></ats-amplify-chat-chat-block>` — with the input as normal.
  * The host is a `role="complementary"` landmark named "Amplify chat"; while closed it
  * is `inert` and hidden from assistive tech.
  */
@@ -78,6 +82,7 @@ const MIN_H = 360;
     role: 'complementary',
     'aria-label': 'Amplify chat',
     '[attr.data-mode]': 'modeName()',
+    '(keydown.escape)': 'onEscape($event)',
     '[class.is-open]': 'isOpen()',
     '[class.is-dragging]': 'dragging()',
     '[attr.inert]': 'isOpen() ? null : ""',
@@ -126,6 +131,14 @@ export class AmplifyChatDocked {
 
   protected toggleMode(): void {
     this.mode.set(this.isPopOver() ? 'docked' : 'pop-over');
+  }
+
+  /** Escape closes the pop-over (not the docked panel), unless something inside handled it
+   *  first (an open menu or dropdown marks the key as handled). */
+  protected onEscape(e: Event): void {
+    if (!this.isPopOver() || e.defaultPrevented) return;
+    e.preventDefault();
+    this.close();
   }
 
   protected close(): void {
