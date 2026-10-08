@@ -61,7 +61,7 @@ Figma: the `amplify-chat/chat-input` group in the "new amplify chat components" 
 | --- | --- | --- |
 | `chat-input` | The input box: text area, button row and send button | `size`: `full page` or `docked` |
 | `amplify-text-area` | The text field inside the input | `show placeholder`, `show input`, `show chips` |
-| `button-row` | Add File, Add Tools and Prompt Library, plus the send button | `size`: `full page` shows icons with labels; `docked` shows icons only |
+| `button-row` | Add File, Add Tools and Prompt Library, plus the send button | Icons with labels on the full-page starting point; icons only once a conversation starts, and always in docked chat |
 | `amplify-context-container` | The context row above the input: "Context:" followed by removable record chips, and a + button to add context | |
 | `amplify-chat-container` | The context row and the input together | `show context` |
 | `global-chat-container` | The starting point for a new chat: a greeting ("Hi Chloe, how can I help you today?"), the current record, and the input | |
@@ -70,9 +70,9 @@ Figma: the `amplify-chat/chat-input` group in the "new amplify chat components" 
 ### Behavior
 
 - **Placeholder:** "What would you like to know or do today?" While clarifying questions are open, it changes to "Or reply directly…".
-- **Context row:** shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Context carries across navigation and between surfaces (see [Surfaces and behavior](#surfaces-and-behavior)).
+- **Context row:** shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Records show their entity color dot; an Amplify data source (for example Prospect) shows the Amplify icon instead. Context carries across navigation and between surfaces (see [Surfaces and behavior](#surfaces-and-behavior)).
 - **Adding context:** the + button in the context row adds records to the context.
-- **Button row:** use the existing labels in full-page chat and icon-only buttons in docked chat, so the input fits the narrower panel. Icon-only buttons need accessible names that match the full-page labels (WCAG 4.1.2).
+- **Button row:** labels only on the full-page starting point. Once a conversation starts, full-page chat switches to icon-only buttons, the same as docked chat, so the input stays compact under the conversation. Icon-only buttons need accessible names that match the labels (WCAG 4.1.2).
 - **Send:** the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). It is disabled while the input is empty.
 - **Stop:** while a reply is generating, a Stop button sits in the button row next to the send button: Button (Dialogue), icon only (`bhi-stop-circle`), with the accessible name "Stop generating". Send is disabled until generation stops (see [Status and loading](#status-and-loading)).
 - **Layout:** the input shares the chat column's edges (800px max in full-page chat) and sits on `general/level 2 - scroll` so replies scroll behind it (see [Spacing and layout](#spacing-and-layout)).

@@ -58,7 +58,7 @@
 <tr><th>Component</th><th>What it is</th><th>Variants and properties</th></tr>
 <tr><td><span class="chip">chat-input</span></td><td>The input box: text area, button row and send button</td><td><span class="chip">size</span>: <span class="chip">full page</span> or <span class="chip">docked</span></td></tr>
 <tr><td><span class="chip">amplify-text-area</span></td><td>The text field inside the input</td><td><span class="chip">show placeholder</span>, <span class="chip">show input</span>, <span class="chip">show chips</span></td></tr>
-<tr><td><span class="chip">button-row</span></td><td>Add File, Add Tools and Prompt Library, plus the send button</td><td><span class="chip">size</span>: <span class="chip">full page</span> shows icons with labels; <span class="chip">docked</span> shows icons only</td></tr>
+<tr><td><span class="chip">button-row</span></td><td>Add File, Add Tools and Prompt Library, plus the send button</td><td>Icons with labels on the full-page starting point; icons only once a conversation starts, and always in docked chat</td></tr>
 <tr><td><span class="chip">amplify-context-container</span></td><td>The context row above the input: "Context:" followed by removable record chips, and a + button to add context</td><td></td></tr>
 <tr><td><span class="chip">amplify-chat-container</span></td><td>The context row and the input together</td><td><span class="chip">show context</span></td></tr>
 <tr><td><span class="chip">global-chat-container</span></td><td>The starting point for a new chat: a greeting ("Hi Chloe, how can I help you today?"), the current record, and the input</td><td></td></tr>
@@ -67,9 +67,9 @@
 <h3 id="chat-input-behavior">Behavior</h3>
 <ul>
 <li><b>Placeholder:</b> "What would you like to know or do today?" While clarifying questions are open, it changes to "Or reply directly…".</li>
-<li><b>Context row:</b> shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Context carries across navigation and between surfaces (see <a href="#surfaces">Surfaces and behavior</a>).</li>
+<li><b>Context row:</b> shows the records Amplify is working from as removable chips, for example the open record or a record chosen in a clarifying question. Records show their entity color dot; an Amplify data source (for example Prospect) shows the Amplify icon instead. Context carries across navigation and between surfaces (see <a href="#surfaces">Surfaces and behavior</a>).</li>
 <li><b>Adding context:</b> the + button in the context row adds records to the context.</li>
-<li><b>Button row:</b> use the existing labels in full-page chat and icon-only buttons in docked chat, so the input fits the narrower panel. Icon-only buttons need accessible names that match the full-page labels (WCAG 4.1.2).</li>
+<li><b>Button row:</b> labels only on the full-page starting point. Once a conversation starts, full-page chat switches to icon-only buttons, the same as docked chat, so the input stays compact under the conversation. Icon-only buttons need accessible names that match the labels (WCAG 4.1.2).</li>
 <li><b>Send:</b> the send button uses the Amplify treatment because it starts an Amplify action (Modern UI Amplify color rule). It is disabled while the input is empty.</li>
 <li><b>Stop:</b> while a reply is generating, a Stop button sits in the button row next to Send: Button (Dialogue), icon only (<span class="chip">bhi-stop-circle</span>), accessible name "Stop generating". Send is disabled until generation stops (see <a href="#status">Status and loading</a>).</li>
 <li><b>Layout:</b> the input shares the chat column's edges (800px max in full-page chat) and sits on <span class="chip">general/level 2 - scroll</span> so replies scroll behind it (see <a href="#spacing">Spacing and layout</a>).</li>
