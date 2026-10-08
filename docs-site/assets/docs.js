@@ -323,6 +323,10 @@
       {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"},
       {t:"Switch", href:"/docs/components/switch.html"},
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
+    ], groups:[
+      {label:"Amplify components", pages:[
+        {t:"Text", href:"/docs/components/amplify-chat-text.html"}
+      ]}
     ]},
     {label:"Amplify", pages:[
       {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}
@@ -360,6 +364,13 @@
       }
       (g.pages||[]).forEach(function(pg){
         html+='<a class="sn-link'+(here(pg.href)?" is-here":"")+'" href="'+e(pg.href)+'">'+e(pg.t)+'</a>';
+      });
+      // sub-groups: a labelled, indented block after the group's own pages
+      (g.groups||[]).forEach(function(sg){
+        html+='<div class="sn-subgroup">'+e(sg.label)+'</div>';
+        (sg.pages||[]).forEach(function(pg){
+          html+='<a class="sn-link sn-sublink'+(here(pg.href)?" is-here":"")+'" href="'+e(pg.href)+'">'+e(pg.t)+'</a>';
+        });
       });
     });
     drawer.innerHTML=html;

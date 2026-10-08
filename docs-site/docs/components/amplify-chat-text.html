@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Text">
+
+  <doc-section id="overview" label="Overview" desc="What the text parts are for">
+    <p class="lead" style="max-width:60ch">The prose building blocks of an Amplify chat reply: headings, paragraphs, the status line, inline record links and numbered lists. Each maps one markdown element the model outputs to one Modern UI text style, so nothing in a reply renders at a raw size or weight. Each fills its parent’s width.</p>
+    <doc-example src="amplify-chat-text?component=text&amp;type=paragraph-with-links" caption="A paragraph with inline entity links" height="90"></doc-example>
+    <p>The rules for when to use each, and how they combine with tables, cards and blocks, are in <a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Markdown</th><th>Text style</th><th>Color</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#header">Header</a>, level=section</td><td><span class="chip">##</span></td><td><span class="chip">title/sm</span> · 600 · 18/24</td><td><span class="chip">color/text/headline</span></td></tr>
+        <tr><td>Header, level=label</td><td><span class="chip">###</span></td><td><span class="chip">body/default-medium</span> · 500 · 14/20</td><td><span class="chip">color/text/headline</span></td></tr>
+        <tr><td><a href="#text">Text</a>, type=paragraph</td><td>paragraph</td><td><span class="chip">body/default</span> · 400 · 14/20</td><td><span class="chip">color/text/body</span></td></tr>
+        <tr><td>Bold inside a paragraph</td><td><span class="chip">**</span></td><td><span class="chip">body/default-medium</span></td><td><span class="chip">color/text/body</span></td></tr>
+        <tr><td>Text, type=status</td><td>—</td><td><span class="chip">body/sm</span> · 400 · 12/16</td><td><span class="chip">color/text/secondary</span></td></tr>
+        <tr><td><a href="#link">Entity link</a></td><td>record name</td><td><span class="chip">body/default-medium</span></td><td><span class="chip">link-text/color/default</span>, circle <span class="chip">color/entity/*</span></td></tr>
+        <tr><td><a href="#numbered-list">Numbered list</a> + list item</td><td><span class="chip">1.</span></td><td><span class="chip">body/default</span></td><td>Text <span class="chip">color/text/body</span>, marker <span class="chip">color/text/secondary</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="header" label="Header" desc="Section and label headings">
+    <p>A heading inside a reply. Two levels; the heading text is the content.</p>
+    <table class="tbl">
+      <thead><tr><th>Level</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">section</span> (default)</td><td>Only when a reply has 3 or more parts the recruiter scans between, like “Top Priority”, “Needs Attention”, “Can Wait”. The largest style a reply can use</td></tr>
+        <tr><td><span class="chip">label</span></td><td>A label inside a section. Use rarely; never a second tier of structure</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-text?component=header&amp;level=section" caption="level=section" height="60"></doc-example>
+    <doc-example src="amplify-chat-text?component=header&amp;level=label" caption="level=label" height="60"></doc-example>
+    <ul>
+      <li>Title case, 2–5 words, no numbering, no trailing punctuation.</li>
+      <li>One heading level per reply. <span class="chip">####</span> and deeper render as a paragraph.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="text" label="Text" desc="Paragraphs, links and the status line">
+    <p>Reading text in a reply. Three types.</p>
+    <table class="tbl">
+      <thead><tr><th>Type</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">paragraph</span> (default)</td><td>Plain text. The first paragraph is the answer. Several <span class="chip">&lt;p&gt;</span> children get <span class="chip">spacing/padding/sm</span> (8) between them</td></tr>
+        <tr><td><span class="chip">paragraph-with-links</span></td><td>A paragraph that names records. Each record is an inline <a href="#link">entity link</a></td></tr>
+        <tr><td><span class="chip">status</span></td><td>The thinking line while a reply generates: the Amplify icon (<span class="chip">Icon/Amplify Radial</span>) and the current step. Replaced by the reply</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-text?component=text&amp;type=paragraph" caption="type=paragraph" height="70"></doc-example>
+    <doc-example src="amplify-chat-text?component=text&amp;type=paragraph-with-links" caption="type=paragraph-with-links: record names as entity links" height="70"></doc-example>
+    <doc-example src="amplify-chat-text?component=text&amp;type=status" caption="type=status" height="50"></doc-example>
+    <ul>
+      <li>Bold (<span class="chip">&lt;strong&gt;</span> / <span class="chip">&lt;b&gt;</span>) renders <span class="chip">body/default-medium</span> in the same color. At most one bold phrase per paragraph.</li>
+      <li>Italic renders as plain text; Modern UI has no italic style.</li>
+      <li>The status line names the step (“Searching open jobs…”, then “Ranking 14 job orders…”), never “Amplify is thinking…”. It is never link blue, because blue means clickable.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="link" label="Entity link" desc="How records appear in prose">
+    <p>Every Bullhorn record in a reply is a link that opens the record: a circle in the entity’s color, joined to the record name with a no-break space so the circle never sits alone at a line end. It matches the <span class="chip">link-text</span> component at its default size. In Figma it is drawn inside the <span class="chip">paragraph-with-links</span> text, because Figma can’t place a component inside a text layer.</p>
+    <table class="tbl">
+      <thead><tr><th>Entity</th><th>Circle</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">job</span> (default) · <span class="chip">company</span> · <span class="chip">candidate</span> · <span class="chip">contact</span> · <span class="chip">lead</span> · <span class="chip">opportunity</span> · <span class="chip">placement</span> · <span class="chip">submission</span></td><td><span class="chip">color/entity/&lt;entity&gt;</span>, in every state</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-text?component=link&amp;entity=job" caption="entity=job" height="50"></doc-example>
+    <doc-example src="amplify-chat-text?component=link&amp;entity=company" caption="entity=company" height="50"></doc-example>
+    <doc-example src="amplify-chat-text?component=link&amp;entity=candidate" caption="entity=candidate" height="50"></doc-example>
+    <doc-example src="amplify-chat-text?component=link&amp;entity=contact" caption="entity=contact" height="50"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td>default</td><td><span class="chip">link-text/color/default</span>, no underline</td></tr>
+        <tr><td>hover</td><td><span class="chip">link-text/color/hover</span></td></tr>
+        <tr><td>focus</td><td>2px <span class="chip">color/border/focus</span> outline, 1px offset, radius <span class="chip">border/radius/xsm</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-text?component=link&amp;state=hover" caption="state=hover. Hover and focus are also live" height="50"></doc-example>
+    <doc-example src="amplify-chat-text?component=link&amp;state=focus" caption="state=focus" height="50"></doc-example>
+    <ul>
+      <li>The link text is the record name, not the ID. Show the ID as meta text only when it tells two records apart.</li>
+      <li>Punctuation follows the link directly.</li>
+      <li>Weight, color and the circle together carry the link, not color alone.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="numbered-list" label="Numbered list" desc="Ordered steps and ranked items">
+    <p>An ordered list: a native <span class="chip">&lt;ol&gt;</span> of list items, numbered automatically from 1, <span class="chip">spacing/gap/xsm</span> (4) between items. Each list item is a 16px right-aligned marker column (the list indent, <span class="chip">spacing/padding/md</span>) then the text, which may contain entity links and one bold phrase.</p>
+    <doc-example src="amplify-chat-text?component=numbered-list" caption="Numbered list, three items" height="110"></doc-example>
+    <doc-example src="amplify-chat-text?component=list-item" caption="List item" height="50"></doc-example>
+    <ul>
+      <li>Use only when order means something: rank, priority or steps.</li>
+      <li>At least 2 items; a single item is a sentence. One idea per item, under two lines where possible.</li>
+      <li>Each list starts at 1. Never carry numbering across sections.</li>
+      <li>Nest no more than one level. If you need more, use a table or cards.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Lead with a one-sentence answer in a paragraph.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Open a reply with a heading or a filler line.</doc-callout>
+    <doc-callout type="do" heading="Do.">Default to no headings. Add section headers only for 3 or more parts.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Number headings (“1) Three CSM roles”) or use bold as a heading. Numbering belongs to lists.</doc-callout>
+    <doc-callout type="do" heading="Do.">Bold one fact per paragraph or item: a name, count, date or status.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Bold labels and values in the same line, or emphasize with ALL CAPS, underline or color.</doc-callout>
+    <doc-callout type="do" heading="Do.">Link every record by name, with its entity-color circle, using the link component.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show a bare ID as the only reference, or rebuild the circle and restyle the link.</doc-callout>
+    <doc-callout type="do" heading="Do.">Name the current step in the status line.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use a run of very short list fragments. Merge them into a sentence or a table row.</doc-callout>
+  </doc-section>
+
+  <doc-section id="content" label="Content and voice" desc="How Amplify writes">
+    <ul>
+      <li>Plain recruiting language: job order, submittal, placement, pipeline. No internal or model terms.</li>
+      <li>Paragraphs of 2–3 sentences.</li>
+      <li>Hedge only where it’s true: “Amplify suggests”, “Based on 14 job orders”.</li>
+      <li>When Amplify can’t answer, say so in the first line, then the cause and a fix: “No open jobs found for Verizon. Check the job status filter or ask about all jobs.”</li>
+      <li>No emoji or exclamation marks.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Header, section</td><td><span class="chip">amplify-chat/header/section-heading/typography/*</span>, <span class="chip">…/color/content</span></td><td><span class="chip">title/sm</span>, <span class="chip">color/text/headline</span></td></tr>
+        <tr><td>Header, label</td><td><span class="chip">amplify-chat/header/label-heading/typography/*</span>, <span class="chip">…/color/content</span></td><td><span class="chip">body/default</span> (weight medium), <span class="chip">color/text/headline</span></td></tr>
+        <tr><td>Text, paragraph</td><td><span class="chip">amplify-chat/text/paragraph/typography/*</span>, <span class="chip">…/color/content/text</span>, <span class="chip">…/spacing/paragraph-spacing</span></td><td><span class="chip">body/default</span> (default and medium weight), <span class="chip">color/text/body</span>, <span class="chip">spacing/padding/sm</span></td></tr>
+        <tr><td>Text, status</td><td><span class="chip">amplify-chat/text/status/typography/*</span>, <span class="chip">…/color/content/text</span>, <span class="chip">…/spacing/gap</span></td><td><span class="chip">body/sm</span>, <span class="chip">color/text/secondary</span>, <span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td>Entity link</td><td><span class="chip">amplify-chat/text/paragraph/color/content/text</span> (link, entity job, entity company)</td><td><span class="chip">link-text/color/default</span>, <span class="chip">color/entity/job</span>, <span class="chip">color/entity/company</span></td></tr>
+        <tr><td>Entity link, other</td><td>Semantic directly</td><td><span class="chip">link-text/color/hover</span>, <span class="chip">color/entity/candidate</span> · <span class="chip">contact</span> · <span class="chip">lead</span> · <span class="chip">opportunity</span> · <span class="chip">placement</span> · <span class="chip">submission</span>; focus <span class="chip">button/border/width/focus</span>, <span class="chip">color/border/focus</span>, <span class="chip">border/radius/xsm</span></td></tr>
+        <tr><td>Numbered list</td><td><span class="chip">amplify-chat/numbered-list/spacing/gap</span></td><td><span class="chip">spacing/gap/xsm</span></td></tr>
+        <tr><td>List item</td><td><span class="chip">amplify-chat/list-item/spacing/gap</span>, <span class="chip">…/marker/typography/*</span>, <span class="chip">…/marker/color/content</span>, <span class="chip">…/text/typography/*</span>, <span class="chip">…/text/color/content</span></td><td><span class="chip">spacing/gap/xsm</span>, <span class="chip">body/default</span>, marker <span class="chip">color/text/secondary</span>, text <span class="chip">color/text/body</span>; marker column <span class="chip">spacing/padding/md</span></td></tr>
+        <tr><td>Status icon</td><td>No token</td><td>Amplify radial gradient, stops from the Figma asset <span class="chip">amplify.svg</span></td></tr>
+        <tr><td>Link circle size</td><td>No token</td><td>Scaled glyph matching Figma’s 10px circle</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Headings, status and links">
+    <ul>
+      <li>Headers are <span class="chip">role="heading"</span> with <span class="chip">aria-level</span> 3 (section) or 4 (label), so they sit below the chat panel’s own title. Set <span class="chip">ariaLevel</span> to fit the host page.</li>
+      <li>The status line is <span class="chip">role="status"</span>, so each step change is announced politely.</li>
+      <li>The entity circle is decorative (<span class="chip">aria-hidden</span>); the record name is the link’s accessible name. The link doesn’t rely on color alone.</li>
+      <li>The numbered list is a native <span class="chip">&lt;ol&gt;</span> with <span class="chip">role="list"</span> restored (Safari drops list semantics with <span class="chip">list-style: none</span>). The visible marker is <span class="chip">aria-hidden</span>; the list itself conveys order.</li>
+      <li>Emphasis comes from weight (<span class="chip">body/default-medium</span>), never from color alone.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-header&gt;Needs Attention Today&lt;/ats-amplify-chat-header&gt;
+      &lt;ats-amplify-chat-header level="label"&gt;Can Wait&lt;/ats-amplify-chat-header&gt;
+
+      &lt;ats-amplify-chat-text&gt;5 of your 14 open jobs need action today.&lt;/ats-amplify-chat-text&gt;
+      &lt;ats-amplify-chat-text type="status"&gt;Ranking 14 job orders…&lt;/ats-amplify-chat-text&gt;
+      &lt;ats-amplify-chat-text type="paragraph-with-links"&gt;
+        Start with &lt;a ats-amplify-chat-link entity="job" href="/job/4821"&gt;Senior Java Developer&lt;/a&gt; at
+        &lt;a ats-amplify-chat-link entity="company" href="/company/112"&gt;Verizon&lt;/a&gt;.
+      &lt;/ats-amplify-chat-text&gt;
+
+      &lt;ol ats-amplify-chat-numbered-list&gt;
+        &lt;li ats-amplify-chat-list-item&gt;Senior Java Developer at Verizon starts Oct 6 with no submittals.&lt;/li&gt;
+        &lt;li ats-amplify-chat-list-item&gt;Data Engineer at PepsiCo has 1 submittal and client priority High.&lt;/li&gt;
+      &lt;/ol&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatHeader</span></td><td><span class="chip">ats-amplify-chat-header</span></td><td><span class="chip">level</span> section · label (section) · <span class="chip">ariaLevel</span> (3 / 4)</td></tr>
+        <tr><td><span class="chip">AmplifyChatText</span></td><td><span class="chip">ats-amplify-chat-text</span></td><td><span class="chip">type</span> paragraph · paragraph-with-links · status (paragraph)</td></tr>
+        <tr><td><span class="chip">AmplifyChatLink</span></td><td><span class="chip">a[ats-amplify-chat-link]</span></td><td><span class="chip">entity</span> candidate · job · contact · company · lead · opportunity · placement · submission (job) · <span class="chip">state</span> default · hover · focus (docs only; hover and focus are live)</td></tr>
+        <tr><td><span class="chip">AmplifyChatNumberedList</span></td><td><span class="chip">ol[ats-amplify-chat-numbered-list]</span></td><td>—</td></tr>
+        <tr><td><span class="chip">AmplifyChatListItem</span></td><td><span class="chip">li[ats-amplify-chat-list-item]</span></td><td><span class="chip">number</span>: marker text override, e.g. “4.” (automatic count)</td></tr>
+      </tbody>
+    </table>
+    <p>All fill their parent’s width and project their content. The renderer maps markdown to these: <span class="chip">##</span> → section header, <span class="chip">###</span> → label header, <span class="chip">**</span> → <span class="chip">&lt;strong&gt;</span>, <span class="chip">####</span> and deeper → paragraph.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Patterns and rules">
+    <ul>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: response structure, <a href="../amplify/amplify-chat-interface-patterns.html#styles">text styles</a>, <a href="../amplify/amplify-chat-interface-patterns.html#structure">headings and emphasis</a>, <a href="../amplify/amplify-chat-interface-patterns.html#records">records and sources</a>, <a href="../amplify/amplify-chat-interface-patterns.html#status">status and loading</a>, <a href="../amplify/amplify-chat-interface-patterns.html#lists">lists</a>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="No bulleted list component.">The patterns doc says to use bullets when order doesn’t matter, but only the numbered list is built (and in Figma). Confirm whether a bulleted variant is planned.</doc-callout>
+    <doc-callout type="note" heading="Entity colors are primitive-only.">Only job and company have component tokens; the other six bind <span class="chip">color/entity/*</span> directly, which is primitive-only in Modern UI today. The circle uses a text glyph with a no-break space rather than the <span class="chip">link-text/spacing/gap/default</span> (4) gap.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>
