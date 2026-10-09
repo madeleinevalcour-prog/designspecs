@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Sources">
+
+  <doc-section id="overview" label="Overview" desc="Showing the records behind an answer">
+    <p class="lead" style="max-width:60ch">The sources row sits under an Amplify reply that used records, so the recruiter can see what the answer is based on. A one-line summary, “Based on 14 job orders · Updated today”, expands to the records themselves, each a small link with its entity-color circle.</p>
+    <doc-example src="amplify-chat-sources?component=sources-row" caption="Collapsed: the summary and the toggle" height="50"></doc-example>
+    <p>The rules for records and sources are in <a href="../amplify/amplify-chat-interface-patterns.html#records">Chat interface patterns</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Text style</th><th>Color</th></tr></thead>
+      <tbody>
+        <tr><td>Summary</td><td><span class="chip">meta/default</span></td><td><span class="chip">color/text/secondary</span></td></tr>
+        <tr><td>Toggle</td><td>Icon button no container, chevron down / up</td><td><span class="chip">button/color/icon/content/default</span></td></tr>
+        <tr><td>Source</td><td>Link text, size small: <span class="chip">body/sm</span> · 12/16</td><td><span class="chip">link-text/color/default</span>, circle <span class="chip">color/entity/*</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="sources-row" label="Sources row" desc="Collapsed and expanded states">
+    <p>Two states. The toggle switches between them; <span class="chip">state</span> only sets the starting state.</p>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">collapsed</span> (default)</td><td>The summary and a chevron-down toggle</td></tr>
+        <tr><td><span class="chip">expanded</span></td><td>Chevron up, and the list of sources below the summary, <span class="chip">spacing/gap/sm</span> (8) from it and <span class="chip">spacing/gap/xsm</span> (4) apart</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-sources?component=sources-row&amp;state=collapsed" caption="state=collapsed. The toggle is live" height="50"></doc-example>
+    <doc-example src="amplify-chat-sources?component=sources-row&amp;state=expanded" caption="state=expanded: three job orders" height="120"></doc-example>
+    <doc-example src="amplify-chat-sources?state=expanded&amp;set=mixed" caption="Expanded, mixed record types: company, contact, job, candidate" height="140"></doc-example>
+  </doc-section>
+
+  <doc-section id="source-colors" label="Source colors" desc="Entity circles, prospects included">
+    <p>Each source is the existing link text component at size small, with a 10px circle in the record’s entity color. The circle stays the same color on hover.</p>
+    <table class="tbl">
+      <thead><tr><th>Record</th><th>Circle</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">job</span> (default) · <span class="chip">company</span> · <span class="chip">candidate</span> · <span class="chip">contact</span> · <span class="chip">lead</span> · <span class="chip">opportunity</span> · <span class="chip">placement</span> · <span class="chip">submission</span> · <span class="chip">task</span></td><td><span class="chip">color/entity/&lt;entity&gt;</span></td></tr>
+        <tr><td>Prospect contact saved in the ATS</td><td>It is a contact: <span class="chip">color/entity/contact</span></td></tr>
+        <tr><td>Prospect contact not yet in the ATS (<span class="chip">prospect</span>)</td><td>Neutral grey, <span class="chip">color/entity/task</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-sources?state=expanded&amp;set=prospects" caption="Contacts found by Prospect: Marie Smith and Nina Patel are saved contacts; Fred Johnson and Leila Nguyen aren’t in the ATS yet"></doc-example>
+    <p>Pass <span class="chip">entity: 'contact'</span> once a prospect is saved, so the circle changes from grey to the contact color.</p>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Toggle, links and keyboard">
+    <ul>
+      <li>The toggle is a normal button: Tab to reach it, Enter or Space to expand or collapse.</li>
+      <li>A source with a link opens the record. A source without one renders as a button and hands the click to the host, for example to open a preview.</li>
+      <li>Expanded is two-way bindable (<span class="chip">[(expanded)]</span>); once the toggle is used or <span class="chip">expanded</span> is bound, it overrides <span class="chip">state</span>.</li>
+      <li>Under the reply, <span class="chip">spacing/gap/md</span> (16) from it; follow-up chips sit <span class="chip">spacing/gap/sm</span> (8) below the row.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Show a sources row when the answer depends on specific records or fields.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show it for clarifying questions, general product help or “nothing found” replies.</doc-callout>
+    <doc-callout type="do" heading="Do.">Label each source by record name, with its entity circle.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">List bare IDs, or rebuild the circle and restyle the link.</doc-callout>
+    <doc-callout type="do" heading="Do.">Give prospect contacts that aren’t in the ATS the neutral grey circle, and saved ones the contact color.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Color an unsaved prospect as a contact. The color says the record exists in the ATS.</doc-callout>
+  </doc-section>
+
+  <doc-section id="content" label="Content" desc="Writing the summary">
+    <ul>
+      <li>Say what the answer is based on and how fresh it is: “Based on 14 job orders · Updated today”.</li>
+      <li>Use the recruiting name for the records (job orders, candidates, contacts), or “records” for a mix.</li>
+      <li>Name the fields a ranking used in the reply, for example “Ranked by start date, submissions, and client priority”. Don’t claim a reason the data doesn’t support.</li>
+      <li>Show an ID as meta text only when it tells two sources apart, such as two “PepsiCo” entries.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Row</td><td><span class="chip">amplify-chat/sources-row/spacing/gap</span> (expanded)</td><td><span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td>Summary</td><td><span class="chip">amplify-chat/sources-row/summary/typography/*</span>, <span class="chip">…/color/content/text</span>, <span class="chip">…/spacing/gap</span></td><td><span class="chip">meta/default</span>, <span class="chip">color/text/secondary</span>, <span class="chip">spacing/gap/xsm</span></td></tr>
+        <tr><td>Toggle</td><td><span class="chip">amplify-chat/sources-row/summary/toggle/…/color/content</span></td><td><span class="chip">button/color/icon/content/default</span></td></tr>
+        <tr><td>Sources list</td><td><span class="chip">amplify-chat/sources-row/sources/spacing/gap</span></td><td><span class="chip">spacing/gap/xsm</span></td></tr>
+        <tr><td>Source circle, job</td><td><span class="chip">amplify-chat/sources-row/sources/link-text/circle/…/color/content</span></td><td><span class="chip">color/entity/job</span></td></tr>
+        <tr><td>Source circle, other</td><td>Semantic directly</td><td><span class="chip">color/entity/*</span>; prospect <span class="chip">color/entity/task</span></td></tr>
+        <tr><td>Source link</td><td>Semantic directly</td><td><span class="chip">body/sm</span>, <span class="chip">link-text/color/default</span> · <span class="chip">hover</span>, gap <span class="chip">link-text/spacing/gap/small</span>; focus <span class="chip">button/border/width/focus</span>, <span class="chip">color/border/focus</span>, <span class="chip">border/radius/xsm</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Toggle, list and links">
+    <ul>
+      <li>The toggle is named “Show sources” or “Hide sources” and carries <span class="chip">aria-expanded</span> and <span class="chip">aria-controls</span> pointing at the list.</li>
+      <li>The sources are a list named “Sources”; collapsed, it is <span class="chip">hidden</span> and out of the tab order.</li>
+      <li>The circle is decorative; the record name is the accessible name. The link doesn’t rely on color alone.</li>
+      <li>Focus shows a 2px <span class="chip">color/border/focus</span> outline, 1px offset.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-sources-row
+        summary="Based on 14 job orders · Updated today"
+        [sources]="[
+          { label: 'Senior Java Developer', entity: 'job', href: '/job/10482' },
+          { label: 'Dana Whitfield', entity: 'contact', href: '/contact/2291' },
+          { label: 'Priya Raman', entity: 'prospect' }
+        ]"
+        (sourceClick)="openPreview($event)" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">summary</span></td><td>The <span class="chip">meta/default</span> summary text</td></tr>
+        <tr><td><span class="chip">sources</span></td><td><span class="chip">AmplifyChatSource[]</span>: <span class="chip">label</span> (record name) · <span class="chip">entity</span> candidate · job · contact · company · placement · lead · opportunity · submission · task · prospect (job) · <span class="chip">href</span> (none: renders a button)</td></tr>
+        <tr><td><span class="chip">state</span></td><td>collapsed · expanded (collapsed); starting state, docs</td></tr>
+        <tr><td><span class="chip">expanded</span></td><td>Two-way expanded state</td></tr>
+        <tr><td><span class="chip">sourceClick</span></td><td>Emits the source when activated, links included (before navigation)</td></tr>
+      </tbody>
+    </table>
+    <p>Selector <span class="chip">ats-amplify-chat-sources-row</span>, class <span class="chip">AmplifyChatSourcesRow</span>.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Patterns and rules">
+    <ul>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#records">records and sources</a>, <a href="../amplify/amplify-chat-interface-patterns.html#response-structure">response structure</a>, <a href="../amplify/amplify-chat-interface-patterns.html#spacing">spacing and layout</a>.</li>
+      <li><a href="amplify-chat-text.html#link">Text: entity link</a>: the default-size record link used in prose.</li>
+      <li><a href="icon-button-no-container.html">Icon button no container</a>: the toggle.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="What an unsaved prospect opens.">Prospect contacts aren’t ATS records yet. Confirm what their source opens; today it renders as a button that hands the click to the host.</doc-callout>
+    <doc-callout type="note" heading="Entity colors are primitive-only.">Only the job circle has a component token; the others bind <span class="chip">color/entity/*</span> directly, which is primitive-only in Modern UI today. The prospect grey reuses the task color rather than a dedicated token.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

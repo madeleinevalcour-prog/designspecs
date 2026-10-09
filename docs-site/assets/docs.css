@@ -233,3 +233,10 @@ a.sn-group-link.is-here{background:var(--chip);color:var(--ink)}
 .sn-subgroup{font-size:12px;font-weight:500;color:var(--ink-muted);margin:12px 0 4px;padding-left:10px}
 .sn-sublink{margin-left:10px}
 @media print{.sn-toggle,.sn-scrim,.sn-drawer{display:none}}
+
+/* doc-example viewport="…": a whole screen scaled to the column */
+figure.example--viewport .example__viewport{position:relative;overflow:hidden;width:100%}
+figure.example--viewport .example__viewport iframe{display:block;border:0;max-width:none}
+
+/* long token paths in table cells may wrap anywhere instead of widening the table */
+.tbl .chip{white-space:normal;overflow-wrap:anywhere;-webkit-box-decoration-break:clone;box-decoration-break:clone}

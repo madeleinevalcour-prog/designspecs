@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chat input — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Chat input">
+
+  <doc-section id="overview" label="Overview" desc="What the input parts are for">
+    <p class="lead" style="max-width:60ch">Where the recruiter asks Amplify for something and sets what Amplify works from. It sits at the bottom of every surface and keeps the same parts in full-page, docked and pop-over chat: a context row of records, a text area and a button row with Send.</p>
+    <doc-example src="amplify-chat-input?component=amplify-chat-container" caption="Context row over the chat input" height="190"></doc-example>
+    <p>The rules for the input are in <a href="../amplify/amplify-chat-interface-patterns.html#chat-input">Chat interface patterns</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th><th>Variants</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#chat-input">Chat input</a></td><td>The input box: text area over the button row</td><td><span class="chip">size</span> full page · docked</td></tr>
+        <tr><td><a href="#text-area">Text area</a></td><td>The text field inside the input</td><td>Placeholder or value</td></tr>
+        <tr><td><a href="#button-row">Button row</a></td><td>Add File, Add Tools, Prompt Library, then Stop (while generating) and Send</td><td>Labels on or off, Send enabled or disabled, generating</td></tr>
+        <tr><td><a href="#context-container">Context container</a></td><td>“Context:”, removable chips, and a + button to add context</td><td><span class="chip">size</span> full page · docked</td></tr>
+        <tr><td><a href="#chat-container">Amplify chat container</a></td><td>The context row and the chat input together; hosts clarifying questions</td><td><span class="chip">size</span>, context on or off, questions open</td></tr>
+        <tr><td><a href="#global-chat-container">Global chat container</a></td><td>The starting point of a new chat: greeting over the container</td><td><span class="chip">size</span>, with or without context</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="chat-input" label="Chat input" desc="The input box in two sizes">
+    <p>A card-bordered box with the text area over the button row (padding 16, gap 16). It owns the draft: Send turns on only when the trimmed draft has text.</p>
+    <table class="tbl">
+      <thead><tr><th>Size</th><th>Look</th><th>Buttons</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">full page</span> (default)</td><td><span class="chip">card/border/radius/default</span>, <span class="chip">general/level 2</span></td><td>With labels on the starting point; icon-only once a conversation starts</td></tr>
+        <tr><td><span class="chip">docked</span></td><td><span class="chip">border/radius/sm</span>, <span class="chip">general/level 1</span></td><td>Always icon-only</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-input?component=chat-input" caption="size=full page, empty: Send disabled" height="140"></doc-example>
+    <doc-example src="amplify-chat-input?component=chat-input&amp;value=Find%20Java%20developers%20within%2025%20miles%20of%20Boston" caption="With a draft: Send enabled" height="140"></doc-example>
+    <doc-example src="amplify-chat-input?component=chat-input&amp;size=docked" caption="size=docked: icon-only buttons" height="140"></doc-example>
+    <doc-example src="amplify-chat-input?component=chat-input&amp;generating=true" caption="Generating: Stop next to Send, Send disabled" height="140"></doc-example>
+    <ul>
+      <li>Placeholder “What would you like to know or do today?”. While clarifying questions are open it reads “Or reply directly…”.</li>
+      <li>The input shares the chat column’s edges (800 max in full-page chat) and sits on <span class="chip">general/level 2 - scroll</span> so replies scroll behind it.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="text-area" label="Text area" desc="The text field and its placeholder">
+    <p>A borderless native textarea in <span class="chip">body/default</span>. It starts one line tall (20) and grows with its content up to 400, then scrolls. Placeholder in <span class="chip">field/color/content/placeholder</span>, value in <span class="chip">field/color/content/value</span>.</p>
+    <doc-example src="amplify-chat-input?component=text-area" caption="Placeholder" height="60"></doc-example>
+    <doc-example src="amplify-chat-input?component=text-area&amp;placeholder=Or%20reply%20directly%E2%80%A6" caption="Placeholder while clarifying questions are open" height="60"></doc-example>
+    <doc-example src="amplify-chat-input?component=text-area&amp;value=Find%20Java%20developers%20within%2025%20miles%20of%20Boston%20for%20the%20Verizon%20job%20order" caption="With a value" height="60"></doc-example>
+  </doc-section>
+
+  <doc-section id="button-row" label="Button row" desc="Tools, Stop and Send">
+    <p>Add File, Add Tools and Prompt Library (Button, Dialogue, Small) on the left, 8 apart. Send on the right: a 32px round Primary button in the Amplify treatment with the arrow-up icon, because it starts an Amplify action.</p>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>Labels on</td><td>Full-page starting point only</td></tr>
+        <tr><td>Labels off</td><td>Once a conversation starts in full-page chat, and always in docked. Each button keeps its label as its accessible name</td></tr>
+        <tr><td>Send disabled</td><td>While the input is empty, and while a reply is generating</td></tr>
+        <tr><td>Generating</td><td>Stop (Button, Dialogue, Small, icon-only <span class="chip">stop-circle</span>) sits 8 before Send</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-input?component=button-row&amp;canSend=true" caption="Labels on, Send enabled" height="60"></doc-example>
+    <doc-example src="amplify-chat-input?component=button-row" caption="Labels on, empty: Send disabled" height="60"></doc-example>
+    <doc-example src="amplify-chat-input?component=button-row&amp;showLabels=no&amp;canSend=true" caption="Labels off" height="60"></doc-example>
+    <doc-example src="amplify-chat-input?component=button-row&amp;showLabels=no&amp;generating=true" caption="Labels off, generating: Stop next to Send" height="60"></doc-example>
+  </doc-section>
+
+  <doc-section id="context-container" label="Context container" desc="The records Amplify works from">
+    <p>A card-colored bar above the input: “Context:” in <span class="chip">input/label/field-label</span>, one removable chip per item (Novo chip, link type, medium), and a + button (add-thin) at the end to add context. Padding 8 / 16, card border and a 2px shadow.</p>
+    <table class="tbl">
+      <thead><tr><th>Chip</th><th>Icon</th></tr></thead>
+      <tbody>
+        <tr><td>A record (candidate, contact, company, job…)</td><td>Dot in <span class="chip">color/entity/&lt;entity&gt;</span></td></tr>
+        <tr><td>An Amplify data source, for example Prospect</td><td>The Amplify icon (<span class="chip">Icon/Amplify Radial</span>) instead of a dot</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-input?component=context-container" caption="size=full page: border/radius/md. Try the ×" height="70"></doc-example>
+    <doc-example src="amplify-chat-input?component=context-container&amp;size=docked&amp;items=Tyler%20Brooks,Jordan%20Ellis" caption="size=docked: border/radius/sm" height="70"></doc-example>
+    <doc-example src="amplify-chat-input?component=context-container&amp;sources=Prospect&amp;items=Verizon" caption="An Amplify data source (Prospect, with the Amplify icon) next to a record" height="70"></doc-example>
+    <ul>
+      <li>Shows the open record, or a record chosen in a clarifying question, so follow-ups don’t ask again.</li>
+      <li>Context carries across navigation and between surfaces.</li>
+      <li>No items hides the row.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="chat-container" label="Amplify chat container" desc="Context row and input together">
+    <p>The input area at the bottom of a conversation: the context container over the chat input, 8 apart, both in the same size. With no context items, only the input shows.</p>
+    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;size=docked" caption="size=docked, with context" height="190"></doc-example>
+    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;items=none" caption="Context off: just the input" height="140"></doc-example>
+    <p>While Amplify asks <a href="amplify-chat-clarifying-questions.html">clarifying questions</a>, the card replaces the context row and the placeholder becomes “Or reply directly…”. Sending from the input answers the current question. The context row returns once the round is answered or dismissed.</p>
+    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;questions=yes" caption="Clarifying questions open" height="460"></doc-example>
+  </doc-section>
+
+  <doc-section id="global-chat-container" label="Global chat container" desc="The starting point of a new chat">
+    <p>A greeting headline (<span class="chip">title/default</span>, <span class="chip">color/text/headline</span>) over the Amplify chat container, <span class="chip">page/gap/vertical</span> apart. It reads “Hi {name}, how can I help you today?”. The context row is hidden unless there is a current record; buttons show labels.</p>
+    <doc-example src="amplify-chat-input?component=global-chat-container&amp;name=Chloe" caption="Default greeting" height="200"></doc-example>
+    <doc-example src="amplify-chat-input?component=global-chat-container&amp;items=Tyler%20Brooks" caption="With the current record as context" height="250"></doc-example>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Sending, stopping and keyboard">
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">↵</span></td><td>Sends the trimmed draft and clears the field. Does nothing while empty or generating</td></tr>
+        <tr><td><span class="chip">Shift</span> + <span class="chip">↵</span></td><td>New line. IME composition is left alone</td></tr>
+        <tr><td>Send</td><td>Disabled while the input is empty and while a reply is generating</td></tr>
+        <tr><td>Stop</td><td>Shown next to Send only while a reply is generating; stops it. Stop lives here, never in the reply</td></tr>
+        <tr><td>× on a chip</td><td>Removes that item from the context</td></tr>
+        <tr><td>+ in the context row</td><td>Adds records to the context</td></tr>
+        <tr><td>Typing while clarifying questions are open</td><td>Goes to the card’s Something else field; <span class="chip">Tab</span> moves to the chat input, and sending there counts as a custom answer</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Button labels: on for the full-page starting point. Full-page chat switches to icon-only once a conversation starts, so the input stays compact under it. Docked is always icon-only.</li>
+      <li>The text area grows to 400, then scrolls.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Keep the same parts in full-page, docked and pop-over chat; only the size changes.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show button labels under a running conversation or in docked chat.</doc-callout>
+    <doc-callout type="do" heading="Do.">Put Stop in the button row next to Send while a reply generates.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Put a Stop or retry control inside the reply.</doc-callout>
+    <doc-callout type="do" heading="Do.">Show records with their entity dot and Amplify data sources, like Prospect, with the Amplify icon.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Ask in a clarifying question for a record that’s already in the context row.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Chat input</td><td><span class="chip">amplify-chat/chat-input/color/*</span>, <span class="chip">…/border-radius/*</span>, <span class="chip">…/spacing/*</span>, <span class="chip">…/effects/*</span></td><td><span class="chip">card/color/background/contents</span>, <span class="chip">card/color/border/default</span>; radius <span class="chip">card/border/radius/default</span> (full page) or <span class="chip">border/radius/sm</span> (docked); padding <span class="chip">spacing/16</span>, gap <span class="chip">card/spacing/content-gap</span>; shadow <span class="chip">charcoal-08</span> 4/8 (full page) or <span class="chip">charcoal-04</span> 2/4 (docked)</td></tr>
+        <tr><td>Text area</td><td><span class="chip">amplify-chat/text-area/input/typography/*</span>, <span class="chip">…/input/color/content</span>, placeholder color</td><td><span class="chip">body/default</span>, <span class="chip">field/color/content/value</span>, <span class="chip">field/color/content/placeholder</span>, radius <span class="chip">field/border-radius/default</span></td></tr>
+        <tr><td>Button row</td><td><span class="chip">amplify-chat/button-row/amplify-tools/spacing/gap</span></td><td><span class="chip">spacing/8</span>; Send size and shape from <span class="chip">button/spacing/fab-small/min-width</span>, <span class="chip">button/border-radius/fab</span>; colors from Button</td></tr>
+        <tr><td>Context container</td><td><span class="chip">amplify-chat/context-container/color/*</span>, <span class="chip">…/context/typography/*</span>, <span class="chip">…/spacing/*</span>, <span class="chip">…/effects/*</span>, <span class="chip">…/chips/*</span></td><td><span class="chip">card/color/background/contents</span>, <span class="chip">card/color/border/default</span>, label <span class="chip">input/label/field-label</span> in <span class="chip">field/color/content/label</span>; padding <span class="chip">spacing/8</span> / <span class="chip">spacing/16</span>; radius <span class="chip">border/radius/md</span> or <span class="chip">sm</span>; chip gap <span class="chip">chip/spacing/sm/group-gap</span>; candidate dot <span class="chip">color/entity/candidate</span></td></tr>
+        <tr><td>Amplify chat container</td><td>No component token</td><td>Gap <span class="chip">spacing/8</span></td></tr>
+        <tr><td>Global chat container</td><td><span class="chip">amplify-chat/global-chat-container/spacing/gap</span></td><td><span class="chip">page/gap/vertical</span>; greeting <span class="chip">title/default</span>, <span class="chip">color/text/headline</span></td></tr>
+        <tr><td>Other entity dots</td><td>Semantic directly</td><td><span class="chip">color/entity/&lt;entity&gt;</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Names, states and focus">
+    <ul>
+      <li>The text area’s accessible name is “Message Amplify” (set <span class="chip">label</span> to change it).</li>
+      <li>Icon-only buttons keep their labels as accessible names: “Add File”, “Add Tools”, “Prompt Library”, “Send”, “Stop generating” (WCAG 4.1.2).</li>
+      <li>Send is a native disabled button while it can’t act, so it’s skipped and announced as unavailable.</li>
+      <li>The + button is “Add context”; each chip’s × is “Remove {label}”, for example “Remove Tyler Brooks”.</li>
+      <li>The entity dot and Amplify icon are decorative; the chip label carries the meaning.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-global-chat-container name="Chloe" (send)="start($event)" /&gt;
+
+      &lt;ats-amplify-chat-container [context]="[{ label: 'Verizon', entity: 'company' }]"
+        [generating]="busy()" (send)="ask($event)" (stop)="cancel()" /&gt;
+      &lt;ats-amplify-chat-container size="docked" [questions]="round" (completed)="run($event)" /&gt;
+
+      &lt;ats-amplify-chat-input [showLabels]="false" [(value)]="draft" (send)="ask($event)" /&gt;
+      &lt;ats-amplify-chat-context-container [items]="[{ label: 'Prospect', source: true }, 'Tyler Brooks']"
+        (removed)="drop($event)" (add)="pickRecord()" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th><th>Outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatInput</span></td><td><span class="chip">ats-amplify-chat-input</span></td><td><span class="chip">size</span> full page · docked (full page) · <span class="chip">showLabels</span> (by size) · <span class="chip">placeholder</span> · <span class="chip">label</span> (“Message Amplify”) · <span class="chip">[(value)]</span> · <span class="chip">generating</span> (false)</td><td><span class="chip">send</span>(text) · <span class="chip">stop</span> · <span class="chip">addFile</span> · <span class="chip">addTools</span> · <span class="chip">promptLibrary</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatTextArea</span></td><td><span class="chip">textarea[ats-amplify-chat-text-area]</span></td><td><span class="chip">placeholder</span>; call <span class="chip">resize()</span> after setting the value in code</td><td>Native</td></tr>
+        <tr><td><span class="chip">AmplifyChatButtonRow</span></td><td><span class="chip">ats-amplify-chat-button-row</span></td><td><span class="chip">showLabels</span> (true) · <span class="chip">canSend</span> (false) · <span class="chip">generating</span> (false)</td><td><span class="chip">send</span> · <span class="chip">stop</span> · tool outputs</td></tr>
+        <tr><td><span class="chip">AmplifyChatContextContainer</span></td><td><span class="chip">ats-amplify-chat-context-container</span></td><td><span class="chip">size</span> · <span class="chip">items</span>: label, or { label, entity (candidate), source }</td><td><span class="chip">removed</span>(label) · <span class="chip">add</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatContainer</span></td><td><span class="chip">ats-amplify-chat-container</span></td><td><span class="chip">size</span> · <span class="chip">showLabels</span> · <span class="chip">context</span> · <span class="chip">questions</span> · <span class="chip">placeholder</span> · <span class="chip">generating</span></td><td><span class="chip">send</span> (only when no questions are open) · <span class="chip">stop</span> · <span class="chip">answered</span> · <span class="chip">completed</span> · <span class="chip">dismissed</span> · <span class="chip">removed</span> · <span class="chip">add</span> · tool outputs</td></tr>
+        <tr><td><span class="chip">AmplifyChatGlobalChatContainer</span></td><td><span class="chip">ats-amplify-chat-global-chat-container</span></td><td><span class="chip">name</span> (Chloe) · <span class="chip">greeting</span> (whole headline) · <span class="chip">size</span> · <span class="chip">context</span> · <span class="chip">placeholder</span> · <span class="chip">generating</span></td><td>As the container, without the clarifying outputs</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Patterns and other components">
+    <ul>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#chat-input-components">chat input components</a>, <a href="../amplify/amplify-chat-interface-patterns.html#chat-input-behavior">chat input behavior</a>, <a href="../amplify/amplify-chat-interface-patterns.html#spacing">spacing and layout</a>.</li>
+      <li><a href="amplify-chat-clarifying-questions.html">Clarifying questions</a>: the card that replaces the context row.</li>
+      <li><a href="amplify-chat-reply.html">Reply</a>: what Send produces, and its thinking state while Stop shows.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Add File, Add Tools and Prompt Library.">What Add File and Add Tools open, and how Prompt Library inserts a prompt, aren’t defined yet. The buttons only emit events.</doc-callout>
+    <doc-callout type="note" heading="No chips inside the text area.">The text area’s <span class="chip">show chips</span> option isn’t built: a native textarea can’t hold chips, so context chips live only in the context container.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

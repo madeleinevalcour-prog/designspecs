@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full-page chat — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Full-page chat">
+
+  <doc-section id="overview" label="Overview" desc="What the full-page chat is for">
+    <p class="lead" style="max-width:60ch">The expanded, standalone Amplify chat: everything to the right of the Bowling Alley. A valid entry point to a workflow, not just an overflow view of the dock. It is also the prototyping shell: you supply the turns, it owns the header, the input and the layout.</p>
+    <doc-example src="amplify-chat-full-page?state=short" caption="One exchange, beside the open Bowling Alley" height="1024" viewport="1440"></doc-example>
+    <p>Every example on this page is live: type a message and send, press Stop while a reply generates. The rules are in <a href="../amplify/amplify-chat-interface-patterns.html#surfaces">Surfaces and behavior</a>, <a href="../amplify/amplify-chat-interface-patterns.html#chat-input-behavior">Chat input behavior</a> and <a href="../amplify/amplify-chat-interface-patterns.html#spacing">Spacing and layout</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#header">Header</a></td><td>The Amplify mark, the title, Close and tabs</td></tr>
+        <tr><td><a href="#states">Starting point</a></td><td>The greeting and input in the upper middle of the page</td></tr>
+        <tr><td><a href="#states">Conversation</a></td><td>The turns in an 800px column with the input pinned at the bottom (the <a href="amplify-chat-docked.html#conversation">conversation layout</a>)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="header" label="Header" desc="Title, close and tabs">
+    <p>The page header: the Amplify icon container (lg) and the title (<span class="chip">title/default</span>, “Amplify”), a Close button on the right, and a row of tabs below: Chat · Overview · Meetings · Audits. The record header isn’t reused; its toolbar, field row and More / Layout buttons are record-specific.</p>
+    <ul>
+      <li>Tabs use the tab tokens; the active tab has the indicator and <span class="chip">aria-current="page"</span>. An empty tab list hides the row.</li>
+      <li>Close is optional (<span class="chip">closable</span>).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="states" label="States" desc="Starting point, short and long">
+    <p>Three states, decided by the turns you project: empty until there is a user turn or an Amplify reply.</p>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Layout</th></tr></thead>
+      <tbody>
+        <tr><td>Starting point</td><td>The greeting (“Hi Chloe, how can I help you today?”) and the input in the upper middle of the page: 750 wide, 200 below the header (less on short windows). Buttons show their labels. No context row</td></tr>
+        <tr><td>Short conversation</td><td>The turns fit, so they are top-aligned in the 800px column and the input sits at the bottom of the page</td></tr>
+        <tr><td>Long conversation</td><td>The turns overflow, so the conversation is bottom-anchored: the newest reply sits just above the input and older turns scroll up behind the header</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-full-page?state=empty" caption="state=empty: the starting point" height="1024" viewport="1440"></doc-example>
+    <doc-example src="amplify-chat-full-page?state=short" caption="state=short: one exchange, top-aligned" height="1024" viewport="1440"></doc-example>
+    <doc-example src="amplify-chat-full-page?state=long" caption="state=long: several exchanges, bottom-anchored, rows selected" height="1024" viewport="1440"></doc-example>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior" desc="First send, input and scrolling">
+    <ul>
+      <li><b>First send:</b> the input moves from the starting point to the bottom of the page (a short slide; reduced motion skips it) and keeps focus, so the recruiter can keep typing.</li>
+      <li><b>Icon-only buttons once the conversation starts.</b> Add File, Add Tools and Prompt Library show labels only at the starting point; under a conversation they are icons, the same as docked chat, so the input stays compact. Their accessible names keep the labels.</li>
+      <li><b>Context row:</b> appears in the bottom input once the conversation starts, for example the Prospect source chip with the Amplify icon. A clarifying-questions round replaces it while open.</li>
+      <li><b>Generating:</b> Stop shows in the input next to Send; Send stays disabled until the reply finishes or is stopped.</li>
+      <li><b>Auto-scroll:</b> the view follows new turns only if the recruiter is at the bottom. Sending jumps to the latest.</li>
+      <li><b>Tabs</b> switch the active tab and report it; what each tab shows is up to the page.</li>
+    </ul>
+    <table class="tbl">
+      <thead><tr><th>Key</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">Enter</span> in the input</td><td>Sends; <span class="chip">Shift</span> + <span class="chip">Enter</span> adds a new line</td></tr>
+        <tr><td><span class="chip">Tab</span></td><td>Header (Close, tabs), the turns’ controls, then the input, in reading order</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="prototyping" label="Prototyping" desc="Build a flow with the shell">
+    <p>Use the full-page chat to prototype an Amplify flow in Angular. The shell handles the starting point, the move to the bottom, the input, scrolling and Stop. You keep the turns in a plain array, render them with <span class="chip">@for</span>, and push to it on <span class="chip">send</span>.</p>
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-full-page title="Amplify" greetingName="Chloe" [context]="['Prospect']"
+          [generating]="busy()" (send)="ask($event)" (stop)="cancel()"&gt;
+        @for (turn of turns(); track turn.id) {
+          @if (turn.user) {
+            &lt;ats-amplify-chat-user-turn&gt;
+              &lt;ats-amplify-chat-user-bubble&gt;{{ turn.text }}&lt;/ats-amplify-chat-user-bubble&gt;
+            &lt;/ats-amplify-chat-user-turn&gt;
+          } @else if (turn.thinking) {
+            &lt;ats-amplify-chat-chat-block status="Thinking…" /&gt;
+          } @else {
+            &lt;ats-amplify-chat-chat-block&gt;&lt;ats-amplify-chat-text&gt;{{ turn.text }}&lt;/ats-amplify-chat-text&gt;&lt;/ats-amplify-chat-chat-block&gt;
+          }
+        }
+      &lt;/ats-amplify-chat-full-page&gt;
+
+      ask(text: string) { this.turns.update((t) =&gt; [...t, { id: ++this.id, user: true, text }]); … }
+    </doc-code>
+    <ol>
+      <li>Start with an empty array: the page shows the starting point.</li>
+      <li>On <span class="chip">send</span>, push the user turn and a thinking turn, and set <span class="chip">generating</span>. The input moves to the bottom on its own.</li>
+      <li>When the reply is ready, replace the thinking turn with the reply (any reply components: text, lists, data table, cards, draft block) and clear <span class="chip">generating</span>.</li>
+      <li>On <span class="chip">stop</span>, end the reply early.</li>
+      <li>To show a clarifying round, pass <span class="chip">questions</span>; listen for <span class="chip">completed</span> and turn the answers into the next user turn.</li>
+    </ol>
+    <p>The showcase route <span class="chip">amplify-chat-full-page</span> is a working example: it rotates canned replies through a data table with selection, prose with a numbered list, chat cards, a clarifying-questions round and a draft block. Pass <span class="chip">state</span> to force a state when your turns aren’t user turns or chat blocks.</p>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Use full-page chat as a starting point for a workflow, then hand the recruiter into a record or list.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Treat it as an overflow view of the dock with different content. Both are one assistant with one conversation.</doc-callout>
+    <doc-callout type="do" heading="Do.">Keep messages, tables and the input on the same 800px column edges.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Widen tables or cards past the column, or show labeled input buttons under a conversation.</doc-callout>
+    <doc-callout type="do" heading="Do.">Prototype with real reply components inside the shell.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Rebuild the header, input or scrolling in a prototype, or use screenshots for replies.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>The full-page shell binds semantic tokens directly; the conversation’s turn spacing and input area are listed on <a href="amplify-chat-docked.html#tokens">Docked chat</a>.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Tokens</th></tr></thead>
+      <tbody>
+        <tr><td>Page</td><td><span class="chip">color/background/muted</span></td></tr>
+        <tr><td>Header</td><td><span class="chip">card/color/background/header</span>, <span class="chip">header/spacing/padding-top</span> · <span class="chip">padding-horizontal</span>, <span class="chip">header/spacing/candidate-header/*</span>, <span class="chip">toolbar/spacing/candidate-title/padding-bottom</span>, <span class="chip">header/color/border/default</span>, <span class="chip">general/level 2</span></td></tr>
+        <tr><td>Title</td><td><span class="chip">title/default</span>, <span class="chip">color/text/headline</span></td></tr>
+        <tr><td>Tabs</td><td><span class="chip">tabs/color/tab-items/*</span>, <span class="chip">tabs/spacing/tab-items/*</span>, <span class="chip">tabs/border/tab-active-indicator/radius</span>, <span class="chip">typography/tabs/default</span> · <span class="chip">active</span>, focus <span class="chip">color/border/focus</span></td></tr>
+        <tr><td>Column</td><td><span class="chip">spacing/margin</span> (24) above the column, beside it on narrow windows and below the input</td></tr>
+        <tr><td>Sizes</td><td>No token: chat column 800 max; starting point 750 wide, 200 below the header</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Headings, tabs and the log">
+    <ul>
+      <li>The title is the page’s <span class="chip">&lt;h1&gt;</span>; the starting greeting is an <span class="chip">&lt;h2&gt;</span>.</li>
+      <li>Tabs sit in a <span class="chip">&lt;nav&gt;</span> named “Amplify sections”; the active tab has <span class="chip">aria-current="page"</span>.</li>
+      <li>The turns column is a polite <span class="chip">role="log"</span> named “Conversation”, so new replies are announced.</li>
+      <li>Focus stays in the input when it moves to the bottom after the first send.</li>
+      <li>Icon-only input buttons keep accessible names that match their labels (WCAG 4.1.2).</li>
+      <li>Reduced motion skips the input’s move.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular inputs and outputs">
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values (default)</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">title</span></td><td>Header title (“Amplify”)</td></tr>
+        <tr><td><span class="chip">greetingName</span> · <span class="chip">greeting</span></td><td>First name in the greeting (“Chloe”) · replaces the whole greeting</td></tr>
+        <tr><td><span class="chip">context</span></td><td>Context chips in the bottom input (none; hidden at the starting point)</td></tr>
+        <tr><td><span class="chip">questions</span></td><td>A clarifying-questions round in the bottom input</td></tr>
+        <tr><td><span class="chip">placeholder</span></td><td>Input placeholder</td></tr>
+        <tr><td><span class="chip">generating</span></td><td>A reply is generating: Stop shows (false)</td></tr>
+        <tr><td><span class="chip">state</span></td><td>auto · empty · conversation (auto: empty until a user turn or chat block is projected)</td></tr>
+        <tr><td><span class="chip">tabs</span> · <span class="chip">activeTab</span></td><td>Tab labels (Chat · Overview · Meetings · Audits; <span class="chip">[]</span> hides the row) · active index, two-way (0)</td></tr>
+        <tr><td><span class="chip">closable</span> · <span class="chip">label</span></td><td>Show Close (true) · accessible name of the turns log (“Conversation”)</td></tr>
+      </tbody>
+    </table>
+    <p>Outputs: <span class="chip">send</span> (text), <span class="chip">stop</span>, <span class="chip">closed</span>, <span class="chip">tabSelect</span>, and the input passthroughs <span class="chip">answered</span> · <span class="chip">completed</span> · <span class="chip">dismissed</span> (clarifying round), <span class="chip">removed</span> · <span class="chip">add</span> (context), <span class="chip">addFile</span> · <span class="chip">addTools</span> · <span class="chip">promptLibrary</span>. Method <span class="chip">scrollToBottom()</span>. Selector <span class="chip">ats-amplify-chat-full-page</span>; it fills its parent, so give the parent a height.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Pages and rules">
+    <ul>
+      <li><a href="amplify-chat-docked.html">Docked chat</a>: the docked panel, the pop-over and the shared conversation layout.</li>
+      <li><a href="amplify-chat-text.html">Text</a> and <a href="amplify-chat-selection.html">Selection</a>: reply components used in the example states.</li>
+      <li><a href="bowling-alley.html">Bowling Alley</a>: the navigation to the left of the chat.</li>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#surfaces">surfaces</a>, <a href="../amplify/amplify-chat-interface-patterns.html#chat-input">chat input</a>, <a href="../amplify/amplify-chat-interface-patterns.html#clarifying-questions">clarifying questions</a>, <a href="../amplify/amplify-chat-interface-patterns.html#spacing">spacing and layout</a>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="What the other tabs show.">Overview, Meetings and Audits are in the header but have no content defined yet.</doc-callout>
+    <doc-callout type="note" heading="Input buttons.">What Add File and Add Tools open, and how Prompt Library inserts a prompt, aren’t defined yet (patterns doc).</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

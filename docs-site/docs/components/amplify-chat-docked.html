@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docked chat — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Docked chat">
+
+  <doc-section id="overview" label="Overview" desc="What the docked chat is for">
+    <p class="lead" style="max-width:60ch">Amplify chat beside or over the current page. One assistant, two presentations of the same conversation: a docked panel on the right (the default) and a pop-over window. The recruiter switches between them in the header without losing the conversation or its context.</p>
+    <doc-example src="amplify-chat-docked?mode=docked" caption="Docked panel beside a company record" height="760" viewport="1280"></doc-example>
+    <p>Inside both sits the conversation layout: the turns in a scrolling column with the chat input pinned at the bottom. The full-page chat uses the same layout (see <a href="amplify-chat-full-page.html">Full-page chat</a>). The rules are in <a href="../amplify/amplify-chat-interface-patterns.html#surfaces">Surfaces and behavior</a> and <a href="../amplify/amplify-chat-interface-patterns.html#spacing">Spacing and layout</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#docked">Docked chat</a>, mode=docked</td><td>A 420px right-hand panel that persists across pages. The page contracts beside it</td></tr>
+        <tr><td><a href="#pop-over">Docked chat</a>, mode=pop-over</td><td>The same chat as a movable, resizable window over the page, with no scrim</td></tr>
+        <tr><td><a href="#header">Header</a></td><td>The Amplify mark, “Amplify”, then pop out / dock back and Close</td></tr>
+        <tr><td><a href="#conversation">Conversation</a></td><td>The turns, 32 apart, and the input pinned at the bottom. Shared with full-page chat</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="docked" label="Docked panel" desc="The default, beside the page">
+    <p>The default presentation. A 420px panel on the right that stays with the recruiter across records and pages. It is the last item in a flex row with the page content, so the page contracts beside it instead of sitting under it. It slides in from the right when opened.</p>
+    <doc-example src="amplify-chat-docked?mode=docked&amp;state=conversation" caption="mode=docked, with the Verizon exchange" height="760" viewport="1280"></doc-example>
+    <ul>
+      <li>Background <span class="chip">color/background/muted</span>, a 1px modal border on its left edge and <span class="chip">general/level 3 - right</span>. The shadow falls on the left only, never over the app chrome.</li>
+      <li>Escape doesn’t close it. The docked panel is persistent; only Close does.</li>
+      <li>While closed it is removed from the tab order and hidden from assistive tech.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="pop-over" label="Pop-over" desc="A movable window over the page">
+    <p>The same chat as a floating window over the page. There is no scrim, so the page underneath stays usable. It opens at 726 × 994 in the bottom-right corner, 24 from the viewport edges, and shrinks to fit smaller windows.</p>
+    <doc-example src="amplify-chat-docked?mode=pop-over&amp;state=conversation" caption="mode=pop-over over the record" height="760" viewport="1280"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Interaction</th><th>Behavior</th></tr></thead>
+      <tbody>
+        <tr><td>Move</td><td>Drag the header (not its buttons). The window stays inside the viewport</td></tr>
+        <tr><td>Resize</td><td>Drag the bottom-right corner. Smallest size 420 × 360</td></tr>
+        <tr><td>Window resize</td><td>Until the recruiter moves it, the window re-places itself bottom-right; after that it only stays inside the viewport</td></tr>
+        <tr><td>Escape</td><td>Closes the pop-over, unless a menu or dropdown inside it handled Escape first</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Modal border and radius (<span class="chip">modal/border-radius/default</span>), <span class="chip">general/level 4</span>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="header" label="Header" desc="Title, pop out and close">
+    <p>The slide-out title header: the Amplify mark and “Amplify” (<span class="chip">title/medium</span>), then two small icon buttons. Header background, padding and gap come from the card header tokens, with a bottom border and <span class="chip">general/level 1</span>.</p>
+    <table class="tbl">
+      <thead><tr><th>Mode</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">docked</span></td><td>External Open (“Pop out”), then Close (“Close Amplify”)</td></tr>
+        <tr><td><span class="chip">pop-over</span></td><td>Columns (“Dock to side”), then Close</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Switching keeps the conversation as it is. Only the presentation changes.</li>
+      <li>In the pop-over the header is the drag handle (move cursor).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="empty-state" label="Empty state" desc="The greeting before the first message">
+    <p>A new docked chat opens with a greeting from Amplify in the chat column: “Hi Chloe, how can I help you today?”. It is an ordinary Amplify reply with no actions, so the conversation reads the same from the first turn. The input sits at the bottom as normal.</p>
+    <doc-example src="amplify-chat-docked?state=empty" caption="state=empty: the greeting, input at the bottom" height="760" viewport="1280"></doc-example>
+    <doc-example src="amplify-chat-docked?mode=pop-over&amp;state=empty" caption="state=empty in the pop-over" height="760" viewport="1280"></doc-example>
+  </doc-section>
+
+  <doc-section id="conversation" label="Conversation" desc="Turns, input and scrolling">
+    <p>The shared chat layout: a scrolling column of turns with the chat input pinned at the bottom. The docked panel, the pop-over and full-page chat all use it.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Layout</th></tr></thead>
+      <tbody>
+        <tr><td>Turns</td><td>User turns and Amplify replies, in order, <span class="chip">spacing/gap/xlg</span> (32) apart</td></tr>
+        <tr><td>Input</td><td>Pinned at the bottom with <span class="chip">page/gap/vertical</span> (16) above it, on <span class="chip">general/level 2 - scroll</span> (<span class="chip">color/background/scroll</span> + background blur). Replies scroll behind it, and the last line can always scroll clear</td></tr>
+        <tr><td>Size <span class="chip">docked</span></td><td>No separate column; the conversation fills the panel. Panel padding 16 top, 8 sides, 8 bottom; turns inset a further <span class="chip">spacing/padding/sm</span> (8), user turns another <span class="chip">spacing/padding/lg</span> (24) on the left</td></tr>
+        <tr><td>Size <span class="chip">full page</span></td><td>Turns and input share one 800px column, centered. Narrow windows: the available width minus <span class="chip">spacing/margin</span> (24) per side</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><b>Alignment:</b> while the turns fit, they are top-aligned and the input sits at the bottom of the view. Once they overflow, the conversation is bottom-anchored: the newest content sits just above the input and older turns scroll off the top.</li>
+      <li><b>Auto-scroll:</b> when a turn is added or grows (a thinking line becomes the reply), or the input grows, the view follows the newest content only if the recruiter was already at the bottom. If they scrolled up to read, they stay where they are.</li>
+      <li><b>Sending</b> jumps to the latest and resumes following.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior" desc="Opening, switching, keyboard">
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Open</td><td>Docked: the panel slides in from the right and the page contracts. Pop-over: the window appears bottom-right</td></tr>
+        <tr><td>Pop out / Dock to side</td><td>Switches presentation; the conversation and context carry over</td></tr>
+        <tr><td>Close</td><td>Hides the chat in either mode</td></tr>
+        <tr><td><span class="chip">Escape</span></td><td>Pop-over: closes it. Docked: nothing. A menu or dropdown open inside the chat handles Escape first and closes only itself</td></tr>
+        <tr><td><span class="chip">Tab</span></td><td>Moves through the header buttons, the turns’ controls and the input in reading order</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Reduced motion skips the slide-in.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Dock the chat by default, so the recruiter keeps the page and the conversation side by side.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Lay the docked panel over the page. The page contracts beside it.</doc-callout>
+    <doc-callout type="do" heading="Do.">Use the pop-over when the recruiter needs the full page width and the chat at once.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Add a scrim behind the pop-over or block the page while it’s open.</doc-callout>
+    <doc-callout type="do" heading="Do.">Open an empty chat with the Amplify greeting in the chat column and the input at the bottom.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Move the input to the middle of the panel or use the full-page greeting headline. In docked chat the greeting is an Amplify message in the chat column and the input stays at the bottom.</doc-callout>
+    <doc-callout type="do" heading="Do.">Let the view follow new replies only when the recruiter is at the bottom.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Pull a recruiter who scrolled up back down to the newest reply.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Panel</td><td><span class="chip">amplify-chat/docked-chat/color/background</span>, <span class="chip">…/color/border</span>, <span class="chip">…/border-radius</span></td><td><span class="chip">color/background/muted</span>, <span class="chip">modal/color/border/default</span>, <span class="chip">modal/border-radius/default</span> (pop-over)</td></tr>
+        <tr><td>Panel shadow</td><td><span class="chip">amplify-chat/docked-chat/effects/shadow-1/*</span> (docked), <span class="chip">…/shadow-2/*</span> (pop-over)</td><td><span class="chip">general/level 3 - right</span>, <span class="chip">general/level 4</span>: offsets and blurs on <span class="chip">spacing/*</span>, colors <span class="chip">color/transparency/charcoal/04</span> · <span class="chip">08</span></td></tr>
+        <tr><td>Header</td><td>Semantic directly</td><td><span class="chip">card/color/background/header</span>, <span class="chip">card/spacing/header/*</span>, <span class="chip">header/color/border/default</span>, <span class="chip">header/spacing/candidate-header/*</span>, <span class="chip">title/medium</span>, <span class="chip">color/text/headline</span>, <span class="chip">general/level 1</span></td></tr>
+        <tr><td>Header icons</td><td><span class="chip">amplify-chat/docked-chat/novo-header/slideout-title/actions/*</span></td><td><span class="chip">button/color/icon/content/default</span></td></tr>
+        <tr><td>Main padding</td><td><span class="chip">amplify-chat/docked-chat/main/spacing/padding/*</span></td><td>top <span class="chip">spacing/padding/md</span> (16), right <span class="chip">spacing/8</span>, bottom and left <span class="chip">spacing/padding/sm</span> (8)</td></tr>
+        <tr><td>Conversation</td><td><span class="chip">amplify-chat/docked-chat/main/conversation/spacing/gap</span>, <span class="chip">…/chat-column/spacing/gap</span>, <span class="chip">…/chat-column/spacing/padding-horizontal</span>, <span class="chip">…/user-turn/spacing/padding-left</span></td><td><span class="chip">page/gap/vertical</span> (16), <span class="chip">spacing/gap/xlg</span> (32), <span class="chip">spacing/padding/sm</span> (8), <span class="chip">spacing/padding/lg</span> (24)</td></tr>
+        <tr><td>Input area</td><td>Semantic directly</td><td><span class="chip">color/background/scroll</span>, blur reuses <span class="chip">elevation/4/blur</span>; full page <span class="chip">spacing/margin</span> (24)</td></tr>
+        <tr><td>Sizes</td><td>No token</td><td>Docked width 420; pop-over 726 × 994, minimum 420 × 360, 24 from the edges; full-page column 800 max</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Landmark, log and keyboard">
+    <ul>
+      <li>The chat is a <span class="chip">role="complementary"</span> landmark named “Amplify chat”. While closed it is <span class="chip">inert</span> and <span class="chip">aria-hidden</span>.</li>
+      <li>The header title is an <span class="chip">&lt;h2&gt;</span>. The icon buttons are named “Pop out” / “Dock to side” and “Close Amplify”.</li>
+      <li>The turns column is a <span class="chip">role="log"</span> region with <span class="chip">aria-live="polite"</span>, named “Conversation”, so new replies are announced without interrupting.</li>
+      <li>Escape follows the innermost layer: an open menu closes first, then the pop-over.</li>
+      <li>Moving and resizing the pop-over are pointer-only today (see <a href="#to-confirm">To confirm</a>); docking it back is always one button away.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;div class="page-row"&gt;            &lt;!-- display: flex; height: 100% --&gt;
+        &lt;main class="page"&gt;…&lt;/main&gt;     &lt;!-- flex: 1; min-width: 0 --&gt;
+        &lt;ats-amplify-chat-docked [(open)]="chatOpen" [(mode)]="chatMode"&gt;
+          &lt;ats-amplify-chat-conversation size="docked"&gt;
+            &lt;ats-amplify-chat-chat-block [showActions]="false"&gt;
+              &lt;ats-amplify-chat-text&gt;Hi Chloe, how can I help you today?&lt;/ats-amplify-chat-text&gt;
+            &lt;/ats-amplify-chat-chat-block&gt;
+            &lt;ats-amplify-chat-container slot="input" size="docked" (send)="ask($event)" /&gt;
+          &lt;/ats-amplify-chat-conversation&gt;
+        &lt;/ats-amplify-chat-docked&gt;
+      &lt;/div&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs and outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatDocked</span></td><td><span class="chip">ats-amplify-chat-docked</span></td><td><span class="chip">open</span> two-way (true) · <span class="chip">mode</span> docked · pop-over, two-way (docked) · <span class="chip">title</span> (“Amplify”) · output <span class="chip">closed</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatConversation</span></td><td><span class="chip">ats-amplify-chat-conversation</span></td><td><span class="chip">size</span> full page · docked (full page) · <span class="chip">label</span> (“Conversation”) · method <span class="chip">scrollToBottom()</span></td></tr>
+      </tbody>
+    </table>
+    <p>The conversation projects its turns in order; the input is the element marked <span class="chip">slot="input"</span> (or an <span class="chip">ats-amplify-chat-container</span>). It fills its parent, so give the parent a bounded height. Call <span class="chip">scrollToBottom()</span> right after the recruiter sends.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Pages and rules">
+    <ul>
+      <li><a href="amplify-chat-full-page.html">Full-page chat</a>: the same conversation as a page.</li>
+      <li><a href="amplify-chat-text.html">Text</a>: the prose inside replies.</li>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#surfaces">surfaces and behavior</a>, <a href="../amplify/amplify-chat-interface-patterns.html#chat-input">chat input</a>, <a href="../amplify/amplify-chat-interface-patterns.html#spacing">spacing and layout</a>, <a href="../amplify/amplify-chat-interface-patterns.html#status">status and loading</a>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Where the pop-out control sits.">The patterns doc says the pop-over is switched “from the top left of the panel”; the built header puts pop out / dock back on the right, next to Close. Confirm which is intended.</doc-callout>
+    <doc-callout type="note" heading="Keyboard move and resize.">The pop-over moves and resizes by pointer only. Confirm whether keyboard alternatives are needed beyond docking it back.</doc-callout>
+    <doc-callout type="note" heading="History and global fallback.">The patterns doc says history is reachable from the dock and unsupported pages fall back to global chat. Neither is built in this component yet.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

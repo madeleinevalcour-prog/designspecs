@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clarifying questions — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Clarifying questions">
+
+  <doc-section id="overview" label="Overview" desc="What the card is for">
+    <p class="lead" style="max-width:60ch">When a request is ambiguous, Amplify asks up to 3 short questions in a card directly above the chat input, one at a time, with 2–4 tappable options each. It gets the one or two details that change the result (which job order, how far, which candidates), then runs.</p>
+    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;questions=yes" caption="In context: the card replaces the context row; the input reads “Or reply directly…”" height="460"></doc-example>
+    <p>The rules are in <a href="../amplify/amplify-chat-interface-patterns.html#clarifying-questions">Chat interface patterns</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th><th>Variants</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#card">Clarifying questions</a></td><td>The card: question, pager, dismiss, optional help, options, Something else</td><td><span class="chip">size</span> full page · docked</td></tr>
+        <tr><td><a href="#option">Clarify option</a></td><td>One answer row: key, then the content</td><td><span class="chip">type</span> text · record; <span class="chip">state</span> default · active · selected</td></tr>
+        <tr><td><a href="#key">Clarify key</a></td><td>The 24px shortcut badge at the start of a row</td><td><span class="chip">type</span> number · icon; <span class="chip">state</span> default · active · selected</td></tr>
+        <tr><td><a href="#something-else">Something else</a></td><td>The free-text row with Skip, or the submit button once typed</td><td><span class="chip">state</span> default · typing</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="card" label="Clarifying questions" desc="The card in two sizes">
+    <p>A card with the Amplify gradient border. The header holds the question (<span class="chip">body/default-medium</span>, <span class="chip">color/text/headline</span>), the pager (previous, “2 of 3”, next) and the dismiss button. Optional help text sits under the question in <span class="chip">input/label/field-label</span>, <span class="chip">color/text/subtle</span>; use it for data scope. Then the options and the Something else row.</p>
+    <table class="tbl">
+      <thead><tr><th>Size</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">full page</span> (default)</td><td><span class="chip">card/border/radius/default</span>, <span class="chip">general/level 2</span></td></tr>
+        <tr><td><span class="chip">docked</span></td><td><span class="chip">border/radius/sm</span>, <span class="chip">general/level 1</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions" caption="size=full page, a round of 3. Answer, page back, or dismiss" height="300"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;size=docked" caption="size=docked" height="300"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;set=record" caption="Record question first, with help text" height="380"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;set=single" caption="A single question: no pager" height="300"></doc-example>
+    <ul>
+      <li>Match the size to the chat input under it.</li>
+      <li>The gradient border marks a live Amplify ask; never use it outside the asking state.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="option" label="Clarify option" desc="Text and record answer rows">
+    <p>One answer: a clarify key (the 1–4 shortcut), then the content, in a 1px <span class="chip">color/border/subtle</span> row (padding 8, gap 16, radius <span class="chip">border/radius/xsm</span>). The key is centered on the first line, so it stays beside the answer when the row grows.</p>
+    <table class="tbl">
+      <thead><tr><th>Type</th><th>Content</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">text</span> (default)</td><td>Label in <span class="chip">body/default</span>, an optional recommended note in <span class="chip">input/label/field-label</span>, <span class="chip">color/text/subtle</span> (optionally with the source record as an entity link), and an optional description</td></tr>
+        <tr><td><span class="chip">record</span></td><td>A list item: the record title as an entity link with its entity dot, the details that tell records apart (company, date, status), and the recommended note as the top-right caption</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;label=Within%2025%20mi%20of%20Boston&amp;recommended=Recommended%20%C2%B7%20from&amp;recordLink=JO-4821" caption="type=text, recommended from a record" height="70"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;label=Placed%20in%20the%20last%2012%20months&amp;description=Candidates%20you%20placed%20before%2C%20for%20re-engagement&amp;number=3" caption="type=text, with a description" height="70"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;type=record&amp;recommended=Recommended%20%C2%B7%20you%20own%20it" caption="type=record" height="90"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td>default</td><td>Subtle border, key default</td></tr>
+        <tr><td>active</td><td>Hover or keyboard focus: <span class="chip">color/background/subtle</span> fill, key active</td></tr>
+        <tr><td>selected</td><td>The answer already chosen, seen when paging back: key selected and label Medium weight</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;state=active" caption="state=active. Hover and focus are also live" height="70"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;state=selected&amp;number=2&amp;label=Within%2050%20mi%20of%20Boston" caption="state=selected" height="70"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;type=record&amp;state=active" caption="type=record, state=active" height="90"></doc-example>
+    <ul>
+      <li>Record and text options share the same border, padding and states. The record list item has no border or fill of its own.</li>
+      <li>Show the recommended note on the recommended option only, and put that option first.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="key" label="Clarify key" desc="The shortcut badge and its states">
+    <p>A 24px badge, radius <span class="chip">border/radius/xsm</span>. Inside an option it follows the row’s state on its own.</p>
+    <table class="tbl">
+      <thead><tr><th>Type · state</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">number</span> (default)</td><td>The 1–4 shortcut in <span class="chip">input/label/field-label</span></td></tr>
+        <tr><td><span class="chip">icon</span></td><td>The 12px edit-outline pencil in <span class="chip">color/icon/subtle</span>, for Something else</td></tr>
+        <tr><td>default</td><td><span class="chip">color/background/subtle-hover</span>, <span class="chip">color/text/secondary</span></td></tr>
+        <tr><td>active</td><td><span class="chip">color/background/default</span>, <span class="chip">color/border/default</span> border, <span class="chip">color/text/body</span></td></tr>
+        <tr><td>selected</td><td><span class="chip">color/background/hover</span>, <span class="chip">color/border/focus</span> border, <span class="chip">color/text/link</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=default&amp;number=1" caption="number, default" height="50"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=active&amp;number=1" caption="number, active" height="50"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=selected&amp;number=2" caption="number, selected" height="50"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=icon" caption="icon" height="50"></doc-example>
+  </doc-section>
+
+  <doc-section id="something-else" label="Something else" desc="The free-text answer row">
+    <p>The last row of every question: the pencil key, an inline text field (“Something else”, <span class="chip">body/default</span>; placeholder in <span class="chip">color/text/subtle</span>, value in <span class="chip">color/text/body</span>), then Skip (Button, Secondary, Small) at the end.</p>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">default</span></td><td><span class="chip">color/border/subtle</span> row with Skip</td></tr>
+        <tr><td><span class="chip">typing</span></td><td><span class="chip">color/border/focus</span> row. Live while the field has focus</td></tr>
+        <tr><td>Has text</td><td>Skip becomes a small primary FAB with the right-arrow icon. Clearing the field brings Skip back</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-something-else" caption="state=default, with Skip" height="60"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-something-else&amp;state=typing&amp;value=Within%2010%20mi%20of%20Cambridge" caption="state=typing with text: the submit FAB replaces Skip" height="60"></doc-example>
+    <doc-example src="amplify-chat-clarifying-questions?component=clarify-something-else&amp;showSkip=false" caption="Skip hidden" height="60"></doc-example>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Answering, typing and keyboard">
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Click an option, or <span class="chip">↵</span> on it</td><td>Answers and moves to the next question</td></tr>
+        <tr><td><span class="chip">1</span>–<span class="chip">4</span></td><td>Choose that option directly, while Something else is empty. Once it has text, digits are text</td></tr>
+        <tr><td><span class="chip">↑</span> <span class="chip">↓</span></td><td>Move between options</td></tr>
+        <tr><td>Typing</td><td>Goes to Something else by default, from anywhere in the card or the container that isn’t a text field, so the recruiter can answer in their own words without clicking first</td></tr>
+        <tr><td><span class="chip">↵</span> in Something else, or the FAB</td><td>Submits the typed answer</td></tr>
+        <tr><td><span class="chip">Tab</span></td><td>Options → Something else → Skip or FAB → the chat input. Sending from the chat input also counts as a custom answer</td></tr>
+        <tr><td>Skip</td><td>Answers with the recommended option (the first option with a note, else the first), so the flow never stalls</td></tr>
+        <tr><td>Pager</td><td>Previous and next move between questions; earlier answers stay selected. Hidden for a single question</td></tr>
+        <tr><td>Dismiss (×)</td><td>Closes the card and brings back the context row; the recruiter types freely</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>All answers post together as one user message, as label and value pairs. Amplify’s reply names the record and filters it used.</li>
+      <li>The chosen record joins the context row as a removable chip, so follow-ups don’t ask again.</li>
+      <li>For record questions, typed text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="When to ask, do and don’t">
+    <ul>
+      <li>Ask when the answer changes the result (two job orders match, a search needs a radius) or when a wrong guess would waste a long run.</li>
+      <li>Don’t ask when the open record, an @-mention or a context chip already answers it; assume it and say so.</li>
+      <li>Don’t use the card before writes, outbound messages or bulk runs. Use an action preview or an editable plan.</li>
+    </ul>
+    <doc-callout type="do" heading="Do.">Ask one round: at most 3 questions, one at a time, 2–4 options each.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Guess between matching records. Ask with record options.</doc-callout>
+    <doc-callout type="do" heading="Do.">Put the recommended option first and say where it came from: “from JO-4821”, “your access”.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Signal selection with color alone. Key border and label weight change together.</doc-callout>
+    <doc-callout type="do" heading="Do.">Keep Skip and Something else on every question, so the recruiter is never forced into an option.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use the card for confirmations or long-run plans.</doc-callout>
+  </doc-section>
+
+  <doc-section id="content" label="Content" desc="Questions, options and notes">
+    <ul>
+      <li>Question: one short sentence in recruiter language: “Which job order?”, “How far from Boston should Amplify look?”</li>
+      <li>Options: 2–5 words, parallel structure, no trailing punctuation.</li>
+      <li>Recommended note: “Recommended ·” then the reason or source: “Recommended · you own it”, “Recommended · from ● JO-4821”.</li>
+      <li>Help text only when it changes the decision, usually data scope: “Amplify only searches records you can access.”</li>
+      <li>No filler openers, no “Amplify determined”, no questions that only confirm what the recruiter said.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Card</td><td><span class="chip">amplify-chat/clarifying-questions/color/background</span>, <span class="chip">…/border-radius/*</span>, <span class="chip">…/spacing/*</span>, <span class="chip">…/effects/*</span></td><td><span class="chip">card/color/background/contents</span>; radius <span class="chip">card/border/radius/default</span> or <span class="chip">border/radius/sm</span>; padding <span class="chip">spacing/16</span> / <span class="chip">spacing/padding/md</span>, top <span class="chip">card/spacing/header-padding-vertical</span>; gap <span class="chip">spacing/8</span>; shadow <span class="chip">charcoal-08</span> 4/8 or <span class="chip">charcoal-04</span> 2/4</td></tr>
+        <tr><td>Card header</td><td><span class="chip">…/header/question/typography/*</span>, <span class="chip">…/header/question/color/content</span>, <span class="chip">…/header/pager/*</span></td><td><span class="chip">body/default</span> (weight medium), <span class="chip">color/text/headline</span>; step <span class="chip">color/text/subtle</span>, pager gap <span class="chip">spacing/4</span></td></tr>
+        <tr><td>Help, options</td><td><span class="chip">…/help/typography/*</span>, <span class="chip">…/help/color/content</span>, <span class="chip">…/options/spacing/gap</span></td><td><span class="chip">input/label/field-label</span>, <span class="chip">color/text/subtle</span>, <span class="chip">field/spacing/gap</span></td></tr>
+        <tr><td>Gradient border</td><td>Semantic directly</td><td><span class="chip">color/amplify/amplify-blue</span>, <span class="chip">color/amplify/amplify-green</span></td></tr>
+        <tr><td>Clarify option</td><td><span class="chip">amplify-chat/clarify-option/color/*</span>, <span class="chip">…/spacing/*</span>, <span class="chip">…/border-radius</span>, <span class="chip">…/content/label-row/*</span>, <span class="chip">…/content/description/*</span></td><td>Border <span class="chip">color/border/subtle</span>, active <span class="chip">color/background/subtle</span>; padding <span class="chip">spacing/8</span>, gap <span class="chip">spacing/16</span>; radius <span class="chip">border/radius/xsm</span>; label <span class="chip">body/default</span> (default and medium) in <span class="chip">color/text/body</span>; note and description <span class="chip">input/label/field-label</span> in <span class="chip">color/text/subtle</span></td></tr>
+        <tr><td>Record option</td><td><span class="chip">amplify-chat/clarify-option/record/border-radius</span>; list item and link tokens</td><td><span class="chip">field/border-radius/default</span>; <span class="chip">link-text/color/default</span>, <span class="chip">list-item/spacing/*</span>, details <span class="chip">body/sm</span></td></tr>
+        <tr><td>Clarify key</td><td><span class="chip">amplify-chat/clarify-key/color/*</span>, <span class="chip">…/number/*</span>, <span class="chip">…/icon/color</span>, <span class="chip">…/border-radius</span></td><td>As in <a href="#key">Clarify key</a>; number <span class="chip">input/label/field-label</span>; icon <span class="chip">color/icon/subtle</span>; radius <span class="chip">border/radius/xsm</span></td></tr>
+        <tr><td>Something else</td><td><span class="chip">amplify-chat/clarify-something-else/color/border</span>, <span class="chip">…/value/*</span>, <span class="chip">…/spacing/*</span>, <span class="chip">…/border-radius</span></td><td>Border <span class="chip">color/border/subtle</span> or <span class="chip">color/border/focus</span>; value <span class="chip">body/default</span> in <span class="chip">color/text/body</span>, placeholder <span class="chip">color/text/subtle</span>; padding <span class="chip">spacing/8</span>, gap <span class="chip">spacing/16</span>; radius <span class="chip">border/radius/xsm</span></td></tr>
+        <tr><td>Option focus</td><td>Semantic directly</td><td><span class="chip">button/border/width/focus</span>, <span class="chip">color/border/focus</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Radio group, focus and announcements">
+    <ul>
+      <li>The options are a <span class="chip">role="radiogroup"</span> labelled by the question and described by the help text. Each option is a native button with <span class="chip">role="radio"</span>, <span class="chip">aria-checked</span> when selected and <span class="chip">aria-keyshortcuts</span> for its number.</li>
+      <li>Roving tabindex: one option is in the tab order; ↑ ↓ move between them.</li>
+      <li>The key is decorative (<span class="chip">aria-hidden</span>); the option announces the shortcut.</li>
+      <li>The step count (“2 of 3”) is <span class="chip">aria-live="polite"</span>, so it’s announced when the question changes.</li>
+      <li>Buttons are named “Previous question”, “Next question”, “Dismiss questions” and “Submit answer”. The Something else field is named by its placeholder.</li>
+      <li>Selection shows through key border, key color and label weight together, never color alone (WCAG 1.4.1). Keyboard focus uses the active state and the focus ring.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;!-- Usually hosted by the chat container, which swaps it for the context row --&gt;
+      &lt;ats-amplify-chat-container [context]="['Tyler Brooks']" [questions]="round" (completed)="run($event)" /&gt;
+
+      &lt;ats-amplify-chat-clarifying-questions size="docked" [questions]="round"
+        (answered)="save($event)" (completed)="run($event)" (dismissed)="close()" /&gt;
+
+      round: AmplifyChatClarifyingQuestion[] = [{
+        question: 'How far from Boston should Amplify look?',
+        options: [
+          { label: 'Within 25 mi of Boston', recommended: 'Recommended · from', recordLink: 'JO-4821' },
+          { label: 'Within 50 mi of Boston' },
+          { label: 'Include remote candidates' },
+        ],
+      }];
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th><th>Outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatClarifyingQuestions</span></td><td><span class="chip">ats-amplify-chat-clarifying-questions</span></td><td><span class="chip">size</span> full page · docked (full page) · <span class="chip">questions</span>: { question, help, options, allowSomethingElse (true) }</td><td><span class="chip">answered</span>({ index, answer }) · <span class="chip">completed</span>(answers) · <span class="chip">dismissed</span>; method <span class="chip">answerCustom(text)</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatClarifyOption</span></td><td><span class="chip">button[ats-amplify-chat-clarify-option]</span></td><td><span class="chip">type</span> text · record (text) · <span class="chip">state</span> · <span class="chip">number</span> · <span class="chip">label</span> · <span class="chip">recommended</span> · <span class="chip">recordLink</span> · <span class="chip">recordLinkEntity</span> (job) · <span class="chip">description</span> · <span class="chip">entity</span> (job) · <span class="chip">fields</span></td><td>Native click</td></tr>
+        <tr><td><span class="chip">AmplifyChatClarifyKey</span></td><td><span class="chip">ats-amplify-chat-clarify-key</span></td><td><span class="chip">type</span> number · icon (number) · <span class="chip">state</span> (follows the row) · <span class="chip">number</span> (1)</td><td>—</td></tr>
+        <tr><td><span class="chip">AmplifyChatClarifySomethingElse</span></td><td><span class="chip">ats-amplify-chat-clarify-something-else</span></td><td><span class="chip">state</span> default · typing · <span class="chip">[(value)]</span> · <span class="chip">placeholder</span> (“Something else”) · <span class="chip">showSkip</span> (true)</td><td><span class="chip">submitted</span>(text) · <span class="chip">skip</span></td></tr>
+      </tbody>
+    </table>
+    <p>Each answer is { question, value, option (index, or null when typed), via: option · custom · skip }. Set <span class="chip">state</span> on options and keys only for docs; hover, focus and selection are live inside the card.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Patterns and other components">
+    <ul>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html#clarifying-questions">Chat interface patterns: Clarifying questions</a>.</li>
+      <li><a href="amplify-chat-input.html">Chat input</a>: the container that hosts the card and the “Or reply directly…” input.</li>
+      <li><a href="amplify-chat-reply.html">Reply</a>: what Amplify returns once the round is answered.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Recommending the owned job order.">Recommending the job order the recruiter owns is a proposed rule, not validated with users.</doc-callout>
+    <doc-callout type="note" heading="Question cap.">Whether the record question counts toward the 3-question cap is undecided.</doc-callout>
+    <doc-callout type="note" heading="Screen reader behaviour.">The radio group and polite step announcement are built; confirm with engineering that this matches how the product announces the card.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dropdown — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Component" title="Dropdown">
+
+  <doc-section id="overview" label="Overview" desc="What the dropdown is for">
+    <p class="lead" style="max-width:60ch">A general term for menu items or overflow experiences revealed on click: a card that holds one or more option groups. Use it to pick one action, choose a value, or tick several values in a check-list. It works with any trigger.</p>
+    <doc-example src="dropdown?component=dropdown&amp;live=true" caption="A trigger button that opens a dropdown. Try it with the keyboard" height="260"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#dropdown">Dropdown</a> + trigger</td><td>The card, positioned under its trigger, and the directive that opens it</td></tr>
+        <tr><td><a href="#optgroup">Option group</a></td><td>A group of rows: options (default) or checkboxes (check-list)</td></tr>
+        <tr><td><a href="#option">Option</a></td><td>One row: optional icon, label, check when selected</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="dropdown" label="Dropdown" desc="The card and its trigger">
+    <p>The card: <span class="chip">dropdown/color/*</span> background and border, <span class="chip">dropdown/border-radius</span>, <span class="chip">general/level 4</span>, 8 padding and option groups 8 apart. At least 180 wide; otherwise as wide as its longest option.</p>
+    <doc-example src="dropdown?component=dropdown" caption="Default: one option group" height="200"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Setting</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">role</span> <span class="chip">listbox</span> (default)</td><td>Choosing a value. Options become <span class="chip">role="option"</span> with <span class="chip">aria-selected</span></td></tr>
+        <tr><td><span class="chip">role</span> <span class="chip">menu</span></td><td>Running an action. Options become <span class="chip">role="menuitem"</span></td></tr>
+        <tr><td><span class="chip">placement</span> <span class="chip">bottom-start</span> · <span class="chip">bottom-end</span></td><td>Under the trigger, 4 below it (<span class="chip">dropdown/spacing/gap</span>), left- or right-aligned. <span class="chip">inline</span> (default) keeps it in the flow, for docs</td></tr>
+      </tbody>
+    </table>
+    <p>The trigger is any element, usually a button, with the trigger directive. It sets <span class="chip">aria-haspopup</span>, <span class="chip">aria-expanded</span> and <span class="chip">aria-controls</span>, and toggles the dropdown on click.</p>
+  </doc-section>
+
+  <doc-section id="optgroup" label="Option group" desc="Default and check-list groups">
+    <p>A group of rows inside a dropdown. Two types are built.</p>
+    <table class="tbl">
+      <thead><tr><th>Type</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">default</span></td><td>A column of options, no gap. One choice or one action</td></tr>
+        <tr><td><span class="chip">check-list</span></td><td>A column of <a href="checkbox-label.html">checkbox labels</a>. Several values at once; Space toggles</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="dropdown?component=optgroup" caption="type=default" height="170"></doc-example>
+    <doc-example src="dropdown?component=optgroup&amp;label=Companies" caption="type=default with a group label" height="190"></doc-example>
+    <doc-example src="dropdown?component=optgroup&amp;type=check-list" caption="type=check-list" height="170"></doc-example>
+    <ul>
+      <li>A group label is optional and not part of the Figma component: subtle <span class="chip">body/sm</span> medium text above the rows. It also names the group for screen readers.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="option" label="Option" desc="States and the optional icon">
+    <p>One row: an optional 16px icon, the label in <span class="chip">input/value/default</span>, and a check on the right when selected. 8 padding, 8 between icon and label, radius <span class="chip">border/radius/xsm</span>.</p>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">default</span></td><td>No fill, <span class="chip">dropdown/color/content/text/default</span></td></tr>
+        <tr><td><span class="chip">hover</span></td><td><span class="chip">dropdown/color/content/background/hover</span>, text <span class="chip">…/text/hover</span>. Keyboard focus shows the same, plus the focus ring</td></tr>
+        <tr><td><span class="chip">selected</span></td><td><span class="chip">dropdown/color/content/background/selected</span>, text <span class="chip">…/text/selected</span>, and the check</td></tr>
+        <tr><td>disabled</td><td>No fill, <span class="chip">color/text/disabled</span>; can’t be chosen</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="dropdown?component=option&amp;state=default" caption="state=default" height="60"></doc-example>
+    <doc-example src="dropdown?component=option&amp;state=hover" caption="state=hover. Hover is also live" height="60"></doc-example>
+    <doc-example src="dropdown?component=option&amp;state=selected&amp;label=Verizon" caption="state=selected" height="60"></doc-example>
+    <doc-example src="dropdown?component=option&amp;icon=add&amp;label=Add%20to%20list" caption="With an icon" height="60"></doc-example>
+    <ul>
+      <li>The option keeps its native element (button, list item or div), so its semantics stay. Use a button for actions.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior" desc="Opening, choosing and keyboard">
+    <ul>
+      <li>Clicking the trigger toggles the dropdown. Clicking outside it (not on the trigger) closes it.</li>
+      <li>Choosing an option reports its value and, by default, closes the dropdown and returns focus to the trigger. Turn <span class="chip">closeOnChoose</span> off for check-lists or multi-step choices.</li>
+      <li>Options aren’t in the tab order; the arrow keys move focus between them.</li>
+    </ul>
+    <table class="tbl">
+      <thead><tr><th>Key</th><th>On the trigger</th><th>Inside the dropdown</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">↓</span> · <span class="chip">Enter</span> · <span class="chip">Space</span></td><td>Opens on the first option</td><td><span class="chip">↓</span> next option (wraps); Enter / Space choose the focused option or toggle a checkbox</td></tr>
+        <tr><td><span class="chip">↑</span></td><td>Opens on the last option</td><td>Previous option (wraps)</td></tr>
+        <tr><td><span class="chip">Home</span> · <span class="chip">End</span></td><td>—</td><td>First · last option</td></tr>
+        <tr><td><span class="chip">Escape</span></td><td>Closes</td><td>Closes and returns focus to the trigger</td></tr>
+        <tr><td><span class="chip">Tab</span></td><td>—</td><td>Closes; focus moves on as normal</td></tr>
+      </tbody>
+    </table>
+    <p>Escape is marked as handled, so a dropdown inside a pop-over or dialog closes only itself; the enclosing <a href="amplify-chat-docked.html#pop-over">Amplify pop-over</a> stays open.</p>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Use <span class="chip">role="menu"</span> for actions and the default listbox for choosing a value.</doc-callout>
+    <doc-callout type="do" heading="Do.">Use a check-list group when the recruiter can pick several values, and keep the dropdown open while they tick.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show selection with color alone. Selected options also show the check.</doc-callout>
+    <doc-callout type="do" heading="Do.">Open it from the trigger directive, so the ARIA state and keyboard come for free.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Put options in the tab order or build a separate menu card for each trigger.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Card</td><td><span class="chip">dropdown/color/background/default</span>, <span class="chip">dropdown/color/border/default</span>, <span class="chip">dropdown/border-radius</span>, <span class="chip">dropdown/border-width</span></td><td><span class="chip">color/background/default</span>, <span class="chip">card/color/border/default</span>, <span class="chip">border/radius/sm</span>, <span class="chip">border/width/border-default</span>; shadow <span class="chip">general/level 4</span></td></tr>
+        <tr><td>Card spacing</td><td><span class="chip">dropdown/spacing/container/padding-*</span>, <span class="chip">…/container/gap</span>, <span class="chip">dropdown/spacing/gap</span></td><td><span class="chip">spacing/padding/sm</span> (8), <span class="chip">spacing/gap/sm</span> (8), trigger gap <span class="chip">spacing/gap/xsm</span> (4)</td></tr>
+        <tr><td>Option</td><td><span class="chip">dropdown/spacing/option/padding</span>, <span class="chip">…/option/gap</span></td><td><span class="chip">spacing/padding/sm</span> (8), <span class="chip">spacing/gap/sm</span> (8); radius <span class="chip">border/radius/xsm</span></td></tr>
+        <tr><td>Option color</td><td><span class="chip">dropdown/color/content/text/*</span>, <span class="chip">dropdown/color/content/background/*</span></td><td>Text <span class="chip">color/text/body</span>, hover and selected <span class="chip">color/utility/blue/800</span> on <span class="chip">color/utility/blue/100</span>; disabled <span class="chip">color/text/disabled</span>; focus <span class="chip">color/border/focus</span></td></tr>
+        <tr><td>Type</td><td>Semantic directly</td><td>Option <span class="chip">input/value/default</span>; group label <span class="chip">body/sm</span> medium, <span class="chip">color/text/subtle</span></td></tr>
+        <tr><td>Min width</td><td>No token</td><td>180</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Roles, focus and keyboard">
+    <ul>
+      <li>The panel is <span class="chip">role="listbox"</span> or <span class="chip">role="menu"</span>; options are <span class="chip">option</span> (with <span class="chip">aria-selected</span>) or <span class="chip">menuitem</span>. Disabled options have <span class="chip">aria-disabled</span>.</li>
+      <li>The trigger carries <span class="chip">aria-haspopup</span>, <span class="chip">aria-expanded</span> and <span class="chip">aria-controls</span>.</li>
+      <li>Focus moves into the dropdown on open from the keyboard and returns to the trigger on Escape or after a choice.</li>
+      <li>Option groups are <span class="chip">role="group"</span>, named by their label when there is one.</li>
+      <li>Keyboard focus shows the hover fill plus a 2px <span class="chip">color/border/focus</span> ring, inset.</li>
+      <li>The icon and check are decorative; selection is exposed through <span class="chip">aria-selected</span>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;div style="position: relative"&gt;
+        &lt;button ats-button [atsDropdownTrigger]="dd"&gt;Add to…&lt;/button&gt;
+        &lt;ats-dropdown #dd role="menu" placement="bottom-start" [(open)]="open" (chosen)="run($event)"&gt;
+          &lt;ats-optgroup&gt;
+            &lt;button ats-option value="list" icon="add"&gt;Add to list&lt;/button&gt;
+            &lt;button ats-option value="seq"&gt;Add to Outreach sequence&lt;/button&gt;
+          &lt;/ats-optgroup&gt;
+          &lt;ats-optgroup type="check-list" label="Show"&gt;
+            &lt;label ats-checkbox-label [(checked)]="details"&gt;Details&lt;/label&gt;
+          &lt;/ats-optgroup&gt;
+        &lt;/ats-dropdown&gt;
+      &lt;/div&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs and outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">Dropdown</span></td><td><span class="chip">ats-dropdown</span></td><td><span class="chip">open</span> two-way (unset: always shown) · <span class="chip">role</span> listbox · menu (listbox) · <span class="chip">placement</span> inline · bottom-start · bottom-end (inline) · <span class="chip">closeOnChoose</span> (true) · <span class="chip">anchor</span> · output <span class="chip">chosen</span> · methods <span class="chip">focusFirst()</span>, <span class="chip">focusLast()</span>, <span class="chip">close()</span></td></tr>
+        <tr><td><span class="chip">DropdownTrigger</span></td><td><span class="chip">[atsDropdownTrigger]</span></td><td>The dropdown to open</td></tr>
+        <tr><td><span class="chip">DropdownOptgroup</span></td><td><span class="chip">ats-optgroup</span></td><td><span class="chip">type</span> default · check-list (default) · <span class="chip">label</span></td></tr>
+        <tr><td><span class="chip">DropdownOption</span></td><td><span class="chip">button[ats-option]</span>, <span class="chip">li[ats-option]</span>, <span class="chip">div[ats-option]</span></td><td><span class="chip">value</span> · <span class="chip">icon</span> · <span class="chip">selected</span> · <span class="chip">disabled</span> · <span class="chip">state</span> default · hover · selected (docs only; hover is live) · output <span class="chip">chosen</span></td></tr>
+      </tbody>
+    </table>
+    <p>With <span class="chip">placement</span> under a trigger, the trigger’s wrapper must be <span class="chip">position: relative</span>. Without the trigger directive, pass the opening element as <span class="chip">anchor</span> and call <span class="chip">focusFirst()</span> yourself.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Where it’s used">
+    <ul>
+      <li><a href="amplify-chat-selection.html">Amplify selection</a>: the selection split button opens a dropdown (menu, bottom-end) of bulk actions.</li>
+      <li><a href="checkbox-label.html">Checkbox label</a>: the rows of a check-list group.</li>
+      <li><a href="menu.html">Menu</a>: the app menus in the Bowling Alley.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Not built yet">
+    <doc-callout type="note" heading="Not built yet.">Dropdown headers (tabs, search), dropdown footers, the facet filter dropdown, the fast-add option (an entity icon row; the menu’s entity option covers it today), and the nested check-list and drag-and-drop option groups. Confirm which are needed and when.</doc-callout>
+    <doc-callout type="note" heading="Group labels.">The optional group label isn’t in the Figma component. Confirm its style, or whether it should stay screen-reader only.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

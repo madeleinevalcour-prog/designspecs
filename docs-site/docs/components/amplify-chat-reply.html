@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reply — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Reply">
+
+  <doc-section id="overview" label="Overview" desc="What a reply is made of">
+    <p class="lead" style="max-width:60ch">The chat block is one full Amplify reply: identity, the body, sources, follow-ups and message controls, always in that order, so replies are predictable to scan and the answer comes first. The user turn places the recruiter’s message in the same column.</p>
+    <doc-example src="amplify-chat-reply?example=prose" caption="A reply: answer, heading, list, sources, follow-ups, controls" height="380"></doc-example>
+    <p>The rules are in <a href="../amplify/amplify-chat-interface-patterns.html#response-structure">Chat interface patterns</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#chat-block">Chat block</a></td><td>The full Amplify reply, plus its thinking state</td></tr>
+        <tr><td><a href="#user-turn">User turn</a></td><td>A full-width row that right-aligns the recruiter’s message bubble</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="chat-block" label="Chat block" desc="Anatomy of a reply">
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>What it is</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td>Identity</td><td>Amplify icon (<span class="chip">Icon/Amplify Radial</span>, 16) and “Amplify” in <span class="chip">body/sm-medium</span>, <span class="chip">color/text/secondary</span></td><td>Always</td></tr>
+        <tr><td>Answer</td><td>The first line states the result in one sentence. Record names are entity links</td><td>Always</td></tr>
+        <tr><td>Section heading</td><td>One level only</td><td>3 or more parts to scan between</td></tr>
+        <tr><td>Evidence</td><td>Data table, cards or list</td><td>When the answer needs it</td></tr>
+        <tr><td>Rationale</td><td>One line on how it was ranked or filtered</td><td>Under evidence</td></tr>
+        <tr><td>Draft or literal value block</td><td>Text to edit, or a value to copy exactly</td><td>When Amplify writes something</td></tr>
+        <tr><td>Sources row</td><td>“Based on 14 job orders · Updated today”, expands to the list</td><td>When the answer uses records</td></tr>
+        <tr><td>Follow-up chips</td><td>2–3 next steps (Button, Secondary, Small, pill); a click sends that prompt</td><td>Instead of “Want me to…?” in prose</td></tr>
+        <tr><td>Message controls</td><td>Copy, Thumbs up, Thumbs down, Save prompt, in that order; optional right-aligned primary action</td><td>Always (the action only when a reply proposes one)</td></tr>
+      </tbody>
+    </table>
+    <p>The body is projected: answer, headings, lists, evidence and blocks are the other Amplify chat components, placed in order. Everything, prose included, uses the full chat column (800 max).</p>
+    <doc-example src="amplify-chat-reply?example=table" caption="Evidence as a data table, with sources" height="460"></doc-example>
+    <doc-example src="amplify-chat-reply?example=cards" caption="Evidence as cards" height="460"></doc-example>
+    <doc-example src="amplify-chat-reply?example=draft" caption="A draft block to edit" height="420"></doc-example>
+    <doc-example src="amplify-chat-reply?example=literal" caption="A literal value block to copy" height="240"></doc-example>
+    <doc-example src="amplify-chat-reply?example=prose&amp;followUps=false&amp;actions=false&amp;action=Accept%20Updates" caption="Without follow-ups or controls, with a primary action" height="300"></doc-example>
+  </doc-section>
+
+  <doc-section id="controls" label="Message controls" desc="Copy, feedback and Save prompt">
+    <table class="tbl">
+      <thead><tr><th>Control</th><th>Behaviour</th></tr></thead>
+      <tbody>
+        <tr><td>Copy</td><td>Copies the reply body’s visible text. The icon turns to a check for 1.5s and “Copied” is announced</td></tr>
+        <tr><td>Thumbs up · Thumbs down</td><td>Toggles. Pressing one clears the other; pressing the pressed one clears it. The pressed one shows the active state</td></tr>
+        <tr><td>Save prompt</td><td>A toggle. The bookmark is outlined, then filled once the prompt is saved</td></tr>
+        <tr><td>Primary action (optional)</td><td>Right-aligned Button, Primary, Small, pill, naming the action, e.g. “Accept Updates”</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-reply?example=literal&amp;followUps=false" caption="Try the controls: thumbs and Save prompt toggle" height="200"></doc-example>
+    <ul>
+      <li>No retry control and no feedback request in prose.</li>
+      <li>Stop is not a reply control. It lives in the chat input, next to Send, while the reply generates.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="thinking" label="Thinking state" desc="The status line while generating">
+    <p>While a reply generates, the block shows only the status line: the Amplify icon and the current step in <span class="chip">body/sm</span>, <span class="chip">color/text/secondary</span>. Identity, body, footer and controls are hidden until the reply arrives, then the status line is replaced.</p>
+    <doc-example src="amplify-chat-reply?example=status" caption="Thinking: the current step" height="60"></doc-example>
+    <ul>
+      <li>Name the step: “Searching open jobs…”, then “Ranking 14 job orders…”. Never “Amplify is thinking…”.</li>
+      <li>Never link blue: blue means clickable.</li>
+      <li>Stop shows in the <a href="amplify-chat-input.html#button-row">chat input</a> while this state is on.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="user-turn" label="User turn" desc="The recruiter’s message row">
+    <p>A full-width row in the chat column that right-aligns the user bubble. The bubble hugs its text up to 440, then wraps. Turns sit <span class="chip">spacing/gap/xlg</span> (32) apart; that spacing belongs to the conversation column, not the row.</p>
+    <doc-example src="amplify-chat-reply?example=user-turn" caption="A user turn: the bubble right-aligned in the chat column"></doc-example>
+  </doc-section>
+
+  <doc-section id="layout" label="Spacing and layout" desc="Gaps inside a reply and column width">
+    <table class="tbl">
+      <thead><tr><th>Relationship</th><th>Token</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Between groups (identity, body, footer, controls)</td><td><span class="chip">spacing/gap/md</span></td><td>16</td></tr>
+        <tr><td>Identity icon to name</td><td><span class="chip">spacing/gap/xsm</span></td><td>4</td></tr>
+        <tr><td>Paragraph to a block (list, table, cards, draft)</td><td><span class="chip">spacing/gap/md</span></td><td>16</td></tr>
+        <tr><td>Paragraph to paragraph, heading to its content</td><td><span class="chip">spacing/gap/sm</span></td><td>8</td></tr>
+        <tr><td>Above a section heading</td><td><span class="chip">spacing/gap/md</span> + <span class="chip">spacing/padding/sm</span></td><td>24</td></tr>
+        <tr><td>Sources row to follow-up chips, between chips</td><td><span class="chip">spacing/gap/sm</span></td><td>8</td></tr>
+        <tr><td>Between turns</td><td><span class="chip">spacing/gap/xlg</span></td><td>32</td></tr>
+      </tbody>
+    </table>
+    <table class="tbl">
+      <thead><tr><th>Element</th><th>Width</th></tr></thead>
+      <tbody>
+        <tr><td>Chat column</td><td>800 max, centered</td></tr>
+        <tr><td>Prose, tables, cards, blocks</td><td>Full column width, left-aligned</td></tr>
+        <tr><td>User bubble</td><td>Up to 440, right-aligned</td></tr>
+        <tr><td>Narrow windows</td><td>Available width minus <span class="chip">spacing/margin</span> (24) each side</td></tr>
+        <tr><td>Docked chat</td><td>Fills the panel minus its side padding</td></tr>
+      </tbody>
+    </table>
+    <p>Messages, tables and the composer share the same edges, so the conversation reads as one column. Keep paragraphs short so full-width lines stay readable.</p>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Answer in the first line, in one sentence. If Amplify can’t help, say so there with the cause and a fix.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Open with a filler line or a heading.</doc-callout>
+    <doc-callout type="do" heading="Do.">Offer 2–3 follow-up chips for next steps.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Ask “Want me to…?” or request feedback in prose.</doc-callout>
+    <doc-callout type="do" heading="Do.">Show the sources row when the answer uses records.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show sources for clarifying questions, product help or “nothing found” replies.</doc-callout>
+    <doc-callout type="do" heading="Do.">Let prose use the full 800 column, the same as tables and cards.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Put Stop or a retry control in the reply.</doc-callout>
+    <p>The smallest reply is identity, a one-sentence answer and the controls. Add the rest only when the content needs it.</p>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Block</td><td><span class="chip">amplify-chat/chat-block/spacing/gap</span></td><td><span class="chip">spacing/gap/md</span></td></tr>
+        <tr><td>Identity</td><td><span class="chip">…/identity/typography/*</span>, <span class="chip">…/identity/color/content</span>, <span class="chip">…/identity/spacing/gap</span></td><td><span class="chip">body/sm</span> (weight medium), <span class="chip">color/text/secondary</span>, <span class="chip">spacing/gap/xsm</span></td></tr>
+        <tr><td>Answer, section</td><td><span class="chip">…/answer/spacing/gap</span>, <span class="chip">…/section/spacing/gap</span>, <span class="chip">…/section/spacing/padding-top</span></td><td><span class="chip">spacing/gap/sm</span>, <span class="chip">spacing/padding/sm</span></td></tr>
+        <tr><td>Footer, follow-ups</td><td><span class="chip">…/footer/spacing/gap</span>, <span class="chip">…/footer/follow-ups/spacing/gap</span></td><td><span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td>Controls</td><td><span class="chip">…/controls/spacing/gap</span>, <span class="chip">…/actions/spacing/gap</span>, <span class="chip">…/actions/color/content</span></td><td><span class="chip">spacing/8</span>, <span class="chip">button/spacing/default/gap</span>, <span class="chip">icon-button/color/icon/content/default</span></td></tr>
+        <tr><td>Identity icon</td><td>No token</td><td>Amplify radial gradient, stops from the asset <span class="chip">amplify.svg</span></td></tr>
+        <tr><td>User turn</td><td>No token</td><td>Layout only; bubble tokens are on the user bubble</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Roles, names and toggles">
+    <ul>
+      <li>The block is <span class="chip">role="article"</span> named “Amplify reply”; while thinking it’s “Amplify is working” with <span class="chip">aria-busy</span>. The status line is <span class="chip">role="status"</span>, so each step is announced politely.</li>
+      <li>Controls are named “Copy reply” (“Copied” after), “Good response”, “Bad response” and “Save prompt”. Thumbs and Save prompt expose <span class="chip">aria-pressed</span>.</li>
+      <li>“Copied” is announced through a polite live region.</li>
+      <li>Follow-up chips are a group named “Suggested follow-ups”.</li>
+      <li>The identity icon is decorative; the “Amplify” label names the speaker.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-user-turn&gt;
+        &lt;ats-amplify-chat-user-bubble&gt;Make a list of the open jobs I should prioritize today&lt;/ats-amplify-chat-user-bubble&gt;
+      &lt;/ats-amplify-chat-user-turn&gt;
+
+      &lt;ats-amplify-chat-chat-block sourcesSummary="Based on 14 job orders · Updated today" [sources]="jobs"
+        [followUps]="['Show all 14', 'Find matches for #1', 'Why this order?']" (followUp)="send($event)"
+        [(saved)]="saved" (feedback)="rate($event)"&gt;
+        &lt;ats-amplify-chat-text&gt;5 of your 14 open jobs need action today.&lt;/ats-amplify-chat-text&gt;
+        &lt;ats-amplify-chat-header&gt;Needs Attention Today&lt;/ats-amplify-chat-header&gt;
+        &lt;ol ats-amplify-chat-numbered-list&gt;
+          &lt;li ats-amplify-chat-list-item&gt;Senior Java Developer at Verizon starts Oct 6 with no submittals.&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/ats-amplify-chat-chat-block&gt;
+
+      &lt;ats-amplify-chat-chat-block status="Ranking 14 job orders…" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th><th>Outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatChatBlock</span></td><td><span class="chip">ats-amplify-chat-chat-block</span></td><td><span class="chip">status</span> (thinking) · <span class="chip">sourcesSummary</span> · <span class="chip">sources</span> · <span class="chip">followUps</span> · <span class="chip">showActions</span> (true) · <span class="chip">actionLabel</span> · <span class="chip">actionIcon</span> · <span class="chip">[(saved)]</span> (false)</td><td><span class="chip">followUp</span>(text) · <span class="chip">copied</span>(text) · <span class="chip">feedback</span>(up · down · null) · <span class="chip">savePrompt</span>(boolean) · <span class="chip">action</span> · <span class="chip">sourceClick</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatUserTurn</span></td><td><span class="chip">ats-amplify-chat-user-turn</span></td><td>— (projects the user bubble)</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>The block fills its parent; the conversation column sets the 800 max and the 32 between turns.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Patterns and other components">
+    <ul>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#response-structure">response structure</a>, <a href="../amplify/amplify-chat-interface-patterns.html#status">status and loading</a>, <a href="../amplify/amplify-chat-interface-patterns.html#spacing">spacing and layout</a>, <a href="../amplify/amplify-chat-interface-patterns.html#records">records and sources</a>, <a href="../amplify/amplify-chat-interface-patterns.html#user-messages">user messages</a>.</li>
+      <li><a href="amplify-chat-text.html">Text</a>: headings, paragraphs, status line, entity links and lists inside the body.</li>
+      <li><a href="amplify-chat-input.html">Chat input</a>: where Stop lives while a reply generates.</li>
+    </ul>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selection — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Selection">
+
+  <doc-section id="overview" label="Overview" desc="What the selection parts are for">
+    <p class="lead" style="max-width:60ch">The bar that appears under a chat table or card stack once records are selected: the selection count on the left and a split button on the right that names the action and the count. The table and the card stack use the same bar, so selection works the same in both.</p>
+    <doc-example src="amplify-chat-selection?component=selection-bar&amp;count=5&amp;total=5" caption="5 of 5 selected, “Add 5 Contacts”" height="70"></doc-example>
+    <p>The rules are in <a href="../amplify/amplify-chat-interface-patterns.html#selection">Chat interface patterns, Selection and bulk actions</a>. That page wins over the earlier <a href="../amplify/amplify-chat-record-actions.html">record actions</a> study where they differ: the label is Title case and the bar is hidden at zero.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#selection-bar">Selection bar</a></td><td>Count (or the page range), optional pager, and the split button</td></tr>
+        <tr><td><a href="#split-button">Selection split button</a></td><td>Two primary small Buttons: the default action, and a chevron that opens related actions</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="selection-bar" label="Selection bar" desc="Appearances, pager and visibility">
+    <table class="tbl">
+      <thead><tr><th>Appearance</th><th>Where</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">attached</span> (default)</td><td>Inside the <a href="amplify-chat-data-table.html">data table</a> card, under the last row</td><td>A top divider; takes the card’s bottom corners</td></tr>
+        <tr><td><span class="chip">card</span></td><td>Under a <a href="amplify-chat-cards.html">card stack</a>, 8 below the last card</td><td>Its own bordered card, <span class="chip">border/radius/sm</span>, <span class="chip">general/level 2</span> shadow</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-selection?component=selection-bar&amp;appearance=attached&amp;count=3&amp;total=10" caption="appearance=attached: 3 of 10 selected" height="70"></doc-example>
+    <doc-example src="amplify-chat-selection?component=selection-bar&amp;appearance=card&amp;count=5&amp;total=5" caption="appearance=card" height="70"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Selected</th><th>Paged?</th><th>Bar</th></tr></thead>
+      <tbody>
+        <tr><td>0</td><td>No</td><td>Hidden, count and button together</td></tr>
+        <tr><td>0</td><td>Yes (card stack)</td><td>The range (“1–3 of 8”) and the pager only. No button</td></tr>
+        <tr><td>1 or more</td><td>Either</td><td>“N of M selected”, the pager if paged, and the split button</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-selection?component=selection-bar&amp;count=0&amp;pageCount=3" caption="Nothing selected, paged: range and pager only" height="70"></doc-example>
+    <doc-example src="amplify-chat-selection?component=selection-bar&amp;count=2&amp;total=8&amp;pageCount=3&amp;page=2" caption="2 of 8 selected on page 2 of 3" height="70"></doc-example>
+    <ul>
+      <li>The count reads “N of M selected” in <span class="chip">meta/small</span>, uppercase. M is every record in the table or stack, across pages.</li>
+      <li>The pager is previous, up to five page numbers, then next. It only appears for a paged card stack.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="split-button" label="Selection split button" desc="Label, menu and states">
+    <p>Two primary small <a href="button.html">Buttons</a> 1px apart, rounded on the outer sides only. The left segment runs the default action; the chevron opens a menu of related actions.</p>
+    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=1" caption="1 selected: “Add 1 Contact”" height="60"></doc-example>
+    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5" caption="5 selected: “Add 5 Contacts”" height="60"></doc-example>
+    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=3&amp;verb=Add&amp;noun=Candidate" caption="verb and noun set the wording: “Add 3 Candidates”" height="60"></doc-example>
+    <ul>
+      <li>The label is verb + count + noun, Title case: “Add 5 Contacts”. It follows the selection live; the noun is singular for 1.</li>
+      <li>With nothing selected the button is hidden, and so is the bar.</li>
+      <li>No check icon on the button. Nothing has happened yet.</li>
+    </ul>
+    <p>The menu is the ATS <a href="dropdown.html">Dropdown</a> (dropdown, optgroup, option), right-aligned under the chevron, the same component as other ATS dropdowns. Hold about 2–4 related actions, each verb first. With no actions the chevron is disabled.</p>
+    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=3&amp;open=true" caption="Menu open. “Add to Outreach sequence” is higher risk, so it says “Review first”" height="200"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Risk</th><th>What happens on click</th></tr></thead>
+      <tbody>
+        <tr><td>Default action, such as Add 5 Contacts</td><td>Low</td><td>Runs in one click</td></tr>
+        <tr><td>Menu action, such as Add to list</td><td>Low</td><td>Runs in one click</td></tr>
+        <tr><td>Menu action marked <span class="chip">preview</span>, such as Add to Outreach sequence</td><td>Higher</td><td>Opens an action preview before anything runs. The menu item adds “· Review first”</td></tr>
+      </tbody>
+    </table>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td>default · hover · focus · active</td><td>The primary small Button states, on both segments. Hover and focus are live</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=hover" caption="state=hover" height="60"></doc-example>
+    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=focus" caption="state=focus" height="60"></doc-example>
+    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=active" caption="state=active" height="60"></doc-example>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Interaction and keyboard">
+    <ul>
+      <li>Selecting records never writes to Bullhorn. An action runs only when the recruiter clicks the button or a menu item.</li>
+      <li>The count and the label update as the selection changes.</li>
+      <li>Tables select all from the header checkbox; card stacks have no select-all.</li>
+      <li>Selection belongs to the records. Follow-up chips and response controls don’t change with it.</li>
+    </ul>
+    <table class="tbl">
+      <thead><tr><th>Key</th><th>On</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Enter · Space</td><td>Default segment</td><td>Runs the default action</td></tr>
+        <tr><td>Enter · Space · ArrowDown</td><td>Chevron</td><td>Opens the menu and focuses the first item</td></tr>
+        <tr><td>ArrowUp · ArrowDown · Home · End</td><td>Menu</td><td>Moves between items</td></tr>
+        <tr><td>Enter · Space</td><td>Menu item</td><td>Runs that action (or opens its review)</td></tr>
+        <tr><td>Escape</td><td>Menu</td><td>Closes it and returns focus to the chevron</td></tr>
+        <tr><td>Tab · click outside</td><td>Menu</td><td>Closes it</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Show checkboxes and the bar only when the reply offers a bulk action.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Keep an empty bar or a disabled “Select contacts to add” button on screen at zero.</doc-callout>
+    <doc-callout type="do" heading="Do.">Name the verb and the count in Title case: “Add 5 Contacts”.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use a single button with a chevron, or add a check icon to the button.</doc-callout>
+    <doc-callout type="do" heading="Do.">Mark higher-risk menu actions as preview, so they say “Review first” and open a review before running.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Write to Bullhorn when records are selected, or put the action on the follow-up row.</doc-callout>
+    <doc-callout type="do" heading="Do.">Use a split button when one action is clearly the default and there are about 2–4 others.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Build a custom menu. Use the ATS Dropdown.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>The selection parts have no Amplify component tokens. The bar uses the Data Table pagination tokens; the split button uses the primary small Button and the Dropdown.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Selection bar</td><td><span class="chip">pagination/min-height</span>, <span class="chip">pagination/spacing/padding-vertical</span> · <span class="chip">padding-horizontal</span>, <span class="chip">pagination/color/background/default</span></td><td><span class="chip">spacing/40</span>, <span class="chip">spacing/padding/sm</span> (8) · <span class="chip">spacing/padding/md</span> (16), <span class="chip">data-table/color/background/default</span>; gap <span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td>Bar border</td><td><span class="chip">pagination/border-width/default</span>, <span class="chip">pagination/color/border/default</span></td><td><span class="chip">border/width/border-default</span>, <span class="chip">color/border/default</span>; card radius <span class="chip">dropdown/border-radius</span> (<span class="chip">border/radius/sm</span>), shadow <span class="chip">general/level 2</span></td></tr>
+        <tr><td>Count and pages</td><td><span class="chip">pagination/color/content/label</span></td><td><span class="chip">color/text/subtle</span>, <span class="chip">meta/small</span> at <span class="chip">font-size/12</span>; current page <span class="chip">color/background/subtle</span> with a <span class="chip">color/border/default</span> border, radius <span class="chip">border/radius/xsm</span></td></tr>
+        <tr><td>Split button</td><td><a href="button.html">Button</a>, primary, small</td><td>Outer corners <span class="chip">border/radius/round</span>; menu <a href="dropdown.html">Dropdown</a> tokens; “Review first” hint <span class="chip">color/text/subtle</span></td></tr>
+        <tr><td>Segment gap, page size</td><td>No token</td><td>1px between segments; 24px page buttons</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Roles, names and announcements">
+    <ul>
+      <li>The bar is a region named “Selection”. Its count is <span class="chip">aria-live="polite"</span>, so changes are announced.</li>
+      <li>The split button is a <span class="chip">role="group"</span>. The chevron is a menu button (<span class="chip">aria-haspopup</span>, <span class="chip">aria-expanded</span>) named “More actions for N selected”.</li>
+      <li>The menu is <span class="chip">role="menu"</span> with menu items; the “Review first” hint is part of the item’s name.</li>
+      <li>The pager is a <span class="chip">nav</span> named “Pages, page X of Y”; page buttons are named “Page N” and the current one has <span class="chip">aria-current="page"</span>. Previous and next are disabled at the ends.</li>
+      <li>The bar is removed with <span class="chip">hidden</span> at zero, so screen readers don’t reach an empty bar.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-selection-bar [count]="ids.length" [total]="records.length" noun="Contact"
+          [actions]="actions" (primary)="add()" (action)="run($event)" /&gt;
+
+      &lt;ats-amplify-chat-selection-split-button verb="Add" noun="Contact" [count]="selected().length"
+          [actions]="[{ id: 'list', label: 'Add to list' }, { id: 'seq', label: 'Add to Outreach sequence', preview: true }]"
+          (primary)="addContacts()" (action)="run($event)" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatSelectionBar</span></td><td><span class="chip">ats-amplify-chat-selection-bar</span></td><td><span class="chip">count</span> (0) · <span class="chip">total</span> (count) · <span class="chip">appearance</span> attached · card (attached) · <span class="chip">pageCount</span> · <span class="chip">page</span> (two-way, 1) · <span class="chip">idleLabel</span> · <span class="chip">verb</span> · <span class="chip">noun</span> · <span class="chip">nounPlural</span> · <span class="chip">label</span> · <span class="chip">actions</span> · <span class="chip">previewHint</span> · <span class="chip">open</span> (two-way)</td></tr>
+        <tr><td><span class="chip">AmplifyChatSelectionSplitButton</span></td><td><span class="chip">ats-amplify-chat-selection-split-button</span></td><td><span class="chip">count</span> (0) · <span class="chip">verb</span> (Add) · <span class="chip">noun</span> (Contact) · <span class="chip">nounPlural</span> (noun + s) · <span class="chip">label</span> (full override) · <span class="chip">actions</span> · <span class="chip">previewHint</span> (Review first) · <span class="chip">open</span> (two-way) · <span class="chip">state</span> hover · focus · active (docs only)</td></tr>
+      </tbody>
+    </table>
+    <p>An action is <span class="chip">{ id, label, icon?, preview? }</span>. Outputs: <span class="chip">primary</span> emits the count, <span class="chip">action</span> the chosen action. The <a href="amplify-chat-data-table.html">data table</a> and <a href="amplify-chat-cards.html">chat cards</a> place the bar themselves and pass the selected records on.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Components and rules">
+    <ul>
+      <li><a href="amplify-chat-data-table.html">Data table</a> and <a href="amplify-chat-cards.html">Cards</a>: where the bar appears.</li>
+      <li><a href="dropdown.html">Dropdown</a> and <a href="button.html">Button</a>: the parts of the split button.</li>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html#selection">Chat interface patterns, Selection and bulk actions</a>: the rules. They win over <a href="../amplify/amplify-chat-record-actions.html">record actions</a>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Completion state and undo aren’t built.">The record-actions study has the bar turn into a confirmation (“5 contacts added to Bullhorn”) with Undo, and low-risk actions rely on that undo. Confirm whether it moves into these components.</doc-callout>
+    <doc-callout type="note" heading="Action preview.">“Review first” items should open an action preview, which doesn’t exist yet. Confirm its design.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

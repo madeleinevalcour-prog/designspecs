@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data table — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Data table">
+
+  <doc-section id="overview" label="Overview" desc="What the chat table is for">
+    <p class="lead" style="max-width:60ch">The table Amplify uses to show 2–10 records compared on the same short fields, such as prospect contacts from a Prospect search. It sits in a card, is built from the <a href="data-table.html">Data Table</a> cells, and carries its own selection and selection bar. Chat tables have no sort, filter or minimum column width.</p>
+    <doc-example src="amplify-chat-data-table?component=data-table&amp;rows=4" caption="Four prospects, nothing selected" height="250"></doc-example>
+    <p>The rules for when to use a table instead of cards or prose are in <a href="../amplify/amplify-chat-interface-patterns.html#data-table">Chat interface patterns</a>. That page wins where the two differ. For the base cells, states and measurements, see <a href="data-table.html">Data Table</a>.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#data-table">Data table</a></td><td>The card: header row, rows and the selection bar. Owns the selection</td></tr>
+        <tr><td><a href="#header-row">Header row</a></td><td>Select-all checkbox, an empty preview column and one label-only header cell per column</td></tr>
+        <tr><td><a href="#row">Row</a></td><td>One record: checkbox, preview (binoculars), name, In Bullhorn status and plain values</td></tr>
+        <tr><td><a href="amplify-chat-selection.html">Selection bar</a></td><td>Shown under the rows once something is selected. Documented on its own page</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="data-table" label="Data table" desc="Variants, widths and limits">
+    <p>A card (card border, <span class="chip">border/radius/sm</span> (8), a 0 2 4 shadow, 800 wide at most) holding a native table and the attached selection bar.</p>
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Values</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>Variant</td><td><span class="chip">default</span> · <span class="chip">selected</span></td><td>Nothing selected: no bar. One or more selected: the bar appears with the count and the split button</td></tr>
+        <tr><td><span class="chip">width</span></td><td><span class="chip">full</span> (default) · <span class="chip">docked</span></td><td>Full-page chat shows up to 6 columns. Docked chat shows up to 4 and defaults to name, In Bullhorn, job title and email</td></tr>
+        <tr><td><span class="chip">selectable</span></td><td>true (default) · false</td><td>Off when the reply offers no bulk action: no checkboxes and no bar</td></tr>
+        <tr><td><span class="chip">showPreview</span></td><td>true (default) · false</td><td>The binoculars column. Keep it whenever the rows are records</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-data-table?component=data-table&amp;variant=selected" caption="Variant selected: all 10 selected, the bar shows “10 of 10 selected” and “Add 10 Contacts”" height="520"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=data-table&amp;variant=some&amp;rows=5" caption="Some selected: the header checkbox is indeterminate" height="300"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=data-table&amp;width=docked&amp;rows=4" caption="width=docked: 4 columns" height="250"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=data-table&amp;rows=3&amp;selectable=false&amp;columns=name,title,email" caption="selectable=false: no bulk action, so no checkboxes and no bar" height="200"></doc-example>
+    <ul>
+      <li>At most 4 columns in docked chat and 6 in full-page chat. The record name is always the first column.</li>
+      <li>At most 10 rows. With more results, the reply shows the first 10, “Showing 10 of N” in <span class="chip">meta/default</span> and a “Show more” chip.</li>
+      <li>No sort or filter controls. The table summarizes the answer; deeper work happens in the full list view.</li>
+      <li>Columns have no minimum width. The table scrolls sideways inside the card if it has to.</li>
+      <li>Row dividers only: no vertical lines. All columns are left-aligned.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="header-row" label="Header row" desc="Select-all and column labels">
+    <p>The first row of the table. Header cells show the label only, in <span class="chip">input/label/md</span> (uppercase). The select-all checkbox is checked, indeterminate or empty to match the selection.</p>
+    <doc-example src="amplify-chat-data-table?component=header-row" caption="All five columns" height="60"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=header-row&amp;columns=name,inBullhorn,title,email" caption="Docked columns" height="60"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=header-row&amp;selectable=false" caption="selectable=false: no select-all" height="60"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Column</th><th>Label</th><th>Content</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">name</span></td><td>Name</td><td>24px avatar (photo, else initials) and the record-name link</td></tr>
+        <tr><td><span class="chip">inBullhorn</span></td><td>In Bullhorn?</td><td>Circle and status text, see <a href="#row">Row</a></td></tr>
+        <tr><td><span class="chip">title</span></td><td>Job Title</td><td>Plain value</td></tr>
+        <tr><td><span class="chip">mobilePhone</span></td><td>Mobile Phone</td><td>Plain value, or a Reveal link</td></tr>
+        <tr><td><span class="chip">email</span></td><td>Email</td><td>Plain value, or a Reveal link</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="row" label="Row" desc="Prospect rows and In Bullhorn status">
+    <p>One prospect per row. Both looks come from the same row; the record’s data decides which one shows.</p>
+    <table class="tbl">
+      <thead><tr><th>In Bullhorn?</th><th>Circle</th><th>Missing phone or email</th></tr></thead>
+      <tbody>
+        <tr><td>“Existing Contact”: already a Contact in Bullhorn</td><td><span class="chip">color/entity/contact</span></td><td>“Not on file” in <span class="chip">color/text/disabled</span></td></tr>
+        <tr><td>“Not in Bullhorn”: a prospect only</td><td>Neutral grey, <span class="chip">color/entity/task</span></td><td>An Amplify “Reveal Phone Number” or “Reveal Email” link</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-data-table?component=row&amp;variant=existing" caption="Existing Contact: every value on file" height="60"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=row&amp;variant=not-in-bh" caption="Not in Bullhorn: Reveal links for phone and email" height="60"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=row&amp;variant=both&amp;selected=true" caption="Selected rows" height="100"></doc-example>
+    <doc-example src="amplify-chat-data-table?component=row&amp;variant=existing&amp;state=hover" caption="state=hover. Hover is also live" height="60"></doc-example>
+    <ul>
+      <li>The status is text plus a circle, never color alone.</li>
+      <li>Reveal links use the link style with the Amplify sparkle. They only appear when the prospect isn’t in Bullhorn and the value is unknown.</li>
+      <li>Cell values are never bold.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Selection, preview, links and keyboard">
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Row checkbox</td><td>Toggles that row. The bar’s count and the button label update live</td></tr>
+        <tr><td>Header checkbox</td><td>Selects every visible row, or clears them all</td></tr>
+        <tr><td>Binoculars</td><td>Opens the record slideout. Chat stays open beside it</td></tr>
+        <tr><td>Record name</td><td>Opens the record’s full page</td></tr>
+        <tr><td>Reveal link</td><td>Asks Amplify for the missing phone number or email</td></tr>
+        <tr><td>Split button</td><td>Runs the action on the selected rows. Selecting never writes to Bullhorn on its own. See <a href="amplify-chat-selection.html">Selection</a></td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Every control is a native checkbox or button: Tab moves between them, Space toggles a checkbox, Enter or Space activates a button.</li>
+      <li>Hover changes the row background to <span class="chip">data-table/color/background/hover</span>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Use a table to compare 2–10 records on the same short fields: a name, date, ID, status.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use a table when each record needs a reason it was picked or several chips. Use <a href="amplify-chat-cards.html">cards</a>.</doc-callout>
+    <doc-callout type="do" heading="Do.">Keep to 4 columns docked and 6 full page, with the record name first.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Add sort, filter or column menus, or show more than 10 rows.</doc-callout>
+    <doc-callout type="do" heading="Do.">Show checkboxes only when the reply offers a bulk action.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Build a custom markdown table style or override the table’s tokens.</doc-callout>
+    <doc-callout type="do" heading="Do.">Show an empty value as “Not on file”, or a Reveal link for a prospect not in Bullhorn.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show one set of records as both a table and cards.</doc-callout>
+  </doc-section>
+
+  <doc-section id="content" label="Content" desc="Labels and empty values">
+    <ul>
+      <li>Header labels are Title case in the source (“Job Title”) and render uppercase.</li>
+      <li>Status text is exactly “Existing Contact” or “Not in Bullhorn”.</li>
+      <li>Reveal links read “Reveal Phone Number” and “Reveal Email”.</li>
+      <li>Empty values read “Not on file”, never “—”.</li>
+      <li>Over 10 results: “Showing 10 of N” under the table, then a “Show more” chip.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token. Cell type, padding and gaps come from the base <a href="data-table.html#tokens">Data Table</a> tokens.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Data table card</td><td><span class="chip">amplify-chat/data-table/color/border</span>, <span class="chip">…/border-radius</span>, <span class="chip">…/effects/shadow-1/*</span></td><td><span class="chip">card/color/border/default</span>, <span class="chip">border/radius/sm</span>, shadow 0 <span class="chip">spacing/2</span> <span class="chip">spacing/4</span> <span class="chip">color/transparency/charcoal/charcoal-04</span></td></tr>
+        <tr><td>Header row</td><td><span class="chip">amplify-chat/data-table-header-row/color/background</span>, <span class="chip">…/color/border</span></td><td><span class="chip">data-table/color/background/default</span>, <span class="chip">data-table/color/border/default</span></td></tr>
+        <tr><td>Row</td><td><span class="chip">amplify-chat/data-table-row/color/background</span>, <span class="chip">…/color/border</span></td><td><span class="chip">data-table/color/background/default</span>, <span class="chip">data-table/color/border/default</span>; hover <span class="chip">data-table/color/background/hover</span></td></tr>
+        <tr><td>Name cell</td><td><span class="chip">amplify-chat/data-table-row/novo-data-table-cell/spacing/gap</span></td><td><span class="chip">link-text/spacing/gap/default</span> (4); link <span class="chip">link-text/color/default</span> · <span class="chip">hover</span>; avatar <span class="chip">avatar/*</span></td></tr>
+        <tr><td>In Bullhorn circle</td><td><span class="chip">amplify-chat/data-table-row/novo-data-table-cell/link-text/circle/vector/color/content/icon</span></td><td><span class="chip">color/entity/contact</span> (Existing Contact), <span class="chip">color/entity/task</span> (Not in Bullhorn); text <span class="chip">data-table/color/content/default</span></td></tr>
+        <tr><td>Empty value</td><td>Semantic directly</td><td><span class="chip">color/text/disabled</span></td></tr>
+        <tr><td>Reveal sparkle</td><td>No token</td><td>Amplify radial gradient, as in the Icon Container</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Table semantics and labels">
+    <ul>
+      <li>A native <span class="chip">&lt;table&gt;</span> with <span class="chip">&lt;th scope="col"&gt;</span> headers. Give it an accessible name with <span class="chip">label</span> (default “Records”).</li>
+      <li>Checkboxes are named “Select all” and “Select &lt;name&gt;”. The preview button is “Preview &lt;name&gt;”; its empty header cell has a visually hidden “Preview”.</li>
+      <li>The avatar is decorative; the record name is the link’s accessible name.</li>
+      <li>In Bullhorn status is carried by text, not the circle color.</li>
+      <li>The selection count in the bar is announced politely as it changes.</li>
+      <li>Links and buttons show a 2px <span class="chip">color/border/focus</span> outline on keyboard focus.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-data-table [records]="prospects" [actions]="actions" noun="Contact"
+          [(selection)]="ids" (primary)="addContacts($event)" (action)="run($event)"
+          (open)="openRecord($event)" (preview)="slideout($event)" (reveal)="reveal($event)" /&gt;
+
+      &lt;ats-amplify-chat-data-table [records]="prospects" width="docked" [selectable]="false" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatDataTable</span></td><td><span class="chip">ats-amplify-chat-data-table</span></td><td><span class="chip">records</span> · <span class="chip">columns</span> · <span class="chip">width</span> full · docked (full) · <span class="chip">selectable</span> (true) · <span class="chip">showPreview</span> (true) · <span class="chip">selection</span> (two-way ids) · <span class="chip">verb</span> (Add) · <span class="chip">noun</span> (Contact) · <span class="chip">nounPlural</span> · <span class="chip">actionLabel</span> · <span class="chip">actions</span> · <span class="chip">label</span> (Records)</td></tr>
+        <tr><td><span class="chip">AmplifyChatDataTableHeaderRow</span></td><td><span class="chip">tr[ats-amplify-chat-data-table-header-row]</span></td><td><span class="chip">columns</span> · <span class="chip">selectable</span> · <span class="chip">showPreview</span> · <span class="chip">checked</span> · <span class="chip">indeterminate</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatDataTableRow</span></td><td><span class="chip">tr[ats-amplify-chat-data-table-row]</span></td><td><span class="chip">record</span> (required) · <span class="chip">selected</span> (two-way) · <span class="chip">disabled</span> · <span class="chip">columns</span> · <span class="chip">selectable</span> · <span class="chip">showPreview</span> · <span class="chip">state</span> hover (docs only)</td></tr>
+      </tbody>
+    </table>
+    <p>Outputs: <span class="chip">primary</span> and <span class="chip">action</span> emit the selected records; <span class="chip">open</span>, <span class="chip">preview</span> and <span class="chip">reveal</span> emit the record (reveal adds the field). The header row emits <span class="chip">toggleAll</span>. Columns are <span class="chip">name</span> · <span class="chip">inBullhorn</span> · <span class="chip">title</span> · <span class="chip">mobilePhone</span> · <span class="chip">email</span>.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Components and rules">
+    <ul>
+      <li><a href="data-table.html">Data Table</a>: the base component and its cells.</li>
+      <li><a href="amplify-chat-selection.html">Selection</a>: the selection bar and split button.</li>
+      <li><a href="amplify-chat-cards.html">Cards</a>: the alternative when records need explaining.</li>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#choosing-a-format">choosing a format</a>, <a href="../amplify/amplify-chat-interface-patterns.html#data-table">data table</a>, <a href="../amplify/amplify-chat-interface-patterns.html#selection">selection and bulk actions</a>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Name cell shows an avatar, not an entity circle.">The patterns doc’s link cell puts an entity circle before the name; the built row shows a 24px avatar and the In Bullhorn column carries the circle. Confirm this is intended.</doc-callout>
+    <doc-callout type="note" heading="“Show more” isn’t part of the component.">The “Showing 10 of N” line and the “Show more” chip are described in the patterns doc but not built. Confirm where they live.</doc-callout>
+    <doc-callout type="note" heading="Neutral grey borrows a task color.">“Not in Bullhorn” uses <span class="chip">color/entity/task</span> for its grey circle. Confirm whether a semantic neutral is planned.</doc-callout>
+    <doc-callout type="note" heading="Prospect links.">Prospect contacts aren’t ATS records yet. Confirm what the name link and the binoculars open for a prospect not in Bullhorn.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

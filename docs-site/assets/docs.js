@@ -110,13 +110,21 @@
   // Live component from the ats-ui showcase (built into /examples/ — see repo README).
   // <doc-example src="button?theme=primary&label=Save" caption="Primary states" height="120"></doc-example>
   // The embedded page reports its height, so `height` is only the initial size.
+  // viewport="1440": render a whole screen at that width and scale it down to fit the column
+  // (full-page layouts), with `height` as the screen height at that width.
   customElements.define("doc-example", class extends HTMLElement{
     connectedCallback(){
       if(this._done)return; this._done=true;
-      var src=attr(this,"src")||"", cap=attr(this,"caption")||"", h=attr(this,"height")||"120";
-      this.innerHTML='<figure class="showcase example"><iframe src="/examples/'+esc(src)+'" title="'+esc(cap||"Live example")+'"'+
-        ' loading="lazy" style="height:'+esc(h)+'px"></iframe>'+
+      var src=attr(this,"src")||"", cap=attr(this,"caption")||"", h=attr(this,"height")||"120", vw=parseInt(attr(this,"viewport")||"",10);
+      var frame='<iframe src="/examples/'+esc(src)+'" title="'+esc(cap||"Live example")+'"'+
+        ' loading="lazy" style="height:'+esc(h)+'px'+(vw?';width:'+vw+'px;transform-origin:0 0':'')+'"></iframe>';
+      this.innerHTML='<figure class="showcase example'+(vw?' example--viewport':'')+'">'+(vw?'<div class="example__viewport">'+frame+'</div>':frame)+
         '<figcaption>'+(cap?esc(cap)+' · ':'')+'<a href="/examples/'+esc(src)+'" target="_blank" rel="noopener">Open live example ↗</a></figcaption></figure>';
+      if(vw){
+        var box=this.querySelector(".example__viewport"), ifr=box.querySelector("iframe");
+        var fit=function(){ var s=box.clientWidth/vw; ifr.style.transform="scale("+s+")"; box.style.height=(parseFloat(ifr.style.height)*s)+"px"; };
+        ifr._fit=fit; fit(); if(window.ResizeObserver) new ResizeObserver(fit).observe(box); window.addEventListener("resize",fit);
+      }
     }
   });
   // Code sample. Write the code HTML-escaped (&lt; &gt;); indentation is normalized.
@@ -133,7 +141,9 @@
   window.addEventListener("message",function(e){
     var d=e.data; if(!d||d.type!=="ats-example-height")return;
     var frames=document.querySelectorAll("figure.example iframe");
-    for(var i=0;i<frames.length;i++){ if(frames[i].contentWindow===e.source){ frames[i].style.height=Math.ceil(d.height)+"px"; } }
+    for(var i=0;i<frames.length;i++){ if(frames[i].contentWindow===e.source){
+      if(frames[i]._fit) return; // viewport examples keep their fixed screen height
+      frames[i].style.height=Math.ceil(d.height)+"px"; } }
   });
 
   /* ---- structure ---- */
@@ -312,6 +322,7 @@
       {t:"Checkbox", href:"/docs/components/checkbox.html"},
       {t:"Checkbox + label", href:"/docs/components/checkbox-label.html"},
       {t:"Data Table", href:"/docs/components/data-table.html"},
+      {t:"Dropdown", href:"/docs/components/dropdown.html"},
       {t:"Icon", href:"/docs/components/icon.html"},
       {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html"},
       {t:"Icon Container", href:"/docs/components/icon-container.html"},
@@ -325,7 +336,16 @@
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
     ], groups:[
       {label:"Amplify components", pages:[
-        {t:"Text", href:"/docs/components/amplify-chat-text.html"}
+        {t:"Text", href:"/docs/components/amplify-chat-text.html"},
+        {t:"Reply", href:"/docs/components/amplify-chat-reply.html"},
+        {t:"Blocks", href:"/docs/components/amplify-chat-blocks.html"},
+        {t:"Sources", href:"/docs/components/amplify-chat-sources.html"},
+        {t:"Data table", href:"/docs/components/amplify-chat-data-table.html"},
+        {t:"Selection", href:"/docs/components/amplify-chat-selection.html"},
+        {t:"Chat input", href:"/docs/components/amplify-chat-input.html"},
+        {t:"Clarifying questions", href:"/docs/components/amplify-chat-clarifying-questions.html"},
+        {t:"Docked chat", href:"/docs/components/amplify-chat-docked.html"},
+        {t:"Full-page chat", href:"/docs/components/amplify-chat-full-page.html"}
       ]}
     ]},
     {label:"Amplify", pages:[
