@@ -2,10 +2,10 @@ import { Component, DestroyRef, computed, inject, input, linkedSignal, signal } 
 import {
   AmplifyChatChatBlock, AmplifyChatChatCards, AmplifyChatClarifyAnswer, AmplifyChatUserBubbleAnswer, AmplifyChatClarifyingQuestion, AmplifyChatContextItem,
   AmplifyChatDataTable, AmplifyChatDraftBlock, AmplifyChatFullPage, AmplifyChatHeader, AmplifyChatLink, AmplifyChatListItem,
-  AmplifyChatNumberedList, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn, BowlingAlley, BowlingAlleyShell, Button,
+  AmplifyChatLiteralValueBlock, AmplifyChatNumberedList, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn, BowlingAlley, BowlingAlleyShell, Button,
 } from 'ats-ui';
 import {
-  CARD_ITEMS, CLARIFY_ROUND, COLUMNS, DRAFT, FIRST_QUESTION, JOB_SOURCES, PROSPECTS, PROSPECT_SOURCES, ROTATION, ReplyFormat,
+  BOOLEAN, CARD_ITEMS, CLARIFY_ROUND, COLUMNS, DEMO_PROMPTS, DRAFT, FIRST_QUESTION, JOB_SOURCES, PROSPECTS, PROSPECT_SOURCES, ROTATION, ReplyFormat, intentFor,
   SELECTION_ACTIONS, THINKING, Turn,
 } from './full-page-data';
 
@@ -36,7 +36,7 @@ const REPLY_DELAY = 1500;
 @Component({
   imports: [
     AmplifyChatChatBlock, AmplifyChatChatCards, AmplifyChatDataTable, AmplifyChatDraftBlock, AmplifyChatFullPage, AmplifyChatHeader,
-    AmplifyChatLink, AmplifyChatListItem, AmplifyChatNumberedList, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn,
+    AmplifyChatLink, AmplifyChatListItem, AmplifyChatLiteralValueBlock, AmplifyChatNumberedList, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn,
     BowlingAlley, BowlingAlleyShell, Button,
   ],
   selector: 'app-amplify-chat-full-page-page',
@@ -65,6 +65,10 @@ export class AmplifyChatFullPagePage {
   protected readonly prospectSources = PROSPECT_SOURCES;
   protected readonly jobSources = JOB_SOURCES;
   protected readonly cardItems = CARD_ITEMS;
+  protected readonly boolean = BOOLEAN;
+  protected readonly demoPrompts = DEMO_PROMPTS;
+  /** Demo helper: the prompt list above the Demo prompts button (click one to send it). */
+  protected readonly promptsOpen = signal(false);
   protected readonly selectionActions = SELECTION_ACTIONS;
   protected readonly draft = DRAFT;
   protected readonly thinking = THINKING;
@@ -98,9 +102,10 @@ export class AmplifyChatFullPagePage {
     ];
   }
 
-  /** The recruiter sent a message: user turn + thinking block, then the next canned reply. */
+  /** The recruiter sent a message: user turn + thinking block, then a canned reply in the format
+   *  they asked for (see INTENTS), or the next one in ROTATION. */
   protected ask(text: string): void {
-    this.reply(text, ROTATION[this.canned++ % ROTATION.length]);
+    this.reply(text, intentFor(text) ?? ROTATION[this.canned++ % ROTATION.length]);
   }
 
   private reply(text: string | null, format: ReplyFormat, answers?: AmplifyChatUserBubbleAnswer[]): void {

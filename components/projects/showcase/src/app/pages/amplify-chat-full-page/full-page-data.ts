@@ -3,7 +3,7 @@ import {
 } from 'ats-ui';
 
 /** The canned reply compositions the shell rotates through. */
-export type ReplyFormat = 'table' | 'prose' | 'cards' | 'draft' | 'clarify' | 'answer';
+export type ReplyFormat = 'table' | 'prose' | 'cards' | 'list' | 'draft' | 'literal' | 'clarify' | 'answer';
 
 export type Turn =
   | { id: number; kind: 'user'; text: string; tag?: { label: string; entity: AmplifyChatLinkEntity }; answers?: AmplifyChatUserBubbleAnswer[] }
@@ -15,6 +15,31 @@ export const FIRST_QUESTION = "Can you show me 5 contacts at Verizon that aren't
 /** Order the canned replies come in after a send (the first send gets the Figma table reply). */
 export const ROTATION: ReplyFormat[] = ['table', 'prose', 'cards', 'clarify', 'draft'];
 
+/**
+ * Demo intents: what the recruiter asks for picks the reply format, so a demo can show each
+ * component on request ("show me the results in cards", "ask me clarifying questions"…).
+ * Unmatched messages fall back to ROTATION. Order matters: the first match wins.
+ */
+export const INTENTS: { format: ReplyFormat; pattern: RegExp }[] = [
+  { format: 'clarify', pattern: /clarif|ask me|question/i },
+  { format: 'cards', pattern: /\bcards?\b/i },
+  { format: 'table', pattern: /\btable|grid|spreadsheet|columns?\b/i },
+  { format: 'list', pattern: /\blist\b|bullet|numbered/i },
+  { format: 'literal', pattern: /boolean|search string|query/i },
+  { format: 'draft', pattern: /draft|e-?mail|outreach|write/i },
+  { format: 'prose', pattern: /priorit|open jobs|summar/i },
+];
+
+/** The reply format for a message: the first matching intent, else undefined (use the rotation). */
+export function intentFor(text: string): ReplyFormat | undefined {
+  return INTENTS.find((i) => i.pattern.test(text))?.format;
+}
+
+/** Shown beside Reset so whoever is demoing knows what to type. */
+export const DEMO_PROMPTS = ['Show me the results in cards', 'Show me the results in a list', 'Show me the results in a table', 'Ask me clarifying questions', 'Draft an intro email', 'Give me a Boolean search string'];
+
+export const BOOLEAN = '("Java" OR "J2EE") AND ("Spring Boot" OR "Spring") AND ("AWS" OR "Azure") AND ("Senior" OR "Lead") NOT "Intern"';
+
 /** Status line while a reply of this format is thinking. */
 export const THINKING: Record<ReplyFormat, string> = {
   table: 'Searching Prospect…',
@@ -22,6 +47,8 @@ export const THINKING: Record<ReplyFormat, string> = {
   cards: 'Checking Verizon contacts in your ATS…',
   clarify: 'Thinking…',
   draft: 'Drafting the email…',
+  list: 'Checking Verizon contacts in your ATS…',
+  literal: 'Building the search string…',
   answer: 'Searching candidates…',
 };
 

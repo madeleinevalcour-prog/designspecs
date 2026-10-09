@@ -336,6 +336,8 @@
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
     ], groups:[
       {label:"Amplify components", pages:[
+        {t:"Full-page chat", href:"/docs/components/amplify-chat-full-page.html"},
+        {t:"Docked chat", href:"/docs/components/amplify-chat-docked.html"},
         {t:"Text", href:"/docs/components/amplify-chat-text.html"},
         {t:"User messages", href:"/docs/components/amplify-chat-user-messages.html"},
         {t:"Reply", href:"/docs/components/amplify-chat-reply.html"},
@@ -345,9 +347,7 @@
         {t:"Cards", href:"/docs/components/amplify-chat-cards.html"},
         {t:"Selection", href:"/docs/components/amplify-chat-selection.html"},
         {t:"Chat input", href:"/docs/components/amplify-chat-input.html"},
-        {t:"Clarifying questions", href:"/docs/components/amplify-chat-clarifying-questions.html"},
-        {t:"Docked chat", href:"/docs/components/amplify-chat-docked.html"},
-        {t:"Full-page chat", href:"/docs/components/amplify-chat-full-page.html"}
+        {t:"Clarifying questions", href:"/docs/components/amplify-chat-clarifying-questions.html"}
       ]}
     ]},
     {label:"Amplify", pages:[

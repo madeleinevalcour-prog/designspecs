@@ -52,6 +52,27 @@
                 <ats-amplify-chat-chat-cards theme="prospect-contact" [items]="cardItems" [actions]="selectionActions" />
               </ats-amplify-chat-chat-block>
             }
+            @case ('list') {
+              <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts, excluding those already in your ATS · Updated today"
+                [sources]="prospectSources" [followUps]="['Show them in cards', 'Show them in a table', 'Draft an intro email']" (followUp)="ask($event)">
+                <ats-amplify-chat-text type="paragraph-with-links">
+                  Here are 5 <a ats-amplify-chat-link entity="company" href="#">Verizon</a> contacts from Prospect who aren't in your ATS yet, ranked by seniority.
+                </ats-amplify-chat-text>
+                <ol ats-amplify-chat-numbered-list>
+                  @for (p of prospects; track p.id) {
+                    <li ats-amplify-chat-list-item><a ats-amplify-chat-link entity="contact" href="#">{{ p.name }}</a>, {{ p.title }}</li>
+                  }
+                </ol>
+              </ats-amplify-chat-chat-block>
+            }
+            @case ('literal') {
+              <ats-amplify-chat-chat-block [followUps]="['Run this search', 'Add Kotlin', 'Remove location']" (followUp)="ask($event)">
+                <ats-amplify-chat-text type="paragraph-with-links">
+                  Here's a Boolean search string for <a ats-amplify-chat-link entity="job" href="#">425 | Senior Java Developer</a>. Copy it into a job board or LinkedIn Recruiter.
+                </ats-amplify-chat-text>
+                <ats-amplify-chat-literal-value-block [value]="boolean" />
+              </ats-amplify-chat-chat-block>
+            }
             @case ('clarify') {
               <ats-amplify-chat-chat-block [showActions]="false">
                 <ats-amplify-chat-text>I can find matching candidates. Two quick questions first, so I search the right job and area.</ats-amplify-chat-text>
@@ -84,6 +105,19 @@
   </ats-bowling-alley-shell>
 
   @if (!embed()) {
-    <button ats-button class="reset" theme="secondary" size="small" (click)="reset()">Reset</button>
+    <div class="demo">
+      @if (promptsOpen()) {
+        <div class="demo__prompts" id="demo-prompts" role="menu" aria-label="Demo prompts">
+          @for (p of demoPrompts; track p) {
+            <button type="button" role="menuitem" class="demo__prompt" (click)="promptsOpen.set(false); ask(p)">{{ p }}</button>
+          }
+        </div>
+      }
+      <div class="demo__buttons">
+        <button ats-button theme="secondary" size="small" aria-haspopup="menu" aria-controls="demo-prompts"
+          [attr.aria-expanded]="promptsOpen()" (click)="promptsOpen.set(!promptsOpen())">Demo prompts</button>
+        <button ats-button theme="secondary" size="small" (click)="reset()">Reset</button>
+      </div>
+    </div>
   }
 </div>
