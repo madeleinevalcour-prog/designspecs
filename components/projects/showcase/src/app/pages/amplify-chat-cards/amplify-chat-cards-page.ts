@@ -33,22 +33,22 @@ const ACTIONS: AmplifyChatSelectionAction[] = [
 /**
  * /amplify-chat-cards — Amplify Chat — Cards (Figma doc/cards 6300:127578).
  * Sections: amplify-chat/chat-cards (6271:183686: Property 1=default 6223:173466, selected
- * 6271:183687, plus paging), chat-list-item (6171:162369: theme=prospect 6223:172861, theme=candidate
- * 6223:173284) and its relevance-signals content.
+ * 6271:183687, plus paging), chat-list-item (6171:162369: theme=entity-record, the default, and
+ * theme=prospect-contact) and its relevance-signals content.
  *
  * Embed mode: `component` renders one piece, e.g.
  *   /examples/amplify-chat-cards?component=chat-cards&variant=selected
  *   /examples/amplify-chat-cards?component=chat-cards&count=8&pageSize=3
- *   /examples/amplify-chat-cards?component=chat-cards&theme=candidate&count=2
- *   /examples/amplify-chat-cards?component=chat-list-item&theme=candidate
- *   /examples/amplify-chat-cards?component=chat-list-item&theme=prospect&selected=false
+ *   /examples/amplify-chat-cards?component=chat-cards&count=3
+ *   /examples/amplify-chat-cards?component=chat-list-item&theme=entity-record
+ *   /examples/amplify-chat-cards?component=chat-list-item&theme=prospect-contact&selected=false
  *   /examples/amplify-chat-cards?component=relevance-signals
  * Params:
  *   component = chat-cards | chat-list-item | relevance-signals
  *   chat-cards: variant = default | selected (all selected) | some (2 selected); count = 1–8 cards
- *     (default 5, as Figma); pageSize = cards per page (pager in the bar); theme = prospect | candidate;
+ *     (default 5, as Figma); pageSize = cards per page (pager in the bar); theme = entity-record | prospect-contact (default entity-record);
  *     selectable = false; verb / noun = split button wording
- *   theme (chat-list-item) = prospect | candidate (default prospect)
+ *   theme (chat-list-item) = entity-record | prospect-contact (default entity-record)
  *   selected (chat-list-item) = true | false (default true, as in Figma)
  *   selectable = false (no checkbox)
  */
@@ -70,13 +70,15 @@ export class AmplifyChatCardsPage {
   readonly selectable = input<string>();
 
   protected readonly embed = computed(() => !!this.component());
-  protected readonly embedTheme = computed(() => this.theme() ?? 'prospect');
+  protected readonly embedTheme = computed(() => this.theme() ?? 'entity-record');
+  /** Split-button noun follows the records: candidates for the default stack, contacts for Prospect contacts. */
+  protected readonly embedNoun = computed(() => this.noun() ?? (this.embedTheme() === 'entity-record' ? 'Candidate' : 'Contact'));
   protected readonly embedSelected = computed(() => this.selected() !== 'false');
   protected readonly isSelectable = computed(() => this.selectable() !== 'false');
 
   protected readonly embedItems = computed(() => {
     const n = Math.min(8, Math.max(1, Number(this.count() ?? 5) || 5));
-    return this.embedTheme() === 'candidate' ? this.candidateCards.slice(0, Math.min(n, this.candidateCards.length)) : PROSPECT_CARDS.slice(0, n);
+    return this.embedTheme() === 'entity-record' ? this.candidateCards.slice(0, Math.min(n, this.candidateCards.length)) : PROSPECT_CARDS.slice(0, n);
   });
   protected readonly embedSelection = computed(() => {
     const ids = this.embedItems().map((i) => i.id);
@@ -103,9 +105,15 @@ export class AmplifyChatCardsPage {
     'Senior Software Engineer with 3 years of experience, bringing hands-on strength in Node.js and SQL. Motivated by solving problems and mentoring others along the way. Interested in remote software engineer roles.';
   protected readonly skills = ['JavaScript', 'TypeScript', 'React', 'Node.js', 'Git', 'REST APIs', 'SQL'];
   protected readonly candidateCards: AmplifyChatCardItem[] = [
-    { id: 'c1', theme: 'candidate', name: '2034 | Tyler Brooks', fields: this.candidateFields, body: this.candidateBody, chips: this.skills },
-    { id: 'c2', theme: 'candidate', name: '2051 | Jordan Ellis', fields: [{ type: 'location', text: 'Philadelphia, PA' }, { type: 'email', text: 'jordan.ellis@gmail.com' }],
+    { id: 'c1', theme: 'entity-record', name: '2034 | Tyler Brooks', fields: this.candidateFields, body: this.candidateBody, chips: this.skills },
+    { id: 'c2', theme: 'entity-record', name: '2051 | Jordan Ellis', fields: [{ type: 'location', text: 'Philadelphia, PA' }, { type: 'email', text: 'jordan.ellis@gmail.com' }],
       body: 'Full-stack engineer with 5 years in TypeScript and Angular. Led a migration to a component library at a telecom provider.', chips: ['TypeScript', 'Angular', 'Node.js', 'SQL'] },
+    { id: 'c3', theme: 'entity-record', name: '2077 | Priya Raman', fields: [{ type: 'location', text: 'Boston, MA' }, { type: 'email', text: 'priya.raman@outlook.com' }],
+      body: 'Backend engineer, 6 years in Java and Spring Boot on high-volume payment services. Open to hybrid roles in Boston.', chips: ['Java', 'Spring Boot', 'AWS', 'Kafka'] },
+    { id: 'c4', theme: 'entity-record', entity: 'job', name: '425 | Senior Java Developer', fields: [{ type: 'company', text: 'Verizon' }, { type: 'location', text: 'Boston, MA' }],
+      body: 'Network Platforms team. 12-month contract with the option to convert; hybrid, 3 days on site. Starts Oct 6, no submittals yet.', chips: ['Java 17', 'Spring Boot', 'Microservices'] },
+    { id: 'c5', theme: 'entity-record', name: '2102 | Marcus Webb', fields: [{ type: 'location', text: 'Remote' }, { type: 'email', text: 'marcus.webb@gmail.com' }],
+      body: 'Senior engineer focused on React and design systems. Interested in remote front-end roles.', chips: ['React', 'TypeScript', 'Storybook'] },
   ];
 
   /** Live two-way selection in the reference view. */

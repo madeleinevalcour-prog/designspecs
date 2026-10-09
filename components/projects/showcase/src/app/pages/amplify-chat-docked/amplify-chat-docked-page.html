@@ -30,7 +30,7 @@
       @for (turn of turns(); track turn.id) {
         @if (turn.kind === 'user') {
           <ats-amplify-chat-user-turn>
-            <ats-amplify-chat-user-bubble>{{ turn.text }}</ats-amplify-chat-user-bubble>
+            <ats-amplify-chat-user-bubble>@if (turn.tag; as tag) {{{ turn.text.split(tag.label)[0] }}<a ats-amplify-chat-link [entity]="tag.entity" href="#">{{ tag.label }}</a>{{ turn.text.split(tag.label).slice(1).join(tag.label) }}} @else {{{ turn.text }}}</ats-amplify-chat-user-bubble>
           </ats-amplify-chat-user-turn>
         } @else if (turn.kind === 'greeting') {
           <ats-amplify-chat-chat-block [showActions]="false">

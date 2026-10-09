@@ -6,7 +6,7 @@ import {
   AmplifyChatProspectColumn, AmplifyChatSelectionAction, AmplifyChatSource, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn,
 } from 'ats-ui';
 
-export type ReplyExample = 'prose' | 'draft' | 'literal' | 'status' | 'table' | 'cards';
+export type ReplyExample = 'prose' | 'draft' | 'literal' | 'status' | 'table' | 'cards' | 'user-turn';
 
 const DRAFT = `Hi Jordan,
 
@@ -50,7 +50,7 @@ const JOB_SOURCES: AmplifyChatSource[] = [
  *   /examples/amplify-chat-reply?example=status
  *   /examples/amplify-chat-reply?example=table&followUps=false&actions=false
  * Params:
- *   example = prose | draft | literal | status | table | cards (default prose)
+ *   example = prose | draft | literal | status | table | cards | user-turn (default prose)
  *   followUps = false (hide the follow-up chips)
  *   actions = false (hide copy / thumbs / save prompt)
  *   action = a label for the optional right-aligned primary action, e.g. "Accept Updates"

@@ -1,12 +1,12 @@
 import {
-  AmplifyChatCardItem, AmplifyChatClarifyingQuestion, AmplifyChatProspect, AmplifyChatProspectColumn, AmplifyChatSelectionAction, AmplifyChatSource,
+  AmplifyChatCardItem, AmplifyChatClarifyingQuestion, AmplifyChatLinkEntity, AmplifyChatProspect, AmplifyChatProspectColumn, AmplifyChatSelectionAction, AmplifyChatSource,
 } from 'ats-ui';
 
 /** The canned reply compositions the shell rotates through. */
 export type ReplyFormat = 'table' | 'prose' | 'cards' | 'draft' | 'clarify' | 'answer';
 
 export type Turn =
-  | { id: number; kind: 'user'; text: string }
+  | { id: number; kind: 'user'; text: string; tag?: { label: string; entity: AmplifyChatLinkEntity } }
   | { id: number; kind: 'reply'; format: ReplyFormat; thinking?: boolean; stopped?: boolean; selection?: number[] };
 
 /** Figma short / long conversation (6237:176854, 6267:181805): the opening question. */

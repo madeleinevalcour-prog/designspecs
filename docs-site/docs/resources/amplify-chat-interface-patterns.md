@@ -529,6 +529,7 @@ Column width:
 
 - Component: `amplify-chat/user-bubble`. `body/default` in `color/text/body`, fill `color/background/subtle-hover`, `border/radius/sm` (8), padding `spacing/padding/sm` vertical and `spacing/padding/md` horizontal.
 - Right-aligned in the chat column. Hugs its content up to 440px, then wraps.
+- Records the recruiter tags in their request (a job, company, candidate…) appear as the same inline entity link Amplify uses in its replies: entity-color circle, record name in link color, medium weight. A record looks the same wherever it appears in the conversation (H4, consistency).
 - Long messages (for example a pasted job description) are capped at 8 lines of text (160px, plus padding). Specify the cap in lines, not pixels, so it follows the type scale.
 - Collapsed (`state=long text`): the last 2 lines fade out through an alpha mask, so the text keeps its token color on any bubble fill, and a "Show More" button sits below the text (H1, visibility of system status).
 - Expanded (`state=long text expanded`): the full message with "Show Less" (H3, user control).

@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { AmplifyChatUserBubble, AmplifyChatUserBubbleState } from 'ats-ui';
+import { AmplifyChatLink, AmplifyChatUserBubble, AmplifyChatUserBubbleState } from 'ats-ui';
 
 const SHORT = 'Make a list of the open jobs I should prioritize today';
 const LONG = `Can you find candidates for this role? Here's the job description:
@@ -24,15 +24,19 @@ Rate: $85–95/hr W2. Start date: November 3. Interviews: two rounds, video then
  * Params:
  *   component = user-bubble (the only one)
  *   state = user-bubble | long text | long text expanded (forced; unset → detected)
- *   text = short | long (sample message; default short) · message = custom text
+ *   text = short | long | links (sample message; default short; links = a message that tags records) · message = custom text
  */
 @Component({
-  imports: [AmplifyChatUserBubble],
+  imports: [AmplifyChatLink, AmplifyChatUserBubble],
   selector: 'app-amplify-chat-user-messages-page',
   template: `
     @if (embed()) {
       <div class="embed column">
-        <ats-amplify-chat-user-bubble [state]="state()">{{ embedMessage() }}</ats-amplify-chat-user-bubble>
+        @if (text() === 'links' && !message()) {
+          <ats-amplify-chat-user-bubble [state]="state()">Can you show me 5 contacts at <a ats-amplify-chat-link entity="company" href="#">Verizon</a> that aren't in the ATS yet?</ats-amplify-chat-user-bubble>
+        } @else {
+          <ats-amplify-chat-user-bubble [state]="state()">{{ embedMessage() }}</ats-amplify-chat-user-bubble>
+        }
       </div>
     } @else {
       <h1>Amplify Chat — User messages</h1>
@@ -52,6 +56,8 @@ Rate: $85–95/hr W2. Start date: November 3. Interviews: two rounds, video then
       <div class="grid">
         <span class="caption">short message</span>
         <div class="column"><ats-amplify-chat-user-bubble>{{ short }}</ats-amplify-chat-user-bubble></div>
+        <span class="caption">tagged records: the same inline entity link as Amplify's replies</span>
+        <div class="column"><ats-amplify-chat-user-bubble>Find candidates for <a ats-amplify-chat-link entity="job" href="#">425 | Senior Java Developer</a> at <a ats-amplify-chat-link entity="company" href="#">Verizon</a></ats-amplify-chat-user-bubble></div>
         <span class="caption">pasted job description</span>
         <div class="column"><ats-amplify-chat-user-bubble>{{ long }}</ats-amplify-chat-user-bubble></div>
       </div>
@@ -72,7 +78,7 @@ Rate: $85–95/hr W2. Start date: November 3. Interviews: two rounds, video then
 export class AmplifyChatUserMessagesPage {
   readonly component = input<string>();
   readonly state = input<AmplifyChatUserBubbleState>();
-  readonly text = input<'short' | 'long'>();
+  readonly text = input<'short' | 'long' | 'links'>();
   readonly message = input<string>();
 
   protected readonly short = SHORT;

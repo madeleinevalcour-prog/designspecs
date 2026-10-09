@@ -21,7 +21,7 @@
   display: flex; flex: 0 0 auto;
   padding-block: var(--amplify-chat-chat-list-item-checkbox-container-spacing-padding-vertical-spacing-12);
 }
-.ats-amplify-chat-chat-list-item[data-theme="candidate"] .ats-amplify-chat-chat-list-item__check {
+.ats-amplify-chat-chat-list-item[data-theme="entity-record"] .ats-amplify-chat-chat-list-item__check {
   padding-block: var(--amplify-chat-chat-list-item-checkbox-container-spacing-padding-vertical-spacing-4);
 }
 

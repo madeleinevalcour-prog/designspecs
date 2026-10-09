@@ -65,7 +65,7 @@
       I checked the contacts tied to your <a ats-amplify-chat-link entity="company" href="#">Verizon</a> client-company record.
     </ats-amplify-chat-text>
     <ats-amplify-chat-header>Suggested 3 New Verizon Contacts</ats-amplify-chat-header>
-    <ats-amplify-chat-chat-cards theme="prospect" [items]="cardItems" [actions]="selectionActions"
+    <ats-amplify-chat-chat-cards theme="prospect-contact" [items]="cardItems" [actions]="selectionActions"
       (primary)="log.set('primary: add ' + $event.length)" (action)="log.set('action: ' + $event.action.id)" />
   </ats-amplify-chat-chat-block>
 </ng-template>
@@ -78,6 +78,11 @@
       @case ('status') { <ng-container [ngTemplateOutlet]="status" /> }
       @case ('table') { <ng-container [ngTemplateOutlet]="table" /> }
       @case ('cards') { <ng-container [ngTemplateOutlet]="cardsReply" /> }
+      @case ('user-turn') {
+        <ats-amplify-chat-user-turn>
+          <ats-amplify-chat-user-bubble>Make a list of the open jobs I should prioritize today</ats-amplify-chat-user-bubble>
+        </ats-amplify-chat-user-turn>
+      }
       @default { <ng-container [ngTemplateOutlet]="prose" /> }
     }
   </div>

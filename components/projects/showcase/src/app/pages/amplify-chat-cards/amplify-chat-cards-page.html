@@ -1,7 +1,7 @@
 @if (component() === 'chat-cards') {
   <div class="embed">
     <ats-amplify-chat-chat-cards class="w601" [items]="embedItems()" [theme]="embedTheme()" [selection]="embedSelection()"
-      [pageSize]="embedPageSize()" [selectable]="isSelectable()" [verb]="verb()" [noun]="noun()" [actions]="actions" />
+      [pageSize]="embedPageSize()" [selectable]="isSelectable()" [verb]="verb()" [noun]="embedNoun()" [actions]="actions" />
   </div>
 } @else if (embed()) {
   <div class="embed">
@@ -9,13 +9,13 @@
       <ats-amplify-chat-relevance-signals class="w535" [signals]="signals" />
     } @else {
       <div class="w601">
-        @if (embedTheme() === 'candidate') {
-          <ats-amplify-chat-chat-list-item theme="candidate" name="2034 | Tyler Brooks" [fields]="candidateFields" [body]="candidateBody"
+        @if (embedTheme() === 'entity-record') {
+          <ats-amplify-chat-chat-list-item theme="entity-record" name="2034 | Tyler Brooks" [fields]="candidateFields" [body]="candidateBody"
             [selected]="embedSelected()" [selectable]="isSelectable()">
             <div class="ats-amplify-chat-chat-list-item__chips">@for (s of skills; track s) { <ats-novo-chip [label]="s" /> }</div>
           </ats-amplify-chat-chat-list-item>
         } @else {
-          <ats-amplify-chat-chat-list-item theme="prospect" name="Marie Smith" jobTitle="Head of HR" [fields]="prospectFields"
+          <ats-amplify-chat-chat-list-item theme="prospect-contact" name="Marie Smith" jobTitle="Head of HR" [fields]="prospectFields"
             [selected]="embedSelected()" [selectable]="isSelectable()">
             <ats-amplify-chat-relevance-signals [signals]="signals" />
           </ats-amplify-chat-chat-list-item>
@@ -33,25 +33,25 @@
   <p class="note">6271:183686 · a stack of chat-list-items (gap 8) + the selection bar card, hidden when nothing is selected.</p>
   <div class="row">
     <div class="cell">
-      <ats-amplify-chat-chat-cards class="w601" [items]="prospectCards.slice(0, 5)" [actions]="actions" />
-      <span class="caption">Property 1=default (nothing selected: no bar)</span>
+      <ats-amplify-chat-chat-cards class="w601" theme="prospect-contact" [items]="prospectCards.slice(0, 5)" [actions]="actions" />
+      <span class="caption">theme=prospect-contact · nothing selected: no bar</span>
     </div>
     <div class="cell menu-room">
-      <ats-amplify-chat-chat-cards class="w601" [items]="prospectCards.slice(0, 5)" [actions]="actions" [(selection)]="cardsSel"
+      <ats-amplify-chat-chat-cards class="w601" theme="prospect-contact" [items]="prospectCards.slice(0, 5)" [actions]="actions" [(selection)]="cardsSel"
         (primary)="cardsLog.set('primary: add ' + $event.length)"
         (action)="cardsLog.set('action: ' + $event.action.id + ' for ' + $event.records.length)"
         (open)="cardsLog.set('open ' + $event.name)" />
-      <span class="caption">Property 1=selected · {{ cardsLog() || 'live: toggle cards, use the split button' }}</span>
+      <span class="caption">theme=prospect-contact · selected · {{ cardsLog() || 'live: toggle cards, use the split button' }}</span>
     </div>
   </div>
   <div class="row">
     <div class="cell menu-room">
-      <ats-amplify-chat-chat-cards class="w601" [items]="prospectCards" [pageSize]="3" [actions]="actions" [(selection)]="pagedSel" />
+      <ats-amplify-chat-chat-cards class="w601" theme="prospect-contact" [items]="prospectCards" [pageSize]="3" [actions]="actions" [(selection)]="pagedSel" />
       <span class="caption">pageSize=3 · 8 prospects: the bar carries the pager ("1–3 of 8" until something is selected)</span>
     </div>
     <div class="cell">
-      <ats-amplify-chat-chat-cards class="w601" theme="candidate" [items]="candidateCards" [selectable]="false" />
-      <span class="caption">theme=candidate · selectable=false (no checkboxes, no bar)</span>
+      <ats-amplify-chat-chat-cards class="w601" theme="entity-record" [items]="candidateCards" [selectable]="false" />
+      <span class="caption">theme=entity-record (default) · selectable=false (no checkboxes, no bar)</span>
     </div>
   </div>
 
@@ -60,26 +60,26 @@
   <div class="stack">
     <div class="cell">
       <div class="w601">
-        <ats-amplify-chat-chat-list-item theme="prospect" name="Marie Smith" jobTitle="Head of HR" [fields]="prospectFields" [(selected)]="prospectSel">
-          <ats-amplify-chat-relevance-signals [signals]="signals" />
-        </ats-amplify-chat-chat-list-item>
-      </div>
-      <span class="caption">theme=prospect · selected: {{ prospectSel() }}</span>
-    </div>
-    <div class="cell">
-      <div class="w601">
-        <ats-amplify-chat-chat-list-item theme="candidate" name="2034 | Tyler Brooks" [fields]="candidateFields" [body]="candidateBody" [(selected)]="candidateSel">
+        <ats-amplify-chat-chat-list-item theme="entity-record" name="2034 | Tyler Brooks" [fields]="candidateFields" [body]="candidateBody" [(selected)]="candidateSel">
           <div class="ats-amplify-chat-chat-list-item__chips">@for (s of skills; track s) { <ats-novo-chip [label]="s" /> }</div>
         </ats-amplify-chat-chat-list-item>
       </div>
-      <span class="caption">theme=candidate · selected: {{ candidateSel() }}</span>
+      <span class="caption">theme=entity-record (default) · selected: {{ candidateSel() }}</span>
     </div>
     <div class="cell">
       <div class="w601">
-        <ats-amplify-chat-chat-list-item theme="prospect" name="Fred Johnson" jobTitle="District Security Director" [selectable]="false"
+        <ats-amplify-chat-chat-list-item theme="prospect-contact" name="Marie Smith" jobTitle="Head of HR" [fields]="prospectFields" [(selected)]="prospectSel">
+          <ats-amplify-chat-relevance-signals [signals]="signals" />
+        </ats-amplify-chat-chat-list-item>
+      </div>
+      <span class="caption">theme=prospect-contact · selected: {{ prospectSel() }}</span>
+    </div>
+    <div class="cell">
+      <div class="w601">
+        <ats-amplify-chat-chat-list-item theme="prospect-contact" name="Fred Johnson" jobTitle="District Security Director" [selectable]="false"
           [fields]="[{ type: 'company', text: 'Comcast' }]" />
       </div>
-      <span class="caption">theme=prospect · no checkbox (no bulk action) · empty content slot</span>
+      <span class="caption">theme=prospect-contact · no checkbox (no bulk action) · empty content slot</span>
     </div>
   </div>
 

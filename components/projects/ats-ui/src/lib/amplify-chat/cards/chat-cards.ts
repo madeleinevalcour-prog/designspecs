@@ -12,23 +12,23 @@ export interface AmplifyChatCardItem {
   id: string | number;
   /** Card theme; falls back to the stack's `theme`. */
   theme?: AmplifyChatListItemTheme;
-  /** prospect: the name link. candidate: the header title ("2034 | Tyler Brooks"). */
+  /** prospect-contact: the name link. entity-record: the header title ("2034 | Tyler Brooks"). */
   name: string;
-  /** prospect: photo URL (else initials). */
+  /** prospect-contact: photo URL (else initials). */
   avatarUrl?: string;
-  /** prospect: job title. */
+  /** prospect-contact: job title. */
   jobTitle?: string;
-  /** prospect: fields after the job title. candidate: the comment's data row. */
+  /** prospect-contact: fields after the job title. entity-record: the comment's data row. */
   fields?: NovoListField[];
-  /** candidate: summary paragraph. */
+  /** entity-record: summary paragraph. */
   body?: string;
   /** candidate: header entity. Default candidate. */
   entity?: NovoListEntity;
-  /** prospect: saved as a Contact in the ATS (contact circle) or not (grey). Default true. */
+  /** prospect-contact: saved as a Contact in the ATS (contact circle) or not (grey). Default true. */
   inBullhorn?: boolean;
-  /** prospect: relevance signals, shown in the content slot. */
+  /** prospect-contact: relevance signals, shown in the content slot. */
   signals?: string[];
-  /** candidate: chips (skills), shown in the content slot. */
+  /** entity-record: chips (e.g. skills), shown in the content slot. */
   chips?: string[];
   /** Locks the checkbox, e.g. once added to Bullhorn. */
   disabled?: boolean;
@@ -39,9 +39,9 @@ export interface AmplifyChatCardItem {
  * 6223:173466, selected 6271:183687). A stack of amplify-chat/chat-list-item cards (gap 8),
  * with the same selection model and selection bar as AmplifyChatDataTable.
  *
- *   <ats-amplify-chat-chat-cards [items]="prospects" [actions]="actions" noun="Contact"
+ *   <ats-amplify-chat-chat-cards theme="prospect-contact" [items]="prospects" [actions]="actions" noun="Contact"
  *       [(selection)]="ids" (primary)="addContacts($event)" (action)="run($event)" (open)="openRecord($event)" />
- *   <ats-amplify-chat-chat-cards theme="candidate" [items]="candidates" [pageSize]="3" [selectable]="false" />
+ *   <ats-amplify-chat-chat-cards [items]="candidates" [pageSize]="3" [selectable]="false" />
  *
  * Behaviour (amplify-chat-interface-patterns.md, "Cards" + "Selection and bulk actions"):
  *  - each card toggles its own checkbox; `selection` (ids) is two-way (`selectionChange`).
@@ -53,7 +53,7 @@ export interface AmplifyChatCardItem {
  *    "1–3 of 8" on the left. Selection persists across pages; the count is over all items.
  *    (Chat guidance: 3 cards by default, 5 at most; above that prefer a table.)
  *  - `primary` / `action` emit the selected items; nothing runs until clicked.
- * Content slot per card: prospect → relevance-signals from `signals`; candidate → chips.
+ * Content slot per card: prospect-contact → relevance-signals from `signals`; entity-record → chips.
  */
 @Component({
   selector: 'ats-amplify-chat-chat-cards',
@@ -65,7 +65,7 @@ export interface AmplifyChatCardItem {
           [jobTitle]="it.jobTitle" [fields]="it.fields" [body]="it.body" [entity]="it.entity" [inBullhorn]="it.inBullhorn"
           [selectable]="isSelectable()" [disabled]="!!it.disabled"
           [selected]="selectedSet().has(it.id)" (selectedChange)="toggle(it.id, $event)" (open)="open.emit(it)">
-          @if ((it.theme ?? themeName()) === 'prospect') {
+          @if ((it.theme ?? themeName()) === 'prospect-contact') {
             @if (it.signals?.length) { <ats-amplify-chat-relevance-signals [signals]="it.signals" /> }
           } @else if (it.chips?.length) {
             <div class="ats-amplify-chat-chat-list-item__chips">@for (c of it.chips; track $index) { <ats-novo-chip [label]="c" /> }</div>
@@ -88,8 +88,8 @@ export interface AmplifyChatCardItem {
 export class AmplifyChatChatCards {
   /** Cards, in rank order. */
   readonly items = input<AmplifyChatCardItem[] | undefined>([]);
-  /** Default card theme. Default prospect. */
-  readonly theme = input<AmplifyChatListItemTheme | undefined>('prospect');
+  /** Default card theme. Default entity-record. */
+  readonly theme = input<AmplifyChatListItemTheme | undefined>('entity-record');
   /** Checkboxes + selection bar. Default true; off when the reply offers no bulk action. */
   readonly selectable = input<boolean | undefined, unknown>(true, { transform: (v: unknown) => (v == null ? undefined : booleanAttribute(v)) });
   /** Cards per page. Unset: show all. */
@@ -119,7 +119,7 @@ export class AmplifyChatChatCards {
   readonly open = output<AmplifyChatCardItem>();
 
   protected readonly itemList = computed(() => this.items() ?? []);
-  protected readonly themeName = computed(() => this.theme() ?? 'prospect');
+  protected readonly themeName = computed(() => this.theme() ?? 'entity-record');
   protected readonly isSelectable = computed(() => this.selectable() ?? true);
   private readonly size = computed(() => {
     const n = Math.floor(this.pageSize() ?? 0);

@@ -82,7 +82,7 @@ export class AmplifyChatFullPagePage {
     this.canned = 0;
     if (state === 'empty') return [];
     const opening: Turn[] = [
-      { id: this.nextId++, kind: 'user', text: FIRST_QUESTION },
+      { id: this.nextId++, kind: 'user', text: FIRST_QUESTION, tag: { label: 'Verizon', entity: 'company' } },
       { id: this.nextId++, kind: 'reply', format: 'table' },
     ];
     this.canned = 1;
@@ -91,9 +91,9 @@ export class AmplifyChatFullPagePage {
     return [
       { id: this.nextId++, kind: 'user', text: 'Make a list of the open jobs I should prioritize today' },
       { id: this.nextId++, kind: 'reply', format: 'prose' },
-      { id: this.nextId++, kind: 'user', text: 'Which Verizon contacts should I reach out to first?' },
+      { id: this.nextId++, kind: 'user', text: 'Which Verizon contacts should I reach out to first?', tag: { label: 'Verizon', entity: 'company' } },
       { id: this.nextId++, kind: 'reply', format: 'cards' },
-      { id: this.nextId++, kind: 'user', text: FIRST_QUESTION },
+      { id: this.nextId++, kind: 'user', text: FIRST_QUESTION, tag: { label: 'Verizon', entity: 'company' } },
       { id: this.nextId++, kind: 'reply', format: 'table', selection: PROSPECTS.map((p) => p.id as number) },
     ];
   }

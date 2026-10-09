@@ -51,6 +51,8 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
  *   button-row:         showLabels = yes | no (default yes), canSend = true | false (default false), generating = true
  *   context-container:  size = full page | docked (default full page),
  *                       items (comma list of chip labels, default "Tyler Brooks")
+ *   sources (container + context-container): comma list of Amplify data-source chips with the Amplify
+ *     icon, e.g. sources=Prospect (shown before any items)
  */
 @Component({
   imports: [AmplifyChatTextArea, AmplifyChatButtonRow, AmplifyChatContextContainer, AmplifyChatInput, AmplifyChatContainer, AmplifyChatGlobalChatContainer],
@@ -66,7 +68,7 @@ const QUESTIONS: AmplifyChatClarifyingQuestion[] = [
             <ats-amplify-chat-container [size]="size()" [context]="embedItems()" [questions]="questions() === 'yes' ? round : undefined" [generating]="isGenerating()" (removed)="drop($event)" />
           }
           @case ('global-chat-container') {
-            <ats-amplify-chat-global-chat-container [size]="size()" [name]="name()" [greeting]="greeting()" [context]="items() ? embedItems() : []" [generating]="isGenerating()" />
+            <ats-amplify-chat-global-chat-container [size]="size()" [name]="name()" [greeting]="greeting()" [context]="items() || sources() ? embedItems() : []" [generating]="isGenerating()" />
           }
           @case ('text-area') {
             <textarea ats-amplify-chat-text-area aria-label="Message Amplify" [placeholder]="placeholder()" [value]="value() ?? ''"></textarea>
@@ -203,6 +205,8 @@ export class AmplifyChatInputPage {
   readonly canSend = input<string>();
   readonly size = input<AmplifyChatContextContainerSize>();
   readonly items = input<string>();
+  /** Comma list of Amplify data-source chips (Amplify icon), shown before the record chips, e.g. "Prospect". */
+  readonly sources = input<string>();
   readonly questions = input<string>();
   readonly name = input<string>();
   readonly greeting = input<string>();
@@ -228,9 +232,14 @@ export class AmplifyChatInputPage {
   protected readonly withSource: AmplifyChatContextItem[] = [{ label: 'Prospect', source: true }, { label: 'Verizon', entity: 'company' }];
   private readonly removedLabels = signal<string[]>([]);
 
-  protected readonly embedItems = computed<AmplifyChatContextItem[]>(() =>
-    (this.items() === 'none' ? [] : this.items()?.split(',').map((s) => s.trim()).filter(Boolean) ?? ['Tyler Brooks']).filter((l) => !this.removedLabels().includes(l)),
-  );
+  protected readonly embedItems = computed<AmplifyChatContextItem[]>(() => {
+    const removed = this.removedLabels();
+    const sources: AmplifyChatContextItem[] = (this.sources()?.split(',').map((s) => s.trim()).filter(Boolean) ?? [])
+      .filter((l) => !removed.includes(l)).map((label) => ({ label, source: true }));
+    const records = (this.items() === 'none' ? [] : this.items()?.split(',').map((s) => s.trim()).filter(Boolean) ?? (sources.length ? [] : ['Tyler Brooks']))
+      .filter((l) => !removed.includes(l));
+    return [...sources, ...records];
+  });
 
   protected say(line: string): void {
     this.log.update((l) => [...l, line]);

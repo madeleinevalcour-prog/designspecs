@@ -22,6 +22,11 @@ let nextId = 0;
  *   <ats-amplify-chat-user-bubble>Make a list of the open jobs I should prioritize today</ats-amplify-chat-user-bubble>
  *   <ats-amplify-chat-user-bubble [(expanded)]="open">{{ pastedJobDescription }}</ats-amplify-chat-user-bubble>
  *
+ * Records the recruiter tags in their request use the same inline entity link as
+ * Amplify's replies (`a[ats-amplify-chat-link]`, lib/amplify-chat/text):
+ *   <ats-amplify-chat-user-bubble>Find candidates for
+ *     <a ats-amplify-chat-link entity="job" href="/job/425">425 | Senior Java Developer</a></ats-amplify-chat-user-bubble>
+ *
  * `state` forces a variant (docs): "long text" / "long text expanded" show the
  * Show More / Show Less control even for short text; the control still toggles.
  */

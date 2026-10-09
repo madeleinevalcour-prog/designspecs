@@ -1,13 +1,13 @@
 import { Component, DestroyRef, computed, inject, input, linkedSignal, signal, viewChild } from '@angular/core';
 import {
   AmplifyChatChatBlock, AmplifyChatContainer, AmplifyChatContextItem, AmplifyChatConversation, AmplifyChatDataTable, AmplifyChatDocked,
-  AmplifyChatDockedMode, AmplifyChatHeader, AmplifyChatLink, AmplifyChatProspect, AmplifyChatProspectColumn, AmplifyChatSelectionAction,
+  AmplifyChatDockedMode, AmplifyChatHeader, AmplifyChatLink, AmplifyChatLinkEntity, AmplifyChatProspect, AmplifyChatProspectColumn, AmplifyChatSelectionAction,
   AmplifyChatSource, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn, Button, RecordHeader, RecordHeaderField, RecordHeaderTab,
 } from 'ats-ui';
 
 /** One turn in the live conversation. `seed` = the Figma Verizon reply (data table). */
 type Turn =
-  | { id: number; kind: 'user'; text: string }
+  | { id: number; kind: 'user'; text: string; tag?: { label: string; entity: AmplifyChatLinkEntity } }
   | { id: number; kind: 'reply'; status?: string; text?: string; seed?: boolean; stopped?: boolean }
   | { id: number; kind: 'greeting'; text: string };
 
@@ -71,7 +71,7 @@ export class AmplifyChatDockedPage {
   private nextId = 1;
   protected readonly turns = linkedSignal<Turn[]>(() =>
     this.state() === 'empty' ? [{ id: this.nextId++, kind: 'greeting', text: GREETING }] : [
-      { id: this.nextId++, kind: 'user', text: FIRST_QUESTION },
+      { id: this.nextId++, kind: 'user', text: FIRST_QUESTION, tag: { label: 'Verizon', entity: 'company' } },
       { id: this.nextId++, kind: 'reply', seed: true },
     ],
   );
