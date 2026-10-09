@@ -337,10 +337,12 @@
     ], groups:[
       {label:"Amplify components", pages:[
         {t:"Text", href:"/docs/components/amplify-chat-text.html"},
+        {t:"User messages", href:"/docs/components/amplify-chat-user-messages.html"},
         {t:"Reply", href:"/docs/components/amplify-chat-reply.html"},
         {t:"Blocks", href:"/docs/components/amplify-chat-blocks.html"},
         {t:"Sources", href:"/docs/components/amplify-chat-sources.html"},
         {t:"Data table", href:"/docs/components/amplify-chat-data-table.html"},
+        {t:"Cards", href:"/docs/components/amplify-chat-cards.html"},
         {t:"Selection", href:"/docs/components/amplify-chat-selection.html"},
         {t:"Chat input", href:"/docs/components/amplify-chat-input.html"},
         {t:"Clarifying questions", href:"/docs/components/amplify-chat-clarifying-questions.html"},

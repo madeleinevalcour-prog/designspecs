@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cards — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="Cards">
+
+  <doc-section id="overview" label="Overview" desc="What chat cards are for">
+    <p class="lead" style="max-width:60ch">A stack of record cards for replies where each record needs a reason it was picked, carries several values of one kind, or will be acted on one by one. Each card is built on the Modern UI list-item. The stack shares the table’s selection model and selection bar, and can page through more results in that bar.</p>
+    <doc-example src="amplify-chat-cards?component=chat-cards&amp;count=3" caption="Three record cards (the default entity-record theme), nothing selected" height="620"></doc-example>
+    <p>When to use cards instead of a table, and how many, is set in <a href="../amplify/amplify-chat-interface-patterns.html#cards">Chat interface patterns</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#chat-cards">Chat cards</a></td><td>The stack (gap 8) and the selection bar under it. Owns selection and paging</td></tr>
+        <tr><td><a href="#chat-list-item">Chat list item</a></td><td>One card: checkbox, then a header and a content slot. Themes entity-record (default) and prospect-contact</td></tr>
+        <tr><td><a href="#relevance-signals">Relevance signals</a></td><td>Why Amplify picked a prospect: a label and one small chip per signal</td></tr>
+        <tr><td><a href="amplify-chat-selection.html">Selection bar</a></td><td>Count, pager and split button. Documented on its own page</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="chat-cards" label="Chat cards" desc="Variants, limits and paging">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Values</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>Variant</td><td><span class="chip">default</span> · <span class="chip">selected</span></td><td>Nothing selected: no bar (unless the stack is paged). One or more selected: the bar shows the count and the split button</td></tr>
+        <tr><td><span class="chip">theme</span></td><td><span class="chip">entity-record</span> (default) · <span class="chip">prospect-contact</span></td><td>The default theme for every card; a card can set its own</td></tr>
+        <tr><td><span class="chip">pageSize</span></td><td>Unset (show all) · 3–5</td><td>Shows one page of cards and puts the pager in the bar</td></tr>
+        <tr><td><span class="chip">selectable</span></td><td>true (default) · false</td><td>Off when the reply offers no bulk action</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=5&amp;variant=selected" caption="Contacts found by Prospect, all 5 selected: “5 of 5 selected” and “Add 5 Contacts”" height="860"></doc-example>
+    <doc-example src="amplify-chat-cards?component=chat-cards&amp;count=3&amp;variant=some" caption="Two of three selected" height="680"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Rule</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>3 cards. 3 cards plus the answer fit the visible full-page chat; docked chat is shorter</td></tr>
+        <tr><td>Maximum</td><td>5 cards per page. Past 5, the answer and sources move off screen and a table is easier to compare</td></tr>
+        <tr><td>More results</td><td>Show a page of 3–5 and page the rest in the bar under the stack: the range (“1–3 of 8”), then previous, page numbers and next. For a full review, link to the list view</td></tr>
+        <tr><td>Order</td><td>Rank by relevance, and say how in the rationale line (“Ranked by department match and seniority”)</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=8&amp;pageSize=3" caption="pageSize=3, 8 results, nothing selected: the bar shows the range and the pager only" height="600"></doc-example>
+    <doc-example src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=8&amp;pageSize=3&amp;variant=some" caption="Paged with 2 selected: the count covers every page. Selection carries across pages" height="600"></doc-example>
+    <ul>
+      <li>Selection carries across pages, and the count and button label cover every page, not just the visible one.</li>
+      <li>The pager shows up to five page numbers around the current page.</li>
+      <li>Cards have no select-all.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="chat-list-item" label="Chat list item" desc="Record cards and Prospect contact cards">
+    <p>One record in a card: card border, <span class="chip">border/radius/sm</span> (8), a 0 2 4 shadow. A checkbox lines up with the header, then the list-item: a header and a content slot.</p>
+    <table class="tbl">
+      <thead><tr><th>Theme</th><th>Header</th><th>Content slot</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">entity-record</span> (default)</td><td>Any ATS record (candidate, job, company…): an item header with the entity icon and title (“2034 | Tyler Brooks”), then a comment with fields and a summary. <span class="chip">entity</span> sets the icon</td><td>A chip group, such as skills</td></tr>
+        <tr><td><span class="chip">prospect-contact</span></td><td>A contact found by Prospect: 40px avatar (photo, else initials), the name as a link with a circle, then the job title and fields such as email</td><td><a href="#relevance-signals">Relevance signals</a></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=entity-record" caption="theme=entity-record (default), selected" height="230"></doc-example>
+    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=entity-record&amp;selectable=false" caption="selectable=false: no checkbox" height="230"></doc-example>
+    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact" caption="theme=prospect-contact, selected" height="170"></doc-example>
+    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact&amp;selected=false" caption="theme=prospect-contact, not selected" height="170"></doc-example>
+    <ul>
+      <li>The prospect-contact name circle follows the table’s In Bullhorn rule: <span class="chip">color/entity/contact</span> once saved as a Contact, neutral grey (<span class="chip">color/entity/task</span>) when not in Bullhorn.</li>
+      <li>The prospect-contact data row uses <span class="chip">input/value/sm</span> in <span class="chip">color/text/secondary</span>.</li>
+      <li>A card can be locked (<span class="chip">disabled</span>), for example once its record is added to Bullhorn.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="relevance-signals" label="Relevance signals" desc="Why a prospect was picked">
+    <p>The Amplify sparkle and “Relevance Signals”, then one small chip per signal, inside a 1px Amplify-gradient border.</p>
+    <doc-example src="amplify-chat-cards?component=relevance-signals" caption="Three signals" height="70"></doc-example>
+    <ul>
+      <li>Signals are short and factual: “Director-level”, “Department Match: Project Management”, “Previously contacted”.</li>
+      <li>Relevance signals belong to Prospect. Relevancy dots belong to candidate search. They never appear in the same reply.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Selection, paging and keyboard">
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Card checkbox</td><td>Toggles that card. The count and button label update live</td></tr>
+        <tr><td>Record title or contact name</td><td>Opens the record</td></tr>
+        <tr><td>Previous, page number, next</td><td>Changes the page. Selection on other pages stays</td></tr>
+        <tr><td>Split button</td><td>Runs the action on every selected card, across pages. Nothing runs until it’s clicked. See <a href="amplify-chat-selection.html">Selection</a></td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Checkboxes, the name link and the pager are native controls: Tab moves between them, Space toggles, Enter or Space activates.</li>
+      <li>If the results shrink, the current page moves back into range.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Use cards when each record needs a reason, several chips, or its own action.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use cards to compare records on the same short fields. When it’s unclear, use a <a href="amplify-chat-data-table.html">table</a>.</doc-callout>
+    <doc-callout type="do" heading="Do.">Show 3 cards by default and 5 at most per page. Page the rest in the bar.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Stack more than 5 cards in one view, or wrap the stack in an outer container.</doc-callout>
+    <doc-callout type="do" heading="Do.">Rank by relevance and say how in the rationale line.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show one set of records as both cards and a table, or mix relevance signals and relevancy dots.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token. The list-item parts use the <a href="novo-list.html">Novo List</a> tokens.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Chat cards</td><td><span class="chip">amplify-chat/chat-cards/spacing/gap</span></td><td><span class="chip">spacing/gap/sm</span> (8), between cards and before the bar</td></tr>
+        <tr><td>Chat list item, card</td><td><span class="chip">amplify-chat/chat-list-item/color/background</span>, <span class="chip">…/color/border</span>, <span class="chip">…/border-radius</span>, <span class="chip">…/effects/shadow-1/*</span></td><td><span class="chip">card/color/background/contents</span>, <span class="chip">card/color/border/default</span>, <span class="chip">border/radius/sm</span>, shadow 0 <span class="chip">spacing/2</span> <span class="chip">spacing/4</span> <span class="chip">color/transparency/charcoal/charcoal-04</span></td></tr>
+        <tr><td>Chat list item, layout</td><td><span class="chip">amplify-chat/chat-list-item/spacing/padding-vertical</span>, <span class="chip">…/padding-horizontal</span>, <span class="chip">…/spacing/gap</span></td><td><span class="chip">spacing/padding/sm</span> (8), <span class="chip">spacing/padding/md</span> (16), <span class="chip">list-item/spacing/content/gap</span></td></tr>
+        <tr><td>Checkbox container</td><td><span class="chip">amplify-chat/chat-list-item/checkbox-container/spacing/padding-vertical</span></td><td><span class="chip">spacing/12</span> (prospect-contact), <span class="chip">spacing/4</span> (entity-record)</td></tr>
+        <tr><td>Entity-record summary</td><td><span class="chip">amplify-chat/chat-list-item/list-item/item-content/…/color/content/text</span></td><td><span class="chip">card/color/content/body</span></td></tr>
+        <tr><td>Prospect-contact header</td><td>Semantic directly</td><td>gap <span class="chip">spacing/gap/sm</span>, details gap <span class="chip">spacing/gap/xsm</span>; data <span class="chip">input/value/sm</span>, <span class="chip">color/text/secondary</span>; circle <span class="chip">color/entity/contact</span> or <span class="chip">color/entity/task</span></td></tr>
+        <tr><td>Relevance signals</td><td>Semantic directly</td><td>gap <span class="chip">field/spacing/gap</span>, padding <span class="chip">spacing/padding/sm</span>, radius <span class="chip">border/radius/sm</span>; label <span class="chip">input/value/sm</span> <span class="chip">color/text/body</span>; chips gap <span class="chip">spacing/gap/xxsm</span>; border <span class="chip">color/amplify/amplify-green</span> → <span class="chip">amplify-blue</span></td></tr>
+        <tr><td>Prospect-contact avatar</td><td>No token</td><td>40px (the avatar spacing tokens are 24)</td></tr>
+        <tr><td>Sparkle</td><td>No token</td><td>Amplify radial gradient, as in the Icon Container</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="List semantics and labels">
+    <ul>
+      <li>The stack is a list (<span class="chip">role="list"</span>, each card a list item). Give it an accessible name with <span class="chip">label</span> (default “Records”).</li>
+      <li>Each checkbox is named “Select &lt;name&gt;”. The avatar is decorative; the name is the link’s accessible name.</li>
+      <li>In Bullhorn status on a card is shown only by the circle color. See To confirm.</li>
+      <li>The pager is a <span class="chip">nav</span> named with the current page; the current page has <span class="chip">aria-current="page"</span>. The count is announced politely as it changes.</li>
+      <li>Controls show a 2px <span class="chip">color/border/focus</span> outline on keyboard focus.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-chat-cards [items]="candidates" [actions]="actions" noun="Candidate" /&gt;
+
+      &lt;ats-amplify-chat-chat-cards theme="prospect-contact" [items]="prospects" [actions]="actions" noun="Contact" [pageSize]="3"
+          [(selection)]="ids" (primary)="addContacts($event)" (action)="run($event)" (open)="openRecord($event)" /&gt;
+
+      &lt;ats-amplify-chat-chat-list-item name="2034 | Tyler Brooks" [fields]="fields" body="Senior Software Engineer…"&gt;
+        &lt;div class="ats-amplify-chat-chat-list-item__chips"&gt;…skill chips…&lt;/div&gt;
+      &lt;/ats-amplify-chat-chat-list-item&gt;
+
+      &lt;ats-amplify-chat-chat-list-item theme="prospect-contact" name="Marie Smith" jobTitle="Head of HR"
+          [fields]="[{ type: 'email', text: 'marie.smith@nexusdynamics.com' }]" [(selected)]="sel"&gt;
+        &lt;ats-amplify-chat-relevance-signals [signals]="['Director-level', 'Previously contacted']" /&gt;
+      &lt;/ats-amplify-chat-chat-list-item&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatChatCards</span></td><td><span class="chip">ats-amplify-chat-chat-cards</span></td><td><span class="chip">items</span> · <span class="chip">theme</span> (entity-record) · <span class="chip">selectable</span> (true) · <span class="chip">pageSize</span> (all) · <span class="chip">page</span> (two-way, 1) · <span class="chip">selection</span> (two-way ids) · <span class="chip">verb</span> (Add) · <span class="chip">noun</span> (Contact) · <span class="chip">nounPlural</span> · <span class="chip">actionLabel</span> · <span class="chip">actions</span> · <span class="chip">label</span> (Records)</td></tr>
+        <tr><td><span class="chip">AmplifyChatChatListItem</span></td><td><span class="chip">ats-amplify-chat-chat-list-item</span></td><td><span class="chip">theme</span> entity-record (default) · prospect-contact · <span class="chip">entity</span> · <span class="chip">selected</span> (two-way) · <span class="chip">selectable</span> · <span class="chip">disabled</span> · <span class="chip">name</span> · <span class="chip">avatarUrl</span> · <span class="chip">jobTitle</span> · <span class="chip">fields</span> · <span class="chip">body</span> · <span class="chip">entity</span> (candidate) · <span class="chip">inBullhorn</span> (true)</td></tr>
+        <tr><td><span class="chip">AmplifyChatRelevanceSignals</span></td><td><span class="chip">ats-amplify-chat-relevance-signals</span></td><td><span class="chip">signals</span> · <span class="chip">label</span> (Relevance Signals)</td></tr>
+      </tbody>
+    </table>
+    <p>Outputs: <span class="chip">primary</span> and <span class="chip">action</span> emit the selected items from every page; <span class="chip">open</span> emits the item. In the stack, entity-record items fill the slot from <span class="chip">chips</span> and prospect-contact items from <span class="chip">signals</span>.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Components and rules">
+    <ul>
+      <li><a href="amplify-chat-selection.html">Selection</a>: the selection bar, pager and split button.</li>
+      <li><a href="amplify-chat-data-table.html">Data table</a>: the default when records are compared on short fields.</li>
+      <li><a href="novo-list.html">Novo List</a> and <a href="novo-chip.html">Novo Chip</a>: the parts the cards are built from.</li>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#choosing-a-format">choosing a format</a>, <a href="../amplify/amplify-chat-interface-patterns.html#cards">cards</a>, <a href="../amplify/amplify-chat-interface-patterns.html#selection">selection and bulk actions</a>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Card counts are unverified.">3 by default and 5 at most come from the card height and the visible chat area, not research. Check them with recruiters.</doc-callout>
+    <doc-callout type="note" heading="No select-all on cards.">The record-actions study puts a select-all in the card bar; the built stack has none. Confirm whether one is wanted.</doc-callout>
+    <doc-callout type="note" heading="In Bullhorn on cards is color only.">The table says “Existing Contact” or “Not in Bullhorn” in text; the card shows only the circle color. Confirm whether the card needs the text too.</doc-callout>
+    <doc-callout type="note" heading="Sticky bar.">The record-actions study has the bar stick to the bottom of the chat while the stack is in view. It isn’t built. Confirm whether paging replaces it.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

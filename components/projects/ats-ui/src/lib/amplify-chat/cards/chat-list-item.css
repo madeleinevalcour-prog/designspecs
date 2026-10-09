@@ -25,10 +25,14 @@
   padding-block: var(--amplify-chat-chat-list-item-checkbox-container-spacing-padding-vertical-spacing-4);
 }
 
-/* list-item: header, then content (gap list-item/spacing/content/gap, 16) */
+/* list-item: header, then content. prospect-contact: list-item/spacing/content/gap (16) below the
+   40px header-section; entity-record: list-item/spacing/gap-vertical (8) below the 24px item-header (Figma) */
 .ats-amplify-chat-chat-list-item__list-item {
   display: flex; flex-direction: column; flex: 1 0 0; min-width: 0;
   gap: var(--list-item-spacing-content-gap);
+}
+.ats-amplify-chat-chat-list-item[data-theme="entity-record"] .ats-amplify-chat-chat-list-item__list-item {
+  gap: var(--list-item-spacing-gap-vertical);
 }
 .ats-amplify-chat-chat-list-item__content {
   display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical);

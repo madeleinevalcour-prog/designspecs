@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User messages — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify components" title="User messages">
+
+  <doc-section id="overview" label="Overview" desc="What the user bubble is for">
+    <p class="lead" style="max-width:60ch">The recruiter’s message in an Amplify conversation. A tonal bubble that hugs its text up to 440px, right-aligned in the chat column so the two sides of the conversation read apart at a glance. Long messages, such as a pasted job description, collapse to 8 lines with Show More.</p>
+    <doc-example src="amplify-chat-user-messages?component=user-bubble" caption="A short message, right-aligned in the chat column" height="80"></doc-example>
+    <p>The rules for user messages, and how they sit in the conversation, are in <a href="../amplify/amplify-chat-interface-patterns.html#user-messages">Chat interface patterns</a>. That page wins where the two differ.</p>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#user-bubble">User bubble</a></td><td>The message: <span class="chip">body/default</span> in <span class="chip">color/text/body</span> on <span class="chip">color/background/subtle-hover</span>, radius <span class="chip">border/radius/sm</span> (8). Hugs its content up to 440px, then wraps</td></tr>
+        <tr><td><a href="#user-turn">User turn</a></td><td>The full-width row that right-aligns the bubble in the chat column</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="user-bubble" label="User bubble" desc="States and long messages">
+    <p>Three states. The bubble measures its message and picks the state itself; <span class="chip">state</span> only forces one for docs.</p>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">user-bubble</span> (default)</td><td>The full message. Up to 8 lines, no control</td></tr>
+        <tr><td><span class="chip">long text</span></td><td>Over 8 lines: capped at 8 lines (160px plus padding), the last 2 fade out through an alpha mask, and a Show More button (Button, Dialogue, Small) sits below. Fills the 440px max</td></tr>
+        <tr><td><span class="chip">long text expanded</span></td><td>The full message with Show Less</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;text=short" caption="state=user-bubble" height="80"></doc-example>
+    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;text=long" caption="state=long text, detected from a pasted job description. Show More is live" height="230"></doc-example>
+    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;state=long%20text%20expanded&amp;text=long" caption="state=long text expanded" height="420"></doc-example>
+    <ul>
+      <li>The cap is set in lines, not pixels, so it follows the type scale.</li>
+      <li>The fade is a mask, not a color overlay, so the text keeps its token color on any bubble fill.</li>
+      <li>Line breaks in the message are kept. Several <span class="chip">&lt;p&gt;</span> children get <span class="chip">spacing/padding/sm</span> (8) between them.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tagged-records" label="Tagged records" desc="Records named in the request">
+    <p>When the recruiter tags a record in their request, such as a job, company or candidate, it appears in the bubble as the same inline entity link Amplify uses in its replies: a circle in the entity’s color, then the record name in link color and medium weight. The link opens the record. Untagged words stay plain text.</p>
+    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;text=links" caption="A request that tags a company" height="80"></doc-example>
+    <p>Use the <a href="amplify-chat-text.html#link">entity link</a> from the Text components inside the bubble, so a record looks the same wherever it appears in the conversation.</p>
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-user-bubble&gt;
+        Find candidates for &lt;a ats-amplify-chat-link entity="job" href="/job/425"&gt;425 | Senior Java Developer&lt;/a&gt;
+        at &lt;a ats-amplify-chat-link entity="company" href="/company/112"&gt;Verizon&lt;/a&gt;
+      &lt;/ats-amplify-chat-user-bubble&gt;
+    </doc-code>
+  </doc-section>
+
+  <doc-section id="user-turn" label="User turn" desc="Right-aligning the bubble">
+    <p>The bubble doesn’t align itself. The user turn is a full-width row in the 800px chat column that pushes its bubble to the right edge. Turns are <span class="chip">spacing/gap/xlg</span> (32) apart; that spacing belongs to the conversation column, not the turn.</p>
+    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;message=Which%20of%20these%20candidates%20are%20available%20in%20November%3F" caption="The bubble in a right-aligned row, as the user turn places it" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Collapse, expand and keyboard">
+    <ul>
+      <li>The bubble re-measures when its width changes, so a message can move between <span class="chip">user-bubble</span> and <span class="chip">long text</span> as the chat panel resizes.</li>
+      <li>Show More expands the message in place; Show Less collapses it back to 8 lines. Both are a normal button: Tab to reach it, Enter or Space to toggle.</li>
+      <li>Expanded is two-way bindable (<span class="chip">[(expanded)]</span>), so a host can keep the state across re-renders.</li>
+      <li>Copy, where offered, always copies the full message, not just the visible part.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Place every bubble in a user turn so it sits on the right edge of the chat column.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Stretch the bubble to the column width or left-align it. The alignment is what separates the recruiter’s turns from Amplify’s.</doc-callout>
+    <doc-callout type="do" heading="Do.">Let long messages collapse, so the question and the start of Amplify’s reply stay on screen together.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Truncate the message text itself or cut it with an ellipsis. The full message is always one click away.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Tokens and what they resolve to">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a semantic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Token group</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Bubble</td><td><span class="chip">amplify-chat/user-bubble/color/background</span>, <span class="chip">…/border/radius</span>, <span class="chip">…/spacing/padding-vertical</span>, <span class="chip">…/spacing/padding-horizontal</span>, <span class="chip">…/content/spacing/gap</span></td><td><span class="chip">color/background/subtle-hover</span>, <span class="chip">border/radius/sm</span>, <span class="chip">spacing/padding/sm</span>, <span class="chip">spacing/padding/md</span>, <span class="chip">spacing/4</span></td></tr>
+        <tr><td>Message</td><td><span class="chip">amplify-chat/user-bubble/message/typography/*</span>, <span class="chip">…/color/content/text</span>, <span class="chip">…/spacing/paragraph-spacing</span></td><td><span class="chip">body/default</span>, <span class="chip">color/text/body</span>, <span class="chip">spacing/padding/sm</span></td></tr>
+        <tr><td>Show More / Show Less</td><td>Button tokens</td><td>Button, theme=dialogue, size=small</td></tr>
+        <tr><td>Max width</td><td>No token</td><td>440px</td></tr>
+        <tr><td>Line cap</td><td>No token</td><td>8 × the <span class="chip">body/default</span> line height</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Toggle and reading order">
+    <ul>
+      <li>Show More / Show Less carries <span class="chip">aria-expanded</span> and <span class="chip">aria-controls</span> pointing at the message, so screen readers announce the state.</li>
+      <li>Collapsing clips the message visually only. The full text stays in the DOM, so screen readers read all of it.</li>
+      <li>The bubble fill doesn’t carry meaning on its own: position and the conversation order identify the speaker.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-user-turn&gt;
+        &lt;ats-amplify-chat-user-bubble&gt;Make a list of the open jobs I should prioritize today&lt;/ats-amplify-chat-user-bubble&gt;
+      &lt;/ats-amplify-chat-user-turn&gt;
+
+      &lt;ats-amplify-chat-user-turn&gt;
+        &lt;ats-amplify-chat-user-bubble [(expanded)]="open"&gt;{{ pastedJobDescription }}&lt;/ats-amplify-chat-user-bubble&gt;
+      &lt;/ats-amplify-chat-user-turn&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatUserBubble</span></td><td><span class="chip">ats-amplify-chat-user-bubble</span></td><td><span class="chip">state</span> user-bubble · long text · long text expanded (docs only; unset → detected) · <span class="chip">expanded</span> two-way (collapsed)</td></tr>
+        <tr><td><span class="chip">AmplifyChatUserTurn</span></td><td><span class="chip">ats-amplify-chat-user-turn</span></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>The message is the projected content. The user turn projects one bubble.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Patterns and rules">
+    <ul>
+      <li><a href="../amplify/amplify-chat-interface-patterns.html">Chat interface patterns</a>: <a href="../amplify/amplify-chat-interface-patterns.html#user-messages">user messages</a>, <a href="../amplify/amplify-chat-interface-patterns.html#spacing">spacing and layout</a>.</li>
+      <li><a href="amplify-chat-text.html">Text</a>: the prose parts of Amplify’s replies.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="No copy control on the bubble.">The patterns doc says copy takes the full message, but the bubble has no copy action of its own. Confirm whether user messages get one, and where it sits.</doc-callout>
+    <doc-callout type="note" heading="Gap and max width aren’t semantic.">The gap between text and Show More binds the primitive <span class="chip">spacing/4</span>, and the 440px max width has no token.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>
