@@ -1,5 +1,4 @@
-:host { display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; background: #fff; }
-:host:has(> .frame.embed) { height: auto; background: transparent; }
+:host { display: flex; flex-direction: column; height: 100vh; height: 100dvh; box-sizing: border-box; background: #fff; }
 .intro { padding: 32px 40px 16px; }
 h1 { font-size: 24px; margin: 0 0 4px; }
 .lede { color: #5d7798; margin: 0 0 16px; font-size: 14px; max-width: 880px; }
@@ -11,7 +10,7 @@ h1 { font-size: 24px; margin: 0 0 4px; }
   border-top: 1px solid var(--color-border-default);
   background: var(--color-background-default);
 }
-.frame.embed { flex: 0 0 auto; height: 760px; border-top: 0; }
+.frame.embed { border-top: 0; } /* fills the window it's in (the docs example frame is 760 tall) */
 
 .page { flex: 1 1 auto; min-width: 0; overflow: auto; display: flex; flex-direction: column; }
 .page__body { display: flex; flex-direction: column; gap: 16px; padding: 16px 24px; background: var(--color-background-muted); flex: 1 0 auto; }

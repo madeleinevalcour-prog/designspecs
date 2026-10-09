@@ -134,6 +134,7 @@
   </doc-section>
 
   <doc-section id="code" label="In code" desc="For engineering">
+    <p>The shell sizes to the browser window by default (<span class="chip">100dvh</span>), as the ATS does: the page content scrolls inside it and the bowling alley is never cut off. Inside a sized container, such as a docs frame, set <span class="chip">height: 100%</span> on the shell.</p>
     <p>Wrap the bowling alley and the page content in <span class="chip">&lt;ats-bowling-alley-shell&gt;</span>. It provides the shared <span class="chip">BowlingAlleyController</span>, lays out the page, and renders the scrim, overlays, Fast Find results and tooltip. Give it a height; it fills its container.</p>
     <doc-code caption="Angular">
       &lt;ats-bowling-alley-shell style="height: 100vh"

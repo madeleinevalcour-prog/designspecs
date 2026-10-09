@@ -34,9 +34,11 @@ export interface BowlingAlleySelection {
  * BowlingAlleyShell — layout + behaviour root for the bowling alley. Provides the
  * BowlingAlleyController, lays out the bowling alley and the scrolling page content
  * (default slot), and renders the page scrim, the overlays (the Menu, Add and user
- * menus are `<ats-menu>` variants; Help), the Fast Find results and the pin tooltip. Fills its container: give it a height.
+ * menus are `<ats-menu>` variants; Help), the Fast Find results and the pin tooltip.
+ * Sizes to the browser window by default (100dvh), as the ATS does: the page scrolls inside it
+ * and the bowling alley is never cut off. Inside a sized container, set `height: 100%` on it.
  *
- *   <ats-bowling-alley-shell style="height: 100vh" (amplifyClick)="amplifyOpen = !amplifyOpen">
+ *   <ats-bowling-alley-shell (amplifyClick)="amplifyOpen = !amplifyOpen">
  *     <ats-bowling-alley />
  *     …page content…
  *   </ats-bowling-alley-shell>
