@@ -2,10 +2,10 @@ import { Component, DestroyRef, computed, inject, input, linkedSignal, signal } 
 import {
   AmplifyChatChatBlock, AmplifyChatChatCards, AmplifyChatClarifyAnswer, AmplifyChatUserBubbleAnswer, AmplifyChatClarifyingQuestion, AmplifyChatContextItem,
   AmplifyChatDataTable, AmplifyChatDraftBlock, AmplifyChatFullPage, AmplifyChatHeader, AmplifyChatLink, AmplifyChatListItem,
-  AmplifyChatLiteralValueBlock, AmplifyChatNumberedList, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn, BowlingAlley, BowlingAlleyShell, Button,
+  AmplifyChatLiteralValueBlock, AmplifyChatNumberedList, AmplifyChatSelectionAction, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn, BowlingAlley, BowlingAlleyShell, Button,
 } from 'ats-ui';
 import {
-  BOOLEAN, CARD_ITEMS, CLARIFY_ROUND, COLUMNS, DEMO_PROMPTS, DRAFT, FIRST_QUESTION, JOB_SOURCES, PROSPECTS, PROSPECT_SOURCES, ROTATION, ReplyFormat, intentFor,
+  BOOLEAN, CANDIDATE_CARDS, CARD_ITEMS, CLARIFY_ROUND, COLUMNS, DEMO_PROMPTS, DRAFT, FIRST_QUESTION, JOB_SOURCES, PROSPECTS, PROSPECT_SOURCES, ROTATION, ReplyFormat, intentFor,
   SELECTION_ACTIONS, THINKING, Turn,
 } from './full-page-data';
 
@@ -65,6 +65,11 @@ export class AmplifyChatFullPagePage {
   protected readonly prospectSources = PROSPECT_SOURCES;
   protected readonly jobSources = JOB_SOURCES;
   protected readonly cardItems = CARD_ITEMS;
+  protected readonly candidateCards = CANDIDATE_CARDS;
+  protected readonly candidateActions: AmplifyChatSelectionAction[] = [
+    { id: 'list', label: 'Add to list', icon: 'list-outline' },
+    { id: 'submit', label: 'Submit to job', icon: 'job', preview: true },
+  ];
   protected readonly boolean = BOOLEAN;
   protected readonly demoPrompts = DEMO_PROMPTS;
   /** Demo helper: the prompt list above the Demo prompts button (click one to send it). */

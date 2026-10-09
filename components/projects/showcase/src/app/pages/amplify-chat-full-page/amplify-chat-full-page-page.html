@@ -52,6 +52,17 @@
                 <ats-amplify-chat-chat-cards theme="prospect-contact" [items]="cardItems" [actions]="selectionActions" />
               </ats-amplify-chat-chat-block>
             }
+            @case ('candidate-cards') {
+              <ats-amplify-chat-chat-block sourcesSummary="Based on 312 candidates · Updated today"
+                [followUps]="['Show Prospect contacts in cards', 'Draft an intro email', 'Why these 3?']" (followUp)="ask($event)">
+                <ats-amplify-chat-text type="paragraph-with-links">
+                  Here are 3 candidates for <a ats-amplify-chat-link entity="job" href="#">425 | Senior Java Developer</a> at
+                  <a ats-amplify-chat-link entity="company" href="#">Verizon</a>, ranked by skills match and availability.
+                </ats-amplify-chat-text>
+                <ats-amplify-chat-header>Top 3 Matching Candidates</ats-amplify-chat-header>
+                <ats-amplify-chat-chat-cards [items]="candidateCards" [actions]="candidateActions" noun="Candidate" />
+              </ats-amplify-chat-chat-block>
+            }
             @case ('list') {
               <ats-amplify-chat-chat-block sourcesSummary="Based on Prospect · 1,240 Verizon contacts, excluding those already in your ATS · Updated today"
                 [sources]="prospectSources" [followUps]="['Show them in cards', 'Show them in a table', 'Draft an intro email']" (followUp)="ask($event)">

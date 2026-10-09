@@ -3,7 +3,7 @@ import {
 } from 'ats-ui';
 
 /** The canned reply compositions the shell rotates through. */
-export type ReplyFormat = 'table' | 'prose' | 'cards' | 'list' | 'draft' | 'literal' | 'clarify' | 'answer';
+export type ReplyFormat = 'table' | 'prose' | 'cards' | 'candidate-cards' | 'list' | 'draft' | 'literal' | 'clarify' | 'answer';
 
 export type Turn =
   | { id: number; kind: 'user'; text: string; tag?: { label: string; entity: AmplifyChatLinkEntity }; answers?: AmplifyChatUserBubbleAnswer[] }
@@ -22,7 +22,9 @@ export const ROTATION: ReplyFormat[] = ['table', 'prose', 'cards', 'clarify', 'd
  */
 export const INTENTS: { format: ReplyFormat; pattern: RegExp }[] = [
   { format: 'clarify', pattern: /clarif|ask me|question/i },
-  { format: 'cards', pattern: /\bcards?\b/i },
+  // two card styles: Prospect contacts → prospect-contact cards; candidates (or just "cards") → entity-record cards
+  { format: 'cards', pattern: /prospect.*\bcards?\b|\bcards?\b.*prospect/i },
+  { format: 'candidate-cards', pattern: /\bcards?\b/i },
   { format: 'table', pattern: /\btable|grid|spreadsheet|columns?\b/i },
   { format: 'list', pattern: /\blist\b|bullet|numbered/i },
   { format: 'literal', pattern: /boolean|search string|query/i },
@@ -36,7 +38,7 @@ export function intentFor(text: string): ReplyFormat | undefined {
 }
 
 /** Shown beside Reset so whoever is demoing knows what to type. */
-export const DEMO_PROMPTS = ['Show me the results in cards', 'Show me the results in a list', 'Show me the results in a table', 'Ask me clarifying questions', 'Draft an intro email', 'Give me a Boolean search string'];
+export const DEMO_PROMPTS = ['Show candidates in cards', 'Show Prospect contacts in cards', 'Show me the results in a list', 'Show me the results in a table', 'Ask me clarifying questions', 'Draft an intro email', 'Give me a Boolean search string'];
 
 export const BOOLEAN = '("Java" OR "J2EE") AND ("Spring Boot" OR "Spring") AND ("AWS" OR "Azure") AND ("Senior" OR "Lead") NOT "Intern"';
 
@@ -48,6 +50,7 @@ export const THINKING: Record<ReplyFormat, string> = {
   clarify: 'Thinking…',
   draft: 'Drafting the email…',
   list: 'Checking Verizon contacts in your ATS…',
+  'candidate-cards': 'Matching candidates to 425 | Senior Java Developer…',
   literal: 'Building the search string…',
   answer: 'Searching candidates…',
 };
@@ -79,6 +82,16 @@ export const CARD_ITEMS: AmplifyChatCardItem[] = [
   { id: 'jc', name: 'James Chen', jobTitle: 'VP of Engineering', email: 'james.chen@verizon.com', signals: ['Tech leader', 'Dept: Network', 'Mutual intro'] },
   { id: 'pp', name: 'Priya Patel', jobTitle: 'Director of Operations', email: 'priya.patel@verizon.com', signals: ['Ops leader', 'Dept: Field Ops', 'High activity'] },
 ].map((c) => ({ id: c.id, name: c.name, jobTitle: c.jobTitle, fields: [{ type: 'email' as const, text: c.email }], inBullhorn: false, signals: c.signals }));
+
+// Entity-record cards (the default card theme): candidates matched to a job.
+export const CANDIDATE_CARDS: AmplifyChatCardItem[] = [
+  { id: 'c1', name: '2034 | Tyler Brooks', fields: [{ type: 'location', text: 'Boston, MA' }, { type: 'phone', text: '(784) 432 - 5293' }, { type: 'email', text: 'tyler.brooks@gmail.com' }],
+    body: 'Senior Software Engineer with 3 years of experience in Node.js and SQL. Interested in remote software engineer roles.', chips: ['JavaScript', 'Node.js', 'SQL', 'REST APIs'] },
+  { id: 'c2', name: '2077 | Priya Raman', fields: [{ type: 'location', text: 'Boston, MA' }, { type: 'email', text: 'priya.raman@outlook.com' }],
+    body: 'Backend engineer, 6 years in Java and Spring Boot on high-volume payment services. Open to hybrid roles in Boston.', chips: ['Java', 'Spring Boot', 'AWS', 'Kafka'] },
+  { id: 'c3', name: '2051 | Jordan Ellis', fields: [{ type: 'location', text: 'Philadelphia, PA' }, { type: 'email', text: 'jordan.ellis@gmail.com' }],
+    body: 'Full-stack engineer with 5 years in TypeScript and Angular. Led a migration to a component library at a telecom provider.', chips: ['TypeScript', 'Angular', 'Node.js'] },
+];
 
 export const DRAFT = `Hi Jordan,
 
