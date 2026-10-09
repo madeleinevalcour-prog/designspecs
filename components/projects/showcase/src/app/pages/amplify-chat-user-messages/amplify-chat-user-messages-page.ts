@@ -1,5 +1,12 @@
 import { Component, computed, input } from '@angular/core';
-import { AmplifyChatLink, AmplifyChatUserBubble, AmplifyChatUserBubbleState } from 'ats-ui';
+import { AmplifyChatLink, AmplifyChatUserBubble, AmplifyChatUserBubbleAnswer, AmplifyChatUserBubbleState } from 'ats-ui';
+
+// Figma state=clarify answers: a record answer (entity link) + two plain answers.
+const ANSWERS: AmplifyChatUserBubbleAnswer[] = [
+  { question: 'Job order', answer: 'JO-4821 | Senior Java Developer', entity: 'job', href: '#' },
+  { question: 'Location', answer: 'Within 25 mi of Boston' },
+  { question: 'Candidates', answer: 'All agency candidates' },
+];
 
 const SHORT = 'Make a list of the open jobs I should prioritize today';
 const LONG = `Can you find candidates for this role? Here's the job description:
@@ -23,7 +30,8 @@ Rate: $85–95/hr W2. Start date: November 3. Interviews: two rounds, video then
  *   /examples/amplify-chat-user-messages?component=user-bubble&state=long%20text%20expanded&text=long
  * Params:
  *   component = user-bubble (the only one)
- *   state = user-bubble | long text | long text expanded (forced; unset → detected)
+ *   state = user-bubble | long text | long text expanded | clarify answers (forced; unset → detected)
+ *   rows = 1–3 (clarify answers rows; default 3)
  *   text = short | long | links (sample message; default short; links = a message that tags records) · message = custom text
  */
 @Component({
@@ -32,7 +40,9 @@ Rate: $85–95/hr W2. Start date: November 3. Interviews: two rounds, video then
   template: `
     @if (embed()) {
       <div class="embed column">
-        @if (text() === 'links' && !message()) {
+        @if (state() === 'clarify answers') {
+          <ats-amplify-chat-user-bubble [answers]="embedAnswers()" />
+        } @else if (text() === 'links' && !message()) {
           <ats-amplify-chat-user-bubble [state]="state()">Can you show me 5 contacts at <a ats-amplify-chat-link entity="company" href="#">Verizon</a> that aren't in the ATS yet?</ats-amplify-chat-user-bubble>
         } @else {
           <ats-amplify-chat-user-bubble [state]="state()">{{ embedMessage() }}</ats-amplify-chat-user-bubble>
@@ -50,6 +60,10 @@ Rate: $85–95/hr W2. Start date: November 3. Interviews: two rounds, video then
         <div class="column"><ats-amplify-chat-user-bubble state="long text">{{ long }}</ats-amplify-chat-user-bubble></div>
         <span class="caption">state=long text expanded</span>
         <div class="column"><ats-amplify-chat-user-bubble state="long text expanded">{{ long }}</ats-amplify-chat-user-bubble></div>
+        <span class="caption">state=clarify answers</span>
+        <div class="column"><ats-amplify-chat-user-bubble [answers]="answers" /></div>
+        <span class="caption">clarify answers · 2 rows, plain text</span>
+        <div class="column"><ats-amplify-chat-user-bubble [answers]="plainAnswers" /></div>
       </div>
 
       <h2>Live (state detected from the text)</h2>
@@ -79,10 +93,15 @@ export class AmplifyChatUserMessagesPage {
   readonly component = input<string>();
   readonly state = input<AmplifyChatUserBubbleState>();
   readonly text = input<'short' | 'long' | 'links'>();
+  /** clarify answers: number of rows (1–3, default 3). */
+  readonly rows = input<string>();
   readonly message = input<string>();
 
   protected readonly short = SHORT;
   protected readonly long = LONG;
+  protected readonly embedAnswers = computed(() => ANSWERS.slice(0, Math.min(3, Math.max(1, Number(this.rows() ?? 3) || 3))));
+  protected readonly answers = ANSWERS;
+  protected readonly plainAnswers: AmplifyChatUserBubbleAnswer[] = [{ question: 'Location', answer: 'Within 50 mi of Boston' }, { question: 'Candidates', answer: 'Active candidates only' }];
   protected readonly embed = computed(() => !!(this.component() || this.state() || this.text() || this.message()));
   protected readonly embedMessage = computed(() => this.message() ?? (this.text() === 'long' ? LONG : SHORT));
 }

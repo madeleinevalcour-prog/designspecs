@@ -181,14 +181,16 @@ export class AmplifyChatClarifyingQuestions {
   choose(i: number, via: 'option' | 'skip' = 'option'): void {
     const o = this.options()[i];
     if (!o) return;
-    this.record({ question: this.current()!.question, value: o.value ?? o.label, option: i, via });
+    const q = this.current()!;
+    this.record({ question: q.question, label: q.label ?? q.question, value: o.value ?? o.label, option: i, via, entity: o.type === 'record' ? (o.entity ?? 'job') : undefined });
   }
 
   /** Answer the current question with typed text. */
   answerCustom(text: string): void {
     const t = text.trim();
     if (!t || !this.current()) return;
-    this.record({ question: this.current()!.question, value: t, option: null, via: 'custom' });
+    const q = this.current()!;
+    this.record({ question: q.question, label: q.label ?? q.question, value: t, option: null, via: 'custom' });
   }
 
   /** Answer with the recommended option. */

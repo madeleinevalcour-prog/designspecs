@@ -19,6 +19,9 @@ export interface AmplifyChatClarifyOptionModel {
 /** One question in the round. */
 export interface AmplifyChatClarifyingQuestion {
   question: string;
+  /** Short label for the answers message (user bubble `state=clarify answers`), e.g. "Job order"
+   *  for "Which job order?". Defaults to the question. */
+  label?: string;
   help?: string;
   /** 2–4 options. */
   options: AmplifyChatClarifyOptionModel[];
@@ -29,8 +32,12 @@ export interface AmplifyChatClarifyingQuestion {
 /** An answer to one question. `option` is the chosen index, or null for a typed answer. */
 export interface AmplifyChatClarifyAnswer {
   question: string;
+  /** The question's short `label` (or the question). */
+  label: string;
   value: string;
   option: number | null;
+  /** Set when the chosen option is a record: its entity, so the answer can show as an entity link. */
+  entity?: NovoListEntity;
   /** How it was answered. */
   via: 'option' | 'custom' | 'skip';
 }

@@ -2,9 +2,22 @@ import {
   ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewEncapsulation, afterNextRender, computed, inject, input, model, signal, viewChild,
 } from '@angular/core';
 import { Button } from '../../button/button';
+import { AmplifyChatLink, AmplifyChatLinkEntity } from '../text/link';
 
 /** Figma amplify-chat/user-bubble `state`. */
-export type AmplifyChatUserBubbleState = 'user-bubble' | 'long text' | 'long text expanded';
+export type AmplifyChatUserBubbleState = 'user-bubble' | 'long text' | 'long text expanded' | 'clarify answers';
+
+/**
+ * One row of `state=clarify answers`: the question label and the recruiter's answer. Set
+ * `entity` when the answer is a record: it shows as the inline entity link (Figma
+ * "answer 1 is record").
+ */
+export interface AmplifyChatUserBubbleAnswer {
+  question: string;
+  answer: string;
+  entity?: AmplifyChatLinkEntity;
+  href?: string;
+}
 
 let nextId = 0;
 
@@ -32,9 +45,25 @@ let nextId = 0;
  */
 @Component({
   selector: 'ats-amplify-chat-user-bubble',
-  imports: [Button],
+  imports: [AmplifyChatLink, Button],
   template: `
-    <div class="ats-amplify-chat-user-bubble__viewport" [id]="viewportId">
+    @if (isAnswers()) {
+      <dl class="ats-amplify-chat-user-bubble__answers">
+        @for (a of answerRows(); track $index) {
+          <div class="ats-amplify-chat-user-bubble__answer">
+            <dt class="ats-amplify-chat-user-bubble__question">{{ a.question }}</dt>
+            <dd class="ats-amplify-chat-user-bubble__value">
+              @if (a.entity) {
+                <a ats-amplify-chat-link [entity]="a.entity" [attr.href]="a.href ?? '#'">{{ a.answer }}</a>
+              } @else {
+                {{ a.answer }}
+              }
+            </dd>
+          </div>
+        }
+      </dl>
+    }
+    <div class="ats-amplify-chat-user-bubble__viewport" [id]="viewportId" [hidden]="isAnswers()">
       <div class="ats-amplify-chat-user-bubble__message" #message><ng-content /></div>
     </div>
     @if (isLong()) {
@@ -50,6 +79,7 @@ let nextId = 0;
   host: {
     class: 'ats-amplify-chat-user-bubble',
     '[class.is-long]': 'isLong()',
+    '[class.is-answers]': 'isAnswers()',
     '[class.is-expanded]': 'isLong() && isExpanded()',
     '[attr.data-state]': 'stateName()',
   },
@@ -59,19 +89,26 @@ export class AmplifyChatUserBubble {
   readonly state = input<AmplifyChatUserBubbleState>();
   /** Long text expanded. Two-way bindable; unset → collapsed (or per `state`). */
   readonly expanded = model<boolean>();
+  /** `state=clarify answers`: the answers to a clarifying-questions round, posted as one message
+   *  (up to 3 rows, matching the 3-question cap). Setting answers shows this state. */
+  readonly answers = input<AmplifyChatUserBubbleAnswer[]>();
 
   protected readonly viewportId = `ats-amplify-chat-user-bubble-${nextId++}`;
   private readonly message = viewChild.required<ElementRef<HTMLElement>>('message');
   /** The message is taller than the 8-line cap. */
   private readonly overflowing = signal(false);
 
+  protected readonly answerRows = computed(() => (this.answers() ?? []).slice(0, 3));
+  protected readonly isAnswers = computed(() => this.state() === 'clarify answers' || this.answerRows().length > 0);
+
   protected readonly isLong = computed(() => {
+    if (this.isAnswers()) return false;
     const s = this.state();
     return s === 'long text' || s === 'long text expanded' || (s === undefined && this.overflowing());
   });
   protected readonly isExpanded = computed(() => this.expanded() ?? this.state() === 'long text expanded');
   protected readonly stateName = computed<AmplifyChatUserBubbleState>(() =>
-    !this.isLong() ? 'user-bubble' : this.isExpanded() ? 'long text expanded' : 'long text',
+    this.isAnswers() ? 'clarify answers' : !this.isLong() ? 'user-bubble' : this.isExpanded() ? 'long text expanded' : 'long text',
   );
 
   constructor() {

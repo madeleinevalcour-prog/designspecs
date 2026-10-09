@@ -1,12 +1,12 @@
 import {
-  AmplifyChatCardItem, AmplifyChatClarifyingQuestion, AmplifyChatLinkEntity, AmplifyChatProspect, AmplifyChatProspectColumn, AmplifyChatSelectionAction, AmplifyChatSource,
+  AmplifyChatCardItem, AmplifyChatClarifyingQuestion, AmplifyChatLinkEntity, AmplifyChatUserBubbleAnswer, AmplifyChatProspect, AmplifyChatProspectColumn, AmplifyChatSelectionAction, AmplifyChatSource,
 } from 'ats-ui';
 
 /** The canned reply compositions the shell rotates through. */
 export type ReplyFormat = 'table' | 'prose' | 'cards' | 'draft' | 'clarify' | 'answer';
 
 export type Turn =
-  | { id: number; kind: 'user'; text: string; tag?: { label: string; entity: AmplifyChatLinkEntity } }
+  | { id: number; kind: 'user'; text: string; tag?: { label: string; entity: AmplifyChatLinkEntity }; answers?: AmplifyChatUserBubbleAnswer[] }
   | { id: number; kind: 'reply'; format: ReplyFormat; thinking?: boolean; stopped?: boolean; selection?: number[] };
 
 /** Figma short / long conversation (6237:176854, 6267:181805): the opening question. */
@@ -64,6 +64,7 @@ Chloe`;
 export const CLARIFY_ROUND: AmplifyChatClarifyingQuestion[] = [
   {
     question: 'Which job order?',
+    label: 'Job order',
     help: 'Amplify only searches records you can access.',
     options: [
       { type: 'record', label: '425 | Software Engineer', recommended: 'Recommended · you own it',
@@ -73,6 +74,7 @@ export const CLARIFY_ROUND: AmplifyChatClarifyingQuestion[] = [
   },
   {
     question: 'How far from Boston should Amplify look?',
+    label: 'Location',
     options: [
       { label: 'Within 25 mi of Boston', recommended: 'Recommended · from', recordLink: 'JO-425' },
       { label: 'Within 50 mi of Boston' },

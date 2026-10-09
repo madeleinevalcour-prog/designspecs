@@ -1,6 +1,6 @@
 import { Component, DestroyRef, computed, inject, input, linkedSignal, signal } from '@angular/core';
 import {
-  AmplifyChatChatBlock, AmplifyChatChatCards, AmplifyChatClarifyAnswer, AmplifyChatClarifyingQuestion, AmplifyChatContextItem,
+  AmplifyChatChatBlock, AmplifyChatChatCards, AmplifyChatClarifyAnswer, AmplifyChatUserBubbleAnswer, AmplifyChatClarifyingQuestion, AmplifyChatContextItem,
   AmplifyChatDataTable, AmplifyChatDraftBlock, AmplifyChatFullPage, AmplifyChatHeader, AmplifyChatLink, AmplifyChatListItem,
   AmplifyChatNumberedList, AmplifyChatText, AmplifyChatUserBubble, AmplifyChatUserTurn, BowlingAlley, BowlingAlleyShell, Button,
 } from 'ats-ui';
@@ -103,9 +103,9 @@ export class AmplifyChatFullPagePage {
     this.reply(text, ROTATION[this.canned++ % ROTATION.length]);
   }
 
-  private reply(text: string | null, format: ReplyFormat): void {
+  private reply(text: string | null, format: ReplyFormat, answers?: AmplifyChatUserBubbleAnswer[]): void {
     const pending: Turn = { id: this.nextId++, kind: 'reply', format, thinking: true };
-    const user: Turn[] = text ? [{ id: this.nextId++, kind: 'user', text }] : [];
+    const user: Turn[] = text ? [{ id: this.nextId++, kind: 'user', text, answers }] : [];
     this.turns.update((t) => [...t, ...user, pending]);
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
@@ -123,7 +123,11 @@ export class AmplifyChatFullPagePage {
   /** Clarifying round answered: the answers become the user's turn, then Amplify answers. */
   protected answeredAll(answers: AmplifyChatClarifyAnswer[]): void {
     this.questions.set(undefined);
-    this.reply(answers.map((a) => a.value).join(' · '), 'answer');
+    // Posted as one message: label + answer rows (user bubble state=clarify answers); records as entity links.
+    const rows: AmplifyChatUserBubbleAnswer[] = answers.map((a) => ({
+      question: a.label, answer: a.value, entity: a.entity as AmplifyChatUserBubbleAnswer['entity'],
+    }));
+    this.reply(answers.map((a) => a.value).join(' · '), 'answer', rows);
   }
 
   protected reset(): void {

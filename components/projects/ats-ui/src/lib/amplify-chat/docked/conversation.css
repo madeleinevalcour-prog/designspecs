@@ -10,6 +10,8 @@
 .ats-amplify-chat-conversation__scroll {
   display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0;
   overflow-y: auto; overscroll-behavior: contain;
+  position: relative; /* contains absolutely positioned bits in replies (e.g. visually hidden live
+     regions), so they scroll and clip with the turns instead of stretching the page */
   gap: var(--amplify-chat-docked-chat-main-conversation-spacing-gap-page-gap-vertical);
 }
 

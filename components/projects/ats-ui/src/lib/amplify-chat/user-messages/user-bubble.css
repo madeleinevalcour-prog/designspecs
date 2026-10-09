@@ -41,3 +41,36 @@
 
 /* Show More / Show Less: Button Dialogue Small; its label lines up with the text */
 .ats-amplify-chat-user-bubble__toggle { flex: 0 0 auto; }
+
+/* state=clarify answers: one row per question. Rows spacing/4 apart (the bubble gap); a question
+   label column (80, input/label/field-label, color/text/subtle), spacing/16, then the answer in the
+   message style, or the inline entity link when the answer is a record. */
+.ats-amplify-chat-user-bubble__viewport[hidden] { display: none; }
+.ats-amplify-chat-user-bubble__answers {
+  display: flex; flex-direction: column; margin: 0;
+  gap: var(--amplify-chat-user-bubble-content-spacing-gap-spacing-4);
+  min-width: 0;
+}
+.ats-amplify-chat-user-bubble__answer {
+  display: flex; align-items: center; min-width: 0;
+  gap: var(--spacing-16); /* Figma binds context-container/spacing/padding-horizontal (spacing/16) */
+}
+.ats-amplify-chat-user-bubble__question {
+  flex: 0 0 80px; /* no token: Figma 80px question column */
+  margin: 0; overflow-wrap: break-word;
+  color: var(--color-text-subtle);
+  font-family: var(--typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-input-label-field-label-font-size);
+  font-weight: var(--typography-input-label-field-label-font-weight);
+  line-height: var(--typography-input-label-field-label-line-height);
+  letter-spacing: var(--typography-input-label-field-label-letter-spacing);
+}
+.ats-amplify-chat-user-bubble__value {
+  flex: 1 1 auto; min-width: 0; margin: 0; overflow-wrap: break-word;
+  color: var(--amplify-chat-user-bubble-message-color-content-text-color-text-body);
+  font-family: var(--amplify-chat-user-bubble-message-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--amplify-chat-user-bubble-message-typography-font-size-typography-body-default-font-size);
+  font-weight: var(--amplify-chat-user-bubble-message-typography-font-weight-typography-body-default-font-weight-default);
+  line-height: var(--amplify-chat-user-bubble-message-typography-line-height-typography-body-default-line-height);
+  letter-spacing: var(--amplify-chat-user-bubble-message-typography-letter-spacing-typography-body-default-letter-spacing);
+}

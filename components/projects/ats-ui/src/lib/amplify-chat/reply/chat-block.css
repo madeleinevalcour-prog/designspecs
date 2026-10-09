@@ -4,6 +4,7 @@
   display: flex; flex-direction: column; align-items: stretch;
   gap: var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md);
   box-sizing: border-box; width: 100%; min-width: 0;
+  position: relative; /* positioning context for the visually hidden live region */
 }
 
 /* identity: Icon/Amplify Radial 16 + "Amplify" body/sm-medium color/text/secondary */
