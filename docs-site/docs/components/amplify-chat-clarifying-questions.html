@@ -125,7 +125,7 @@
       </tbody>
     </table>
     <ul>
-      <li>All answers post together as one user message, as label and value pairs. Amplify’s reply names the record and filters it used.</li>
+      <li>All answers post together as one user message, as label and value pairs: the user bubble’s <a href="amplify-chat-user-messages.html#clarify-answers">clarifying answers</a> state. Each question’s short <span class="chip">label</span> (“Job order”) names its row, and a chosen record shows as an entity link. Amplify’s reply names the record and filters it used.</li>
       <li>The chosen record joins the context row as a removable chip, so follow-ups don’t ask again.</li>
       <li>For record questions, typed text is matched against record IDs and titles. If nothing matches, show an inline message instead of guessing.</li>
     </ul>
@@ -204,7 +204,7 @@
     <table class="tbl">
       <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th><th>Outputs</th></tr></thead>
       <tbody>
-        <tr><td><span class="chip">AmplifyChatClarifyingQuestions</span></td><td><span class="chip">ats-amplify-chat-clarifying-questions</span></td><td><span class="chip">size</span> full page · docked (full page) · <span class="chip">questions</span>: { question, help, options, allowSomethingElse (true) }</td><td><span class="chip">answered</span>({ index, answer }) · <span class="chip">completed</span>(answers) · <span class="chip">dismissed</span>; method <span class="chip">answerCustom(text)</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatClarifyingQuestions</span></td><td><span class="chip">ats-amplify-chat-clarifying-questions</span></td><td><span class="chip">size</span> full page · docked (full page) · <span class="chip">questions</span>: { question, label (short, for the answers message), help, options, allowSomethingElse (true) }</td><td><span class="chip">answered</span>({ index, answer }) · <span class="chip">completed</span>(answers) · <span class="chip">dismissed</span>; method <span class="chip">answerCustom(text)</span></td></tr>
         <tr><td><span class="chip">AmplifyChatClarifyOption</span></td><td><span class="chip">button[ats-amplify-chat-clarify-option]</span></td><td><span class="chip">type</span> text · record (text) · <span class="chip">state</span> · <span class="chip">number</span> · <span class="chip">label</span> · <span class="chip">recommended</span> · <span class="chip">recordLink</span> · <span class="chip">recordLinkEntity</span> (job) · <span class="chip">description</span> · <span class="chip">entity</span> (job) · <span class="chip">fields</span></td><td>Native click</td></tr>
         <tr><td><span class="chip">AmplifyChatClarifyKey</span></td><td><span class="chip">ats-amplify-chat-clarify-key</span></td><td><span class="chip">type</span> number · icon (number) · <span class="chip">state</span> (follows the row) · <span class="chip">number</span> (1)</td><td>—</td></tr>
         <tr><td><span class="chip">AmplifyChatClarifySomethingElse</span></td><td><span class="chip">ats-amplify-chat-clarify-something-else</span></td><td><span class="chip">state</span> default · typing · <span class="chip">[(value)]</span> · <span class="chip">placeholder</span> (“Something else”) · <span class="chip">showSkip</span> (true)</td><td><span class="chip">submitted</span>(text) · <span class="chip">skip</span></td></tr>

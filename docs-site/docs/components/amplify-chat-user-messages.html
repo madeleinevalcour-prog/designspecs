@@ -34,6 +34,7 @@
         <tr><td><span class="chip">user-bubble</span> (default)</td><td>The full message. Up to 8 lines, no control</td></tr>
         <tr><td><span class="chip">long text</span></td><td>Over 8 lines: capped at 8 lines (160px plus padding), the last 2 fade out through an alpha mask, and a Show More button (Button, Dialogue, Small) sits below. Fills the 440px max</td></tr>
         <tr><td><span class="chip">long text expanded</span></td><td>The full message with Show Less</td></tr>
+        <tr><td><span class="chip">clarify answers</span></td><td>The answers to a clarifying-questions round, as label and answer rows. See <a href="#clarify-answers">Clarifying answers</a></td></tr>
       </tbody>
     </table>
     <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;text=short" caption="state=user-bubble" height="80"></doc-example>
@@ -44,6 +45,23 @@
       <li>The fade is a mask, not a color overlay, so the text keeps its token color on any bubble fill.</li>
       <li>Line breaks in the message are kept. Several <span class="chip">&lt;p&gt;</span> children get <span class="chip">spacing/padding/sm</span> (8) between them.</li>
     </ul>
+  </doc-section>
+
+  <doc-section id="clarify-answers" label="Clarifying answers" desc="Answers to a clarifying round">
+    <p>When the recruiter finishes a <a href="amplify-chat-clarifying-questions.html">clarifying-questions</a> round, all the answers post as one message in the <span class="chip">clarify answers</span> state. Each row pairs the question’s short label with the answer, so the recruiter can see at a glance what Amplify is about to work from.</p>
+    <doc-example src="amplify-chat-user-messages?state=clarify%20answers" caption="Three answers: a job order (a record), a location and a candidate pool" height="110"></doc-example>
+    <doc-example src="amplify-chat-user-messages?state=clarify%20answers&amp;rows=2" caption="Two answers: only the rows that were asked are shown" height="90"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Style</th></tr></thead>
+      <tbody>
+        <tr><td>Question label</td><td>The question’s short label (“Job order” for “Which job order?”), in an 80px column: <span class="chip">input/label/field-label</span>, <span class="chip">color/text/subtle</span></td></tr>
+        <tr><td>Answer</td><td>The message style: <span class="chip">body/default</span>, <span class="chip">color/text/body</span>, 16 after the label column</td></tr>
+        <tr><td>Record answer</td><td>The inline <a href="amplify-chat-text.html#link">entity link</a>, with the record’s entity color, so the chosen record looks the same as anywhere else in the conversation</td></tr>
+        <tr><td>Rows</td><td>One per question, <span class="chip">spacing/4</span> apart. Up to 3, matching the 3-question cap</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="do" heading="Do.">Give each clarifying question a short label for this message, such as “Job order”, “Location”, “Candidates”.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Repeat the full question text in the rows, or post each answer as a separate message.</doc-callout>
   </doc-section>
 
   <doc-section id="tagged-records" label="Tagged records" desc="Records named in the request">
@@ -110,11 +128,19 @@
       &lt;ats-amplify-chat-user-turn&gt;
         &lt;ats-amplify-chat-user-bubble [(expanded)]="open"&gt;{{ pastedJobDescription }}&lt;/ats-amplify-chat-user-bubble&gt;
       &lt;/ats-amplify-chat-user-turn&gt;
+
+      &lt;!-- after a clarifying round: one row per answer; a record answer sets its entity --&gt;
+      &lt;ats-amplify-chat-user-turn&gt;
+        &lt;ats-amplify-chat-user-bubble [answers]="[
+          { question: 'Job order', answer: 'JO-4821 | Senior Java Developer', entity: 'job', href: '/job/4821' },
+          { question: 'Location', answer: 'Within 25 mi of Boston' }
+        ]" /&gt;
+      &lt;/ats-amplify-chat-user-turn&gt;
     </doc-code>
     <table class="tbl">
       <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th></tr></thead>
       <tbody>
-        <tr><td><span class="chip">AmplifyChatUserBubble</span></td><td><span class="chip">ats-amplify-chat-user-bubble</span></td><td><span class="chip">state</span> user-bubble · long text · long text expanded (docs only; unset → detected) · <span class="chip">expanded</span> two-way (collapsed)</td></tr>
+        <tr><td><span class="chip">AmplifyChatUserBubble</span></td><td><span class="chip">ats-amplify-chat-user-bubble</span></td><td><span class="chip">state</span> user-bubble · long text · long text expanded · clarify answers (docs only; unset → detected) · <span class="chip">expanded</span> two-way (collapsed) · <span class="chip">answers</span> <span class="chip">{ question, answer, entity?, href? }[]</span> (shows clarify answers; up to 3)</td></tr>
         <tr><td><span class="chip">AmplifyChatUserTurn</span></td><td><span class="chip">ats-amplify-chat-user-turn</span></td><td>—</td></tr>
       </tbody>
     </table>
