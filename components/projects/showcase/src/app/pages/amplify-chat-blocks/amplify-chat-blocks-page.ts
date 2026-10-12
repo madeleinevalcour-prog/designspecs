@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { AmplifyChatDraftBlock, AmplifyChatLiteralValueBlock, AmplifyChatLiteralValueBlockState } from 'ats-ui';
+import { AmplifyChatDraftBlock, AmplifyChatDraftBlockType, AmplifyChatLiteralValueBlock, AmplifyChatLiteralValueBlockState } from 'ats-ui';
 
 const DRAFT = `Hi Jordan,
 
@@ -7,20 +7,27 @@ I came across your profile and think you could be a strong fit for a Senior Java
 
 Best,
 Pod Racer`;
+const JOB = `Senior Java Developer, Boston (Hybrid)
+
+You will build and maintain Spring Boot services for a financial services client, working in a team of six engineers.
+
+Requirements: 5+ years of Java, Spring Boot, and AWS or Azure.`;
 const BOOLEAN = '("Java" OR "J2EE") AND ("Spring Boot" OR "Spring") AND ("AWS" OR "Azure") AND ("Senior" OR "Lead") NOT "Intern"';
 
 /**
  * /amplify-chat-blocks — Amplify Chat — Blocks (Figma doc frame 6300:27081):
  * amplify-chat/draft-block (6149:20803) and amplify-chat/literal-value-block
  * (6152:117821: Property 1=default / hover). Copy is live on both (navigator.clipboard).
+ * The draft subject and body are editable in place; the split button menu opens.
  *
  * Embed mode: any param renders one block at chat-column width (560), e.g.
  *   /examples/amplify-chat-blocks?component=draft-block
- *   /examples/amplify-chat-blocks?component=draft-block&showSubject=false&showActions=false
+ *   /examples/amplify-chat-blocks?component=draft-block&type=note&showSubject=false
  *   /examples/amplify-chat-blocks?component=literal-value-block&state=hover
  * Params:
  *   component = draft-block | literal-value-block (default draft-block)
- *   draft-block: subject (default "Draft email") · showSubject = true | false · showActions = true | false
+ *   draft-block: type = email | note | job (default email) · subject (default "Draft email")
+ *     · showSubject = true | false · showActions = true | false
  *   literal-value-block: state = default | hover · value (default the Boolean string)
  */
 @Component({
@@ -32,20 +39,22 @@ const BOOLEAN = '("Java" OR "J2EE") AND ("Spring Boot" OR "Spring") AND ("AWS" O
         @if (component() === 'literal-value-block') {
           <ats-amplify-chat-literal-value-block [value]="value() ?? boolean" [state]="state()" />
         } @else {
-          <ats-amplify-chat-draft-block [subject]="showSubject() === 'false' ? undefined : (subject() ?? 'Draft email')"
-            [draft]="draft" [showActions]="showActions() !== 'false'" />
+          <ats-amplify-chat-draft-block [type]="type()" [subject]="showSubject() === 'false' ? undefined : (subject() ?? 'Draft email')"
+            [draft]="type() === 'note' ? note : type() === 'job' ? job : draft" [showActions]="showActions() !== 'false'" />
         }
       </div>
     } @else {
       <h1>Amplify Chat — Blocks</h1>
-      <p class="lede">Text Amplify writes for the recruiter: a draft block to edit before using, and a literal value block to copy exactly. Both take the full chat-column width (560 here). Copy is live.</p>
+      <p class="lede">Text Amplify writes for the recruiter: a draft block to edit before using, and a literal value block to copy exactly. Both take the full chat-column width (560 here). The draft subject and body are editable in place. Copy is live.</p>
 
       <h2>amplify-chat/draft-block <span>6149:20803</span></h2>
       <div class="grid">
-        <span class="caption">Show subject · Show actions</span>
-        <div class="block"><ats-amplify-chat-draft-block subject="Draft email" [draft]="draft" /></div>
-        <span class="caption">no subject (a note)</span>
-        <div class="block"><ats-amplify-chat-draft-block [draft]="note" /></div>
+        <span class="caption">type=email · Show subject · Show actions</span>
+        <div class="block"><ats-amplify-chat-draft-block type="email" subject="Draft email" [draft]="draft" /></div>
+        <span class="caption">type=note · no subject</span>
+        <div class="block"><ats-amplify-chat-draft-block type="note" [draft]="note" /></div>
+        <span class="caption">type=job · no subject</span>
+        <div class="block"><ats-amplify-chat-draft-block type="job" [draft]="job" /></div>
         <span class="caption">read-only (no actions)</span>
         <div class="block"><ats-amplify-chat-draft-block subject="Draft email" [draft]="draft" [showActions]="false" /></div>
       </div>
@@ -75,6 +84,7 @@ const BOOLEAN = '("Java" OR "J2EE") AND ("Spring Boot" OR "Spring") AND ("AWS" O
 })
 export class AmplifyChatBlocksPage {
   readonly component = input<'draft-block' | 'literal-value-block'>();
+  readonly type = input<AmplifyChatDraftBlockType>();
   readonly subject = input<string>();
   readonly showSubject = input<string>();
   readonly showActions = input<string>();
@@ -83,6 +93,7 @@ export class AmplifyChatBlocksPage {
 
   protected readonly draft = DRAFT;
   protected readonly note = 'Called Jordan Lee about the Verizon Senior Java Developer role. Interested; available from November 3. Prefers hybrid, 3 days on site max.';
+  protected readonly job = JOB;
   protected readonly boolean = BOOLEAN;
-  protected readonly embed = computed(() => !!(this.component() || this.subject() || this.showSubject() || this.showActions() || this.state() || this.value()));
+  protected readonly embed = computed(() => !!(this.component() || this.type() || this.subject() || this.showSubject() || this.showActions() || this.state() || this.value()));
 }

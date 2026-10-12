@@ -388,11 +388,20 @@ Data tables and cards share the same selection pattern.
 ### Draft block
 
 - Three sections separated by `card/color/border/default` dividers:
-  - Subject row: "Subject:" in `body/sm-medium` `color/text/secondary`, then the subject in `body/default` `color/text/body`. Hide it for drafts with no subject, such as notes.
-  - Body: the draft in `body/default` `color/text/body`.
-  - Actions row: existing Buttons. Copy and Edit are Secondary, Small. Use draft is Primary, Small. Hide the row only when the draft is read-only.
-- Container: `color/background/default`, 1px `card/color/border/default`, `border/radius/xsm` (4).
-- Amplify never sends a draft without the recruiter choosing an action (Amplify principle 2, AI assists and does not replace judgment).
+  - Subject row: "Subject:" in `body/sm-medium` `color/text/secondary`, then the subject in `body/default` `color/text/body`, editable in place on one line. Hide it for drafts with no subject, such as notes.
+  - Body: the draft in `body/default` `color/text/body`, editable in place from the start. There is no Edit step.
+  - Actions row: Copy (Button, Secondary, Small) and a split button (Primary, Small). The left segment runs the default action for the draft type; the chevron opens related actions. Hide the row only when the draft is read-only; a read-only draft is not editable.
+- Split button by draft type:
+
+| Type | Default action | Menu |
+|------|----------------|------|
+| Email (default) | Compose Message | Send with Outlook · Add as Note |
+| Note | Add Note | Copy to Task |
+| Job | Update Job Description | Add Note |
+
+- Container: `color/background/default`, 1px `card/color/border/default`, `border/radius/xsm` (4). While the subject or body has focus, the container border is `color/border/focus` (standard focus).
+- Copy copies the body as edited, not the subject.
+- Amplify never sends or saves a draft without the recruiter choosing an action (Amplify principle 2, AI assists and does not replace judgment). Send with Outlook opens the draft in Outlook, where the recruiter confirms the send.
 
 ### Literal value block
 

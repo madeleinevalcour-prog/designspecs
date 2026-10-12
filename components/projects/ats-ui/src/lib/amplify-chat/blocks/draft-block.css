@@ -47,8 +47,13 @@
 }
 .ats-amplify-chat-draft-block__body > p { margin: 0 0 var(--amplify-chat-draft-block-body-spacing-paragraph-spacing-padding-sm); white-space: pre-wrap; }
 .ats-amplify-chat-draft-block__body > p:last-child { margin-bottom: 0; }
+/* subject and body are editable in place; the focus state is the container border
+   (standard color/border/focus) */
+.ats-amplify-chat-draft-block__body[contenteditable],
+.ats-amplify-chat-draft-block__subject-value[contenteditable] { outline: none; cursor: text; }
+.ats-amplify-chat-draft-block:has([contenteditable]:focus) { border-color: var(--color-border-focus); }
 
-/* 3. actions row: Buttons, right-aligned */
+/* 3. actions row: Copy + split button, right-aligned */
 .ats-amplify-chat-draft-block__actions {
   display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: flex-start;
   gap: var(--amplify-chat-draft-block-actions-spacing-gap-spacing-gap-sm);

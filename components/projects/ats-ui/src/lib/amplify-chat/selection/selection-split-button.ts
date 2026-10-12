@@ -89,6 +89,8 @@ export class AmplifyChatSelectionSplitButton {
   readonly actions = input<AmplifyChatSelectionAction[] | undefined>([]);
   /** Menu hint for `preview` actions. Default "Review first". */
   readonly previewHint = input<string, string | undefined>('Review first', { transform: (v) => v ?? 'Review first' });
+  /** Accessible name of the chevron and menu. Default "More actions for N selected". */
+  readonly menuLabel = input<string>();
   /** Menu open (two-way). */
   readonly open = model(false);
   /** Forces both segments' visual state, for docs. */
@@ -111,7 +113,7 @@ export class AmplifyChatSelectionSplitButton {
     const n = this.countValue();
     return `${this.verbText()} ${n} ${n === 1 ? this.singular() : this.plural()}`;
   });
-  protected readonly toggleLabel = computed(() => `More actions for ${this.countValue()} selected`);
+  protected readonly toggleLabel = computed(() => this.menuLabel() ?? `More actions for ${this.countValue()} selected`);
 
   protected choose(a: unknown): void {
     this.action.emit(a as AmplifyChatSelectionAction);

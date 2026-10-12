@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="Text Amplify writes for the recruiter">
     <p class="lead" style="max-width:60ch">Two containers for text Amplify writes for the recruiter to use. The draft block holds text to edit before using it: an email, a note, a job description. The literal value block holds text to copy exactly as written: a Boolean search string, a field value, a short template. Both fill the chat column.</p>
-    <doc-example src="amplify-chat-blocks?component=draft-block" caption="A draft email with subject and actions" height="260"></doc-example>
+    <doc-example src="amplify-chat-blocks?component=draft-block" caption="A draft email with subject and actions. Subject and body are editable" height="260"></doc-example>
     <p>When to use each: <a href="../patterns/response-structure.html#choosing-a-format">Response structure → Choosing a format</a>.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>Use for</th><th>Container</th></tr></thead>
@@ -26,23 +26,35 @@
     </table>
   </doc-section>
 
-  <doc-section id="draft-block" label="Draft block" desc="Subject, body and actions">
+  <doc-section id="draft-block" label="Draft block" desc="Editable subject and body, and actions">
     <p>Three sections split by <span class="chip">card/color/border/default</span> dividers.</p>
     <table class="tbl">
       <thead><tr><th>Section</th><th>Content</th></tr></thead>
       <tbody>
-        <tr><td>Subject (optional)</td><td>“Subject:” in <span class="chip">body/sm-medium</span> <span class="chip">color/text/secondary</span>, then the subject in <span class="chip">body/default</span> <span class="chip">color/text/body</span>. Hide it for drafts with no subject, such as notes</td></tr>
-        <tr><td>Body</td><td>The draft in <span class="chip">body/default</span> <span class="chip">color/text/body</span>. Each line is a paragraph; blank lines are kept</td></tr>
-        <tr><td>Actions (optional)</td><td>Existing Buttons, right-aligned: Copy and Edit (Secondary, Small), Use draft (Primary, Small). Hide the row only when the draft is read-only</td></tr>
+        <tr><td>Subject (optional)</td><td>“Subject:” in <span class="chip">body/sm-medium</span> <span class="chip">color/text/secondary</span>, then the subject in <span class="chip">body/default</span> <span class="chip">color/text/body</span>, editable in place on one line. Hide it for drafts with no subject, such as notes</td></tr>
+        <tr><td>Body</td><td>The draft in <span class="chip">body/default</span> <span class="chip">color/text/body</span>. Editable in place from the start; there is no Edit step. Each line is a paragraph; blank lines are kept</td></tr>
+        <tr><td>Actions (optional)</td><td>Right-aligned: Copy (Button, Secondary, Small) and a <a href="amplify-chat-selection.html">split button</a> (Primary, Small). The left segment runs the default action for the draft type; the chevron opens related actions. Hide the row only when the draft is read-only</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-blocks?component=draft-block" caption="Subject and actions shown. Copy is live" height="260"></doc-example>
-    <doc-example src="amplify-chat-blocks?component=draft-block&amp;showSubject=false" caption="No subject, for a note or a JD" height="220"></doc-example>
-    <doc-example src="amplify-chat-blocks?component=draft-block&amp;showActions=false" caption="Read-only, no actions" height="210"></doc-example>
+    <p>The draft <span class="chip">type</span> sets the split button. Hosts can override the label or the menu.</p>
+    <table class="tbl">
+      <thead><tr><th>Type</th><th>Default action</th><th>Menu</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">email</span> (default)</td><td>Compose Message</td><td>Send with Outlook · Add as Note</td></tr>
+        <tr><td><span class="chip">note</span></td><td>Add Note</td><td>Copy to Task</td></tr>
+        <tr><td><span class="chip">job</span></td><td>Update Job Description</td><td>Add Note</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-blocks?component=draft-block&amp;type=email" caption="type=email. Editing, Copy and the menu are live" height="260"></doc-example>
+    <doc-example src="amplify-chat-blocks?component=draft-block&amp;type=note&amp;showSubject=false" caption="type=note, no subject" height="140"></doc-example>
+    <doc-example src="amplify-chat-blocks?component=draft-block&amp;type=job&amp;showSubject=false" caption="type=job, no subject" height="200"></doc-example>
+    <doc-example src="amplify-chat-blocks?component=draft-block&amp;showActions=false" caption="Read-only: no actions, not editable" height="210"></doc-example>
     <ul>
-      <li>Copy copies the draft body only. The subject goes through Compose Message and the email connection, not the clipboard.</li>
+      <li>The subject and body are editable as soon as they render. Click into either to edit; paste comes in as plain text. The subject stays on one line: Enter does nothing there, and pasted line breaks become spaces.</li>
+      <li>Copy copies the draft body as edited, not the subject. The subject goes through Compose Message and the email connection, not the clipboard.</li>
       <li>After a copy, the button shows a check and “Copied” for 1.5 seconds.</li>
-      <li>Edit and Use draft only hand control back to the host. Amplify never sends a draft without the recruiter choosing an action.</li>
+      <li>The split button only hands the edited subject and body back to the host. Amplify never sends or saves a draft without the recruiter choosing an action.</li>
+      <li>Send with Outlook opens the draft in Outlook, where the recruiter confirms the send. It needs no review step in Amplify.</li>
     </ul>
   </doc-section>
 
@@ -69,7 +81,8 @@
   <doc-section id="behaviour" label="Behaviour" desc="Copy, actions and keyboard">
     <ul>
       <li>Both blocks copy with the clipboard API. If the browser blocks it, nothing changes and no success state shows.</li>
-      <li>Draft block: Copy, Edit and Use draft are normal buttons in tab order. Use draft passes the body text to the host.</li>
+      <li>Draft block: the subject and body are in the tab order and take focus like text fields. Copy and both split-button segments follow them. Both segments pass the subject and body, as edited, to the host.</li>
+      <li>Draft block menu: Enter, Space or ArrowDown on the chevron opens it; arrow keys move; Escape closes it and returns focus to the chevron (from the split button).</li>
       <li>Literal value block: the copy button stays in the tab order while hidden. Tabbing to it reveals it and the hover border; Enter or Space copies.</li>
     </ul>
   </doc-section>
@@ -79,6 +92,8 @@
     <doc-callout type="dont" heading="Don’t.">Put a draft email in a literal value block, or a Boolean string in a draft block.</doc-callout>
     <doc-callout type="do" heading="Do.">Show the subject row only for drafts that have a subject.</doc-callout>
     <doc-callout type="dont" heading="Don’t.">Send, save or insert a draft without the recruiter choosing an action.</doc-callout>
+    <doc-callout type="do" heading="Do.">Set <span class="chip">type</span> so the default action matches what the draft is for.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Add an Edit button. The subject and body are already editable.</doc-callout>
     <doc-callout type="do" heading="Do.">Render literal values exactly as the model wrote them.</doc-callout>
     <doc-callout type="dont" heading="Don’t.">Apply smart quotes, markdown or hard line breaks to a literal value.</doc-callout>
   </doc-section>
@@ -99,7 +114,8 @@
         <tr><td>Draft block container</td><td><span class="chip">amplify-chat/draft-block/color/background</span>, <span class="chip">…/color/border</span>, <span class="chip">…/border/width</span>, <span class="chip">…/border/radius</span></td><td><span class="chip">color/background/default</span>, <span class="chip">card/color/border/default</span>, <span class="chip">border/width/border-default</span>, <span class="chip">border/radius/xsm</span></td></tr>
         <tr><td>Draft block subject</td><td><span class="chip">amplify-chat/draft-block/subject/spacing/*</span>, <span class="chip">…/color/border</span>, <span class="chip">…/subject/label/typography/*</span>, <span class="chip">…/label/color/content/text</span></td><td><span class="chip">spacing/padding/sm</span> / <span class="chip">spacing/padding/md</span>, gap <span class="chip">spacing/gap/sm</span>; label <span class="chip">body/sm-medium</span> <span class="chip">color/text/secondary</span>; value <span class="chip">body/default</span> <span class="chip">color/text/body</span></td></tr>
         <tr><td>Draft block body</td><td><span class="chip">amplify-chat/draft-block/body/spacing/*</span>, <span class="chip">…/typography/*</span>, <span class="chip">…/color/content/text</span>, <span class="chip">…/spacing/paragraph-spacing</span></td><td><span class="chip">spacing/padding/sm</span> / <span class="chip">spacing/padding/md</span>, <span class="chip">body/default</span>, <span class="chip">color/text/body</span>, <span class="chip">spacing/padding/sm</span></td></tr>
-        <tr><td>Draft block actions</td><td><span class="chip">amplify-chat/draft-block/actions/spacing/*</span>, <span class="chip">…/color/border</span></td><td><span class="chip">spacing/padding/sm</span> all sides, gap <span class="chip">spacing/gap/sm</span>, <span class="chip">card/color/border/default</span>; Buttons use their own tokens</td></tr>
+        <tr><td>Draft block actions</td><td><span class="chip">amplify-chat/draft-block/actions/spacing/*</span>, <span class="chip">…/color/border</span></td><td><span class="chip">spacing/padding/sm</span> all sides, gap <span class="chip">spacing/gap/sm</span>, <span class="chip">card/color/border/default</span>; Button and split button use their own tokens</td></tr>
+        <tr><td>Draft block focus</td><td>Semantic directly (standard focus)</td><td>Container border <span class="chip">color/border/focus</span> while the subject or body has focus</td></tr>
         <tr><td>Literal value block container</td><td><span class="chip">amplify-chat/literal-value-block/color/background</span>, <span class="chip">…/color/border</span>, <span class="chip">…/border/radius</span>, <span class="chip">…/spacing/*</span></td><td><span class="chip">color/background/muted</span>, <span class="chip">card/color/border/default</span> (hover <span class="chip">chip/color/border/default/hover</span>), <span class="chip">border/radius/xsm</span>; padding <span class="chip">spacing/padding/sm</span> top, right, bottom and <span class="chip">spacing/padding/md</span> left, gap <span class="chip">spacing/gap/md</span></td></tr>
         <tr><td>Literal value</td><td><span class="chip">amplify-chat/literal-value-block/value/typography/*</span>, <span class="chip">…/color/content/text</span></td><td><span class="chip">body/default</span>, <span class="chip">color/text/body</span></td></tr>
         <tr><td>Copy action</td><td><span class="chip">amplify-chat/literal-value-block/copy/…/color/content</span></td><td><span class="chip">button/color/secondary/content/default</span>; border and fill from <span class="chip">button/color/secondary/*</span></td></tr>
@@ -111,6 +127,8 @@
   <doc-section id="accessibility" label="Accessibility" desc="Names, announcements and focus">
     <ul>
       <li>The draft block is a <span class="chip">role="group"</span> named by its subject, or “Draft” when there is none.</li>
+      <li>The editable subject is a <span class="chip">role="textbox"</span> named “Subject”. The editable body is a multiline <span class="chip">role="textbox"</span> named “Draft: {subject}”, or “Draft”. Read-only drafts drop both textbox roles.</li>
+      <li>The chevron is named “More actions for {subject}”, or “More actions for this draft”.</li>
       <li>Both blocks announce a successful copy through a polite live region: “Draft copied” and “Copied”.</li>
       <li>The literal value copy button is named “Copy” by default; set <span class="chip">copyLabel</span> to say what it copies, such as “Copy Boolean string”. After a copy its name is “Copied”.</li>
       <li>The hidden copy button uses opacity, not visibility, so it stays reachable by keyboard and appears on focus.</li>
@@ -119,8 +137,10 @@
 
   <doc-section id="code" label="In code" desc="Angular usage and inputs">
     <doc-code caption="Angular">
-      &lt;ats-amplify-chat-draft-block subject="Draft email" [draft]="emailText"
-        (edit)="openEditor()" (useDraft)="insertIntoEmail($event)" /&gt;
+      &lt;ats-amplify-chat-draft-block type="email" subject="Draft email" [draft]="emailText"
+        (primary)="composeMessage($event.subject, $event.text)" (action)="run($event)" /&gt;
+
+      &lt;ats-amplify-chat-draft-block type="note" [draft]="noteText" (primary)="addNote($event.text)" /&gt;
 
       &lt;ats-amplify-chat-draft-block [showActions]="false"&gt;
         &lt;p&gt;Called Jordan, left a voicemail.&lt;/p&gt;
@@ -132,7 +152,7 @@
     <table class="tbl">
       <thead><tr><th>Component</th><th>Selector</th><th>Inputs and outputs</th></tr></thead>
       <tbody>
-        <tr><td><span class="chip">AmplifyChatDraftBlock</span></td><td><span class="chip">ats-amplify-chat-draft-block</span></td><td><span class="chip">subject</span> (none: row hidden) · <span class="chip">draft</span> plain text, each line a paragraph, or project <span class="chip">&lt;p&gt;</span>s · <span class="chip">showActions</span> (true) · outputs <span class="chip">copied</span> (body text), <span class="chip">edit</span>, <span class="chip">useDraft</span> (body text)</td></tr>
+        <tr><td><span class="chip">AmplifyChatDraftBlock</span></td><td><span class="chip">ats-amplify-chat-draft-block</span></td><td><span class="chip">subject</span> (none: row hidden) · <span class="chip">draft</span> plain text, each line a paragraph, or project <span class="chip">&lt;p&gt;</span>s · <span class="chip">type</span> email · note · job (email) · <span class="chip">primaryLabel</span> and <span class="chip">actions</span> override the type’s split button · <span class="chip">showActions</span> (true; false also makes the draft read-only) · outputs <span class="chip">copied</span> (body text), <span class="chip">primary</span> ({ subject, text } as edited), <span class="chip">action</span> ({ action, subject, text })</td></tr>
         <tr><td><span class="chip">AmplifyChatLiteralValueBlock</span></td><td><span class="chip">ats-amplify-chat-literal-value-block</span></td><td><span class="chip">value</span> (required) · <span class="chip">copyLabel</span> (“Copy”) · <span class="chip">state</span> default · hover (docs only; hover is live) · output <span class="chip">copied</span> (the string)</td></tr>
       </tbody>
     </table>
@@ -143,7 +163,7 @@
     <ul>
       <li><a href="../patterns/response-structure.html#choosing-a-format">Response structure → Choosing a format</a>, <a href="../foundations/spacing-and-layout.html">Spacing and layout</a>.</li>
       <li><a href="amplify-chat-text.html">Text</a>: the paragraph that introduces a block.</li>
-      <li><a href="../../components/button.html">Button</a> and <a href="../../components/icon-button-no-container.html">Icon button no container</a>: the actions inside the blocks.</li>
+      <li><a href="../../components/button.html">Button</a>, <a href="amplify-chat-selection.html">Selection</a> (split button) and <a href="../../components/icon-button-no-container.html">Icon button no container</a>: the actions inside the blocks.</li>
     </ul>
   </doc-section>
 
