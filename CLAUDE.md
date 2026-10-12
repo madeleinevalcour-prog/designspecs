@@ -33,7 +33,8 @@ When a component is built or ported, in the same change:
 3. Doc page `docs-site/docs/components/<name>.html` — Amplify components go in
    `docs-site/docs/amplify/components/<name>.html` (create-design-documentation skill,
    Components type), using `<doc-example>` live embeds — never stand-ins or screenshots.
-4. Link it in `docs-site/index.html` (Components group) and the `SITE` list in `assets/docs.js`.
+4. Add it to the `SITE` list in `docs-site/assets/docs.js` (title + one-line `d` card text). The side nav,
+   search, section overview pages and home page cards are all built from `SITE`.
 Docs are committed only after the user approves the page.
 
 ## Live examples in the docs

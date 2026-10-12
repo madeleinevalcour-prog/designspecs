@@ -33,7 +33,8 @@ You'll get a `https://<project>.vercel.app` URL. That's the link you share.
 ## Adding or updating a doc
 
 1. Add the new page as `docs/<name>.html` (the skill produces this).
-2. Add a matching link in `index.html`.
+2. Add it to the `SITE` list in `assets/docs.js` (title, link, one-line card text). The header
+   search, side nav, section overview pages and home page cards are generated from it.
 3. Commit and push:
 
    ```bash

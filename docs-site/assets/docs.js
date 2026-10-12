@@ -157,32 +157,33 @@
     }
   });
 
-  // <doc-page eyebrow="Component" title="Button" meta="…" [rail]>…doc-section…</doc-page>
+  // <doc-page eyebrow="Component" title="Button">…doc-section…</doc-page>
   customElements.define("doc-page", class extends HTMLElement{
     connectedCallback(){
       if(this._done)return; this._done=true;
-      var eyebrow=attr(this,"eyebrow"), title=attr(this,"title"), meta=attr(this,"meta"), intro=attr(this,"intro"),
-          hasRail=this.hasAttribute("rail");
+      var eyebrow=attr(this,"eyebrow"), title=attr(this,"title"), meta=attr(this,"meta"), intro=attr(this,"intro");
+      // "On this page" rail sits on the right of any page with more than one section.
+      var hasRail=this.querySelectorAll("doc-section[id]").length>1;
       var kids=[]; while(this.firstChild) kids.push(this.removeChild(this.firstChild));
 
-      var shell=document.createElement("div"); shell.className="shell";
+      var shell=document.createElement("div"); shell.className="shell"+(hasRail?" has-rail":"");
+      var main=document.createElement("main"); main.className="page"+(hasRail?"":" narrow"); main.id="content";
+      if(eyebrow||title||meta||intro){
+        var header=document.createElement("header"); header.className="page-head";
+        header.innerHTML=(eyebrow?'<p class="eyebrow">'+esc(eyebrow)+'</p>':'')+
+          (title?'<h1>'+esc(title)+'</h1>':'')+(intro?'<p class="lead intro">'+esc(intro)+'</p>':'')+(meta?'<p class="meta">'+esc(meta)+'</p>':'');
+        main.appendChild(header);
+      }
+      kids.forEach(function(k){ main.appendChild(k); });
+      shell.appendChild(main);
       var rail=null;
       if(hasRail){
         rail=document.createElement("nav"); rail.className="rail"; rail.setAttribute("aria-label","On this page");
         rail.innerHTML='<p class="eyebrow">On this page</p><ol></ol>';
         shell.appendChild(rail);
       }
-      var main=document.createElement("main"); main.className="page"+(hasRail?"":" narrow");
-      if(eyebrow||title||meta||intro){
-        var header=document.createElement("header");
-        header.innerHTML=(eyebrow?'<p class="eyebrow">'+esc(eyebrow)+'</p>':'')+
-          (title?'<h1>'+esc(title)+'</h1>':'')+(intro?'<p class="lead intro">'+esc(intro)+'</p>':'')+(meta?'<p class="meta">'+esc(meta)+'</p>':'');
-        main.appendChild(header);
-      }
-      kids.forEach(function(k){ main.appendChild(k); });
-      shell.appendChild(main); this.appendChild(shell);
+      this.appendChild(shell);
 
-      var self=this;
       requestAnimationFrame(function(){ if(window.__docsBuildNav) window.__docsBuildNav(main, rail); });
     }
   });
@@ -302,145 +303,269 @@
   });
 })();
 
-/* Site side nav — collapsible drawer, injected on every content page that loads this file.
-   Single source of truth for the page list; mirrors the homepage grouping. Root-absolute
-   links so it works from any folder depth. Edit SITE here when adding or moving a page. */
+/* Site chrome — header (logo, nav toggle, search), push side nav, section overview cards.
+   SITE is the single source of truth for the page list: the side nav, the section overview
+   pages, the home page cards and search are all built from it. Root-absolute links so it
+   works from any folder depth. Edit SITE when adding or moving a page (t = title, d = card text). */
 (function(){
   var SITE=[
-    {label:"Foundations", pages:[
-      {t:"Principles", href:"/docs/foundations/principles.html"},
-      {t:"Color", href:"/docs/foundations/color.html"},
-      {t:"Spacing", href:"/docs/foundations/spacing.html"},
-      {t:"Elevation", href:"/docs/foundations/elevation.html"},
-      {t:"Typography", href:"/docs/foundations/typography.html"}
+    {label:"Foundations", href:"/docs/foundations/index.html",
+     d:"Principles and the token foundations: color, spacing, elevation and typography.", pages:[
+      {t:"Principles", href:"/docs/foundations/principles.html", d:"Why the redesign happened, the clean / modern / consistent principles, and how to use the system."},
+      {t:"Color", href:"/docs/foundations/color.html", d:"Neutral scale, status families, entity accents, the Amplify gradient, and semantic tokens."},
+      {t:"Spacing", href:"/docs/foundations/spacing.html", d:"The 8-based scale and the padding, gap, and layout tokens."},
+      {t:"Elevation", href:"/docs/foundations/elevation.html", d:"Diffuse elevation levels, radius, and border-width."},
+      {t:"Typography", href:"/docs/foundations/typography.html", d:"Inter, role-based text styles, and the role-bound weight system."}
     ]},
-    {label:"Components", pages:[
-      {t:"Bowling Alley", href:"/docs/components/bowling-alley.html"},
-      {t:"Button", href:"/docs/components/button.html"},
-      {t:"Card", href:"/docs/components/card.html"},
-      {t:"Check List", href:"/docs/components/check-list.html"},
-      {t:"Checkbox", href:"/docs/components/checkbox.html"},
-      {t:"Checkbox + label", href:"/docs/components/checkbox-label.html"},
-      {t:"Data Table", href:"/docs/components/data-table.html"},
-      {t:"Dropdown", href:"/docs/components/dropdown.html"},
-      {t:"Icon", href:"/docs/components/icon.html"},
-      {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html"},
-      {t:"Icon Container", href:"/docs/components/icon-container.html"},
-      {t:"Menu", href:"/docs/components/menu.html"},
-      {t:"Novo Chip", href:"/docs/components/novo-chip.html"},
-      {t:"Novo List", href:"/docs/components/novo-list.html"},
-      {t:"Record Header", href:"/docs/components/record-header.html"},
-      {t:"Search Input", href:"/docs/components/search-input.html"},
-      {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"},
-      {t:"Switch", href:"/docs/components/switch.html"},
-      {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
+    {label:"Components", href:"/docs/components/index.html",
+     d:"The ats-ui components, each with live examples of the built component.", pages:[
+      {t:"Bowling Alley", href:"/docs/components/bowling-alley.html", d:"The main navigation: nav states, Fast Find, and the Menu, Add, Help and user overlays."},
+      {t:"Button", href:"/docs/components/button.html", d:"Themes, sizes, states and colors, with live examples of the ats-ui component."},
+      {t:"Card", href:"/docs/components/card.html", d:"Card frame, header actions, detail rows, resume and record-details bodies, with live examples."},
+      {t:"Check List", href:"/docs/components/check-list.html", d:"Checkbox + label rows laid out inline or as a column, with a disabled option."},
+      {t:"Checkbox", href:"/docs/components/checkbox.html", d:"Unchecked, checked and indeterminate, in every state, on a native checkbox."},
+      {t:"Checkbox + label", href:"/docs/components/checkbox-label.html", d:"A checkbox with its label: every state, plus the gripper variant."},
+      {t:"Data Table", href:"/docs/components/data-table.html", d:"Sticky header, banded rows, sort and filter headers, with live examples of the ats-ui table."},
+      {t:"Dropdown", href:"/docs/components/dropdown.html", d:"The ATS dropdown: panel, option groups and options, with keyboard support."},
+      {t:"Icon", href:"/docs/components/icon.html", d:"The icon set, rendered in token colors."},
+      {t:"Icon Button - no container", href:"/docs/components/icon-button-no-container.html", d:"The 24×24 icon-only button with no resting container: states and glyphs."},
+      {t:"Icon Container", href:"/docs/components/icon-container.html", d:"The entity-colored square behind a glyph: ten themes in three sizes."},
+      {t:"Menu", href:"/docs/components/menu.html", d:"The app Menu (with its Edit Menu), Add and user menus, and their parts: Menu Header, Menu Item, Menu Option, Menu Edit."},
+      {t:"Novo Chip", href:"/docs/components/novo-chip.html", d:"The chip: default and link types, three sizes, five colors, hover and focus, with an optional remove button."},
+      {t:"Novo List", href:"/docs/components/novo-list.html", d:"The record list, its four item variants and building blocks, with live examples."},
+      {t:"Record Header", href:"/docs/components/record-header.html", d:"The record Overview header: toolbar, field summary and section tabs, with tab overflow into More."},
+      {t:"Search Input", href:"/docs/components/search-input.html", d:"The search field: the Fast Find field and the Menu filter pill."},
+      {t:"Sophia FAB", href:"/docs/components/sophia-fab.html", d:"The Sophia chatbot button: placement options A, B and C, drag-to-snap spots, and live examples."},
+      {t:"Switch", href:"/docs/components/switch.html", d:"The on/off switch: on, off and disabled, with or without a label."},
+      {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html", d:"The placement pipeline: complete, current and upcoming steps, with overflow scrolling."}
     ]},
-    {label:"Amplify", pages:[
-      {t:"Overview", href:"/docs/amplify/index.html"},
-      {t:"About Amplify UI", href:"/docs/amplify/about.html"},
-      {t:"AI interaction guidelines", href:"/docs/amplify/ai-interaction-guidelines.html"}
+    {label:"Amplify", href:"/docs/amplify/index.html",
+     d:"Everything about Amplify UI in one place: foundations, components, patterns and resources.", pages:[
+      {t:"About Amplify UI", href:"/docs/amplify/about.html", d:"What Amplify is, the principles for Amplify UI, and how the Amplify icon identifies Amplify features."},
+      {t:"AI interaction guidelines", href:"/docs/amplify/ai-interaction-guidelines.html", d:"The design principles for AI software that Amplify follows, and what good looks like in practice."}
     ], groups:[
       {label:"Foundations", pages:[
-        {t:"Color", href:"/docs/amplify/foundations/color.html"},
-        {t:"Surfaces and elevation", href:"/docs/amplify/foundations/surfaces-and-elevation.html"},
-        {t:"Text styles", href:"/docs/amplify/foundations/text-styles.html"},
-        {t:"Spacing and layout", href:"/docs/amplify/foundations/spacing-and-layout.html"},
-        {t:"Voice and tone", href:"/docs/amplify/foundations/voice-and-tone.html"}
+        {t:"Color", href:"/docs/amplify/foundations/color.html", d:"The Amplify gradient and tints, and what they mean."},
+        {t:"Surfaces and elevation", href:"/docs/amplify/foundations/surfaces-and-elevation.html", d:"Full page, docked and pop-over: when each surface is used, and the elevation it sits at."},
+        {t:"Text styles", href:"/docs/amplify/foundations/text-styles.html", d:"Headings, lists, emphasis and entity links in Amplify replies."},
+        {t:"Spacing and layout", href:"/docs/amplify/foundations/spacing-and-layout.html", d:"Spacing and column width in Amplify chat."},
+        {t:"Voice and tone", href:"/docs/amplify/foundations/voice-and-tone.html", d:"How Amplify writes."}
       ]},
       {label:"Components", pages:[
-        {t:"Amplify icon", href:"/docs/amplify/components/amplify-icon.html"},
-        {t:"Button (amplify)", href:"/docs/components/button.html#amplify"},
-        {t:"Icon Container (amplify)", href:"/docs/components/icon-container.html#amplify"},
-        {t:"Full-page chat", href:"/docs/amplify/components/amplify-chat-full-page.html"},
-        {t:"Docked chat", href:"/docs/amplify/components/amplify-chat-docked.html"},
-        {t:"User messages", href:"/docs/amplify/components/amplify-chat-user-messages.html"},
-        {t:"Reply", href:"/docs/amplify/components/amplify-chat-reply.html"},
-        {t:"Text", href:"/docs/amplify/components/amplify-chat-text.html"},
-        {t:"Sources", href:"/docs/amplify/components/amplify-chat-sources.html"},
-        {t:"Blocks", href:"/docs/amplify/components/amplify-chat-blocks.html"},
-        {t:"Data table", href:"/docs/amplify/components/amplify-chat-data-table.html"},
-        {t:"Cards", href:"/docs/amplify/components/amplify-chat-cards.html"},
-        {t:"Relevance signals", href:"/docs/amplify/components/amplify-chat-relevance-signals.html"},
-        {t:"Selection", href:"/docs/amplify/components/amplify-chat-selection.html"},
-        {t:"Chat input", href:"/docs/amplify/components/amplify-chat-input.html"},
-        {t:"Clarifying questions", href:"/docs/amplify/components/amplify-chat-clarifying-questions.html"}
+        {t:"Amplify icon", href:"/docs/amplify/components/amplify-icon.html", cat:"Amplify indicators", d:"The Amplify icon: filled and line variants, sizes, color, and where it’s used."},
+        {t:"Button (amplify)", href:"/docs/components/button.html#amplify", cat:"Amplify indicators", d:"The amplify color: AI actions powered by Amplify."},
+        {t:"Icon Container (amplify)", href:"/docs/components/icon-container.html#amplify", cat:"Amplify indicators", d:"The amplify theme: the Amplify Radial gradient behind the amplify glyph."},
+        {t:"Full-page chat", href:"/docs/amplify/components/amplify-chat-full-page.html", cat:"Surfaces", d:"The standalone chat and the shell for prototyping Amplify conversations."},
+        {t:"Docked chat", href:"/docs/amplify/components/amplify-chat-docked.html", cat:"Surfaces", d:"The docked panel and pop-over window, and the shared conversation layout."},
+        {t:"User messages", href:"/docs/amplify/components/amplify-chat-user-messages.html", cat:"Conversation", d:"The recruiter’s message: the user bubble, long messages and tagged records."},
+        {t:"Reply", href:"/docs/amplify/components/amplify-chat-reply.html", cat:"Conversation", d:"The full Amplify reply: identity, body, sources, follow-ups, controls and thinking state."},
+        {t:"Text", href:"/docs/amplify/components/amplify-chat-text.html", cat:"Conversation", d:"Headings, paragraphs, inline record links, the status line and numbered lists in an Amplify reply."},
+        {t:"Sources", href:"/docs/amplify/components/amplify-chat-sources.html", cat:"Conversation", d:"The sources row: what a reply was based on, expandable to the records."},
+        {t:"Blocks", href:"/docs/amplify/components/amplify-chat-blocks.html", cat:"Response content", d:"Draft and literal value blocks: text Amplify writes for the recruiter to use or copy."},
+        {t:"Data table", href:"/docs/amplify/components/amplify-chat-data-table.html", cat:"Response content", d:"Chat tables of records with selection, In Bullhorn status and Reveal links."},
+        {t:"Cards", href:"/docs/amplify/components/amplify-chat-cards.html", cat:"Response content", d:"Record cards and Prospect contact cards, with selection and paging."},
+        {t:"Relevance signals", href:"/docs/amplify/components/amplify-chat-relevance-signals.html", cat:"Response content", d:"Why Amplify picked a prospect: a label and one small chip per signal."},
+        {t:"Selection", href:"/docs/amplify/components/amplify-chat-selection.html", cat:"Response content", d:"The selection bar and split button for bulk actions on records."},
+        {t:"Chat input", href:"/docs/amplify/components/amplify-chat-input.html", cat:"Input", d:"The input, context bar, button row with Stop, and the full-page starting point."},
+        {t:"Clarifying questions", href:"/docs/amplify/components/amplify-chat-clarifying-questions.html", cat:"Input", d:"The card Amplify uses to narrow a request: options, number keys, Something else."}
       ]},
       {label:"Patterns", pages:[
-        {t:"Response structure", href:"/docs/amplify/patterns/response-structure.html"},
-        {t:"Records and sources", href:"/docs/amplify/patterns/records-and-sources.html"},
-        {t:"Status and loading", href:"/docs/amplify/patterns/status-and-loading.html"},
-        {t:"Record actions in chat", href:"/docs/amplify/patterns/record-actions.html"},
-        {t:"Adding prospect contacts", href:"/docs/amplify/patterns/adding-prospect-contacts.html"},
-        {t:"Workflow examples", href:"/docs/amplify/patterns/workflow-examples.html"},
-        {t:"Amplify in the page layout", href:"/docs/amplify/patterns/amplify-in-layout.html"}
+        {t:"Response structure", href:"/docs/amplify/patterns/response-structure.html", d:"How an Amplify reply is put together, and how to choose a format for it."},
+        {t:"Records and sources", href:"/docs/amplify/patterns/records-and-sources.html", d:"How records and sources appear in Amplify replies."},
+        {t:"Status and loading", href:"/docs/amplify/patterns/status-and-loading.html", d:"Status lines and loading in Amplify chat."},
+        {t:"Record actions in chat", href:"/docs/amplify/patterns/record-actions.html", d:"Acting on records from a chat reply, in the list and card variants."},
+        {t:"Adding prospect contacts", href:"/docs/amplify/patterns/adding-prospect-contacts.html", d:"Adding Prospect contacts to Bullhorn from an Amplify reply."},
+        {t:"Workflow examples", href:"/docs/amplify/patterns/workflow-examples.html", d:"Worked examples: prioritize open jobs, match candidates to a job, look up a company, build pipeline."},
+        {t:"Amplify in the page layout", href:"/docs/amplify/patterns/amplify-in-layout.html", d:"Where Amplify sits in the ATS: the Amplify tab, the record header button, the right pane and pop-overs."}
       ]},
       {label:"Resources", pages:[
-        {t:"Resources", href:"/docs/amplify/resources.html"},
-        {t:"Background and open questions", href:"/docs/amplify/background.html"}
+        {t:"Resources", href:"/docs/amplify/resources.html", d:"Amplify reference documents and Figma source files."},
+        {t:"Background and open questions", href:"/docs/amplify/background.html", d:"Open questions, the research summary and the current state analysis."}
       ]}
     ]},
-    {label:"Design Decisions", pages:[
-      {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html"},
-      {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html"}
+    {label:"Design Decisions", href:"/docs/design-decisions.html",
+     d:"Options compared and the decisions taken, with the reasoning behind them.", pages:[
+      {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html", d:"Contrast options for the record tab bar, compared."},
+      {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html", d:"Current states, guidelines, analysis, proposed changes, and the new designs."}
     ]},
-    {label:"Resources", href:"/docs/resources.html"}
+    {label:"Resources", href:"/docs/resources.html", d:"Reference documents and Figma source files for the design system."}
   ];
   var e=function(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");};
-  // Same file names live in several folders (color.html, resources.html), so match on the
-  // whole path; fall back to the file name only when no SITE entry matches the path (file://).
-  var norm=function(p){return p.replace(/index\.html$/,"");};
-  var all=[]; SITE.forEach(function(g){ if(g.href) all.push(g.href); (g.pages||[]).forEach(function(pg){all.push(pg.href);});
-    (g.groups||[]).forEach(function(sg){(sg.pages||[]).forEach(function(pg){all.push(pg.href);});}); });
-  var pathMatch=all.some(function(h){return norm(location.pathname)===norm(h.split("#")[0]);});
+  // Match on the whole path: the same file names live in several folders (index.html,
+  // color.html, resources.html). Opened from disk (file://) the root differs, so there the
+  // path is compared by its trailing segments instead.
+  var norm=function(p){return p.replace(/index\.html$/,"").replace(/\.html$/,"");};
   function here(href){
-    var p=location.pathname, h=href.split("#")[0];
     if(href.indexOf("#")>-1) return false; // links into another page's section
-    return norm(p)===norm(h) || (!pathMatch && p.split("/").pop()===h.split("/").pop());
+    var p=norm(location.pathname), h=norm(href);
+    return location.protocol==="file:" ? p.slice(-h.length)===h : p===h;
   }
-  function store(open){ try{ localStorage.setItem("sn-open", open?"1":"0"); }catch(_){} }
-  function restored(){ try{ return localStorage.getItem("sn-open")==="1"; }catch(_){ return false; } }
+  function pagesOf(g){ var out=(g.pages||[]).slice(); (g.groups||[]).forEach(function(sg){ out=out.concat(sg.pages); }); return out; }
+  function holds(g){ return here(g.href) || pagesOf(g).some(function(pg){return here(pg.href);}); }
+
+  // Card grid: rows three cards wide; fewer than three cards stretch to fill the row.
+  function cards(list){
+    return '<div class="cards cards--'+Math.min(3,list.length)+'">'+list.map(function(pg){
+      return '<a class="doc card-link" href="'+e(pg.href)+'"><span class="title">'+e(pg.t)+'</span>'+
+        (pg.d?'<span class="desc">'+e(pg.d)+'</span>':'')+'</a>';
+    }).join("")+'</div>';
+  }
+  // A group whose pages carry `cat` is split into sub-headed rows, one per cat, in SITE order.
+  function groupCards(list){
+    if(!list.some(function(pg){return pg.cat;})) return cards(list);
+    var order=[], by={};
+    list.forEach(function(pg){ var c=pg.cat||""; if(!by[c]){ by[c]=[]; order.push(c); } by[c].push(pg); });
+    return order.map(function(c){ return (c?'<h4 class="cards-sublabel">'+e(c)+'</h4>':'')+cards(by[c]); }).join("");
+  }
+  function sectionCards(g){
+    var html=g.pages&&g.pages.length?cards(g.pages):"";
+    (g.groups||[]).forEach(function(sg){ html+='<h3 class="cards-label">'+e(sg.label)+'</h3>'+groupCards(sg.pages); });
+    return html;
+  }
+
+  // <doc-overview section="Foundations"></doc-overview> — that section's pages as cards.
+  // <doc-overview></doc-overview> — every section (the home page), each headed by a link to its overview.
+  customElements.define("doc-overview", class extends HTMLElement{
+    connectedCallback(){
+      if(this._done)return; this._done=true;
+      var name=this.getAttribute("section");
+      if(name){ var g=SITE.filter(function(x){return x.label===name;})[0]; this.innerHTML=g?sectionCards(g):""; return; }
+      this.innerHTML=SITE.map(function(g){
+        return '<section class="ov-group"><h2><a href="'+e(g.href)+'">'+e(g.label)+'</a></h2>'+
+          (g.pages?'<p class="lead">'+e(g.d)+'</p>'+sectionCards(g):cards([{t:g.label,href:g.href,d:g.d}]))+'</section>';
+      }).join("");
+    }
+  });
+
+  function get(k){ try{ return localStorage.getItem(k); }catch(_){ return null; } }
+  function set(k,v){ try{ localStorage.setItem(k,v); }catch(_){} }
+  var wide=window.matchMedia("(min-width: 1024px)");
+  var CHEV='<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M6 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  function link(pg, cls){
+    var on=here(pg.href);
+    return '<a class="sn-link'+(cls?" "+cls:"")+(on?" is-here":"")+'" href="'+e(pg.href)+'"'+(on?' aria-current="page"':'')+'>'+e(pg.t)+'</a>';
+  }
+  function collapsible(key, open, headHtml, bodyHtml, cls){
+    return '<div class="'+cls+(open?" is-open":"")+'" data-key="'+e(key)+'">'+headHtml.replace("{exp}",open?"true":"false")+
+      '<div class="'+cls+'-body">'+bodyHtml+'</div></div>';
+  }
+  function navHtml(){
+    return SITE.map(function(g){
+      var on=here(g.href), cur=' aria-current="page"';
+      var head='<a class="sn-sec-link'+(on?" is-here":"")+'" href="'+e(g.href)+'"'+(on?cur:'')+'>'+e(g.label)+'</a>';
+      if(!g.pages) return '<div class="sn-sec sn-sec--leaf">'+'<div class="sn-sec-head">'+head+'</div></div>';
+      var key="sn-sec:"+g.label, open=holds(g)||get(key)==="1";
+      var body=g.pages.map(function(pg){return link(pg);}).join("");
+      (g.groups||[]).forEach(function(sg){
+        var sk=key+"/"+sg.label, sopen=sg.pages.some(function(pg){return here(pg.href);})||get(sk)==="1";
+        body+=collapsible(sk, sopen,
+          '<button class="sn-sub-head" type="button" aria-expanded="{exp}">'+CHEV+'<span>'+e(sg.label)+'</span></button>',
+          sg.pages.map(function(pg){return link(pg,"sn-sublink");}).join(""), "sn-sub");
+      });
+      return collapsible(key, open,
+        '<div class="sn-sec-head">'+head+'<button class="sn-caret" type="button" aria-expanded="{exp}" aria-label="Show or hide '+e(g.label)+' pages">'+CHEV+'</button></div>',
+        body, "sn-sec");
+    }).join("");
+  }
+  function headerHtml(){
+    return '<button class="sh-toggle" type="button" aria-controls="site-nav" aria-label="Toggle navigation">'+
+        '<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>'+
+      '<a class="sh-logo" href="/index.html" aria-label="Design documentation home">'+
+        '<svg class="sh-mark" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="2" y="2" width="9" height="9" rx="2.5" fill="#296cc3"/><rect x="13" y="2" width="9" height="9" rx="2.5" fill="#76a9ed"/><rect x="2" y="13" width="9" height="9" rx="2.5" fill="#76a9ed"/><rect x="13" y="13" width="9" height="9" rx="4.5" fill="#1450a0"/></svg>'+
+        '<span class="sh-name">Modern UI</span><span class="sh-sub">Design documentation</span></a>'+
+      '<div class="sh-search" role="search">'+
+        '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><circle cx="7" cy="7" r="4.75" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>'+
+        '<input type="search" placeholder="Search documentation" aria-label="Search documentation" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="sh-results">'+
+        '<kbd>/</kbd><div class="sh-results" id="sh-results" role="listbox" hidden></div></div>';
+  }
+
+  // Search: page titles and card text from SITE, plus each page's section headings
+  // (fetched once, the first time the search field is focused).
+  var INDEX=[], sectionsLoaded=false;
+  SITE.forEach(function(g){
+    INDEX.push({t:g.label, c:"Overview", d:g.d, href:g.href, w:3});
+    (g.pages||[]).forEach(function(pg){ INDEX.push({t:pg.t, c:g.label, d:pg.d, href:pg.href, w:2}); });
+    (g.groups||[]).forEach(function(sg){ sg.pages.forEach(function(pg){ INDEX.push({t:pg.t, c:g.label+" › "+sg.label, d:pg.d, href:pg.href, w:2}); }); });
+  });
+  function loadSections(){
+    if(sectionsLoaded) return; sectionsLoaded=true;
+    INDEX.filter(function(it){return it.w===2 && it.href.indexOf("#")<0;}).forEach(function(it){
+      fetch(it.href).then(function(r){return r.ok?r.text():"";}).then(function(html){
+        var doc=new DOMParser().parseFromString(html,"text/html");
+        [].forEach.call(doc.querySelectorAll("doc-section[id][label]"), function(s){
+          INDEX.push({t:s.getAttribute("label"), c:it.t, d:s.getAttribute("desc")||"", href:it.href+"#"+s.id, w:1});
+        });
+      }).catch(function(){});
+    });
+  }
+  function search(q){
+    var terms=q.toLowerCase().split(/\s+/).filter(Boolean); if(!terms.length) return [];
+    return INDEX.map(function(it){
+      var t=it.t.toLowerCase(), hay=t+" "+it.c.toLowerCase()+" "+(it.d||"").toLowerCase();
+      if(!terms.every(function(x){return hay.indexOf(x)>-1;})) return null;
+      var s=it.w + (t.indexOf(terms[0])===0?4:0) + (terms.every(function(x){return t.indexOf(x)>-1;})?2:0);
+      return {it:it, s:s};
+    }).filter(Boolean).sort(function(a,b){return b.s-a.s;}).slice(0,10).map(function(r){return r.it;});
+  }
+  function wireSearch(box){
+    var input=box.querySelector("input"), list=box.querySelector(".sh-results"), sel=-1, res=[];
+    function show(){
+      res=search(input.value); sel=res.length?0:-1;
+      list.innerHTML=res.length?res.map(function(it,i){
+        return '<a class="sh-result'+(i===sel?" is-sel":"")+'" role="option" id="shr-'+i+'" href="'+e(it.href)+'">'+
+          '<span class="r-t">'+e(it.t)+'</span><span class="r-c">'+e(it.c)+'</span></a>';
+      }).join(""):(input.value.trim()?'<p class="sh-empty">No results</p>':"");
+      list.hidden=!input.value.trim(); input.setAttribute("aria-expanded",String(!list.hidden));
+    }
+    function move(d){
+      if(!res.length) return; sel=(sel+d+res.length)%res.length;
+      [].forEach.call(list.children,function(a,i){a.classList.toggle("is-sel",i===sel);});
+      input.setAttribute("aria-activedescendant","shr-"+sel); list.children[sel].scrollIntoView({block:"nearest"});
+    }
+    input.addEventListener("focus", function(){ loadSections(); if(input.value.trim()) show(); });
+    input.addEventListener("input", show);
+    input.addEventListener("keydown", function(ev){
+      if(ev.key==="ArrowDown"){ ev.preventDefault(); move(1); }
+      else if(ev.key==="ArrowUp"){ ev.preventDefault(); move(-1); }
+      else if(ev.key==="Enter" && res[sel]){ ev.preventDefault(); location.href=res[sel].href; }
+      else if(ev.key==="Escape"){ list.hidden=true; input.blur(); }
+    });
+    document.addEventListener("click", function(ev){ if(!box.contains(ev.target)) list.hidden=true; });
+    document.addEventListener("keydown", function(ev){
+      var tag=(document.activeElement&&document.activeElement.tagName)||"";
+      if(ev.key==="/" && !/INPUT|TEXTAREA|SELECT/.test(tag)){ ev.preventDefault(); input.focus(); }
+    });
+  }
 
   function build(){
-    if(document.querySelector(".sn-drawer")) return;
-    var toggle=document.createElement("button");
-    toggle.className="sn-toggle"; toggle.setAttribute("aria-label","Open navigation"); toggle.setAttribute("aria-expanded","false");
-    toggle.innerHTML='<span class="sn-bars"><span></span><span></span><span></span></span>Pages';
-
+    if(document.querySelector(".site-header")) return;
+    var body=document.body; body.classList.add("has-chrome");
+    var header=document.createElement("header"); header.className="site-header"; header.innerHTML=headerHtml();
+    var nav=document.createElement("nav"); nav.className="site-nav"; nav.id="site-nav"; nav.setAttribute("aria-label","Documentation"); nav.innerHTML=navHtml();
     var scrim=document.createElement("div"); scrim.className="sn-scrim";
+    body.insertBefore(scrim, body.firstChild); body.insertBefore(nav, body.firstChild); body.insertBefore(header, body.firstChild);
 
-    var drawer=document.createElement("nav"); drawer.className="sn-drawer"; drawer.setAttribute("aria-label","Documentation");
-    var html='<div class="sn-head"><a class="sn-home" href="/index.html">Design documentation</a>'+
-             '<button class="sn-close" aria-label="Close navigation">&times;</button></div>';
-    SITE.forEach(function(g){
-      if(g.href){
-        html+='<a class="sn-group sn-group-link'+(here(g.href)?" is-here":"")+'" href="'+e(g.href)+'">'+e(g.label)+'</a>';
-      } else {
-        html+='<div class="sn-group">'+e(g.label)+'</div>';
-      }
-      (g.pages||[]).forEach(function(pg){
-        html+='<a class="sn-link'+(here(pg.href)?" is-here":"")+'" href="'+e(pg.href)+'">'+e(pg.t)+'</a>';
-      });
-      // sub-groups: a labelled, indented block after the group's own pages
-      (g.groups||[]).forEach(function(sg){
-        html+='<div class="sn-subgroup">'+e(sg.label)+'</div>';
-        (sg.pages||[]).forEach(function(pg){
-          html+='<a class="sn-link sn-sublink'+(here(pg.href)?" is-here":"")+'" href="'+e(pg.href)+'">'+e(pg.t)+'</a>';
-        });
-      });
+    // Wide screens: the nav pushes the page over and stays open until closed (remembered).
+    // Narrow screens: it slides over the page with a scrim and closes after use.
+    var toggle=header.querySelector(".sh-toggle");
+    function apply(open){ body.classList.toggle("sn-open",open); toggle.setAttribute("aria-expanded",String(open)); }
+    function initial(){ return wide.matches ? get("sn-open")!=="0" : false; }
+    apply(initial());
+    toggle.addEventListener("click", function(){ var open=!body.classList.contains("sn-open"); apply(open); if(wide.matches) set("sn-open",open?"1":"0"); });
+    scrim.addEventListener("click", function(){ apply(false); });
+    wide.addEventListener("change", function(){ apply(initial()); });
+    document.addEventListener("keydown", function(ev){ if(ev.key==="Escape" && !wide.matches && body.classList.contains("sn-open")) apply(false); });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ body.classList.add("sn-ready"); }); });
+
+    // Collapsible sections and sub-groups
+    nav.addEventListener("click", function(ev){
+      var btn=ev.target.closest(".sn-caret,.sn-sub-head"); if(!btn) return;
+      var box=btn.closest("[data-key]"), open=!box.classList.contains("is-open");
+      box.classList.toggle("is-open",open); btn.setAttribute("aria-expanded",String(open)); set(box.dataset.key, open?"1":"0");
     });
-    drawer.innerHTML=html;
-
-    document.body.appendChild(toggle);
-    document.body.appendChild(scrim);
-    document.body.appendChild(drawer);
-
-    function open(){ document.body.classList.add("sn-open"); toggle.setAttribute("aria-expanded","true"); store(true); }
-    function close(){ document.body.classList.remove("sn-open"); toggle.setAttribute("aria-expanded","false"); store(false); }
-    toggle.addEventListener("click", open);
-    scrim.addEventListener("click", close);
-    drawer.querySelector(".sn-close").addEventListener("click", close);
-    document.addEventListener("keydown", function(ev){ if(ev.key==="Escape" && document.body.classList.contains("sn-open")) close(); });
-    if(restored()) open();
+    var cur=nav.querySelector(".is-here"); if(cur) nav.scrollTop=Math.max(0, cur.offsetTop-nav.clientHeight/2);
+    wireSearch(header.querySelector(".sh-search"));
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded", build);
   else build();
