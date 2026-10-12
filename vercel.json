@@ -3,5 +3,19 @@
   "installCommand": "npm ci --prefix components",
   "buildCommand": "npm run build",
   "outputDirectory": "docs-site",
+  "redirects": [
+    { "source": "/docs/components/amplify-chat-blocks.html", "destination": "/docs/amplify/components/amplify-chat-blocks.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-cards.html", "destination": "/docs/amplify/components/amplify-chat-cards.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-clarifying-questions.html", "destination": "/docs/amplify/components/amplify-chat-clarifying-questions.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-data-table.html", "destination": "/docs/amplify/components/amplify-chat-data-table.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-docked.html", "destination": "/docs/amplify/components/amplify-chat-docked.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-full-page.html", "destination": "/docs/amplify/components/amplify-chat-full-page.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-input.html", "destination": "/docs/amplify/components/amplify-chat-input.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-reply.html", "destination": "/docs/amplify/components/amplify-chat-reply.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-selection.html", "destination": "/docs/amplify/components/amplify-chat-selection.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-sources.html", "destination": "/docs/amplify/components/amplify-chat-sources.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-text.html", "destination": "/docs/amplify/components/amplify-chat-text.html", "permanent": true },
+    { "source": "/docs/components/amplify-chat-user-messages.html", "destination": "/docs/amplify/components/amplify-chat-user-messages.html", "permanent": true }
+  ],
   "rewrites": [{ "source": "/examples/:path*", "destination": "/examples/index.html" }]
 }

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify" title="Amplify UI" intro="Everything about Amplify UI in one place: foundations, components, patterns and resources.">
+
+  <doc-section id="overview" label="Overview" desc="What Amplify UI is and how it behaves">
+    <a class="doc" href="about.html">
+      <div class="title">About Amplify UI</div>
+      <div class="desc">What Amplify is, the principles for Amplify UI, and how the Amplify icon identifies Amplify features.</div>
+    </a>
+    <a class="doc" href="ai-interaction-guidelines.html">
+      <div class="title">AI interaction guidelines</div>
+      <div class="desc">The design principles for AI software that Amplify follows, and what good looks like in practice.</div>
+    </a>
+  </doc-section>
+
+  <doc-section id="foundations" label="Foundations" desc="Color, surfaces, text, spacing, voice">
+    <a class="doc" href="foundations/color.html">
+      <div class="title">Color</div>
+      <div class="desc">The Amplify gradient and tints, and what they mean.</div>
+    </a>
+    <a class="doc" href="foundations/surfaces-and-elevation.html">
+      <div class="title">Surfaces and elevation</div>
+      <div class="desc">Full page, docked and pop-over: when each surface is used, and the elevation it sits at.</div>
+    </a>
+    <a class="doc" href="foundations/text-styles.html">
+      <div class="title">Text styles</div>
+      <div class="desc">Headings, lists, emphasis and entity links in Amplify replies.</div>
+    </a>
+    <a class="doc" href="foundations/spacing-and-layout.html">
+      <div class="title">Spacing and layout</div>
+      <div class="desc">Spacing and column width in Amplify chat.</div>
+    </a>
+    <a class="doc" href="foundations/voice-and-tone.html">
+      <div class="title">Voice and tone</div>
+      <div class="desc">How Amplify writes.</div>
+    </a>
+  </doc-section>
+
+  <doc-section id="components" label="Components" desc="Grouped by role in the conversation">
+    <div class="group-sublabel">Amplify indicators</div>
+    <a class="doc" href="components/amplify-icon.html">
+      <div class="title">Amplify icon</div>
+      <div class="desc">The Amplify icon: filled and line variants, sizes, color, and where it’s used.</div>
+    </a>
+    <a class="doc" href="../components/button.html#amplify">
+      <div class="title">Button (amplify)</div>
+      <div class="desc">The amplify color: AI actions powered by Amplify.</div>
+    </a>
+    <a class="doc" href="../components/icon-container.html#amplify">
+      <div class="title">Icon Container (amplify)</div>
+      <div class="desc">The amplify theme: the Amplify Radial gradient behind the amplify glyph.</div>
+    </a>
+    <div class="group-sublabel">Surfaces</div>
+    <a class="doc" href="components/amplify-chat-full-page.html">
+      <div class="title">Full-page chat</div>
+      <div class="desc">The standalone chat and the shell for prototyping Amplify conversations.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-docked.html">
+      <div class="title">Docked chat</div>
+      <div class="desc">The docked panel and pop-over window, and the shared conversation layout.</div>
+    </a>
+    <div class="group-sublabel">Conversation</div>
+    <a class="doc" href="components/amplify-chat-user-messages.html">
+      <div class="title">User messages</div>
+      <div class="desc">The recruiter’s message: the user bubble, long messages and tagged records.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-reply.html">
+      <div class="title">Reply</div>
+      <div class="desc">The full Amplify reply: identity, body, sources, follow-ups, controls and thinking state.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-text.html">
+      <div class="title">Text</div>
+      <div class="desc">Headings, paragraphs, inline record links, the status line and numbered lists in an Amplify reply.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-sources.html">
+      <div class="title">Sources</div>
+      <div class="desc">The sources row: what a reply was based on, expandable to the records.</div>
+    </a>
+    <div class="group-sublabel">Response content</div>
+    <a class="doc" href="components/amplify-chat-blocks.html">
+      <div class="title">Blocks</div>
+      <div class="desc">Draft and literal value blocks: text Amplify writes for the recruiter to use or copy.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-data-table.html">
+      <div class="title">Data table</div>
+      <div class="desc">Chat tables of records with selection, In Bullhorn status and Reveal links.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-cards.html">
+      <div class="title">Cards</div>
+      <div class="desc">Record cards and Prospect contact cards, with selection and paging.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-relevance-signals.html">
+      <div class="title">Relevance signals</div>
+      <div class="desc">Why Amplify picked a prospect: a label and one small chip per signal.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-selection.html">
+      <div class="title">Selection</div>
+      <div class="desc">The selection bar and split button for bulk actions on records.</div>
+    </a>
+    <div class="group-sublabel">Input</div>
+    <a class="doc" href="components/amplify-chat-input.html">
+      <div class="title">Chat input</div>
+      <div class="desc">The input, context bar, button row with Stop, and the full-page starting point.</div>
+    </a>
+    <a class="doc" href="components/amplify-chat-clarifying-questions.html">
+      <div class="title">Clarifying questions</div>
+      <div class="desc">The card Amplify uses to narrow a request: options, number keys, Something else.</div>
+    </a>
+  </doc-section>
+
+  <doc-section id="patterns" label="Patterns" desc="How the components combine">
+    <a class="doc" href="patterns/response-structure.html">
+      <div class="title">Response structure</div>
+      <div class="desc">How an Amplify reply is put together, and how to choose a format for it.</div>
+    </a>
+    <a class="doc" href="patterns/records-and-sources.html">
+      <div class="title">Records and sources</div>
+      <div class="desc">How records and sources appear in Amplify replies.</div>
+    </a>
+    <a class="doc" href="patterns/status-and-loading.html">
+      <div class="title">Status and loading</div>
+      <div class="desc">Status lines and loading in Amplify chat.</div>
+    </a>
+    <a class="doc" href="patterns/record-actions.html">
+      <div class="title">Record actions in chat</div>
+      <div class="desc">Acting on records from a chat reply, in the list and card variants.</div>
+    </a>
+    <a class="doc" href="patterns/adding-prospect-contacts.html">
+      <div class="title">Adding prospect contacts</div>
+      <div class="desc">Adding Prospect contacts to Bullhorn from an Amplify reply.</div>
+    </a>
+    <a class="doc" href="patterns/workflow-examples.html">
+      <div class="title">Workflow examples</div>
+      <div class="desc">Worked examples: prioritize open jobs, match candidates to a job, look up a company, build pipeline.</div>
+    </a>
+    <a class="doc" href="patterns/amplify-in-layout.html">
+      <div class="title">Amplify in the page layout</div>
+      <div class="desc">Where Amplify sits in the ATS: the Amplify tab, the record header button, the right pane and pop-overs.</div>
+    </a>
+  </doc-section>
+
+  <doc-section id="resources" label="Resources" desc="References and background">
+    <a class="doc" href="resources.html">
+      <div class="title">Resources</div>
+      <div class="desc">Amplify reference documents and Figma source files.</div>
+    </a>
+    <a class="doc" href="background.html">
+      <div class="title">Background and open questions</div>
+      <div class="desc">Open questions, the research summary and the current state analysis.</div>
+    </a>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

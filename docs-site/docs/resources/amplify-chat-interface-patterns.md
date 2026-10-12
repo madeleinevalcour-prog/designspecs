@@ -179,7 +179,7 @@ Record variant: when the options are different records (for example "Which job o
 - **Ask one round only:** at most 3 questions, one at a time, with 2–4 options each. *(Nielsen H6; research: Glean 1–3, Claude 1–4)*
 - **Put the recommended option first** and say where it came from: "from JO-4821", "your access". *(Amplify principle 3 "show your work"; principle 4 "Amplify suggests")*
 - **Show a recommendation's source record as an entity link** with `show record link`. *(Nielsen H6)*
-- **Use type=record whenever options are records,** with enough detail to tell them apart: ID, client, location, owner, date. *(Nielsen H5; Amplify "design for thin/messy data")*
+- **Use type=record whenever options are records,** with 2–5 details that tell them apart and are relevant to the record type and the action (for a job: company, date added and status). *(Nielsen H5; Amplify "design for thin/messy data")*
 - **State data scope when it matters,** e.g. "Amplify only searches records you can access." *(Amplify principle 7)*
 - **Adapt later questions to earlier answers.** A remote job order changes the location question.
 - **Keep Skip and Something else on every question,** so the recruiter is never forced into an option. *(Nielsen H3)*

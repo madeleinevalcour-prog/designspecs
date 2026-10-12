@@ -1,0 +1,18 @@
+:host { display: block; padding: 32px 40px 80px; }
+:host:has(.embed) { padding: 16px; }
+h1 { font-size: 24px; margin: 0 0 4px; }
+.lede { color: #5d7798; margin: 0 0 24px; font-size: 14px; max-width: 70ch; }
+.matrix { border-collapse: collapse; }
+.matrix th, .matrix td { padding: 12px 20px; text-align: center; vertical-align: middle; }
+.matrix thead th { font-size: 12px; font-weight: 500; color: #5d7798; }
+.matrix tbody th { text-align: left; font-size: 13px; font-weight: 500; color: #3d464d; line-height: 1.6; }
+.matrix code { font-size: 11px; color: #5d7798; }
+.embed { display: flex; }
+.cell { display: inline-flex; align-items: center; justify-content: center; }
+/* Icon/Amplify Radial — no token; stops as in the lib (bowling-alley.css, chat-block.css, text.css) */
+.ats-icon.amp-radial,
+.on-fill {
+  background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%);
+}
+/* knockout: the glyph on an Amplify fill */
+.on-fill { padding: 6px; border-radius: 4px; }

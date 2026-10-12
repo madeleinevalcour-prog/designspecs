@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify in the page layout — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Pattern" title="Amplify in the page layout" intro="Where Amplify sits in the ATS: the Amplify tab, the record header button, the right pane and pop-overs.">
+
+  <doc-section id="entry-points" label="Entry points" desc="Where the recruiter opens Amplify">
+    <table class="tbl">
+      <thead><tr><th>Entry point</th><th>What it does</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Bowling Alley Amplify tab</td><td>One of the openers (Find, Menu, Add, Amplify). Amplify is a tab, not an overlay: the shell emits <span class="chip">amplifyClick</span> and the page opens its Amplify panel</td><td><a href="../../components/bowling-alley.html#overlays">Bowling Alley → Overlays</a></td></tr>
+        <tr><td>Amplify app in the Menu</td><td>Amplify is one of the apps in the Menu grid</td><td><a href="../../components/bowling-alley.html#overlays">Bowling Alley → Overlays</a></td></tr>
+        <tr><td>Record Header Amplify button</td><td>The primary amplify <b>Amplify</b> button, after the secondary Actions button in the toolbar</td><td><a href="../../components/record-header.html#anatomy">Record Header → Anatomy</a></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="right-pane" label="The right pane" desc="Amplify-first space">
+    <ul>
+      <li>Treat the right pane as shared, Amplify-first space. It is frequently claimed by Amplify (the universal chat panel that narrows the page, or AI-assisted form-fill controls docked to the right) or by a functional tool the form requires.</li>
+      <li>Design the form to reflow to the narrowed width these create.</li>
+      <li>The docked chat is the last item in a flex row with the page content, so the page contracts beside it instead of sitting under it.</li>
+    </ul>
+    <doc-example src="amplify-chat-docked?mode=docked&amp;state=conversation" caption="Docked chat: the page contracts beside the panel" height="760" viewport="1280"></doc-example>
+    <p>Sources: <a href="../../form-pages-design-decisions.html#proposed-changes">Form pages — design decisions → Proposed changes</a>, <a href="../components/amplify-chat-docked.html#docked">Docked chat → Docked panel</a>.</p>
+  </doc-section>
+
+  <doc-section id="pop-over" label="Pop-overs" desc="Escape inside Amplify">
+    <ul>
+      <li>The pop-over is the same chat as a floating window over the page, with no scrim, so the page underneath stays usable.</li>
+      <li>Escape is marked as handled, so a dropdown inside the Amplify pop-over closes only itself; the pop-over stays open.</li>
+    </ul>
+    <p>Sources: <a href="../components/amplify-chat-docked.html#pop-over">Docked chat → Pop-over</a>, <a href="../../components/dropdown.html">Dropdown</a>.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Surfaces and elevation">
+    <p>When each surface is used, and its elevation: <a href="../foundations/surfaces-and-elevation.html">Surfaces and elevation</a>.</p>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

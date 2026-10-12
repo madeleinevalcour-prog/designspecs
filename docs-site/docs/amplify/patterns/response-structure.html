@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Response structure — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Pattern" title="Response structure" intro="How an Amplify reply is put together, and how to choose a format for it.">
+
+<doc-section id="parts" label="Parts of a reply" desc="The parts of every reply, in order">
+<p>Every reply follows the same top-to-bottom order, so replies are predictable to scan and the answer always comes first (NN/g truncated pyramid; Gestalt continuity).</p>
+<doc-example src="amplify-chat-reply?example=user-turn" caption="1 · The user message" height="80"></doc-example>
+<doc-example src="amplify-chat-reply?example=table" caption="2–9 · The reply. The section heading (4) is optional, and the selection bar (6) appears once rows are selected" height="460"></doc-example>
+<ol class="anno-key">
+<li><b>User message.</b> <span class="chip">amplify-chat/user-bubble</span>, right-aligned. <span class="tag">Always</span></li>
+<li><b>Identity.</b> Amplify icon and name. <span class="tag">Always</span></li>
+<li><b>Answer.</b> One sentence stating the result, with records as inline entity links. <span class="tag">Always</span></li>
+<li><b>Section heading.</b> Only when the reply has 3 or more parts to scan between. <span class="tag opt">Optional</span></li>
+<li><b>Evidence.</b> A <a href="../components/amplify-chat-data-table.html">data table</a>, <a href="../components/amplify-chat-cards.html">cards</a> or a <a href="../components/amplify-chat-text.html#numbered-list">list</a>. <span class="tag opt">Optional</span></li>
+<li><b>Selection bar.</b> Selected count and the bulk action. Only when rows or cards are selected. <span class="tag opt">Optional</span></li>
+<li><b>Sources row.</b> When the answer uses records. <span class="tag opt">Optional</span></li>
+<li><b>Follow-up chips.</b> 2–3 next steps instead of "Want me to…?" in prose. <span class="tag opt">Optional</span></li>
+<li><b>Message controls.</b> Copy, thumbs up, thumbs down, Save prompt. Thumbs and Save prompt are toggles: the bookmark is filled once the prompt is saved. <span class="tag">Always</span></li>
+</ol>
+<ul>
+<li>Also optional: a rationale line under the evidence (how it was ranked or filtered), and a <a href="../components/amplify-chat-blocks.html#draft-block">draft block</a> or <a href="../components/amplify-chat-blocks.html#literal-value-block">literal value block</a>.</li>
+<li>While generating, a status line names the current step ("Searching open jobs…"); the Stop control is in the chat input, next to Send. Memory changes show as a status line with View and Undo.</li>
+<li>Never in a reply: filler openers, feedback requests in prose, more than 3 clarifying questions, numbered headings, or a retry control.</li>
+<li>The smallest reply is identity, a one-sentence answer and the controls (Rams 10).</li>
+</ul>
+</doc-section>
+
+<doc-section id="choosing-a-format" label="Choosing a format" desc="Which component fits the content">
+<table class="tbl">
+<tr><th>Content</th><th>Format</th><th>Why</th></tr>
+<tr><td>A single fact or short answer</td><td><a href="../components/amplify-chat-text.html#text">Prose</a>, 1–2 sentences</td><td>Rams 10</td></tr>
+<tr><td>Steps, a plan, or a ranked shortlist without extra fields</td><td><a href="../components/amplify-chat-text.html#numbered-list">Lists</a></td><td>Order matters</td></tr>
+<tr><td>2–10 records compared on the same fields</td><td><a href="../components/amplify-chat-data-table.html">Data table</a>, 4 columns docked, 6 full page</td><td>Gestalt, continuity and similarity</td></tr>
+<tr><td>Records that need explaining or acting on one by one</td><td><a href="../components/amplify-chat-cards.html">Cards</a>, 3 by default, 5 max</td><td>H7 · Amplify principle 3</td></tr>
+<tr><td>More than 10 records</td><td><a href="../components/amplify-chat-data-table.html">Data table</a> with the first 10, a count and a Show more chip</td><td>H1</td></tr>
+<tr><td>Email, note, or JD to edit</td><td><a href="../components/amplify-chat-blocks.html#draft-block">Draft block</a></td><td>Amplify principle 2</td></tr>
+<tr><td>Text to copy exactly (Boolean string, field value, template)</td><td><a href="../components/amplify-chat-blocks.html#literal-value-block">Literal value block</a></td><td>H5 · Gestalt, common region</td></tr>
+</table>
+<p>Each format’s rules are on its component page.</p>
+<table class="tbl">
+<tr><th>Format</th><th>Component page</th></tr>
+<tr><td>Prose</td><td><a href="../components/amplify-chat-text.html">Text</a></td></tr>
+<tr><td>Lists</td><td><a href="../components/amplify-chat-text.html#numbered-list">Text → Numbered list</a></td></tr>
+<tr><td>Data table</td><td><a href="../components/amplify-chat-data-table.html">Data table</a></td></tr>
+<tr><td>Cards</td><td><a href="../components/amplify-chat-cards.html">Cards</a></td></tr>
+<tr><td>Selection and bulk actions</td><td><a href="../components/amplify-chat-selection.html">Selection</a></td></tr>
+<tr><td>Draft block</td><td><a href="../components/amplify-chat-blocks.html#draft-block">Blocks → Draft block</a></td></tr>
+<tr><td>Literal value block</td><td><a href="../components/amplify-chat-blocks.html#literal-value-block">Blocks → Literal value block</a></td></tr>
+</table>
+</doc-section>
+
+</doc-page>
+<style>
+  /* Page-scoped: the numbered parts key */
+  ol.anno-key{margin:0 0 12px;padding-left:22px}
+  ol.anno-key li{margin:0 0 6px}
+  .tag{font-size:11px;font-weight:600;color:var(--do-ink);background:var(--do-fill);border-radius:4px;padding:1px 6px;margin-left:4px}
+  .tag.opt{color:var(--ink-2);background:var(--chip)}
+</style>
+</body>
+</html>

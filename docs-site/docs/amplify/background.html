@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Background and open questions — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify" title="Background and open questions" intro="Open questions, the research summary and the current state analysis.">
+
+  <doc-section id="open-questions" label="Open questions and directional items" desc="Still to decide or confirm">
+    <ul>
+      <li>Literal value block: the copy action only appears on hover. Decide how keyboard and touch users reach it, for example showing it on focus or keeping it visible (H6, recognition over recall).</li>
+      <li>Modern UI has no monospace style, so literal values render in <span class="chip">body/default</span>. Monospace is part of what makes code blocks readable: it separates similar characters and keeps operators aligned. Raise this with the Modern UI system owners.</li>
+      <li>Entity colors (<span class="chip">color/entity/*</span>) are primitive-only today, a known gap in Modern UI. The entity circle on record links binds a primitive until the semantic accent layer exists.</li>
+      <li>The rendering pipeline has to map markdown to these styles, for example <span class="chip">**</span> to <span class="chip">body/default-medium</span>, fenced code blocks to the literal value block, and removing <span class="chip">####</span> and deeper. Prompt changes alone won’t enforce this (Amplify: prompts are the main lever for output, and the renderer is the safety net).</li>
+      <li>The body text color in the new UI (about <span class="chip">#2a292d</span>) is sampled from a screenshot and may reflect anti-aliasing. Check it in code.</li>
+      <li>Relevancy dots now bind <span class="chip">color/utility/blue/100</span> for empty dots, replacing the deprecated token. Filled dots still bind <span class="chip">color/blue/medium-blue</span>, a brand primitive. Confirm whether a semantic token is planned (Modern UI: bind components to semantic tokens).</li>
+      <li>Numeric columns (counts, pay rates): the component example only shows left-aligned values. Confirm the alignment rule.</li>
+      <li>Docked chat width: the panel width isn’t confirmed. Once it is, check whether 4 table columns fit or the docked limit should drop to 3.</li>
+      <li>Cross-page workflow orchestration (<a href="foundations/surfaces-and-elevation.html#surfaces">Surfaces</a>, principle 2) is an active goal; the detailed interaction patterns are still being defined.</li>
+      <li>Chat on unsupported pages (<a href="foundations/surfaces-and-elevation.html#surfaces">Surfaces</a>, principle 3) is directional; confirm the fallback experience per page.</li>
+      <li>Roadmap sequencing between Dockable Chat Phase II and Phase III is implied by roadmap order, not fixed dates.</li>
+      <li>Prospect contacts aren’t ATS records yet. Confirm what their name links and preview icon open.</li>
+    </ul>
+    <doc-callout type="note" heading="To be written.">Illustration and empty states: still to be decided whether they’re in scope for Amplify UI.</doc-callout>
+  </doc-section>
+
+  <doc-section id="research-summary" label="Appendix A: research summary" desc="Common patterns and sources">
+    <p>Common patterns across AI chat products:</p>
+    <ul>
+      <li>Lead with the answer. Detail and follow-ups come after.</li>
+      <li>Use formatting only where it helps. Headings are small and rare.</li>
+      <li>Structured data (records, matches) links back to its source record. Citations are standard in CRM and ATS assistants.</li>
+      <li>Nothing is written without confirmation. Actions show as cards with confirm and deny.</li>
+      <li>Clarifying questions are structured (cards, options), not long numbered lists.</li>
+      <li>The same controls sit under every reply: copy, retry, thumbs up and down.</li>
+      <li>Reading width is capped. No vendor publishes its chat type scale, so reading width and hierarchy are the only transferable specs.</li>
+    </ul>
+    <p>The product-by-product research table is in the <a href="../resources/amplify-chat-interface-patterns.md" download>Amplify Chat Interface Patterns MD</a>.</p>
+    <p>Sources: Amplify Design Reference; Modern UI Design System; <a href="https://www.nngroup.com/articles/less-chat-more-answer/">NN/g</a>; <a href="https://baymard.com/research-articles/line-length-readability">Baymard</a>.</p>
+  </doc-section>
+
+<doc-section id="appendix-current-state" label="Appendix B: current state analysis" desc="The analysis behind the guidelines">
+<doc-carousel>
+<doc-showcase src="../images/amplify-chat/current-old-ui-thinking.jpg" alt="Old UI, Amplify thinking state" caption="Old UI · thinking state"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/current-old-ui-table.jpg" alt="Old UI, Prospect results table" caption="Old UI · Prospect results table"></doc-showcase>
+<doc-showcase src="../images/amplify-chat/current-new-ui.jpg" alt="New UI, clarifying questions response" caption="New UI · clarifying questions"></doc-showcase>
+</doc-carousel>
+<h3>Keep</h3>
+<ul>
+<li>Clearly separated turns: avatar, name label, and a tinted bubble for the user (Gestalt, figure-ground and common region).</li>
+<li>A light table structure with hairline rows (Gestalt, continuity).</li>
+<li>"Showing 10 of 56 results" makes it clear the list is partial (H1, visibility of system status).</li>
+</ul>
+<h3>Fix</h3>
+<table class="tbl">
+<tr><th>Issue</th><th>Principle</th></tr>
+<tr><td>Response headings are about 28–30px, larger than the panel title and larger than the Modern UI title maximum (24/32)</td><td>Modern UI typography (style by role) · H8</td></tr>
+<tr><td>12 clarifying questions in one reply, answered in free text</td><td>NN/g (ask sparingly) · H6 · H7</td></tr>
+<tr><td>Bold on 2–5 phrases per line</td><td>Gestalt, similarity · Rams 10</td></tr>
+<tr><td>Numbered headings plus list numbering that runs on across sections</td><td>H4 · Gestalt, continuity</td></tr>
+<tr><td>About 110–120 characters per line</td><td>WCAG 1.4.8 (80 max) · Rams 3</td></tr>
+<tr><td>Feedback request written as prose</td><td>Rams 10 · H8</td></tr>
+<tr><td>Memory change buried in the prose, with no View or Undo</td><td>H1 · H3 · AI governors</td></tr>
+<tr><td>Records and IDs in plain text, not links</td><td>H6 · Amplify principle 3</td></tr>
+<tr><td>Next steps asked as a question in prose</td><td>H7 · NN/g truncated pyramid</td></tr>
+<tr><td>Composer covers the response text</td><td>Gestalt, figure-ground · Modern UI elevation</td></tr>
+<tr><td>"Thinking…" status in link blue, and vague</td><td>Gestalt, similarity · H1</td></tr>
+<tr><td>Empty values shown as "—"</td><td>Amplify principle 5</td></tr>
+</table>
+<p class="lead">Sizes are inferred from the screenshots at 1x. The body text samples at about <span class="chip">#2a292d</span>, darker than <span class="chip">color/text/body</span>. This may be anti-aliasing, so check it in code.</p>
+</doc-section>
+
+</doc-page>
+</body>
+</html>

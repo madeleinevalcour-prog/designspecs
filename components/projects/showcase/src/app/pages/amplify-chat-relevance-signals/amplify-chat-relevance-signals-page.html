@@ -1,0 +1,19 @@
+@if (embed()) {
+  <div class="embed">
+    <ats-amplify-chat-relevance-signals class="w535" [signals]="signalList()" [label]="label()" />
+  </div>
+} @else {
+  <h1>Amplify Chat — Relevance signals</h1>
+  <p class="lede">Why Amplify picked a prospect: the Amplify icon and a label, then one small chip per signal, inside the Amplify gradient border. The label defaults to “Relevance Signals”; <code>label</code> sets a contextual one.</p>
+  @for (l of labels; track l.name) {
+    <h2>{{ l.name }}</h2>
+    <div class="stack">
+      @for (s of sets; track s.name) {
+        <div class="cell">
+          <span class="caption">{{ s.name }}</span>
+          <ats-amplify-chat-relevance-signals class="w535" [signals]="s.signals" [label]="l.value" />
+        </div>
+      }
+    </div>
+  }
+}

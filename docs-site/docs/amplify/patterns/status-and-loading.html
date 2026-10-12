@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status and loading — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Pattern" title="Status and loading" intro="Status lines and loading in Amplify chat.">
+
+  <doc-section id="status" label="Status and loading" desc="Loading, errors, stop">
+    <ul>
+      <li>Replace “Amplify is thinking…” with a specific step: “Searching open jobs…”, then “Ranking 14 job orders…” (H1).</li>
+      <li>Show a Stop control while the reply is generating, in the chat input next to Send (H3).</li>
+      <li>When Amplify can’t help, say so in the first line, then give the cause and a fix (NN/g; H9).</li>
+      <li>Clarifying questions: see <a href="../components/amplify-chat-clarifying-questions.html">Clarifying questions</a>.</li>
+    </ul>
+    <doc-example src="amplify-chat-text?component=text&amp;type=status" caption="The status line names the current step" height="50"></doc-example>
+    <doc-example src="amplify-chat-input?component=chat-input&amp;generating=true" caption="While generating, Stop sits next to Send" height="140"></doc-example>
+    <p>Component details: <a href="../components/amplify-chat-text.html#text">Text → status line</a>, <a href="../components/amplify-chat-reply.html#thinking">Reply → thinking state</a>, <a href="../components/amplify-chat-input.html">Chat input</a>.</p>
+  </doc-section>
+
+  <doc-section id="gaps" label="To be written" desc="Components and states still missing">
+    <doc-callout type="note" heading="To be written.">A generating / loading indicator component.</doc-callout>
+    <doc-callout type="note" heading="To be written.">Feedback, error and correction states: retry, regenerate, reporting a bad answer, and AI disclaimers.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

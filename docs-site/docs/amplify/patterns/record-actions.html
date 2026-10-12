@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Record actions in chat — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Pattern" title="Record actions in chat" intro="Acting on records from a chat reply, in the list and card variants.">
+
+  <doc-section id="overview" label="Overview" desc="Where the components live">
+    <p class="lead" style="max-width:60ch">Data tables and cards share one selection pattern. The components are <a href="../components/amplify-chat-selection.html">Selection</a> (the selection bar and split button), <a href="../components/amplify-chat-data-table.html">Data table</a> and <a href="../components/amplify-chat-cards.html">Cards</a>.</p>
+    <doc-callout type="note" heading="Where the mockups differ.">The chat interface patterns win over these mockups. The whole selection bar is hidden when nothing is selected, and the button label is Title case (“Add 5 Contacts”). The component pages follow those rules.</doc-callout>
+  </doc-section>
+
+  <doc-section id="list-variant" label="List variant" desc="Actions on a table of records">
+    <p class="linkrow"><a href="../amplify-chat-record-actions.html" target="_blank" rel="noopener">Open the interactive mockup ↗</a></p>
+    <h3>1. Action lives inside the table card, not on the follow-up row</h3>
+    <ul>
+      <li>The action bar sits inside the table card's border, so the selected records and the action that applies to them share one region.</li>
+      <li>Principles: Gestalt common region and proximity; H4 consistency and standards. Follow-ups send a message; this button writes data.</li>
+      <li class="src">Research doc §1, pattern table: an <q>agentic card with a data table and multiple actions</q>; inline widgets allow <q>up to two primary actions (e.g., Approve, Edit, Download)</q>.</li>
+      <li class="src">Research doc §1, assessment: <q>Make confirmation cards the only way chat can write data.</q></li>
+      <li class="src"><span class="tag">Not in research doc</span>Bulk actions commonly attach to the selected set. This is from product knowledge; verify before citing.</li>
+    </ul>
+
+    <h3>2. Follow-ups stay visible whatever is selected</h3>
+    <ul>
+      <li>Selection is the table's state, not the conversation's. Follow-ups don't change when checkboxes change.</li>
+      <li>Principles: Amplify Design Reference principle 2 (AI <q>should only add control — never remove it</q>); H3 user control and freedom.</li>
+      <li class="src">Research doc §1, pattern table: suggested follow-ups are <q>Chips under the latest response</q>.</li>
+      <li>Open question, unchanged in the mockup: "Find matches for #1" refers to a row by position, which breaks if rows are deselected or re-sorted. Naming the record would avoid this (H6 recognition rather than recall).</li>
+    </ul>
+
+    <h3>3. Split button, not a single dropdown button</h3>
+    <ul>
+      <li>The left segment runs the default action. The chevron segment opens the menu. Each part does one thing.</li>
+      <li>Principles: H7 flexibility and efficiency (one click for most users, more options for power users); Rams 4, understandable.</li>
+      <li>The check icon is removed. A checkmark reads as "done" before anything has happened (H1 visibility of system status; Rams 6, honest).</li>
+      <li class="src">Neither the Novo nor the Component Migration library has a split button. This one is composed from the existing Primary Small button. Confirm whether Novo has one.</li>
+    </ul>
+
+    <h3>4. Label states the verb and the count, and updates live</h3>
+    <ul>
+      <li>"Add 5 contacts" becomes "Add 3 contacts" as rows are deselected. At 0 selected, the button is disabled and reads "Select contacts to add". The bar stays in place so the layout doesn't jump.</li>
+      <li>"5 of 5 selected" sits next to the action so the user can check the scope without counting checkboxes.</li>
+      <li>Principles: H1; H6; Rams 8, thorough (zero/one/many states designed).</li>
+      <li class="src">Research doc §5, assessment: <q>Use an action preview with a specific verb for any write or outbound message… with a button that names the action ("Send 12 emails," "Update 3 submissions")</q>.</li>
+    </ul>
+
+    <h3>5. Completion state, with undo</h3>
+    <ul>
+      <li>After Add, the bar shows "5 contacts added to Bullhorn · View in Bullhorn ↗" with Undo. Added rows change status and lock at the same time as the bar.</li>
+      <li>Principles: H1; H3; Gestalt common fate (rows and bar change together).</li>
+      <li class="src">Research doc §1, pattern table: <q>a confirmation of the completion of the action… in the form of a card</q>.</li>
+      <li class="src">Research doc §1, assessment: <q>Treat navigation-out as a deliberate, labelled action. Use "Open in Bullhorn ↗"</q>.</li>
+    </ul>
+
+    <h3>6. Risk-graded menu actions</h3>
+    <ul>
+      <li>Adding contacts runs in one click with undo. "Add to an Outreach sequence…" opens a preview before anything is sent; the menu meta text says so.</li>
+      <li>Principles: H5 error prevention; Amplify <q>no auto-act without review</q>.</li>
+      <li class="src">Research doc §4: <q>Risk-graded approvals. Low-risk actions (draft a note) need one click. Higher-risk ones (mass Outreach, status changes on Placements) show a risk indicator and a fuller preview.</q></li>
+    </ul>
+
+    <h3>Assumptions and known gaps</h3>
+    <ul>
+      <li><span class="tag">Illustrative</span>The menu items (list, Outreach sequence, CSV export) are placeholders. The real action set is a product decision.</li>
+      <li><span class="tag">Inferred</span>Disabled button colors use background <code>#ebedef</code> and text/disabled <code>#89909a</code>. The file has no disabled variant of the Primary button.</li>
+      <li><span class="tag">Override</span>The Chevron Down icon on the split segment is recolored to white, as an icon color override on the instance. The exported asset is gray (<code>#89909a</code>).</li>
+      <li><span class="tag">Substituted</span>Marie Smith's photo avatar is shown as initials, and the 10px "bhi-amplify" icon in Reveal Phone Number uses the 16px Amplify icon scaled down (same shape and gradient stops). The 10px icon failed to export.</li>
+      <li><span class="tag">Fixed</span>The response copy said "Verizon" while the prompt and table said Comcast. The mockup uses Comcast throughout.</li>
+      <li><span class="tag">Font</span>Inter is not bundled. The preview falls back to system sans if Inter isn't installed.</li>
+      <li><span class="tag">Open</span>What happens when this response scrolls into history: does the action stay live, or show an expired state? Not yet decided.</li>
+    </ul>
+    <p class="src">Sources: Figma Component Migration, (tokens, effect styles, icons); ai-chat-ui-patterns-research.md; Amplify Design Reference.md.</p>
+  </doc-section>
+
+  <doc-section id="card-variant" label="Card variant" desc="Actions on a stack of cards">
+    <p class="linkrow"><a href="../amplify-chat-record-actions-cards.html" target="_blank" rel="noopener">Open the interactive mockup ↗</a></p>
+    <p class="src">Companion to the list (table) variant. Same action pattern, same states, adapted for cards that don't share a container.</p>
+
+    <h3>1. Cards need a shared region; the list bar provides it</h3>
+    <ul>
+      <li>In the table, the action sits inside the table's border. Cards have no shared border, so the action bar becomes the last item in the list: same shell as the cards (border/default, radius 8, general/level 1) and the same 8px gap.</li>
+      <li>Principles: Gestalt similarity and proximity (the bar reads as part of the list); Gestalt continuity (the select-all checkbox sits in the same column as each card's checkbox).</li>
+      <li>The cards aren't wrapped in an extra outer container. That would put a border inside a border, against the Modern UI <q>clean</q> principle (separation from tonal borders and spacing, not heavy lines).</li>
+      <li class="src">Research doc §1, assessment: <q>Make confirmation cards the only way chat can write data.</q> The action stays attached to the records it writes.</li>
+    </ul>
+
+    <h3>2. Select-all moves into the bar</h3>
+    <ul>
+      <li>The table has a header checkbox; cards don't. The bar carries select-all plus "3 of 3 selected", so the scope sits next to the action.</li>
+      <li>Principles: H1 visibility of system status; H6 recognition rather than recall; H7 flexibility and efficiency (one click to clear or reselect all).</li>
+    </ul>
+
+    <h3>3. Bar is sticky to the bottom of the viewport</h3>
+    <ul>
+      <li>Cards are about 132px tall each, so five or more push the action off screen. The bar pins to the bottom of the chat viewport while the list is in view, and releases when the list scrolls past.</li>
+      <li>Principles: H1; H6. The action stays visible without the user scrolling back.</li>
+      <li class="src"><span class="tag">Not in research doc</span>Sticky bulk-action bars are common in list views. From product knowledge; verify before citing.</li>
+    </ul>
+
+    <h3>4. Same split button, label and completion state as the table</h3>
+    <ul>
+      <li>Same component, label logic ("Add 2 contacts", "Select contacts to add"), menu and Undo. Users who learn it on a table can use it on cards.</li>
+      <li>Principles: H4 consistency and standards; Rams 7, long-lasting (one pattern across artifacts).</li>
+      <li class="src">Research doc §5, assessment: name the action with a specific verb (<q>"Send 12 emails," "Update 3 submissions"</q>). Research doc §1: a <q>confirmation of the completion of the action… in the form of a card</q>.</li>
+    </ul>
+
+    <h3>5. Completion shows on each card</h3>
+    <ul>
+      <li>After Add, each added card switches its "Strong Match" chip to "Added to Bullhorn", tints to background/subtle and locks its checkbox. The bar changes at the same moment.</li>
+      <li>Principles: Gestalt common fate; H1. The change is carried by text and the locked checkbox, not by color alone (Modern UI: never signal state with color alone).</li>
+    </ul>
+
+    <h3>6. Follow-ups and response controls are unchanged</h3>
+    <ul>
+      <li>Same reasoning as the table variant: selection is the list's state, not the conversation's.</li>
+      <li class="src">Amplify Design Reference principle 2: AI <q>should only add control — never remove it</q>. Research doc §1: follow-ups are <q>Chips under the latest response</q>.</li>
+    </ul>
+
+    <h3>Assumptions and known gaps</h3>
+    <ul>
+      <li><span class="tag">Fixed</span>The Figma copy said "Here are 5 Verizon contacts", with verizon.com emails, while the title said "3 new Comcast contacts". The mockup uses 3 Comcast contacts throughout, including the prompt and emails. Correct this if the source data differs.</li>
+      <li><span class="tag">Flag</span>"Strong Match" uses the success (green) chip. Modern UI reserves success for completion, not ranking. It's left as-is because it's out of scope. "Added to Bullhorn" doesn't use green either, so the two don't compete.</li>
+      <li><span class="tag">Inferred</span>The "Added to Bullhorn" chip uses background/hover with a link-blue border. The file has no "added" or "informational" chip variant.</li>
+      <li><span class="tag">Approximated</span>The Amplify Gradient border uses the exact Figma stops. The angle is approximated as 270° (green left, blue right) from the screenshot, because the Figma gradient transform doesn't map 1:1 to CSS.</li>
+      <li><span class="tag">Illustrative</span>The menu items are placeholders, same as the table variant.</li>
+      <li><span class="tag">Prototype</span>Sticky behaviour depends on the chat scroll container. In this standalone page it pins to the browser window.</li>
+      <li><span class="tag">Font</span>Inter is not bundled; the preview falls back to system sans.</li>
+    </ul>
+    <p class="src">Sources: Figma Component Migration, (chat-list-item theme=prospect, novo-chip, relevance-signals, Border/Amplify Gradient); ai-chat-ui-patterns-research.md; Amplify Design Reference.md; modern-ui-design-system skill.</p>
+  </doc-section>
+
+</doc-page>
+<style>
+  /* Page-scoped: source and tag notes carried over from the mockups' design rationale */
+  doc-section .src{color:var(--ink-muted);font-size:13px}
+  doc-section q{font-style:italic}
+  .tag{display:inline-block;font-size:10px;line-height:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:4px;background:var(--chip);color:var(--ink-2);margin-right:6px;vertical-align:1px}
+</style>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relevance signals — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Components" title="Relevance signals" intro="Why Amplify picked a prospect: a label and one small chip per signal.">
+
+  <doc-section id="overview" label="Overview" desc="What relevance signals are for">
+    <p class="lead" style="max-width:60ch">Why Amplify picked this record. The Amplify icon and a label, then one small chip per signal, inside a 1px Amplify-gradient border. It’s the content slot of a Prospect contact card.</p>
+    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Department%20Match%3A%20Project%20Management,Previously%20contacted" caption="Three signals, default label" height="70"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy" desc="Icon, label, chips, border">
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td>Amplify icon</td><td>The filled <a href="amplify-icon.html">Amplify icon</a>, 12px, in the Amplify radial</td></tr>
+        <tr><td>Label</td><td><span class="chip">input/value/sm</span> in <span class="chip">color/text/body</span>. “Relevance Signals” by default</td></tr>
+        <tr><td>Chips</td><td>One small <a href="../../components/novo-chip.html">Novo Chip</a> per signal, <span class="chip">spacing/gap/xxsm</span> apart. They wrap onto more lines when there are many</td></tr>
+        <tr><td>Border</td><td>A 1px Amplify gradient, <span class="chip">color/amplify/amplify-green</span> → <span class="chip">amplify-blue</span>, radius <span class="chip">border/radius/sm</span>, padding <span class="chip">spacing/padding/sm</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-relevance-signals?signals=Director-level" caption="One signal" height="70"></doc-example>
+    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Department%20Match%3A%20Project%20Management,Previously%20contacted,Department%20Match%3A%20IT%20Operations,Department%20Match%3A%20Infrastructure,Department%20Match%3A%20Networking,Department%20Match%3A%20Security" caption="Many signals wrap" height="110"></doc-example>
+  </doc-section>
+
+  <doc-section id="content" label="Content" desc="What a signal says">
+    <ul>
+      <li>Signals are short and factual: “Director-level”, “Department Match: Project Management”, “Previously contacted”.</li>
+      <li>Relevance signals belong to Prospect. Relevancy dots belong to candidate search. They never appear in the same reply.</li>
+      <li>Relevance signals can contribute to a “Strong Match”, depending on the context.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="label" label="Label" desc="Default and contextual">
+    <p>“Relevance Signals” is the default. The <span class="chip">label</span> input sets a contextual label, for example “Hiring signals” in the <a href="../patterns/adding-prospect-contacts.html">Adding prospect contacts</a> flow.</p>
+    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Previously%20contacted" caption="Default label" height="70"></doc-example>
+    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Previously%20contacted&amp;label=Hiring%20signals" caption="label=Hiring signals" height="70"></doc-example>
+    <doc-callout type="do" heading="Do">Keep the label short, and use it to describe why the record was picked.</doc-callout>
+    <doc-callout type="dont" heading="Don’t">Write a long label, or one that doesn’t say why the record was picked.</doc-callout>
+  </doc-section>
+
+  <doc-section id="in-cards" label="In cards" desc="Inside a Prospect contact card">
+    <p>In a <a href="amplify-chat-cards.html">Cards</a> stack, prospect-contact cards fill their content slot with relevance signals from each item’s <span class="chip">signals</span>.</p>
+    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact" caption="A prospect-contact card with relevance signals" height="180"></doc-example>
+    <doc-callout type="note" heading="Added state.">The <a href="../amplify-chat-prospect-add-flow-v2.html">prospect add-flow mockup</a> gives an added card’s signals a subtle background. The component has no such state yet.</doc-callout>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Text, not controls">
+    <ul>
+      <li>The Amplify icon is decorative (<span class="chip">aria-hidden</span>); the label carries the meaning.</li>
+      <li>The label and chips are plain text. The chips aren’t interactive, so they’re not in the tab order.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-relevance-signals [signals]="['Director-level', 'Previously contacted']" /&gt;
+      &lt;ats-amplify-chat-relevance-signals [signals]="signals" label="Hiring signals" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">signals</span></td><td>Signal labels, one chip each</td><td>[]</td></tr>
+        <tr><td><span class="chip">label</span></td><td>Leading label</td><td>Relevance Signals</td></tr>
+      </tbody>
+    </table>
+    <p>Extra projected content goes after the chips.</p>
+  </doc-section>
+
+  <doc-section id="figma" label="Figma" desc="Source component">
+    <p>The <b>relevance-signals</b> component in the Component Migration library: the content slot of chat-list-item, prospect theme.</p>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

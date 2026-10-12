@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Amplify UI — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify" title="About Amplify UI" intro="What Amplify is, the principles for Amplify UI, and how the Amplify icon identifies Amplify features.">
+
+  <doc-section id="what-amplify-is" label="What Amplify is" desc="Product, users, capabilities, how it works">
+    <p class="lead">Bullhorn Amplify is Bullhorn’s AI product for recruitment and staffing agencies. Its core promise: more placements, more profit, same team. It runs high-volume, repetitive recruiting tasks autonomously (sourcing, screening, outreach, enrichment) so recruiters can focus on the relationship work only humans can do.</p>
+    <p>Amplify is not a standalone app. It works inside Bullhorn (the Bullhorn Platform and Bullhorn Recruitment Cloud), on the data already in a firm’s system of record. That matters for design: we’re building within an existing workflow and data model, not on a blank canvas.</p>
+
+    <h3>Two product layers</h3>
+    <table class="tbl">
+      <thead><tr><th>Layer</th><th>What it is</th></tr></thead>
+      <tbody>
+        <tr><td>Digital Workers</td><td>AI-powered team members that run Skills: specific task types like screening, matching, outreach or data enrichment. They run 24/7, handle volume, and surface output back into Bullhorn. Bought as a package and billed by Activity (a single completed AI task).</td></tr>
+        <tr><td>Amplify Chat</td><td>A conversational interface built on a staffing-specific LLM. Recruiters ask natural-language questions, surface insights from their data, and take actions without leaving Bullhorn. Secure (data stays in Bullhorn, not sent to public AI tools), staffing-literate out of the box, and able to act, not just answer.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>What makes Amplify different from general AI tools</h3>
+    <p>Amplify is purpose-built for staffing. It understands job orders, candidate profiles, client relationships and the recruiting lifecycle without configuration. It reads the same data the recruiter is already working with. And it’s secure by design: candidate and client data never leave the Bullhorn environment.</p>
+
+    <h3>Users</h3>
+    <table class="tbl">
+      <thead><tr><th>User</th><th>What they do with Amplify</th></tr></thead>
+      <tbody>
+        <tr><td>Recruiters</td><td>The primary end users. Day to day they kick off screens, review match results, send outreach, generate candidate presentations, and ask Amplify Chat questions mid-workflow. Their goal is speed and quality: faster placements, better candidates, less manual work. They are often overwhelmed and context-switching constantly.</td></tr>
+        <tr><td>Admins</td><td>Configure and manage Amplify for their organization: set up Skills, manage user permissions, customize prompts in Prompt Studio. They need control and visibility: understand what Amplify is doing, tune its behavior, and troubleshoot when output is off. They care deeply about consistency and predictability.</td></tr>
+        <tr><td>Secondary users</td><td>Account Managers (Outreach and Present) and Hiring Managers (who may interact with Screen output). Amplify is also being extended to finance/ops via Audit and Extract.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Capabilities</h3>
+    <p>Each Digital Worker bundles a set of Skills.</p>
+    <table class="tbl">
+      <thead><tr><th>Skill</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>Enrich</td><td>Cleans and completes candidate and contact records automatically. The foundation: better data makes every other Skill more effective.</td></tr>
+        <tr><td>Match</td><td>Surfaces the best candidates from the existing Bullhorn database for open roles, ranked by AI-driven relevancy. Removes the manual keyword search.</td></tr>
+        <tr><td>Screen</td><td>Runs automated candidate interviews via chat or voice, generates summaries and scores candidates. Can run after hours. A 30–45 minute screen can drop to 5–10 minutes.</td></tr>
+        <tr><td>Outreach</td><td>Launches and manages multi-step communication sequences to candidates and contacts. Personalized at scale, tracked in Bullhorn.</td></tr>
+        <tr><td>Present</td><td>Generates branded candidate submission documents, ready to send to clients.</td></tr>
+        <tr><td>Prospect (new)</td><td>Identifies target companies and high-growth accounts, surfacing the right contacts for business development.</td></tr>
+        <tr><td>Transcribe (new)</td><td>Records and summarizes calls and interviews, extracting key data back into the record. No manual note-taking.</td></tr>
+        <tr><td>Verify (new)</td><td>Flags potentially fraudulent candidate records using AI-powered authenticity signals.</td></tr>
+        <tr><td>Audit (new)</td><td>Runs compliance checks across placements, charges and billing rules before they reach payroll or clients.</td></tr>
+        <tr><td>Extract (new)</td><td>Pulls timesheet and credentialing data from any format into the database.</td></tr>
+      </tbody>
+    </table>
+    <p>Beyond Skills, every record in Bullhorn has <b>Amplify Assistant</b>: inline AI that offers content generation, recommendations and quick actions in context. It does not count against Activity allowances.</p>
+
+    <h3>How Amplify works</h3>
+    <p>Understanding how output is generated and why it varies lets us design UIs that set the right expectations and help users get the best results.</p>
+    <p><b>What Amplify reads.</b> Amplify reads Bullhorn records based on the Skill in use and the user’s existing permissions. It cannot access data the user doesn’t already have permission to see. The data available varies by Skill: Amplify Assistant reads only the open record; Amplify Chat can search the user’s full data set, including Analytics; Screen reads the job order and submission data. Output quality is tied directly to data quality. Thin records produce thin output, so empty and insufficient-data states are real and common.</p>
+    <p><b>How output is generated.</b> Amplify uses a large language model to interpret the data in a record and produce a response. Output is controlled by prompts: instructions that set tone, format, what to include and what to exclude. Admins can customize prompts in Prompt Studio for any Skill. Prompts are the primary lever for output quality. If output doesn’t match expectations, look at the prompt first, not the data. Design should make this legible to users.</p>
+    <p><b>Why output varies.</b> Amplify won’t give exactly the same output on the same record twice. That isn’t a bug: the model words and frames things slightly differently each run. Output that’s consistently off is a signal to investigate (prompt first, then data quality); output that’s just worded differently is working as intended. So we don’t imply exact repeatability, and we design review moments that help users evaluate output rather than assume it’s correct.</p>
+  </doc-section>
+
+  <doc-section id="principles" label="Principles for Amplify UI" desc="The rules that govern how Amplify looks">
+    <p>These rules already exist across the documentation. They’re gathered here with their sources.</p>
+
+    <h3>The gradient is a meaning cue, not decoration</h3>
+    <p>Use the Amplify color treatment to indicate where an action, content or any other UI element is related to Amplify or AI. Wherever it appears, it marks that surface or control as Amplify. Don’t use it for anything else.</p>
+    <doc-spec><span class="pair"><b>Source:</b> <a href="foundations/color.html">Amplify → Color</a></span></doc-spec>
+
+    <h3>The Amplify gradient marks AI-assisted features</h3>
+    <p>Meaning is encoded consistently. A signal means the same thing wherever it appears, and the Amplify gradient marks AI-assisted features. Once a user learns a cue, it holds across the product.</p>
+    <doc-spec><span class="pair"><b>Source:</b> <a href="../foundations/principles.html#principles">Principles</a></span></doc-spec>
+
+    <h3>Adding Amplify must not take away existing controls</h3>
+    <p>When AI is layered into an established workflow, it should only add control, never remove it. An AI feature shouldn’t reduce what a user can already do. Opening Amplify Chat, for example, should not make expected record controls elsewhere in the interface unavailable or harder to reach.</p>
+    <doc-spec><span class="pair"><b>Source:</b> <a href="ai-interaction-guidelines.html#assists">AI interaction guidelines → 2. AI assists — it does not replace judgment</a></span></doc-spec>
+
+    <h3>The right pane is Amplify-first space</h3>
+    <p>Treat the right pane as shared, Amplify-first space. It is often claimed by Amplify (the universal chat panel that narrows the page, or AI-assisted form-fill controls docked to the right) or by a functional tool the form needs. Design pages to reflow to the narrowed width these create.</p>
+    <doc-spec><span class="pair"><b>Source:</b> <a href="../form-pages-design-decisions.html#proposed-changes">Form pages — design decisions → Proposed changes</a></span></doc-spec>
+
+    <h3>Amplify output carries the Amplify identity</h3>
+    <p>Show where output came from. Every Amplify reply, suggestion or generated value carries the Amplify identity (the icon and the name “Amplify”), so users can tell AI output apart from their own data.</p>
+  </doc-section>
+
+  <doc-section id="icon" label="Identifying Amplify with the icon" desc="What the icon marks and where it’s used">
+    <p>The Amplify icon marks a feature, action or piece of content as Amplify-powered. It works with the gradient: don’t signal Amplify with color alone. Pair the treatment with a label, icon or established Amplify entry point so the gradient isn’t carrying the meaning by itself (<a href="foundations/color.html">Amplify → Color</a>).</p>
+    <doc-example src="amplify-icon?variant=filled&amp;size=24" caption="Filled (amplify), the default" height="60"></doc-example>
+    <doc-example src="amplify-icon?variant=line&amp;size=24" caption="Line (amplify-line)" height="60"></doc-example>
+
+    <h3>Variants</h3>
+    <table class="tbl">
+      <thead><tr><th>Variant</th><th>Name</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td>Filled</td><td><span class="chip">amplify</span></td><td>The default</td></tr>
+        <tr><td>Line</td><td><span class="chip">amplify-line</span></td><td>Unselected or disabled states, or when less emphasis is needed</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="Line variant.">No ats-ui component uses <span class="mono">amplify-line</span> yet. Every current use is the filled icon.</doc-callout>
+
+    <h3>Where it’s used</h3>
+    <table class="tbl">
+      <thead><tr><th>Where</th><th>Size</th><th>Treatment</th></tr></thead>
+      <tbody>
+        <tr><td><a href="../components/bowling-alley.html">Bowling Alley</a> — Amplify tab</td><td>14px</td><td>Amplify radial fill</td></tr>
+        <tr><td><a href="../components/bowling-alley.html">Bowling Alley</a> — Amplify app in the Menu</td><td>Icon Container</td><td>Knockout glyph on the Amplify radial</td></tr>
+        <tr><td><a href="../components/record-header.html">Record Header</a> — Amplify button</td><td>14px</td><td>Leading icon on a primary button in the amplify color</td></tr>
+        <tr><td><a href="../components/icon-container.html#amplify">Icon Container</a> — amplify theme (e.g. the Full-page chat header, lg)</td><td>12 · 20 · 24px glyph</td><td>Knockout glyph on the Amplify radial</td></tr>
+        <tr><td><a href="components/amplify-chat-docked.html">Docked chat</a> — header mark</td><td>28px</td><td>Amplify radial fill</td></tr>
+        <tr><td><a href="components/amplify-chat-reply.html">Reply</a> — identity, next to the name “Amplify”</td><td>16px</td><td>Amplify radial fill</td></tr>
+        <tr><td><a href="components/amplify-chat-text.html">Text</a> — status line</td><td>16px</td><td>Amplify radial fill</td></tr>
+        <tr><td><a href="components/amplify-chat-relevance-signals.html">Relevance signals</a> — label</td><td>12px</td><td>Amplify radial fill</td></tr>
+        <tr><td><a href="components/amplify-chat-data-table.html">Data table</a> — Reveal link</td><td>10px</td><td>Amplify radial fill</td></tr>
+        <tr><td><a href="components/amplify-chat-input.html">Chat input</a> — source chips in the context bar (e.g. Prospect)</td><td>12px</td><td>Amplify radial fill</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Do and don’t</h3>
+    <doc-callout type="do" heading="Do">Use the Amplify icon only on Amplify-powered features.</doc-callout>
+    <doc-callout type="dont" heading="Don’t">Use it as a generic “magic”, “new” or decorative icon.</doc-callout>
+
+    <p>Sizes, color and accessibility are on the <a href="components/amplify-icon.html">Amplify icon</a> page.</p>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

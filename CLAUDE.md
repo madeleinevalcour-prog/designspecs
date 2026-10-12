@@ -30,7 +30,8 @@ When a component is built or ported, in the same change:
 1. Component in `components/projects/ats-ui/src/lib/<name>/` (+ export in `public-api.ts`).
 2. Showcase route in `components/projects/showcase/src/app/pages/<name>/` with an embed
    mode (query params), registered in `app.routes.ts` + the home list.
-3. Doc page `docs-site/docs/components/<name>.html` (create-design-documentation skill,
+3. Doc page `docs-site/docs/components/<name>.html` — Amplify components go in
+   `docs-site/docs/amplify/components/<name>.html` (create-design-documentation skill,
    Components type), using `<doc-example>` live embeds — never stand-ins or screenshots.
 4. Link it in `docs-site/index.html` (Components group) and the `SITE` list in `assets/docs.js`.
 Docs are committed only after the user approves the page.

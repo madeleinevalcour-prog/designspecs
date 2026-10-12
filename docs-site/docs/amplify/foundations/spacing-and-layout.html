@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spacing and layout — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Foundations" title="Spacing and layout" intro="Spacing and column width in Amplify chat.">
+
+<doc-section id="spacing" label="Spacing" desc="Gaps, padding, radius, elevation">
+<table class="tbl">
+<tr><th>Relationship</th><th>Token</th><th>Value</th></tr>
+<tr><td>Between list items</td><td><span class="chip">spacing/gap/xsm</span></td><td class="mono">4</td></tr>
+<tr><td>Paragraph to paragraph · heading to content · sources to chips</td><td><span class="chip">spacing/gap/sm</span></td><td class="mono">8</td></tr>
+<tr><td>Paragraph to a block · reply to sources row</td><td><span class="chip">spacing/gap/md</span></td><td class="mono">16</td></tr>
+<tr><td>Above a section heading</td><td><span class="chip">spacing/gap/lg</span></td><td class="mono">24</td></tr>
+<tr><td>Between turns</td><td><span class="chip">spacing/gap/xlg</span></td><td class="mono">32</td></tr>
+<tr><td>List indent</td><td><span class="chip">spacing/padding/md</span></td><td class="mono">16</td></tr>
+<tr><td>User bubble</td><td><span class="chip">spacing/padding/sm</span> / <span class="chip">spacing/padding/md</span></td><td class="mono">8 / 16</td></tr>
+<tr><td>Literal value block</td><td><span class="chip">spacing/padding/sm</span> top, right, bottom · <span class="chip">spacing/padding/md</span> left</td><td class="mono">8 / 16</td></tr>
+<tr><td>Draft block subject and body</td><td><span class="chip">spacing/padding/sm</span> / <span class="chip">spacing/padding/md</span> · subject gap <span class="chip">spacing/gap/sm</span></td><td class="mono">8 / 16 / 8</td></tr>
+<tr><td>Draft block actions row</td><td><span class="chip">spacing/padding/sm</span> · <span class="chip">spacing/gap/sm</span></td><td class="mono">8 / 8</td></tr>
+<tr><td>Table cell</td><td><span class="chip">data-table/spacing/padding-vertical</span> / <span class="chip">padding-horizontal</span></td><td class="mono">8 / 16</td></tr>
+</table>
+<ul>
+<li>The space inside a group is always smaller than the space between groups (Gestalt, proximity).</li>
+<li>Prose uses the full message column (800px max), the same as tables, cards and blocks, matching the Figma chat-block. Keep paragraphs short so long lines stay readable.</li>
+<li>User bubble fill: <span class="chip">color/background/subtle-hover</span>.</li>
+<li>Radius: the user bubble uses <span class="chip">border/radius/sm</span> (8). Literal value blocks and inline literal values use <span class="chip">border/radius/xsm</span> (4).</li>
+<li>The chat panel uses <span class="chip">general/level 3 - right</span>.</li>
+<li>The composer uses <span class="chip">general/level 2 - scroll</span> on <span class="chip">color/background/scroll</span>. The blur keeps it legible over text that scrolls behind it. Bottom padding equals the composer height plus <span class="chip">spacing/padding/md</span> (Gestalt, figure-ground).</li>
+</ul>
+</doc-section>
+
+<doc-section id="column-width" label="Column width" desc="Chat column, prose, bubble">
+<table class="tbl">
+<tr><th>Element</th><th>Width</th></tr>
+<tr><td>Chat column (messages and composer)</td><td>800px max, centered</td></tr>
+<tr><td>Prose (answers, paragraphs, lists)</td><td>Full column width (800px max), left-aligned</td></tr>
+<tr><td>Tables, cards, draft and literal value blocks</td><td>Full column width</td></tr>
+<tr><td>User bubble</td><td>Up to 440px, right-aligned</td></tr>
+<tr><td>Narrow windows</td><td>Available width minus <span class="chip">spacing/margin</span> (24) on each side</td></tr>
+<tr><td>Docked chat</td><td>No separate column; content, prose included, fills the panel minus side padding</td></tr>
+</table>
+<ul>
+<li>Messages, tables and the composer share the same left and right edges, so the conversation reads as one column (Gestalt, continuity).</li>
+<li>The column fits the 6-column table limit (about 133px per column), and the prose cap keeps paragraphs readable (WCAG 1.4.8; H8).</li>
+<li>800px leaves about 190px on each side of the full-page content area, so the chat stays focused (Rams 5, unobtrusive).</li>
+</ul>
+</doc-section>
+
+</doc-page>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adding prospect contacts — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Pattern" title="Adding prospect contacts" intro="Adding Prospect contacts to Bullhorn from an Amplify reply.">
+
+  <doc-section id="overview" label="Overview" desc="What the flow covers">
+    <ul>
+      <li>A recruiter asks Amplify for Verizon contacts who may be hiring. Amplify returns 3 from Prospect, including 1 possible match already in Bullhorn.</li>
+      <li>Flow: select contacts → confirm (contact details revealed, Digital Worker Activities used, can’t be undone) → contacts added → preview a record.</li>
+    </ul>
+    <p class="linkrow"><a href="../amplify-chat-prospect-add-flow-v2.html" target="_blank" rel="noopener">Open the interactive mockup ↗</a></p>
+    <doc-callout type="note" heading="Illustrative — sample data.">The names, titles and hiring signals are sample data. The split-button menu items are carried over from the earlier mockup.</doc-callout>
+    <p>Each card’s “Hiring signals” are <a href="../components/amplify-chat-relevance-signals.html">Relevance signals</a> with a contextual label. The cards are <a href="../components/amplify-chat-cards.html">Cards</a> (prospect-contact), and the bar is <a href="../components/amplify-chat-selection.html">Selection</a>. The list and card patterns it builds on are in <a href="record-actions.html">Record actions in chat</a>.</p>
+  </doc-section>
+
+  <doc-section id="rationale" label="Design rationale" desc="Cost, confirm, matches, completion">
+    <h3>1. Cost is mentioned once, at the reveal, in generic terms</h3>
+    <ul>
+      <li>Cost is mentioned in one place: the confirmation, which states "Reveals email and phone" and "Uses Digital Worker Activities". The selection bar stays free of cost copy. No amounts and no balance, because users can't see either.</li>
+      <li>Contact details stay masked (<q>••••••@verizon.com</q>) until the contact is added, the same as the Prospect slideout. The mask shows what the user is paying to reveal.</li>
+      <li>Principles: Rams 6, honest (no invented numbers); Amplify principle 4, set honest expectations; H1, visibility of system status.</li>
+      <li class="src">Research doc §5: <q>ask … only when the answer changes the result or the action is costly.</q></li>
+    </ul>
+
+    <h3>2. Inline confirm step, because the action can't be undone</h3>
+    <ul>
+      <li>Add expands the action bar into a confirmation in the same place. It's not a modal, so the records the user is confirming stay in view.</li>
+      <li>It lists what will happen: records created, details revealed, Activities used, can't be undone. The primary button repeats the verb and count ("Add 2 contacts").</li>
+      <li>The selection locks while the confirmation is open, so the scope the user confirms is the scope that runs. Cancel unlocks it and keeps the selection.</li>
+      <li>Principles: H5, error prevention; H3, user control and freedom (Cancel is the exit, since there's no undo); Gestalt common region (the confirmation stays attached to its records); Amplify "no auto-act without review".</li>
+      <li class="src">Research doc §1/§5: an <q>approval dialog shows a preview … and a button labeled with the specific action.</q> Assessment: <q>Make confirmation cards the only way chat can write data.</q></li>
+    </ul>
+
+    <h3>3. Notify or block only at the edge of the balance</h3>
+    <ul>
+      <li><b>Uses last activities:</b> a warning alert inside the confirmation. The user can still proceed.</li>
+      <li><b>Not enough activities:</b> an error alert. The primary button is disabled and says why, and the alert says who can fix it (your Amplify admin).</li>
+      <li>Both use icon plus text plus the toast warning/negative tokens, never color alone.</li>
+      <li>Principles: H9, help users recognize, diagnose and recover from errors; Amplify principle 8, be honest about limitations; Rams 8, thorough (the edge states are designed).</li>
+    </ul>
+
+    <h3>4. Possible matches reuse the Prospect pattern</h3>
+    <ul>
+      <li>Adapted from the Prospect slideout's "Matching Contact Records": an info line ("Prospect found 1 possible matching contact in Bullhorn"), a compact record with company, email and status, and "Link contact".</li>
+      <li>The card is unselected by default and carries a "Possible match" warning chip. The user can still select it to add as a new contact.</li>
+      <li>"Link contact" is a secondary button. The response keeps one filled primary action, the Add button.</li>
+      <li>Principles: Amplify principle 5, design for the full range of data quality; H5; H4, consistency (same pattern as the existing Prospect UI); Gestalt common region (the match sits inside the card it belongs to).</li>
+      <li class="src">Research doc §5: <q>Resolve records with a picker, never a guess.</q></li>
+    </ul>
+
+    <h3>5. Completion shows results and routes to the records</h3>
+    <ul>
+      <li>The bar becomes "2 contacts added to Bullhorn · View all 2 in Bullhorn ↗". There's no Undo.</li>
+      <li>Each added card swaps to "Added to Bullhorn", shows the revealed email and phone, and locks its checkbox. The bar and the cards change together.</li>
+      <li>The name opens a preview in the chat, so the user stays in context. "Open in Bullhorn ↗" is the separate, labelled way out.</li>
+      <li>Principles: Gestalt common fate; H1; Amplify "keep the recruiter inside Bullhorn"; research doc §1, <q>Treat navigation-out as a deliberate, labelled action.</q></li>
+    </ul>
+
+    <h3>6. Confirm placement: inline vs. overlay above the input</h3>
+    <ul>
+      <li><b>Inline:</b> the confirmation replaces the action bar, inside the response.</li>
+      <li>Strength: the confirmation sits right next to the records it affects (Gestalt proximity and common region).</li>
+      <li>Risk: it scrolls with the response, so on long lists the user may need to scroll to reach it.</li>
+      <li><b>Overlay above the input:</b> uses the same card as clarifying questions (16px radius, Amplify gradient border, dismiss ×).</li>
+      <li>Strength: it reads as "Amplify needs your answer before continuing". It stays visible at the composer, where the user's attention returns.</li>
+      <li>Overlay consistency: the user meets one pattern for both question types (H4, consistency and standards; research doc §5, <q>a single "Clarify card" … and an "Action preview" would cover every pattern</q>).</li>
+      <li>Risk: the confirmation is further from its records. To compensate, the action bar shows "Review and confirm below" and the selection stays locked (H1; H6).</li>
+      <li>While open, the overlay takes the context bar's place, so the composer area doesn't grow taller and the confirmation sits directly above the input, like clarifying questions. The context bar comes back on Cancel or confirm.</li>
+      <li>Dismiss (×) and Esc both act as Cancel. Nothing runs until the user clicks the named action (H3; Amplify "no auto-act without review").</li>
+      <li class="src">Recommendation to test: use the overlay when the list is taller than the viewport, otherwise inline. Or use the overlay everywhere to match clarifying questions. This needs user testing; neither has been validated.</li>
+    </ul>
+    <h3>Shell notes</h3>
+    <ul>
+      <li><span class="tag">Omitted</span>The Bullhorn bull glyph next to the wordmark isn't included. Everything else in the navigation, header, context bar and composer uses icons exported from Figma.</li>
+      <li><span class="tag">Static</span>The navigation, tabs, context chip and composer are not interactive.</li>
+    </ul>
+    <h3>Assumptions and open questions</h3>
+    <ul>
+      <li><span class="tag">Assumption</span>Adding a Prospect contact always reveals its email and phone (no free path). Adding means create + reveal in one step.</li>
+      <li><span class="tag">Assumption</span>The company record is created without revealing extra company data, so the "Company not in Bullhorn" variant carries no separate cost line.</li>
+      <li><span class="tag">Open</span>Does "Link contact" reveal data or use Activities? The mockup treats it as free. Confirm with product.</li>
+      <li><span class="tag">Open</span>When the balance is too low, can the system tell whether a smaller selection would fit? If yes, the blocked state could suggest "Try fewer contacts". The mockup doesn't suggest it.</li>
+      <li><span class="tag">Open</span>Is the balance per user or per organization? The copy says "your organization's".</li>
+      <li><span class="tag">Gap</span>Partial failure (for example, one contact's details can't be revealed) is not designed yet. Billing for failed reveals is unknown.</li>
+      <li><span class="tag">Gap</span>No loading spinner component was pulled from Figma. The adding state uses text only.</li>
+      <li><span class="tag">Inferred</span>Warning and error alerts use the toast/warning and toast/negative variables. The file has no inline alert component.</li>
+      <li><span class="tag">Illustrative</span>The names, titles and hiring signals are sample data. The split-button menu items are carried over from the earlier mockup.</li>
+      <li><span class="tag">Font</span>Inter is not bundled; the preview falls back to system sans.</li>
+    </ul>
+    <p class="src">Sources: Figma Amplify Prospect, Contact Slideout (Link Contacts, Contact Details Card); Figma Component Migration (icons, toast/chip variables); amplify-chat-record-actions.md; ai-chat-ui-patterns-research.md; Amplify Design Reference.md; modern-ui-design-system skill.</p>
+  </doc-section>
+
+</doc-page>
+<style>
+  /* Page-scoped: source and tag notes carried over from the mockup's design rationale */
+  doc-section .src{color:var(--ink-muted);font-size:13px}
+  doc-section q{font-style:italic}
+  .tag{display:inline-block;font-size:10px;line-height:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;padding:2px 6px;border-radius:4px;background:var(--chip);color:var(--ink-2);margin-right:6px;vertical-align:1px}
+</style>
+</body>
+</html>

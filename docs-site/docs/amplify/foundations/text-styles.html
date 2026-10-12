@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text styles — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Foundations" title="Text styles" intro="Headings, lists, emphasis and entity links in Amplify replies.">
+
+<doc-section id="styles" label="Text styles" desc="Markdown to Modern UI mapping">
+<p>Each element the model can output renders in exactly one style. Specimens use the Modern UI sizes and text tokens.</p>
+<div class="spc-list">
+<div class="spc"><div class="s s-title-sm">Needs Attention Today</div><div class="m"><b>Section heading (##)</b><br><span class="chip">title/sm</span> · 600 · 18/24 · Title case<br><span class="chip">color/text/headline</span><br>The largest style in a response, one step below the slideout title <span class="chip">title/md</span></div></div>
+<div class="spc"><div class="s s-body-md h">Waiting on client feedback</div><div class="m"><b>Sub-heading (###)</b><br><span class="chip">body/default-medium</span> · 500 · 14/20<br><span class="chip">color/text/headline</span><br>The smaller heading style for chat</div></div>
+<div class="spc"><div class="s s-body">5 of your 14 open jobs need action today, ranked by start date and open submittals.</div><div class="m"><b>Paragraph</b><br><span class="chip">body/default</span> · 400 · 14/20<br><span class="chip">color/text/body</span></div></div>
+<div class="spc"><div class="s s-body">Starts <span class="s-md">Oct 6</span> with no submittals.</div><div class="m"><b>Bold (**)</b><br><span class="chip">body/default-medium</span> · 500<br><span class="chip">color/text/body</span><br>Never 600 or 700. The color stays the same</div></div>
+<div class="spc"><div class="s s-body"><span class="s-ent" style="background:#bb5566"></span><span class="s-link">Senior Java Developer</span> · <span class="s-ent" style="background:#3399dd"></span><span class="s-link">Verizon</span></div><div class="m"><b>Entity record link</b><br>Link text component, default size · <span class="chip">body/default-medium</span> · 500 · 14/20<br><span class="chip">link-text/color/default</span> · hover <span class="chip">link-text/color/hover</span><br>Entity circle <span class="chip">color/entity/*</span> · gap <span class="chip">link-text/spacing/gap/default</span> (4)</div></div>
+<div class="spc"><div class="s s-label">Job title</div><div class="m"><b>Table header</b><br><span class="chip">input/label/md</span> · 400 · 12/14 · 0.5 tracking · uppercase<br><span class="chip">data-table/color/content/header</span> · no sort or filter in chat</div></div>
+<div class="spc"><div class="s s-body">District Security Director</div><div class="m"><b>Table cell</b><br><span class="chip">input/value/default</span> · 400 · 14/20<br><span class="chip">data-table/color/content/default</span></div></div>
+<div class="spc"><div class="s s-sm-md sec">Amplify</div><div class="m"><b>Name label</b><br><span class="chip">body/sm-medium</span> · 500 · 12/16<br><span class="chip">color/text/secondary</span></div></div>
+<div class="spc"><div class="s s-sm sec">Searching open jobs…</div><div class="m"><b>Status line</b><br><span class="chip">body/sm</span> · 400 · 12/16<br><span class="chip">color/text/secondary</span><br>Not link blue</div></div>
+<div class="spc"><div class="s s-meta sec">Based on 14 job orders · Updated today</div><div class="m"><b>Sources row, citations</b><br><span class="chip">meta/default</span> · 500 · 12/14<br><span class="chip">color/text/secondary</span></div></div>
+<div class="spc"><div class="s s-meta sub">Showing 10 of 56 · Not on file</div><div class="m"><b>Counts, timestamps, empty values</b><br><span class="chip">meta/default</span> · 500 · 12/14<br><span class="chip">color/text/subtle</span></div></div>
+<div class="spc"><div class="s s-body"><div class="s-lit">("Java" OR "J2EE") AND ("Spring Boot" OR "Spring") NOT "Intern"</div></div><div class="m"><b>Literal value block (```)</b><br><span class="chip">body/default</span> on <span class="chip">color/background/muted</span> · 1px <span class="chip">card/color/border/default</span> · radius <span class="chip">border/radius/xsm</span><br>Copy action appears on hover. Long values wrap</div></div>
+</div>
+<doc-callout type="do" heading="Do">use <span class="chip">body/default</span> (14/20) for all reading text. It matches the density of the rest of Bullhorn.</doc-callout>
+<doc-callout type="dont" heading="Don't">use <span class="chip">title/default</span> or <span class="chip">title/md</span> in a response. Those sizes belong to the app chrome.</doc-callout>
+<doc-callout type="dont" heading="Don't">use italics, ALL CAPS, underline, or colored text for emphasis. Emphasis comes from weight (Modern UI: never signal state with color alone). Use <span class="chip">input/label/*</span> only in table headers, through <span class="chip">novo-data-table</span>.</doc-callout>
+</doc-section>
+
+<doc-section id="structure" label="Headings, lists, emphasis" desc="When to use each">
+<h3>Headings</h3>
+<ul>
+<li>Default to no headings. Use ## only when a reply has 3 or more parts the recruiter will scan between.</li>
+<li>One heading level per reply. Headings are 2–5 words in title case, with no numbering and no trailing punctuation.</li>
+<li>Never open with a heading. The first line is the answer.</li>
+</ul>
+<h3>Lists</h3>
+<ul>
+<li>Use a numbered list only when order means something (rank, priority, steps). Use bullets for everything else.</li>
+<li>One idea per item, at most one level of nesting, and each list starts at 1.</li>
+<li>Avoid runs of very short fragments. Merge them into a sentence or a table row.</li>
+</ul>
+<h3>Emphasis</h3>
+<ul>
+<li>At most one bold phrase per paragraph or item, and only for the fact the recruiter acts on.</li>
+<li>Don't use bold as a heading or bold labels and values in the same line.</li>
+</ul>
+</doc-section>
+
+</doc-page>
+<style>
+  /* Page-scoped: Modern UI type specimens and cell images (product content, not doc chrome). */
+.spc-list{display:flex;flex-direction:column;gap:16px;margin:8px 0 20px}
+.spc{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start;background:#fff;border:1px solid var(--hairline);border-radius:8px;padding:16px}
+.spc .m{font-size:13px;line-height:1.55;color:var(--ink-2)}
+.spc .m b{color:var(--ink);font-weight:600}
+.s{font-family:"Inter",system-ui,sans-serif;color:#3d464d}
+.s-title-sm{font-size:18px;line-height:24px;font-weight:600;color:#2f2f33}
+.s-body{font-size:14px;line-height:20px;font-weight:400}
+.s-body-md{font-size:14px;line-height:20px;font-weight:500}
+.s-body-md.h{color:#2f2f33}
+.s-md{font-weight:500;color:#2f2f33}
+.s-link{color:#296cc3;font-weight:500}
+.s-sm{font-size:12px;line-height:16px;font-weight:400}
+.s-sm-md{font-size:12px;line-height:16px;font-weight:500}
+.s-meta{font-size:12px;line-height:14px;font-weight:500}
+.sec{color:#525b63}.sub{color:#677079}
+@media(max-width:700px){.spc{grid-template-columns:1fr;gap:8px}}
+.s-lit{background:#f7f8f8;border-radius:4px;padding:8px 16px;overflow-x:auto;white-space:nowrap}
+.s-label{font-size:12px;line-height:14px;font-weight:400;letter-spacing:.5px;text-transform:uppercase;color:#3d464d}
+.cellimg{display:block;width:240px;height:40px;border:1px solid #dee0e3;border-radius:4px}
+.s-ent{display:inline-block;width:8px;height:8px;border-radius:999px;margin-right:4px;vertical-align:1px}
+
+</style>
+</body>
+</html>

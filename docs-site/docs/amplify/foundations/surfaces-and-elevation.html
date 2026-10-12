@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Surfaces and elevation — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Foundations" title="Surfaces and elevation" intro="Full page, docked and pop-over: when each surface is used, and the elevation it sits at.">
+
+  <doc-section id="surfaces" label="Surfaces" desc="Full page, docked, pop-over">
+    <p class="lead">Amplify chat can appear as a full page, docked beside the current page, or as a pop over, depending on the workflow and where the user starts from. All three are one assistant: they share the same conversation and context, so the user can move between them without starting over.</p>
+    <table class="tbl">
+      <thead><tr><th>Surface</th><th>What it is</th><th>Specs</th></tr></thead>
+      <tbody>
+        <tr><td>Docked chat</td><td>The persistent panel that stays with the user across records and pages. The default presentation</td><td><a href="../components/amplify-chat-docked.html#docked">Docked chat → Docked panel</a></td></tr>
+        <tr><td>Full-page chat</td><td>The expanded, standalone chat. A valid entry point to a workflow, not just an overflow view of the dock</td><td><a href="../components/amplify-chat-full-page.html">Full-page chat</a></td></tr>
+        <tr><td>Pop over</td><td>Docked chat as a resizable, movable window over the page, switched from the top left of the panel. Same functionality, no scrim: the page underneath stays usable</td><td><a href="../components/amplify-chat-docked.html#pop-over">Docked chat → Pop-over</a></td></tr>
+      </tbody>
+    </table>
+    <ol>
+      <li><b>Context persists across navigation.</b> The conversation and its working context (records, searches, filters, intent) carry across page changes.</li>
+      <li><b>Chat can drive cross-page workflows,</b> in both directions: docked chat takes the user to the next page; full-page chat can start a workflow and bring them into a record or list. Directional: interaction patterns are still being defined.</li>
+      <li><b>Chat follows the user everywhere.</b> Unsupported pages fall back to global chat instead of losing chat. Directional: confirm the fallback per page.</li>
+      <li><b>History is always reachable</b> from the dock, and a past conversation can continue in a new context.</li>
+      <li><b>The surfaces stay aligned.</b> Docked and full-page chat feel like one assistant (H4).</li>
+    </ol>
+    <h3>Applying this to other product areas</h3>
+    <ul>
+      <li>List the workflows chat should support, which cross pages, and the context each must carry (records, searches, filters, selections, intent).</li>
+      <li>Define entry points (docked, full page, or both), the page-to-page handoffs, and which pages fall back to global chat.</li>
+      <li>Confirm the experience is continuous across docked and full-page chat.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="elevation" label="Elevation" desc="The level each surface uses">
+    <p>Each surface uses a level from the page depth order in <a href="../../foundations/elevation.html#levels">Elevation</a>.</p>
+    <table class="tbl">
+      <thead><tr><th>Surface</th><th>Level</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Docked chat</td><td><span class="chip">general/level 3 - right</span></td><td>Right-side above-focus. The shadow falls on the left only, never over the app chrome</td></tr>
+        <tr><td>Pop over</td><td><span class="chip">general/level 4</span></td><td>Overlay level, with the modal border and radius</td></tr>
+        <tr><td>Pinned chat input (every surface)</td><td><span class="chip">general/level 2 - scroll</span></td><td>On <span class="chip">color/background/scroll</span> with background blur. Replies scroll behind it</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="To be written.">The elevation of the full-page chat surface. Neither the Full-page chat page nor Elevation names a level for it.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI interaction guidelines — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify" title="AI interaction guidelines" intro="The design principles for AI software that Amplify follows, and what good looks like in practice.">
+
+  <doc-section id="about" label="About these principles" desc="What they are for">
+    <p class="lead">The design principles we hold ourselves to when building AI experiences, and what each one means for how we build Amplify.</p>
+  </doc-section>
+
+  <doc-section id="real-problem" label="1. Solve a real problem, not a technical one" desc="Start from the user need">
+    <p>The best AI features start with a clear user need, not a capability looking for a use case. Before designing a new Amplify experience, the question to ask is: what is the recruiter or admin trying to accomplish, and does AI meaningfully help them do it faster or better?</p>
+    <p>Our solutions must primarily address user needs instead of being force-fit to accommodate technical capabilities. Every new capability in Amplify should pass this test.</p>
+  </doc-section>
+
+  <doc-section id="assists" label="2. AI assists — it does not replace judgment" desc="Recruiters stay in control">
+    <p>Amplify’s stated purpose is to amplify humans, not replace them. This should be reflected in how we design every interaction. Recruiters should always feel in control of the outcome. That means giving them edit access to AI-generated content, showing them enough context to evaluate AI suggestions, and never designing flows that auto-submit or auto-act without review.</p>
+    <p>It also means that when AI is layered into an established workflow, it should only add control — never remove it. The presence of an AI feature should not reduce what a user can already do. Opening Amplify Chat, for example, should not cause expected record controls elsewhere in the interface to become unavailable or harder to reach. Users who have built muscle memory around existing workflows should not have to give anything up to get AI assistance.</p>
+    <p>This is especially important in high-stakes moments: candidate submissions, compliance checks, compensation-adjacent workflows.</p>
+  </doc-section>
+
+  <doc-section id="legible" label="3. Make it legible — show your work" desc="Surface the inputs behind the output">
+    <p>Users trust AI more when they understand where the output came from. This doesn’t mean exposing model internals — it means giving users enough signal to evaluate what they’re looking at. Which fields were used? What was the job order it matched against? What did the candidate say in the screen that produced this score?</p>
+    <p>This is explainability, or appropriate disclosure. In short: don’t make the output a black box.</p>
+    <p>For Amplify specifically, this means designing screens that surface the data source alongside the AI output — not just the summary, but the inputs that generated it.</p>
+  </doc-section>
+
+  <doc-section id="expectations" label="4. Set honest expectations" desc="Don’t overclaim">
+    <p>AI output varies. It hallucinates. It degrades with thin data. We should design for this honestly rather than obscuring it. That means:</p>
+    <ul>
+      <li>Writing UI copy that doesn’t overclaim (“Amplify suggests” not “Amplify determined”).</li>
+      <li>Including calibrated confidence signals where appropriate.</li>
+      <li>Making empty and low-quality data states first-class design scenarios.</li>
+      <li>Teaching users what makes output better (more complete records, better prompts) rather than leaving them to guess.</li>
+    </ul>
+    <p>Explain to users what AI can and cannot do, in every surface we design.</p>
+  </doc-section>
+
+  <doc-section id="data-quality" label="5. Design for the full range of data quality" desc="Messy data is the main case">
+    <p>A screen built only for perfect data will fail constantly in production. Recruiters’ databases are messy: incomplete records, outdated contact info, missing fields. Every Amplify experience needs a considered answer for: what happens when the data isn’t there? What do we show when Amplify has almost nothing to work with?</p>
+    <p>This is not an edge case. It is a primary use case for most customers at the point of adoption.</p>
+  </doc-section>
+
+  <doc-section id="trust" label="6. Build trust progressively" desc="Scaffold new users, free up power users">
+    <p>Knapp’s Relational Development Model describes how humans build trust with AI systems over time: from initial contact → experimentation → integration → bonding. The implication for product design is that trust is not granted upfront — it is earned through consistent, accurate, useful output over time.</p>
+    <p>New users and new teams need more scaffolding: more explanations, more review moments, more visibility into what Amplify is doing and why. Power users who have seen Amplify perform well over time are ready for more autonomous workflows and less friction.</p>
+    <p>Design should account for this spectrum. The same recruiter who is skeptical of AI in week one may want to set-and-forget screening in month three. We should build for both.</p>
+  </doc-section>
+
+  <doc-section id="data" label="7. Protect user data and make it visible" desc="Data security as a product value">
+    <p>Amplify’s data security model is a genuine differentiator: candidate and client data stays within the Bullhorn environment and is not sent to public AI tools. This is something users care about — customers have called it out explicitly.</p>
+    <p>Design should make this visible and reinforce it. When we introduce new AI features, being clear about what data is used, where it goes, and who can see it is not legal boilerplate — it’s a product value.</p>
+  </doc-section>
+
+  <doc-section id="errors" label="8. Be honest about errors and limitations" desc="Say what went wrong, plainly">
+    <p>When AI output is wrong or unavailable, say so simply and directly. Do not hide errors behind vague loading states or silent fallbacks. Users who are surprised by AI errors lose trust permanently. Users who are told clearly “Amplify couldn’t complete this because the record has no resume on file” can act on that and move on.</p>
+    <p>This is transparency. It applies both to system failures and to the inherent limitations of what a model can reliably do.</p>
+    <doc-callout type="note" heading="To be written.">Feedback, error and correction states: retry, regenerate, reporting a bad answer, and AI disclaimers.</doc-callout>
+  </doc-section>
+
+  <doc-section id="adoption" label="9. Design for training and adoption, not just day-1 use" desc="New recruiters need guided discovery">
+    <p>Amplify has a measurable impact on recruiter ramp time: customers report 30% faster onboarding for new hires when using Amplify Chat as a training tool. This is a design opportunity we should take seriously.</p>
+    <p>New recruiter experiences in particular should be designed with guided, scaffolded discovery in mind — not just efficiency. A new hire exploring Amplify Chat for the first time has different needs than a senior recruiter who knows exactly what to ask.</p>
+  </doc-section>
+
+  <doc-section id="measure" label="10. Measure what matters" desc="Design for downstream outcomes">
+    <p>Good AI design is not just about the quality of individual outputs — it’s about the downstream outcomes those outputs drive. For Amplify, that means designing with success metrics in mind: time-to-fill, gross profit, screen completion rate, placement rate. These are the numbers our customers track, and they should inform which features we prioritize and how we measure whether our design is working.</p>
+  </doc-section>
+
+  <doc-section id="in-practice" label="What good looks like in practice" desc="Signs a surface is working, or not">
+    <p>When a new Amplify surface is working well, it should:</p>
+    <ul>
+      <li>Reduce a concrete task duration (e.g., screening a candidate, building a submission packet)</li>
+      <li>Surface AI output in a way that the user can evaluate before acting on it</li>
+      <li>Make data inputs visible so users know what drove the output</li>
+      <li>Handle incomplete data gracefully without breaking the experience</li>
+      <li>Use plain, direct language — not AI hype, not hedging jargon</li>
+      <li>Keep the recruiter inside Bullhorn rather than sending them elsewhere</li>
+      <li>Give admins the controls they need to tune, configure, and troubleshoot</li>
+    </ul>
+    <p>When it’s not working well, you’ll typically see one or more of these signals: users ignoring AI output and redoing work manually; users confused about why the output looks wrong; admins unable to diagnose what went sideways; or output that looks great in demo conditions and falls apart with real customer data.</p>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

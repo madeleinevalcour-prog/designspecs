@@ -1,0 +1,35 @@
+@if (embed()) {
+  <div class="embed">
+    <span class="cell" [class.on-fill]="treatmentName() === 'knockout'">
+      <ats-icon [name]="glyph()" [size]="sizePx()" [class.amp-radial]="treatmentName() === 'radial'"
+        [color]="treatmentName() === 'knockout' ? 'var(--color-icon-icon-knockout)' : undefined" />
+    </span>
+  </div>
+} @else {
+  <h1>Amplify icon</h1>
+  <p class="lede">
+    <code>&lt;ats-icon name="amplify"&gt;</code> (filled, the default) and <code>name="amplify-line"</code> (line), in the
+    sizes and treatments ats-ui uses. Radial: the glyph filled with Icon/Amplify Radial. Knockout:
+    <code>color/icon/icon-knockout</code> on an Amplify fill.
+  </p>
+  <table class="matrix">
+    <thead><tr><th></th>@for (s of sizes; track s) { <th>{{ s }}px</th> }</tr></thead>
+    <tbody>
+      @for (v of variants; track v) {
+        @for (t of treatments; track t) {
+          <tr>
+            <th scope="row">{{ v }} · {{ t }}<br><code>{{ glyphs[v] }}</code></th>
+            @for (s of sizes; track s) {
+              <td>
+                <span class="cell" [class.on-fill]="t === 'knockout'">
+                  <ats-icon [name]="glyphs[v]" [size]="s" [class.amp-radial]="t === 'radial'"
+                    [color]="t === 'knockout' ? 'var(--color-icon-icon-knockout)' : undefined" />
+                </span>
+              </td>
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+}

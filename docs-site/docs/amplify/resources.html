@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resources — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify" title="Resources" intro="Amplify reference documents and Figma source files.">
+
+  <doc-section id="reference-files" label="Amplify references" desc="Markdown references">
+    <p>Use these to help create Amplify-related designs, or to check existing designs against Amplify guidelines and functionality.</p>
+    <div class="reslist">
+      <a class="doc res" href="../resources/amplify-design-reference.md" download>
+        <div class="title">Amplify Design Reference <span class="res-kind">Download · MD</span></div>
+        <div class="desc">A working reference for designers and product managers building within the Amplify product. Covers what Amplify is, how it works, who it's for, and the design principles we should hold ourselves to when building AI experiences.</div>
+      </a>
+      <a class="doc res" href="../resources/amplify-chat-interface-patterns.md" download>
+        <div class="title">Amplify Chat Interface Patterns <span class="res-kind">Download · MD</span></div>
+        <div class="desc">How Amplify chat responses are structured, which components they use and when (prose, data tables, cards, draft and literal value blocks, selection and bulk actions), how chat behaves across docked, full-page and pop over surfaces, and the text, spacing and layout rules behind them. Replaces the former Chat Functionality and Text Formatting guidelines.</div>
+      </a>
+    </div>
+    <p class="linkrow"><a href="#figma">See the Amplify Chat in New UI designs in Figma →</a></p>
+  </doc-section>
+
+  <doc-section id="figma" label="Figma" desc="Source design files">
+    <div class="reslist">
+      <a class="doc res" href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-188524&t=EjaD2l8cizzyd37H-1" target="_blank" rel="noopener">
+        <div class="title">Amplify Chat in New UI <span class="res-kind">Figma ↗</span></div>
+        <div class="desc">Current designs for how the new UI can be applied to the global, docked, and pop-over chat. Use as a reference when creating designs in conjunction with the Amplify MD files in the previous section.</div>
+      </a>
+    </div>
+    <p class="linkrow"><a href="#reference-files">See the Amplify reference files above →</a></p>
+  </doc-section>
+
+</doc-page>
+
+<style>
+  /* Page-scoped: resource link cards reuse the shared a.doc card. */
+  .reslist{display:flex;flex-direction:column;gap:10px;margin:8px 0 12px}
+  a.doc.res .title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .res-kind{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--ink-muted);background:var(--chip);border-radius:4px;padding:2px 7px}
+</style>
+</body>
+</html>

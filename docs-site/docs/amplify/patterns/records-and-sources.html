@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Records and sources — Amplify — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Pattern" title="Records and sources" intro="How records and sources appear in Amplify replies.">
+
+  <doc-section id="records" label="Records in a reply" desc="Links, citations, rationale">
+    <ul>
+      <li>Every Bullhorn record in a reply is a link that opens the record. Use the record name as the link text. Show the ID as meta text only to tell two records apart (H6; <a href="../ai-interaction-guidelines.html#legible">Amplify principle 3</a>).</li>
+      <li>When the answer depends on specific records or fields, add a sources row under the reply that expands to the list.</li>
+      <li>Name the fields a ranking used: “Ranked by start date, submittals, and client priority.” Say “Amplify suggests”, not “Amplify determined” (<a href="../ai-interaction-guidelines.html#expectations">Amplify principle 4</a>).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="entity-links" label="Entity links" desc="How a record link looks">
+    <p>Records in prose are entity links: a circle in the entity’s color, then the record name.</p>
+    <doc-example src="amplify-chat-text?component=text&amp;type=paragraph-with-links" caption="Records as entity links in a paragraph" height="70"></doc-example>
+    <p>Sizes, states and the link rules: <a href="../components/amplify-chat-text.html#link">Text → Entity link</a>.</p>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Components that carry records">
+    <ul>
+      <li><a href="../components/amplify-chat-sources.html">Sources</a>: the sources row, what a reply was based on, expandable to the records.</li>
+      <li><a href="../components/amplify-chat-relevance-signals.html">Relevance signals</a>: why Amplify picked a prospect.</li>
+      <li><a href="../components/amplify-chat-text.html#link">Text → Entity link</a>: the link component in prose.</li>
+    </ul>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

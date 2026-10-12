@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify documentation structure — proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Proposal" title="Amplify documentation structure" intro="A proposed way to bring all Amplify documentation into one section of the site. Covers what is wrong with the current layout, the proposed structure, where each existing piece of content moves, the decisions made, and what is missing." rail>
+
+  <doc-section id="current-issues" label="Current issues" desc="Why the current layout is hard to use">
+    <ul>
+      <li><b>Amplify content sits in four or more places.</b> An "Amplify components" subgroup under Components, an "Amplify" group with one page, two downloads on Resources, and Amplify details inside Color, Elevation, Button, Icon Container, Record Header, Bowling Alley, Dropdown and Form pages. <span class="mono">(Gestalt — common region: related content does not share a container.)</span></li>
+      <li><b>The chat interface patterns page repeats the component pages.</b> Its chat input, clarifying questions, data table, cards, selection, draft block and literal value block sections cover the same ground as the component pages. <span class="mono">(Nielsen #4 — consistency and standards; Rams #10 — as little design as possible.)</span></li>
+      <li><b>Five flow pages are not in the nav.</b> Record actions, record actions — cards, and Add prospect contacts v1 and v2 sit in <span class="mono">docs/amplify/</span> with no link. <span class="mono">(Nielsen #6 — recognition rather than recall.)</span></li>
+      <li><b>There is no landing page or "why".</b> Readers go straight to components with no explanation of what Amplify UI is or when to apply it. <span class="mono">(Rams #4 — good design makes a product understandable.)</span></li>
+      <li><b>The 12 Amplify component pages are one flat list.</b> Surfaces, conversation parts, response content and input are mixed together. <span class="mono">(Gestalt — proximity and similarity.)</span></li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="structure" label="Proposed structure" desc="Amplify as a top-level section">
+    <p>Amplify becomes its own top-level nav group next to Foundations and Components. Status key: <b>Exists</b> — page stays as is; <b>Move</b> — content moves from another page; <b>Merge</b> — several pages become one; <b>New</b> — no content today.</p>
+
+    <h3>Overview</h3>
+    <table class="tbl">
+      <thead><tr><th>Page</th><th>Content</th><th>Source</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Amplify (landing)</td><td>Cards linking to every page in the section</td><td>—</td><td>New</td></tr>
+        <tr><td>About Amplify UI</td><td>What Amplify is, who uses it, how it works; principles for when Amplify styling applies; identifying Amplify with the icon</td><td><span class="mono">amplify-design-reference.md</span> (What is Amplify, Users, Capabilities, How Amplify Works); "meaning cue, not decoration" rule in <span class="mono">color.html</span></td><td>Move + New (principles, icon)</td></tr>
+        <tr><td>AI interaction guidelines</td><td>How Amplify should behave alongside recruiters</td><td><span class="mono">amplify-design-reference.md</span> (Design Principles for AI Software, What Good Looks Like in Practice)</td><td>Move (download only today)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Foundations for Amplify</h3>
+    <table class="tbl">
+      <thead><tr><th>Page</th><th>Content</th><th>Source</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Color</td><td>Amplify gradients, radial backgrounds, gradient border</td><td><span class="mono">color.html#amplify</span>; leave a pointer in core Color</td><td>Move</td></tr>
+        <tr><td>Surfaces and elevation</td><td>Full page, docked and pop-over: when each is used, and the elevation each surface uses</td><td><span class="mono">elevation.html</span> (level 3 right); Full-page and Docked chat pages; Chat interface patterns — Surfaces</td><td>Merge (decided: surfaces and elevation combined)</td></tr>
+        <tr><td>Text styles</td><td>Headings, lists, emphasis, entity links in responses</td><td>Chat interface patterns — Styles, Structure</td><td>Move</td></tr>
+        <tr><td>Spacing and layout</td><td>Response spacing, column width</td><td>Chat interface patterns — Spacing</td><td>Move</td></tr>
+        <tr><td>Voice and tone</td><td>How Amplify writes</td><td><span class="mono">amplify-chat-interface-patterns.md</span> — Voice (the HTML page has no voice content)</td><td>Move</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Components for Amplify</h3>
+    <p>The 12 existing pages, grouped by role, plus two new pages. The 12 pages move from <span class="mono">docs/components/</span> to <span class="mono">docs/amplify/components/</span>, with redirects from the old URLs. <span class="mono">(Gestalt — proximity.)</span></p>
+    <table class="tbl">
+      <thead><tr><th>Subgroup</th><th>Pages</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Amplify indicators</td><td>Amplify icon (<span class="mono">bhi-amplify</span> in Novo = <span class="mono">&lt;ats-icon name="amplify"&gt;</span> in ats-ui). Filled is the default; the line icon (<span class="mono">amplify-line</span>) is for unselected or disabled states, or less emphasis</td><td>New</td></tr>
+        <tr><td>Surfaces</td><td>Full-page chat, Docked chat (covers docked and pop-over)</td><td>Exists</td></tr>
+        <tr><td>Conversation</td><td>User messages, Reply, Text, Sources</td><td>Exists</td></tr>
+        <tr><td>Response content</td><td>Blocks, Data table, Cards, Selection; Relevance signals. The signals label changes by context: “Relevance Signals” is the default, contextual labels such as “Hiring signals” are allowed</td><td>Exists; Relevance signals new</td></tr>
+        <tr><td>Input</td><td>Chat input, Clarifying questions</td><td>Exists</td></tr>
+        <tr><td>Amplify variants of core components</td><td>Button (<span class="mono">amplify</span> color), Icon Container (<span class="mono">amplify</span> theme)</td><td>Decided: links to the core pages only, no new pages</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Patterns for Amplify</h3>
+    <table class="tbl">
+      <thead><tr><th>Page</th><th>Content</th><th>Source</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Response structure</td><td>How a response is built; choosing a format</td><td>Chat interface patterns — Response structure, Choosing a format</td><td>Move</td></tr>
+        <tr><td>Records and sources</td><td>Referencing ATS records in responses</td><td>Chat interface patterns — Records</td><td>Move</td></tr>
+        <tr><td>Status and loading</td><td>What the user sees while Amplify works</td><td>Chat interface patterns — Status</td><td>Move</td></tr>
+        <tr><td>Record actions in chat</td><td>Primary actions on referenced records; list and card variants</td><td><span class="mono">amplify-chat-record-actions.html</span>, <span class="mono">amplify-chat-record-actions-cards.html</span></td><td>Merge</td></tr>
+        <tr><td>Adding prospect contacts</td><td>Adding contacts suggested in chat to the ATS</td><td><span class="mono">amplify-chat-prospect-add-flow-v2.html</span></td><td>Move. Decided: v2 is kept, v1 is retired</td></tr>
+        <tr><td>Workflow examples</td><td>Prioritize open jobs, match candidates, look up a company, build pipeline</td><td>Chat interface patterns — Examples</td><td>Move</td></tr>
+        <tr><td>Amplify in the page layout</td><td>Entry points and where Amplify sits on screen</td><td>Bowling Alley (Amplify tab), Record Header (Amplify button), Form pages (right pane is Amplify-first)</td><td>Move (summary + links)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Resources for Amplify</h3>
+    <table class="tbl">
+      <thead><tr><th>Page</th><th>Content</th><th>Source</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Resources</td><td>The two MD downloads, Amplify Chat in New UI Figma link</td><td><span class="mono">resources.html</span> — Amplify references</td><td>Move</td></tr>
+        <tr><td>Background and open questions</td><td>Open questions, research summary, current-state analysis</td><td>Chat interface patterns — Open questions, Appendix A, Appendix B</td><td>Move</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="existing" label="Changes to existing pages" desc="What happens to current content">
+    <ul>
+      <li><b>Chat interface patterns page.</b> Split across Foundations, Patterns and Resources above. Sections that repeat component pages are removed, so each topic has one source. <span class="mono">(Nielsen #4; Rams #10.)</span></li>
+      <li><b>Core component pages</b> (Button, Icon Container, Record Header, Bowling Alley, Dropdown). Amplify notes stay in place; each gets a link to the Amplify section.</li>
+      <li><b>Core Color and Elevation.</b> Keep a short Amplify mention with a link to the Amplify foundation page.</li>
+      <li><b>Sophia FAB.</b> Stays in core Components. It opens a support chatbot, not Amplify; grouping it under Amplify would blur what Amplify styling signals. <span class="mono">(Gestalt — similarity.)</span></li>
+      <li><b>Nav.</b> The "Amplify components" subgroup under Components and the current "Amplify" group are replaced by the single Amplify section in <span class="mono">index.html</span> and the <span class="mono">SITE</span> list in <span class="mono">docs.js</span>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="gaps" label="What is missing" desc="Content with no source today">
+    <table class="tbl">
+      <thead><tr><th>Gap</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Overview landing page</td><td>Nothing exists today.</td></tr>
+        <tr><td>Amplify UI principles</td><td>Only one line on Color covers this. No guidance on how much Amplify styling a surface or moment should get.</td></tr>
+        <tr><td>AI interaction guidelines page</td><td>Download only.</td></tr>
+        <tr><td>Voice and tone page</td><td>In the MD only; the HTML patterns page has no voice content. Covers voice; tone is still to be written.</td></tr>
+        <tr><td>Gradient tokens</td><td>Button, Icon Container, Bowling Alley and Record Header all note the Amplify gradient or tint has no token. Blocks a complete Amplify Color page.</td></tr>
+        <tr><td>Amplify icon / glyph</td><td>Only appeared inside Bowling Alley, with no guidance on when to use it. Decided: it gets its own component page.</td></tr>
+        <tr><td>Pop-over chat surface</td><td>Not a gap. The Docked chat page already covers docked and pop-over: one component with a <span class="mono">mode</span> of docked or pop-over (<span class="mono">components/CLAUDE.md</span>).</td></tr>
+        <tr><td>Generating / loading indicator</td><td>Status and loading exists as pattern text only. Unknown whether a component exists in Figma.</td></tr>
+        <tr><td>Illustration / empty states</td><td>None found. Whether these are in scope is still to be decided.</td></tr>
+        <tr><td>Feedback, error and correction states</td><td>Retry, regenerate, reporting a bad answer, AI disclaimers. Not in any page heading checked; unverified against full page bodies.</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="decisions" label="Decisions made" desc="Settled during review">
+    <ul>
+      <li><b>Adding prospect contacts:</b> v2 is kept. v1 is retired.</li>
+      <li><b>Elevation:</b> combined with surfaces into one foundation page, “Surfaces and elevation”.</li>
+      <li><b>Button and Icon Container:</b> links to the existing core pages only. No new pages.</li>
+      <li><b>Amplify icon:</b> its own component page. About Amplify UI covers using the icon to identify Amplify features.</li>
+      <li><b>Icon variants and name:</b> filled (<span class="mono">amplify</span>) is the default; line (<span class="mono">amplify-line</span>) is for unselected or disabled states, or when less emphasis is needed. <span class="mono">bhi-amplify</span> (Novo) and <span class="mono">&lt;ats-icon name="amplify"&gt;</span> (ats-ui) are the same icon.</li>
+      <li><b>Relevance signals:</b> their own component page. The label changes by context: “Relevance Signals” is the default; contextual labels such as “Hiring signals” are allowed.</li>
+      <li><b>File locations:</b> all Amplify pages live under <span class="mono">docs/amplify/</span>; the Amplify component pages moved to <span class="mono">docs/amplify/components/</span>.</li>
+      <li><b>Motion:</b> out of scope.</li>
+      <li><b>Still open:</b> whether illustration and empty states are in scope.</li>
+    </ul>
+  </doc-section>
+
+</doc-page>
+
+</body>
+</html>

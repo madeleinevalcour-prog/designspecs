@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify icon — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Components" title="Amplify icon" intro="The Amplify icon: filled and line variants, sizes, color, and where it’s used.">
+
+  <doc-section id="overview" label="Overview" desc="What the icon marks">
+    <p class="lead" style="max-width:60ch">The Amplify icon marks a feature, action or piece of content as Amplify-powered. It works with the Amplify gradient: the gradient is never the only signal.</p>
+    <doc-example src="amplify-icon?variant=filled&amp;size=24&amp;treatment=radial" caption="Filled, 24px, Amplify radial" height="60"></doc-example>
+    <p>When and why to use it: <a href="../about.html#icon">About Amplify UI → Identifying Amplify with the icon</a>.</p>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants" desc="Filled and line">
+    <table class="tbl">
+      <thead><tr><th>Variant</th><th>Name</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td>Filled</td><td><span class="chip">amplify</span></td><td>The default</td></tr>
+        <tr><td>Line</td><td><span class="chip">amplify-line</span></td><td>Unselected or disabled states, or when less emphasis is needed</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-icon?variant=filled&amp;size=24" caption="Filled (amplify)" height="60"></doc-example>
+    <doc-example src="amplify-icon?variant=line&amp;size=24" caption="Line (amplify-line)" height="60"></doc-example>
+    <doc-callout type="note" heading="No line use yet.">No ats-ui component uses <span class="mono">amplify-line</span> today, for an unselected, disabled or lower-emphasis state or otherwise. Every current use is the filled icon.</doc-callout>
+  </doc-section>
+
+  <doc-section id="names" label="Names" desc="Novo and ats-ui">
+    <p>Novo’s <span class="chip">bhi-amplify</span> and ats-ui’s <span class="chip">amplify</span> are the same icon.</p>
+    <doc-code caption="Names">
+      Novo:    bhi-amplify
+      ats-ui:  &lt;ats-icon name="amplify" /&gt;
+               &lt;ats-icon name="amplify-line" /&gt;
+    </doc-code>
+  </doc-section>
+
+  <doc-section id="size" label="Size" desc="The sizes in use">
+    <table class="tbl">
+      <thead><tr><th>Size</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>10px</td><td>Data table Reveal link</td></tr>
+        <tr><td>12px</td><td>Relevance signals label · Chat input source chips · Icon Container sm glyph</td></tr>
+        <tr><td>14px</td><td>Bowling Alley Amplify tab · Record Header Amplify button</td></tr>
+        <tr><td>16px</td><td>Reply identity · status line</td></tr>
+        <tr><td>20px</td><td>Icon Container md glyph</td></tr>
+        <tr><td>24px</td><td>Icon Container lg glyph</td></tr>
+        <tr><td>28px</td><td>Docked chat header mark</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-icon?size=12" caption="12px" height="44"></doc-example>
+    <doc-example src="amplify-icon?size=14" caption="14px" height="46"></doc-example>
+    <doc-example src="amplify-icon?size=16" caption="16px" height="48"></doc-example>
+    <doc-example src="amplify-icon?size=24" caption="24px" height="56"></doc-example>
+  </doc-section>
+
+  <doc-section id="color" label="Color" desc="Radial fill and knockout">
+    <p>The glyph is a CSS mask, so its color comes from the background behind it. ats-ui uses two treatments.</p>
+    <table class="tbl">
+      <thead><tr><th>Treatment</th><th>What the code does</th><th>Used in</th></tr></thead>
+      <tbody>
+        <tr><td>Radial</td><td>The glyph filled with the Icon/Amplify Radial gradient</td><td>Bowling Alley tab, Docked chat mark, Reply identity, status line, Relevance signals, Reveal link, source chips</td></tr>
+        <tr><td>Knockout</td><td>The glyph in a knockout color on an Amplify fill: <span class="chip">color/icon/icon-knockout</span> in the Icon Container, the primary button content color on the amplify Button</td><td>Icon Container amplify theme, primary amplify Button</td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-icon?size=24&amp;treatment=radial" caption="Radial" height="56"></doc-example>
+    <doc-example src="amplify-icon?size=24&amp;treatment=knockout" caption="Knockout, on an Amplify fill" height="68"></doc-example>
+    <p>The gradient itself is specified in <a href="../foundations/color.html#icon">Amplify → Color → Icon</a>.</p>
+  </doc-section>
+
+  <doc-section id="where-used" label="Where it’s used" desc="Every current use">
+    <table class="tbl">
+      <thead><tr><th>Where</th><th>Size</th><th>Treatment</th></tr></thead>
+      <tbody>
+        <tr><td><a href="../../components/bowling-alley.html">Bowling Alley</a> — Amplify tab</td><td>14px</td><td>Radial</td></tr>
+        <tr><td><a href="../../components/bowling-alley.html">Bowling Alley</a> — Amplify app in the Menu</td><td>Icon Container</td><td>Knockout</td></tr>
+        <tr><td><a href="../../components/record-header.html">Record Header</a> — Amplify button</td><td>14px</td><td>Knockout, on a primary button in the amplify color</td></tr>
+        <tr><td><a href="../../components/icon-container.html#amplify">Icon Container</a> — amplify theme (e.g. the Full-page chat header, lg)</td><td>12 · 20 · 24px</td><td>Knockout</td></tr>
+        <tr><td><a href="amplify-chat-docked.html">Docked chat</a> — header mark</td><td>28px</td><td>Radial</td></tr>
+        <tr><td><a href="amplify-chat-reply.html">Reply</a> — identity, next to the name “Amplify”</td><td>16px</td><td>Radial</td></tr>
+        <tr><td><a href="amplify-chat-text.html">Text</a> — status line</td><td>16px</td><td>Radial</td></tr>
+        <tr><td><a href="amplify-chat-relevance-signals.html">Relevance signals</a> — label</td><td>12px</td><td>Radial</td></tr>
+        <tr><td><a href="amplify-chat-data-table.html">Data table</a> — Reveal link</td><td>10px</td><td>Radial</td></tr>
+        <tr><td><a href="amplify-chat-input.html">Chat input</a> — source chips in the context bar (e.g. Prospect)</td><td>12px</td><td>Radial</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do">Use the Amplify icon only on Amplify-powered features.</doc-callout>
+    <doc-callout type="do" heading="Do">Use the filled icon by default, and the line icon for unselected or disabled states or when less emphasis is needed.</doc-callout>
+    <doc-callout type="dont" heading="Don’t">Use it as a generic “magic”, “new” or decorative icon.</doc-callout>
+    <doc-callout type="dont" heading="Don’t">Signal Amplify with color alone. Pair the treatment with a label, icon, or established Amplify entry point so the meaning is not carried by the gradient by itself.</doc-callout>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Decorative by default">
+    <ul>
+      <li>The icon is decorative and hidden from screen readers (<span class="chip">aria-hidden</span>). Next to a text label such as “Amplify” or “Relevance Signals”, the label carries the meaning.</li>
+      <li>When the icon is the only content of a control, give the control the accessible name, for example <span class="chip">aria-label="Amplify"</span>.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="token-gaps" label="Token gaps" desc="The gradient has no token">
+    <doc-callout type="note" heading="Gradient fill.">The Icon/Amplify Radial fill has no token. Each component that uses it repeats the gradient stops in its own CSS. See <a href="../foundations/color.html#token-gaps">Amplify → Color → Token gaps</a>.</doc-callout>
+  </doc-section>
+
+  <doc-section id="figma" label="Figma" desc="Source components">
+    <p>The <b>Amplify</b> and <b>Amplify Line</b> components in the Amplify 2025 Figma library.</p>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-icon name="amplify" [size]="16" /&gt;
+      &lt;ats-icon name="amplify-line" [size]="16" /&gt;
+    </doc-code>
+    <p>There’s no Amplify icon component: it’s <a href="../../components/icon.html">Icon</a> with the <span class="chip">amplify</span> glyph. Components apply the radial fill with a class in their own CSS.</p>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

@@ -334,24 +334,50 @@
       {t:"Sophia FAB", href:"/docs/components/sophia-fab.html"},
       {t:"Switch", href:"/docs/components/switch.html"},
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html"}
-    ], groups:[
-      {label:"Amplify components", pages:[
-        {t:"Full-page chat", href:"/docs/components/amplify-chat-full-page.html"},
-        {t:"Docked chat", href:"/docs/components/amplify-chat-docked.html"},
-        {t:"Text", href:"/docs/components/amplify-chat-text.html"},
-        {t:"User messages", href:"/docs/components/amplify-chat-user-messages.html"},
-        {t:"Reply", href:"/docs/components/amplify-chat-reply.html"},
-        {t:"Blocks", href:"/docs/components/amplify-chat-blocks.html"},
-        {t:"Sources", href:"/docs/components/amplify-chat-sources.html"},
-        {t:"Data table", href:"/docs/components/amplify-chat-data-table.html"},
-        {t:"Cards", href:"/docs/components/amplify-chat-cards.html"},
-        {t:"Selection", href:"/docs/components/amplify-chat-selection.html"},
-        {t:"Chat input", href:"/docs/components/amplify-chat-input.html"},
-        {t:"Clarifying questions", href:"/docs/components/amplify-chat-clarifying-questions.html"}
-      ]}
     ]},
     {label:"Amplify", pages:[
-      {t:"Chat interface patterns", href:"/docs/amplify/amplify-chat-interface-patterns.html"}
+      {t:"Overview", href:"/docs/amplify/index.html"},
+      {t:"About Amplify UI", href:"/docs/amplify/about.html"},
+      {t:"AI interaction guidelines", href:"/docs/amplify/ai-interaction-guidelines.html"}
+    ], groups:[
+      {label:"Foundations", pages:[
+        {t:"Color", href:"/docs/amplify/foundations/color.html"},
+        {t:"Surfaces and elevation", href:"/docs/amplify/foundations/surfaces-and-elevation.html"},
+        {t:"Text styles", href:"/docs/amplify/foundations/text-styles.html"},
+        {t:"Spacing and layout", href:"/docs/amplify/foundations/spacing-and-layout.html"},
+        {t:"Voice and tone", href:"/docs/amplify/foundations/voice-and-tone.html"}
+      ]},
+      {label:"Components", pages:[
+        {t:"Amplify icon", href:"/docs/amplify/components/amplify-icon.html"},
+        {t:"Button (amplify)", href:"/docs/components/button.html#amplify"},
+        {t:"Icon Container (amplify)", href:"/docs/components/icon-container.html#amplify"},
+        {t:"Full-page chat", href:"/docs/amplify/components/amplify-chat-full-page.html"},
+        {t:"Docked chat", href:"/docs/amplify/components/amplify-chat-docked.html"},
+        {t:"User messages", href:"/docs/amplify/components/amplify-chat-user-messages.html"},
+        {t:"Reply", href:"/docs/amplify/components/amplify-chat-reply.html"},
+        {t:"Text", href:"/docs/amplify/components/amplify-chat-text.html"},
+        {t:"Sources", href:"/docs/amplify/components/amplify-chat-sources.html"},
+        {t:"Blocks", href:"/docs/amplify/components/amplify-chat-blocks.html"},
+        {t:"Data table", href:"/docs/amplify/components/amplify-chat-data-table.html"},
+        {t:"Cards", href:"/docs/amplify/components/amplify-chat-cards.html"},
+        {t:"Relevance signals", href:"/docs/amplify/components/amplify-chat-relevance-signals.html"},
+        {t:"Selection", href:"/docs/amplify/components/amplify-chat-selection.html"},
+        {t:"Chat input", href:"/docs/amplify/components/amplify-chat-input.html"},
+        {t:"Clarifying questions", href:"/docs/amplify/components/amplify-chat-clarifying-questions.html"}
+      ]},
+      {label:"Patterns", pages:[
+        {t:"Response structure", href:"/docs/amplify/patterns/response-structure.html"},
+        {t:"Records and sources", href:"/docs/amplify/patterns/records-and-sources.html"},
+        {t:"Status and loading", href:"/docs/amplify/patterns/status-and-loading.html"},
+        {t:"Record actions in chat", href:"/docs/amplify/patterns/record-actions.html"},
+        {t:"Adding prospect contacts", href:"/docs/amplify/patterns/adding-prospect-contacts.html"},
+        {t:"Workflow examples", href:"/docs/amplify/patterns/workflow-examples.html"},
+        {t:"Amplify in the page layout", href:"/docs/amplify/patterns/amplify-in-layout.html"}
+      ]},
+      {label:"Resources", pages:[
+        {t:"Resources", href:"/docs/amplify/resources.html"},
+        {t:"Background and open questions", href:"/docs/amplify/background.html"}
+      ]}
     ]},
     {label:"Design Decisions", pages:[
       {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html"},
@@ -360,9 +386,16 @@
     {label:"Resources", href:"/docs/resources.html"}
   ];
   var e=function(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");};
+  // Same file names live in several folders (color.html, resources.html), so match on the
+  // whole path; fall back to the file name only when no SITE entry matches the path (file://).
+  var norm=function(p){return p.replace(/index\.html$/,"");};
+  var all=[]; SITE.forEach(function(g){ if(g.href) all.push(g.href); (g.pages||[]).forEach(function(pg){all.push(pg.href);});
+    (g.groups||[]).forEach(function(sg){(sg.pages||[]).forEach(function(pg){all.push(pg.href);});}); });
+  var pathMatch=all.some(function(h){return norm(location.pathname)===norm(h.split("#")[0]);});
   function here(href){
-    var p=location.pathname;
-    return p===href || p.replace(/index\.html$/,"")===href.replace(/index\.html$/,"") || p.split("/").pop()===href.split("/").pop();
+    var p=location.pathname, h=href.split("#")[0];
+    if(href.indexOf("#")>-1) return false; // links into another page's section
+    return norm(p)===norm(h) || (!pathMatch && p.split("/").pop()===h.split("/").pop());
   }
   function store(open){ try{ localStorage.setItem("sn-open", open?"1":"0"); }catch(_){} }
   function restored(){ try{ return localStorage.getItem("sn-open")==="1"; }catch(_){ return false; } }

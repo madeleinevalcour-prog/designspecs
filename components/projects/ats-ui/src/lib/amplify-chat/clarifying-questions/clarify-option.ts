@@ -99,7 +99,7 @@ export class AmplifyChatClarifyOption {
   readonly description = input<string>();
   /** record only: the record's entity (title dot color). Default job. */
   readonly entity = input<NovoListEntity | undefined>('job');
-  /** record only: the details that tell the records apart (company, date, status…). */
+  /** record only: 2–5 details that tell the records apart, relevant to the record type and the action (for a job: company, date added, status). */
   readonly fields = input<NovoListField[] | undefined>([]);
 
   protected readonly typeName = computed(() => this.type() ?? 'text');
