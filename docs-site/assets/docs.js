@@ -112,19 +112,67 @@
   // The embedded page reports its height, so `height` is only the initial size.
   // viewport="1440": render a whole screen at that width and scale it down to fit the column
   // (full-page layouts), with `height` as the screen height at that width.
+  // figma="url": adds an "Open in Figma" link next to "Open live example".
+  // Numbered markers on parts of the example (tooltip on hover/focus, click jumps to href):
+  //   <doc-example src="…"><doc-marker n="2" for=".css-selector-inside-the-example" href="#part-2">Identity</doc-marker></doc-example>
+  // A marker is hidden while its element isn't rendered (e.g. a selection bar with nothing selected).
   customElements.define("doc-example", class extends HTMLElement{
     connectedCallback(){
       if(this._done)return; this._done=true;
-      var src=attr(this,"src")||"", cap=attr(this,"caption")||"", h=attr(this,"height")||"120", vw=parseInt(attr(this,"viewport")||"",10);
+      var src=attr(this,"src")||"", cap=attr(this,"caption")||"", h=attr(this,"height")||"120", vw=parseInt(attr(this,"viewport")||"",10),
+          figma=attr(this,"figma")||"";
+      var marks=[].slice.call(this.querySelectorAll("doc-marker")).map(function(m){
+        return {n:attr(m,"n")||"", sel:attr(m,"for")||"", href:attr(m,"href")||"", tip:m.textContent.replace(/\s+/g," ").trim()};
+      });
       var frame='<iframe src="/examples/'+esc(src)+'" title="'+esc(cap||"Live example")+'"'+
         ' loading="lazy" style="height:'+esc(h)+'px'+(vw?';width:'+vw+'px;transform-origin:0 0':'')+'"></iframe>';
       this.innerHTML='<figure class="showcase example'+(vw?' example--viewport':'')+'">'+(vw?'<div class="example__viewport">'+frame+'</div>':frame)+
-        '<figcaption>'+(cap?esc(cap)+' · ':'')+'<a href="/examples/'+esc(src)+'" target="_blank" rel="noopener">Open live example ↗</a></figcaption></figure>';
+        '<figcaption>'+(cap?esc(cap)+' · ':'')+'<a href="/examples/'+esc(src)+'" target="_blank" rel="noopener">Open live example ↗</a>'+
+        (figma?' · <a href="'+esc(figma)+'" target="_blank" rel="noopener">Open in Figma ↗</a>':'')+'</figcaption></figure>';
+      if(marks.length) markExample(this.querySelector("figure"), marks);
       if(vw){
         var box=this.querySelector(".example__viewport"), ifr=box.querySelector("iframe");
         var fit=function(){ var s=box.clientWidth/vw; ifr.style.transform="scale("+s+")"; box.style.height=(parseFloat(ifr.style.height)*s)+"px"; };
         ifr._fit=fit; fit(); if(window.ResizeObserver) new ResizeObserver(fit).observe(box); window.addEventListener("resize",fit);
       }
+    }
+  });
+  // Tabs between alternative views (e.g. several live examples of one pattern).
+  // <doc-tabs label="Reply examples"><doc-tab label="Data table">…</doc-tab><doc-tab label="…">…</doc-tab></doc-tabs>
+  // Panels stay in place (only hidden), so their live examples don't reload.
+  var tabsSeq=0;
+  customElements.define("doc-tabs", class extends HTMLElement{
+    connectedCallback(){
+      if(this._done)return; this._done=true;
+      var self=this, uid="doctabs"+(++tabsSeq), panels=[].slice.call(this.children).filter(function(c){return c.tagName==="DOC-TAB";});
+      var list=document.createElement("div"); list.className="doc-tabs__list"; list.setAttribute("role","tablist");
+      if(attr(this,"label")) list.setAttribute("aria-label", attr(this,"label"));
+      var tabs=panels.map(function(p,i){
+        var b=document.createElement("button"); b.type="button"; b.className="doc-tabs__tab"; b.setAttribute("role","tab");
+        b.id=uid+"-tab-"+i; b.textContent=attr(p,"label")||("Tab "+(i+1));
+        p.id=p.id||uid+"-panel-"+i; p.setAttribute("role","tabpanel"); p.setAttribute("aria-labelledby", b.id); p.tabIndex=0;
+        b.setAttribute("aria-controls", p.id);
+        b.addEventListener("click",function(){ select(i, false); });
+        list.appendChild(b); return b;
+      });
+      function select(i, focus){
+        tabs.forEach(function(b,j){ var on=j===i; b.setAttribute("aria-selected", on?"true":"false"); b.tabIndex=on?0:-1; panels[j].hidden=!on; });
+        if(focus) tabs[i].focus();
+        // An example that loaded while hidden measured itself at 0 tall: re-measure it now (same-origin).
+        setTimeout(function(){
+          [].forEach.call(panels[i].querySelectorAll("figure.example iframe"),function(f){
+            if(f._fit) return; try{ var b=f.contentDocument&&f.contentDocument.body; if(b&&b.getBoundingClientRect().height) f.style.height=Math.ceil(b.getBoundingClientRect().height)+"px"; }catch(_){}
+          });
+          window.dispatchEvent(new Event("resize")); // markers re-place
+        },0);
+      }
+      list.addEventListener("keydown",function(e){
+        var i=tabs.indexOf(document.activeElement); if(i<0) return;
+        var n={ArrowRight:i+1, ArrowLeft:i-1, Home:0, End:tabs.length-1}[e.key];
+        if(n==null) return; e.preventDefault(); select((n+tabs.length)%tabs.length, true);
+      });
+      this.insertBefore(list, this.firstChild);
+      select(0, false);
     }
   });
   // Code sample. Write the code HTML-escaped (&lt; &gt;); indentation is normalized.
@@ -138,6 +186,49 @@
       this.innerHTML='<figure class="code">'+(cap?'<figcaption>'+esc(cap)+'</figcaption>':'')+'<pre><code>'+esc(code)+'</code></pre></figure>';
     }
   });
+  // Places doc-marker dots just left of their element inside a same-origin example iframe.
+  // Uses setTimeout rather than rAF: the preview tab is often hidden, where rAF doesn't fire.
+  function markExample(fig, marks){
+    var ifr=fig.querySelector("iframe"), layer=document.createElement("div");
+    layer.className="example__marks";
+    marks.forEach(function(m){
+      var a=document.createElement("a"); a.className="example__mark"; a.href=m.href; a.hidden=true;
+      a.setAttribute("aria-label", m.n+". "+m.tip); a.dataset.tip=m.tip; a.textContent=m.n;
+      a.addEventListener("click",function(){
+        var t=m.href.charAt(0)==="#"&&document.getElementById(m.href.slice(1));
+        if(t){ t.classList.add("is-flash"); setTimeout(function(){t.classList.remove("is-flash");},1600); }
+      });
+      m.el=a; layer.appendChild(a);
+    });
+    fig.classList.add("example--marked"); fig.insertBefore(layer, fig.querySelector("figcaption"));
+    var pending=false;
+    function place(){
+      pending=false;
+      var doc; try{ doc=ifr.contentDocument; }catch(_){ return; }
+      if(!doc||!doc.body) return;
+      var fr=fig.getBoundingClientRect(), ir=ifr.getBoundingClientRect(), s=ir.width/(ifr.offsetWidth||ir.width||1);
+      layer.style.top=(ir.top-fr.top)+"px"; layer.style.height=ir.height+"px";
+      marks.forEach(function(m){
+        var t=m.sel&&doc.querySelector(m.sel), r=t&&t.getBoundingClientRect();
+        if(!r||(!r.width&&!r.height)){ m.el.hidden=true; return; }
+        m.el.hidden=false;
+        m.el.style.left=Math.max(2, (ir.left-fr.left)+r.left*s-22)+"px";
+        m.el.style.top=Math.max(0, r.top*s+Math.min(r.height*s,20)/2-9)+"px";
+      });
+    }
+    function schedule(){ if(!pending){ pending=true; setTimeout(place,30); } }
+    function hook(){
+      var doc; try{ doc=ifr.contentDocument; }catch(_){ return; }
+      if(!doc||!doc.body) return;
+      new MutationObserver(schedule).observe(doc.body,{subtree:true,childList:true,attributes:true});
+      var RO=ifr.contentWindow&&ifr.contentWindow.ResizeObserver;
+      if(RO) new RO(schedule).observe(doc.documentElement);
+      for(var i=1;i<=6;i++) setTimeout(place, i*400); // Angular renders after load
+    }
+    ifr.addEventListener("load", hook); if(ifr.contentDocument&&ifr.contentDocument.readyState==="complete") hook();
+    if(window.ResizeObserver) new ResizeObserver(schedule).observe(fig);
+    window.addEventListener("resize", schedule);
+  }
   window.addEventListener("message",function(e){
     var d=e.data; if(!d||d.type!=="ats-example-height")return;
     var frames=document.querySelectorAll("figure.example iframe");

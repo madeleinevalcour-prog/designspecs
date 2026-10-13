@@ -15,18 +15,57 @@
 
 <doc-section id="parts" label="Parts of a reply" desc="The parts of every reply, in order">
 <p>Every reply follows the same top-to-bottom order, so replies are predictable to scan and the answer always comes first (NN/g truncated pyramid; Gestalt continuity).</p>
-<doc-example src="amplify-chat-reply?example=user-turn" caption="1 · The user message" height="80"></doc-example>
-<doc-example src="amplify-chat-reply?example=table" caption="2–9 · The reply. The section heading (4) is optional, and the selection bar (6) appears once rows are selected" height="460"></doc-example>
+<doc-example src="amplify-chat-reply?example=user-turn" caption="1 · The user message" height="80">
+  <doc-marker n="1" for=".ats-amplify-chat-user-bubble" href="#part-1">User message: the recruiter’s request, right-aligned</doc-marker>
+</doc-example>
+<doc-tabs label="Reply examples">
+  <doc-tab label="Data table">
+    <doc-example src="amplify-chat-reply?example=table" caption="2–9 · A reply with a data table. Select a row to see the selection bar (6)" height="460" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6150-20828&amp;t=I49QSmymvKDhlgPl-1">
+      <doc-marker n="2" for=".ats-amplify-chat-chat-block__identity" href="#part-2">Identity: the Amplify icon and name</doc-marker>
+      <doc-marker n="3" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-text" href="#part-3">Answer: one sentence stating the result</doc-marker>
+      <doc-marker n="4" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-header" href="#part-4">Section heading: only when the reply has 3 or more parts</doc-marker>
+      <doc-marker n="5" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-data-table, .ats-amplify-chat-chat-block__body > ats-amplify-chat-chat-cards, .ats-amplify-chat-chat-block__body > .ats-amplify-chat-numbered-list" href="#part-5">Evidence: a data table, cards or a list</doc-marker>
+      <doc-marker n="6" for=".ats-amplify-chat-selection-bar" href="#part-6">Selection bar: the selected count and the bulk action</doc-marker>
+      <doc-marker n="7" for=".ats-amplify-chat-sources-row" href="#part-7">Sources row: the records the answer used</doc-marker>
+      <doc-marker n="8" for=".ats-amplify-chat-chat-block__follow-ups" href="#part-8">Follow-up chips: 2–3 next steps</doc-marker>
+      <doc-marker n="9" for=".ats-amplify-chat-chat-block__controls" href="#part-9">Message controls: copy, thumbs up and down, Save prompt</doc-marker>
+    </doc-example>
+  </doc-tab>
+  <doc-tab label="With a selection">
+    <doc-example src="amplify-chat-reply?example=table&amp;selected=2,3" caption="2–9 · Two rows selected: the selection bar (6) shows the count and the bulk action" height="520" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6150-20828&amp;t=I49QSmymvKDhlgPl-1">
+      <doc-marker n="2" for=".ats-amplify-chat-chat-block__identity" href="#part-2">Identity: the Amplify icon and name</doc-marker>
+      <doc-marker n="3" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-text" href="#part-3">Answer: one sentence stating the result</doc-marker>
+      <doc-marker n="4" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-header" href="#part-4">Section heading: only when the reply has 3 or more parts</doc-marker>
+      <doc-marker n="5" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-data-table, .ats-amplify-chat-chat-block__body > ats-amplify-chat-chat-cards, .ats-amplify-chat-chat-block__body > .ats-amplify-chat-numbered-list" href="#part-5">Evidence: a data table, cards or a list</doc-marker>
+      <doc-marker n="6" for=".ats-amplify-chat-selection-bar" href="#part-6">Selection bar: the selected count and the bulk action</doc-marker>
+      <doc-marker n="7" for=".ats-amplify-chat-sources-row" href="#part-7">Sources row: the records the answer used</doc-marker>
+      <doc-marker n="8" for=".ats-amplify-chat-chat-block__follow-ups" href="#part-8">Follow-up chips: 2–3 next steps</doc-marker>
+      <doc-marker n="9" for=".ats-amplify-chat-chat-block__controls" href="#part-9">Message controls: copy, thumbs up and down, Save prompt</doc-marker>
+    </doc-example>
+  </doc-tab>
+  <doc-tab label="With a section heading">
+    <doc-example src="amplify-chat-reply?example=prose" caption="2–9 · A reply with a section heading (4) over a numbered list" height="360" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6150-20828&amp;t=I49QSmymvKDhlgPl-1">
+      <doc-marker n="2" for=".ats-amplify-chat-chat-block__identity" href="#part-2">Identity: the Amplify icon and name</doc-marker>
+      <doc-marker n="3" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-text" href="#part-3">Answer: one sentence stating the result</doc-marker>
+      <doc-marker n="4" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-header" href="#part-4">Section heading: only when the reply has 3 or more parts</doc-marker>
+      <doc-marker n="5" for=".ats-amplify-chat-chat-block__body > ats-amplify-chat-data-table, .ats-amplify-chat-chat-block__body > ats-amplify-chat-chat-cards, .ats-amplify-chat-chat-block__body > .ats-amplify-chat-numbered-list" href="#part-5">Evidence: a data table, cards or a list</doc-marker>
+      <doc-marker n="6" for=".ats-amplify-chat-selection-bar" href="#part-6">Selection bar: the selected count and the bulk action</doc-marker>
+      <doc-marker n="7" for=".ats-amplify-chat-sources-row" href="#part-7">Sources row: the records the answer used</doc-marker>
+      <doc-marker n="8" for=".ats-amplify-chat-chat-block__follow-ups" href="#part-8">Follow-up chips: 2–3 next steps</doc-marker>
+      <doc-marker n="9" for=".ats-amplify-chat-chat-block__controls" href="#part-9">Message controls: copy, thumbs up and down, Save prompt</doc-marker>
+    </doc-example>
+  </doc-tab>
+</doc-tabs>
 <ol class="anno-key">
-<li><b>User message.</b> <span class="chip">amplify-chat/user-bubble</span>, right-aligned. <span class="tag">Always</span></li>
-<li><b>Identity.</b> Amplify icon and name. <span class="tag">Always</span></li>
-<li><b>Answer.</b> One sentence stating the result, with records as inline entity links. <span class="tag">Always</span></li>
-<li><b>Section heading.</b> Only when the reply has 3 or more parts to scan between. <span class="tag opt">Optional</span></li>
-<li><b>Evidence.</b> A <a href="../components/amplify-chat-data-table.html">data table</a>, <a href="../components/amplify-chat-cards.html">cards</a> or a <a href="../components/amplify-chat-text.html#numbered-list">list</a>. <span class="tag opt">Optional</span></li>
-<li><b>Selection bar.</b> Selected count and the bulk action. Only when rows or cards are selected. <span class="tag opt">Optional</span></li>
-<li><b>Sources row.</b> When the answer uses records. <span class="tag opt">Optional</span></li>
-<li><b>Follow-up chips.</b> 2–3 next steps instead of "Want me to…?" in prose. <span class="tag opt">Optional</span></li>
-<li><b>Message controls.</b> Copy, thumbs up, thumbs down, Save prompt. Thumbs and Save prompt are toggles: the bookmark is filled once the prompt is saved. <span class="tag">Always</span></li>
+<li id="part-1"><b>User message.</b> <span class="chip">amplify-chat/user-bubble</span>, right-aligned. <span class="tag">Always</span></li>
+<li id="part-2"><b>Identity.</b> Amplify icon and name. <span class="tag">Always</span></li>
+<li id="part-3"><b>Answer.</b> One sentence stating the result, with records as inline entity links. <span class="tag">Always</span></li>
+<li id="part-4"><b>Section heading.</b> Only when the reply has 3 or more parts to scan between. <span class="tag opt">Optional</span></li>
+<li id="part-5"><b>Evidence.</b> A <a href="../components/amplify-chat-data-table.html">data table</a>, <a href="../components/amplify-chat-cards.html">cards</a> or a <a href="../components/amplify-chat-text.html#numbered-list">list</a>. <span class="tag opt">Optional</span></li>
+<li id="part-6"><b>Selection bar.</b> Selected count and the bulk action. Only when rows or cards are selected. <span class="tag opt">Optional</span></li>
+<li id="part-7"><b>Sources row.</b> When the answer uses records. <span class="tag opt">Optional</span></li>
+<li id="part-8"><b>Follow-up chips.</b> 2–3 next steps instead of "Want me to…?" in prose. <span class="tag opt">Optional</span></li>
+<li id="part-9"><b>Message controls.</b> Copy, thumbs up, thumbs down, Save prompt. Thumbs and Save prompt are toggles: the bookmark is filled once the prompt is saved. <span class="tag">Always</span></li>
 </ol>
 <ul>
 <li>Also optional: a rationale line under the evidence (how it was ranked or filtered), and a <a href="../components/amplify-chat-blocks.html#draft-block">draft block</a> or <a href="../components/amplify-chat-blocks.html#literal-value-block">literal value block</a>.</li>
@@ -64,7 +103,7 @@
 <style>
   /* Page-scoped: the numbered parts key */
   ol.anno-key{margin:0 0 12px;padding-left:22px}
-  ol.anno-key li{margin:0 0 6px}
+  ol.anno-key li{margin:0 0 6px;padding:2px 4px;margin-left:-4px;scroll-margin-top:96px}
   .tag{font-size:11px;font-weight:600;color:var(--do-ink);background:var(--do-fill);border-radius:4px;padding:1px 6px;margin-left:4px}
   .tag.opt{color:var(--ink-2);background:var(--chip)}
 </style>

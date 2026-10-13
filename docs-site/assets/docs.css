@@ -165,6 +165,26 @@ figure.showcase .ph code{background:var(--chip);padding:1px 5px;border-radius:4p
 figure.showcase img{display:block;width:100%;height:auto;max-height:68vh;object-fit:contain;cursor:zoom-in}
 figure.showcase.example iframe{display:block;width:100%;border:0;background:transparent}
 figure.showcase.example figcaption{border-top:1px solid var(--hairline)}
+/* doc-example markers: numbered dots over a live example; tooltip on hover/focus */
+figure.showcase.example--marked{position:relative;overflow:visible}
+.example__marks{position:absolute;left:0;right:0;pointer-events:none}
+.example__mark{position:absolute;width:18px;height:18px;border-radius:999px;background:var(--link);color:#fff;font-size:11px;font-weight:600;line-height:18px;text-align:center;text-decoration:none;pointer-events:auto;box-shadow:0 0 0 2px #fff;z-index:1}
+.example__mark[hidden]{display:none}
+.example__mark:hover,.example__mark:focus-visible{text-decoration:none;z-index:2}
+.example__mark:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.example__mark::after{content:attr(data-tip);position:absolute;left:calc(100% + 8px);top:50%;transform:translateY(-50%);width:max-content;max-width:300px;padding:6px 10px;border-radius:6px;background:var(--ink);color:#fff;font-size:12px;font-weight:500;line-height:16px;text-align:left;white-space:normal;opacity:0;visibility:hidden;pointer-events:none;transition:opacity 120ms ease}
+.example__mark:hover::after,.example__mark:focus-visible::after{opacity:1;visibility:visible}
+.is-flash{background:var(--note-fill);border-radius:4px;transition:background 400ms ease}
+/* doc-tabs: segmented control above alternative views */
+doc-tabs{display:block;margin:8px 0 16px}
+.doc-tabs__list{display:inline-flex;flex-wrap:wrap;gap:4px;padding:3px;margin:0 0 12px;background:var(--chip);border-radius:8px}
+.doc-tabs__tab{font:inherit;font-size:13px;font-weight:500;line-height:18px;padding:6px 12px;border:0;border-radius:6px;background:transparent;color:var(--ink-2);cursor:pointer}
+.doc-tabs__tab:hover{color:var(--ink)}
+.doc-tabs__tab[aria-selected="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.doc-tabs__tab:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+doc-tab{display:block}
+doc-tab[hidden]{display:none}
+doc-tab:focus-visible{outline:2px solid var(--link);outline-offset:4px;border-radius:8px}
 figure.code{margin:0 0 16px;background:var(--chip);border-radius:8px;overflow:hidden}
 figure.code figcaption{padding:8px 14px 0}
 figure.code pre{margin:0;padding:12px 14px 14px;overflow-x:auto;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink)}

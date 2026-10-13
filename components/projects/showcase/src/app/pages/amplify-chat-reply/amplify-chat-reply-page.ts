@@ -54,6 +54,8 @@ const JOB_SOURCES: AmplifyChatSource[] = [
  *   followUps = false (hide the follow-up chips)
  *   actions = false (hide copy / thumbs / save prompt)
  *   action = a label for the optional right-aligned primary action, e.g. "Accept Updates"
+ *   selected = comma-separated record ids to pre-select in the table or cards example, e.g.
+ *              example=table&selected=2,3 (shows the selection bar; the recruiter can still change it)
  */
 @Component({
   imports: [
@@ -70,11 +72,15 @@ export class AmplifyChatReplyPage {
   readonly followUps = input<string>();
   readonly actions = input<string>();
   readonly action = input<string>();
+  readonly selected = input<string>();
 
-  protected readonly embed = computed(() => !!(this.example() || this.followUps() || this.actions() || this.action()));
+  protected readonly embed = computed(() => !!(this.example() || this.followUps() || this.actions() || this.action() || this.selected()));
   protected readonly embedExample = computed<ReplyExample>(() => this.example() ?? 'prose');
   protected readonly showFollowUps = computed(() => this.followUps() !== 'false');
   protected readonly showActions = computed(() => this.actions() !== 'false');
+  /** Pre-selected ids from `selected`; numeric ids match the sample records. */
+  protected readonly initialSelection = computed<(string | number)[]>(() =>
+    (this.selected() ?? '').split(',').map((x) => x.trim()).filter(Boolean).map((x) => (/^\d+$/.test(x) ? Number(x) : x)));
 
   /** Follow-ups per example; empty when `followUps=false`. */
   protected chips(list: string[]): string[] {
