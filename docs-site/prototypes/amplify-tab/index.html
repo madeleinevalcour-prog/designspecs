@@ -4491,6 +4491,11 @@ const S = {
   version: 'v1',        // v1 Scheduled prompts · v2 Agent-driven homepage
 };
 let uid = 100;
+// Programmatic focus only after the user has interacted. Otherwise an embedded copy (docs page)
+// pulls focus on load and the browser scrolls the parent page to the iframe.
+let userActed = false;
+['pointerdown', 'keydown'].forEach((t) => addEventListener(t, () => { userActed = true; }, { capture: true, once: true }));
+const focusEl = (el) => { if (el && userActed) el.focus({ preventScroll: true }); };
 
 const SCHEDULES = [
   { id: 's1', name: 'Open job order status', prompt: 'Status changes on my open job orders, plus new matching candidates since the last run',
@@ -4575,7 +4580,7 @@ function go(page, opts = {}) {
   if (page === 'chat') { S.chatId = opts.sched ? newSchedChat() : (opts.chatId ?? null); const sc = SCHEDULES.find((x) => x.chat === S.chatId); if (sc) sc.unread = 0; }
   S.editing = opts.edit ?? null; S.rowMenu = null; S.cardMenu = null;
   closeMenu(); render();
-  if (opts.focus) setTimeout(() => $(opts.focus)?.focus(), 0);
+  if (opts.focus) setTimeout(() => focusEl($(opts.focus)), 0);
 }
 
 // ===== Amplify menu (bowling alley dropdown) =====
@@ -4597,7 +4602,7 @@ function openMenu() {
   m.style.left = r.right - st.left + 8 + 'px';
   m.style.top = Math.min(r.top - st.top, st.height - m.offsetHeight - 8) + 'px';
   $('#ampNext').setAttribute('aria-expanded', 'true');
-  m.querySelector('.ats-menu-option')?.focus();
+  focusEl(m.querySelector('.ats-menu-option'));
 }
 function closeMenu() {
   if (!S.menuOpen) return;
