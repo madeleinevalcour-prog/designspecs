@@ -137,6 +137,24 @@
       }
     }
   });
+  // A standalone HTML prototype (not a showcase route), embedded at a fixed screen size and
+  // scaled to the column. src is a site path, e.g. /prototypes/amplify-tab/index.html?embed=1&page=scheduled
+  // <doc-prototype src="…" caption="…" viewport="1440" height="900" full="/prototypes/amplify-tab/index.html"></doc-prototype>
+  customElements.define("doc-prototype", class extends HTMLElement{
+    connectedCallback(){
+      if(this._done)return; this._done=true;
+      var src=attr(this,"src")||"", cap=attr(this,"caption")||"", vw=parseInt(attr(this,"viewport")||"1440",10),
+          h=parseInt(attr(this,"height")||"900",10), full=attr(this,"full")||src.split("?")[0];
+      this.innerHTML='<figure class="showcase example example--viewport"><div class="example__viewport">'+
+        '<iframe src="'+esc(src)+'" title="'+esc(cap||"Prototype")+'" loading="lazy" style="height:'+h+'px;width:'+vw+'px;transform-origin:0 0"></iframe></div>'+
+        '<figcaption>'+(cap?esc(cap)+' · ':'')+'<a href="'+esc(src)+'" target="_blank" rel="noopener">Open this view ↗</a> · '+
+        '<a href="'+esc(full)+'" target="_blank" rel="noopener">Open full prototype ↗</a></figcaption></figure>';
+      var box=this.querySelector(".example__viewport"), ifr=box.querySelector("iframe");
+      var fit=function(){ var s=box.clientWidth/vw; ifr.style.transform="scale("+s+")"; box.style.height=(h*s)+"px"; };
+      fit(); if(window.ResizeObserver) new ResizeObserver(fit).observe(box); window.addEventListener("resize",fit);
+    }
+  });
+
   // Tabs between alternative views (e.g. several live examples of one pattern).
   // <doc-tabs label="Reply examples"><doc-tab label="Data table">…</doc-tab><doc-tab label="…">…</doc-tab></doc-tabs>
   // Panels stay in place (only hidden), so their live examples don't reload.
@@ -252,7 +270,7 @@
   customElements.define("doc-page", class extends HTMLElement{
     connectedCallback(){
       if(this._done)return; this._done=true;
-      var eyebrow=attr(this,"eyebrow"), title=attr(this,"title"), meta=attr(this,"meta"), intro=attr(this,"intro");
+      var eyebrow=attr(this,"eyebrow"), title=attr(this,"title"), meta=attr(this,"meta"), intro=attr(this,"intro"), status=attr(this,"status");
       // "On this page" rail sits on the right of any page with more than one section.
       var hasRail=this.querySelectorAll("doc-section[id]").length>1;
       var kids=[]; while(this.firstChild) kids.push(this.removeChild(this.firstChild));
@@ -262,6 +280,7 @@
       if(eyebrow||title||meta||intro){
         var header=document.createElement("header"); header.className="page-head";
         header.innerHTML=(eyebrow?'<p class="eyebrow">'+esc(eyebrow)+'</p>':'')+
+          (status?'<p class="status-pill" data-status="'+esc(status.toLowerCase().replace(/\s+/g,"-"))+'">'+esc(status)+'</p>':'')+
           (title?'<h1>'+esc(title)+'</h1>':'')+(intro?'<p class="lead intro">'+esc(intro)+'</p>':'')+(meta?'<p class="meta">'+esc(meta)+'</p>':'');
         main.appendChild(header);
       }
@@ -477,11 +496,14 @@
     {label:"Design Decisions", href:"/docs/design-decisions.html",
      d:"Options compared and the decisions taken, with the reasoning behind them.", pages:[
       {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html", d:"Contrast options for the record tab bar, compared."},
-      {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html", d:"Current states, guidelines, analysis, proposed changes, and the new designs."}
+      {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html", d:"Current states, guidelines, analysis, proposed changes, and the new designs."},
+      {t:"Amplify tab: scheduled prompts, navigation and chats", href:"/docs/amplify-tab-design-decisions.html", s:"In progress", d:"Scheduled prompts (AMP-922), the new Amplify header and menu, the Chats panel, and an agent-driven homepage concept."}
     ]},
     {label:"Resources", href:"/docs/resources.html", d:"Reference documents and Figma source files for the design system."}
   ];
   var e=function(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");};
+  // Page status (SITE `s`, e.g. "In progress"): a small pill on the nav link and the card.
+  var pill=function(pg){ return pg.s?'<span class="status-pill status-pill--sm" data-status="'+e(pg.s.toLowerCase().replace(/\s+/g,"-"))+'">'+e(pg.s)+'</span>':''; };
   // Match on the whole path: the same file names live in several folders (index.html,
   // color.html, resources.html). Opened from disk (file://) the root differs, so there the
   // path is compared by its trailing segments instead.
@@ -497,7 +519,7 @@
   // Card grid: rows three cards wide; fewer than three cards stretch to fill the row.
   function cards(list){
     return '<div class="cards cards--'+Math.min(3,list.length)+'">'+list.map(function(pg){
-      return '<a class="doc card-link" href="'+e(pg.href)+'"><span class="title">'+e(pg.t)+'</span>'+
+      return '<a class="doc card-link" href="'+e(pg.href)+'"><span class="title">'+e(pg.t)+'</span>'+pill(pg)+
         (pg.d?'<span class="desc">'+e(pg.d)+'</span>':'')+'</a>';
     }).join("")+'</div>';
   }
@@ -535,7 +557,7 @@
 
   function link(pg, cls){
     var on=here(pg.href);
-    return '<a class="sn-link'+(cls?" "+cls:"")+(on?" is-here":"")+'" href="'+e(pg.href)+'"'+(on?' aria-current="page"':'')+'>'+e(pg.t)+'</a>';
+    return '<a class="sn-link'+(cls?" "+cls:"")+(on?" is-here":"")+'" href="'+e(pg.href)+'"'+(on?' aria-current="page"':'')+'>'+e(pg.t)+pill(pg)+'</a>';
   }
   function collapsible(key, open, headHtml, bodyHtml, cls){
     return '<div class="'+cls+(open?" is-open":"")+'" data-key="'+e(key)+'">'+headHtml.replace("{exp}",open?"true":"false")+

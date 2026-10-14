@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify tab: scheduled prompts, navigation and chats — design decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Design decision" status="In progress" title="Amplify tab: scheduled prompts, navigation and chats" intro="The first designs for scheduled prompts in Amplify chat, plus the updated Amplify header, the Amplify navigation in the bowling alley and the Chats panel. Also an early concept for an agent-driven homepage. A working reference, updated as decisions settle." meta="Amplify · October 2026 · Prototype V1 and V2" rail>
+
+  <doc-section id="overview" label="Overview" desc="What this covers and why">
+    <p class="lead">This work answers an immediate need: giving Andy designs for the first version of <a href="https://bullhorn.atlassian.net/browse/AMP-922" target="_blank" rel="noopener">scheduled prompts (AMP-922)</a> in Amplify chat. Shipping it well also meant fixing the surfaces it lives in.</p>
+    <doc-quote who="AMP-922, Schedule Prompts from Amplify Chat">“Allow users to schedule prompts to run at a specified time or on a cadence via Amplify Chat.”</doc-quote>
+
+    <h3>What’s included</h3>
+    <table class="tbl">
+      <thead><tr><th>Area</th><th>What changes</th><th>Version</th></tr></thead>
+      <tbody>
+        <tr><td><b>Scheduled prompts</b></td><td>Set up a prompt to run on a schedule. Each one gets its own chat, and every run is added to it.</td><td>V1</td></tr>
+        <tr><td><b>Amplify navigation</b></td><td>The Amplify tab in the bowling alley opens a menu to Amplify’s pages (chat, scheduled, meetings / transcribe, audits). The header tabs go away.</td><td>V1</td></tr>
+        <tr><td><b>Amplify header</b></td><td>One row: an “Amplify / page” breadcrumb, a Chats button and Close.</td><td>V1</td></tr>
+        <tr><td><b>Chats panel</b></td><td>Chat history rebuilt: scheduled chats first, with unread runs, then chats grouped by time.</td><td>V1</td></tr>
+        <tr><td><b>Agent-driven homepage</b></td><td>A concept for a feed-style Home, inspired by the Town AI agent. Tied to future Ace agent work.</td><td>V2 (later)</td></tr>
+      </tbody>
+    </table>
+
+    <doc-callout type="note" heading="Two versions.">The prototype has a V1 / V2 switch in its guide panel. <b>V1 · Scheduled prompts</b> is the scope for now: navigation, header, Chats panel and scheduled prompts, with the new chat page as the landing page. <b>V2 · Agent-driven homepage</b> adds Home as the starting point.</doc-callout>
+
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&nav=open" caption="V1 landing page: a new chat"></doc-prototype>
+    <p><a href="../prototypes/amplify-tab/index.html" target="_blank" rel="noopener">Open the full prototype ↗</a> (V1, with the guide panel) · <a href="../prototypes/amplify-tab/index.html#v2" target="_blank" rel="noopener">Open V2 ↗</a></p>
+    <doc-callout type="note" heading="Sample data.">All records, people and run results in the prototype are fictional, and the data resets when the page reloads. The embedded views on this page hide the prototype guide.</doc-callout>
+  </doc-section>
+
+  <doc-section id="navigation" label="Amplify navigation" desc="A menu in the bowling alley replaces the header tabs">
+    <h3>The problem</h3>
+    <ul>
+      <li>Amplify’s pages (Chat, Overview, Meetings, Audits) sit in tabs at the top of the Amplify page. The design review called top-tab navigation outdated and a poor fit for the new UI.</li>
+      <li>Adding Scheduled as another tab would make a crowded row longer, and the tabs take a second header row away from the content.</li>
+      <li>Overview is being removed.</li>
+    </ul>
+    <h3>What changes</h3>
+    <ul>
+      <li>The Amplify tab in the bowling alley becomes a split tab. Clicking <b>Amplify</b> opens the Amplify landing page (V1: a new chat; V2: Home). The chevron opens the <b>Amplify menu</b>.</li>
+      <li>The Amplify menu lists New Chat, Scheduled (with a count), then Meetings and Audits. V2 adds Home at the top. Overview is gone.</li>
+      <li>The menu opens 8px to the right of the tab, the same as Menu and Add, and supports arrow keys and Escape.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&nav=open&menu=1" caption="The Amplify menu, opened from the chevron on the Amplify tab"></doc-prototype>
+    <doc-callout type="note" heading="Why.">Same opener, chevron and dropdown card as Menu and Add, so it behaves as people already expect (H4, consistency and standards; Gestalt similarity). One place to move between Amplify pages instead of two (Rams #10, as little design as possible).</doc-callout>
+  </doc-section>
+
+  <doc-section id="header" label="Amplify header" desc="One row: breadcrumb, Chats, Close">
+    <h3>The problem</h3>
+    <ul>
+      <li>Today’s header stacks a title row and a tab row. With navigation moving to the bowling alley, the tab row has nothing left to do.</li>
+      <li>The header didn’t say which chat you were in, or link to chat history.</li>
+    </ul>
+    <h3>What changes</h3>
+    <ul>
+      <li>One row on the existing header surface: the Amplify icon container, then a breadcrumb, “Amplify / [page or chat title]”. “Amplify” links back to the landing page. On the landing page itself the header just reads “Amplify”.</li>
+      <li>On the right: a <b>Chats</b> button that opens and closes the Chats panel, then Close. New Chat moved into the Chats panel and the Amplify menu.</li>
+      <li>When scheduled chats have unread runs, the Chats button shows a count badge (“Chats, 2 new” for screen readers).</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chat=c4" caption="Header inside a chat, with the unread badge on Chats"></doc-prototype>
+    <doc-callout type="note" heading="Why.">The breadcrumb always shows where you are (H1, visibility of system status). The badge tells you something new arrived without keeping the panel open (Rams #5, unobtrusive). The header is one row instead of two (Rams #10).</doc-callout>
+  </doc-section>
+
+  <doc-section id="chats-panel" label="Chats panel" desc="Chat history, with scheduled chats first">
+    <h3>The problem</h3>
+    <ul>
+      <li>The design review called the current chat history sidebar unusable.</li>
+      <li>Scheduled prompts add chats that update on their own. People need to see which ones have new results without opening each.</li>
+    </ul>
+    <h3>What changes</h3>
+    <ul>
+      <li>A full-height right panel, the same height as the bowling alley and the docked chat, on the right slideout elevation (level 3 - right). It’s closed by default.</li>
+      <li>Top: title and collapse, a full-width <b>New Chat</b> button, and search.</li>
+      <li><b>Scheduled</b> section first: up to 3 scheduled chats, each showing its schedule, a status only when it isn’t active (Paused, Needs attention), and unread runs (blue dot + “1 new”). View All goes to the Scheduled page.</li>
+      <li>History below, grouped Today / Yesterday / Previous 7 days / Older. Each chat is a bordered item: title, a one-line description, the record it’s about, and when it was last active (“4 days ago”).</li>
+      <li>Under 1100px wide, the panel opens over the page instead of pushing it.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chats=1&chat=c4" caption="Chats panel open, with two scheduled chats unread"></doc-prototype>
+    <doc-callout type="note" heading="Why.">Each chat is a bordered item and every item has the same line order, so the list scans quickly (Gestalt common region and similarity). Unread uses a dot plus text, never color alone (Modern UI). Scheduled chats appear once, at the top, not again in history (Rams #10).</doc-callout>
+  </doc-section>
+
+  <doc-section id="scheduled-prompts" label="Scheduled prompts" desc="Set up, confirm, and a dedicated chat per prompt">
+    <h3>The user flow (agreed in design review)</h3>
+    <ol>
+      <li>The user schedules a prompt from the prompt library or writes a new one. Premade scheduled prompts will be in the prompt library.</li>
+      <li>A new, dedicated chat is created for that scheduled prompt.</li>
+      <li>Each time the prompt runs, its output is added to that same chat.</li>
+    </ol>
+
+    <h3>Setting one up</h3>
+    <ul>
+      <li>Three ways in: <b>New Scheduled Prompt</b> on the Scheduled page, the “Set up a scheduled prompt” starter card on a new chat, or typing “set up scheduled task” (or similar) in any chat input. Asking for something on a schedule (“every Friday at 4 PM…”) also works.</li>
+      <li>Setup uses the existing <b>clarifying questions</b> pattern as the wizard. Amplify asks “What should I run for you, and when?” and offers common scheduled prompts as options, plus Something else and Skip.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&setup=1" caption="Setup: Amplify asks, suggestions sit in clarifying questions above the input"></doc-prototype>
+
+    <h3>The schedule card</h3>
+    <ul>
+      <li>Amplify replies with one editable card: Name, Prompt, Repeats, a time window, and a fixed Results line. Nothing runs until the user clicks <b>Schedule</b>.</li>
+      <li><b>Time windows, not exact times.</b> The card offers “Between 8:00 and 9:00 AM”, and each run arrives inside that hour. This gives engineering a buffer and avoids support tickets over small delays (design review).</li>
+      <li><b>Results:</b> “Posted to this chat. You’ll get a Teams notification with a link back here.”</li>
+      <li>A fixed access line: runs with your access, data stays in Bullhorn.</li>
+      <li>The same card is used to edit a schedule on the Scheduled page.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&ask=Every%20morning%2C%20send%20me%20a%20status%20update%20on%20my%20open%20job%20orders" caption="The schedule card, after asking for something every morning"></doc-prototype>
+
+    <h3>Confirmation and the dedicated chat</h3>
+    <ul>
+      <li>Saving replaces the form with a <b>Scheduled</b> confirmation card: name, schedule and next run, with Edit and View in Scheduled.</li>
+      <li>The chat becomes that prompt’s dedicated chat and moves into the Scheduled section of the Chats panel.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chat=c1&scroll=top" caption="A scheduled prompt’s chat: the original request and the confirmation card"></doc-prototype>
+
+    <doc-callout type="note" heading="Why.">One card for create and edit (H4). Nothing runs without the user scheduling it (H5, error prevention; AI governors: preview before committing). Saying “between 8 and 9” promises only what engineering can deliver (H2, match the real world; Rams #6, honest). Clarifying questions is an existing pattern, so setup needs no new wizard component.</doc-callout>
+  </doc-section>
+
+  <doc-section id="run-output" label="Run output" desc="Output cards, three formats, schedule controls and forking">
+    <h3>The problem</h3>
+    <ul>
+      <li>The design review flagged that the output format for scheduled prompts needs work.</li>
+      <li>Every run is added to the same chat, and very long chat histories can cause performance problems (slow loading, browser freezes).</li>
+      <li>People want to act on a result (draft outreach, compare matches) without filling the scheduled chat with tangents.</li>
+    </ul>
+    <h3>What changes</h3>
+    <ul>
+      <li>Each run is an Amplify reply holding one <b>run card</b>. The header shows when the run arrived (e.g. “Today, 8:12 AM”) and a “Scheduled run” label. Every card in the chat is the same width.</li>
+      <li><b>Schedule controls in the card header:</b> a kebab menu with Edit schedule and Pause schedule (or Resume schedule when paused). The output area only holds results.</li>
+      <li><b>Continue in New Chat (fork):</b> from a whole run, or from one record. It opens a new chat titled “Follow-up: [record]”, with the run and the record as context chips, a short summary and suggested follow-ups. The scheduled chat stays short.</li>
+      <li>A run with nothing to report is one line. A run that can’t complete says why and offers recovery (Review Scope, Resume Without Them).</li>
+    </ul>
+
+    <h3>Three output formats to compare</h3>
+    <p>All three are in the prototype; switch between them in the guide panel.</p>
+    <doc-tabs label="Run output formats">
+      <doc-tab label="A · Expandable">
+        <p><b>Expandable records.</b> A summary line, then one bordered row per changed record. Rows expand to show detail and actions. Good for a handful of records that each need action.</p>
+        <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chat=c1&fmt=A&expand=1" caption="Format A, first record expanded"></doc-prototype>
+      </doc-tab>
+      <doc-tab label="B · Digest">
+        <p><b>Digest.</b> Headline numbers in rounded containers, then one left-aligned line per record with a short description and a fork icon. Fastest to scan.</p>
+        <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chat=c1&fmt=B" caption="Format B"></doc-prototype>
+      </doc-tab>
+      <doc-tab label="C · Table">
+        <p><b>Compact table.</b> Record, change, and Continue per row. The densest, and best when there are many records.</p>
+        <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chat=c1&fmt=C" caption="Format C"></doc-prototype>
+      </doc-tab>
+      <doc-tab label="Card menu">
+        <p>The kebab menu in a run card header, holding the schedule controls.</p>
+        <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chat=c1&cardmenu=r2" caption="Edit schedule and Pause schedule in the card header"></doc-prototype>
+      </doc-tab>
+      <doc-tab label="Needs attention">
+        <p>A run that paused itself because access to 2 job orders changed. The cause and the recovery actions are on the card.</p>
+        <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chat=c3" caption="A scheduled prompt that needs attention"></doc-prototype>
+      </doc-tab>
+    </doc-tabs>
+
+    <doc-callout type="note" heading="Why.">Schedule controls sit on the card they act on (Gestalt proximity), keeping results clear (H8). Forking keeps tangents out of the scheduled chat, which helps with the history-length concern (Rams #9) and lets people explore freely (H3, user control). Quiet runs stay quiet (Rams #9, attention-friendly), and problems are named, not hidden (H9; Rams #6).</doc-callout>
+    <doc-callout type="note" heading="Not designed here.">History compression (summarizing or archiving older messages) is engineering work. A user-run Clear History, with a data-loss warning, is descoped for now and kept in mind if history length becomes a problem.</doc-callout>
+  </doc-section>
+
+  <doc-section id="scheduled-page" label="Scheduled page" desc="Manage every scheduled prompt in one place">
+    <ul>
+      <li>Reached from the Amplify menu or View All in the Chats panel.</li>
+      <li>A table: prompt (name + prompt text), schedule (window + next run), status chip (Active / Paused / Needs attention, each with an icon), and actions (Pause or Resume, and a More menu with Edit, Run now and Delete).</li>
+      <li>Clicking a name opens that prompt’s chat. Edit opens the same schedule card inline.</li>
+      <li>Pause, Resume and Delete show an Undo toast instead of a confirmation dialog. Delete keeps the chat history.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&page=scheduled" caption="Scheduled page"></doc-prototype>
+    <doc-callout type="note" heading="Why.">Status is never shown by color alone (Modern UI). Undo instead of confirmation keeps routine actions fast while still recoverable (H3; friction matched to risk).</doc-callout>
+  </doc-section>
+
+  <doc-section id="homepage" label="Agent-driven homepage (V2)" desc="An early concept, for later">
+    <doc-callout type="note" heading="Later, not V1.">The design review agreed that navigation and the Chats panel are V1, and the homepage comes later. It relates to future Ace agent work: the Ace tab is meant to become the central homepage for agent activity.</doc-callout>
+    <h3>The concept</h3>
+    <ul>
+      <li>Inspired by the Town AI agent: a left-aligned greeting with the day, then one sentence on what’s ahead (“You have 3 meetings today and 4 things to act on”).</li>
+      <li>Left: a compact ask box, a <b>To do</b> list built from scheduled runs (checkbox, source line, one action each), and <b>Suggested</b> prompts.</li>
+      <li>Right: <b>Need to know</b> (short updates with one link each) and <b>Today</b> (the day’s meetings).</li>
+      <li>A Customize button is shown but not built.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v2" caption="V2 Home"></doc-prototype>
+    <doc-callout type="note" heading="Why.">It answers “what’s on my plate” first (H1), and each item has one clear next step (Rams #2, useful).</doc-callout>
+  </doc-section>
+
+  <doc-section id="existing" label="Existing patterns and components" desc="What the prototype reuses as-is">
+    <p class="lead">The prototype is built from the ats-ui component CSS, the token files and the Novo icon set. These are used without changes.</p>
+    <table class="tbl">
+      <thead><tr><th>Component or pattern</th><th>Where it’s used</th></tr></thead>
+      <tbody>
+        <tr><td><a href="/docs/components/bowling-alley.html">Bowling Alley</a></td><td>Main navigation, collapsed / hover / open states, entity tabs, footer.</td></tr>
+        <tr><td><a href="/docs/components/menu.html">Menu</a> (dropdown card, Menu Option)</td><td>Amplify menu, run card kebab menu, More menu on the Scheduled page.</td></tr>
+        <tr><td><a href="/docs/components/button.html">Button</a></td><td>Secondary (Chats, New Chat, starters), dialogue (inline actions), icon, primary (Schedule), primary amplify (Send).</td></tr>
+        <tr><td><a href="/docs/components/icon-button-no-container.html">Icon Button - no container</a></td><td>Reply controls, the digest fork icon, clarifying questions dismiss.</td></tr>
+        <tr><td><a href="/docs/components/icon-container.html">Icon Container</a></td><td>Amplify mark in the header, entity tabs, starter cards, suggestions on Home.</td></tr>
+        <tr><td><a href="/docs/components/icon.html">Icon</a></td><td>All glyphs, from the Novo icon set.</td></tr>
+        <tr><td><a href="/docs/components/novo-chip.html">Novo Chip</a></td><td>Status chips (Active / Paused / Needs attention), “1 new”, context chips.</td></tr>
+        <tr><td><a href="/docs/components/search-input.html">Search Input</a></td><td>Search in the Chats panel (pill).</td></tr>
+        <tr><td><a href="/docs/components/card.html">Card</a></td><td>Surface for the schedule, confirmation and run cards, the Scheduled table and Home cards. The run card footer uses the card’s base footer button.</td></tr>
+        <tr><td><a href="/docs/components/checkbox.html">Checkbox</a></td><td>To do list on Home (V2).</td></tr>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-full-page.html">Full-page chat</a></td><td>Conversation layout and the new chat starting point (greeting + input).</td></tr>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-input.html">Chat input</a></td><td>Input, button row, context container (fork chats).</td></tr>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-reply.html">Reply</a></td><td>Every Amplify reply, the thinking state, follow-ups and controls.</td></tr>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-user-messages.html">User messages</a></td><td>The recruiter’s messages.</td></tr>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-text.html">Text</a></td><td>Paragraphs and the status line in replies.</td></tr>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-clarifying-questions.html">Clarifying questions</a></td><td>The scheduling wizard: options, number keys, Something else, Skip.</td></tr>
+        <tr><td>Tooltip (bowling alley)</td><td>Surface colors reused for the toast.</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-build" label="Components to create or update" desc="New pieces and changes to existing ones">
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Create / update</th><th>What’s needed</th></tr></thead>
+      <tbody>
+        <tr><td><b>Bowling Alley: Amplify tab</b></td><td>Update</td><td>Split tab: the tab opens the Amplify landing page, a chevron opens the Amplify menu. Hidden when collapsed, shown on hover / open.</td></tr>
+        <tr><td><b>Menu: Amplify variant</b></td><td>Update</td><td>New dropdown-card variant: Home (V2), New Chat, Scheduled with count, separator, Meetings, Audits. Current page marked.</td></tr>
+        <tr><td><b>Full-page chat header</b></td><td>Update</td><td>Remove the tabs row. Title row becomes the breadcrumb plus Chats button and Close.</td></tr>
+        <tr><td><b>Breadcrumb</b></td><td>Create</td><td>No breadcrumb in ats-ui today. Two levels: a link root (“Amplify”) and the current page title, title/sm.</td></tr>
+        <tr><td><b>Count badge</b></td><td>Create</td><td>Small count bubble on a button (Chats). The <a href="/docs/components/workflow-stepper.html">Workflow Stepper</a> already has a count badge on its current step; check whether it can be shared. Needs a token decision for its fill.</td></tr>
+        <tr><td><b>Chats panel</b></td><td>Create</td><td>Full-height right panel (level 3 - right): header, New Chat, search, Scheduled section, time groups.</td></tr>
+        <tr><td><b>Chat list item</b></td><td>Create</td><td>Bordered item: title, description, context record, last active. Scheduled variant: schedule, status, unread dot + count. Current and hover states.</td></tr>
+        <tr><td><b>New chat starter card</b></td><td>Create</td><td>Icon container, title and description; sends on click. Four in a 2 × 2 grid.</td></tr>
+        <tr><td><b>Schedule card</b></td><td>Create</td><td>Create / edit form in a card: Name, Prompt, Repeats, time window, Results, access line, Cancel / Schedule. Should use the ats-ui Dropdown in place of the prototype’s native selects.</td></tr>
+        <tr><td><b>Schedule confirmation card</b></td><td>Create</td><td>Success header, name, schedule, next run, Edit and View in Scheduled.</td></tr>
+        <tr><td><b>Scheduled run card</b></td><td>Create</td><td>Header (arrival time, label, kebab), summary, body in the chosen format, footer. Includes the expandable record row (A), digest metric and line (B) or compact table (C).</td></tr>
+        <tr><td><b>Continue in New Chat (fork)</b></td><td>Create (pattern)</td><td>Action on a run or a record. New chat seeded with context chips and suggested follow-ups. Uses the existing context container.</td></tr>
+        <tr><td><b>Scheduled prompts table</b></td><td>Create</td><td>Prompt, schedule, status, actions; row More menu; needs-attention row. Could build on Data Table.</td></tr>
+        <tr><td><b>Toast with Undo</b></td><td>Create</td><td>Not in ats-ui today. Bottom-center, announces status, one action.</td></tr>
+        <tr><td><b>Text field</b></td><td>Confirm</td><td>The prototype styles native inputs with field tokens. Confirm which ats-ui field component the schedule card should use.</td></tr>
+        <tr><td><b>Prompt library</b></td><td>Update</td><td>Redesign for the new UI and add a Scheduled prompts section with premade prompts (design review action). Not in the prototype yet.</td></tr>
+        <tr><td><b>Home widgets (V2)</b></td><td>Create (later)</td><td>To do list, Need to know card, Today agenda card, Suggested list.</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="open-questions" label="Open questions" desc="To settle before or during build">
+    <h3>Scope</h3>
+    <ul>
+      <li><b>One-time runs.</b> AMP-922 says a prompt can run “one time or on a cadence”. The prototype only covers cadences. How should a one-time run be set up and shown?</li>
+      <li><b>Saved and premade prompts.</b> Which premade scheduled prompts ship in the prompt library, and does scheduling a saved prompt change it?</li>
+    </ul>
+    <h3>Teams</h3>
+    <ul>
+      <li><b>Configurable or always on?</b> AMP-922 marks Teams delivery as a question (“if their integration is live”). The prototype shows it as a fixed line.</li>
+      <li><b>One stream vs channels.</b> All outputs go into one Amplify Teams chat, which may get noisy with many scheduled prompts. Andy is checking whether outputs can go to different channels.</li>
+      <li><b>Read state.</b> Does opening a run from a Teams link mark it read in Amplify?</li>
+    </ul>
+    <h3>Scheduling</h3>
+    <ul>
+      <li>Which time windows are offered, and is one hour the right width?</li>
+      <li>Which time zone applies (user profile, browser, or company)?</li>
+      <li>Is there a limit on scheduled prompts per user, and does a run count against any usage allowance?</li>
+      <li>Which failures can engineering detect and report (e.g. lost access to records), so the Needs attention states are accurate?</li>
+    </ul>
+    <h3>Output and history</h3>
+    <ul>
+      <li>Which output format (A, B or C), or should it depend on the prompt?</li>
+      <li>At what history length do performance problems start, and what does compression look like to the user?</li>
+    </ul>
+    <h3>Navigation and naming</h3>
+    <ul>
+      <li>“Scheduled prompt” vs “scheduled task”: which term do recruiters use? The prototype uses “scheduled prompt” in the UI and accepts both when typed.</li>
+      <li>How many scheduled chats should the Chats panel show before View All? The prototype shows 3; this is a guess to test.</li>
+      <li>Meetings (transcribe) and Audits move into the Amplify menu unchanged. Confirm nothing else on those pages depends on the old tabs.</li>
+    </ul>
+    <h3>V2 homepage</h3>
+    <ul>
+      <li>Is Home configurable (Customize), and which widgets can be added?</li>
+      <li>Where do To do and Need to know items come from beyond scheduled runs (Ace agent activity)?</li>
+    </ul>
+  </doc-section>
+
+
+</doc-page>
+</body>
+</html>
