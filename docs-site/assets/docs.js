@@ -262,7 +262,10 @@
     connectedCallback(){
       if(this._done)return; this._done=true;
       var label=attr(this,"label");
-      if(label){ var h=document.createElement("h2"); h.textContent=label; this.insertBefore(h,this.firstChild); }
+      if(label){ var h=document.createElement("h2"); h.textContent=label;
+        // optional badge="…": a small status pill after the heading (yellow; badge-tone="success" = green)
+        var badge=attr(this,"badge"); if(badge){ var b=document.createElement("span"); b.className="status-pill status-pill--sm"+(attr(this,"badge-tone")==="success"?" status-pill--success":""); b.textContent=badge; h.appendChild(b); }
+        this.insertBefore(h,this.firstChild); }
     }
   });
 
@@ -497,7 +500,8 @@
      d:"Options compared and the decisions taken, with the reasoning behind them.", pages:[
       {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html", d:"Contrast options for the record tab bar, compared."},
       {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html", d:"Current states, guidelines, analysis, proposed changes, and the new designs."},
-      {t:"Amplify tab: scheduled prompts, navigation and chats", href:"/docs/amplify-tab-design-decisions.html", s:"In progress", d:"Scheduled prompts (AMP-922), the new Amplify header and menu, the Chats panel, and an agent-driven homepage concept."}
+      {t:"Amplify tab: scheduled prompts, navigation and chats", href:"/docs/amplify-tab-design-decisions.html", s:"In progress", d:"Scheduled prompts (AMP-922), the new Amplify header and menu, the Chats panel, and an agent-driven homepage concept."},
+      {t:"Amplify chat and the candidate preview", href:"/docs/amplify-preview-design-decisions.html", s:"In progress", d:"The preview slideout covers the docked chat. Three options compared; Option 2 (a popover next to the row) is recommended."}
     ]},
     {label:"Resources", href:"/docs/resources.html", d:"Reference documents and Figma source files for the design system."}
   ];

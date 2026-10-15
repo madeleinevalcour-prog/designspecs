@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify chat and the candidate preview — design decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Design decision" status="In progress" title="Amplify chat and the candidate preview" intro="The candidate preview slideout covers the docked Amplify chat. Three ways to fix it: a least-effort fix that moves the chat, and two options that keep the chat in place." meta="Amplify · October 2026 · Prototype" rail>
+
+  <doc-section id="overview" label="Overview" desc="The problem and the options">
+    <h3>The problem</h3>
+    <ul>
+      <li>The candidate preview slideout is an overlay. The docked Amplify chat is part of the page layout. When a preview opens, the slideout sits on top of the chat and the chat can’t be used.</li>
+      <li>This blocks the core Conversational Search workflow: search with Amplify, then preview the results it returns, while still talking to Amplify.</li>
+      <li>Adding Amplify to a workflow shouldn’t take away something the recruiter could already do. Here, opening a preview takes away the chat.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-preview/index.html?embed=1&opt=current&preview=0" caption="Today: the slideout covers the docked chat"></doc-prototype>
+
+    <h3>The scenario</h3>
+    <ol>
+      <li>A recruiter is on the candidate list with Amplify docked. They asked Amplify to find project managers near Boston, and Amplify applied the filters.</li>
+      <li>They click the binoculars on a row to look at a candidate in more detail.</li>
+      <li>The candidate preview opens.</li>
+    </ol>
+
+    <h3>Options compared</h3>
+    <table class="tbl">
+      <thead><tr><th>Option</th><th>What happens when a preview opens</th><th>Chat stays usable</th><th>Chat stays in place</th><th>List stays visible</th><th>New work</th></tr></thead>
+      <tbody>
+        <tr><td><b>1 · Chat → pop over</b> (interim, Milestone 1)</td><td>The docked chat turns into a pop over, placed to the left of the slideout. Closing the preview docks it again.</td><td>Yes</td><td>No, it moves</td><td>Partly</td><td>Low: both states exist</td></tr>
+        <tr><td><b>2 · Popover</b> (recommended)</td><td>The preview opens as a popover next to the row. The chat stays where it is.</td><td>Yes</td><td>Yes</td><td>Partly</td><td>Medium: custom popover work</td></tr>
+        <tr><td><b>3 · Inline preview pane</b></td><td>The preview opens as a pane between the list and the chat. The list narrows.</td><td>Yes</td><td>Yes</td><td>Yes, narrower</td><td>Medium: new pane layout</td></tr>
+      </tbody>
+    </table>
+    <p><a href="../prototypes/amplify-preview/index.html" target="_blank" rel="noopener">Open the full prototype ↗</a>. Use the guide panel to switch between options. Data is fictional and resets on reload.</p>
+  </doc-section>
+
+  <doc-section id="option-1" label="Option 1 · Chat → pop over" badge="Least Effort" desc="Interim fix for Milestone 1">
+    <h3>What changes</h3>
+    <ul>
+      <li>Clicking the binoculars opens the existing slideout, unchanged.</li>
+      <li>If the chat is docked, it turns into the existing pop over (docked-chat <code>state=pop-over</code>) at the same time. It is placed to the left of the slideout, over the list, so the two don’t overlap.</li>
+      <li>A status line under the chat header says why it moved: “Moved to a pop over while the preview is open”.</li>
+      <li>Closing the preview docks the chat again. If the recruiter opened the pop over themselves, it stays a pop over.</li>
+      <li>Clicking Dock to side while the preview is open closes the preview, so the slideout can’t cover the chat again.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-preview/index.html?embed=1&opt=1&preview=0" caption="Option 1: the chat becomes a pop over to the left of the slideout"></doc-prototype>
+    <h3>Why for Milestone 1</h3>
+    <ul>
+      <li>No new components. The slideout and both chat states already exist, so the recruiter sees nothing unfamiliar and there is little to build.</li>
+      <li>Unblocks the workflow before the end-of-October deadline.</li>
+    </ul>
+    <h3>Trade-offs</h3>
+    <ul>
+      <li>The chat moves and changes size without the recruiter asking. The conversation they were reading jumps to a new place, which takes control away from them.</li>
+      <li>The list reflows to full width behind the overlays when the chat undocks, then reflows back when the preview closes (everything moves at once, so nothing reads as stable).</li>
+      <li>At 1440px with the bowling alley open, the pop over is about 474px wide. Below roughly 1340px it no longer fits beside the slideout and overlaps it (uncertain: exact breakpoint depends on the final slideout width).</li>
+      <li>The status line explains the move, which helps, but it’s a fix for a surprise the layout creates.</li>
+    </ul>
+  </doc-section>
+  <doc-section id="option-2" label="Option 2 · Popover" badge="Recommended" badge-tone="success" desc="The preview opens next to the row; the chat stays in place">
+    <h3>What changes</h3>
+    <ul>
+      <li>Clicking the binoculars opens the candidate preview as a popover beside the row, using the existing Popover (position=right). Its arrow points at the row’s preview button, which stays in its active state while the popover is open.</li>
+      <li>The content is today’s slideout content, up to 660px wide. The height fits inside the screen.</li>
+      <li>There is no scrim. The docked chat stays where it is and stays fully usable.</li>
+      <li>Clicking another row’s binoculars moves the popover to that row. Previous / Next in the header move through the results.</li>
+      <li>Esc, Close, or a click outside the popover closes it. Clicks in the chat don’t close it.</li>
+      <li>If the list scrolls, the popover follows its row, and hides while the row is out of view.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-preview/index.html?embed=1&opt=2&preview=2" caption="Option 2: the preview as a popover next to the row, docked chat untouched"></doc-prototype>
+    <h3>Why</h3>
+    <ul>
+      <li>The chat never moves or changes size, so the recruiter stays in control of their workspace.</li>
+      <li>The popover opens next to the row it belongs to and its arrow points at that row, so it’s clear which candidate is showing.</li>
+      <li>It reuses the slideout content, so the preview looks the same as today.</li>
+      <li>Without a scrim, the rest of the page doesn’t look blocked, which matches the fact that the chat stays live.</li>
+    </ul>
+    <h3>Trade-offs</h3>
+    <ul>
+      <li>It covers part of the list: the columns to the right of the preview button. Rows above and below stay partly visible.</li>
+      <li>It will require custom component work: the Popover has to hold the slideout content at up to 660px, stay anchored to its row as the list scrolls, and stay open while the recruiter uses the chat.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="option-3" label="Option 3 · Inline preview pane" desc="The preview opens between the list and the chat">
+    <h3>What changes</h3>
+    <ul>
+      <li>The preview opens as a pane between the list and the docked chat, to the left of the chat. The list narrows to make room.</li>
+      <li>The pane is 440px by default and can be resized from 360px up to 660px (today’s slideout width), by dragging or with the arrow keys on its edge.</li>
+      <li>If the list would drop below 480px, the bowling alley collapses (the same behavior the ATS uses on small screens). It opens again when the preview closes.</li>
+      <li>The previewed row is highlighted. Clicking another row’s binoculars swaps the pane content. Previous / Next in the pane header move through the results (“1 of 14”).</li>
+      <li>Open full record (expand) goes to the candidate record page. Esc or Close closes the pane.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-preview/index.html?embed=1&opt=3&preview=0" caption="Option 3: list, preview pane and docked chat side by side"></doc-prototype>
+    <h3>Why</h3>
+    <ul>
+      <li>List, preview and chat are visible together, which matches the task: compare results while asking follow-ups, without having to remember what was in a closed preview.</li>
+      <li>Three fixed columns, each with its own surface, read as three separate tools that work together, in a left-to-right order: results → detail → assistant.</li>
+      <li>The row highlight ties the pane to its row. Previous / Next keeps the recruiter in the flow.</li>
+      <li>Nothing moves without the recruiter asking, except the bowling alley collapse at narrow widths.</li>
+          <li>It is likely easier to implement than Option 2.</li>
+    </ul>
+    <h3>Trade-offs</h3>
+    <ul>
+      <li>The list loses columns at 1440px. Name and Job Title stay visible; the rest scroll horizontally.</li>
+      <li>The pane is narrower than today’s 660px slideout, so the preview content has to work at 360–520px. The prototype stacks label and value in the details card and fits the five workflow tiles in one row.</li>
+      <li>Needs a new pane container and a responsive version of the slideout content.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="recommendation" label="Recommendation" desc="Option 2">
+    <ul>
+      <li><b>Option 2 is recommended.</b> The chat stays in place and usable, the preview opens next to the row it belongs to, and it reuses the existing Popover and slideout content.</li>
+      <li><b>Option 1</b> is the least-effort option if Milestone 1 can’t take any new work. It moves the chat without the recruiter asking.</li>
+      <li><b>Option 3</b> is the only option where the list, the preview and the chat are all visible at once. It needs a new pane and a narrow version of the preview content.</li>
+    </ul>
+    <doc-callout type="note" heading="Decision owner.">This is a design recommendation. The final call, and the Milestone 1 scope, sit with the team.</doc-callout>
+  </doc-section>
+
+  <doc-section id="existing" label="Existing patterns and components" desc="What the prototype reuses">
+    <table class="tbl">
+      <thead><tr><th>Component or pattern</th><th>Where it’s used</th></tr></thead>
+      <tbody>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-docked.html">Docked chat</a> (docked and pop over)</td><td>The chat in every option. Option 1 switches its state.</td></tr>
+        <tr><td><a href="/docs/amplify/components/amplify-chat-reply.html">Reply</a>, <a href="/docs/amplify/components/amplify-chat-user-messages.html">User messages</a>, <a href="/docs/amplify/components/amplify-chat-sources.html">Sources</a>, <a href="/docs/amplify/components/amplify-chat-input.html">Chat input</a></td><td>The Conversational Search turn and the input with its context row.</td></tr>
+        <tr><td><a href="/docs/components/bowling-alley.html">Bowling Alley</a></td><td>Main navigation; collapses in Option 3 at narrow widths.</td></tr>
+        <tr><td><a href="/docs/components/data-table.html">Data Table</a>, <a href="/docs/components/checkbox.html">Checkbox</a></td><td>The candidate list, with the preview (binoculars) column.</td></tr>
+        <tr><td><a href="/docs/components/button.html">Button</a>, <a href="/docs/components/icon-container.html">Icon Container</a>, <a href="/docs/components/novo-chip.html">Novo Chip</a>, <a href="/docs/components/card.html">Card</a></td><td>List header, filters, preview header and the Details card.</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="Built in the prototype layer.">No ats-ui component yet for the slideout, its tabs, the workflow tiles, the details list or novo-tiles. The prototype styles these with tokens to match Figma (Slideout 756:1311, Candidate List 1766:66016).</doc-callout>
+  </doc-section>
+
+  <doc-section id="to-build" label="Components to create or update" desc="Per option">
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Option</th><th>What’s needed</th></tr></thead>
+      <tbody>
+        <tr><td><b>Docked chat</b></td><td>1</td><td>A way for the page to switch it to pop over and back, and to place the pop over to the left of a slideout. A status line for “Moved to a pop over…”.</td></tr>
+        <tr><td><b>Preview pane</b></td><td>3</td><td>New. Inline, resizable pane between page content and the docked chat. Default 440px, min 360px, max 660px.</td></tr>
+        <tr><td><b>Popover</b></td><td>2</td><td>Use the existing Popover (position=right) to hold the slideout content: max 660px wide, anchored to the row’s preview button, no scrim, follows the row on scroll.</td></tr>
+        <tr><td><b>Slideout content</b></td><td>2, 3</td><td>Header with Previous / Next. Option 3 also adds the position (“1 of 14”), Open full record and a narrow layout.</td></tr>
+        <tr><td><b>Data table row</b></td><td>2, 3</td><td>Option 2: the preview button’s active state while its popover is open. Option 3: a “previewing” row state (selected background plus a left focus bar), not color alone.</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="open-questions" label="Open questions" desc="To settle before build">
+    <ul>
+      <li><b>Future candidate list layouts.</b> This exploration doesn’t take into account future plans for a split pane and a card view on the candidate list.</li>
+      <li><b>Chat context.</b> Should the open preview become chat context (“Tell me more about Tyler”)? Not designed here.</li>
+      <li><b>Other previews.</b> Jobs, contacts and companies use the same slideout. Do they get the same fix?</li>
+      <li><b>Option 3 column priority.</b> Which list columns matter most when the list is narrow?</li>
+    </ul>
+  </doc-section>
+</doc-page>
+</body>
+</html>
