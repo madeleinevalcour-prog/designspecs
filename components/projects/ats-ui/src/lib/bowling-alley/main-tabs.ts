@@ -54,10 +54,10 @@ export class MainTabs {
   private readonly find = viewChild<SearchInput>('find');
 
   constructor() {
-    // focus the search as soon as Find turns into it
+    // focus the search as soon as Find turns into it (when the user opened it)
     effect(() => {
       const f = this.find();
-      if (f) setTimeout(() => f.focus());
+      if (f && this.ctrl.findFocus) setTimeout(() => f.focus());
     });
   }
 }

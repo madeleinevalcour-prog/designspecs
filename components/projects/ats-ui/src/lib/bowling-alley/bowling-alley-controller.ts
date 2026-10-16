@@ -76,6 +76,9 @@ export class BowlingAlleyController {
   readonly nav = signal<BowlingAlleyNavState>('collapsed');
   /** Fast Find mode is on (Find tab shown as the search input, alley widened). */
   readonly findOpen = signal(false);
+  /** The user opened Fast Find (not the shell's `findOpen` input), so its search takes focus.
+   *  Focusing on load would make an embedded copy (docs page) scroll its parent page. */
+  findFocus = false;
   /** Text typed in the Fast Find search. */
   readonly findQuery = signal('');
   readonly tabs = signal<BowlingAlleyEntityTab[]>(BOWLING_ALLEY_DEFAULT_TABS.map((t) => ({ ...t })));
@@ -246,6 +249,7 @@ export class BowlingAlleyController {
     }
     this.closeOverlay();
     this.findQuery.set('');
+    this.findFocus = true;
     this.findOpen.set(true);
   }
   closeFind() {
