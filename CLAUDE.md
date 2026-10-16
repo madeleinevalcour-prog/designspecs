@@ -54,11 +54,14 @@ Docs are committed only after the user approves the page.
 - First time: `npm ci --prefix components`
 
 ## Password protection
-- `middleware.js` (repo root, Vercel Routing Middleware) puts every path behind a
-  browser Basic Auth prompt: any username, password = `SITE_PASSWORD` env var in
-  Vercel project settings (Production + Preview). Unset → the site returns 503.
-- No imports on purpose: the install step only installs `components/`, so root deps
-  aren't available. Local `npm run docs` isn't protected.
+- `middleware.js` (repo root, Vercel Routing Middleware) puts every path behind the
+  sign-in page in `login-page.js` (inline styles mirroring `docs.css`; keep them in
+  sync). Password = `SITE_PASSWORD` env var in Vercel project settings (Production +
+  Preview); unset → the site returns 503. The form posts to `/__login`, which sets a
+  30-day `ds_auth` cookie (HMAC of the password, so changing it signs everyone out);
+  `/__logout` clears it.
+- No npm imports on purpose: the install step only installs `components/`, so root
+  deps aren't available. Local `npm run docs` isn't protected.
 
 ## Gotchas
 - ng-packagr can't copy assets from outside the library, so `components` `build:lib`
