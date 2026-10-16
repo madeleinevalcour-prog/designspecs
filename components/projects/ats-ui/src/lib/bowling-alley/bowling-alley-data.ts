@@ -126,6 +126,21 @@ export const BOWLING_ALLEY_ADD_ITEMS: AddItem[] = [
   { color: 'note', glyph: 'users', label: 'Distribution List' },
 ];
 
+/** One row of the Amplify menu (Figma amplify-nav-dropdown 6815:49406). `id` is what `selected` emits. */
+export interface AmplifyMenuItem {
+  id: string;
+  label: string;
+  icon: string;
+}
+
+/** amplify-nav-dropdown (6815:49406): Amplify's pages. Home is added for V2 later. Overview is removed. */
+export const BOWLING_ALLEY_AMPLIFY_ITEMS: AmplifyMenuItem[] = [
+  { id: 'new-chat', label: 'New Chat', icon: 'add-thin' },
+  { id: 'scheduled', label: 'Scheduled', icon: 'clock-arrow' },
+  { id: 'meetings', label: 'Meetings', icon: 'calendar' },
+  { id: 'audits', label: 'Audits', icon: 'chart-bar' },
+];
+
 /** Case-insensitive "text contains" filter. */
 export const matches = (text: string, q: string) => text.toLowerCase().includes(q.trim().toLowerCase());
 export const resultText = (r: FastFindResult) => [r.title, ...r.fields.map((f) => f.text), r.body ?? ''].join(' ');

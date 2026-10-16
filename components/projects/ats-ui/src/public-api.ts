@@ -36,6 +36,9 @@ export * from './lib/bowling-alley/entity-tabs';
 export * from './lib/bowling-alley/tooltip';
 export * from './lib/bowling-alley/overlays';
 export * from './lib/switch/switch';
+export * from './lib/breadcrumb';
+export * from './lib/count-badge';
+export * from './lib/button-with-count';
 export * from './lib/checkbox-label/checkbox-label';
 export * from './lib/checkbox-label/check-list';
 export * from './lib/checkbox-label/check-list-token';
@@ -47,6 +50,7 @@ export * from './lib/menu/menu-edit';
 export * from './lib/dropdown';
 
 // Amplify chat
+export * from './lib/amplify-chat/amplify-header';
 export * from './lib/amplify-chat/blocks';
 export * from './lib/amplify-chat/cards';
 export * from './lib/amplify-chat/chats';

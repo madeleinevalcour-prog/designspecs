@@ -75,6 +75,8 @@ export class BowlingAlleyShell {
   readonly tabs = input<BowlingAlleyEntityTab[]>();
   /** The current page is Amplify (full-page chat): highlight the Amplify tab instead of a record tab. */
   readonly amplifyActive = input(false, { transform: booleanAttribute });
+  /** The current Amplify page (new-chat | scheduled | meetings | audits): shown as active in the Amplify menu. */
+  readonly amplifyCurrent = input<string>();
 
   /** An overlay row / menu item / Fast Find result was picked. */
   readonly overlaySelect = output<BowlingAlleySelection>();
@@ -85,10 +87,13 @@ export class BowlingAlleyShell {
   private readonly ovl = viewChild<ElementRef<HTMLElement>>('ovl');
   private readonly results = viewChild<ElementRef<HTMLElement>>('results');
 
-  protected readonly scrim = computed(() => !!this.ctrl.overlay() || this.ctrl.findOpen());
+  /** Something is open that Escape / an outside click should close. */
+  protected readonly dismissable = computed(() => !!this.ctrl.overlay() || this.ctrl.findOpen());
+  /** The page scrim. The Amplify menu doesn't dim the page (Figma amplify-nav-dropdown). */
+  protected readonly scrim = computed(() => (!!this.ctrl.overlay() && this.ctrl.overlay()!.kind !== 'amplify') || this.ctrl.findOpen());
   protected readonly overlayLabel = computed(() => {
     const k = this.ctrl.overlay()?.kind;
-    return k === 'menu' ? (this.ctrl.menuMode() === 'edit' ? 'Edit Menu' : 'Menu') : k === 'add' ? 'Add' : k === 'help' ? 'Help' : 'User menu';
+    return k === 'menu' ? (this.ctrl.menuMode() === 'edit' ? 'Edit Menu' : 'Menu') : k === 'add' ? 'Add' : k === 'help' ? 'Help' : k === 'amplify' ? 'Amplify' : 'User menu';
   });
 
   constructor() {
@@ -103,6 +108,7 @@ export class BowlingAlleyShell {
       const t = this.tabs();
       if (t) this.ctrl.setTabs(t);
     });
+    effect(() => this.ctrl.amplifyCurrent.set(this.amplifyCurrent()));
     effect(() => {
       const on = this.amplifyActive();
       this.ctrl.amplifyActive.set(on);
@@ -151,12 +157,12 @@ export class BowlingAlleyShell {
       e.preventDefault();
       this.ctrl.toggleOpen();
     }
-    if (e.key === 'Escape' && this.scrim()) this.ctrl.dismiss();
+    if (e.key === 'Escape' && this.dismissable()) this.ctrl.dismiss();
   }
 
   /** Close on an outside click (the openers and the Fast Find search excepted). */
   protected onDocumentClick(e: MouseEvent) {
-    if (!this.scrim()) return;
+    if (!this.dismissable()) return;
     const t = e.target as HTMLElement | null;
     if (!t || !t.isConnected) return;
     if (this.ovl()?.nativeElement.contains(t) || this.results()?.nativeElement.contains(t)) return;

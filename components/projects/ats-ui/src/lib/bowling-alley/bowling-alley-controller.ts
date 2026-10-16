@@ -4,7 +4,7 @@ import { BOWLING_ALLEY_MENU_APPS, BOWLING_ALLEY_MENU_FOLDERS, BowlingAlleyMenuAp
 export type BowlingAlleyNavState = 'collapsed' | 'hover' | 'open';
 export type BowlingAlleyEntityType = 'candidate' | 'job' | 'note' | 'company' | 'contact';
 /** Overlays opened from the bowling alley (Figma: Overlays + Overlay Positioning under 157:511). */
-export type BowlingAlleyOverlayKind = 'menu' | 'add' | 'user' | 'help';
+export type BowlingAlleyOverlayKind = 'menu' | 'add' | 'user' | 'help' | 'amplify';
 
 export interface BowlingAlleyEntityTab {
   id: string;
@@ -89,6 +89,8 @@ export class BowlingAlleyController {
   readonly locked = signal(false);
   /** The current page is Amplify (full-page chat): the Amplify tab shows as active. */
   readonly amplifyActive = signal(false);
+  /** The current Amplify page (Amplify menu id: new-chat | scheduled | meetings | audits), shown as active in the Amplify menu. */
+  readonly amplifyCurrent = signal<string | undefined>(undefined);
 
   // ---------- Menu (apps, Edit Menu, order) ----------
   /** Menu overlay mode: the app grid or the Edit Menu. */
@@ -189,12 +191,13 @@ export class BowlingAlleyController {
   }
 
   /** A tab opener was clicked (main tabs + the foot's Help / user). */
-  opener(kind: BowlingAlleyOverlayKind | 'find' | 'amplify', anchor: HTMLElement) {
+  opener(kind: BowlingAlleyOverlayKind | 'find' | 'amplify' | 'amplify-menu', anchor: HTMLElement) {
     if (kind === 'find') this.toggleFind();
     else if (kind === 'amplify') {
       this.dismiss();
       this.onAmplify?.();
-    } else if (kind === 'menu') this.openOverlay({ kind, anchor, align: 'search' });
+    } else if (kind === 'amplify-menu') this.openOverlay({ kind: 'amplify', anchor, align: 'top' });
+    else if (kind === 'menu') this.openOverlay({ kind, anchor, align: 'search' });
     else if (kind === 'add') this.openOverlay({ kind, anchor, align: 'top' });
     else this.openOverlay({ kind, anchor, align: 'bottom' });
   }

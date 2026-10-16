@@ -16,6 +16,8 @@
 /* fast-add-menu 4711:42682 / user-dropdown-panel 168:19961 */
 .ats-menu__add { width: 248px; }
 .ats-menu__user { width: 240px; }
+/* amplify-nav-dropdown 6815:49406: a variant of the user dropdown; min width menu/spacing/fastadd/min-width (240) */
+.ats-menu__amplify { width: 240px; }
 
 /* ---- Menu (novo-drag-container 1323:68245 / 1217:58484) ---- */
 .ats-menu-apps {

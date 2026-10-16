@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amplify header — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Amplify component" title="Amplify header" meta="Status: finalized in Figma · Figma: novo-header-amplify 6815:49633, novo-title-amplify 6806:36034, actions 6815:49614 (Component Migration, Amplify page navigation and header) · Code: ats-ui AmplifyHeader · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">The one-row header for the full-page Amplify tab, used by the <a href="amplify-chat-full-page.html">full-page chat</a>. It replaces the title row and tabs of the old full-page chat header; Amplify pages are reached from the <a href="/docs/components/menu.html#amplify">Amplify menu</a> in the bowling alley instead.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49633" src="amplify-header?title=New%20scheduled%20prompt&amp;unread=2" caption="In a chat, with 2 unread scheduled runs" viewport="1182" height="96"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>Built from</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>Container</td><td>novo-header-amplify</td><td>Header surface, 1px bottom border, <span class="chip">general/level 2</span> shadow. 16px top and bottom, 32px left and right; 72px tall.</td></tr>
+        <tr><td>Amplify mark</td><td>Icon Container · md · amplify</td><td>Identifies the Amplify tab. Decorative.</td></tr>
+        <tr><td>Breadcrumb</td><td><a href="/docs/components/breadcrumb.html">Breadcrumb</a></td><td>“Amplify / page or chat title”. On the landing page only “Amplify”.</td></tr>
+        <tr><td>Chats</td><td><a href="/docs/components/button-with-count.html">Button with count</a></td><td>Opens and closes the Chats panel. The count is unread scheduled runs.</td></tr>
+        <tr><td>Close</td><td>Button · Icon · Default</td><td>Closes the Amplify tab. Optional.</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="states" label="States">
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49840" src="amplify-header?level=root&amp;unread=2" caption="Landing page (breadcrumb state=home): V1 new chat, V2 Home" viewport="1182" height="96"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49633" src="amplify-header?title=Scheduled&amp;unread=0" caption="Another page, no unread runs" viewport="1182" height="96"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49633" src="amplify-header?title=Shortlist%20for%20Product%20Manager,%20Nexus&amp;unread=2&amp;open=true" caption="Chats panel open: Chats uses State=Active" viewport="1182" height="96"></doc-example>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior">
+    <ul>
+      <li>The breadcrumb root goes to the Amplify landing page: a new chat in V1, Home in V2. On the landing page it’s the current item, not a link.</li>
+      <li>The current item is the page name (Scheduled, Meetings, Audits) or the open chat’s title, and updates if the chat is renamed.</li>
+      <li>Chats opens and closes the Chats panel; Active = panel open. The panel’s close returns focus to Chats.</li>
+      <li>The count is the total of unread scheduled runs and drops as each scheduled chat is opened. At 0 the badge hides.</li>
+      <li>Only the current title truncates; the mark, root and actions keep their size.</li>
+    </ul>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49633" src="amplify-header?title=Follow-up:%20425%20%7C%20Project%20Manager,%20Nexus%20Dynamics&amp;unread=2&amp;width=640" caption="At 640px the current title truncates" height="96"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>The breadcrumb is a <span class="chip">nav</span> labelled “Breadcrumb”; the current item is the page’s <span class="chip">h1</span> with <span class="chip">aria-current="page"</span>.</li>
+      <li>The Amplify mark is <span class="chip">aria-hidden</span>.</li>
+      <li>Chats has <span class="chip">aria-pressed</span> for the open state and <span class="chip">aria-controls</span> for the panel (<span class="chip">chatsPanelId</span>). Its name includes the count (“Chats, 2 new”); the badge is hidden from screen readers.</li>
+      <li>Close is named “Close Amplify”.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Background</td><td><span class="chip">amplify-chat/amplify-header/color/background/default</span></td><td><span class="chip">color/background/default</span></td></tr>
+        <tr><td>Bottom border</td><td><span class="chip">…/color/border/default</span>, <span class="chip">…/border/width/default</span></td><td><span class="chip">color/border/default</span>, <span class="chip">border/width/border-default</span> (1px)</td></tr>
+        <tr><td>Padding left / right</td><td><span class="chip">…/spacing/padding-horizontal</span></td><td><span class="chip">spacing/padding/xlg</span> (32px)</td></tr>
+        <tr><td>Padding top / bottom</td><td><span class="chip">…/spacing/padding-vertical</span></td><td><span class="chip">spacing/padding/md</span> (16px)</td></tr>
+        <tr><td>Container gap</td><td><span class="chip">…/spacing/gap</span></td><td><span class="chip">spacing/gap/md</span> (16px)</td></tr>
+        <tr><td>Title to actions</td><td><span class="chip">…/spacing/page-title/gap</span></td><td><span class="chip">spacing/gap/sm</span> (8px)</td></tr>
+        <tr><td>Mark to breadcrumb</td><td><span class="chip">…/spacing/title/gap</span></td><td><span class="chip">spacing/gap/md</span> (16px)</td></tr>
+        <tr><td>Between actions</td><td><span class="chip">…/spacing/actions/gap</span></td><td><span class="chip">spacing/gap/sm</span> (8px)</td></tr>
+        <tr><td>Shadow</td><td><span class="chip">general/level 2</span></td><td>effect style</td></tr>
+      </tbody>
+    </table>
+    <p>Figma also has <span class="chip">…/spacing/header-title/gap</span> on a wrapper frame with one child; it has no visible effect, so the build doesn’t use it.</p>
+    <doc-callout type="note" heading="Token export.">Until <span class="mono">tokens/component-migration.json</span> is re-exported with the <span class="chip">amplify-chat/amplify-header/*</span> variables, the CSS falls back to the token each one aliases.</doc-callout>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-header [(chatsOpen)]="panelOpen" [unread]="unread()" chatsPanelId="chats" (closed)="close()" /&gt;
+      &lt;ats-amplify-header title="Scheduled" (rootClick)="goToLanding()" [(chatsOpen)]="panelOpen" [unread]="unread()" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">title</span></td><td>Current page or chat title; unset = landing page</td><td>—</td></tr>
+        <tr><td><span class="chip">rootLabel</span></td><td>Breadcrumb root</td><td>“Amplify”</td></tr>
+        <tr><td><span class="chip">rootHref</span></td><td>Root link target; without it the root is a button</td><td>—</td></tr>
+        <tr><td><span class="chip">[(chatsOpen)]</span></td><td>boolean, two-way</td><td>false</td></tr>
+        <tr><td><span class="chip">unread</span></td><td>number; 0 hides the badge</td><td>0</td></tr>
+        <tr><td><span class="chip">chatsPanelId</span></td><td>Chats panel id, for aria-controls</td><td>—</td></tr>
+        <tr><td><span class="chip">closable</span></td><td>boolean</td><td>true</td></tr>
+        <tr><td><span class="chip">(rootClick)</span> · <span class="chip">(chatsToggle)</span> · <span class="chip">(closed)</span></td><td>Root activated · new open state · Close activated</td><td></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Close size.">Close is Button Size=Default (40px) next to Chats at 32px, so the row is 40px and the header 72px. Confirm, or use Size=Small.</doc-callout>
+    <doc-callout type="note" heading="Border and shadow.">The container stacks a 1px border and general/level 2, matching the old full-page header. Confirm both are wanted.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

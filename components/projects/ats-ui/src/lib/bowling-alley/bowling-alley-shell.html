@@ -17,6 +17,7 @@
           @case ('menu') { <ats-menu variant="apps" (closed)="ctrl.dismiss()" (selected)="select(o.kind, $event)" /> }
           @case ('add') { <ats-menu variant="add" (selected)="select(o.kind, $event)" /> }
           @case ('help') { <ats-help-overlay /> }
+          @case ('amplify') { <ats-menu variant="amplify" (selected)="select(o.kind, $event); ctrl.dismiss()" /> }
           @default { <ats-menu variant="user" (selected)="select(o.kind, $event)" /> }
         }
       </div>

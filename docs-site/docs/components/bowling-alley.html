@@ -63,14 +63,15 @@
     <doc-example src="bowling-alley?view=overlay&amp;overlay=find" caption="Results, empty search: Recently Viewed" height="620"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=find&amp;query=a" caption="Results while searching: View All at the top" height="640"></doc-example>
   </doc-section>
-  <doc-section id="overlays" label="Overlays" desc="Menu, Add, Help, user">
-    <p>Each overlay opens 8px right of the tab that opened it. While one is open, a scrim (<span class="chip">color/background/overlay</span>) covers the page under the bowling alley and the overlay.</p>
+  <doc-section id="overlays" label="Overlays" desc="Menu, Add, Amplify, Help, user">
+    <p>Each overlay opens 8px right of the tab that opened it. While one is open (except the Amplify menu), a scrim (<span class="chip">color/background/overlay</span>) covers the page under the bowling alley and the overlay.</p>
     <table class="tbl">
       <thead><tr><th>Opener</th><th>Overlay</th><th>Placement</th></tr></thead>
       <tbody>
         <tr><td>Menu</td><td>The <a href="menu.html">Menu</a>, variant apps: a <a href="menu.html#menu-header">Menu Header</a> (title, Add/Remove, a “Filter Items” search), then a grid of <a href="menu.html#menu-item">Menu Items</a>, one per app the user can open in the ATS (Amplify, Candidates, Tasks, My Dashboard, Leads, Contacts, Companies, Opportunities, Submissions, Jobs, Placements, Automation, Analytics, Change Requests, Tearsheets, Distribution Lists, Admin). Only apps checked in the Edit Menu show; a folder with Grouped on gets its own labelled section below the main grid. Drag tiles, or use Alt+Arrow keys, to reorder. The Filter takes focus when it opens</td><td>Its Filter in line with the top of the Menu tab</td></tr>
         <tr><td>Edit Menu</td><td>The Menu’s edit mode (<a href="menu.html#menu-edit">Menu Edit</a>): opens from Add/Remove in the Menu, in the Menu’s place; Done goes back. Folders of apps as checkboxes, each with a Grouped switch</td><td>Same place as the Menu</td></tr>
         <tr><td>Add</td><td>The <a href="menu.html#variants">Menu</a>, variant add: <a href="menu.html#menu-option">Menu Options</a>, entity type: Company … Distribution List</td><td>Top in line with the top of the Add tab</td></tr>
+        <tr><td>Amplify (chevron)</td><td>The <a href="menu.html#amplify">Amplify menu</a>: New Chat, Scheduled, Meetings, Audits; active marks the current page. No scrim</td><td>Top in line with the top of the Amplify tab</td></tr>
         <tr><td>Help (footer)</td><td>Bullhorn Hub link, Open Chat, Show Chat Button, chat button position</td><td>Bottom in line with the bottom of the Help tab</td></tr>
         <tr><td>User (footer)</td><td>The <a href="menu.html#variants">Menu</a>, variant user: Menu Options, default type: Preferences, Logout</td><td>Bottom in line with the bottom of the user tab</td></tr>
       </tbody>
@@ -78,9 +79,11 @@
     <doc-example src="bowling-alley?view=overlay&amp;overlay=menu" caption="Menu (480px). Drag a tile to reorder it" height="980"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=edit" caption="Edit Menu (480px)" height="900"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=add" caption="Add (248px)" height="540"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49406" src="bowling-alley?view=overlay&amp;overlay=amplify" caption="Amplify menu (240px)" height="240"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=help" caption="Help (364px)" height="340"></doc-example>
     <doc-example src="bowling-alley?view=overlay&amp;overlay=user" caption="User menu (240px)" height="150"></doc-example>
-    <p>An overlay that would run off the bottom is pulled up to sit 8px from the edge. Amplify is a tab, not an overlay: the shell emits <span class="chip">amplifyClick</span> and the page opens its Amplify panel.</p>
+    <p>An overlay that would run off the bottom is pulled up to sit 8px from the edge. The Amplify tab itself goes to the Amplify landing page: the shell emits <span class="chip">amplifyClick</span>. Its chevron, shown on hover, focus or while the menu is open (not when the alley is collapsed), opens the Amplify menu.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49840" src="bowling-alley?view=layout&amp;nav=open&amp;lock=true&amp;amplify=new-chat&amp;height=640" caption="The page is Amplify: the tab is active. Hover it and click its chevron for the Amplify menu" height="640"></doc-example>
   </doc-section>
 
   <doc-section id="entity-tabs" label="Entity tabs and divider" desc="Open records">
@@ -150,7 +153,8 @@
         <tr><td><span class="chip">lockNav</span></td><td>Freeze the nav state (docs)</td><td>false</td></tr>
         <tr><td><span class="chip">findOpen</span></td><td>Start in Fast Find mode (docs)</td><td>false</td></tr>
         <tr><td><span class="chip">tabs</span></td><td><span class="chip">BowlingAlleyEntityTab[]</span> starting record tabs</td><td>Prototype’s five tabs</td></tr>
-        <tr><td><span class="chip">(overlaySelect)</span></td><td>Emits <span class="chip">{ overlay, value }</span>; overlay is menu · add · user · find</td><td>—</td></tr>
+        <tr><td><span class="chip">amplifyCurrent</span></td><td>Current Amplify page: new-chat · scheduled · meetings · audits (active in the Amplify menu)</td><td>—</td></tr>
+        <tr><td><span class="chip">(overlaySelect)</span></td><td>Emits <span class="chip">{ overlay, value }</span>; overlay is menu · add · user · amplify · find</td><td>—</td></tr>
         <tr><td><span class="chip">(amplifyClick)</span></td><td>The Amplify tab was clicked</td><td>—</td></tr>
         <tr><td><span class="chip">ats-bowling-alley</span> · <span class="chip">userName</span> / <span class="chip">userInitials</span></td><td>Footer user</td><td>Chloe Davis / CD</td></tr>
         <tr><td><span class="chip">userOnlyCollapsed</span></td><td>Collapsed footer shows only the avatar</td><td>false</td></tr>

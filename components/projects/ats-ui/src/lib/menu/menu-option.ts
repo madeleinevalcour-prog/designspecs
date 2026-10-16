@@ -4,13 +4,14 @@ import { IconContainer, IconContainerTheme } from '../icon-container/icon-contai
 
 /** Figma menu-option `Type`: a 16px glyph (default) or an icon-container sm (entity). */
 export type MenuOptionType = 'default' | 'entity';
-/** Figma menu-option `State`. Hover is also live; `state` forces it (docs). */
-export type MenuOptionState = 'default' | 'hover';
+/** Figma menu-option `State`. Hover is also live; `state` forces it (docs). Active marks the current page (Amplify menu). */
+export type MenuOptionState = 'default' | 'hover' | 'active';
 
 /**
  * MenuOption (Figma: "menu-option", 157:2911). One row of a dropdown menu: the Add
  * menu's entity rows (fast-add-menu) and the user menu's rows (user-dropdown-panel).
- * Type × State: default | entity × default | hover. The label is the projected content.
+ * Type × State: default | entity × default | hover | active. The label is the projected content.
+ * Active (Figma State=active) marks the current page in the Amplify menu.
  *
  *   <button ats-menu-option icon="configure-outline">Preferences</button>
  *   <button ats-menu-option type="entity" theme="candidate">Candidate</button>
@@ -37,6 +38,7 @@ export type MenuOptionState = 'default' | 'hover';
     type: 'button',
     '[attr.data-type]': 'typeName()',
     '[class.is-hover]': "state() === 'hover'",
+    '[class.is-active]': "state() === 'active'",
   },
 })
 export class MenuOption {

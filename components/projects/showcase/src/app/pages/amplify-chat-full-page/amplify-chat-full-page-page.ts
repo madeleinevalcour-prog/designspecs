@@ -54,6 +54,12 @@ export class AmplifyChatFullPagePage {
     this.resets();
     return this.seed(this.state() ?? 'empty');
   });
+  /** Header breadcrumb title: the chat's first message (unset on the starting point = the landing page). */
+  protected readonly chatTitle = computed(() => {
+    const first = this.turns().find((t) => t.kind === 'user');
+    if (!first || first.kind !== 'user') return undefined;
+    return first.text.length > 48 ? first.text.slice(0, 46) + '…' : first.text;
+  });
   protected readonly generating = computed(() => this.turns().some((t) => t.kind === 'reply' && !!t.thinking));
   /** The open clarifying round (shown in the input). */
   protected readonly questions = signal<AmplifyChatClarifyingQuestion[] | undefined>(undefined);

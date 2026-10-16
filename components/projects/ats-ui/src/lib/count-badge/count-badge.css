@@ -1,0 +1,21 @@
+/* CountBadge (Figma "count-badge" 6814:24310). Unencapsulated, namespaced .ats-count-badge.
+   Component tokens are count-badge/*; each var() falls back to the token it aliases until
+   tokens/component-migration.json is re-exported. */
+.ats-count-badge {
+  display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; box-sizing: border-box;
+  height: var(--count-badge-spacing-size, var(--spacing-16));
+  min-width: var(--count-badge-spacing-size, var(--spacing-16));
+  padding: 0 var(--count-badge-spacing-padding-horizontal, var(--spacing-padding-xsm));
+  border-radius: var(--count-badge-border-radius-default, var(--border-radius-round));
+  background: var(--count-badge-color-background-default, var(--color-background-utility-positive-knockout));
+  color: var(--count-badge-color-content-default, var(--color-text-body-knockout));
+  /* ring: 2px outside stroke in Figma (doesn't change the badge's size) */
+  box-shadow: 0 0 0 var(--count-badge-border-width-default, var(--border-width-border-sm)) var(--count-badge-color-border-default, var(--color-background-default));
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-meta-small-font-size);
+  line-height: var(--typography-meta-small-line-height);
+  font-weight: var(--typography-meta-small-font-weight);
+  letter-spacing: var(--typography-meta-small-letter-spacing);
+  white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.ats-count-badge[hidden] { display: none; }

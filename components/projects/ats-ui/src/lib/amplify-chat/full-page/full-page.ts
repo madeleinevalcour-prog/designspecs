@@ -2,8 +2,7 @@ import {
   ChangeDetectionStrategy, Component, ElementRef, Injector, ViewEncapsulation, afterNextRender, booleanAttribute, computed, contentChildren,
   effect, inject, input, model, output, untracked, viewChild,
 } from '@angular/core';
-import { Button } from '../../button/button';
-import { IconContainer } from '../../icon-container/icon-container';
+import { AmplifyHeader } from '../amplify-header/amplify-header';
 import { AmplifyChatClarifyAnswer, AmplifyChatClarifyingQuestion } from '../clarifying-questions/clarifying-questions-model';
 import { AmplifyChatConversation } from '../docked/conversation';
 import { AmplifyChatContainer } from '../input/amplify-chat-container';
@@ -15,7 +14,6 @@ import { AmplifyChatUserTurn } from '../reply/user-turn';
 /** `auto` = empty until a user turn or chat-block is projected. */
 export type AmplifyChatFullPageState = 'auto' | 'empty' | 'conversation';
 
-const DEFAULT_TABS = ['Chat', 'Overview', 'Meetings', 'Audits'];
 /** Input move from the starting point to the bottom (no token: motion). */
 const MOVE_MS = 240;
 
@@ -25,10 +23,11 @@ const MOVE_MS = 240;
  * chat: everything right of the Bowling Alley. A prototyping shell — project the turns,
  * the shell owns the header and the input.
  *
- * Header (Figma `novo-header`): the Amplify icon-container (lg) + `title` (title/default),
- * a Close button (emits `closed`) and tabs (`tabs`, default Chat · Overview · Meetings ·
- * Audits; `[(activeTab)]`, `tabSelect`). RecordHeader is not reused: its toolbar,
- * field row and More / Layout buttons are record-specific.
+ * Header: AmplifyHeader (Figma `novo-header-amplify` 6815:49633): the Amplify mark and a
+ * breadcrumb ("Amplify" alone on the landing page, "Amplify / {title}" otherwise), the
+ * Chats toggle with its unread count (`[(chatsOpen)]`, `unread`, `chatsToggle`) and Close
+ * (emits `closed`). No tabs: Amplify pages are reached from the Amplify menu in the
+ * bowling alley.
  *
  * States:
  *  - empty (no `ats-amplify-chat-user-turn` / `ats-amplify-chat-chat-block` projected):
@@ -61,13 +60,13 @@ const MOVE_MS = 240;
  *
  *   ask(text: string) { this.turns.update((t) => [...t, { id: ++this.id, user: true, text }]); … }
  *
- * Outputs: `send(text)`, `stop`, `closed`, `tabSelect`, and the input passthroughs
+ * Outputs: `send(text)`, `stop`, `closed`, `rootClick`, `chatsToggle`, and the input passthroughs
  * (`answered` / `completed` / `dismissed` for a clarifying round, context `removed` /
  * `add`, `addFile` / `addTools` / `promptLibrary`). Fills its parent: give it a height.
  */
 @Component({
   selector: 'ats-amplify-chat-full-page',
-  imports: [AmplifyChatContainer, AmplifyChatConversation, AmplifyChatGlobalChatContainer, Button, IconContainer],
+  imports: [AmplifyChatContainer, AmplifyChatConversation, AmplifyChatGlobalChatContainer, AmplifyHeader],
   templateUrl: './full-page.html',
   styleUrl: './full-page.css',
   encapsulation: ViewEncapsulation.None,
@@ -78,8 +77,18 @@ export class AmplifyChatFullPage {
   private readonly el = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly injector = inject(Injector);
 
-  /** Header title. Default "Amplify". */
+  /** Current page or chat title, shown after "Amplify /" in the header breadcrumb. Unset = the landing page ("Amplify" alone). */
   readonly title = input<string>();
+  /** Breadcrumb root label. Default "Amplify". */
+  readonly rootLabel = input<string>();
+  /** Breadcrumb root link; without it the root is a button that emits `rootClick`. */
+  readonly rootHref = input<string>();
+  /** The Chats panel is open (two-way). Default false. */
+  readonly chatsOpen = model<boolean | undefined>(false);
+  /** Unread scheduled runs on the header's Chats button (0 hides the count). */
+  readonly unread = input<number | undefined>();
+  /** id of the Chats panel, for the Chats button's aria-controls. */
+  readonly chatsPanelId = input<string>();
   /** First name in the starting greeting ("Hi Chloe, how can I help you today?"). Default "Chloe". */
   readonly greetingName = input<string>();
   /** Replaces the whole starting greeting. */
@@ -94,10 +103,6 @@ export class AmplifyChatFullPage {
   readonly generating = input<boolean | undefined, unknown>(false, { transform: (v: unknown) => (v == null ? undefined : booleanAttribute(v)) });
   /** Force a state; `auto` (default) = empty until a user turn / chat-block is projected. */
   readonly state = input<AmplifyChatFullPageState | undefined>('auto');
-  /** Header tabs. Default Chat · Overview · Meetings · Audits; `[]` hides the row. */
-  readonly tabs = input<string[] | undefined>();
-  /** Active tab index (two-way). Default 0 (Chat). */
-  readonly activeTab = model<number | undefined>(0);
   /** Show the header Close button. Default true. */
   readonly closable = input<boolean | undefined, unknown>(true, { transform: (v: unknown) => (v == null ? undefined : booleanAttribute(v)) });
   /** Accessible name of the turns log. Default "Conversation". */
@@ -108,7 +113,10 @@ export class AmplifyChatFullPage {
   readonly stop = output<void>();
   /** The header Close button was activated. */
   readonly closed = output<void>();
-  readonly tabSelect = output<number>();
+  /** The header breadcrumb root was activated (go to the Amplify landing page). */
+  readonly rootClick = output<void>();
+  /** The header Chats button was toggled; emits the new open state. */
+  readonly chatsToggle = output<boolean>();
   readonly answered = output<{ index: number; answer: AmplifyChatClarifyAnswer }>();
   readonly completed = output<AmplifyChatClarifyAnswer[]>();
   readonly dismissed = output<void>();
@@ -122,9 +130,6 @@ export class AmplifyChatFullPage {
   private readonly blocks = contentChildren(AmplifyChatChatBlock, { descendants: true });
   private readonly conversation = viewChild.required(AmplifyChatConversation);
 
-  protected readonly titleText = computed(() => this.title() ?? 'Amplify');
-  protected readonly tabList = computed(() => this.tabs() ?? DEFAULT_TABS);
-  protected readonly currentTab = computed(() => this.activeTab() ?? 0);
   protected readonly isEmpty = computed(() => {
     const s = this.state() ?? 'auto';
     if (s !== 'auto') return s === 'empty';
@@ -152,11 +157,6 @@ export class AmplifyChatFullPage {
   /** Scrolls to the newest turn and resumes following new content. */
   scrollToBottom(behavior: ScrollBehavior = 'auto'): void {
     this.conversation().scrollToBottom(behavior);
-  }
-
-  protected selectTab(i: number): void {
-    this.activeTab.set(i);
-    this.tabSelect.emit(i);
   }
 
   /** Bottom input: jump to the latest so the new turn is followed, then emit. */

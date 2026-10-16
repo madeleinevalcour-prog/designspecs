@@ -33,6 +33,9 @@ When a component is built or ported, in the same change:
 3. Doc page `docs-site/docs/components/<name>.html` — Amplify components go in
    `docs-site/docs/amplify/components/<name>.html` (create-design-documentation skill,
    Components type), using `<doc-example>` live embeds — never stand-ins or screenshots.
+   Every `<doc-example>` gets a `figma="…"` link to the Figma node it shows (the variant or
+   frame, e.g. `https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6835-133241`),
+   which renders "Open in Figma ↗" next to "Open live example". Add these before committing.
 4. Add it to the `SITE` list in `docs-site/assets/docs.js` (title + one-line `d` card text). The side nav,
    search, section overview pages and home page cards are all built from `SITE`.
 Docs are committed only after the user approves the page.

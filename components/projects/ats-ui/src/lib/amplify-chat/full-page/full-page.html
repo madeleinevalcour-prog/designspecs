@@ -1,25 +1,8 @@
-<!-- novo-header: page-title (Amplify mark, title, close) + tabs -->
-<header class="ats-amplify-chat-full-page__header">
-  <div class="ats-amplify-chat-full-page__title-row">
-    <div class="ats-amplify-chat-full-page__title">
-      <ats-icon-container theme="amplify" size="lg" />
-      <h1 class="ats-amplify-chat-full-page__label">{{ titleText() }}</h1>
-    </div>
-    @if (closable() !== false) {
-      <div class="ats-amplify-chat-full-page__actions">
-        <button ats-button theme="icon" icon="close" aria-label="Close Amplify" (click)="closed.emit()"></button>
-      </div>
-    }
-  </div>
-  @if (tabList().length) {
-    <nav class="ats-amplify-chat-full-page__tabs" aria-label="Amplify sections">
-      @for (t of tabList(); track $index; let i = $index) {
-        <button type="button" class="ats-amplify-chat-full-page__tab" [class.is-active]="i === currentTab()"
-          [attr.aria-current]="i === currentTab() ? 'page' : null" (click)="selectTab(i)">{{ t }}</button>
-      }
-    </nav>
-  }
-</header>
+<!-- novo-header-amplify: Amplify mark + breadcrumb, Chats (unread count) + Close. Replaced the old title row + tabs;
+     Amplify pages are reached from the Amplify menu in the bowling alley. -->
+<ats-amplify-header class="ats-amplify-chat-full-page__header" [title]="title()" [rootLabel]="rootLabel()" [rootHref]="rootHref()"
+  [(chatsOpen)]="chatsOpen" [unread]="unread()" [chatsPanelId]="chatsPanelId()" [closable]="closable() !== false"
+  (rootClick)="rootClick.emit()" (chatsToggle)="chatsToggle.emit($event)" (closed)="closed.emit()" />
 
 <div class="ats-amplify-chat-full-page__body">
   <!-- one projection slot, never inside @if: the conversation is hidden (not removed) while empty -->

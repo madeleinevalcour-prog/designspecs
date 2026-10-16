@@ -17,3 +17,6 @@
   font-weight: var(--typography-button-lg-font-weight); letter-spacing: var(--typography-button-lg-letter-spacing);
 }
 .ats-menu-option[data-type="entity"] .ats-menu-option__label { flex: 1 0 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* active (Figma State=active): the current page, e.g. in the Amplify menu */
+.ats-menu-option.is-active { background: var(--bowling-alley-color-tab-items-background-active); }

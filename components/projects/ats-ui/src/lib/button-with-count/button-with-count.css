@@ -1,0 +1,10 @@
+/* ButtonWithCount (Figma "button-with-count" 6816:24357). Unencapsulated, namespaced
+   .ats-button-with-count. Token: button-with-count/spacing/badge-offset (falls back to the
+   token it aliases until tokens/component-migration.json is re-exported). */
+.ats-button-with-count {
+  position: relative; display: inline-flex; flex: 0 0 auto; box-sizing: border-box; vertical-align: middle;
+  padding-top: var(--button-with-count-spacing-badge-offset, var(--spacing-padding-xsm));
+  padding-right: var(--button-with-count-spacing-badge-offset, var(--spacing-padding-xsm));
+}
+/* pinned top-right (Figma: absolute, constraints right + top), so it grows left */
+.ats-button-with-count__badge { position: absolute; top: 0; right: 0; pointer-events: none; }

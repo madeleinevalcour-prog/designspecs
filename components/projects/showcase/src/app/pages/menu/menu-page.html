@@ -45,6 +45,7 @@
         @switch (variant()) {
           @case ('add') { <ats-menu variant="add" /> }
           @case ('user') { <ats-menu variant="user" /> }
+          @case ('amplify') { <ats-menu variant="amplify" [current]="current()" /> }
           @default {
             @if (embedState() === 'pair') {
               <ats-menu-edit [autofocus]="false" />
@@ -73,6 +74,7 @@
       <div class="cell"><app-menu-stage><ats-menu variant="apps" mode="edit" [autofocus]="false" /></app-menu-stage><span class="caption">variant="apps", edit mode (Edit Menu)</span></div>
       <div class="cell"><ats-menu variant="add" (selected)="last.set('add → ' + $event)" /><span class="caption">variant="add" (Add)</span></div>
       <div class="cell"><ats-menu variant="user" (selected)="last.set('user → ' + $event)" /><span class="caption">variant="user" (User)</span></div>
+      <div class="cell"><ats-menu variant="amplify" current="new-chat" (selected)="last.set('amplify → ' + $event)" /><span class="caption">variant="amplify" (Amplify menu, current = new-chat)</span></div>
     </div>
     @if (last()) { <p class="note">Last pick: {{ last() }}</p> }
   </section>

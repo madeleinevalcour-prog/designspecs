@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Button with count — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Button with count" meta="Status: finalized in Figma · Figma: button-with-count 6816:24357 (Component Migration, Amplify page navigation and header) · Code: ats-ui ButtonWithCount · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">A Button with a <a href="count-badge.html">count badge</a> pinned to its top-right corner. In the Amplify header it’s the Chats toggle, and the count is the number of unread scheduled runs.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6816-24357" src="button-with-count?count=2" caption="Chats with 2 unread runs" height="90"></doc-example>
+  </doc-section>
+
+  <doc-section id="examples" label="Examples">
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6816-24366" src="button-with-count?examples=0,2,12,140" caption="No count, 2, 12, and 140 (99+)" height="110"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6816-24403" src="button-with-count?count=2&amp;open=true" caption="Panel open: the button uses State=Active" height="90"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <ul>
+      <li><b>Frame</b>: hugs the button and adds 4px above and to the right for the badge (<span class="chip">button-with-count/spacing/badge-offset</span>). No fill.</li>
+      <li><b>Button</b>: Button, Theme=Secondary, Size=Small. Its label and state are set on the button.</li>
+      <li><b>Count badge</b>: pinned to the top-right corner, so it grows to the left for 12 and 99+ and never pushes the button.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior">
+    <ul>
+      <li>At 0 (or with show count off) the badge hides. The 4px space stays, so the button doesn’t move when a count appears.</li>
+      <li>Active = the Chats panel is open.</li>
+      <li>Clicking anywhere on the button toggles the panel; the badge isn’t a separate target.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>Put the count in the button’s accessible name (“Chats, 2 new”). The badge is <span class="chip">aria-hidden</span> so it isn’t read twice.</li>
+      <li>Use <span class="chip">aria-pressed</span> for the open state, and <span class="chip">aria-controls</span> pointing at the panel.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Space above and right of the button</td><td><span class="chip">button-with-count/spacing/badge-offset</span></td><td><span class="chip">spacing/padding/xsm</span> (4px)</td></tr>
+        <tr><td>Button</td><td colspan="2">Button tokens (Secondary, Small)</td></tr>
+        <tr><td>Badge</td><td colspan="2">See <a href="count-badge.html#tokens">Count badge tokens</a></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-button-with-count [count]="unread()"&gt;
+        &lt;button ats-button theme="secondary" size="small"
+          [state]="open() ? 'active' : undefined" [attr.aria-pressed]="open()"
+          [attr.aria-label]="'Chats, ' + unread() + ' new'" (click)="toggle()"&gt;Chats&lt;/button&gt;
+      &lt;/ats-button-with-count&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">count</span></td><td>number; 0 hides the badge</td><td>2</td></tr>
+        <tr><td><span class="chip">max</span></td><td>above this the badge shows “{max}+”</td><td>99</td></tr>
+        <tr><td><span class="chip">showCount</span></td><td>boolean (Figma “show count”)</td><td>true</td></tr>
+      </tbody>
+    </table>
+    <p>Project the button. Any ats-button works; the Amplify header uses Secondary, Small.</p>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Pressed state.">Button has no dedicated pressed / selected state; State=Active stands in for “panel open”.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

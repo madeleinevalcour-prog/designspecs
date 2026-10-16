@@ -1,0 +1,32 @@
+/* AmplifyHeader (Figma "novo-header-amplify" 6815:49633 + novo-title-amplify 6806:36034 +
+   actions 6815:49614). Unencapsulated, namespaced .ats-amplify-header. Component tokens are
+   amplify-chat/amplify-header/*; each var() falls back to the token it aliases until
+   tokens/component-migration.json is re-exported. */
+.ats-amplify-header { display: block; position: relative; z-index: 2; min-width: 0; }
+.ats-amplify-header__bar {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  gap: var(--amplify-chat-amplify-header-spacing-gap, var(--spacing-gap-md));
+  padding: var(--amplify-chat-amplify-header-spacing-padding-vertical, var(--spacing-padding-md))
+    var(--amplify-chat-amplify-header-spacing-padding-horizontal, var(--spacing-padding-xlg));
+  background: var(--amplify-chat-amplify-header-color-background-default, var(--color-background-default));
+  border-bottom: var(--amplify-chat-amplify-header-border-width-default, var(--border-width-border-default)) solid
+    var(--amplify-chat-amplify-header-color-border-default, var(--color-border-default));
+  box-shadow: var(--elevation-2); /* general/level 2 */
+}
+/* page-title: title (fills) + actions */
+.ats-amplify-header__page-title {
+  display: flex; align-items: center; min-width: 0;
+  gap: var(--amplify-chat-amplify-header-spacing-page-title-gap, var(--spacing-gap-sm));
+}
+/* novo-title-amplify: Amplify mark + breadcrumb (inside Figma's header-title frame) */
+.ats-amplify-header__title {
+  display: flex; align-items: center; flex: 1 1 auto; min-width: 0;
+  gap: var(--amplify-chat-amplify-header-spacing-title-gap, var(--spacing-gap-md));
+}
+.ats-amplify-header__title > .ats-icon-container { flex: 0 0 auto; }
+.ats-amplify-header__breadcrumb { flex: 0 1 auto; min-width: 0; }
+/* actions: Chats (button-with-count) + Close */
+.ats-amplify-header__actions {
+  display: flex; align-items: center; flex: 0 0 auto;
+  gap: var(--amplify-chat-amplify-header-spacing-actions-gap, var(--spacing-gap-sm));
+}

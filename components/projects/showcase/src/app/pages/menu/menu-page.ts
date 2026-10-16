@@ -13,13 +13,14 @@ type Part = 'header' | 'item' | 'option' | 'edit';
  *   /examples/menu?variant=apps
  *   /examples/menu?variant=apps&state=edit
  *   /examples/menu?variant=apps&state=pair&hide=amplify,tasks&grouped=primary
- *   /examples/menu?variant=add · ?variant=user
+ *   /examples/menu?variant=add · ?variant=user · ?variant=amplify&current=scheduled
  *   /examples/menu?part=header&state=edit
  *   /examples/menu?part=item&state=all
  *   /examples/menu?part=option&type=entity&state=hover
  *   /examples/menu?part=edit
  * Params:
- *   variant = apps | add | user (the Menu)
+ *   variant = apps | add | user | amplify (the Menu)
+ *     amplify: current = new-chat | scheduled | meetings | audits (the active page)
  *     apps: state = menu (default) | edit (in edit mode) | pair (Edit Menu beside the
  *       Menu, sharing state); hide (comma app ids to start unchecked, e.g. amplify,tasks);
  *       grouped (comma folder ids to start Grouped: primary, pay-bill)
@@ -27,7 +28,7 @@ type Part = 'header' | 'item' | 'option' | 'edit';
  *     header: state = default | edit (Edit Menu title + Done) | close | active (Filter focused)
  *     item: state = default | hover | focus | drag | all (all four, captioned);
  *       theme (icon-container theme, default candidate), icon, label (default "Candidates")
- *     option: type = default | entity; state = default | hover | all (Type × State, captioned);
+ *     option: type = default | entity; state = default | hover | active | all (Type × State, captioned);
  *       theme (entity, default jobs), icon, label (default "Label"); width (px, default 240)
  *     edit: the Edit Menu on its own; hide, grouped as above
  */
@@ -40,6 +41,8 @@ type Part = 'header' | 'item' | 'option' | 'edit';
 export class MenuPage {
   // Bound from query params. Absent params arrive as `undefined`, so defaults live in computeds.
   readonly variant = input<MenuVariant>();
+  /** amplify variant: the current page id. */
+  readonly current = input<string>();
   readonly part = input<Part>();
   readonly state = input<string>();
   readonly type = input<MenuOptionType>();
@@ -63,8 +66,8 @@ export class MenuPage {
 
   protected readonly allItemStates: MenuItemState[] = ['default', 'hover', 'focus', 'drag'];
   protected readonly optionMatrix: { type: MenuOptionType; state: MenuOptionState }[] = [
-    { type: 'default', state: 'default' }, { type: 'default', state: 'hover' },
-    { type: 'entity', state: 'default' }, { type: 'entity', state: 'hover' },
+    { type: 'default', state: 'default' }, { type: 'default', state: 'hover' }, { type: 'default', state: 'active' },
+    { type: 'entity', state: 'default' }, { type: 'entity', state: 'hover' }, { type: 'entity', state: 'active' },
   ];
   protected readonly last = signal('');
   protected readonly filter = signal('');

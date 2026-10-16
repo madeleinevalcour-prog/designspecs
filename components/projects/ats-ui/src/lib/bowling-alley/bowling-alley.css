@@ -185,3 +185,15 @@
 .ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley__foot-actions { flex-direction: column; align-items: center; }
 .ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley-foot-item { flex: 0 0 auto; height: auto; }
 .ats-bowling-alley-shell[data-nav="collapsed"]:not([data-find="open"]) .ats-bowling-alley[data-collapsed-foot="user"] .ats-bowling-alley-foot-item--utility { display: none; }
+
+/* ---- Amplify tab + Amplify menu chevron (Figma main-tabs "show button"; amplify-nav-dropdown 6815:49406) ---- */
+.ats-bowling-alley__amplify { position: relative; display: flex; }
+.ats-bowling-alley__amplify > .ats-bowling-alley-tab { flex: 1 1 auto; }
+.ats-bowling-alley__amplify-menu {
+  position: absolute; top: 50%; right: var(--spacing-4); transform: translateY(-50%); display: none;
+}
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley__amplify:hover .ats-bowling-alley__amplify-menu,
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley__amplify:focus-within .ats-bowling-alley__amplify-menu,
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley__amplify.is-menu-open .ats-bowling-alley__amplify-menu { display: inline-flex; }
+/* keep the label clear of the chevron */
+.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ats-bowling-alley__amplify > .ats-bowling-alley-tab { padding-right: calc(var(--spacing-24) + var(--spacing-8)); }

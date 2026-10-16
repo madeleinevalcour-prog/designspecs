@@ -10,7 +10,7 @@
   @switch (view()) {
     @case ('layout') {
       <div class="frame" [style.height.px]="embedHeight()">
-        <ats-bowling-alley-shell [nav]="embedNav()" [lockNav]="lock()" [findOpen]="find()">
+        <ats-bowling-alley-shell [nav]="embedNav()" [lockNav]="lock()" [findOpen]="find()" [amplifyActive]="!!amplify()" [amplifyCurrent]="amplify()">
           <ats-bowling-alley [userOnlyCollapsed]="userOnly()" />
           <ng-container *ngTemplateOutlet="page" />
         </ats-bowling-alley-shell>
@@ -23,6 +23,7 @@
           @case ('add') { <ats-menu variant="add" /> }
           @case ('user') { <ats-menu variant="user" /> }
           @case ('help') { <ats-help-overlay /> }
+          @case ('amplify') { <ats-menu variant="amplify" current="new-chat" /> }
           @case ('edit') { <ats-menu variant="apps" mode="edit" [autofocus]="false" /> }
           @case ('find') { <ats-fast-find-results class="find-static" [query]="embedQuery()" /> }
           @default { <ats-menu variant="apps" [autofocus]="false" /> }

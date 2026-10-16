@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breadcrumb — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Breadcrumb" meta="Status: finalized in Figma · Figma: breadcrumb 6806:36042, breadcrumb-link 6806:28195 (Component Migration, Amplify page navigation and header) · Code: ats-ui Breadcrumb, BreadcrumbLink · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">A breadcrumb shows where you are inside a page area: a link back to the top level, a separator, then the page you’re on. It sits in the Amplify header next to the Amplify mark, and replaces the header tabs.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6806-36041" src="breadcrumb?state=default" caption="Two levels: Amplify / New scheduled prompt" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="variants" label="Variants">
+    <p>Figma’s <span class="chip">state</span> on <span class="chip">breadcrumb</span>:</p>
+    <ul>
+      <li><b>Default</b>: two levels. The root links back to the landing page; the current page or chat title follows the separator.</li>
+      <li><b>home</b>: one level, on the landing page itself. “Amplify” is the current page, not a link.</li>
+    </ul>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6806-36041" src="breadcrumb?state=default" caption="state=Default" height="80"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6806-36043" src="breadcrumb?state=home" caption="state=home" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="link-states" label="Breadcrumb link states">
+    <p>Each level is a <span class="chip">breadcrumb-link</span>. Its <span class="chip">state</span> sets the color; all three use text style <span class="chip">title/md</span> (Inter Semi Bold 20/28).</p>
+    <ul>
+      <li><b>Root</b>: a link, <span class="chip">color/text/subtle</span>.</li>
+      <li><b>Hover</b>: the root when hovered, <span class="chip">color/text/link-hover</span>.</li>
+      <li><b>Current</b>: the page you’re on, <span class="chip">color/text/headline</span>. Not interactive.</li>
+    </ul>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6806-28195" src="breadcrumb?links=root,hover,current" caption="Root (hover it), Hover, Current" height="100"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <ul>
+      <li><b>Root</b>: breadcrumb-link, state Root.</li>
+      <li><b>Separator</b>: “/” in <span class="chip">title/md</span>, <span class="chip">color/text/disabled</span>. It isn’t interactive, so it uses the disabled color.</li>
+      <li><b>Current</b>: breadcrumb-link, state Current.</li>
+      <li>Root, separator and current are 8px apart (<span class="chip">breadcrumb/spacing/gap</span>).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior">
+    <ul>
+      <li>The root goes to the landing page. In the Amplify tab that’s a new chat (V1) or Home (V2).</li>
+      <li>On the landing page, use one level (state=home).</li>
+      <li>The current item is the page name (Scheduled, Meetings, Audits) or the open chat’s title.</li>
+      <li>When space runs out, only the current title truncates with an ellipsis. The root and separator never shrink.</li>
+      <li>Two levels only. A page reached from inside another (a prompt inside Scheduled) still shows “Amplify / [title]”.</li>
+    </ul>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6806-36041" src="breadcrumb?levels=Amplify;Follow-up:%20425%20%7C%20Project%20Manager,%20Nexus%20Dynamics&amp;width=360" caption="360px wide: the current title truncates" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>Renders <span class="chip">nav aria-label="Breadcrumb"</span> around an ordered list.</li>
+      <li>The current item has <span class="chip">aria-current="page"</span>. In the Amplify header it’s also the page’s <span class="chip">h1</span> (<span class="chip">headingCurrent</span>).</li>
+      <li>The separator is <span class="chip">aria-hidden</span>.</li>
+      <li>The root is a real link (or a button when there’s no URL). Focus styling for links isn’t defined in Novo / Modern UI yet, so the browser’s default focus outline is kept until it is.</li>
+      <li>Root (#677079) and current (#2F2F33) pass 4.5:1 on white. The separator (#89909A) is about 3.3:1; it’s decorative and hidden from assistive tech.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Root text</td><td><span class="chip">breadcrumb/color/content/root</span></td><td><span class="chip">color/text/subtle</span></td></tr>
+        <tr><td>Root hover text</td><td><span class="chip">breadcrumb/color/content/hover</span></td><td><span class="chip">color/text/link-hover</span></td></tr>
+        <tr><td>Separator</td><td><span class="chip">breadcrumb/color/content/separator</span></td><td><span class="chip">color/text/disabled</span></td></tr>
+        <tr><td>Current text</td><td><span class="chip">breadcrumb/color/content/current</span></td><td><span class="chip">color/text/headline</span></td></tr>
+        <tr><td>Link background</td><td><span class="chip">breadcrumb/color/background/default</span></td><td><span class="chip">color/background/default</span></td></tr>
+        <tr><td>Gap</td><td><span class="chip">breadcrumb/spacing/gap</span></td><td><span class="chip">spacing/gap/sm</span> (8px)</td></tr>
+        <tr><td>Type</td><td><span class="chip">title/md</span></td><td>Inter Semi Bold 20/28</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="Token export.">The <span class="chip">breadcrumb/*</span> variables are new in Figma. Until <span class="mono">tokens/component-migration.json</span> is re-exported, the CSS falls back to the token each one aliases, so it renders the same.</doc-callout>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-breadcrumb [items]="[{ label: 'Amplify', href: '/amplify' }, { label: 'Scheduled' }]" /&gt;
+      &lt;ats-breadcrumb [items]="[{ label: 'Amplify' }]" /&gt;
+      &lt;ats-breadcrumb [items]="items" headingCurrent (navigate)="go($event)" /&gt;
+
+      &lt;a ats-breadcrumb-link href="/amplify"&gt;Amplify&lt;/a&gt;
+      &lt;span ats-breadcrumb-link state="current"&gt;Scheduled&lt;/span&gt;
+    </doc-code>
+    <h3>ats-breadcrumb</h3>
+    <table class="tbl">
+      <thead><tr><th>Input / output</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">items</span></td><td><span class="chip">{ label, href? }[]</span>, top first; the last is the current page. One item = state=home.</td><td>Amplify / New scheduled prompt</td></tr>
+        <tr><td><span class="chip">headingCurrent</span></td><td>boolean: render the current item as the page’s h1</td><td>false</td></tr>
+        <tr><td><span class="chip">label</span></td><td>Accessible name of the nav</td><td>“Breadcrumb”</td></tr>
+        <tr><td><span class="chip">forceHover</span></td><td>Index of a level to show hovered (docs)</td><td>—</td></tr>
+        <tr><td><span class="chip">(navigate)</span></td><td>Emits the index of the level activated</td><td></td></tr>
+      </tbody>
+    </table>
+    <h3>ats-breadcrumb-link</h3>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">state</span></td><td>root · hover · current</td><td>root</td></tr>
+      </tbody>
+    </table>
+    <p>Applied as an attribute on an <span class="chip">a</span>, <span class="chip">button</span>, <span class="chip">span</span> or <span class="chip">h1</span>, so the element keeps its native meaning.</p>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Root color.">The resting root is <span class="chip">color/text/subtle</span> and only turns <span class="chip">color/text/link-hover</span> on hover. Confirm it should read as plain text until hovered.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

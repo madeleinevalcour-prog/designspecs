@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Count badge — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/docs.css">
+<script src="../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Component" title="Count badge" meta="Status: finalized in Figma · Figma: count-badge 6814:24310 (Component Migration, Amplify page navigation and header) · Code: ats-ui CountBadge · Examples on this page are the live component">
+
+  <doc-section id="overview" label="Overview">
+    <p class="lead" style="max-width:60ch">A small round count of new items for the corner of a control. In the Amplify header it shows unread scheduled runs on the Chats button. It’s its own component so other controls can use it; to pin it to a button, use <a href="button-with-count.html">Button with count</a>.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6814-24310" src="count-badge?counts=1,12,140" caption="1, 12, and 140 (shown as 99+)" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="anatomy" label="Anatomy">
+    <ul>
+      <li>16px tall, at least 16px wide (<span class="chip">count-badge/spacing/size</span>). One digit is a circle; longer counts stretch into a pill.</li>
+      <li>4px left and right padding (<span class="chip">count-badge/spacing/padding-horizontal</span>), fully round (<span class="chip">count-badge/border/radius/default</span>).</li>
+      <li>A 2px ring outside the badge (<span class="chip">count-badge/border/width/default</span>, <span class="chip">count-badge/color/border/default</span>) separates it from the control underneath. It doesn’t change the badge’s size.</li>
+      <li>Number in text style <span class="chip">meta/small</span> (Inter Medium 10/12).</li>
+    </ul>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6814-24312" src="count-badge?counts=1,12,140&amp;surface=muted" caption="On a grey surface, the white ring shows" height="80"></doc-example>
+  </doc-section>
+
+  <doc-section id="behavior" label="Behavior">
+    <ul>
+      <li>Shows the count up to 99, then “99+”.</li>
+      <li>At 0 it renders nothing. Never show “0”.</li>
+      <li>It isn’t a separate click target; it belongs to the control it sits on.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility">
+    <ul>
+      <li>The badge is <span class="chip">aria-hidden</span>. Put the count in the control’s accessible name instead: “Chats, 2 new”.</li>
+      <li>White on the badge fill (#1450A0) passes 4.5:1.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens">
+    <table class="tbl">
+      <thead><tr><th>Property</th><th>Token</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td>Background</td><td><span class="chip">count-badge/color/background/default</span></td><td><span class="chip">color/background/utility/positive-knockout</span></td></tr>
+        <tr><td>Number</td><td><span class="chip">count-badge/color/content/default</span></td><td><span class="chip">color/text/body-knockout</span></td></tr>
+        <tr><td>Ring</td><td><span class="chip">count-badge/color/border/default</span>, <span class="chip">count-badge/border/width/default</span></td><td><span class="chip">color/background/default</span>, <span class="chip">border/width/border-sm</span> (2px)</td></tr>
+        <tr><td>Size</td><td><span class="chip">count-badge/spacing/size</span></td><td><span class="chip">spacing/16</span></td></tr>
+        <tr><td>Padding</td><td><span class="chip">count-badge/spacing/padding-horizontal</span></td><td><span class="chip">spacing/padding/xsm</span> (4px)</td></tr>
+        <tr><td>Radius</td><td><span class="chip">count-badge/border/radius/default</span></td><td><span class="chip">border/radius/round</span></td></tr>
+        <tr><td>Type</td><td><span class="chip">meta/small</span></td><td>Inter Medium 10/12</td></tr>
+      </tbody>
+    </table>
+    <doc-callout type="note" heading="Token export.">Until <span class="mono">tokens/component-migration.json</span> is re-exported with the <span class="chip">count-badge/*</span> variables, the CSS falls back to the token each one aliases.</doc-callout>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="For engineering">
+    <doc-code caption="Angular">
+      &lt;ats-count-badge [count]="2" /&gt;
+      &lt;ats-count-badge [count]="unread()" [max]="99" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">count</span></td><td>number; 0 or less renders nothing</td><td>2</td></tr>
+        <tr><td><span class="chip">max</span></td><td>above this, shows “{max}+”</td><td>99</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm">
+    <doc-callout type="note" heading="Cap and dot.">Confirm the 99+ cap, and whether a dot (no number) is ever needed.</doc-callout>
+    <doc-callout type="note" heading="What it counts.">In the Amplify header it counts unread runs, not unread chats. Confirm.</doc-callout>
+  </doc-section>
+</doc-page>
+</body>
+</html>

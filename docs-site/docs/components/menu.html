@@ -18,7 +18,7 @@
     <doc-example src="menu?variant=apps" caption="The app Menu. Filter, click Add/Remove, drag a tile" height="900"></doc-example>
   </doc-section>
 
-  <doc-section id="variants" label="Variants" desc="Menu, Add, User">
+  <doc-section id="variants" label="Variants" desc="Menu, Add, User, Amplify">
     <table class="tbl">
       <thead><tr><th>Variant</th><th>Figma</th><th>Contents</th><th>Width</th></tr></thead>
       <tbody>
@@ -26,12 +26,33 @@
         <tr><td><span class="chip">apps</span>, edit mode (Edit Menu)</td><td>menu-edit 1217:58486</td><td>The <a href="#menu-edit">Menu Edit</a>: a header in edit mode (“Edit Menu”, Done, Filter), then folders of apps as checkboxes, each with a Grouped switch</td><td>480px</td></tr>
         <tr><td><span class="chip">add</span> (Add)</td><td>fast-add-menu 4711:42682</td><td><a href="#menu-option">Menu Options</a>, entity type: Company, Contact, Lead, Candidate, Opportunity, Job, Placement, Note, Task, Distribution List</td><td>248px</td></tr>
         <tr><td><span class="chip">user</span> (User)</td><td>user-dropdown-panel 168:19961</td><td>Menu Options, default type: Preferences, Logout</td><td>240px</td></tr>
+        <tr><td><span class="chip">amplify</span> (<a href="#amplify">Amplify menu</a>)</td><td>amplify-nav-dropdown 6815:49406</td><td>Menu Options, default type: New Chat, Scheduled, Meetings, Audits. Active marks the current page</td><td>240px</td></tr>
       </tbody>
     </table>
     <doc-example src="menu?variant=apps&amp;state=edit" caption="The Menu in edit mode: the Edit Menu. Done goes back to the app grid" height="900"></doc-example>
     <doc-example src="menu?variant=add" caption="Add (248px)" height="540"></doc-example>
     <doc-example src="menu?variant=user" caption="User (240px)" height="160"></doc-example>
-    <p>Add and User share a dropdown card (padding <span class="chip">menu/spacing/fastadd/*</span>, <span class="chip">dropdown/color/background/default</span>, <span class="chip">dropdown/color/border/default</span>, <span class="chip">dropdown/border/radius</span>) with the bowling alley’s Help menu.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49406" src="menu?variant=amplify&amp;current=scheduled" caption="Amplify (240px), current page Scheduled" height="240"></doc-example>
+    <p>Add, User and Amplify share a dropdown card (padding <span class="chip">menu/spacing/fastadd/*</span>, <span class="chip">dropdown/color/background/default</span>, <span class="chip">dropdown/color/border/default</span>, <span class="chip">dropdown/border/radius</span>) with the bowling alley’s Help menu.</p>
+  </doc-section>
+
+  <doc-section id="amplify" label="Amplify menu" desc="amplify-nav-dropdown 6815:49406">
+    <p>The Amplify menu lists Amplify’s pages. It opens from the chevron on the Amplify tab in the bowling alley and replaces the tabs that used to sit in the Amplify header. It’s a variant of the user dropdown, styled like the other bowling alley menus.</p>
+    <table class="tbl">
+      <thead><tr><th>Option</th><th>Icon</th><th>Goes to</th></tr></thead>
+      <tbody>
+        <tr><td>New Chat</td><td><span class="chip">add-thin</span></td><td>A new chat (the V1 landing page)</td></tr>
+        <tr><td>Scheduled</td><td><span class="chip">clock-arrow</span></td><td>The Scheduled prompts page</td></tr>
+        <tr><td>Meetings</td><td><span class="chip">calendar</span></td><td>Meetings (transcribe), unchanged</td></tr>
+        <tr><td>Audits</td><td><span class="chip">chart-bar</span></td><td>Audits, unchanged</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>The <b>active</b> state marks the current page (<span class="chip">current</span> input, or the shell’s <span class="chip">amplifyCurrent</span>), with <span class="chip">aria-current="page"</span>.</li>
+      <li>It opens 8px right of the Amplify tab, top-aligned with it, and doesn’t dim the page: no scrim. Escape or an outside click closes it; picking a page closes it and emits <span class="chip">(overlaySelect)</span> with the page id.</li>
+      <li>Overview is removed. Home is added at the top for V2, later.</li>
+    </ul>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6815-49406" src="menu?variant=amplify&amp;current=new-chat" caption="Current page: New Chat" height="240"></doc-example>
   </doc-section>
 
   <doc-section id="behaviour" label="Behaviour">
@@ -116,7 +137,7 @@
   </doc-section>
 
   <doc-section id="menu-option" label="Menu Option" desc="Sub-component">
-    <p>Figma <span class="chip">menu-option</span> 157:2911. One row of the Add and user menus: an icon and a label. Hover is live.</p>
+    <p>Figma <span class="chip">menu-option</span> 157:2911. One row of the Add, user and Amplify menus: an icon and a label. Hover is live. Active (Figma State=active) marks the current page in the Amplify menu.</p>
     <table class="tbl">
       <thead><tr><th>Type</th><th>Icon</th><th>Used in</th></tr></thead>
       <tbody>
@@ -124,7 +145,7 @@
         <tr><td>entity</td><td>An <a href="icon-container.html">icon container</a>, size sm. The label truncates with an ellipsis</td><td>Add menu</td></tr>
       </tbody>
     </table>
-    <doc-example src="menu?part=option&amp;state=all" caption="Type × State: default and entity, default and hover" height="110"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=157-2911" src="menu?part=option&amp;state=all" caption="Type × State: default and entity × default, hover and active" height="110"></doc-example>
     <doc-example src="menu?part=option&amp;type=entity&amp;theme=candidate&amp;label=Candidate" caption="Entity type, candidate theme" height="90"></doc-example>
     <p>Keyboard focus shows a 2px inset ring (<span class="chip">color/border/focus</span>).</p>
     <table class="tbl">
@@ -133,6 +154,7 @@
         <tr><td>Padding</td><td><span class="chip">button/spacing/default/gap</span> (vertical), <span class="chip">button/spacing/default/padding-horizontal</span></td></tr>
         <tr><td>Gap</td><td><span class="chip">spacing/gap/sm</span></td></tr>
         <tr><td>Hover background</td><td><span class="chip">bowling-alley/color/tab-items/background/hover</span></td></tr>
+        <tr><td>Active background</td><td><span class="chip">bowling-alley/color/tab-items/background/active</span></td></tr>
         <tr><td>Label</td><td>Text style <span class="chip">button/lg</span>, <span class="chip">color/text/body</span></td></tr>
       </tbody>
     </table>

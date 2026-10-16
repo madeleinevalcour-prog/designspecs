@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, booleanAttribute, computed, inject, input, output } from '@angular/core';
 import { BowlingAlleyController, BowlingAlleyMenuMode } from '../bowling-alley/bowling-alley-controller';
-import { BOWLING_ALLEY_ADD_ITEMS } from '../bowling-alley/bowling-alley-data';
+import { BOWLING_ALLEY_ADD_ITEMS, BOWLING_ALLEY_AMPLIFY_ITEMS } from '../bowling-alley/bowling-alley-data';
 import { MenuApps } from './menu-apps';
 import { MenuEdit } from './menu-edit';
 import { MenuOption } from './menu-option';
@@ -12,7 +12,7 @@ import { iconContainerTheme } from './menu-theme';
  *  - `add`: the Add menu (fast-add-menu 4711:42682).
  *  - `user`: the user menu (user-dropdown-panel 168:19961).
  */
-export type MenuVariant = 'apps' | 'add' | 'user';
+export type MenuVariant = 'apps' | 'add' | 'user' | 'amplify';
 
 /**
  * Menu (Figma "✅ Menu - Finalized" 46:3526). One component for the bowling alley's
@@ -32,6 +32,7 @@ export type MenuVariant = 'apps' | 'add' | 'user';
  *   <ats-menu variant="apps" (selected)="open($event)" (closed)="close()" />
  *   <ats-menu variant="add" (selected)="create($event)" />
  *   <ats-menu variant="user" (selected)="$event === 'logout' && logout()" />
+ *   <ats-menu variant="amplify" current="scheduled" (selected)="openAmplifyPage($event)" />   (Amplify menu)
  */
 @Component({
   selector: 'ats-menu',
@@ -42,6 +43,14 @@ export type MenuVariant = 'apps' | 'add' | 'user';
         <div class="ats-dropdown-card ats-menu__add">
           @for (item of addItems; track item.label) {
             <button ats-menu-option type="entity" [theme]="iconTheme(item.color)" [icon]="item.glyph" (click)="selected.emit(item.label)">{{ item.label }}</button>
+          }
+        </div>
+      }
+      @case ('amplify') {
+        <div class="ats-dropdown-card ats-menu__amplify" aria-label="Amplify">
+          @for (item of amplifyItems; track item.id) {
+            <button ats-menu-option [icon]="item.icon" [state]="currentId() === item.id ? 'active' : undefined"
+              [attr.aria-current]="currentId() === item.id ? 'page' : null" (click)="selected.emit(item.id)">{{ item.label }}</button>
           }
         </div>
       }
@@ -84,6 +93,8 @@ export class Menu implements OnInit {
   readonly autofocus = input(true, { transform: booleanAttribute });
   /** apps only: the Filter placeholder. */
   readonly placeholder = input('Filter Items');
+  /** Amplify variant: id of the current Amplify page (active option). Defaults to the shell's `amplifyCurrent`. */
+  readonly current = input<string>();
 
   /** A row or tile was picked: the app / record-type label, or `preferences` / `logout` (user). */
   readonly selected = output<string>();
@@ -92,6 +103,8 @@ export class Menu implements OnInit {
 
   protected readonly variantName = computed<MenuVariant>(() => this.variant() ?? 'apps');
   protected readonly addItems = BOWLING_ALLEY_ADD_ITEMS;
+  protected readonly amplifyItems = BOWLING_ALLEY_AMPLIFY_ITEMS;
+  protected readonly currentId = computed(() => this.current() ?? this.ctrl.amplifyCurrent());
   protected readonly iconTheme = iconContainerTheme;
 
   ngOnInit() {

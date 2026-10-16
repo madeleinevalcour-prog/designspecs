@@ -1,0 +1,25 @@
+/* Breadcrumb (Figma "breadcrumb" 6806:36042, state=Default | home). Unencapsulated,
+   namespaced .ats-breadcrumb. Component tokens are breadcrumb/*; each var() falls back to
+   the token it aliases until tokens/component-migration.json is re-exported. */
+.ats-breadcrumb { display: block; min-width: 0; }
+.ats-breadcrumb__nav { display: block; min-width: 0; }
+.ats-breadcrumb__list {
+  display: flex; align-items: center; min-width: 0; margin: 0; padding: 0; list-style: none;
+  gap: var(--breadcrumb-spacing-gap, var(--spacing-gap-sm));
+}
+.ats-breadcrumb__item {
+  display: flex; align-items: center; flex: 0 0 auto; min-width: 0;
+  gap: var(--breadcrumb-spacing-gap, var(--spacing-gap-sm));
+}
+/* only the current title shrinks */
+.ats-breadcrumb__item--current { flex: 0 1 auto; }
+/* separator: not interactive, so the disabled text color (design decision) */
+.ats-breadcrumb__separator {
+  flex: 0 0 auto;
+  color: var(--breadcrumb-color-content-separator, var(--color-text-disabled));
+  font-family: var(--typography-title-medium-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-title-medium-font-size);
+  line-height: var(--typography-title-medium-line-height);
+  font-weight: var(--typography-title-medium-font-weight);
+  letter-spacing: var(--typography-title-medium-letter-spacing);
+}
