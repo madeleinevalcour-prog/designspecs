@@ -480,7 +480,8 @@
         {t:"Relevance signals", href:"/docs/amplify/components/amplify-chat-relevance-signals.html", cat:"Response content", d:"Why Amplify picked a prospect: a label and one small chip per signal."},
         {t:"Selection", href:"/docs/amplify/components/amplify-chat-selection.html", cat:"Response content", d:"The selection bar and split button for bulk actions on records."},
         {t:"Chat input", href:"/docs/amplify/components/amplify-chat-input.html", cat:"Input", d:"The input, context bar, button row with Stop, and the full-page starting point."},
-        {t:"Clarifying questions", href:"/docs/amplify/components/amplify-chat-clarifying-questions.html", cat:"Input", d:"The card Amplify uses to narrow a request: options, number keys, Something else."}
+        {t:"Clarifying questions", href:"/docs/amplify/components/amplify-chat-clarifying-questions.html", cat:"Input", d:"The card Amplify uses to narrow a request: options, number keys, Something else."},
+        {t:"Prompt library", href:"/docs/amplify/components/amplify-chat-prompt-library.html", cat:"Input", d:"Saved prompts opened from the chat input: prompt cards, tabs, search, and empty and loading states."}
       ]},
       {label:"Patterns", pages:[
         {t:"Response structure", href:"/docs/amplify/patterns/response-structure.html", d:"How an Amplify reply is put together, and how to choose a format for it."},

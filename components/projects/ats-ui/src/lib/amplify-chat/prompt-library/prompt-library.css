@@ -1,0 +1,93 @@
+/* Amplify chat prompt library — Figma "prompt-library" (6789:132613). Unencapsulated, namespaced
+   .ats-amplify-chat-prompt-library. Component tokens are amplify-chat/prompt-library/*; each var()
+   falls back to the token it aliases until tokens/component-migration.json is re-exported. */
+
+.ats-amplify-chat-prompt-library {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  width: 850px; max-width: 100%; /* no token: Figma width 850 */
+  overflow: hidden;
+  background: var(--amplify-chat-prompt-library-color-background, var(--card-color-background-contents));
+  border: var(--border-width-border-default) solid var(--amplify-chat-prompt-library-color-border, var(--card-color-border-default));
+  border-radius: var(--amplify-chat-prompt-library-border-radius, var(--card-border-radius-default));
+  /* general/level 4 */
+  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur));
+}
+
+/* ---- tab bar: tabs, then search + category filter ---- */
+.ats-amplify-chat-prompt-library__tab-bar {
+  display: flex; align-items: center; justify-content: space-between; flex: 0 0 auto; min-height: 48px;
+  gap: var(--amplify-chat-prompt-library-spacing-tab-bar-gap, var(--modal-spacing-header-gap));
+  padding: 0 var(--amplify-chat-prompt-library-spacing-tab-bar-padding-horizontal, var(--dropdown-spacing-header-padding-horizontal));
+  background: var(--amplify-chat-prompt-library-color-background, var(--card-color-background-contents));
+  border-bottom: var(--border-width-border-default) solid var(--amplify-chat-prompt-library-color-border, var(--card-color-border-default));
+}
+.ats-amplify-chat-prompt-library__tabs { display: flex; align-self: stretch; align-items: stretch; gap: var(--tabs-spacing-tab-items-gap); }
+.ats-amplify-chat-prompt-library__tab {
+  position: relative; display: inline-flex; align-items: center; gap: var(--spacing-8);
+  padding: var(--tabs-spacing-tab-items-padding-vertical) var(--tabs-spacing-tab-items-padding-horizontal);
+  border: 0; background: transparent; cursor: pointer; white-space: nowrap;
+  color: var(--tabs-color-tab-items-default);
+  font-family: var(--typography-tabs-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-tabs-default-font-size); font-weight: var(--typography-tabs-default-font-weight);
+  line-height: var(--typography-tabs-default-line-height);
+}
+.ats-amplify-chat-prompt-library__tab:hover { color: var(--tabs-color-tab-items-hover); }
+.ats-amplify-chat-prompt-library__tab:focus-visible { outline: var(--border-width-border-sm) solid var(--color-border-focus); outline-offset: -2px; }
+.ats-amplify-chat-prompt-library__tab.is-active {
+  color: var(--tabs-color-tab-items-active-text);
+  font-weight: var(--typography-tabs-active-font-weight);
+}
+/* active-tab-underline: 2px, the page's entity color (Amplify: button/color/secondary-amplify/content/default) */
+.ats-amplify-chat-prompt-library__tab.is-active::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: var(--border-width-border-sm);
+  background: var(--button-color-secondary-amplify-content-default);
+}
+.ats-amplify-chat-prompt-library__filters { display: flex; align-items: center; gap: var(--spacing-16); padding: var(--dropdown-spacing-header-padding-vertical) 0; }
+/* search-input Size=small: 32px pill, 180 wide (the pill variant is 40px min) */
+.ats-amplify-chat-prompt-library__search.ats-search-input { width: 180px; min-height: 32px; height: 32px; }
+.ats-amplify-chat-prompt-library__search .ats-search-input__input { font-size: var(--typography-input-value-sm-font-size); line-height: var(--typography-input-value-sm-line-height); }
+/* category-tags icon in the Amplify content color */
+.ats-amplify-chat-prompt-library__filter > .ats-icon:first-child { background-color: var(--button-color-secondary-amplify-content-default); }
+
+/* ---- grid: two columns of prompt cards ---- */
+.ats-amplify-chat-prompt-library__grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* every row as tall as the tallest card; cards fill their cell */
+  grid-auto-rows: 1fr; align-items: stretch; overflow: auto;
+  gap: var(--amplify-chat-prompt-library-spacing-grid-gap, var(--card-spacing-content-gap));
+  padding: var(--amplify-chat-prompt-library-spacing-grid-padding-vertical, var(--card-spacing-header-padding-vertical))
+    var(--amplify-chat-prompt-library-spacing-grid-padding-horizontal, var(--spacing-padding-md));
+  background: var(--amplify-chat-prompt-library-color-background, var(--card-color-background-contents));
+}
+.ats-amplify-chat-prompt-library__grid.is-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 340px;
+  padding-block: var(--amplify-chat-prompt-library-spacing-state-padding-vertical, var(--spacing-48));
+}
+
+/* empty-state (Figma "empty-state", In container=no) */
+.ats-amplify-chat-prompt-library__empty {
+  display: flex; flex-direction: column; align-items: center; text-align: center; max-width: 396px;
+  gap: var(--empty-state-spacing-content-gap);
+  padding: var(--empty-state-spacing-content-padding-vertical) var(--empty-state-spacing-content-padding-horizontal);
+}
+.ats-amplify-chat-prompt-library__empty-body { display: flex; flex-direction: column; }
+.ats-amplify-chat-prompt-library__empty-title {
+  margin: 0; color: var(--empty-state-color-content-heading);
+  font-family: var(--typography-title-small-font-family), 'Inter', sans-serif; font-weight: var(--typography-title-small-font-weight);
+  font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height);
+}
+.ats-amplify-chat-prompt-library__empty-text {
+  margin: 0; color: var(--empty-state-color-content-body);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif; font-weight: var(--typography-body-default-font-weight-default);
+  font-size: var(--typography-body-default-font-size); line-height: var(--typography-body-default-line-height);
+}
+
+/* Dots / Medium loader (5621:46169): five 13px dots, gap 5 */
+.ats-amplify-chat-prompt-library__loading { display: flex; align-items: center; gap: 5px; }
+.ats-amplify-chat-prompt-library__loading i { width: 13px; height: 13px; border-radius: var(--border-radius-round); animation: ats-prompt-library-dot 1.2s ease-in-out infinite; }
+.ats-amplify-chat-prompt-library__loading i:nth-child(2) { animation-delay: 0.1s; }
+.ats-amplify-chat-prompt-library__loading i:nth-child(3) { animation-delay: 0.2s; }
+.ats-amplify-chat-prompt-library__loading i:nth-child(4) { animation-delay: 0.3s; }
+.ats-amplify-chat-prompt-library__loading i:nth-child(5) { animation-delay: 0.4s; }
+@keyframes ats-prompt-library-dot { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) { .ats-amplify-chat-prompt-library__loading i { animation: none; } }

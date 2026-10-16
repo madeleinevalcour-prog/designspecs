@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt library — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Components" title="Prompt library">
+
+  <doc-section id="overview" label="Overview" desc="What the prompt library is for">
+    <p class="lead" style="max-width:60ch">Saved prompts the recruiter can send to Amplify in one click. It opens from Prompt Library in the chat input and sits next to the composer: Bullhorn’s default prompts, prompts the recruiter made, and the ones they starred.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-148989" src="amplify-chat-prompt-library?component=in-context" caption="Open from the starting point. Try Prompt Library, a card, the star and the tabs" height="760"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th><th>Variants</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#prompt-card">Prompt card</a></td><td>One saved prompt: icon, title, record type, schedule, tags, description, star and kebab</td><td><span class="chip">Property 1</span> Default · hover · focus; favorited</td></tr>
+        <tr><td><a href="#prompt-library">Prompt library</a></td><td>Tabs, search and category filter over a two-column grid of prompt cards</td><td><span class="chip">State</span> default · empty favorites · empty my prompts · no results · loading</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="prompt-card" label="Prompt card" desc="One saved prompt">
+    <p>A list-item card (padding 8 / 16, radius 8). The header row holds the prompt’s icon (14px, no container), the title, then the star and kebab grouped on the right. Below it: the record type the prompt runs on, the scheduled time, the tag icon with one chip per tag, and the description.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-90133" src="amplify-chat-prompt-library?component=prompt-card" caption="Default" height="150"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>Border <span class="chip">color/border/subtle</span>, background <span class="chip">card/color/background/contents</span></td></tr>
+        <tr><td>Hover</td><td>Background <span class="chip">color/background/subtle</span>, border <span class="chip">color/border/default</span>, no shadow</td></tr>
+        <tr><td>Keyboard focus</td><td>2px <span class="chip">color/border/focus</span> ring (1px stroke plus a 1px inner ring), so the card keeps its size</td></tr>
+        <tr><td>Favorited</td><td>Filled star in <span class="chip">color/icon/utility/positive</span>. Nothing else changes</td></tr>
+      </tbody>
+    </table>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-90135" src="amplify-chat-prompt-library?component=prompt-card&amp;state=hover" caption="Hover" height="150"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6788-23069" src="amplify-chat-prompt-library?component=prompt-card&amp;state=focus" caption="Keyboard focus" height="150"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6771-149732" src="amplify-chat-prompt-library?component=prompt-card&amp;favorite=true" caption="Favorited" height="150"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-90134" src="amplify-chat-prompt-library?component=prompt-card&amp;prompt=4" caption="Long title truncates to 1 line; the data row wraps; description clamps to 2 lines" height="170"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6793-23402" src="amplify-chat-prompt-library?component=prompt-card&amp;prompt=2&amp;menu=open" caption="Kebab menu: Edit, Share, Delete" height="280"></doc-example>
+    <ul>
+      <li>The header icon is chosen when the prompt is made, or by Amplify when it generates one. Bullhorn’s default prompts each have their own.</li>
+      <li>The schedule shows the time a scheduled prompt runs. It’s hidden on prompts that aren’t scheduled.</li>
+      <li>Tags categorize prompts. A prompt can have several, so they use a chip group after the tag icon.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="prompt-library" label="Prompt library" desc="Tabs, search and the grid">
+    <p>850 wide, so it reads as distinctly different from the starting-point composer (750) and the active-chat input (800). Card border and radius 16, <span class="chip">general/level 4</span>. The tab bar (48 tall) holds Favorites, My Prompts and All Prompts, then the search input and the category filter. The grid is two columns of prompt cards, 16 apart with 16 padding. Every row is as tall as the tallest card in the grid, so the grid stays even while each card’s data row can wrap; content sits at the top of the card and extra space falls at the bottom.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-148988" src="amplify-chat-prompt-library?component=prompt-library" caption="State=default: Favorites" height="560"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-148988" src="amplify-chat-prompt-library?component=prompt-library&amp;tab=all" caption="All Prompts" height="560"></doc-example>
+    <ul>
+      <li>The active tab and the filter icon use the page’s entity color. On Amplify that’s <span class="chip">button/color/secondary-amplify/content/default</span>. Favorites shows a filled star while it’s active.</li>
+      <li>The search input and category filter match the ones used elsewhere in the ATS (candidate list, search).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="states" label="Empty, no results and loading" desc="When there are no cards to show">
+    <p>Built from the empty-state parts (64px icon, <span class="chip">title/sm</span> heading, <span class="chip">body/default</span> text, optional Secondary button), centered in the grid with 48 above and below.</p>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6789-131126" src="amplify-chat-prompt-library?component=prompt-library&amp;data=none" caption="State=empty favorites: shown to new users. Browse all prompts switches to All Prompts" height="440"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6789-131492" src="amplify-chat-prompt-library?component=prompt-library&amp;data=none&amp;tab=mine" caption="State=empty my prompts: no action" height="440"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6789-131862" src="amplify-chat-prompt-library?component=prompt-library&amp;tab=all&amp;query=offer%20letter" caption="State=no results: search input active, the term repeated, Clear search" height="440"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6789-132254" src="amplify-chat-prompt-library?component=prompt-library&amp;loading=true" caption="State=loading: Dots / Medium loader" height="440"></doc-example>
+  </doc-section>
+
+  <doc-section id="in-context" label="In context" desc="Where it opens">
+    <p>The library always sits 8px from the composer, centered on it, so it reads as part of the composer (Gestalt connectedness and common region).</p>
+    <table class="tbl">
+      <thead><tr><th>Surface</th><th>Composer</th><th>Library</th></tr></thead>
+      <tbody>
+        <tr><td>Starting point (new chat)</td><td>750, labels on</td><td>Opens below the composer</td></tr>
+        <tr><td>Active chat</td><td>800, icon-only, docked to the bottom</td><td>Opens above the composer and overlays the conversation</td></tr>
+        <tr><td>Docked chat</td><td>—</td><td>Not designed yet (see To confirm)</td></tr>
+      </tbody>
+    </table>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6806-27179" src="amplify-chat-prompt-library?component=in-context&amp;surface=active" caption="Active chat: opens above the 800 input" height="720"></doc-example>
+    <ul>
+      <li>Prompt Library keeps its active fill while the library is open.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Sending, closing and keyboard">
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Click a card, or <span class="chip">↵</span> on a focused card</td><td>Sends the prompt to chat right away and closes the library</td></tr>
+        <tr><td><span class="chip">/</span> in an empty composer</td><td>Opens the library with focus on the first card. The “/” isn’t added to the message</td></tr>
+        <tr><td><span class="chip">↑</span> <span class="chip">↓</span> <span class="chip">←</span> <span class="chip">→</span></td><td>Move between cards in the two-column grid. <span class="chip">↓</span> from search enters the grid; <span class="chip">↑</span> from the top row goes back to search</td></tr>
+        <tr><td><span class="chip">Esc</span> or a click outside</td><td>Closes the library and returns focus to Prompt Library. If the kebab menu is open, <span class="chip">Esc</span> closes the menu first</td></tr>
+        <tr><td>Star</td><td>Adds or removes the prompt from Favorites. Doesn’t send it</td></tr>
+        <tr><td>Kebab</td><td>Opens Edit, Share and Delete. Doesn’t send the prompt</td></tr>
+        <tr><td>Search</td><td>Filters by title, description and tags. The field shows its active state (focus border, clear button) while it has text</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Keep the library 8px from the composer and centered on it, below on the starting point and above in an active chat.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Let it overlap or cover the composer.</doc-callout>
+    <doc-callout type="do" heading="Do.">Show the schedule only on scheduled prompts.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use a blue border for hover. Blue is the keyboard focus ring, and on hover it reads as selected.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Component tokens and what they alias">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases the token the component was bound to before.</p>
+    <table class="tbl">
+      <thead><tr><th>Token</th><th>Aliases</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">amplify-chat/prompt-card/spacing/gap</span></td><td><span class="chip">list-item/spacing/content/gap</span></td></tr>
+        <tr><td><span class="chip">…/prompt-card/spacing/padding-horizontal</span> · <span class="chip">padding-vertical</span></td><td><span class="chip">spacing/padding/md</span> · <span class="chip">spacing/padding/sm</span></td></tr>
+        <tr><td><span class="chip">…/prompt-card/spacing/content/gap</span> · <span class="chip">header/gap</span></td><td><span class="chip">list-item/spacing/gap-vertical</span> · <span class="chip">list-item/spacing/gap-horizontal</span></td></tr>
+        <tr><td><span class="chip">…/prompt-card/border/radius</span></td><td><span class="chip">border/radius/sm</span></td></tr>
+        <tr><td><span class="chip">…/prompt-card/color/background/default</span> · <span class="chip">hover</span></td><td><span class="chip">card/color/background/contents</span> · <span class="chip">color/background/subtle</span></td></tr>
+        <tr><td><span class="chip">…/prompt-card/color/border/default</span> · <span class="chip">hover</span> · <span class="chip">focus</span></td><td><span class="chip">color/border/subtle</span> · <span class="chip">color/border/default</span> · <span class="chip">color/border/focus</span></td></tr>
+        <tr><td><span class="chip">amplify-chat/prompt-library/border/radius</span></td><td><span class="chip">card/border/radius/default</span></td></tr>
+        <tr><td><span class="chip">…/prompt-library/color/background</span> · <span class="chip">color/border</span></td><td><span class="chip">card/color/background/contents</span> · <span class="chip">card/color/border/default</span></td></tr>
+        <tr><td><span class="chip">…/prompt-library/spacing/tab-bar/gap</span> · <span class="chip">padding-horizontal</span></td><td><span class="chip">modal/spacing/header/gap</span> · <span class="chip">dropdown/spacing/header/padding-horizontal</span></td></tr>
+        <tr><td><span class="chip">…/prompt-library/spacing/grid/gap</span> · <span class="chip">padding-horizontal</span> · <span class="chip">padding-vertical</span></td><td><span class="chip">card/spacing/content/gap</span> · <span class="chip">spacing/padding/md</span> · <span class="chip">card/spacing/header/padding-vertical</span></td></tr>
+        <tr><td><span class="chip">…/prompt-library/spacing/state/padding-vertical</span></td><td><span class="chip">spacing/48</span> (empty, no-results and loading states)</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Elevation is the <span class="chip">general/level 4</span> effect style. The empty states use the <span class="chip">Empty State/*</span> tokens; nested components (chips, buttons, search, dropdown) keep their own.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Names, roles and focus">
+    <ul>
+      <li>The card’s title is its button, and its hit area covers the card, so the star and kebab stay separate controls instead of buttons nested in a button.</li>
+      <li>The star is a toggle (<span class="chip">aria-pressed</span>) named “Add {title} to favorites” or “Remove {title} from favorites”. The kebab is “More actions for {title}” and opens a menu (WCAG 4.1.2).</li>
+      <li>Tabs use <span class="chip">role="tablist"</span> and <span class="chip">aria-selected</span>. The library is a dialog named “Prompt library”.</li>
+      <li>Favorited isn’t shown by color alone: the star changes from outline to filled.</li>
+      <li>The loader has <span class="chip">role="status"</span> and stops animating under reduced motion.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-prompt-library [prompts]="prompts" [(tab)]="tab" [(query)]="q"
+        (send)="ask($event)" (action)="manage($event)" (close)="open.set(false)" /&gt;
+
+      &lt;ats-amplify-chat-prompt-card icon="search-menu" title="Research Salary and Experience"
+        schedule="Every morning around 8" [tags]="['Recruiting']" [(favorite)]="fav"
+        description="Research market salary norms…" (send)="ask()" (action)="manage($event)" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th><th>Outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatPromptLibrary</span></td><td><span class="chip">ats-amplify-chat-prompt-library</span></td><td><span class="chip">prompts</span>: id, title, description, icon, entity, schedule, tags, favorite, mine · <span class="chip">[(tab)]</span> favorites · mine · all · <span class="chip">[(query)]</span> · <span class="chip">loading</span> · <span class="chip">categoryLabel</span></td><td><span class="chip">send</span>(prompt) · <span class="chip">action</span>({ prompt, action }) · <span class="chip">favoriteChange</span> · <span class="chip">close</span>. Methods <span class="chip">focusFirst()</span>, <span class="chip">focusSearch()</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatPromptCard</span></td><td><span class="chip">ats-amplify-chat-prompt-card</span></td><td><span class="chip">title</span> · <span class="chip">icon</span> (search-menu) · <span class="chip">entity</span> (candidate) · <span class="chip">schedule</span> · <span class="chip">tags</span> · <span class="chip">description</span> · <span class="chip">[(favorite)]</span> · <span class="chip">state</span> hover · focus · <span class="chip">menu</span></td><td><span class="chip">send</span> · <span class="chip">action</span>(edit · share · delete)</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Other components">
+    <ul>
+      <li><a href="amplify-chat-input.html">Chat input</a>: the Prompt Library button that opens it.</li>
+      <li><a href="amplify-chat-full-page.html">Full-page chat</a>: the starting point and active chat surfaces.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Docked chat.">We still need a version of the prompt library that works in the docked chat.</doc-callout>
+    <doc-callout type="note" heading="Not wired into the chat input yet.">The chat input only emits <span class="chip">promptLibrary</span>. Opening with “/”, the button’s active fill while open, and returning focus to it on close are specified here but not built into the input. The examples above place the library next to the composer in the showcase.</doc-callout>
+    <doc-callout type="note" heading="Tokens in CSS.">The component tokens were added in Figma. Until <span class="chip">tokens/component-migration.json</span> is re-exported, each CSS variable falls back to the token it aliases, so the look is the same.</doc-callout>
+    <doc-callout type="note" heading="Category filter.">The All Categories filter is a static button; its menu isn’t defined yet.</doc-callout>
+    <doc-callout type="note" heading="Search input size.">ats-ui’s search input has field (32, square-ish) and pill (40) shapes. The library uses the pill at 32 tall to match Figma’s small size.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

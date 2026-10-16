@@ -1,0 +1,67 @@
+@if (component() === 'prompt-card') {
+  <div class="embed" [class.menu-room]="menu() === 'open'">
+    <div class="w400">
+      <ats-amplify-chat-prompt-card [title]="embedPrompt().title" [icon]="embedPrompt().icon" [schedule]="embedPrompt().schedule"
+        [tags]="embedPrompt().tags" [description]="embedPrompt().description" [favorite]="embedFavorite()" [state]="state()"
+        [menu]="menu() === 'open'" />
+    </div>
+  </div>
+} @else if (component() === 'prompt-library') {
+  <div class="embed">
+    <ats-amplify-chat-prompt-library [prompts]="embedPrompts()" [tab]="tab()" [query]="query()" [loading]="loading() === 'true'" />
+  </div>
+} @else if (component() === 'in-context') {
+  <div class="embed">
+    <ng-container *ngTemplateOutlet="context" />
+  </div>
+} @else {
+  <h1>Amplify Chat — Prompt library</h1>
+  <p class="lede">Figma section <code>6727:30597</code>. Saved prompts the recruiter can send to Amplify, opened from Prompt Library in
+    the chat input. Built on the Modern UI list-item parts, IconButtonNoContainer, NovoChip, Dropdown, SearchInput and Button.</p>
+
+  <h2>Prompt Card — states</h2>
+  <div class="row">
+    <div class="cell w400"><span class="caption">Default</span>
+      <ats-amplify-chat-prompt-card [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+    <div class="cell w400"><span class="caption">Hover</span>
+      <ats-amplify-chat-prompt-card state="hover" [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+    <div class="cell w400"><span class="caption">Keyboard focus</span>
+      <ats-amplify-chat-prompt-card state="focus" [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+    <div class="cell w400"><span class="caption">Favorited</span>
+      <ats-amplify-chat-prompt-card [favorite]="true" [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+    <div class="cell w400"><span class="caption">Long title, several tags</span>
+      <ats-amplify-chat-prompt-card [title]="prompts[3].title" [icon]="prompts[3].icon" [schedule]="prompts[3].schedule" [tags]="prompts[3].tags" [description]="prompts[3].description" /></div>
+    <div class="cell w400 menu-room"><span class="caption">Kebab menu open</span>
+      <ats-amplify-chat-prompt-card [menu]="true" [title]="prompts[1].title" [icon]="prompts[1].icon" [tags]="prompts[1].tags" [description]="prompts[1].description" /></div>
+  </div>
+
+  <h2>prompt-library — states</h2>
+  <div class="stack">
+    <div class="cell"><span class="caption">Default (Favorites)</span><ats-amplify-chat-prompt-library [prompts]="prompts" /></div>
+    <div class="cell"><span class="caption">All Prompts</span><ats-amplify-chat-prompt-library [prompts]="prompts" tab="all" /></div>
+    <div class="cell"><span class="caption">Empty — Favorites</span><ats-amplify-chat-prompt-library [prompts]="noFavorites" /></div>
+    <div class="cell"><span class="caption">Empty — My Prompts</span><ats-amplify-chat-prompt-library [prompts]="noFavorites" tab="mine" /></div>
+    <div class="cell"><span class="caption">No results</span><ats-amplify-chat-prompt-library [prompts]="prompts" tab="all" query="offer letter" /></div>
+    <div class="cell"><span class="caption">Loading</span><ats-amplify-chat-prompt-library [prompts]="prompts" [loading]="true" /></div>
+  </div>
+
+  <h2>In context</h2>
+  <ng-container *ngTemplateOutlet="context" />
+}
+
+<ng-template #context>
+  <div class="context" [class.is-active]="isActiveSurface()">
+    @if (isActiveSurface()) {
+      @if (open()) {
+        <ats-amplify-chat-prompt-library class="context__library" [prompts]="prompts" tab="all" (send)="sent($event)" (close)="open.set(false)" />
+      }
+      <ats-amplify-chat-input class="w800" [showLabels]="false" (promptLibrary)="open.set(!open())" />
+    } @else {
+      <ats-amplify-chat-global-chat-container class="w750" name="Chloe" (promptLibrary)="open.set(!open())" />
+      @if (open()) {
+        <ats-amplify-chat-prompt-library class="context__library" [prompts]="prompts" tab="all" (send)="sent($event)" (close)="open.set(false)" />
+      }
+    }
+    @if (log()) { <p class="note" aria-live="polite">{{ log() }}</p> }
+  </div>
+</ng-template>
