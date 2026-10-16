@@ -27,6 +27,7 @@ export class HomePage {
   protected readonly components = [
     { path: 'amplify-chat-blocks', name: 'Amplify Chat — Blocks', figma: 'Amplify Chat Interface Patterns 6300:27081 (draft-block 6149:20803, literal-value-block 6152:117821)' },
     { path: 'amplify-chat-cards', name: 'Amplify Chat — Cards', figma: 'Component Migration doc/cards 6300:127578 (chat-list-item 6171:162369)' },
+    { path: 'amplify-chat-chats', name: 'Amplify Chat — Chats panel', figma: 'Component Migration chats panel 6806:27178 (chat-card 6832:132835, chats-panel 6835:133241)' },
     { path: 'amplify-chat-clarifying-questions', name: 'Amplify Chat — Clarifying questions', figma: 'Amplify Chat Interface Patterns: subsection/clarifying-questions 6352:28917' },
     { path: 'amplify-chat-data-table', name: 'Amplify Chat — Data table', figma: 'Component Migration doc/data-table 6300:127565 (header row 6171:165361, row 6174:165788)' },
     { path: 'amplify-chat-docked', name: 'Amplify Chat — Docked chat', figma: 'Amplify Chat Interface Patterns: docked-chat 4608:182872 (Default 4608:182871, pop-over 4608:182873)' },

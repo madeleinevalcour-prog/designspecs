@@ -9,6 +9,7 @@ export const routes: Routes = [
   { path: '', component: HomePage, title: 'ats-ui — components' },
   { path: 'amplify-chat-blocks', loadComponent: () => import('./pages/amplify-chat-blocks/amplify-chat-blocks-page').then((m) => m.AmplifyChatBlocksPage), title: 'Amplify Chat — Blocks — ats-ui' },
   { path: 'amplify-chat-cards', loadComponent: () => import('./pages/amplify-chat-cards/amplify-chat-cards-page').then((m) => m.AmplifyChatCardsPage), title: 'Amplify Chat — Cards — ats-ui' },
+  { path: 'amplify-chat-chats', loadComponent: () => import('./pages/amplify-chat-chats/amplify-chat-chats-page').then((m) => m.AmplifyChatChatsPage), title: 'Amplify Chat — Chats panel — ats-ui' },
   { path: 'amplify-chat-clarifying-questions', loadComponent: () => import('./pages/amplify-chat-clarifying-questions/amplify-chat-clarifying-questions-page').then((m) => m.AmplifyChatClarifyingQuestionsPage), title: 'Amplify Chat — Clarifying questions — ats-ui' },
   { path: 'amplify-chat-data-table', loadComponent: () => import('./pages/amplify-chat-data-table/amplify-chat-data-table-page').then((m) => m.AmplifyChatDataTablePage), title: 'Amplify Chat — Data table — ats-ui' },
   { path: 'amplify-chat-docked', loadComponent: () => import('./pages/amplify-chat-docked/amplify-chat-docked-page').then((m) => m.AmplifyChatDockedPage), title: 'Amplify Chat — Docked chat — ats-ui' },

@@ -49,6 +49,7 @@ export * from './lib/dropdown';
 // Amplify chat
 export * from './lib/amplify-chat/blocks';
 export * from './lib/amplify-chat/cards';
+export * from './lib/amplify-chat/chats';
 export * from './lib/amplify-chat/clarifying-questions';
 export * from './lib/amplify-chat/data-table';
 export * from './lib/amplify-chat/docked';

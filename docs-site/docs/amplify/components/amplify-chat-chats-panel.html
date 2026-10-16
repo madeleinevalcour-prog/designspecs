@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chats panel — Amplify components — design documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../assets/docs.css">
+<script src="../../../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Amplify · Components" title="Chats panel">
+
+  <doc-section id="overview" label="Overview" desc="What the Chats panel is for">
+    <p class="lead" style="max-width:60ch">The recruiter’s chat history on the Amplify tab. It opens from the Chats button in the Amplify header and sits on the right of the page: scheduled prompts first, then past chats by when they were last used.</p>
+    <doc-example src="amplify-chat-chats?component=in-context" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6835-133241" caption="Open and close it from Chats. Try a card, New Chat and search" height="760"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>What it is</th><th>Variants</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#chat-card">Chat card</a></td><td>One chat: title, last activity or unread count, the record or schedule, and a short description</td><td><span class="chip">type</span> chat · scheduled · <span class="chip">status</span> active · paused · attention · <span class="chip">state</span> default · hover · focus · selected</td></tr>
+        <tr><td><a href="#chats-panel">Chats panel</a></td><td>A slideout with New Chat, search, the Scheduled group and the history groups</td><td><span class="chip">state</span> default · scrolled · no-results</td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="chat-card" label="Chat card" desc="One chat in the panel">
+    <p>Same container as the <a href="amplify-chat-prompt-library.html#prompt-card">prompt card</a> and chat-list-item: padding 8 / 16, radius 8, the same border, fill and states, so every Amplify card reads as one family (Gestalt similarity). It has its own <a href="#tokens">component tokens</a>. There is no kebab. Order, top to bottom:</p>
+    <ul>
+      <li><strong>item-header</strong>: the title (<span class="chip">body/lg-medium</span>, 1 line, truncates), then the caption on the right — the last activity (<span class="chip">meta/sm</span>), or the “N new” indicator chip (NovoChip, positive, small) for unread scheduled runs.</li>
+      <li><strong>item-data</strong>: on a chat, the record it’s about (entity icon + name). On a scheduled chat, the frequency and time window (clock-arrow), plus the status when it isn’t active.</li>
+      <li><strong>description</strong>: <span class="chip">body/default</span>, 2 lines, then truncates. Chats only.</li>
+    </ul>
+    <doc-example src="amplify-chat-chats?component=chat-card" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6832-132534" caption="type=chat: record, last activity and description" height="150"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chat-card&amp;scheduled=1" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6832-132712" caption="type=scheduled, status=active, unread: “1 new” replaces the last activity" height="110"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chat-card&amp;scheduled=3" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6834-25694" caption="status=paused: Inactive icon" height="110"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chat-card&amp;scheduled=2" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6834-25798" caption="status=attention: Caution icon in color/icon/utility/warning" height="110"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>State</th><th>Look</th></tr></thead>
+      <tbody>
+        <tr><td>Default</td><td>Border <span class="chip">color/border/subtle</span>, background <span class="chip">card/color/background/contents</span></td></tr>
+        <tr><td>Hover</td><td>Background <span class="chip">color/background/subtle</span>, border <span class="chip">color/border/default</span></td></tr>
+        <tr><td>Keyboard focus</td><td>2px <span class="chip">color/border/focus</span> ring (1px stroke plus a 1px inner ring)</td></tr>
+        <tr><td>Selected</td><td>The open chat. Border <span class="chip">color/border/utility/positive</span>, background <span class="chip">color/background/hover</span></td></tr>
+      </tbody>
+    </table>
+    <doc-example src="amplify-chat-chats?component=chat-card&amp;state=hover" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6832-132793" caption="Hover" height="150"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chat-card&amp;state=focus" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6832-132800" caption="Keyboard focus" height="150"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chat-card&amp;selected=true" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6832-132807" caption="Selected: the chat that’s open" height="150"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chat-card&amp;chat=4" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6832-132534" caption="No record: item-data is left out" height="130"></doc-example>
+  </doc-section>
+
+  <doc-section id="chats-panel" label="Chats panel" desc="The slideout and its groups">
+    <p>A right-hand slideout at the docked-chat width (420), on <span class="chip">amplify-chat/chats-panel/color/background</span> with <span class="chip">general/level 3 - right</span>. The header is the docked chat’s header (novo-header, slideout) with the title “Chats”, then New Chat and Close in the actions; New Chat takes the place of the pop-out action.</p>
+    <doc-example src="amplify-chat-chats?component=chats-panel&amp;current=c4" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6835-25928" caption="state=default, with the open chat selected" height="800"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chats-panel&amp;current=c4&amp;scrolled=true" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6859-26746" caption="state=scrolled: cards under the toolbar, background color/background/scroll" height="800"></doc-example>
+    <table class="tbl">
+      <thead><tr><th>Part</th><th>What it holds</th></tr></thead>
+      <tbody>
+        <tr><td>Header actions</td><td>New Chat (Button secondary, small, add-thin) and Close (Button icon, small)</td></tr>
+        <tr><td>Toolbar</td><td>Search (search-input, “Search chats”). Padding 16 / 24 / 8. Transparent at the top of the list; when cards scroll under it, the background changes to <span class="chip">amplify-chat/chats-panel/color/toolbar/background-scrolled</span></td></tr>
+        <tr><td>Scheduled</td><td>Label and View All (Button dialogue, small). Up to 3 scheduled chats; View All opens the rest</td></tr>
+        <tr><td>History</td><td>Today, Yesterday, Previous 7 days, Older. Groups with no chats aren’t shown</td></tr>
+        <tr><td>Group label</td><td><span class="chip">input/label/md</span>, uppercase, <span class="chip">color/text/subtle</span>, 32 tall</td></tr>
+        <tr><td>Spacing</td><td>List padding 8 / 24 / 16. Groups 16 apart; label and cards 8 apart</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Scheduled chats are listed only under Scheduled, not again in the history.</li>
+      <li>Groups sit 16 apart and cards 8 apart, so each group reads as one unit (Gestalt proximity).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="search" label="Search and no results" desc="Filtering the list">
+    <doc-example src="amplify-chat-chats?component=chats-panel&amp;query=harbor" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6835-25928" caption="Searching: only matching groups show" height="440"></doc-example>
+    <doc-example src="amplify-chat-chats?component=chats-panel&amp;query=offer%20letter" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6835-133171" caption="state=no-results: empty-state with the search term" height="400"></doc-example>
+    <ul>
+      <li>Search filters as you type: scheduled names, chat titles, descriptions and record names.</li>
+      <li>While searching, Scheduled lists every match, not just the first 3.</li>
+      <li>No matches shows the empty-state (In container=no): search icon, “No chats match “query””, “Try a different word.”</li>
+      <li>The field shows its active state (focus border, clear button) while it has text. Clear or <span class="chip">Esc</span> empties it and keeps focus in the field.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="behaviour" label="Behaviour" desc="Opening, closing and actions">
+    <table class="tbl">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Chats button in the Amplify header</td><td>Toggles the panel. Closed by default. The button keeps its active fill while open (<span class="chip">aria-pressed</span>) and shows a badge with the number of unread scheduled runs</td></tr>
+        <tr><td>Close</td><td>Closes the panel and returns focus to the Chats button</td></tr>
+        <tr><td>Click a card, or <span class="chip">↵</span> on a focused card</td><td>Opens that chat. The card becomes selected; the panel stays open</td></tr>
+        <tr><td>New Chat</td><td>Opens a new chat with focus in the input</td></tr>
+        <tr><td>View All</td><td>Opens the Scheduled page</td></tr>
+        <tr><td>Scroll the list</td><td>The toolbar’s background changes to <span class="chip">color/background/scroll</span> while cards are under it, and goes back to transparent at the top</td></tr>
+        <tr><td>Window narrower than 1100px</td><td>The panel overlays the page instead of pushing it</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Wide windows: the page contracts beside the panel, so the open chat stays visible next to the history.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="usage" label="Usage" desc="Do and don’t">
+    <doc-callout type="do" heading="Do.">Show the record on a chat card when the chat is about one. It’s how recruiters find a chat again.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show a scheduled chat in both Scheduled and the history.</doc-callout>
+    <doc-callout type="do" heading="Do.">Show “N new” only for unread scheduled runs. It replaces the last activity.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Use the selected style for hover. Selected means the chat that’s open.</doc-callout>
+  </doc-section>
+
+  <doc-section id="tokens" label="Tokens" desc="Component tokens and what they alias">
+    <p>CSS variables are the Figma variable paths with <span class="chip">/</span> → <span class="chip">-</span>. Each component token aliases a subatomic token.</p>
+    <table class="tbl">
+      <thead><tr><th>Token</th><th>Aliases</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">amplify-chat/chat-card/spacing/gap</span></td><td><span class="chip">spacing/gap/md</span></td></tr>
+        <tr><td><span class="chip">…/chat-card/spacing/padding-horizontal</span> · <span class="chip">padding-vertical</span></td><td><span class="chip">spacing/padding/md</span> · <span class="chip">spacing/padding/sm</span></td></tr>
+        <tr><td><span class="chip">…/chat-card/spacing/content/gap</span> · <span class="chip">header/gap</span></td><td><span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td><span class="chip">…/chat-card/border/radius</span></td><td><span class="chip">border/radius/sm</span></td></tr>
+        <tr><td><span class="chip">…/chat-card/color/background/default</span> · <span class="chip">hover</span> · <span class="chip">selected</span></td><td><span class="chip">color/background/default</span> · <span class="chip">color/background/subtle</span> · <span class="chip">color/background/hover</span></td></tr>
+        <tr><td><span class="chip">…/chat-card/color/border/default</span> · <span class="chip">hover</span> · <span class="chip">focus</span> · <span class="chip">selected</span></td><td><span class="chip">color/border/subtle</span> · <span class="chip">color/border/default</span> · <span class="chip">color/border/focus</span> · <span class="chip">color/border/utility/positive</span></td></tr>
+        <tr><td><span class="chip">…/chat-card/color/content/title</span> · <span class="chip">caption</span> · <span class="chip">description</span></td><td><span class="chip">color/text/headline</span> · <span class="chip">color/text/disabled</span> · <span class="chip">color/text/body</span></td></tr>
+        <tr><td><span class="chip">…/chat-card/color/icon/attention</span></td><td><span class="chip">color/icon/utility/warning</span></td></tr>
+        <tr><td><span class="chip">amplify-chat/chats-panel/color/background</span></td><td><span class="chip">color/background/muted</span></td></tr>
+        <tr><td><span class="chip">…/chats-panel/spacing/toolbar/padding-top</span> · <span class="chip">padding-horizontal</span> · <span class="chip">padding-bottom</span> · <span class="chip">gap</span></td><td><span class="chip">spacing/padding/md</span> · <span class="chip">spacing/padding/lg</span> · <span class="chip">spacing/padding/sm</span> · <span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td><span class="chip">…/chats-panel/color/toolbar/background-scrolled</span></td><td><span class="chip">color/background/scroll</span></td></tr>
+        <tr><td><span class="chip">…/chats-panel/spacing/list/padding-top</span> · <span class="chip">padding-horizontal</span> · <span class="chip">padding-bottom</span> · <span class="chip">gap</span></td><td><span class="chip">spacing/padding/sm</span> · <span class="chip">spacing/padding/lg</span> · <span class="chip">spacing/padding/md</span> · <span class="chip">spacing/gap/md</span></td></tr>
+        <tr><td><span class="chip">…/chats-panel/spacing/group/gap</span> · <span class="chip">group-header/gap</span></td><td><span class="chip">spacing/gap/sm</span></td></tr>
+        <tr><td><span class="chip">…/chats-panel/spacing/group-header/min-height</span></td><td><span class="chip">spacing/32</span></td></tr>
+        <tr><td><span class="chip">…/chats-panel/color/content/label</span> · <span class="chip">empty</span></td><td><span class="chip">color/text/subtle</span></td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li>Elevation is the <span class="chip">general/level 3 - right</span> effect style. The header, buttons, search, chips and empty-state keep their own tokens.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="accessibility" label="Accessibility" desc="Names, roles and focus">
+    <ul>
+      <li>The card’s title is its button and its hit area covers the card. The open chat has <span class="chip">aria-current="page"</span>.</li>
+      <li>Unread is announced with the title (“Open job order status, 1 new run”); the chip itself is hidden from assistive tech.</li>
+      <li>Status isn’t shown by color alone: Paused and Needs attention each have an icon and a label.</li>
+      <li>The panel is a <span class="chip">complementary</span> landmark named “Chats”, with a heading per group. While closed it’s <span class="chip">inert</span>.</li>
+      <li>The Chats button has <span class="chip">aria-controls</span> and <span class="chip">aria-pressed</span>, and its name includes the unread count (“Chats, 2 new”).</li>
+      <li>No results is announced (<span class="chip">role="status"</span>).</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="code" label="In code" desc="Angular usage and inputs">
+    <doc-code caption="Angular">
+      &lt;ats-amplify-chat-chats-panel id="chats" [(open)]="chatsOpen" [chats]="chats" [scheduled]="scheduled"
+        [current]="chatId" [(query)]="q" (openChat)="go($event)" (newChat)="startChat()"
+        (viewScheduled)="go('scheduled')" (closed)="chatsButton.focus()" /&gt;
+
+      &lt;ats-amplify-chat-chat-card title="Shortlist for Product Manager, Nexus" ago="3 hours ago"
+        [record]="{ entity: 'job', label: '425 | Project Manager' }"
+        description="Jane Jones and Tyler Brooks meet 4 of 5 must-haves" (open)="go(chat)" /&gt;
+    </doc-code>
+    <table class="tbl">
+      <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th><th>Outputs</th></tr></thead>
+      <tbody>
+        <tr><td><span class="chip">AmplifyChatChatsPanel</span></td><td><span class="chip">ats-amplify-chat-chats-panel</span></td><td><span class="chip">[(open)]</span> (true) · <span class="chip">chats</span>: id, title, group, ago, description, record · <span class="chip">scheduled</span>: id, chatId, name, schedule, status, unread, last · <span class="chip">current</span> · <span class="chip">[(query)]</span> · <span class="chip">scrolled</span> (docs) · <span class="chip">title</span></td><td><span class="chip">openChat</span>(id) · <span class="chip">newChat</span> · <span class="chip">viewScheduled</span> · <span class="chip">closed</span>. <span class="chip">unreadCount</span> for the badge; method <span class="chip">focusSearch()</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatChatCard</span></td><td><span class="chip">ats-amplify-chat-chat-card</span></td><td><span class="chip">type</span> chat · scheduled · <span class="chip">title</span> · <span class="chip">ago</span> · <span class="chip">record</span> · <span class="chip">description</span> · <span class="chip">schedule</span> · <span class="chip">status</span> active · paused · attention · <span class="chip">unread</span> · <span class="chip">selected</span> · <span class="chip">state</span> hover · focus</td><td><span class="chip">open</span></td></tr>
+      </tbody>
+    </table>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Other components">
+    <ul>
+      <li><a href="amplify-chat-prompt-library.html">Prompt library</a>: the prompt card this card shares its container with.</li>
+      <li><a href="amplify-chat-docked.html">Docked chat</a>: the same width and header.</li>
+      <li><a href="../../amplify-tab-design-decisions.html">Amplify tab design decisions</a>: where the Chats panel was decided.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Timestamp contrast.">The last activity uses the item-header caption (<span class="chip">list-item/color/content/disabled</span>), as in other list items. Disabled text may not meet 4.5:1 for information the recruiter needs. Consider <span class="chip">color/text/subtle</span>.</doc-callout>
+    <doc-callout type="note" heading="Tokens in CSS.">The component tokens were added in Figma. Until <span class="chip">tokens/component-migration.json</span> is re-exported, each CSS variable falls back to the subatomic token it aliases, so the look is the same.</doc-callout>
+    <doc-callout type="note" heading="Changes from the prototype.">Card order follows the prompt card (header, item-data, description) instead of the prototype’s title, description, footer. The unread dot before the title is dropped; the “N new” chip carries it. Empty groups, including Scheduled, are hidden while searching. The Scheduled count and the “N more in Scheduled” link are removed; View All covers both. New Chat moved into the header. Width is 420 (prototype 320).</doc-callout>
+    <doc-callout type="note" heading="Chats button.">The Chats toggle and its badge are built separately and will be linked here. The example above uses a stand-in in the showcase.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

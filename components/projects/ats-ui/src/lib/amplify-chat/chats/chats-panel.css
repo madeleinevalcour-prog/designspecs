@@ -1,0 +1,109 @@
+/* AmplifyChatChatsPanel — Figma "amplify-chat/chats-panel" (6835:133241). Slideout surface at the
+   docked-chat width; header matches docked-chat (novo-header, slideout). Unencapsulated, namespaced.
+   Component tokens are amplify-chat/chats-panel/*; each var() falls back to the subatomic token it
+   aliases until tokens/component-migration.json is re-exported. */
+.ats-amplify-chat-chats-panel {
+  --_panel-w: 420px; /* no token: Figma docked-chat / chats-panel width 420 */
+  display: block; box-sizing: border-box; position: relative; overflow: hidden;
+  flex: 0 0 auto; align-self: stretch; height: 100%;
+  width: 0; visibility: hidden;
+  transition: width 200ms ease-out, visibility 0s linear 200ms; /* no token: motion (same as docked-chat) */
+}
+.ats-amplify-chat-chats-panel.is-open {
+  width: var(--_panel-w); visibility: visible; overflow: visible;
+  transition: width 200ms ease-out, visibility 0s;
+  clip-path: inset(0 0 0 -24px); /* no token: room for the level 3 - right shadow on the left only */
+  box-shadow: var(--elevation-3-right);
+}
+/* Narrow windows: overlay the page instead of pushing it (prototype ≤ 1100px). */
+@media (max-width: 1100px) {
+  .ats-amplify-chat-chats-panel { position: absolute; top: 0; right: 0; bottom: 0; z-index: 3; } /* no token: overlay layer */
+}
+@media (prefers-reduced-motion: reduce) {
+  .ats-amplify-chat-chats-panel, .ats-amplify-chat-chats-panel.is-open { transition: none; }
+}
+
+.ats-amplify-chat-chats-panel__panel {
+  display: flex; flex-direction: column; box-sizing: border-box;
+  width: var(--_panel-w); height: 100%; min-height: 0;
+  background: var(--amplify-chat-chats-panel-color-background, var(--color-background-muted));
+}
+
+/* header (novo-header size=slideout, show tabs=no) */
+.ats-amplify-chat-chats-panel__header {
+  display: flex; align-items: center; flex: 0 0 auto; box-sizing: border-box; position: relative; z-index: 1;
+  gap: var(--card-spacing-header-gap);
+  padding: var(--card-spacing-header-padding-vertical) var(--card-spacing-header-padding-horizontal);
+  background: var(--card-color-background-header);
+  border-bottom: 1px solid var(--header-color-border-default); /* no token: Figma 1px stroke */
+  box-shadow: var(--elevation-1);
+}
+.ats-amplify-chat-chats-panel__actions {
+  display: flex; align-items: center; justify-content: flex-end; flex: 0 0 auto;
+  gap: var(--header-spacing-candidate-header-actions);
+}
+.ats-amplify-chat-chats-panel__title {
+  flex: 1 0 0; min-width: 0; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--color-text-headline);
+  font-family: var(--typography-title-medium-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-title-medium-font-size); font-weight: var(--typography-title-medium-font-weight);
+  line-height: var(--typography-title-medium-line-height); letter-spacing: var(--typography-title-medium-letter-spacing);
+}
+
+/* toolbar: search, 16 / 24 / 8 */
+.ats-amplify-chat-chats-panel__toolbar {
+  display: flex; flex-direction: column; flex: 0 0 auto;
+  gap: var(--amplify-chat-chats-panel-spacing-toolbar-gap, var(--spacing-gap-sm));
+  padding: var(--amplify-chat-chats-panel-spacing-toolbar-padding-top, var(--spacing-padding-md))
+    var(--amplify-chat-chats-panel-spacing-toolbar-padding-horizontal, var(--spacing-padding-lg))
+    var(--amplify-chat-chats-panel-spacing-toolbar-padding-bottom, var(--spacing-padding-sm));
+}
+/* scrolled (state=scrolled): cards are under the toolbar */
+.ats-amplify-chat-chats-panel__toolbar { transition: background-color 150ms ease; }
+.ats-amplify-chat-chats-panel__toolbar.is-scrolled {
+  background: var(--amplify-chat-chats-panel-color-toolbar-background-scrolled, var(--color-background-scroll));
+}
+@media (prefers-reduced-motion: reduce) { .ats-amplify-chat-chats-panel__toolbar { transition: none; } }
+
+/* list: scrolls; 8 / 24 / 16, groups 16 apart */
+.ats-amplify-chat-chats-panel__list {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column;
+  gap: var(--amplify-chat-chats-panel-spacing-list-gap, var(--spacing-gap-md));
+  padding: var(--amplify-chat-chats-panel-spacing-list-padding-top, var(--spacing-padding-sm))
+    var(--amplify-chat-chats-panel-spacing-list-padding-horizontal, var(--spacing-padding-lg))
+    var(--amplify-chat-chats-panel-spacing-list-padding-bottom, var(--spacing-padding-md));
+}
+.ats-amplify-chat-chats-panel__group { display: flex; flex-direction: column; gap: var(--amplify-chat-chats-panel-spacing-group-gap, var(--spacing-gap-sm)); }
+.ats-amplify-chat-chats-panel__group-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--amplify-chat-chats-panel-spacing-group-header-gap, var(--spacing-gap-sm));
+  min-height: var(--amplify-chat-chats-panel-spacing-group-header-min-height, var(--spacing-32));
+}
+/* group label: input/label/md, uppercase, color/text/subtle */
+.ats-amplify-chat-chats-panel__label {
+  margin: 0; text-transform: uppercase;
+  color: var(--amplify-chat-chats-panel-color-content-label, var(--color-text-subtle));
+  font-family: var(--typography-input-label-md-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-input-label-md-font-size); line-height: var(--typography-input-label-md-line-height);
+  font-weight: var(--typography-input-label-md-font-weight); letter-spacing: var(--typography-input-label-md-letter-spacing);
+}
+.ats-amplify-chat-chats-panel__cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--amplify-chat-chats-panel-spacing-group-gap, var(--spacing-gap-sm)); }
+
+/* no results: empty-state (In container=no), centred in the list */
+.ats-amplify-chat-chats-panel__empty {
+  display: flex; flex-direction: column; align-items: center; text-align: center; align-self: stretch;
+  gap: var(--empty-state-spacing-content-gap);
+  padding: var(--empty-state-spacing-content-padding-vertical) var(--empty-state-spacing-content-padding-horizontal);
+}
+.ats-amplify-chat-chats-panel__empty-body { display: flex; flex-direction: column; }
+.ats-amplify-chat-chats-panel__empty-title {
+  margin: 0; color: var(--empty-state-color-content-heading);
+  font-family: var(--typography-title-small-font-family), 'Inter', sans-serif; font-weight: var(--typography-title-small-font-weight);
+  font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height);
+}
+.ats-amplify-chat-chats-panel__empty-text {
+  margin: 0; color: var(--empty-state-color-content-body);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif; font-weight: var(--typography-body-default-font-weight-default);
+  font-size: var(--typography-body-default-font-size); line-height: var(--typography-body-default-line-height);
+}

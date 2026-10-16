@@ -1,0 +1,80 @@
+/* Amplify chat card — Figma "amplify-chat/chat-card" (6832:132835). Unencapsulated, namespaced
+   .ats-amplify-chat-chat-card. Same container as Prompt Card (6762:90134). Component tokens are
+   amplify-chat/chat-card/*; each var() falls back to the subatomic token it aliases until
+   tokens/component-migration.json is re-exported. */
+
+.ats-amplify-chat-chat-card {
+  position: relative; display: flex; align-items: flex-start; box-sizing: border-box; width: 100%; min-width: 0;
+  gap: var(--amplify-chat-chat-card-spacing-gap, var(--spacing-gap-md));
+  padding: var(--amplify-chat-chat-card-spacing-padding-vertical, var(--spacing-padding-sm))
+    var(--amplify-chat-chat-card-spacing-padding-horizontal, var(--spacing-padding-md));
+  background: var(--amplify-chat-chat-card-color-background-default, var(--color-background-default));
+  border: var(--border-width-border-default) solid var(--amplify-chat-chat-card-color-border-default, var(--color-border-subtle));
+  border-radius: var(--amplify-chat-chat-card-border-radius, var(--border-radius-sm));
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+/* hover (Prompt Card hover 6762:90135): tonal fill + default border */
+.ats-amplify-chat-chat-card:hover,
+.ats-amplify-chat-chat-card[data-state="hover"] {
+  background: var(--amplify-chat-chat-card-color-background-hover, var(--color-background-subtle));
+  border-color: var(--amplify-chat-chat-card-color-border-hover, var(--color-border-default));
+}
+/* selected: the open chat — border utility/positive, background hover */
+.ats-amplify-chat-chat-card.is-selected {
+  background: var(--amplify-chat-chat-card-color-background-selected, var(--color-background-hover));
+  border-color: var(--amplify-chat-chat-card-color-border-selected, var(--color-border-utility-positive));
+}
+/* focus (Prompt Card focus 6788:23069): 2px focus ring (1px border + 1px inner ring) */
+.ats-amplify-chat-chat-card:has(.ats-amplify-chat-chat-card__title:focus-visible),
+.ats-amplify-chat-chat-card[data-state="focus"] {
+  border-color: var(--amplify-chat-chat-card-color-border-focus, var(--color-border-focus));
+  box-shadow: inset 0 0 0 1px var(--amplify-chat-chat-card-color-border-focus, var(--color-border-focus));
+}
+
+.ats-amplify-chat-chat-card__list-item {
+  display: flex; flex-direction: column; flex: 1 0 0; min-width: 0;
+  gap: var(--amplify-chat-chat-card-spacing-content-gap, var(--spacing-gap-sm));
+}
+/* item-header (standard, no avatar): title, then the caption group on the right */
+.ats-amplify-chat-chat-card__header {
+  display: flex; align-items: center; min-width: 0; min-height: 24px; /* no token: item-header height */
+  gap: var(--amplify-chat-chat-card-spacing-header-gap, var(--spacing-gap-sm));
+}
+
+/* The title is the card's open button; its ::after stretches over the whole card. */
+.ats-amplify-chat-chat-card__title {
+  flex: 1 0 0; min-width: 0; margin: 0; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer;
+  color: var(--amplify-chat-chat-card-color-content-title, var(--color-text-headline));
+  font-family: var(--typography-body-lg-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-lg-font-weight-medium); font-size: var(--typography-body-lg-font-size);
+  line-height: var(--typography-body-lg-line-height); letter-spacing: var(--typography-body-lg-letter-spacing);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ats-amplify-chat-chat-card__title::after { content: ''; position: absolute; inset: 0; border-radius: inherit; }
+.ats-amplify-chat-chat-card__title:focus-visible { outline: none; }
+
+/* caption (item-header caption > item-content type=caption, icon hidden): meta/sm, content/disabled */
+.ats-amplify-chat-chat-card__ago {
+  flex: 0 0 auto; white-space: nowrap;
+  color: var(--amplify-chat-chat-card-color-content-caption, var(--color-text-disabled));
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight); font-size: var(--typography-meta-small-font-size);
+  line-height: var(--typography-meta-small-line-height); letter-spacing: var(--typography-meta-small-letter-spacing);
+}
+.ats-amplify-chat-chat-card__new { flex: 0 0 auto; }
+
+.ats-amplify-chat-chat-card__data { min-width: 0; }
+.ats-amplify-chat-chat-card__record { min-width: 0; flex: 0 1 auto; }
+.ats-amplify-chat-chat-card__record .ats-item-field__text { overflow: hidden; text-overflow: ellipsis; }
+
+/* description: body/default, 2 lines then truncates */
+.ats-amplify-chat-chat-card__description {
+  margin: 0; color: var(--amplify-chat-chat-card-color-content-description, var(--color-text-body));
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-body-default-font-weight-default); font-size: var(--typography-body-default-font-size);
+  line-height: var(--typography-body-default-line-height); letter-spacing: var(--typography-body-default-letter-spacing);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) { .ats-amplify-chat-chat-card { transition: none; } }

@@ -1,0 +1,87 @@
+@if (component() === 'chat-card') {
+  <div class="embed">
+    <div class="w372">
+      @if (embedSched(); as s) {
+        <ats-amplify-chat-chat-card type="scheduled" [title]="s.name" [schedule]="s.schedule" [status]="s.status" [unread]="s.unread"
+          [ago]="s.last" [state]="state()" [selected]="embedSelected()" />
+      } @else {
+        <ats-amplify-chat-chat-card [title]="embedChat().title" [ago]="embedChat().ago" [record]="embedChat().record"
+          [description]="embedChat().description" [state]="state()" [selected]="embedSelected()" />
+      }
+    </div>
+  </div>
+} @else if (component() === 'chats-panel') {
+  <div class="embed">
+    <div class="panel-frame">
+      <ats-amplify-chat-chats-panel [chats]="chats" [scheduled]="scheds" [current]="current()" [query]="query() ?? ''" [scrolled]="scrolled() === 'true'" />
+    </div>
+  </div>
+} @else if (component() === 'in-context') {
+  <div class="embed">
+    <ng-container *ngTemplateOutlet="context" />
+  </div>
+} @else {
+  <h1>Amplify Chat — Chats panel</h1>
+  <p class="lede">Figma section <code>6806:27178</code>. The chat history for the Amplify tab, from the Amplify tab prototype.
+    Chat cards share the Prompt Card container; the panel is a slideout at the docked-chat width. Built on the Modern UI
+    list-item parts, NovoChip, Button and SearchInput.</p>
+
+  <h2>chat-card — chats</h2>
+  <div class="row">
+    <div class="cell w372"><span class="caption">Default</span>
+      <ats-amplify-chat-chat-card [title]="chats[0].title" [ago]="chats[0].ago" [record]="chats[0].record" [description]="chats[0].description" /></div>
+    <div class="cell w372"><span class="caption">Hover</span>
+      <ats-amplify-chat-chat-card state="hover" [title]="chats[0].title" [ago]="chats[0].ago" [record]="chats[0].record" [description]="chats[0].description" /></div>
+    <div class="cell w372"><span class="caption">Keyboard focus</span>
+      <ats-amplify-chat-chat-card state="focus" [title]="chats[0].title" [ago]="chats[0].ago" [record]="chats[0].record" [description]="chats[0].description" /></div>
+    <div class="cell w372"><span class="caption">Selected (open chat)</span>
+      <ats-amplify-chat-chat-card [selected]="true" [title]="chats[0].title" [ago]="chats[0].ago" [record]="chats[0].record" [description]="chats[0].description" /></div>
+    <div class="cell w372"><span class="caption">No record</span>
+      <ats-amplify-chat-chat-card [title]="chats[3].title" [ago]="chats[3].ago" [description]="chats[3].description" /></div>
+  </div>
+
+  <h2>chat-card — scheduled</h2>
+  <div class="row">
+    @for (s of scheds.slice(0, 3); track s.id) {
+      <div class="cell w372"><span class="caption">{{ s.status === 'attention' ? 'Needs attention, unread' : s.status === 'paused' ? 'Paused' : 'Active, unread' }}</span>
+        <ats-amplify-chat-chat-card type="scheduled" [title]="s.name" [schedule]="s.schedule" [status]="s.status" [unread]="s.unread" [ago]="s.last" /></div>
+    }
+    <div class="cell w372"><span class="caption">Active, read</span>
+      <ats-amplify-chat-chat-card type="scheduled" [title]="scheds[3].name" [schedule]="scheds[3].schedule" [ago]="scheds[3].last" /></div>
+  </div>
+
+  <h2>chats-panel — states</h2>
+  <div class="row">
+    <div class="cell"><span class="caption">Default (open chat selected)</span>
+      <div class="panel-frame"><ats-amplify-chat-chats-panel [chats]="chats" [scheduled]="scheds" current="c4" /></div></div>
+    <div class="cell"><span class="caption">Searching</span>
+      <div class="panel-frame"><ats-amplify-chat-chats-panel [chats]="chats" [scheduled]="scheds" query="o" /></div></div>
+    <div class="cell"><span class="caption">Scrolled (cards under the toolbar)</span>
+      <div class="panel-frame"><ats-amplify-chat-chats-panel [chats]="chats" [scheduled]="scheds" current="c4" [scrolled]="true" /></div></div>
+    <div class="cell"><span class="caption">No results</span>
+      <div class="panel-frame"><ats-amplify-chat-chats-panel [chats]="chats" [scheduled]="scheds" query="offer letter" /></div></div>
+  </div>
+
+  <h2>In context</h2>
+  <ng-container *ngTemplateOutlet="context" />
+}
+
+<ng-template #context>
+  <div class="context">
+    <header class="amp-header">
+      <span class="amp-header__title">Amplify</span>
+      <button id="demo-chats-btn" ats-button theme="secondary" size="small" class="amp-header__chats" [class.is-on]="panelOpen()"
+        aria-controls="demo-chats" [attr.aria-pressed]="panelOpen()" [attr.aria-label]="unread ? 'Chats, ' + unread + ' new' : 'Chats'"
+        (click)="panelOpen.set(!panelOpen())">Chats @if (unread) { <span class="amp-header__badge" aria-hidden="true">{{ unread }}</span> }</button>
+    </header>
+    <div class="amp-body">
+      <main class="amp-main">
+        <p class="note">Page content. The Chats button toggles the panel; the page contracts beside it.</p>
+        @if (log()) { <p class="note" aria-live="polite">{{ log() }}</p> }
+      </main>
+      <ats-amplify-chat-chats-panel id="demo-chats" [(open)]="panelOpen" [chats]="chats" [scheduled]="scheds" [current]="currentChat()"
+        (openChat)="opened($event)" (newChat)="currentChat.set(null); log.set('New chat')" (viewScheduled)="log.set('Opened Scheduled')"
+        (closed)="focusChatsButton()" />
+    </div>
+  </div>
+</ng-template>

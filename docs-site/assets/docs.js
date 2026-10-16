@@ -470,6 +470,7 @@
         {t:"Icon Container (amplify)", href:"/docs/components/icon-container.html#amplify", cat:"Amplify indicators", d:"The amplify theme: the Amplify Radial gradient behind the amplify glyph."},
         {t:"Full-page chat", href:"/docs/amplify/components/amplify-chat-full-page.html", cat:"Surfaces", d:"The standalone chat and the shell for prototyping Amplify conversations."},
         {t:"Docked chat", href:"/docs/amplify/components/amplify-chat-docked.html", cat:"Surfaces", d:"The docked panel and pop-over window, and the shared conversation layout."},
+        {t:"Chats panel", href:"/docs/amplify/components/amplify-chat-chats-panel.html", cat:"Surfaces", d:"The Amplify tab’s chat history: chat cards, Scheduled, history by time, and search."},
         {t:"User messages", href:"/docs/amplify/components/amplify-chat-user-messages.html", cat:"Conversation", d:"The recruiter’s message: the user bubble, long messages and tagged records."},
         {t:"Reply", href:"/docs/amplify/components/amplify-chat-reply.html", cat:"Conversation", d:"The full Amplify reply: identity, body, sources, follow-ups, controls and thinking state."},
         {t:"Text", href:"/docs/amplify/components/amplify-chat-text.html", cat:"Conversation", d:"Headings, paragraphs, inline record links, the status line and numbered lists in an Amplify reply."},
