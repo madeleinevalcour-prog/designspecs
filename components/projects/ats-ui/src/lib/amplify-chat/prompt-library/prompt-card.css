@@ -1,6 +1,6 @@
 /* Amplify chat prompt card — Figma "Prompt Card" (6762:90134). Unencapsulated, namespaced
    .ats-amplify-chat-prompt-card. Component tokens are amplify-chat/prompt-card/*; each var()
-   falls back to the token it aliases until tokens/component-migration.json is re-exported. */
+   falls back to the token it aliases. */
 
 .ats-amplify-chat-prompt-card {
   position: relative; display: flex; align-items: flex-start; box-sizing: border-box; width: 100%; min-width: 0;

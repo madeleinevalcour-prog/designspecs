@@ -6,11 +6,11 @@ import {
   AmplifyChatChatCardState,
   AmplifyChatChatsPanel,
   AmplifyChatScheduledChat,
-  Button,
+  AmplifyHeader,
 } from 'ats-ui';
 
 /** Sample history (from the Amplify tab prototype; fictional data). */
-const CHATS: AmplifyChatChat[] = [
+export const CHATS: AmplifyChatChat[] = [
   { id: 'c4', title: 'Shortlist for Product Manager, Nexus', group: 'today', ago: '3 hours ago',
     description: 'Jane Jones and Tyler Brooks meet 4 of 5 must-haves', record: { entity: 'job', label: '425 | Project Manager' } },
   { id: 'c5', title: 'Draft outreach to Marcus Lehmann', group: 'yesterday', ago: '1 day ago',
@@ -22,7 +22,7 @@ const CHATS: AmplifyChatChat[] = [
 ];
 
 /** Sample scheduled prompts. 5, so the panel shows 3 (View All opens the rest). */
-const SCHEDULED: AmplifyChatScheduledChat[] = [
+export const SCHEDULED: AmplifyChatScheduledChat[] = [
   { id: 's1', chatId: 'c1', name: 'Open job order status', schedule: 'Weekdays, 8–9 AM', status: 'active', unread: 1, last: 'Today, 8:12 AM' },
   { id: 's3', chatId: 'c3', name: 'Overdue submittal follow-ups', schedule: 'Daily, 9–10 AM', status: 'attention', unread: 1, last: 'Yesterday, 9:05 AM' },
   { id: 's2', chatId: 'c2', name: 'Placements starting next week', schedule: 'Fridays, 4–5 PM', status: 'paused', last: 'Fri, Oct 9' },
@@ -51,10 +51,10 @@ const SCHEDULED: AmplifyChatScheduledChat[] = [
  *   chat-card: chat = 1–4 (sample history chat, default 1) or scheduled = 1–5 (sample scheduled chat);
  *     state = hover | focus; selected = true
  *   chats-panel: current = a chat id (c1–c9); query = search text; scrolled = true (toolbar's scrolled background)
- *   in-context: the Amplify header's Chats button toggles the panel beside the page (starts closed)
+ *   in-context: the Amplify header (ats-amplify-header) Chats button toggles the panel beside the page (starts closed)
  */
 @Component({
-  imports: [NgTemplateOutlet, AmplifyChatChatCard, AmplifyChatChatsPanel, Button],
+  imports: [NgTemplateOutlet, AmplifyChatChatCard, AmplifyChatChatsPanel, AmplifyHeader],
   selector: 'app-amplify-chat-chats-page',
   templateUrl: './amplify-chat-chats-page.html',
   styleUrl: './amplify-chat-chats-page.css',
@@ -80,9 +80,6 @@ export class AmplifyChatChatsPage {
   protected readonly panelOpen = signal(false);
   protected readonly currentChat = signal<string | number | null>('c4');
   protected readonly log = signal('');
-  protected readonly unread = SCHEDULED.reduce((n, s) => n + (s.unread ?? 0), 0);
-  /** Close returns focus to the Chats button. */
-  protected focusChatsButton(): void { document.getElementById('demo-chats-btn')?.focus(); }
   protected opened(id: string | number): void {
     this.currentChat.set(id);
     const c = CHATS.find((x) => x.id === id);

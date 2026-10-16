@@ -3,30 +3,30 @@
 
 /* type=paragraph / paragraph-with-links: body/default in color/text/body */
 .ats-amplify-chat-text--paragraph {
-  color: var(--amplify-chat-text-paragraph-color-content-text-color-text-body);
-  font-family: var(--amplify-chat-text-paragraph-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-text-paragraph-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-text-paragraph-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-text-paragraph-typography-letter-spacing-typography-body-default-letter-spacing);
+  color: var(--amplify-chat-text-color-content-paragraph);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 /* Bold (**) = body/default-medium, same color */
 .ats-amplify-chat-text--paragraph :is(strong, b) {
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-medium);
+  font-weight: var(--typography-body-default-font-weight-medium);
 }
 /* Several projected <p>: Figma paragraph spacing between them */
 .ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p { margin: 0; }
-.ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p + p { margin-top: var(--amplify-chat-text-paragraph-spacing-paragraph-spacing-padding-sm); }
+.ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p + p { margin-top: var(--spacing-padding-sm); }
 
 /* type=status: Amplify icon + body/sm in color/text/secondary */
 .ats-amplify-chat-text--status {
-  display: flex; align-items: center; gap: var(--amplify-chat-text-status-spacing-gap-spacing-gap-sm);
-  color: var(--amplify-chat-text-status-color-content-text-color-text-secondary);
-  font-family: var(--amplify-chat-text-status-typography-font-family-typography-body-sm-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-text-status-typography-font-size-typography-body-sm-font-size);
-  font-weight: var(--amplify-chat-text-status-typography-font-weight-typography-body-sm-font-weight-default);
-  line-height: var(--amplify-chat-text-status-typography-line-height-typography-body-sm-line-height);
-  letter-spacing: var(--amplify-chat-text-status-typography-letter-spacing-typography-body-sm-letter-spacing);
+  display: flex; align-items: center; gap: var(--amplify-chat-text-spacing-status-gap);
+  color: var(--amplify-chat-text-color-content-status);
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight-default);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 .ats-amplify-chat-text__content { display: contents; }
 .ats-amplify-chat-text--status .ats-amplify-chat-text__content { display: block; flex: 1 0 0; min-width: 1px; }

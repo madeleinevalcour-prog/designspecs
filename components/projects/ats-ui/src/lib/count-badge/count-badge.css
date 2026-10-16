@@ -1,6 +1,5 @@
 /* CountBadge (Figma "count-badge" 6814:24310). Unencapsulated, namespaced .ats-count-badge.
-   Component tokens are count-badge/*; each var() falls back to the token it aliases until
-   tokens/component-migration.json is re-exported. */
+   Component tokens are count-badge/*; each var() falls back to the token it aliases. */
 .ats-count-badge {
   display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; box-sizing: border-box;
   height: var(--count-badge-spacing-size, var(--spacing-16));

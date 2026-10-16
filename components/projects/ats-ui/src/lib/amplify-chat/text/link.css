@@ -2,8 +2,8 @@
    Unencapsulated, namespaced .ats-amplify-chat-link. Inherits font family / size / line height
    from the surrounding paragraph; sets the medium weight and link color. */
 .ats-amplify-chat-link {
-  color: var(--amplify-chat-text-paragraph-color-content-text-link-text-color-default);
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-medium);
+  color: var(--link-text-color-default);
+  font-weight: var(--typography-body-default-font-weight-medium);
   text-decoration: none; cursor: pointer; border-radius: var(--border-radius-xsm);
 }
 .ats-amplify-chat-link:hover, .ats-amplify-chat-link.is-hover { color: var(--link-text-color-hover); }
@@ -15,11 +15,11 @@
    ~0.43em, so the glyph is scaled up (line-height 0 keeps the line box unchanged). It stays a
    text glyph so the no-break space really keeps it on the same line as the name. */
 .ats-amplify-chat-link__circle {
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-default);
+  font-weight: var(--typography-body-default-font-weight-default);
   font-size: 1.65em; line-height: 0; vertical-align: -0.12em; /* no token: matches Figma's 10px circle */
 }
-.ats-amplify-chat-link[data-entity="job"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-job); }
-.ats-amplify-chat-link[data-entity="company"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-company); }
+.ats-amplify-chat-link[data-entity="job"] .ats-amplify-chat-link__circle { color: var(--color-entity-job); }
+.ats-amplify-chat-link[data-entity="company"] .ats-amplify-chat-link__circle { color: var(--color-entity-company); }
 .ats-amplify-chat-link[data-entity="candidate"] .ats-amplify-chat-link__circle { color: var(--color-entity-candidate); }
 .ats-amplify-chat-link[data-entity="contact"] .ats-amplify-chat-link__circle { color: var(--color-entity-contact); }
 .ats-amplify-chat-link[data-entity="lead"] .ats-amplify-chat-link__circle { color: var(--color-entity-lead); }

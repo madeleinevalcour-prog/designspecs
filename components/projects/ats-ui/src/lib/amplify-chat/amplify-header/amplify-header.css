@@ -1,7 +1,6 @@
 /* AmplifyHeader (Figma "novo-header-amplify" 6815:49633 + novo-title-amplify 6806:36034 +
    actions 6815:49614). Unencapsulated, namespaced .ats-amplify-header. Component tokens are
-   amplify-chat/amplify-header/*; each var() falls back to the token it aliases until
-   tokens/component-migration.json is re-exported. */
+   amplify-chat/amplify-header/*; each var() falls back to the token it aliases. */
 .ats-amplify-header { display: block; position: relative; z-index: 2; min-width: 0; }
 .ats-amplify-header__bar {
   display: flex; flex-direction: column; box-sizing: border-box;

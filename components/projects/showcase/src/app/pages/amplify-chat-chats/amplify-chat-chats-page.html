@@ -68,20 +68,16 @@
 
 <ng-template #context>
   <div class="context">
-    <header class="amp-header">
-      <span class="amp-header__title">Amplify</span>
-      <button id="demo-chats-btn" ats-button theme="secondary" size="small" class="amp-header__chats" [class.is-on]="panelOpen()"
-        aria-controls="demo-chats" [attr.aria-pressed]="panelOpen()" [attr.aria-label]="unread ? 'Chats, ' + unread + ' new' : 'Chats'"
-        (click)="panelOpen.set(!panelOpen())">Chats @if (unread) { <span class="amp-header__badge" aria-hidden="true">{{ unread }}</span> }</button>
-    </header>
-    <div class="amp-body">
+    <div class="amp-page">
+      <ats-amplify-header #header title="Shortlist for Product Manager, Nexus" [(chatsOpen)]="panelOpen" [unread]="panel.unreadCount()"
+        chatsPanelId="demo-chats" [closable]="false" />
       <main class="amp-main">
-        <p class="note">Page content. The Chats button toggles the panel; the page contracts beside it.</p>
+        <p class="note">Page content. The header's Chats button toggles the panel; the page contracts beside it.</p>
         @if (log()) { <p class="note" aria-live="polite">{{ log() }}</p> }
       </main>
-      <ats-amplify-chat-chats-panel id="demo-chats" [(open)]="panelOpen" [chats]="chats" [scheduled]="scheds" [current]="currentChat()"
-        (openChat)="opened($event)" (newChat)="currentChat.set(null); log.set('New chat')" (viewScheduled)="log.set('Opened Scheduled')"
-        (closed)="focusChatsButton()" />
     </div>
+    <ats-amplify-chat-chats-panel #panel id="demo-chats" [(open)]="panelOpen" [chats]="chats" [scheduled]="scheds" [current]="currentChat()"
+      (openChat)="opened($event)" (newChat)="currentChat.set(null); log.set('New chat')" (viewScheduled)="log.set('Opened Scheduled')"
+      (closed)="header.focusChats()" />
   </div>
 </ng-template>

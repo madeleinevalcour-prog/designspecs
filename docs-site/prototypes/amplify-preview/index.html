@@ -3112,13 +3112,13 @@ a.ats-novo-chip__label:focus { outline: none; }
   overflow-y: auto; overscroll-behavior: contain;
   position: relative; /* contains absolutely positioned bits in replies (e.g. visually hidden live
      regions), so they scroll and clip with the turns instead of stretching the page */
-  gap: var(--amplify-chat-docked-chat-main-conversation-spacing-gap-page-gap-vertical);
+  gap: var(--amplify-chat-docked-chat-spacing-conversation-gap);
 }
 
 /* chat column: turns spacing/gap/xlg (32) apart; grows so the input sits at the bottom */
 .ats-amplify-chat-conversation__column {
   display: flex; flex-direction: column; flex: 1 0 auto; box-sizing: border-box; min-width: 0;
-  gap: var(--amplify-chat-docked-chat-main-conversation-chat-column-spacing-gap-spacing-gap-xlg);
+  gap: var(--amplify-chat-docked-chat-spacing-chat-column-gap);
 }
 
 /* input area: general/level 2 - scroll (color/background/scroll + background blur) */
@@ -3149,19 +3149,19 @@ a.ats-novo-chip__label:focus { outline: none; }
    scrolled content isn't clipped short of the header and panel edges */
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__scroll {
   padding:
-    var(--amplify-chat-docked-chat-main-spacing-padding-top-spacing-padding-md)
-    var(--amplify-chat-docked-chat-main-spacing-padding-right-spacing-8)
+    var(--amplify-chat-docked-chat-spacing-main-padding-top-default)
+    var(--amplify-chat-docked-chat-spacing-main-padding-right)
     0
-    var(--amplify-chat-docked-chat-main-spacing-padding-left-spacing-padding-sm);
+    var(--amplify-chat-docked-chat-spacing-main-padding-left);
 }
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__input {
-  padding-bottom: var(--amplify-chat-docked-chat-main-spacing-padding-bottom-spacing-padding-sm);
+  padding-bottom: var(--amplify-chat-docked-chat-spacing-main-padding-bottom);
 }
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__column {
-  padding-inline: var(--amplify-chat-docked-chat-main-conversation-chat-column-spacing-padding-horizontal-spacing-padding-sm);
+  padding-inline: var(--amplify-chat-docked-chat-spacing-chat-column-padding-horizontal);
 }
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__column > .ats-amplify-chat-user-turn {
-  padding-left: var(--amplify-chat-docked-chat-main-conversation-chat-column-user-turn-spacing-padding-left-spacing-padding-lg);
+  padding-left: var(--amplify-chat-docked-chat-spacing-user-turn-padding-left);
 }
 
 /* ==== amplify-chat/reply/chat-block.css ==== */
@@ -3169,7 +3169,7 @@ a.ats-novo-chip__label:focus { outline: none; }
    Unencapsulated, namespaced .ats-amplify-chat-chat-block. */
 .ats-amplify-chat-chat-block {
   display: flex; flex-direction: column; align-items: stretch;
-  gap: var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md);
+  gap: var(--amplify-chat-chat-block-spacing-gap);
   box-sizing: border-box; width: 100%; min-width: 0;
   position: relative; /* positioning context for the visually hidden live region */
 }
@@ -3177,13 +3177,13 @@ a.ats-novo-chip__label:focus { outline: none; }
 /* identity: Icon/Amplify Radial 16 + "Amplify" body/sm-medium color/text/secondary */
 .ats-amplify-chat-chat-block__identity {
   display: flex; align-items: center;
-  gap: var(--amplify-chat-chat-block-identity-spacing-gap-spacing-gap-xsm);
-  color: var(--amplify-chat-chat-block-identity-color-content-text-color-text-secondary);
-  font-family: var(--amplify-chat-chat-block-identity-typography-font-family-typography-body-sm-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-chat-block-identity-typography-font-size-typography-body-sm-font-size);
-  font-weight: var(--amplify-chat-chat-block-identity-typography-font-weight-typography-body-sm-font-weight-medium);
-  line-height: var(--amplify-chat-chat-block-identity-typography-line-height-typography-body-sm-line-height);
-  letter-spacing: var(--amplify-chat-chat-block-identity-typography-letter-spacing-typography-body-sm-letter-spacing);
+  gap: var(--amplify-chat-chat-block-spacing-identity-gap);
+  color: var(--amplify-chat-chat-block-color-content-identity);
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight-medium);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 /* Icon/Amplify Radial: the glyph mask filled with the Amplify radial gradient
    (no token: gradient stops from the Figma asset amplify.svg, as in amplify-chat/text) */
@@ -3194,45 +3194,45 @@ a.ats-novo-chip__label:focus { outline: none; }
 /* body: the projected reply, in order. Paragraph to block = gap/md (16). */
 .ats-amplify-chat-chat-block__body {
   display: flex; flex-direction: column; align-items: stretch;
-  gap: var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md);
+  gap: var(--amplify-chat-chat-block-spacing-gap);
   min-width: 0;
 }
 .ats-amplify-chat-chat-block__body[hidden] { display: none; }
 .ats-amplify-chat-chat-block__body:empty { display: none; }
 /* paragraph to paragraph: gap/sm (8) — Figma answer frame gap */
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-text + .ats-amplify-chat-text {
-  margin-top: calc(var(--amplify-chat-chat-block-answer-spacing-gap-spacing-gap-sm) - var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md));
+  margin-top: calc(var(--amplify-chat-chat-block-spacing-answer-gap) - var(--amplify-chat-chat-block-spacing-gap));
 }
 /* section: 24 above a heading (gap/md + section padding-top 8), heading to its content gap/sm (8) */
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-header {
-  margin-top: var(--amplify-chat-chat-block-section-spacing-padding-top-spacing-padding-sm);
+  margin-top: var(--amplify-chat-chat-block-spacing-section-padding-top);
 }
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-header:first-child { margin-top: 0; }
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-header + * {
-  margin-top: calc(var(--amplify-chat-chat-block-section-spacing-gap-spacing-gap-sm) - var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md));
+  margin-top: calc(var(--amplify-chat-chat-block-spacing-section-gap) - var(--amplify-chat-chat-block-spacing-gap));
 }
 
 /* footer: sources row, then follow-up chips gap/sm (8) below it */
 .ats-amplify-chat-chat-block__footer {
   display: flex; flex-direction: column; align-items: stretch;
-  gap: var(--amplify-chat-chat-block-footer-spacing-gap-spacing-gap-sm);
+  gap: var(--amplify-chat-chat-block-spacing-footer-gap);
 }
 .ats-amplify-chat-chat-block__follow-ups {
   display: flex; flex-wrap: wrap; align-items: flex-start;
-  gap: var(--amplify-chat-chat-block-footer-follow-ups-spacing-gap-spacing-gap-sm);
+  gap: var(--amplify-chat-chat-block-spacing-follow-ups-gap);
 }
 
 /* controls: chat actions (left) + optional primary action (right) */
 .ats-amplify-chat-chat-block__controls {
   display: flex; align-items: center;
-  gap: var(--amplify-chat-chat-block-controls-spacing-gap-spacing-8);
+  gap: var(--amplify-chat-chat-block-spacing-controls-gap);
 }
 .ats-amplify-chat-chat-block__actions {
   display: flex; align-items: center; flex: 1 0 0; min-width: 1px;
-  gap: var(--amplify-chat-chat-block-actions-spacing-gap-button-spacing-default-gap);
+  gap: var(--amplify-chat-chat-block-spacing-actions-gap);
 }
 .ats-amplify-chat-chat-block__actions > .ats-icon-button-no-container:not(:hover):not(:active):not(.is-active):not(:focus-visible) {
-  color: var(--amplify-chat-chat-block-actions-color-content-icon-button-color-icon-content-default);
+  color: var(--button-color-icon-content-default);
 }
 
 /* visually hidden live region ("Copied") */
@@ -3250,19 +3250,19 @@ a.ats-novo-chip__label:focus { outline: none; }
    Unencapsulated, namespaced .ats-amplify-chat-user-bubble. */
 .ats-amplify-chat-user-bubble {
   display: flex; flex-direction: column; align-items: flex-start;
-  gap: var(--amplify-chat-user-bubble-content-spacing-gap-spacing-4);
+  gap: var(--amplify-chat-user-bubble-spacing-content-gap);
   box-sizing: border-box; width: fit-content;
   max-width: min(440px, 100%); /* no token: Figma max width 440 */
-  padding: var(--amplify-chat-user-bubble-spacing-padding-vertical-spacing-padding-sm) var(--amplify-chat-user-bubble-spacing-padding-horizontal-spacing-padding-md);
-  border-radius: var(--amplify-chat-user-bubble-border-radius-border-radius-sm);
-  background: var(--amplify-chat-user-bubble-color-background-color-background-subtle-hover);
+  padding: var(--amplify-chat-user-bubble-spacing-padding-vertical) var(--amplify-chat-user-bubble-spacing-padding-horizontal);
+  border-radius: var(--amplify-chat-user-bubble-border-radius);
+  background: var(--amplify-chat-user-bubble-color-background);
 }
 /* long text (either state) fills the 440 max, as in Figma */
 .ats-amplify-chat-user-bubble.is-long { width: min(440px, 100%); }
 
 /* message viewport: capped at 8 lines (the cap follows the type scale, not pixels) */
 .ats-amplify-chat-user-bubble__viewport {
-  --_line: var(--amplify-chat-user-bubble-message-typography-line-height-typography-body-default-line-height);
+  --_line: var(--typography-body-default-line-height);
   --_cap: calc(var(--_line) * 8);
   align-self: stretch; min-width: 0;
   max-height: var(--_cap); overflow: hidden;
@@ -3277,14 +3277,14 @@ a.ats-novo-chip__label:focus { outline: none; }
 
 .ats-amplify-chat-user-bubble__message {
   overflow-wrap: break-word; word-break: break-word; white-space: pre-line;
-  color: var(--amplify-chat-user-bubble-message-color-content-text-color-text-body);
-  font-family: var(--amplify-chat-user-bubble-message-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-user-bubble-message-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-user-bubble-message-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-user-bubble-message-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-user-bubble-message-typography-letter-spacing-typography-body-default-letter-spacing);
+  color: var(--amplify-chat-user-bubble-color-content-message);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
-.ats-amplify-chat-user-bubble__message > p { margin: 0 0 var(--amplify-chat-user-bubble-message-spacing-paragraph-spacing-padding-sm); }
+.ats-amplify-chat-user-bubble__message > p { margin: 0 0 var(--amplify-chat-user-bubble-spacing-padding-vertical); }
 .ats-amplify-chat-user-bubble__message > p:last-child { margin-bottom: 0; }
 
 /* Show More / Show Less: Button Dialogue Small; its label lines up with the text */
@@ -3296,7 +3296,7 @@ a.ats-novo-chip__label:focus { outline: none; }
 .ats-amplify-chat-user-bubble__viewport[hidden] { display: none; }
 .ats-amplify-chat-user-bubble__answers {
   display: flex; flex-direction: column; margin: 0;
-  gap: var(--amplify-chat-user-bubble-content-spacing-gap-spacing-4);
+  gap: var(--amplify-chat-user-bubble-spacing-content-gap);
   min-width: 0;
 }
 .ats-amplify-chat-user-bubble__answer {
@@ -3315,12 +3315,12 @@ a.ats-novo-chip__label:focus { outline: none; }
 }
 .ats-amplify-chat-user-bubble__value {
   flex: 1 1 auto; min-width: 0; margin: 0; overflow-wrap: break-word;
-  color: var(--amplify-chat-user-bubble-message-color-content-text-color-text-body);
-  font-family: var(--amplify-chat-user-bubble-message-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-user-bubble-message-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-user-bubble-message-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-user-bubble-message-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-user-bubble-message-typography-letter-spacing-typography-body-default-letter-spacing);
+  color: var(--amplify-chat-user-bubble-color-content-message);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 
 /* ==== amplify-chat/text/text.css ==== */
@@ -3329,30 +3329,30 @@ a.ats-novo-chip__label:focus { outline: none; }
 
 /* type=paragraph / paragraph-with-links: body/default in color/text/body */
 .ats-amplify-chat-text--paragraph {
-  color: var(--amplify-chat-text-paragraph-color-content-text-color-text-body);
-  font-family: var(--amplify-chat-text-paragraph-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-text-paragraph-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-text-paragraph-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-text-paragraph-typography-letter-spacing-typography-body-default-letter-spacing);
+  color: var(--amplify-chat-text-color-content-paragraph);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 /* Bold (**) = body/default-medium, same color */
 .ats-amplify-chat-text--paragraph :is(strong, b) {
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-medium);
+  font-weight: var(--typography-body-default-font-weight-medium);
 }
 /* Several projected <p>: Figma paragraph spacing between them */
 .ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p { margin: 0; }
-.ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p + p { margin-top: var(--amplify-chat-text-paragraph-spacing-paragraph-spacing-padding-sm); }
+.ats-amplify-chat-text--paragraph .ats-amplify-chat-text__content > p + p { margin-top: var(--spacing-padding-sm); }
 
 /* type=status: Amplify icon + body/sm in color/text/secondary */
 .ats-amplify-chat-text--status {
-  display: flex; align-items: center; gap: var(--amplify-chat-text-status-spacing-gap-spacing-gap-sm);
-  color: var(--amplify-chat-text-status-color-content-text-color-text-secondary);
-  font-family: var(--amplify-chat-text-status-typography-font-family-typography-body-sm-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-text-status-typography-font-size-typography-body-sm-font-size);
-  font-weight: var(--amplify-chat-text-status-typography-font-weight-typography-body-sm-font-weight-default);
-  line-height: var(--amplify-chat-text-status-typography-line-height-typography-body-sm-line-height);
-  letter-spacing: var(--amplify-chat-text-status-typography-letter-spacing-typography-body-sm-letter-spacing);
+  display: flex; align-items: center; gap: var(--amplify-chat-text-spacing-status-gap);
+  color: var(--amplify-chat-text-color-content-status);
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight-default);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 .ats-amplify-chat-text__content { display: contents; }
 .ats-amplify-chat-text--status .ats-amplify-chat-text__content { display: block; flex: 1 0 0; min-width: 1px; }
@@ -3367,8 +3367,8 @@ a.ats-novo-chip__label:focus { outline: none; }
    Unencapsulated, namespaced .ats-amplify-chat-link. Inherits font family / size / line height
    from the surrounding paragraph; sets the medium weight and link color. */
 .ats-amplify-chat-link {
-  color: var(--amplify-chat-text-paragraph-color-content-text-link-text-color-default);
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-medium);
+  color: var(--link-text-color-default);
+  font-weight: var(--typography-body-default-font-weight-medium);
   text-decoration: none; cursor: pointer; border-radius: var(--border-radius-xsm);
 }
 .ats-amplify-chat-link:hover, .ats-amplify-chat-link.is-hover { color: var(--link-text-color-hover); }
@@ -3380,11 +3380,11 @@ a.ats-novo-chip__label:focus { outline: none; }
    ~0.43em, so the glyph is scaled up (line-height 0 keeps the line box unchanged). It stays a
    text glyph so the no-break space really keeps it on the same line as the name. */
 .ats-amplify-chat-link__circle {
-  font-weight: var(--amplify-chat-text-paragraph-typography-font-weight-typography-body-default-font-weight-default);
+  font-weight: var(--typography-body-default-font-weight-default);
   font-size: 1.65em; line-height: 0; vertical-align: -0.12em; /* no token: matches Figma's 10px circle */
 }
-.ats-amplify-chat-link[data-entity="job"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-job); }
-.ats-amplify-chat-link[data-entity="company"] .ats-amplify-chat-link__circle { color: var(--amplify-chat-text-paragraph-color-content-text-color-entity-company); }
+.ats-amplify-chat-link[data-entity="job"] .ats-amplify-chat-link__circle { color: var(--color-entity-job); }
+.ats-amplify-chat-link[data-entity="company"] .ats-amplify-chat-link__circle { color: var(--color-entity-company); }
 .ats-amplify-chat-link[data-entity="candidate"] .ats-amplify-chat-link__circle { color: var(--color-entity-candidate); }
 .ats-amplify-chat-link[data-entity="contact"] .ats-amplify-chat-link__circle { color: var(--color-entity-contact); }
 .ats-amplify-chat-link[data-entity="lead"] .ats-amplify-chat-link__circle { color: var(--color-entity-lead); }
@@ -3405,21 +3405,21 @@ a.ats-novo-chip__label:focus { outline: none; }
    --amplify-chat-chat-input-* tokens Figma binds. Unencapsulated, namespaced. */
 .ats-amplify-chat-input {
   display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-chat-input-spacing-gap-card-spacing-content-gap);
-  padding: var(--amplify-chat-chat-input-spacing-padding-vertical-card-spacing-header-padding-vertical) var(--amplify-chat-chat-input-spacing-padding-horizontal-spacing-padding-md);
-  background: var(--amplify-chat-chat-input-color-background-card-color-background-contents);
-  border: 1px solid var(--amplify-chat-chat-input-color-border-card-color-border-default); /* no token: Figma 1px stroke */
-  border-radius: var(--amplify-chat-chat-input-border-radius-card-border-radius-default);
+  gap: var(--amplify-chat-chat-input-spacing-gap);
+  padding: var(--amplify-chat-chat-input-spacing-padding-vertical-full-page) var(--amplify-chat-chat-input-spacing-padding-horizontal-full-page);
+  background: var(--amplify-chat-chat-input-color-background);
+  border: 1px solid var(--amplify-chat-chat-input-color-border); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-chat-input-border-radius-full-page);
   /* general/level 2 */
-  box-shadow: 0 var(--amplify-chat-chat-input-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-chat-input-effects-shadow-1-blur-spacing-8) 0
-    var(--amplify-chat-chat-input-effects-shadow-1-color-color-transparency-charcoal-charcoal-08);
+  box-shadow: 0 var(--spacing-4) var(--spacing-8) 0
+    var(--color-transparency-charcoal-charcoal-08);
 }
 .ats-amplify-chat-input[data-size="docked"] {
-  padding: var(--amplify-chat-chat-input-spacing-padding-vertical-spacing-16) var(--amplify-chat-chat-input-spacing-padding-horizontal-spacing-16);
-  border-radius: var(--amplify-chat-chat-input-border-radius-border-radius-sm);
+  padding: var(--amplify-chat-chat-input-spacing-padding-vertical-docked) var(--amplify-chat-chat-input-spacing-padding-horizontal-docked);
+  border-radius: var(--amplify-chat-chat-input-border-radius-docked);
   /* general/level 1 */
-  box-shadow: 0 var(--amplify-chat-chat-input-effects-shadow-1-offset-y-spacing-2) var(--amplify-chat-chat-input-effects-shadow-1-blur-spacing-4) 0
-    var(--amplify-chat-chat-input-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+  box-shadow: 0 var(--spacing-2) var(--spacing-4) 0
+    var(--color-transparency-charcoal-charcoal-04);
 }
 
 /* ==== amplify-chat/input/amplify-text-area.css ==== */
@@ -3433,17 +3433,17 @@ a.ats-novo-chip__label:focus { outline: none; }
   /* No border: the field sits borderless inside the chat input (design owner; the
      text-area border-width token is unused). */
   border: 0; outline: 0; background: transparent;
-  border-radius: var(--amplify-chat-text-area-border-radius-field-border-radius-default);
-  color: var(--amplify-chat-text-area-input-input-color-content-text-field-color-content-value);
-  font-family: var(--amplify-chat-text-area-input-input-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-text-area-input-input-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-text-area-input-input-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-text-area-input-input-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-text-area-input-input-typography-letter-spacing-typography-body-default-letter-spacing);
+  border-radius: var(--field-border-radius-default);
+  color: var(--amplify-chat-text-area-color-content-value);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 .ats-amplify-chat-text-area::placeholder {
   opacity: 1;
-  color: var(--amplify-chat-text-area-input-what-would-you-like-to-know-or-do-today-color-content-text-field-color-content-placeholder);
+  color: var(--amplify-chat-text-area-color-content-placeholder);
 }
 
 /* ==== amplify-chat/input/button-row.css ==== */
@@ -3456,13 +3456,13 @@ a.ats-novo-chip__label:focus { outline: none; }
 }
 .ats-amplify-chat-button-row__tools {
   display: flex; align-items: center; flex: 1 0 0; min-width: 0;
-  gap: var(--amplify-chat-button-row-amplify-tools-spacing-gap-spacing-8);
+  gap: var(--amplify-chat-button-row-spacing-tools-gap);
 }
 /* send: Button's primary + amplify gradient ("Buttons/Amplify Radial"), made a 32px circle like Figma's fab */
 /* Stop (while generating): Dialogue / Small, icon-only, 8px before Send */
 .ats-amplify-chat-button-row__stop.ats-btn {
   flex: 0 0 auto; gap: 0;
-  margin-right: var(--amplify-chat-button-row-amplify-tools-spacing-gap-spacing-8); /* no token for the stop/send gap: reuses the tools gap (8) */
+  margin-right: var(--amplify-chat-button-row-spacing-tools-gap); /* no token for the stop/send gap: reuses the tools gap (8) */
 }
 .ats-amplify-chat-button-row__send.ats-btn {
   flex: 0 0 auto; gap: 0; padding: 0;
@@ -3474,7 +3474,7 @@ a.ats-novo-chip__label:focus { outline: none; }
 /* AmplifyChatGlobalChatContainer (Figma "global-chat-container" 4527:171709). */
 .ats-amplify-chat-global-chat-container {
   display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-global-chat-container-spacing-gap-page-gap-vertical);
+  gap: var(--amplify-chat-global-chat-container-spacing-gap);
 }
 /* novo-title: title/default, headline color */
 .ats-amplify-chat-global-chat-container__greeting {
@@ -3496,27 +3496,27 @@ a.ats-novo-chip__label:focus { outline: none; }
    Values are the --amplify-chat-context-container-* tokens Figma binds. Unencapsulated. */
 .ats-amplify-chat-context-container {
   display: flex; align-items: center; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-context-container-icon-button-no-container-spacing-gap-button-spacing-default-gap);
-  padding: var(--amplify-chat-context-container-spacing-padding-vertical-spacing-8) var(--amplify-chat-context-container-spacing-padding-horizontal-spacing-16);
-  background: var(--amplify-chat-context-container-color-background-card-color-background-contents);
-  border: 1px solid var(--amplify-chat-context-container-color-border-card-color-border-default); /* no token: Figma 1px stroke */
-  border-radius: var(--amplify-chat-context-container-border-radius-border-radius-md);
-  box-shadow: 0 var(--amplify-chat-context-container-effects-shadow-1-offset-y-spacing-2) var(--amplify-chat-context-container-effects-shadow-1-blur-spacing-4) 0
-    var(--amplify-chat-context-container-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+  gap: var(--amplify-chat-context-container-spacing-actions-gap);
+  padding: var(--amplify-chat-context-container-spacing-padding-vertical) var(--amplify-chat-context-container-spacing-padding-horizontal);
+  background: var(--amplify-chat-context-container-color-background);
+  border: 1px solid var(--amplify-chat-context-container-color-border); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-context-container-border-radius-full-page);
+  box-shadow: 0 var(--spacing-2) var(--spacing-4) 0
+    var(--color-transparency-charcoal-charcoal-04);
 }
 .ats-amplify-chat-context-container[data-size="docked"] {
-  border-radius: var(--amplify-chat-context-container-border-radius-border-radius-sm);
+  border-radius: var(--amplify-chat-context-container-border-radius-docked);
 }
 
 /* "Context:" — input/label/field-label in field/color/content/label */
 .ats-amplify-chat-context-container__label {
   flex: 0 0 auto; white-space: nowrap;
-  color: var(--amplify-chat-context-container-context-color-content-text-field-color-content-label);
-  font-family: var(--amplify-chat-context-container-context-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-context-container-context-typography-font-size-typography-input-label-field-label-font-size);
-  font-weight: var(--amplify-chat-context-container-context-typography-font-weight-typography-input-label-field-label-font-weight);
-  line-height: var(--amplify-chat-context-container-context-typography-line-height-typography-input-label-field-label-line-height);
-  letter-spacing: var(--amplify-chat-context-container-context-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+  color: var(--amplify-chat-context-container-color-content-context);
+  font-family: var(--typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-input-label-field-label-font-size);
+  font-weight: var(--typography-input-label-field-label-font-weight);
+  line-height: var(--typography-input-label-field-label-line-height);
+  letter-spacing: var(--typography-input-label-field-label-letter-spacing);
 }
 .ats-amplify-chat-context-container__chips {
   display: flex; flex-wrap: wrap; align-items: center; flex: 1 0 0; min-width: 0;
@@ -3524,13 +3524,13 @@ a.ats-novo-chip__label:focus { outline: none; }
 }
 .ats-amplify-chat-context-container__add { margin-left: auto; }
 .ats-amplify-chat-context-container__add .ats-icon {
-  background-color: var(--amplify-chat-context-container-icon-button-no-container-add-thin-vector-color-content-icon-button-color-icon-content-default);
+  background-color: var(--button-color-icon-content-default);
 }
 
 /* Chips: the context-container chip fill token. The dot takes the record's entity color
    (NovoChip colors its icon inline, hence !important). */
 .ats-amplify-chat-context-container .ats-novo-chip.ats-amplify-chat-context-container__chip[data-type][data-color] {
-  --_chip-bg: var(--amplify-chat-context-container-chips-novo-chip-color-background-neutral-2);
+  --_chip-bg: var(--chip-color-background-default-default);
 }
 .ats-amplify-chat-context-container__chip .ats-novo-chip__icon { background-color: var(--_ctx-entity) !important; }
 /* source chips (e.g. Prospect): the Amplify icon in Icon/Amplify Radial
@@ -3633,66 +3633,66 @@ a.ats-novo-chip__label:focus { outline: none; }
    the --amplify-chat-clarifying-questions-* tokens Figma binds. Unencapsulated. */
 .ats-amplify-chat-clarifying-questions {
   display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-clarifying-questions-spacing-gap-spacing-8);
-  padding: var(--amplify-chat-clarifying-questions-spacing-padding-top-card-spacing-header-padding-vertical)
-    var(--amplify-chat-clarifying-questions-spacing-padding-horizontal-spacing-padding-md)
-    var(--amplify-chat-clarifying-questions-spacing-padding-bottom-spacing-padding-md);
+  gap: var(--amplify-chat-clarifying-questions-spacing-gap);
+  padding: var(--amplify-chat-clarifying-questions-spacing-padding-top-full-page)
+    var(--amplify-chat-clarifying-questions-spacing-padding-horizontal-full-page)
+    var(--amplify-chat-clarifying-questions-spacing-padding-bottom);
   /* Border/Amplify Gradient (no token for the style): a 1px gradient ring via border-box,
      as in chat-list-item.css. Marks a live Amplify ask. */
   border: 1px solid transparent; /* no token: Figma 1px stroke */
   background:
-    linear-gradient(var(--amplify-chat-clarifying-questions-color-background-card-color-background-contents), var(--amplify-chat-clarifying-questions-color-background-card-color-background-contents)) padding-box,
+    linear-gradient(var(--amplify-chat-clarifying-questions-color-background), var(--amplify-chat-clarifying-questions-color-background)) padding-box,
     linear-gradient(to top right, var(--color-amplify-amplify-green), var(--color-amplify-amplify-blue)) border-box;
-  border-radius: var(--amplify-chat-clarifying-questions-border-radius-card-border-radius-default);
+  border-radius: var(--amplify-chat-clarifying-questions-border-radius-full-page);
   /* general/level 2 */
-  box-shadow: 0 var(--amplify-chat-clarifying-questions-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-clarifying-questions-effects-shadow-1-blur-spacing-8) 0
-    var(--amplify-chat-clarifying-questions-effects-shadow-1-color-color-transparency-charcoal-charcoal-08);
+  box-shadow: 0 var(--amplify-chat-clarifying-questions-spacing-pager-gap) var(--amplify-chat-clarifying-questions-spacing-gap) 0
+    var(--color-transparency-charcoal-charcoal-08);
 }
 .ats-amplify-chat-clarifying-questions[data-size="docked"] {
-  padding: var(--amplify-chat-clarifying-questions-spacing-padding-top-spacing-16)
-    var(--amplify-chat-clarifying-questions-spacing-padding-horizontal-spacing-16)
-    var(--amplify-chat-clarifying-questions-spacing-padding-bottom-spacing-padding-md);
-  border-radius: var(--amplify-chat-clarifying-questions-border-radius-border-radius-sm);
+  padding: var(--amplify-chat-clarifying-questions-spacing-padding-top-docked)
+    var(--amplify-chat-clarifying-questions-spacing-padding-horizontal-docked)
+    var(--amplify-chat-clarifying-questions-spacing-padding-bottom);
+  border-radius: var(--amplify-chat-clarifying-questions-border-radius-docked);
   /* general/level 1 */
-  box-shadow: 0 var(--amplify-chat-clarifying-questions-effects-shadow-1-offset-y-spacing-2) var(--amplify-chat-clarifying-questions-effects-shadow-1-blur-spacing-4) 0
-    var(--amplify-chat-clarifying-questions-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+  box-shadow: 0 var(--spacing-2) var(--amplify-chat-clarifying-questions-spacing-pager-gap) 0
+    var(--color-transparency-charcoal-charcoal-04);
 }
 
 .ats-amplify-chat-clarifying-questions__header {
   display: flex; align-items: center; width: 100%;
-  gap: var(--amplify-chat-clarifying-questions-header-spacing-gap-spacing-8);
+  gap: var(--amplify-chat-clarifying-questions-spacing-header-gap);
 }
 .ats-amplify-chat-clarifying-questions__question {
   flex: 1 0 0; min-width: 0; margin: 0;
-  color: var(--amplify-chat-clarifying-questions-header-question-color-content-text-color-text-headline);
-  font-family: var(--amplify-chat-clarifying-questions-header-question-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-clarifying-questions-header-question-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-clarifying-questions-header-question-typography-font-weight-typography-body-default-font-weight-medium);
-  line-height: var(--amplify-chat-clarifying-questions-header-question-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-clarifying-questions-header-question-typography-letter-spacing-typography-body-default-letter-spacing);
+  color: var(--amplify-chat-clarifying-questions-color-content-question);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-medium);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 .ats-amplify-chat-clarifying-questions__pager {
   display: flex; align-items: center; flex: 0 0 auto;
-  gap: var(--amplify-chat-clarifying-questions-header-pager-spacing-gap-spacing-4);
+  gap: var(--amplify-chat-clarifying-questions-spacing-pager-gap);
 }
 .ats-amplify-chat-clarifying-questions__step, .ats-amplify-chat-clarifying-questions__help {
-  font-family: var(--amplify-chat-clarifying-questions-help-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-clarifying-questions-help-typography-font-size-typography-input-label-field-label-font-size);
-  font-weight: var(--amplify-chat-clarifying-questions-help-typography-font-weight-typography-input-label-field-label-font-weight);
-  line-height: var(--amplify-chat-clarifying-questions-help-typography-line-height-typography-input-label-field-label-line-height);
-  letter-spacing: var(--amplify-chat-clarifying-questions-help-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+  font-family: var(--typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-input-label-field-label-font-size);
+  font-weight: var(--typography-input-label-field-label-font-weight);
+  line-height: var(--typography-input-label-field-label-line-height);
+  letter-spacing: var(--typography-input-label-field-label-letter-spacing);
 }
 .ats-amplify-chat-clarifying-questions__step {
   white-space: nowrap;
-  color: var(--amplify-chat-clarifying-questions-header-pager-step-color-content-text-color-text-subtle);
+  color: var(--amplify-chat-clarifying-questions-color-content-progress);
 }
 .ats-amplify-chat-clarifying-questions__help {
   margin: 0;
-  color: var(--amplify-chat-clarifying-questions-help-color-content-text-color-text-subtle);
+  color: var(--amplify-chat-clarifying-questions-color-content-help);
 }
 .ats-amplify-chat-clarifying-questions__options {
   display: flex; flex-direction: column; width: 100%;
-  gap: var(--amplify-chat-clarifying-questions-options-spacing-gap-field-spacing-gap);
+  gap: var(--amplify-chat-clarifying-questions-spacing-options-gap);
 }
 
 /* ==== amplify-chat/clarifying-questions/clarify-option.css ==== */
@@ -3700,10 +3700,10 @@ a.ats-novo-chip__label:focus { outline: none; }
    --amplify-chat-clarify-option-* tokens Figma binds. Unencapsulated, namespaced. */
 .ats-amplify-chat-clarify-option {
   display: flex; align-items: flex-start; box-sizing: border-box; width: 100%; margin: 0;
-  gap: var(--amplify-chat-clarify-option-spacing-gap-spacing-16);
-  padding: var(--amplify-chat-clarify-option-spacing-padding-vertical-spacing-8) var(--amplify-chat-clarify-option-spacing-padding-horizontal-spacing-8);
-  border: 1px solid var(--amplify-chat-clarify-option-color-border-color-border-subtle); /* no token: Figma 1px stroke */
-  border-radius: var(--amplify-chat-clarify-option-border-radius-border-radius-xsm);
+  gap: var(--amplify-chat-clarify-option-spacing-gap);
+  padding: var(--amplify-chat-clarify-option-spacing-padding-vertical) var(--amplify-chat-clarify-option-spacing-padding-horizontal);
+  border: 1px solid var(--amplify-chat-clarify-option-color-border); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-clarify-option-border-radius);
   background: transparent; text-align: left; cursor: pointer; color: inherit; font: inherit;
   appearance: none; -webkit-appearance: none;
 }
@@ -3716,46 +3716,46 @@ a.ats-novo-chip__label:focus { outline: none; }
 
 .ats-amplify-chat-clarify-option__content {
   display: flex; flex-direction: column; align-items: flex-start; flex: 1 0 0; min-width: 0; overflow: clip;
-  gap: var(--amplify-chat-clarify-option-content-spacing-gap-spacing-2);
+  gap: var(--amplify-chat-clarify-option-spacing-content-gap);
 }
 .ats-amplify-chat-clarify-option[data-type="record"] .ats-amplify-chat-clarify-option__content {
   gap: var(--list-item-spacing-gap-vertical);
-  border-radius: var(--amplify-chat-clarify-option-record-border-radius-field-border-radius-default);
+  border-radius: var(--amplify-chat-clarify-option-border-record-radius);
 }
 
 /* ---- type=text ---- */
 .ats-amplify-chat-clarify-option__label-row {
   display: flex; align-items: center; flex-wrap: wrap; width: 100%; min-height: 24px; /* no token: Figma min-height 24 */
-  gap: 0 var(--amplify-chat-clarify-option-content-label-row-spacing-gap-spacing-8);
+  gap: 0 var(--amplify-chat-clarify-option-spacing-label-gap);
 }
 .ats-amplify-chat-clarify-option__label {
-  color: var(--amplify-chat-clarify-option-content-label-row-label-color-content-text-color-text-body);
-  font-family: var(--amplify-chat-clarify-option-content-label-row-label-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-clarify-option-content-label-row-label-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-clarify-option-content-label-row-label-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-clarify-option-content-label-row-label-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-clarify-option-content-label-row-label-typography-letter-spacing-typography-body-default-letter-spacing);
+  color: var(--amplify-chat-clarify-option-color-content-label);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 .ats-amplify-chat-clarify-option__recommended, .ats-amplify-chat-clarify-option__description {
-  color: var(--amplify-chat-clarify-option-content-label-row-recommended-group-recommended-color-content-text-color-text-subtle);
-  font-family: var(--amplify-chat-clarify-option-content-label-row-recommended-group-recommended-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-clarify-option-content-label-row-recommended-group-recommended-typography-font-size-typography-input-label-field-label-font-size);
-  font-weight: var(--amplify-chat-clarify-option-content-label-row-recommended-group-recommended-typography-font-weight-typography-input-label-field-label-font-weight);
-  line-height: var(--amplify-chat-clarify-option-content-label-row-recommended-group-recommended-typography-line-height-typography-input-label-field-label-line-height);
-  letter-spacing: var(--amplify-chat-clarify-option-content-label-row-recommended-group-recommended-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+  color: var(--amplify-chat-clarify-option-color-content-recommended);
+  font-family: var(--typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-input-label-field-label-font-size);
+  font-weight: var(--typography-input-label-field-label-font-weight);
+  line-height: var(--typography-input-label-field-label-line-height);
+  letter-spacing: var(--typography-input-label-field-label-letter-spacing);
 }
 .ats-amplify-chat-clarify-option__recommended {
   display: inline-flex; align-items: center; white-space: nowrap;
-  gap: var(--amplify-chat-clarify-option-content-label-row-recommended-group-spacing-gap-spacing-4);
+  gap: var(--amplify-chat-clarify-option-spacing-recommended-gap);
 }
 .ats-amplify-chat-clarify-option__description {
   width: 100%;
-  color: var(--amplify-chat-clarify-option-content-description-color-content-text-color-text-subtle);
-  font-family: var(--amplify-chat-clarify-option-content-description-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-clarify-option-content-description-typography-font-size-typography-input-label-field-label-font-size);
-  font-weight: var(--amplify-chat-clarify-option-content-description-typography-font-weight-typography-input-label-field-label-font-weight);
-  line-height: var(--amplify-chat-clarify-option-content-description-typography-line-height-typography-input-label-field-label-line-height);
-  letter-spacing: var(--amplify-chat-clarify-option-content-description-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+  color: var(--amplify-chat-clarify-option-color-content-description);
+  font-family: var(--typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-input-label-field-label-font-size);
+  font-weight: var(--typography-input-label-field-label-font-weight);
+  line-height: var(--typography-input-label-field-label-line-height);
+  letter-spacing: var(--typography-input-label-field-label-letter-spacing);
 }
 /* record link: Figma link-text size=small (10px dot, body/sm, link color) */
 .ats-amplify-chat-clarify-option__record-link {
@@ -3777,12 +3777,12 @@ a.ats-novo-chip__label:focus { outline: none; }
 /* ---- states ---- */
 /* active: hover or keyboard focus (live), or forced */
 .ats-amplify-chat-clarify-option:hover, .ats-amplify-chat-clarify-option:focus-visible, .ats-amplify-chat-clarify-option.is-active {
-  background: var(--amplify-chat-clarify-option-color-background-color-background-subtle);
+  background: var(--amplify-chat-clarify-option-color-background);
 }
 .ats-amplify-chat-clarify-option:not(.is-selected):is(:hover, :focus-visible) .ats-amplify-chat-clarify-key {
-  --_key-bg: var(--amplify-chat-clarify-key-color-background-color-background-default);
-  --_key-border: var(--amplify-chat-clarify-key-color-border-color-border-default);
-  --_key-fg: var(--amplify-chat-clarify-key-number-color-content-text-color-text-body);
+  --_key-bg: var(--amplify-chat-clarify-key-color-background-active);
+  --_key-border: var(--amplify-chat-clarify-key-color-border-active);
+  --_key-fg: var(--amplify-chat-clarify-key-color-content-number-active);
 }
 /* keyboard focus also shows the standard focus ring (Button's pattern) */
 .ats-amplify-chat-clarify-option:focus-visible {
@@ -3791,7 +3791,7 @@ a.ats-novo-chip__label:focus { outline: none; }
 }
 /* selected: key selected (passed down) + Medium label weight */
 .ats-amplify-chat-clarify-option.is-selected .ats-amplify-chat-clarify-option__label {
-  font-weight: var(--amplify-chat-clarify-option-content-label-row-label-typography-font-weight-typography-body-default-font-weight-medium);
+  font-weight: var(--typography-body-default-font-weight-medium);
 }
 
 /* ==== amplify-chat/clarifying-questions/clarify-key.css ==== */
@@ -3800,33 +3800,33 @@ a.ats-novo-chip__label:focus { outline: none; }
    vars so a parent row (clarify-option / clarify-something-else) can switch it.
    The 1px stroke is an inset shadow, so the key stays 24×24 in every state. */
 .ats-amplify-chat-clarify-key {
-  --_key-bg: var(--amplify-chat-clarify-key-color-background-color-background-subtle-hover);
+  --_key-bg: var(--amplify-chat-clarify-key-color-background-default);
   --_key-border: transparent;
-  --_key-fg: var(--amplify-chat-clarify-key-number-color-content-text-color-text-secondary);
-  --_key-icon: var(--amplify-chat-clarify-key-icon-vector-color-content-icon-color-icon-subtle);
+  --_key-fg: var(--amplify-chat-clarify-key-color-content-number-default);
+  --_key-icon: var(--amplify-chat-clarify-key-color-content-icon);
   display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; box-sizing: border-box;
   width: 24px; height: 24px; /* no token: Figma 24×24 */
-  border-radius: var(--amplify-chat-clarify-key-border-radius-border-radius-xsm);
+  border-radius: var(--amplify-chat-clarify-key-border-radius);
   background: var(--_key-bg);
   box-shadow: inset 0 0 0 1px var(--_key-border); /* no token: Figma 1px stroke */
   color: var(--_key-fg);
-  font-family: var(--amplify-chat-clarify-key-number-typography-font-family-typography-input-label-field-label-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-clarify-key-number-typography-font-size-typography-input-label-field-label-font-size);
-  font-weight: var(--amplify-chat-clarify-key-number-typography-font-weight-typography-input-label-field-label-font-weight);
-  line-height: var(--amplify-chat-clarify-key-number-typography-line-height-typography-input-label-field-label-line-height);
-  letter-spacing: var(--amplify-chat-clarify-key-number-typography-letter-spacing-typography-input-label-field-label-letter-spacing);
+  font-family: var(--typography-input-label-field-label-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-input-label-field-label-font-size);
+  font-weight: var(--typography-input-label-field-label-font-weight);
+  line-height: var(--typography-input-label-field-label-line-height);
+  letter-spacing: var(--typography-input-label-field-label-letter-spacing);
   text-align: center;
 }
 .ats-amplify-chat-clarify-key .ats-icon { display: block; }
 .ats-amplify-chat-clarify-key.is-active {
-  --_key-bg: var(--amplify-chat-clarify-key-color-background-color-background-default);
-  --_key-border: var(--amplify-chat-clarify-key-color-border-color-border-default);
-  --_key-fg: var(--amplify-chat-clarify-key-number-color-content-text-color-text-body);
+  --_key-bg: var(--amplify-chat-clarify-key-color-background-active);
+  --_key-border: var(--amplify-chat-clarify-key-color-border-active);
+  --_key-fg: var(--amplify-chat-clarify-key-color-content-number-active);
 }
 .ats-amplify-chat-clarify-key.is-selected {
-  --_key-bg: var(--amplify-chat-clarify-key-color-background-color-background-hover);
-  --_key-border: var(--amplify-chat-clarify-key-color-border-color-border-focus);
-  --_key-fg: var(--amplify-chat-clarify-key-number-color-content-text-color-text-link);
+  --_key-bg: var(--amplify-chat-clarify-key-color-background-selected);
+  --_key-border: var(--amplify-chat-clarify-key-color-border-selected);
+  --_key-fg: var(--amplify-chat-clarify-key-color-content-number-selected);
 }
 
 /* ==== amplify-chat/clarifying-questions/clarify-something-else.css ==== */
@@ -3834,25 +3834,25 @@ a.ats-novo-chip__label:focus { outline: none; }
    Values are the --amplify-chat-clarify-something-else-* tokens Figma binds. */
 .ats-amplify-chat-clarify-something-else {
   display: flex; align-items: center; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-clarify-something-else-spacing-gap-spacing-16);
-  padding: var(--amplify-chat-clarify-something-else-spacing-padding-vertical-spacing-8) var(--amplify-chat-clarify-something-else-spacing-padding-horizontal-spacing-8);
-  border: 1px solid var(--amplify-chat-clarify-something-else-color-border-color-border-subtle); /* no token: Figma 1px stroke */
-  border-radius: var(--amplify-chat-clarify-something-else-border-radius-border-radius-xsm);
+  gap: var(--amplify-chat-clarify-something-else-spacing-gap);
+  padding: var(--amplify-chat-clarify-something-else-spacing-padding-vertical) var(--amplify-chat-clarify-something-else-spacing-padding-horizontal);
+  border: 1px solid var(--amplify-chat-clarify-something-else-color-border-default); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-clarify-something-else-border-radius);
 }
 .ats-amplify-chat-clarify-something-else:focus-within, .ats-amplify-chat-clarify-something-else.is-typing {
-  border-color: var(--amplify-chat-clarify-something-else-color-border-color-border-focus);
+  border-color: var(--amplify-chat-clarify-something-else-color-border-typing);
 }
 .ats-amplify-chat-clarify-something-else__value {
   flex: 1 0 0; min-width: 0; margin: 0; padding: 0; border: 0; outline: 0; background: transparent;
-  color: var(--amplify-chat-clarify-something-else-value-color-content-text-color-text-body);
-  font-family: var(--amplify-chat-clarify-something-else-value-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-clarify-something-else-value-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-clarify-something-else-value-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-clarify-something-else-value-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-clarify-something-else-value-typography-letter-spacing-typography-body-default-letter-spacing);
+  color: var(--amplify-chat-clarify-something-else-color-content-value-typing);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 .ats-amplify-chat-clarify-something-else__value::placeholder {
-  opacity: 1; color: var(--amplify-chat-clarify-something-else-value-color-content-text-color-text-subtle);
+  opacity: 1; color: var(--amplify-chat-clarify-something-else-color-content-value-default);
 }
 .ats-amplify-chat-clarify-something-else > .ats-btn { flex: 0 0 auto; }
 
@@ -4003,7 +4003,7 @@ a.ats-novo-chip__label:focus { outline: none; }
 .ats-amplify-chat-docked__panel {
   display: flex; flex-direction: column; box-sizing: border-box;
   width: 100%; height: 100%; min-height: 0;
-  background: var(--amplify-chat-docked-chat-color-background-color-background-muted);
+  background: var(--amplify-chat-docked-chat-color-background);
 }
 
 /* ---- docked (state=Default): a right-hand flex item; the page beside it contracts ---- */
@@ -4021,7 +4021,7 @@ a.ats-novo-chip__label:focus { outline: none; }
 .ats-amplify-chat-docked[data-mode="docked"] .ats-amplify-chat-docked__panel {
   /* fixed width inside the animating host, so the content slides in instead of reflowing */
   width: var(--_panel-w);
-  border-left: 1px solid var(--amplify-chat-docked-chat-color-border-modal-color-border-default); /* no token: Figma 1px stroke */
+  border-left: 1px solid var(--amplify-chat-docked-chat-color-border); /* no token: Figma 1px stroke */
 }
 /* general/level 3 - right, on the panel's left edge only (clip-path trims the shadow at the
    top, right and bottom so it never spills over the app chrome) */
@@ -4029,10 +4029,10 @@ a.ats-novo-chip__label:focus { outline: none; }
   overflow: visible;
   clip-path: inset(0 0 0 -24px); /* no token: room for the shadow on the left only */
   box-shadow:
-    0 var(--amplify-chat-docked-chat-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-docked-chat-effects-shadow-1-blur-spacing-8) 0
-      var(--amplify-chat-docked-chat-effects-shadow-1-color-color-transparency-charcoal-charcoal-08),
-    -2px var(--amplify-chat-docked-chat-effects-shadow-1-offset-y-spacing-4) var(--amplify-chat-docked-chat-effects-shadow-1-blur-spacing-8) 0
-      var(--amplify-chat-docked-chat-effects-shadow-1-color-color-transparency-charcoal-charcoal-04); /* no token: x offset -2 (general/level 3 - right) */
+    0 var(--spacing-4) var(--amplify-chat-docked-chat-spacing-main-padding-right) 0
+      var(--color-transparency-charcoal-charcoal-08),
+    -2px var(--spacing-4) var(--amplify-chat-docked-chat-spacing-main-padding-right) 0
+      var(--color-transparency-charcoal-charcoal-04); /* no token: x offset -2 (general/level 3 - right) */
 }
 @media (prefers-reduced-motion: reduce) {
   .ats-amplify-chat-docked[data-mode="docked"],
@@ -4044,15 +4044,15 @@ a.ats-novo-chip__label:focus { outline: none; }
   position: fixed; z-index: 1000; /* no token: overlay layer */
   min-width: 420px; min-height: 360px; /* no token: smallest usable pop over */
   resize: both;
-  border: 1px solid var(--amplify-chat-docked-chat-color-border-modal-color-border-default); /* no token: Figma 1px stroke */
-  border-radius: var(--amplify-chat-docked-chat-border-radius-modal-border-radius-default);
+  border: 1px solid var(--amplify-chat-docked-chat-color-border); /* no token: Figma 1px stroke */
+  border-radius: var(--amplify-chat-docked-chat-border-radius);
   /* general/level 4 */
   box-shadow:
-    0 var(--amplify-chat-docked-chat-effects-shadow-2-offset-y-spacing-4) var(--amplify-chat-docked-chat-effects-shadow-2-blur-spacing-8) 0
-      var(--amplify-chat-docked-chat-effects-shadow-2-color-color-transparency-charcoal-charcoal-04),
-    var(--amplify-chat-docked-chat-effects-shadow-2-offset-x-spacing-8) var(--amplify-chat-docked-chat-effects-shadow-2-offset-y-spacing-12)
-      var(--amplify-chat-docked-chat-effects-shadow-2-blur-spacing-16) 0
-      var(--amplify-chat-docked-chat-effects-shadow-2-color-color-transparency-charcoal-charcoal-08);
+    0 var(--spacing-4) var(--amplify-chat-docked-chat-spacing-main-padding-right) 0
+      var(--color-transparency-charcoal-charcoal-04),
+    var(--amplify-chat-docked-chat-spacing-main-padding-right) var(--spacing-12)
+      var(--spacing-16) 0
+      var(--color-transparency-charcoal-charcoal-08);
 }
 .ats-amplify-chat-docked[data-mode="pop-over"]:not(.is-open) { display: none; }
 .ats-amplify-chat-docked[data-mode="pop-over"] .ats-amplify-chat-docked__header { cursor: move; touch-action: none; }
@@ -4092,7 +4092,7 @@ a.ats-novo-chip__label:focus { outline: none; }
   gap: var(--header-spacing-candidate-header-actions);
 }
 .ats-amplify-chat-docked__actions .ats-btn--icon:not(:hover):not(:active):not(:focus-visible) {
-  color: var(--amplify-chat-docked-chat-novo-header-slideout-title-actions-button-external-open-vector-color-content-icon-button-color-icon-content-default);
+  color: var(--button-color-icon-content-default);
 }
 
 /* ---- main: padding 16 top, 8 sides and bottom; holds the conversation ---- */
@@ -4108,28 +4108,28 @@ a.ats-novo-chip__label:focus { outline: none; }
 /* AmplifyChatSourcesRow (Figma "amplify-chat/sources-row" 6149:20865).
    Unencapsulated, namespaced .ats-amplify-chat-sources-row. */
 .ats-amplify-chat-sources-row { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
-.ats-amplify-chat-sources-row.is-expanded { gap: var(--amplify-chat-sources-row-spacing-gap-spacing-gap-sm); }
+.ats-amplify-chat-sources-row.is-expanded { gap: var(--amplify-chat-sources-row-spacing-gap); }
 
 .ats-amplify-chat-sources-row__summary {
   display: flex; align-items: center; max-width: 100%;
-  gap: var(--amplify-chat-sources-row-summary-spacing-gap-spacing-gap-xsm);
+  gap: var(--amplify-chat-sources-row-spacing-summary-gap);
 }
 .ats-amplify-chat-sources-row__summary-text {
   min-width: 0;
-  color: var(--amplify-chat-sources-row-summary-color-content-text-color-text-secondary);
-  font-family: var(--amplify-chat-sources-row-summary-typography-font-family-typography-meta-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-sources-row-summary-typography-font-size-typography-meta-default-font-size);
-  font-weight: var(--amplify-chat-sources-row-summary-typography-font-weight-typography-meta-default-font-weight);
-  line-height: var(--amplify-chat-sources-row-summary-typography-line-height-typography-meta-default-line-height);
-  letter-spacing: var(--amplify-chat-sources-row-summary-typography-letter-spacing-typography-meta-default-letter-spacing);
+  color: var(--amplify-chat-sources-row-color-content-summary);
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-meta-default-font-size);
+  font-weight: var(--typography-meta-default-font-weight);
+  line-height: var(--typography-meta-default-line-height);
+  letter-spacing: var(--typography-meta-default-letter-spacing);
 }
 .ats-amplify-chat-sources-row__toggle.ats-icon-button-no-container {
-  color: var(--amplify-chat-sources-row-summary-toggle-chevron-up-vector-color-content-icon-button-color-icon-content-default);
+  color: var(--button-color-icon-content-default);
 }
 
 .ats-amplify-chat-sources-row__sources {
   display: flex; flex-direction: column; align-items: flex-start;
-  gap: var(--amplify-chat-sources-row-sources-spacing-gap-spacing-gap-xsm);
+  gap: var(--amplify-chat-sources-row-spacing-sources-gap);
   margin: 0; padding: 0; list-style: none; max-width: 100%;
 }
 .ats-amplify-chat-sources-row__sources[hidden] { display: none; }

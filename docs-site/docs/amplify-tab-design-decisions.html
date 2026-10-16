@@ -216,27 +216,28 @@
     </table>
   </doc-section>
 
-  <doc-section id="to-build" label="Components to create or update" desc="New pieces and changes to existing ones">
+  <doc-section id="to-build" label="Components to create or update" desc="New pieces and changes to existing ones, and what’s built">
+    <p>8 of 17 are built: the navigation, header, Chats panel and prompt library pieces of V1. The scheduled prompt pieces (setup, confirmation, runs, the Scheduled page) haven’t been started.</p>
     <table class="tbl">
-      <thead><tr><th>Component</th><th>Create / update</th><th>What’s needed</th></tr></thead>
+      <thead><tr><th>Component</th><th>Create / update</th><th>Status</th><th>What’s needed</th></tr></thead>
       <tbody>
-        <tr><td><b>Bowling Alley: Amplify tab</b></td><td>Update</td><td>Split tab: the tab opens the Amplify landing page, a chevron opens the Amplify menu. Hidden when collapsed, shown on hover / open.</td></tr>
-        <tr><td><b>Menu: Amplify variant</b></td><td>Update</td><td>New dropdown-card variant: Home (V2), New Chat, Scheduled with count, separator, Meetings, Audits. Current page marked.</td></tr>
-        <tr><td><b>Full-page chat header</b></td><td>Update</td><td>Remove the tabs row. Title row becomes the breadcrumb plus Chats button and Close.</td></tr>
-        <tr><td><b>Breadcrumb</b></td><td>Create</td><td>No breadcrumb in ats-ui today. Two levels: a link root (“Amplify”) and the current page title, title/sm.</td></tr>
-        <tr><td><b>Count badge</b></td><td>Create</td><td>Small count bubble on a button (Chats). The <a href="/docs/components/workflow-stepper.html">Workflow Stepper</a> already has a count badge on its current step; check whether it can be shared. Needs a token decision for its fill.</td></tr>
-        <tr><td><b>Chats panel</b></td><td>Create</td><td>Full-height right panel (level 3 - right): header, New Chat, search, Scheduled section, time groups.</td></tr>
-        <tr><td><b>Chat list item</b></td><td>Create</td><td>Bordered item: title, description, context record, last active. Scheduled variant: schedule, status, unread dot + count. Current and hover states.</td></tr>
-        <tr><td><b>New chat starter card</b></td><td>Create</td><td>Icon container, title and description; sends on click. Four in a 2 × 2 grid.</td></tr>
-        <tr><td><b>Schedule card</b></td><td>Create</td><td>Create / edit form in a card: Name, Prompt, Repeats, time window, Results, access line, Cancel / Schedule. Should use the ats-ui Dropdown in place of the prototype’s native selects.</td></tr>
-        <tr><td><b>Schedule confirmation card</b></td><td>Create</td><td>Success header, name, schedule, next run, Edit and View in Scheduled.</td></tr>
-        <tr><td><b>Scheduled run card</b></td><td>Create</td><td>Header (arrival time, label, kebab), summary, body in the chosen format, footer. Includes the expandable record row (A), digest metric and line (B) or compact table (C).</td></tr>
-        <tr><td><b>Continue in New Chat (fork)</b></td><td>Create (pattern)</td><td>Action on a run or a record. New chat seeded with context chips and suggested follow-ups. Uses the existing context container.</td></tr>
-        <tr><td><b>Scheduled prompts table</b></td><td>Create</td><td>Prompt, schedule, status, actions; row More menu; needs-attention row. Could build on Data Table.</td></tr>
-        <tr><td><b>Toast with Undo</b></td><td>Create</td><td>Not in ats-ui today. Bottom-center, announces status, one action.</td></tr>
-        <tr><td><b>Text field</b></td><td>Confirm</td><td>The prototype styles native inputs with field tokens. Confirm which ats-ui field component the schedule card should use.</td></tr>
-        <tr><td><b>Prompt library</b></td><td>Update</td><td>Redesign for the new UI and add a Scheduled prompts section with premade prompts (design review action). Not in the prototype yet.</td></tr>
-        <tr><td><b>Home widgets (V2)</b></td><td>Create (later)</td><td>To do list, Need to know card, Today agenda card, Suggested list.</td></tr>
+        <tr><td><b>Bowling Alley: Amplify tab</b></td><td>Update</td><td>Built</td><td>Split tab: the tab opens the Amplify landing page, the chevron opens the Amplify menu. The chevron is hidden when the alley is collapsed and shows on hover, focus or while the menu is open. See <a href="/docs/components/bowling-alley.html">Bowling Alley</a>.</td></tr>
+        <tr><td><b>Menu: Amplify variant</b></td><td>Update</td><td>Built</td><td>New Chat, Scheduled, Meetings and Audits, with the current page marked (<a href="/docs/components/menu.html#amplify">Menu</a>). The count on Scheduled and the separator were removed in the final design. Home is added with V2.</td></tr>
+        <tr><td><b>Full-page chat header</b></td><td>Update</td><td>Built</td><td>The <a href="/docs/amplify/components/amplify-header.html">Amplify header</a> replaces the title row and tabs: breadcrumb, Chats with its count, and Close. The <a href="/docs/amplify/components/amplify-chat-full-page.html">full-page chat</a> uses it.</td></tr>
+        <tr><td><b>Breadcrumb</b></td><td>Create</td><td>Built</td><td><a href="/docs/components/breadcrumb.html">Breadcrumb</a>: a link root (“Amplify”) and the current page title.</td></tr>
+        <tr><td><b>Count badge</b></td><td>Create</td><td>Built</td><td><a href="/docs/components/count-badge.html">Count badge</a> and <a href="/docs/components/button-with-count.html">Button with count</a> (the Chats button), with their own tokens. Still open: the <a href="/docs/components/workflow-stepper.html">Workflow Stepper</a> keeps its own count badge; sharing it hasn’t been done.</td></tr>
+        <tr><td><b>Chats panel</b></td><td>Create</td><td>Built</td><td><a href="/docs/amplify/components/amplify-chat-chats-panel.html">Chats panel</a>: header with New Chat, search, Scheduled (up to 3 and View All), then Today / Yesterday / Previous 7 days / Older. The Chats button in the Amplify header opens and closes it, and the full-page chat renders the two together.</td></tr>
+        <tr><td><b>Chat list item</b></td><td>Create</td><td>Built</td><td>The chat card in the <a href="/docs/amplify/components/amplify-chat-chats-panel.html">Chats panel</a>, with a chat and a scheduled variant and hover, focus and selected states. Unread runs show as a “N new” chip; the dot before the title was dropped.</td></tr>
+        <tr><td><b>New chat starter card</b></td><td>Create</td><td>Not started</td><td>Icon container, title and description; sends on click. Four in a 2 × 2 grid.</td></tr>
+        <tr><td><b>Schedule card</b></td><td>Create</td><td>Not started</td><td>Create / edit form in a card: Name, Prompt, Repeats, time window, Results, access line, Cancel / Schedule. Should use the ats-ui Dropdown in place of the prototype’s native selects.</td></tr>
+        <tr><td><b>Schedule confirmation card</b></td><td>Create</td><td>Not started</td><td>Success header, name, schedule, next run, Edit and View in Scheduled.</td></tr>
+        <tr><td><b>Scheduled run card</b></td><td>Create</td><td>Not started</td><td>Header (arrival time, label, kebab), summary, body in the chosen format, footer. Includes the expandable record row (A), digest metric and line (B) or compact table (C). Waits on the output format decision.</td></tr>
+        <tr><td><b>Continue in New Chat (fork)</b></td><td>Create (pattern)</td><td>Not started</td><td>Action on a run or a record. New chat seeded with context chips and suggested follow-ups. The <a href="/docs/amplify/components/amplify-chat-input.html">context container</a> it uses is built.</td></tr>
+        <tr><td><b>Scheduled prompts table</b></td><td>Create</td><td>Not started</td><td>Prompt, schedule, status, actions; row More menu; needs-attention row. Could build on <a href="/docs/components/data-table.html">Data Table</a>.</td></tr>
+        <tr><td><b>Toast with Undo</b></td><td>Create</td><td>Not started</td><td>Not in ats-ui today. Bottom-center, announces status, one action.</td></tr>
+        <tr><td><b>Text field</b></td><td>Confirm</td><td>To confirm</td><td>There is still no ats-ui text field. The prototype styles native inputs with field tokens. Confirm which field component the schedule card should use.</td></tr>
+        <tr><td><b>Prompt library</b></td><td>Update</td><td>Built</td><td>Built for the new UI: <a href="/docs/amplify/components/amplify-chat-prompt-library.html">Prompt library</a> with Favorites / My Prompts / All Prompts, search and prompt cards that can show a schedule. A Scheduled prompts section and opening it from the chat input aren’t needed yet.</td></tr>
+        <tr><td><b>Home widgets (V2)</b></td><td>Create (later)</td><td>Not started</td><td>To do list, Need to know card, Today agenda card, Suggested list.</td></tr>
       </tbody>
     </table>
   </doc-section>

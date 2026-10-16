@@ -1,6 +1,6 @@
 /* Breadcrumb (Figma "breadcrumb" 6806:36042, state=Default | home). Unencapsulated,
    namespaced .ats-breadcrumb. Component tokens are breadcrumb/*; each var() falls back to
-   the token it aliases until tokens/component-migration.json is re-exported. */
+   the token it aliases. */
 .ats-breadcrumb { display: block; min-width: 0; }
 .ats-breadcrumb__nav { display: block; min-width: 0; }
 .ats-breadcrumb__list {

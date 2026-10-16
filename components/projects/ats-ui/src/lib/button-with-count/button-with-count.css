@@ -1,6 +1,6 @@
 /* ButtonWithCount (Figma "button-with-count" 6816:24357). Unencapsulated, namespaced
    .ats-button-with-count. Token: button-with-count/spacing/badge-offset (falls back to the
-   token it aliases until tokens/component-migration.json is re-exported). */
+   token it aliases). */
 .ats-button-with-count {
   position: relative; display: inline-flex; flex: 0 0 auto; box-sizing: border-box; vertical-align: middle;
   padding-top: var(--button-with-count-spacing-badge-offset, var(--spacing-padding-xsm));

@@ -2,7 +2,7 @@
    Unencapsulated, namespaced .ats-amplify-chat-chat-block. */
 .ats-amplify-chat-chat-block {
   display: flex; flex-direction: column; align-items: stretch;
-  gap: var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md);
+  gap: var(--amplify-chat-chat-block-spacing-gap);
   box-sizing: border-box; width: 100%; min-width: 0;
   position: relative; /* positioning context for the visually hidden live region */
 }
@@ -10,13 +10,13 @@
 /* identity: Icon/Amplify Radial 16 + "Amplify" body/sm-medium color/text/secondary */
 .ats-amplify-chat-chat-block__identity {
   display: flex; align-items: center;
-  gap: var(--amplify-chat-chat-block-identity-spacing-gap-spacing-gap-xsm);
-  color: var(--amplify-chat-chat-block-identity-color-content-text-color-text-secondary);
-  font-family: var(--amplify-chat-chat-block-identity-typography-font-family-typography-body-sm-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-chat-block-identity-typography-font-size-typography-body-sm-font-size);
-  font-weight: var(--amplify-chat-chat-block-identity-typography-font-weight-typography-body-sm-font-weight-medium);
-  line-height: var(--amplify-chat-chat-block-identity-typography-line-height-typography-body-sm-line-height);
-  letter-spacing: var(--amplify-chat-chat-block-identity-typography-letter-spacing-typography-body-sm-letter-spacing);
+  gap: var(--amplify-chat-chat-block-spacing-identity-gap);
+  color: var(--amplify-chat-chat-block-color-content-identity);
+  font-family: var(--typography-body-sm-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight-medium);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
 }
 /* Icon/Amplify Radial: the glyph mask filled with the Amplify radial gradient
    (no token: gradient stops from the Figma asset amplify.svg, as in amplify-chat/text) */
@@ -27,45 +27,45 @@
 /* body: the projected reply, in order. Paragraph to block = gap/md (16). */
 .ats-amplify-chat-chat-block__body {
   display: flex; flex-direction: column; align-items: stretch;
-  gap: var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md);
+  gap: var(--amplify-chat-chat-block-spacing-gap);
   min-width: 0;
 }
 .ats-amplify-chat-chat-block__body[hidden] { display: none; }
 .ats-amplify-chat-chat-block__body:empty { display: none; }
 /* paragraph to paragraph: gap/sm (8) — Figma answer frame gap */
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-text + .ats-amplify-chat-text {
-  margin-top: calc(var(--amplify-chat-chat-block-answer-spacing-gap-spacing-gap-sm) - var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md));
+  margin-top: calc(var(--amplify-chat-chat-block-spacing-answer-gap) - var(--amplify-chat-chat-block-spacing-gap));
 }
 /* section: 24 above a heading (gap/md + section padding-top 8), heading to its content gap/sm (8) */
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-header {
-  margin-top: var(--amplify-chat-chat-block-section-spacing-padding-top-spacing-padding-sm);
+  margin-top: var(--amplify-chat-chat-block-spacing-section-padding-top);
 }
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-header:first-child { margin-top: 0; }
 .ats-amplify-chat-chat-block__body > .ats-amplify-chat-header + * {
-  margin-top: calc(var(--amplify-chat-chat-block-section-spacing-gap-spacing-gap-sm) - var(--amplify-chat-chat-block-spacing-gap-spacing-gap-md));
+  margin-top: calc(var(--amplify-chat-chat-block-spacing-section-gap) - var(--amplify-chat-chat-block-spacing-gap));
 }
 
 /* footer: sources row, then follow-up chips gap/sm (8) below it */
 .ats-amplify-chat-chat-block__footer {
   display: flex; flex-direction: column; align-items: stretch;
-  gap: var(--amplify-chat-chat-block-footer-spacing-gap-spacing-gap-sm);
+  gap: var(--amplify-chat-chat-block-spacing-footer-gap);
 }
 .ats-amplify-chat-chat-block__follow-ups {
   display: flex; flex-wrap: wrap; align-items: flex-start;
-  gap: var(--amplify-chat-chat-block-footer-follow-ups-spacing-gap-spacing-gap-sm);
+  gap: var(--amplify-chat-chat-block-spacing-follow-ups-gap);
 }
 
 /* controls: chat actions (left) + optional primary action (right) */
 .ats-amplify-chat-chat-block__controls {
   display: flex; align-items: center;
-  gap: var(--amplify-chat-chat-block-controls-spacing-gap-spacing-8);
+  gap: var(--amplify-chat-chat-block-spacing-controls-gap);
 }
 .ats-amplify-chat-chat-block__actions {
   display: flex; align-items: center; flex: 1 0 0; min-width: 1px;
-  gap: var(--amplify-chat-chat-block-actions-spacing-gap-button-spacing-default-gap);
+  gap: var(--amplify-chat-chat-block-spacing-actions-gap);
 }
 .ats-amplify-chat-chat-block__actions > .ats-icon-button-no-container:not(:hover):not(:active):not(.is-active):not(:focus-visible) {
-  color: var(--amplify-chat-chat-block-actions-color-content-icon-button-color-icon-content-default);
+  color: var(--button-color-icon-content-default);
 }
 
 /* visually hidden live region ("Copied") */

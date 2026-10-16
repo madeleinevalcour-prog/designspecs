@@ -8,6 +8,7 @@ import {
   BOOLEAN, CANDIDATE_CARDS, CARD_ITEMS, CLARIFY_ROUND, COLUMNS, DEMO_PROMPTS, DRAFT, FIRST_QUESTION, JOB_SOURCES, PROSPECTS, PROSPECT_SOURCES, ROTATION, ReplyFormat, intentFor,
   SELECTION_ACTIONS, THINKING, Turn,
 } from './full-page-data';
+import { CHATS, SCHEDULED } from '../amplify-chat-chats/amplify-chat-chats-page';
 
 export type FullPageState = 'empty' | 'short' | 'long';
 
@@ -31,7 +32,9 @@ const REPLY_DELAY = 1500;
  *   /examples/amplify-chat-full-page?state=empty   starting point (6267:179466)
  *   /examples/amplify-chat-full-page?state=short   one exchange, top-aligned (6237:176854)
  *   /examples/amplify-chat-full-page?state=long    several exchanges, bottom-anchored, rows selected (6267:181805)
- * The embed is still live (send / Stop / Reset work).
+ *   /examples/amplify-chat-full-page?state=short&chats=open   with the Chats panel open
+ * The embed is still live (send / Stop / Reset work). The header's Chats button opens the Chats panel
+ * (sample history and scheduled chats; the Chats count is their unread runs).
  */
 @Component({
   imports: [
@@ -45,6 +48,8 @@ const REPLY_DELAY = 1500;
 })
 export class AmplifyChatFullPagePage {
   readonly state = input<FullPageState>();
+  /** `open`: start with the Chats panel open. */
+  readonly chatsParam = input<string>(undefined, { alias: 'chats' });
 
   protected readonly embed = computed(() => !!this.state());
   private nextId = 1;
@@ -64,6 +69,16 @@ export class AmplifyChatFullPagePage {
   /** The open clarifying round (shown in the input). */
   protected readonly questions = signal<AmplifyChatClarifyingQuestion[] | undefined>(undefined);
   protected readonly log = signal('');
+  /** Chats panel (opened from the header's Chats button). */
+  protected readonly chats = CHATS;
+  protected readonly scheduled = SCHEDULED;
+  protected readonly chatsOpen = linkedSignal(() => this.chatsParam() === 'open');
+  protected readonly currentChat = signal<string | number | null>(null);
+  protected openedChat(id: string | number): void {
+    this.currentChat.set(id);
+    const c = CHATS.find((x) => x.id === id) ?? SCHEDULED.find((x) => x.chatId === id);
+    this.log.set(`Opened chat: ${c && 'title' in c ? c.title : c?.name ?? id}`);
+  }
 
   protected readonly context: AmplifyChatContextItem[] = [{ label: 'Prospect', source: true }];
   protected readonly prospects = PROSPECTS;

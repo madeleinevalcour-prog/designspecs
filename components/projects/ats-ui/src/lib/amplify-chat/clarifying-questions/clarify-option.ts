@@ -8,8 +8,8 @@ export type AmplifyChatClarifyOptionType = 'text' | 'record';
 export type AmplifyChatClarifyOptionState = 'default' | 'active' | 'selected';
 
 // Figma binds the job entity color through the amplify-chat tokens; other entities use the semantic token.
-const RECORD_JOB = 'var(--amplify-chat-clarify-option-record-item-header-link-text-circle-vector-color-content-icon-color-entity-job)';
-const LINK_JOB = 'var(--amplify-chat-clarify-option-content-label-row-recommended-group-record-link-circle-vector-color-content-icon-color-entity-job)';
+const RECORD_JOB = 'var(--color-entity-job)';
+const LINK_JOB = 'var(--color-entity-job)';
 const entityColor = (e: NovoListEntity, job: string) => (e === 'job' ? job : `var(--color-entity-${e})`);
 
 /**

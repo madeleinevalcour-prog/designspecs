@@ -1,7 +1,6 @@
 /* Amplify chat card — Figma "amplify-chat/chat-card" (6832:132835). Unencapsulated, namespaced
    .ats-amplify-chat-chat-card. Same container as Prompt Card (6762:90134). Component tokens are
-   amplify-chat/chat-card/*; each var() falls back to the subatomic token it aliases until
-   tokens/component-migration.json is re-exported. */
+   amplify-chat/chat-card/*; each var() falls back to the subatomic token it aliases. */
 
 .ats-amplify-chat-chat-card {
   position: relative; display: flex; align-items: flex-start; box-sizing: border-box; width: 100%; min-width: 0;

@@ -1,7 +1,7 @@
 /* AmplifyChatGlobalChatContainer (Figma "global-chat-container" 4527:171709). */
 .ats-amplify-chat-global-chat-container {
   display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-global-chat-container-spacing-gap-page-gap-vertical);
+  gap: var(--amplify-chat-global-chat-container-spacing-gap);
 }
 /* novo-title: title/default, headline color */
 .ats-amplify-chat-global-chat-container__greeting {

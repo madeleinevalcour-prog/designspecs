@@ -85,7 +85,7 @@ export class AmplifyChatSourcesRow {
     if (s.entity === 'prospect') return 'var(--color-entity-task)';
     return s.entity && s.entity !== 'job'
       ? `var(--color-entity-${s.entity})`
-      : 'var(--amplify-chat-sources-row-sources-link-text-circle-vector-color-content-icon-color-entity-job)';
+      : 'var(--color-entity-job)';
   }
 
   protected toggle(): void {

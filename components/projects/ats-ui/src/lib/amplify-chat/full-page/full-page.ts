@@ -3,6 +3,7 @@ import {
   effect, inject, input, model, output, untracked, viewChild,
 } from '@angular/core';
 import { AmplifyHeader } from '../amplify-header/amplify-header';
+import { AmplifyChatChat, AmplifyChatChatsPanel, AmplifyChatScheduledChat } from '../chats/chats-panel';
 import { AmplifyChatClarifyAnswer, AmplifyChatClarifyingQuestion } from '../clarifying-questions/clarifying-questions-model';
 import { AmplifyChatConversation } from '../docked/conversation';
 import { AmplifyChatContainer } from '../input/amplify-chat-container';
@@ -17,6 +18,8 @@ export type AmplifyChatFullPageState = 'auto' | 'empty' | 'conversation';
 /** Input move from the starting point to the bottom (no token: motion). */
 const MOVE_MS = 240;
 
+let nextId = 0;
+
 /**
  * AmplifyChatFullPage (Figma: "global-chat-full-page" — starting point 6267:179466,
  * short conversation 6237:176854, long conversation 6267:181805). The full-page Amplify
@@ -28,6 +31,12 @@ const MOVE_MS = 240;
  * Chats toggle with its unread count (`[(chatsOpen)]`, `unread`, `chatsToggle`) and Close
  * (emits `closed`). No tabs: Amplify pages are reached from the Amplify menu in the
  * bowling alley.
+ *
+ * Chats panel: AmplifyChatChatsPanel (Figma `amplify-chat/chats-panel` 6835:133241), full
+ * height on the right. The header's Chats button opens and closes it (`chatsOpen` is shared;
+ * the button's aria-controls is the panel id), and Close in the panel returns focus to Chats.
+ * Pass `chats`, `scheduled` and `currentChat`; it emits `openChat`, `newChat` and
+ * `viewScheduled`. The Chats count defaults to the unread runs in `scheduled`.
  *
  * States:
  *  - empty (no `ats-amplify-chat-user-turn` / `ats-amplify-chat-chat-block` projected):
@@ -60,13 +69,14 @@ const MOVE_MS = 240;
  *
  *   ask(text: string) { this.turns.update((t) => [...t, { id: ++this.id, user: true, text }]); … }
  *
- * Outputs: `send(text)`, `stop`, `closed`, `rootClick`, `chatsToggle`, and the input passthroughs
+ * Outputs: `send(text)`, `stop`, `closed`, `rootClick`, `chatsToggle`, the Chats panel's
+ * `openChat` / `newChat` / `viewScheduled`, and the input passthroughs
  * (`answered` / `completed` / `dismissed` for a clarifying round, context `removed` /
  * `add`, `addFile` / `addTools` / `promptLibrary`). Fills its parent: give it a height.
  */
 @Component({
   selector: 'ats-amplify-chat-full-page',
-  imports: [AmplifyChatContainer, AmplifyChatConversation, AmplifyChatGlobalChatContainer, AmplifyHeader],
+  imports: [AmplifyChatChatsPanel, AmplifyChatContainer, AmplifyChatConversation, AmplifyChatGlobalChatContainer, AmplifyHeader],
   templateUrl: './full-page.html',
   styleUrl: './full-page.css',
   encapsulation: ViewEncapsulation.None,
@@ -85,10 +95,16 @@ export class AmplifyChatFullPage {
   readonly rootHref = input<string>();
   /** The Chats panel is open (two-way). Default false. */
   readonly chatsOpen = model<boolean | undefined>(false);
-  /** Unread scheduled runs on the header's Chats button (0 hides the count). */
+  /** Unread scheduled runs on the header's Chats button (0 hides the count). Default: the sum of `scheduled` unread. */
   readonly unread = input<number | undefined>();
-  /** id of the Chats panel, for the Chats button's aria-controls. */
+  /** id of the Chats panel (the Chats button's aria-controls). Default: a generated id. */
   readonly chatsPanelId = input<string>();
+  /** Chats panel history. */
+  readonly chats = input<AmplifyChatChat[] | undefined>([]);
+  /** Chats panel Scheduled section. */
+  readonly scheduled = input<AmplifyChatScheduledChat[] | undefined>([]);
+  /** Id of the open chat, marked in the Chats panel. */
+  readonly currentChat = input<string | number | null | undefined>();
   /** First name in the starting greeting ("Hi Chloe, how can I help you today?"). Default "Chloe". */
   readonly greetingName = input<string>();
   /** Replaces the whole starting greeting. */
@@ -117,6 +133,12 @@ export class AmplifyChatFullPage {
   readonly rootClick = output<void>();
   /** The header Chats button was toggled; emits the new open state. */
   readonly chatsToggle = output<boolean>();
+  /** A chat in the Chats panel was activated: its id. */
+  readonly openChat = output<string | number>();
+  /** New Chat in the Chats panel. */
+  readonly newChat = output<void>();
+  /** View All in the Chats panel's Scheduled section. */
+  readonly viewScheduled = output<void>();
   readonly answered = output<{ index: number; answer: AmplifyChatClarifyAnswer }>();
   readonly completed = output<AmplifyChatClarifyAnswer[]>();
   readonly dismissed = output<void>();
@@ -129,6 +151,10 @@ export class AmplifyChatFullPage {
   private readonly userTurns = contentChildren(AmplifyChatUserTurn, { descendants: true });
   private readonly blocks = contentChildren(AmplifyChatChatBlock, { descendants: true });
   private readonly conversation = viewChild.required(AmplifyChatConversation);
+
+  private readonly autoId = `ats-amplify-chats-${nextId++}`;
+  protected readonly panelId = computed(() => this.chatsPanelId() || this.autoId);
+  protected readonly unreadCount = computed(() => this.unread() ?? (this.scheduled() ?? []).reduce((n, s) => n + (s.unread ?? 0), 0));
 
   protected readonly isEmpty = computed(() => {
     const s = this.state() ?? 'auto';

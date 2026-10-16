@@ -5,12 +5,12 @@
 
 /* row background + divider: the amplify-chat row / header-row tokens */
 .ats-amplify-chat-data-table-header-row > .ats-ndt-th {
-  background: var(--amplify-chat-data-table-header-row-color-background-data-table-color-background-default);
-  border-bottom-color: var(--amplify-chat-data-table-header-row-color-border-data-table-color-border-default);
+  background: var(--data-table-color-background-default);
+  border-bottom-color: var(--data-table-color-border-default);
 }
 .ats-amplify-chat-data-table-row > .ats-ndt-td {
-  background: var(--amplify-chat-data-table-row-color-background-data-table-color-background-default);
-  border-bottom-color: var(--amplify-chat-data-table-row-color-border-data-table-color-border-default);
+  background: var(--data-table-color-background-default);
+  border-bottom-color: var(--data-table-color-border-default);
 }
 .ats-amplify-chat-data-table-row:hover > .ats-ndt-td,
 .ats-amplify-chat-data-table-row.is-hover > .ats-ndt-td { background: var(--data-table-color-background-hover); }
@@ -28,7 +28,7 @@
 
 /* name cell: avatar + link, gap link-text/spacing/gap/default (4) */
 .ats-amplify-chat-data-table-row__name > .ats-ndt-cell {
-  gap: var(--amplify-chat-data-table-row-novo-data-table-cell-spacing-gap-link-text-spacing-gap-default);
+  gap: var(--link-text-spacing-gap-default);
 }
 .ats-amplify-chat-data-table-row__avatar {
   flex: 0 0 auto; box-sizing: border-box;
@@ -81,12 +81,12 @@
 .ats-amplify-chat-data-table {
   display: flex; flex-direction: column; box-sizing: border-box;
   width: 100%; max-width: 800px; /* no token: Figma max-w 800 (the chat column) */
-  background: var(--amplify-chat-data-table-header-row-color-background-data-table-color-background-default);
-  border: var(--border-width-border-default) solid var(--amplify-chat-data-table-color-border-card-color-border-default);
-  border-radius: var(--amplify-chat-data-table-border-radius-border-radius-sm);
-  box-shadow: 0 var(--amplify-chat-data-table-effects-shadow-1-offset-y-spacing-2)
-    var(--amplify-chat-data-table-effects-shadow-1-blur-spacing-4)
-    var(--amplify-chat-data-table-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+  background: var(--data-table-color-background-default);
+  border: var(--border-width-border-default) solid var(--amplify-chat-data-table-color-border);
+  border-radius: var(--amplify-chat-data-table-border-radius);
+  box-shadow: 0 var(--spacing-2)
+    var(--spacing-4)
+    var(--color-transparency-charcoal-charcoal-04);
   /* not overflow: clip, so the split button menu can open below the card */
 }
 /* the table scrolls sideways inside the card; the inherited radius clips the header corners */

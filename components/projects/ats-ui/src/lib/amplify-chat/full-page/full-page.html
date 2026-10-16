@@ -1,27 +1,34 @@
-<!-- novo-header-amplify: Amplify mark + breadcrumb, Chats (unread count) + Close. Replaced the old title row + tabs;
-     Amplify pages are reached from the Amplify menu in the bowling alley. -->
-<ats-amplify-header class="ats-amplify-chat-full-page__header" [title]="title()" [rootLabel]="rootLabel()" [rootHref]="rootHref()"
-  [(chatsOpen)]="chatsOpen" [unread]="unread()" [chatsPanelId]="chatsPanelId()" [closable]="closable() !== false"
-  (rootClick)="rootClick.emit()" (chatsToggle)="chatsToggle.emit($event)" (closed)="closed.emit()" />
+<div class="ats-amplify-chat-full-page__main">
+  <!-- novo-header-amplify: Amplify mark + breadcrumb, Chats (unread count) + Close. Replaced the old title row + tabs;
+       Amplify pages are reached from the Amplify menu in the bowling alley. -->
+  <ats-amplify-header #header class="ats-amplify-chat-full-page__header" [title]="title()" [rootLabel]="rootLabel()" [rootHref]="rootHref()"
+    [(chatsOpen)]="chatsOpen" [unread]="unreadCount()" [chatsPanelId]="panelId()" [closable]="closable() !== false"
+    (rootClick)="rootClick.emit()" (chatsToggle)="chatsToggle.emit($event)" (closed)="closed.emit()" />
 
-<div class="ats-amplify-chat-full-page__body">
-  <!-- one projection slot, never inside @if: the conversation is hidden (not removed) while empty -->
-  <ats-amplify-chat-conversation size="full page" [label]="label()" [hidden]="isEmpty()">
-    <ng-content />
-    @if (!isEmpty()) {
-      <ats-amplify-chat-container slot="input" size="full page" [showLabels]="false" [context]="context()" [questions]="questions()"
-        [placeholder]="placeholder()" [generating]="generating()" (send)="onSend($event)" (stop)="stop.emit()"
-        (answered)="answered.emit($event)" (completed)="completed.emit($event)" (dismissed)="dismissed.emit()"
-        (removed)="removed.emit($event)" (add)="add.emit()"
-        (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
+  <div class="ats-amplify-chat-full-page__body">
+    <!-- one projection slot, never inside @if: the conversation is hidden (not removed) while empty -->
+    <ats-amplify-chat-conversation size="full page" [label]="label()" [hidden]="isEmpty()">
+      <ng-content />
+      @if (!isEmpty()) {
+        <ats-amplify-chat-container slot="input" size="full page" [showLabels]="false" [context]="context()" [questions]="questions()"
+          [placeholder]="placeholder()" [generating]="generating()" (send)="onSend($event)" (stop)="stop.emit()"
+          (answered)="answered.emit($event)" (completed)="completed.emit($event)" (dismissed)="dismissed.emit()"
+          (removed)="removed.emit($event)" (add)="add.emit()"
+          (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
+      }
+    </ats-amplify-chat-conversation>
+
+    @if (isEmpty()) {
+      <div class="ats-amplify-chat-full-page__start">
+        <ats-amplify-chat-global-chat-container [name]="greetingName()" [greeting]="greeting()" [placeholder]="placeholder()"
+          [generating]="generating()" (send)="onStartSend($event)" (stop)="stop.emit()"
+          (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
+      </div>
     }
-  </ats-amplify-chat-conversation>
-
-  @if (isEmpty()) {
-    <div class="ats-amplify-chat-full-page__start">
-      <ats-amplify-chat-global-chat-container [name]="greetingName()" [greeting]="greeting()" [placeholder]="placeholder()"
-        [generating]="generating()" (send)="onStartSend($event)" (stop)="stop.emit()"
-        (addFile)="addFile.emit()" (addTools)="addTools.emit()" (promptLibrary)="promptLibrary.emit()" />
-    </div>
-  }
+  </div>
 </div>
+
+<!-- Chats panel: the header's Chats button toggles it (shared open state, aria-controls = its id);
+     full height beside the page, which contracts (overlays below 1100px). Close returns focus to Chats. -->
+<ats-amplify-chat-chats-panel [attr.id]="panelId()" [open]="chatsOpen() ?? false" (openChange)="chatsOpen.set($event)" [chats]="chats()" [scheduled]="scheduled()" [current]="currentChat()"
+  (openChat)="openChat.emit($event)" (newChat)="newChat.emit()" (viewScheduled)="viewScheduled.emit()" (closed)="header.focusChats()" />

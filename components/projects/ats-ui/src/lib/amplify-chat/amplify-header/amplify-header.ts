@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewEncapsulation, booleanAttribute, computed, input, model, numberAttribute, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewEncapsulation, booleanAttribute, computed, input, model, numberAttribute, output, viewChild } from '@angular/core';
 import { Breadcrumb, BreadcrumbItem } from '../../breadcrumb/breadcrumb';
 import { Button } from '../../button/button';
 import { ButtonWithCount } from '../../button-with-count/button-with-count';
@@ -16,7 +16,12 @@ import { IconContainer } from '../../icon-container/icon-container';
  * Right (actions, 8px apart): the Chats toggle (ButtonWithCount: Button Secondary · Small +
  * count-badge for `unread`; State=Active while `chatsOpen`) and Close (Button Icon).
  *
- *   <ats-amplify-header [(chatsOpen)]="panelOpen" [unread]="2" chatsPanelId="chats" (closed)="close()" />
+ * The Chats button opens AmplifyChatChatsPanel (lib/amplify-chat/chats). AmplifyChatFullPage
+ * renders the two together; to pair them yourself, share the open state and the panel id, and
+ * call `focusChats()` when the panel closes:
+ *
+ *   <ats-amplify-header #header [(chatsOpen)]="panelOpen" [unread]="panel.unreadCount()" chatsPanelId="chats" (closed)="close()" />
+ *   <ats-amplify-chat-chats-panel #panel id="chats" [(open)]="panelOpen" [chats]="chats" [scheduled]="scheduled" (closed)="header.focusChats()" />
  *   <ats-amplify-header title="Scheduled" (rootClick)="goHome()" [(chatsOpen)]="panelOpen" />
  */
 @Component({
@@ -31,7 +36,7 @@ import { IconContainer } from '../../icon-container/icon-container';
         </div>
         <div class="ats-amplify-header__actions">
           <ats-button-with-count [count]="unreadCount()">
-            <button ats-button theme="secondary" size="small" [state]="isOpen() ? 'active' : undefined"
+            <button #chatsButton ats-button theme="secondary" size="small" [state]="isOpen() ? 'active' : undefined"
               [attr.aria-pressed]="isOpen()" [attr.aria-controls]="chatsPanelId() || null" [attr.aria-label]="chatsLabel()"
               (click)="toggle()">Chats</button>
           </ats-button-with-count>
@@ -79,6 +84,11 @@ export class AmplifyHeader {
   protected readonly isOpen = computed(() => this.chatsOpen() ?? false);
   protected readonly isClosable = computed(() => this.closable() ?? true);
   protected readonly chatsLabel = computed(() => (this.unreadCount() > 0 ? `Chats, ${this.unreadCount()} new` : 'Chats'));
+
+  private readonly chatsButton = viewChild.required<string, ElementRef<HTMLButtonElement>>('chatsButton', { read: ElementRef });
+
+  /** Focus the Chats button (when the Chats panel closes). */
+  focusChats(): void { this.chatsButton().nativeElement.focus(); }
 
   protected toggle(): void {
     const next = !this.isOpen();

@@ -1,28 +1,28 @@
 /* AmplifyChatSourcesRow (Figma "amplify-chat/sources-row" 6149:20865).
    Unencapsulated, namespaced .ats-amplify-chat-sources-row. */
 .ats-amplify-chat-sources-row { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
-.ats-amplify-chat-sources-row.is-expanded { gap: var(--amplify-chat-sources-row-spacing-gap-spacing-gap-sm); }
+.ats-amplify-chat-sources-row.is-expanded { gap: var(--amplify-chat-sources-row-spacing-gap); }
 
 .ats-amplify-chat-sources-row__summary {
   display: flex; align-items: center; max-width: 100%;
-  gap: var(--amplify-chat-sources-row-summary-spacing-gap-spacing-gap-xsm);
+  gap: var(--amplify-chat-sources-row-spacing-summary-gap);
 }
 .ats-amplify-chat-sources-row__summary-text {
   min-width: 0;
-  color: var(--amplify-chat-sources-row-summary-color-content-text-color-text-secondary);
-  font-family: var(--amplify-chat-sources-row-summary-typography-font-family-typography-meta-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-sources-row-summary-typography-font-size-typography-meta-default-font-size);
-  font-weight: var(--amplify-chat-sources-row-summary-typography-font-weight-typography-meta-default-font-weight);
-  line-height: var(--amplify-chat-sources-row-summary-typography-line-height-typography-meta-default-line-height);
-  letter-spacing: var(--amplify-chat-sources-row-summary-typography-letter-spacing-typography-meta-default-letter-spacing);
+  color: var(--amplify-chat-sources-row-color-content-summary);
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-meta-default-font-size);
+  font-weight: var(--typography-meta-default-font-weight);
+  line-height: var(--typography-meta-default-line-height);
+  letter-spacing: var(--typography-meta-default-letter-spacing);
 }
 .ats-amplify-chat-sources-row__toggle.ats-icon-button-no-container {
-  color: var(--amplify-chat-sources-row-summary-toggle-chevron-up-vector-color-content-icon-button-color-icon-content-default);
+  color: var(--button-color-icon-content-default);
 }
 
 .ats-amplify-chat-sources-row__sources {
   display: flex; flex-direction: column; align-items: flex-start;
-  gap: var(--amplify-chat-sources-row-sources-spacing-gap-spacing-gap-xsm);
+  gap: var(--amplify-chat-sources-row-spacing-sources-gap);
   margin: 0; padding: 0; list-style: none; max-width: 100%;
 }
 .ats-amplify-chat-sources-row__sources[hidden] { display: none; }

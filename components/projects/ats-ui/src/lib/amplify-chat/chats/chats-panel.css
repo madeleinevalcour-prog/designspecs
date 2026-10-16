@@ -1,7 +1,7 @@
 /* AmplifyChatChatsPanel — Figma "amplify-chat/chats-panel" (6835:133241). Slideout surface at the
    docked-chat width; header matches docked-chat (novo-header, slideout). Unencapsulated, namespaced.
    Component tokens are amplify-chat/chats-panel/*; each var() falls back to the subatomic token it
-   aliases until tokens/component-migration.json is re-exported. */
+   aliases. */
 .ats-amplify-chat-chats-panel {
   --_panel-w: 420px; /* no token: Figma docked-chat / chats-panel width 420 */
   display: block; box-sizing: border-box; position: relative; overflow: hidden;
@@ -29,9 +29,11 @@
   background: var(--amplify-chat-chats-panel-color-background, var(--color-background-muted));
 }
 
-/* header (novo-header size=slideout, show tabs=no) */
+/* header (novo-header size=slideout, show tabs=no). Same height as the Amplify header beside it
+   (73: 16 + 40 + 16 + 1px border), so the two line up when the panel is open. */
 .ats-amplify-chat-chats-panel__header {
   display: flex; align-items: center; flex: 0 0 auto; box-sizing: border-box; position: relative; z-index: 1;
+  min-height: 73px; /* no token: the Amplify header's height */
   gap: var(--card-spacing-header-gap);
   padding: var(--card-spacing-header-padding-vertical) var(--card-spacing-header-padding-horizontal);
   background: var(--card-color-background-header);

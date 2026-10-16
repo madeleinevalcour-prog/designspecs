@@ -8,15 +8,15 @@
   /* No border: the field sits borderless inside the chat input (design owner; the
      text-area border-width token is unused). */
   border: 0; outline: 0; background: transparent;
-  border-radius: var(--amplify-chat-text-area-border-radius-field-border-radius-default);
-  color: var(--amplify-chat-text-area-input-input-color-content-text-field-color-content-value);
-  font-family: var(--amplify-chat-text-area-input-input-typography-font-family-typography-body-default-font-family), 'Inter', sans-serif;
-  font-size: var(--amplify-chat-text-area-input-input-typography-font-size-typography-body-default-font-size);
-  font-weight: var(--amplify-chat-text-area-input-input-typography-font-weight-typography-body-default-font-weight-default);
-  line-height: var(--amplify-chat-text-area-input-input-typography-line-height-typography-body-default-line-height);
-  letter-spacing: var(--amplify-chat-text-area-input-input-typography-letter-spacing-typography-body-default-letter-spacing);
+  border-radius: var(--field-border-radius-default);
+  color: var(--amplify-chat-text-area-color-content-value);
+  font-family: var(--typography-body-default-font-family), 'Inter', sans-serif;
+  font-size: var(--typography-body-default-font-size);
+  font-weight: var(--typography-body-default-font-weight-default);
+  line-height: var(--typography-body-default-line-height);
+  letter-spacing: var(--typography-body-default-letter-spacing);
 }
 .ats-amplify-chat-text-area::placeholder {
   opacity: 1;
-  color: var(--amplify-chat-text-area-input-what-would-you-like-to-know-or-do-today-color-content-text-field-color-content-placeholder);
+  color: var(--amplify-chat-text-area-color-content-placeholder);
 }

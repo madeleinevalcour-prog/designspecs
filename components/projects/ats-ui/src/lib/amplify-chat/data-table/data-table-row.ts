@@ -129,8 +129,8 @@ export class AmplifyChatDataTableRow {
   /** A "Reveal …" link was clicked (prospect not in Bullhorn, value unknown). */
   readonly reveal = output<{ record: AmplifyChatProspect; field: AmplifyChatRevealField }>();
 
-  protected readonly existingColor = 'var(--amplify-chat-data-table-row-novo-data-table-cell-link-text-circle-vector-color-content-icon-color-entity-contact)';
-  protected readonly notInBhColor = 'var(--amplify-chat-data-table-row-novo-data-table-cell-link-text-circle-vector-color-content-icon-color-entity-task)';
+  protected readonly existingColor = 'var(--color-entity-contact)';
+  protected readonly notInBhColor = 'var(--color-entity-task)';
 
   protected readonly cols = computed(() => this.columns() ?? AMPLIFY_CHAT_PROSPECT_COLUMNS);
   protected readonly isSelectable = computed(() => this.selectable() ?? true);

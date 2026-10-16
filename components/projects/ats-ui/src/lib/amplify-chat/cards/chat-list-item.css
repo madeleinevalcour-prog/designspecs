@@ -5,24 +5,24 @@
 
 .ats-amplify-chat-chat-list-item {
   display: flex; align-items: flex-start; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-chat-list-item-spacing-gap-list-item-spacing-content-gap);
-  padding: var(--amplify-chat-chat-list-item-spacing-padding-vertical-spacing-padding-md)
-    var(--amplify-chat-chat-list-item-spacing-padding-horizontal-spacing-padding-md);
-  background: var(--amplify-chat-chat-list-item-color-background-card-color-background-contents);
-  border: var(--border-width-border-default) solid var(--amplify-chat-chat-list-item-color-border-card-color-border-default);
-  border-radius: var(--amplify-chat-chat-list-item-border-radius-border-radius-sm);
-  box-shadow: 0 var(--amplify-chat-chat-list-item-effects-shadow-1-offset-y-spacing-2)
-    var(--amplify-chat-chat-list-item-effects-shadow-1-blur-spacing-4)
-    var(--amplify-chat-chat-list-item-effects-shadow-1-color-color-transparency-charcoal-charcoal-04);
+  gap: var(--amplify-chat-chat-list-item-spacing-gap);
+  padding: var(--amplify-chat-chat-list-item-spacing-padding-vertical)
+    var(--amplify-chat-chat-list-item-spacing-padding-horizontal);
+  background: var(--amplify-chat-chat-list-item-color-background);
+  border: var(--border-width-border-default) solid var(--amplify-chat-chat-list-item-color-border);
+  border-radius: var(--amplify-chat-chat-list-item-border-radius);
+  box-shadow: 0 var(--spacing-2)
+    var(--spacing-4)
+    var(--color-transparency-charcoal-charcoal-04);
 }
 
 /* checkbox-container: lines the box up with the header (12 for the 40px avatar, 4 for the 24px header) */
 .ats-amplify-chat-chat-list-item__check {
   display: flex; flex: 0 0 auto;
-  padding-block: var(--amplify-chat-chat-list-item-checkbox-container-spacing-padding-vertical-spacing-12);
+  padding-block: var(--amplify-chat-chat-list-item-spacing-selection-padding-vertical-prospect-contact);
 }
 .ats-amplify-chat-chat-list-item[data-theme="entity-record"] .ats-amplify-chat-chat-list-item__check {
-  padding-block: var(--amplify-chat-chat-list-item-checkbox-container-spacing-padding-vertical-spacing-4);
+  padding-block: var(--amplify-chat-chat-list-item-spacing-selection-padding-vertical-entity-record);
 }
 
 /* list-item: header, then content. prospect-contact: list-item/spacing/content/gap (16) below the
@@ -43,7 +43,7 @@
 
 /* candidate comment paragraph: card/color/content/body (amplify-chat token) */
 .ats-amplify-chat-chat-list-item .ats-item-comment__body {
-  color: var(--amplify-chat-chat-list-item-list-item-item-content-comment-note-comments-cell-color-content-text-card-color-content-body);
+  color: var(--amplify-chat-chat-list-item-color-content-comment);
 }
 
 /* ---- prospect header-section (6223:172795): avatar + contact details, gap 8 ---- */
@@ -95,7 +95,7 @@
   /* Border/Amplify Gradient (no token for the style): a 1px gradient ring via border-box */
   border: var(--border-width-border-default) solid transparent;
   background:
-    linear-gradient(var(--amplify-chat-chat-list-item-color-background-card-color-background-contents), var(--amplify-chat-chat-list-item-color-background-card-color-background-contents)) padding-box,
+    linear-gradient(var(--amplify-chat-chat-list-item-color-background), var(--amplify-chat-chat-list-item-color-background)) padding-box,
     linear-gradient(90deg, var(--color-amplify-amplify-green), var(--color-amplify-amplify-blue)) border-box;
 }
 .ats-amplify-chat-relevance-signals__label {
@@ -113,7 +113,7 @@
 .ats-amplify-chat-chat-cards,
 .ats-amplify-chat-chat-cards__stack {
   display: flex; flex-direction: column; box-sizing: border-box; width: 100%;
-  gap: var(--amplify-chat-chat-cards-spacing-gap-spacing-gap-sm);
+  gap: var(--amplify-chat-chat-cards-spacing-gap);
 }
 
 .ats-amplify-chat-relevance-signals__signals {

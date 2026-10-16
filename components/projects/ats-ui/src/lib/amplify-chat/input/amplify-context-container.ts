@@ -61,7 +61,7 @@ export class AmplifyChatContextContainer {
         label: item.label,
         source: !!item.source,
         color: entity === 'candidate'
-          ? 'var(--amplify-chat-context-container-chips-novo-chip-circle-vector-color-content-icon-color-entity-candidate)'
+          ? 'var(--color-entity-candidate)'
           : `var(--color-entity-${entity})`,
       };
     }),

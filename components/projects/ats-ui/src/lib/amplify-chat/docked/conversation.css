@@ -12,13 +12,13 @@
   overflow-y: auto; overscroll-behavior: contain;
   position: relative; /* contains absolutely positioned bits in replies (e.g. visually hidden live
      regions), so they scroll and clip with the turns instead of stretching the page */
-  gap: var(--amplify-chat-docked-chat-main-conversation-spacing-gap-page-gap-vertical);
+  gap: var(--amplify-chat-docked-chat-spacing-conversation-gap);
 }
 
 /* chat column: turns spacing/gap/xlg (32) apart; grows so the input sits at the bottom */
 .ats-amplify-chat-conversation__column {
   display: flex; flex-direction: column; flex: 1 0 auto; box-sizing: border-box; min-width: 0;
-  gap: var(--amplify-chat-docked-chat-main-conversation-chat-column-spacing-gap-spacing-gap-xlg);
+  gap: var(--amplify-chat-docked-chat-spacing-chat-column-gap);
 }
 
 /* input area: general/level 2 - scroll (color/background/scroll + background blur) */
@@ -49,17 +49,17 @@
    scrolled content isn't clipped short of the header and panel edges */
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__scroll {
   padding:
-    var(--amplify-chat-docked-chat-main-spacing-padding-top-spacing-padding-md)
-    var(--amplify-chat-docked-chat-main-spacing-padding-right-spacing-8)
+    var(--amplify-chat-docked-chat-spacing-main-padding-top-default)
+    var(--amplify-chat-docked-chat-spacing-main-padding-right)
     0
-    var(--amplify-chat-docked-chat-main-spacing-padding-left-spacing-padding-sm);
+    var(--amplify-chat-docked-chat-spacing-main-padding-left);
 }
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__input {
-  padding-bottom: var(--amplify-chat-docked-chat-main-spacing-padding-bottom-spacing-padding-sm);
+  padding-bottom: var(--amplify-chat-docked-chat-spacing-main-padding-bottom);
 }
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__column {
-  padding-inline: var(--amplify-chat-docked-chat-main-conversation-chat-column-spacing-padding-horizontal-spacing-padding-sm);
+  padding-inline: var(--amplify-chat-docked-chat-spacing-chat-column-padding-horizontal);
 }
 .ats-amplify-chat-conversation[data-size="docked"] .ats-amplify-chat-conversation__column > .ats-amplify-chat-user-turn {
-  padding-left: var(--amplify-chat-docked-chat-main-conversation-chat-column-user-turn-spacing-padding-left-spacing-padding-lg);
+  padding-left: var(--amplify-chat-docked-chat-spacing-user-turn-padding-left);
 }

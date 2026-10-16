@@ -1,6 +1,6 @@
 /* Amplify chat prompt library — Figma "prompt-library" (6789:132613). Unencapsulated, namespaced
    .ats-amplify-chat-prompt-library. Component tokens are amplify-chat/prompt-library/*; each var()
-   falls back to the token it aliases until tokens/component-migration.json is re-exported. */
+   falls back to the token it aliases. */
 
 .ats-amplify-chat-prompt-library {
   display: flex; flex-direction: column; box-sizing: border-box;
