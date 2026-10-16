@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="Showing the records behind an answer">
     <p class="lead" style="max-width:60ch">The sources row sits under an Amplify reply that used records, so the recruiter can see what the answer is based on. A one-line summary, “Based on 14 job orders · Updated today”, expands to the records themselves, each a small link with its entity-color circle.</p>
-    <doc-example src="amplify-chat-sources?component=sources-row" caption="Collapsed: the summary and the toggle" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20837" src="amplify-chat-sources?component=sources-row" caption="Collapsed: the summary and the toggle" height="50"></doc-example>
     <p>How records and sources appear in a reply: <a href="../patterns/records-and-sources.html">Records and sources</a>.</p>
     <table class="tbl">
       <thead><tr><th>Part</th><th>Text style</th><th>Color</th></tr></thead>
@@ -36,9 +36,9 @@
         <tr><td><span class="chip">expanded</span></td><td>Chevron up, and the list of sources below the summary, <span class="chip">spacing/gap/sm</span> (8) from it and <span class="chip">spacing/gap/xsm</span> (4) apart</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-sources?component=sources-row&amp;state=collapsed" caption="state=collapsed. The toggle is live" height="50"></doc-example>
-    <doc-example src="amplify-chat-sources?component=sources-row&amp;state=expanded" caption="state=expanded: three job orders" height="120"></doc-example>
-    <doc-example src="amplify-chat-sources?state=expanded&amp;set=mixed" caption="Expanded, mixed record types: company, contact, job, candidate" height="140"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20837" src="amplify-chat-sources?component=sources-row&amp;state=collapsed" caption="state=collapsed. The toggle is live" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20845" src="amplify-chat-sources?component=sources-row&amp;state=expanded" caption="state=expanded: three job orders" height="120"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20845" src="amplify-chat-sources?state=expanded&amp;set=mixed" caption="Expanded, mixed record types: company, contact, job, candidate" height="140"></doc-example>
   </doc-section>
 
   <doc-section id="source-colors" label="Source colors" desc="Entity circles, prospects included">
@@ -51,7 +51,7 @@
         <tr><td>Prospect contact not yet in the ATS (<span class="chip">prospect</span>)</td><td>Neutral grey, <span class="chip">color/entity/task</span></td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-sources?state=expanded&amp;set=prospects" caption="Contacts found by Prospect: Marie Smith and Nina Patel are saved contacts; Fred Johnson and Leila Nguyen aren’t in the ATS yet"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20845" src="amplify-chat-sources?state=expanded&amp;set=prospects" caption="Contacts found by Prospect: Marie Smith and Nina Patel are saved contacts; Fred Johnson and Leila Nguyen aren’t in the ATS yet"></doc-example>
     <p>Pass <span class="chip">entity: 'contact'</span> once a prospect is saved, so the circle changes from grey to the contact color.</p>
   </doc-section>
 

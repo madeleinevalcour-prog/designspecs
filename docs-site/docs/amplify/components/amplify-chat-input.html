@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What the input parts are for">
     <p class="lead" style="max-width:60ch">Where the recruiter asks Amplify for something and sets what Amplify works from. It sits at the bottom of every surface and keeps the same parts in full-page, docked and pop-over chat: a context row of records, a text area and a button row with Send.</p>
-    <doc-example src="amplify-chat-input?component=amplify-chat-container" caption="Context row over the chat input" height="190"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-169494" src="amplify-chat-input?component=amplify-chat-container" caption="Context row over the chat input" height="190"></doc-example>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th><th>Variants</th></tr></thead>
       <tbody>
@@ -38,10 +38,10 @@
         <tr><td><span class="chip">docked</span></td><td><span class="chip">border/radius/sm</span>, <span class="chip">general/level 1</span></td><td>Always icon-only</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-input?component=chat-input" caption="size=full page, empty: Send disabled" height="140"></doc-example>
-    <doc-example src="amplify-chat-input?component=chat-input&amp;value=Find%20Java%20developers%20within%2025%20miles%20of%20Boston" caption="With a draft: Send enabled" height="140"></doc-example>
-    <doc-example src="amplify-chat-input?component=chat-input&amp;size=docked" caption="size=docked: icon-only buttons" height="140"></doc-example>
-    <doc-example src="amplify-chat-input?component=chat-input&amp;generating=true" caption="Generating: Stop next to Send, Send disabled" height="140"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4510-141056" src="amplify-chat-input?component=chat-input" caption="size=full page, empty: Send disabled" height="140"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4510-141056" src="amplify-chat-input?component=chat-input&amp;value=Find%20Java%20developers%20within%2025%20miles%20of%20Boston" caption="With a draft: Send enabled" height="140"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-172362" src="amplify-chat-input?component=chat-input&amp;size=docked" caption="size=docked: icon-only buttons" height="140"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4510-141056" src="amplify-chat-input?component=chat-input&amp;generating=true" caption="Generating: Stop next to Send, Send disabled" height="140"></doc-example>
     <ul>
       <li>Placeholder “What would you like to know or do today?”. While clarifying questions are open it reads “Or reply directly…”.</li>
       <li>The input shares the chat column’s edges (800 max in full-page chat) and sits on <span class="chip">general/level 2 - scroll</span> so replies scroll behind it.</li>
@@ -50,9 +50,9 @@
 
   <doc-section id="text-area" label="Text area" desc="The text field and its placeholder">
     <p>A borderless native textarea in <span class="chip">body/default</span>. It starts one line tall (20) and grows with its content up to 400, then scrolls. Placeholder in <span class="chip">field/color/content/placeholder</span>, value in <span class="chip">field/color/content/value</span>.</p>
-    <doc-example src="amplify-chat-input?component=text-area" caption="Placeholder" height="60"></doc-example>
-    <doc-example src="amplify-chat-input?component=text-area&amp;placeholder=Or%20reply%20directly%E2%80%A6" caption="Placeholder while clarifying questions are open" height="60"></doc-example>
-    <doc-example src="amplify-chat-input?component=text-area&amp;value=Find%20Java%20developers%20within%2025%20miles%20of%20Boston%20for%20the%20Verizon%20job%20order" caption="With a value" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-172389" src="amplify-chat-input?component=text-area" caption="Placeholder" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-172389" src="amplify-chat-input?component=text-area&amp;placeholder=Or%20reply%20directly%E2%80%A6" caption="Placeholder while clarifying questions are open" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-172389" src="amplify-chat-input?component=text-area&amp;value=Find%20Java%20developers%20within%2025%20miles%20of%20Boston%20for%20the%20Verizon%20job%20order" caption="With a value" height="60"></doc-example>
   </doc-section>
 
   <doc-section id="button-row" label="Button row" desc="Tools, Stop and Send">
@@ -66,10 +66,10 @@
         <tr><td>Generating</td><td>Stop (Button, Dialogue, Small, icon-only <span class="chip">stop-circle</span>) sits 8 before Send</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-input?component=button-row&amp;canSend=true" caption="Labels on, Send enabled" height="60"></doc-example>
-    <doc-example src="amplify-chat-input?component=button-row" caption="Labels on, empty: Send disabled" height="60"></doc-example>
-    <doc-example src="amplify-chat-input?component=button-row&amp;showLabels=no&amp;canSend=true" caption="Labels off" height="60"></doc-example>
-    <doc-example src="amplify-chat-input?component=button-row&amp;showLabels=no&amp;generating=true" caption="Labels off, generating: Stop next to Send" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-172447" src="amplify-chat-input?component=button-row&amp;canSend=true" caption="Labels on, Send enabled" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-172447" src="amplify-chat-input?component=button-row" caption="Labels on, empty: Send disabled" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-173575" src="amplify-chat-input?component=button-row&amp;showLabels=no&amp;canSend=true" caption="Labels off" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-173575" src="amplify-chat-input?component=button-row&amp;showLabels=no&amp;generating=true" caption="Labels off, generating: Stop next to Send" height="60"></doc-example>
   </doc-section>
 
   <doc-section id="context-container" label="Context container" desc="The records Amplify works from">
@@ -81,9 +81,9 @@
         <tr><td>An Amplify data source, for example Prospect</td><td>The Amplify icon (<span class="chip">Icon/Amplify Radial</span>) instead of a dot</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-input?component=context-container" caption="size=full page: border/radius/md. Try the ×" height="70"></doc-example>
-    <doc-example src="amplify-chat-input?component=context-container&amp;size=docked&amp;items=Tyler%20Brooks,Jordan%20Ellis" caption="size=docked: border/radius/sm" height="70"></doc-example>
-    <doc-example src="amplify-chat-input?component=context-container&amp;sources=Prospect&amp;items=Verizon" caption="An Amplify data source (Prospect, with the Amplify icon) next to a record" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-169452" src="amplify-chat-input?component=context-container" caption="size=full page: border/radius/md. Try the ×" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6349-218553" src="amplify-chat-input?component=context-container&amp;size=docked&amp;items=Tyler%20Brooks,Jordan%20Ellis" caption="size=docked: border/radius/sm" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-169452" src="amplify-chat-input?component=context-container&amp;sources=Prospect&amp;items=Verizon" caption="An Amplify data source (Prospect, with the Amplify icon) next to a record" height="70"></doc-example>
     <ul>
       <li>Shows the open record, or a record chosen in a clarifying question, so follow-ups don’t ask again.</li>
       <li>Context carries across navigation and between surfaces.</li>
@@ -93,16 +93,16 @@
 
   <doc-section id="chat-container" label="Amplify chat container" desc="Context row and input together">
     <p>The input area at the bottom of a conversation: the context container over the chat input, 8 apart, both in the same size. With no context items, only the input shows.</p>
-    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;size=docked" caption="size=docked, with context" height="190"></doc-example>
-    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;items=none" caption="Context off: just the input" height="140"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-169494" src="amplify-chat-input?component=amplify-chat-container&amp;size=docked" caption="size=docked, with context" height="190"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-169494" src="amplify-chat-input?component=amplify-chat-container&amp;items=none" caption="Context off: just the input" height="140"></doc-example>
     <p>While Amplify asks <a href="amplify-chat-clarifying-questions.html">clarifying questions</a>, the card replaces the context row and the placeholder becomes “Or reply directly…”. Sending from the input answers the current question. The context row returns once the round is answered or dismissed.</p>
-    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;questions=yes" caption="Clarifying questions open" height="460"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6337-209113" src="amplify-chat-input?component=amplify-chat-container&amp;questions=yes" caption="Clarifying questions open" height="460"></doc-example>
   </doc-section>
 
   <doc-section id="global-chat-container" label="Global chat container" desc="The starting point of a new chat">
     <p>A greeting headline (<span class="chip">title/default</span>, <span class="chip">color/text/headline</span>) over the Amplify chat container, <span class="chip">page/gap/vertical</span> apart. It reads “Hi {name}, how can I help you today?”. The context row is hidden unless there is a current record; buttons show labels.</p>
-    <doc-example src="amplify-chat-input?component=global-chat-container&amp;name=Chloe" caption="Default greeting" height="200"></doc-example>
-    <doc-example src="amplify-chat-input?component=global-chat-container&amp;items=Tyler%20Brooks" caption="With the current record as context" height="250"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-171709" src="amplify-chat-input?component=global-chat-container&amp;name=Chloe" caption="Default greeting" height="200"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4527-171709" src="amplify-chat-input?component=global-chat-container&amp;items=Tyler%20Brooks" caption="With the current record as context" height="250"></doc-example>
   </doc-section>
 
   <doc-section id="behaviour" label="Behaviour" desc="Sending, stopping and keyboard">

@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What a reply is made of">
     <p class="lead" style="max-width:60ch">The chat block is one full Amplify reply: identity, the body, sources, follow-ups and message controls, always in that order, so replies are predictable to scan and the answer comes first. The user turn places the recruiter’s message in the same column.</p>
-    <doc-example src="amplify-chat-reply?example=prose" caption="A reply: answer, heading, list, sources, follow-ups, controls" height="380"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6150-20828" src="amplify-chat-reply?example=prose" caption="A reply: answer, heading, list, sources, follow-ups, controls" height="380"></doc-example>
     <p>The order of a reply: <a href="../patterns/response-structure.html#parts">Response structure</a>.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th></tr></thead>
@@ -42,11 +42,11 @@
       </tbody>
     </table>
     <p>The body is projected: answer, headings, lists, evidence and blocks are the other Amplify chat components, placed in order. Everything, prose included, uses the full chat column (800 max).</p>
-    <doc-example src="amplify-chat-reply?example=table" caption="Evidence as a data table, with sources" height="460"></doc-example>
-    <doc-example src="amplify-chat-reply?example=cards" caption="Evidence as cards" height="460"></doc-example>
-    <doc-example src="amplify-chat-reply?example=draft" caption="A draft block to edit" height="420"></doc-example>
-    <doc-example src="amplify-chat-reply?example=literal" caption="A literal value block to copy" height="240"></doc-example>
-    <doc-example src="amplify-chat-reply?example=prose&amp;followUps=false&amp;actions=false&amp;action=Accept%20Updates" caption="Without follow-ups or controls, with a primary action" height="300"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6227-174838" src="amplify-chat-reply?example=table" caption="Evidence as a data table, with sources" height="460"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6229-175209" src="amplify-chat-reply?example=cards" caption="Evidence as cards" height="460"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20803" src="amplify-chat-reply?example=draft" caption="A draft block to edit" height="420"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6153-20860" src="amplify-chat-reply?example=literal" caption="A literal value block to copy" height="240"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6150-20828" src="amplify-chat-reply?example=prose&amp;followUps=false&amp;actions=false&amp;action=Accept%20Updates" caption="Without follow-ups or controls, with a primary action" height="300"></doc-example>
   </doc-section>
 
   <doc-section id="controls" label="Message controls" desc="Copy, feedback and Save prompt">
@@ -59,7 +59,7 @@
         <tr><td>Primary action (optional)</td><td>Right-aligned Button, Primary, Small, pill, naming the action, e.g. “Accept Updates”</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-reply?example=literal&amp;followUps=false" caption="Try the controls: thumbs and Save prompt toggle" height="200"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6265-178033" src="amplify-chat-reply?example=literal&amp;followUps=false" caption="Try the controls: thumbs and Save prompt toggle" height="200"></doc-example>
     <ul>
       <li>No retry control and no feedback request in prose.</li>
       <li>Stop is not a reply control. It lives in the chat input, next to Send, while the reply generates.</li>
@@ -68,7 +68,7 @@
 
   <doc-section id="thinking" label="Thinking state" desc="The status line while generating">
     <p>While a reply generates, the block shows only the status line: the Amplify icon and the current step in <span class="chip">body/sm</span>, <span class="chip">color/text/secondary</span>. Identity, body, footer and controls are hidden until the reply arrives, then the status line is replaced.</p>
-    <doc-example src="amplify-chat-reply?example=status" caption="Thinking: the current step" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6148-20796" src="amplify-chat-reply?example=status" caption="Thinking: the current step" height="60"></doc-example>
     <ul>
       <li>Name the step: “Searching open jobs…”, then “Ranking 14 job orders…”. Never “Amplify is thinking…”.</li>
       <li>Never link blue: blue means clickable.</li>
@@ -78,7 +78,7 @@
 
   <doc-section id="user-turn" label="User turn" desc="The recruiter’s message row">
     <p>A full-width row in the chat column that right-aligns the user bubble. The bubble hugs its text up to 440, then wraps. Turns sit <span class="chip">spacing/gap/xlg</span> (32) apart; that spacing belongs to the conversation column, not the row.</p>
-    <doc-example src="amplify-chat-reply?example=user-turn" caption="A user turn: the bubble right-aligned in the chat column"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6237-176861" src="amplify-chat-reply?example=user-turn" caption="A user turn: the bubble right-aligned in the chat column"></doc-example>
   </doc-section>
 
   <doc-section id="layout" label="Spacing and layout" desc="Gaps inside a reply and column width">

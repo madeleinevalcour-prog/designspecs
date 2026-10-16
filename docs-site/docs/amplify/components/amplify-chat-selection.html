@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What the selection parts are for">
     <p class="lead" style="max-width:60ch">The bar that appears under a chat table or card stack once records are selected: the selection count on the left and a split button on the right that names the action and the count. The table and the card stack use the same bar, so selection works the same in both.</p>
-    <doc-example src="amplify-chat-selection?component=selection-bar&amp;count=5&amp;total=5" caption="5 of 5 selected, “Add 5 Contacts”" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-184050" src="amplify-chat-selection?component=selection-bar&amp;count=5&amp;total=5" caption="5 of 5 selected, “Add 5 Contacts”" height="70"></doc-example>
     <p>This page wins over the earlier <a href="../patterns/record-actions.html">record actions</a> mockups where they differ: the label is Title case and the bar is hidden at zero.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th></tr></thead>
@@ -34,8 +34,8 @@
         <tr><td><span class="chip">card</span></td><td>Under a <a href="amplify-chat-cards.html">card stack</a>, 8 below the last card</td><td>Its own bordered card, <span class="chip">border/radius/sm</span>, <span class="chip">general/level 2</span> shadow</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-selection?component=selection-bar&amp;appearance=attached&amp;count=3&amp;total=10" caption="appearance=attached: 3 of 10 selected" height="70"></doc-example>
-    <doc-example src="amplify-chat-selection?component=selection-bar&amp;appearance=card&amp;count=5&amp;total=5" caption="appearance=card" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183633" src="amplify-chat-selection?component=selection-bar&amp;appearance=attached&amp;count=3&amp;total=10" caption="appearance=attached: 3 of 10 selected" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-184050" src="amplify-chat-selection?component=selection-bar&amp;appearance=card&amp;count=5&amp;total=5" caption="appearance=card" height="70"></doc-example>
     <table class="tbl">
       <thead><tr><th>Selected</th><th>Paged?</th><th>Bar</th></tr></thead>
       <tbody>
@@ -44,8 +44,8 @@
         <tr><td>1 or more</td><td>Either</td><td>“N of M selected”, the pager if paged, and the split button</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-selection?component=selection-bar&amp;count=0&amp;pageCount=3" caption="Nothing selected, paged: range and pager only" height="70"></doc-example>
-    <doc-example src="amplify-chat-selection?component=selection-bar&amp;count=2&amp;total=8&amp;pageCount=3&amp;page=2" caption="2 of 8 selected on page 2 of 3" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-184050" src="amplify-chat-selection?component=selection-bar&amp;count=0&amp;pageCount=3" caption="Nothing selected, paged: range and pager only" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-184050" src="amplify-chat-selection?component=selection-bar&amp;count=2&amp;total=8&amp;pageCount=3&amp;page=2" caption="2 of 8 selected on page 2 of 3" height="70"></doc-example>
     <ul>
       <li>The count reads “N of M selected” in <span class="chip">meta/small</span>, uppercase. M is every record in the table or stack, across pages.</li>
       <li>The pager is previous, up to five page numbers, then next. It only appears for a paged card stack.</li>
@@ -54,16 +54,16 @@
 
   <doc-section id="split-button" label="Selection split button" desc="Label, menu and states">
     <p>Two primary small <a href="../../components/button.html">Buttons</a> 1px apart, rounded on the outer sides only. The left segment runs the default action; the chevron opens a menu of related actions.</p>
-    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=1" caption="1 selected: “Add 1 Contact”" height="60"></doc-example>
-    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5" caption="5 selected: “Add 5 Contacts”" height="60"></doc-example>
-    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=3&amp;verb=Add&amp;noun=Candidate" caption="verb and noun set the wording: “Add 3 Candidates”" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528" src="amplify-chat-selection?component=selection-split-button&amp;count=1" caption="1 selected: “Add 1 Contact”" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528" src="amplify-chat-selection?component=selection-split-button&amp;count=5" caption="5 selected: “Add 5 Contacts”" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528" src="amplify-chat-selection?component=selection-split-button&amp;count=3&amp;verb=Add&amp;noun=Candidate" caption="verb and noun set the wording: “Add 3 Candidates”" height="60"></doc-example>
     <ul>
       <li>The label is verb + count + noun, Title case: “Add 5 Contacts”. It follows the selection live; the noun is singular for 1.</li>
       <li>With nothing selected the button is hidden, and so is the bar.</li>
       <li>No check icon on the button. Nothing has happened yet.</li>
     </ul>
     <p>The menu is the ATS <a href="../../components/dropdown.html">Dropdown</a> (dropdown, optgroup, option), right-aligned under the chevron, the same component as other ATS dropdowns. Hold about 2–4 related actions, each verb first. With no actions the chevron is disabled.</p>
-    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=3&amp;open=true" caption="Menu open. “Add to Outreach sequence” is higher risk, so it says “Review first”" height="200"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528" src="amplify-chat-selection?component=selection-split-button&amp;count=3&amp;open=true" caption="Menu open. “Add to Outreach sequence” is higher risk, so it says “Review first”" height="200"></doc-example>
     <table class="tbl">
       <thead><tr><th>Action</th><th>Risk</th><th>What happens on click</th></tr></thead>
       <tbody>
@@ -78,9 +78,9 @@
         <tr><td>default · hover · focus · active</td><td>The primary small Button states, on both segments. Hover and focus are live</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=hover" caption="state=hover" height="60"></doc-example>
-    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=focus" caption="state=focus" height="60"></doc-example>
-    <doc-example src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=active" caption="state=active" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528" src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=hover" caption="state=hover" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528" src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=focus" caption="state=focus" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183528" src="amplify-chat-selection?component=selection-split-button&amp;count=5&amp;state=active" caption="state=active" height="60"></doc-example>
   </doc-section>
 
   <doc-section id="behaviour" label="Behaviour" desc="Interaction and keyboard">

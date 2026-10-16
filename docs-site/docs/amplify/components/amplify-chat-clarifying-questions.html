@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What the card is for">
     <p class="lead" style="max-width:60ch">When a request is ambiguous, Amplify asks up to 3 short questions in a card directly above the chat input, one at a time, with 2–4 tappable options each. It gets the one or two details that change the result (which job order, how far, which candidates), then runs.</p>
-    <doc-example src="amplify-chat-input?component=amplify-chat-container&amp;questions=yes" caption="In context: the card replaces the context row; the input reads “Or reply directly…”" height="460"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6337-209113" src="amplify-chat-input?component=amplify-chat-container&amp;questions=yes" caption="In context: the card replaces the context row; the input reads “Or reply directly…”" height="460"></doc-example>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th><th>Variants</th></tr></thead>
       <tbody>
@@ -36,10 +36,10 @@
         <tr><td><span class="chip">docked</span></td><td><span class="chip">border/radius/sm</span>, <span class="chip">general/level 1</span></td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions" caption="size=full page, a round of 3. Answer, page back, or dismiss" height="300"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;size=docked" caption="size=docked" height="300"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;set=record" caption="Record question first, with help text" height="380"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;set=single" caption="A single question: no pager" height="300"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6336-28246" src="amplify-chat-clarifying-questions?component=clarifying-questions" caption="size=full page, a round of 3. Answer, page back, or dismiss" height="300"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6336-28306" src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;size=docked" caption="size=docked" height="300"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6336-28246" src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;set=record" caption="Record question first, with help text" height="380"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6336-28246" src="amplify-chat-clarifying-questions?component=clarifying-questions&amp;set=single" caption="A single question: no pager" height="300"></doc-example>
     <ul>
       <li>Match the size to the chat input under it.</li>
       <li>The gradient border marks a live Amplify ask; never use it outside the asking state.</li>
@@ -55,9 +55,9 @@
         <tr><td><span class="chip">record</span></td><td>A list item: the record title as an entity link with its entity dot, 2–5 details that tell the records apart and are relevant to the record type and the action (for a job: company, date added and status), and the recommended note as the top-right caption</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;label=Within%2025%20mi%20of%20Boston&amp;recommended=Recommended%20%C2%B7%20from&amp;recordLink=JO-4821" caption="type=text, recommended from a record" height="70"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;label=Placed%20in%20the%20last%2012%20months&amp;description=Candidates%20you%20placed%20before%2C%20for%20re-engagement&amp;number=3" caption="type=text, with a description" height="70"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;type=record&amp;recommended=Recommended%20%C2%B7%20you%20own%20it" caption="type=record" height="90"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-28233" src="amplify-chat-clarifying-questions?component=clarify-option&amp;label=Within%2025%20mi%20of%20Boston&amp;recommended=Recommended%20%C2%B7%20from&amp;recordLink=JO-4821" caption="type=text, recommended from a record" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-28233" src="amplify-chat-clarifying-questions?component=clarify-option&amp;label=Placed%20in%20the%20last%2012%20months&amp;description=Candidates%20you%20placed%20before%2C%20for%20re-engagement&amp;number=3" caption="type=text, with a description" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6341-28605" src="amplify-chat-clarifying-questions?component=clarify-option&amp;type=record&amp;recommended=Recommended%20%C2%B7%20you%20own%20it" caption="type=record" height="90"></doc-example>
     <table class="tbl">
       <thead><tr><th>State</th><th>Look</th></tr></thead>
       <tbody>
@@ -66,9 +66,9 @@
         <tr><td>selected</td><td>The answer already chosen, seen when paging back: key selected and label Medium weight</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;state=active" caption="state=active. Hover and focus are also live" height="70"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;state=selected&amp;number=2&amp;label=Within%2050%20mi%20of%20Boston" caption="state=selected" height="70"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-option&amp;type=record&amp;state=active" caption="type=record, state=active" height="90"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-28241" src="amplify-chat-clarifying-questions?component=clarify-option&amp;state=active" caption="state=active. Hover and focus are also live" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-28249" src="amplify-chat-clarifying-questions?component=clarify-option&amp;state=selected&amp;number=2&amp;label=Within%2050%20mi%20of%20Boston" caption="state=selected" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6341-28645" src="amplify-chat-clarifying-questions?component=clarify-option&amp;type=record&amp;state=active" caption="type=record, state=active" height="90"></doc-example>
     <ul>
       <li>Record and text options share the same border, padding and states. The record list item has no border or fill of its own.</li>
       <li>Show the recommended note on the recommended option only, and put that option first.</li>
@@ -87,10 +87,10 @@
         <tr><td>selected</td><td><span class="chip">color/background/hover</span>, <span class="chip">color/border/focus</span> border, <span class="chip">color/text/link</span></td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=default&amp;number=1" caption="number, default" height="50"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=active&amp;number=1" caption="number, active" height="50"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=selected&amp;number=2" caption="number, selected" height="50"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=icon" caption="icon" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6334-28232" src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=default&amp;number=1" caption="number, default" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6334-28234" src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=active&amp;number=1" caption="number, active" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6334-28236" src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=number&amp;state=selected&amp;number=2" caption="number, selected" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6334-28238" src="amplify-chat-clarifying-questions?component=clarify-key&amp;type=icon" caption="icon" height="50"></doc-example>
   </doc-section>
 
   <doc-section id="something-else" label="Something else" desc="The free-text answer row">
@@ -103,9 +103,9 @@
         <tr><td>Has text</td><td>Skip becomes a small primary FAB with the right-arrow icon. Clearing the field brings Skip back</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-something-else" caption="state=default, with Skip" height="60"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-something-else&amp;state=typing&amp;value=Within%2010%20mi%20of%20Cambridge" caption="state=typing with text: the submit FAB replaces Skip" height="60"></doc-example>
-    <doc-example src="amplify-chat-clarifying-questions?component=clarify-something-else&amp;showSkip=false" caption="Skip hidden" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-128884" src="amplify-chat-clarifying-questions?component=clarify-something-else" caption="state=default, with Skip" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-128895" src="amplify-chat-clarifying-questions?component=clarify-something-else&amp;state=typing&amp;value=Within%2010%20mi%20of%20Cambridge" caption="state=typing with text: the submit FAB replaces Skip" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6335-128884" src="amplify-chat-clarifying-questions?component=clarify-something-else&amp;showSkip=false" caption="Skip hidden" height="60"></doc-example>
   </doc-section>
 
   <doc-section id="behaviour" label="Behaviour" desc="Answering, typing and keyboard">

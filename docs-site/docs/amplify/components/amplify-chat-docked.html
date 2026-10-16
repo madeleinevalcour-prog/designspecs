@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What the docked chat is for">
     <p class="lead" style="max-width:60ch">Amplify chat beside or over the current page. One assistant, two presentations of the same conversation: a docked panel on the right (the default) and a pop-over window. The recruiter switches between them in the header without losing the conversation or its context.</p>
-    <doc-example src="amplify-chat-docked?mode=docked" caption="Docked panel beside a company record" height="760" viewport="1280"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-182871" src="amplify-chat-docked?mode=docked" caption="Docked panel beside a company record" height="760" viewport="1280"></doc-example>
     <p>Inside both sits the conversation layout: the turns in a scrolling column with the chat input pinned at the bottom. The full-page chat uses the same layout (see <a href="amplify-chat-full-page.html">Full-page chat</a>). Related rules: <a href="../foundations/surfaces-and-elevation.html#surfaces">Surfaces and elevation</a> and <a href="../foundations/spacing-and-layout.html">Spacing and layout</a>.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th></tr></thead>
@@ -30,7 +30,7 @@
 
   <doc-section id="docked" label="Docked panel" desc="The default, beside the page">
     <p>The default presentation. A 420px panel on the right that stays with the recruiter across records and pages. It is the last item in a flex row with the page content, so the page contracts beside it instead of sitting under it. It slides in from the right when opened.</p>
-    <doc-example src="amplify-chat-docked?mode=docked&amp;state=conversation" caption="mode=docked, with the Verizon exchange" height="760" viewport="1280"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-182871" src="amplify-chat-docked?mode=docked&amp;state=conversation" caption="mode=docked, with the Verizon exchange" height="760" viewport="1280"></doc-example>
     <ul>
       <li>Background <span class="chip">color/background/muted</span>, a 1px modal border on its left edge and <span class="chip">general/level 3 - right</span>. The shadow falls on the left only, never over the app chrome.</li>
       <li>Escape doesn’t close it. The docked panel is persistent; only Close does.</li>
@@ -40,7 +40,7 @@
 
   <doc-section id="pop-over" label="Pop-over" desc="A movable window over the page">
     <p>The same chat as a floating window over the page. There is no scrim, so the page underneath stays usable. It opens at 726 × 994 in the bottom-right corner, 24 from the viewport edges, and shrinks to fit smaller windows.</p>
-    <doc-example src="amplify-chat-docked?mode=pop-over&amp;state=conversation" caption="mode=pop-over over the record" height="760" viewport="1280"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-182873" src="amplify-chat-docked?mode=pop-over&amp;state=conversation" caption="mode=pop-over over the record" height="760" viewport="1280"></doc-example>
     <table class="tbl">
       <thead><tr><th>Interaction</th><th>Behavior</th></tr></thead>
       <tbody>
@@ -72,8 +72,8 @@
 
   <doc-section id="empty-state" label="Empty state" desc="The greeting before the first message">
     <p>A new docked chat opens with a greeting from Amplify in the chat column: “Hi Chloe, how can I help you today?”. It is an ordinary Amplify reply with no actions, so the conversation reads the same from the first turn. The input sits at the bottom as normal.</p>
-    <doc-example src="amplify-chat-docked?state=empty" caption="state=empty: the greeting, input at the bottom" height="760" viewport="1280"></doc-example>
-    <doc-example src="amplify-chat-docked?mode=pop-over&amp;state=empty" caption="state=empty in the pop-over" height="760" viewport="1280"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-182871" src="amplify-chat-docked?state=empty" caption="state=empty: the greeting, input at the bottom" height="760" viewport="1280"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=4608-182873" src="amplify-chat-docked?mode=pop-over&amp;state=empty" caption="state=empty in the pop-over" height="760" viewport="1280"></doc-example>
   </doc-section>
 
   <doc-section id="conversation" label="Conversation" desc="Turns, input and scrolling">

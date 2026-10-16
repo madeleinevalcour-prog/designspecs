@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What the text parts are for">
     <p class="lead" style="max-width:60ch">The prose building blocks of an Amplify chat reply: headings, paragraphs, the status line, inline record links and numbered lists. Each maps one markdown element the model outputs to one Modern UI text style, so nothing in a reply renders at a raw size or weight. Each fills its parent’s width.</p>
-    <doc-example src="amplify-chat-text?component=text&amp;type=paragraph-with-links" caption="A paragraph with inline entity links" height="90"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=text&amp;type=paragraph-with-links" caption="A paragraph with inline entity links" height="90"></doc-example>
     <p>The rules for when to use each, and how they combine with tables, cards and blocks, are in <a href="../patterns/response-structure.html">Response structure</a>.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>Markdown</th><th>Text style</th><th>Color</th></tr></thead>
@@ -40,8 +40,8 @@
         <tr><td><span class="chip">label</span></td><td>A label inside a section. Use rarely; never a second tier of structure</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-text?component=header&amp;level=section" caption="level=section" height="60"></doc-example>
-    <doc-example src="amplify-chat-text?component=header&amp;level=label" caption="level=label" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6147-20794" src="amplify-chat-text?component=header&amp;level=section" caption="level=section" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6147-20796" src="amplify-chat-text?component=header&amp;level=label" caption="level=label" height="60"></doc-example>
     <ul>
       <li>Title case, 2–5 words, no numbering, no trailing punctuation.</li>
       <li>One heading level per reply. <span class="chip">####</span> and deeper render as a paragraph.</li>
@@ -58,9 +58,9 @@
         <tr><td><span class="chip">status</span></td><td>The thinking line while a reply generates: the Amplify icon (<span class="chip">Icon/Amplify Radial</span>) and the current step. Replaced by the reply</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-text?component=text&amp;type=paragraph" caption="type=paragraph" height="70"></doc-example>
-    <doc-example src="amplify-chat-text?component=text&amp;type=paragraph-with-links" caption="type=paragraph-with-links: record names as entity links" height="70"></doc-example>
-    <doc-example src="amplify-chat-text?component=text&amp;type=status" caption="type=status" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6148-20794" src="amplify-chat-text?component=text&amp;type=paragraph" caption="type=paragraph" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=text&amp;type=paragraph-with-links" caption="type=paragraph-with-links: record names as entity links" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6148-20796" src="amplify-chat-text?component=text&amp;type=status" caption="type=status" height="50"></doc-example>
     <ul>
       <li>Bold (<span class="chip">&lt;strong&gt;</span> / <span class="chip">&lt;b&gt;</span>) renders <span class="chip">body/default-medium</span> in the same color. At most one bold phrase per paragraph.</li>
       <li>Italic renders as plain text; Modern UI has no italic style.</li>
@@ -76,10 +76,10 @@
         <tr><td><span class="chip">job</span> (default) · <span class="chip">company</span> · <span class="chip">candidate</span> · <span class="chip">contact</span> · <span class="chip">lead</span> · <span class="chip">opportunity</span> · <span class="chip">placement</span> · <span class="chip">submission</span></td><td><span class="chip">color/entity/&lt;entity&gt;</span>, in every state</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-text?component=link&amp;entity=job" caption="entity=job" height="50"></doc-example>
-    <doc-example src="amplify-chat-text?component=link&amp;entity=company" caption="entity=company" height="50"></doc-example>
-    <doc-example src="amplify-chat-text?component=link&amp;entity=candidate" caption="entity=candidate" height="50"></doc-example>
-    <doc-example src="amplify-chat-text?component=link&amp;entity=contact" caption="entity=contact" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=link&amp;entity=job" caption="entity=job" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=link&amp;entity=company" caption="entity=company" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=link&amp;entity=candidate" caption="entity=candidate" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=link&amp;entity=contact" caption="entity=contact" height="50"></doc-example>
     <table class="tbl">
       <thead><tr><th>State</th><th>Look</th></tr></thead>
       <tbody>
@@ -88,8 +88,8 @@
         <tr><td>focus</td><td>2px <span class="chip">color/border/focus</span> outline, 1px offset, radius <span class="chip">border/radius/xsm</span></td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-text?component=link&amp;state=hover" caption="state=hover. Hover and focus are also live" height="50"></doc-example>
-    <doc-example src="amplify-chat-text?component=link&amp;state=focus" caption="state=focus" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=link&amp;state=hover" caption="state=hover. Hover and focus are also live" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6154-20875" src="amplify-chat-text?component=link&amp;state=focus" caption="state=focus" height="50"></doc-example>
     <ul>
       <li>The link text is the record name, not the ID. Show the ID as meta text only when it tells two records apart.</li>
       <li>Punctuation follows the link directly.</li>
@@ -102,8 +102,8 @@
 
   <doc-section id="numbered-list" label="Numbered list" desc="Ordered steps and ranked items">
     <p>An ordered list: a native <span class="chip">&lt;ol&gt;</span> of list items, numbered automatically from 1, <span class="chip">spacing/gap/xsm</span> (4) between items. Each list item is a 16px right-aligned marker column (the list indent, <span class="chip">spacing/padding/md</span>) then the text, which may contain entity links and one bold phrase.</p>
-    <doc-example src="amplify-chat-text?component=numbered-list" caption="Numbered list, three items" height="110"></doc-example>
-    <doc-example src="amplify-chat-text?component=list-item" caption="List item" height="50"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6148-20804" src="amplify-chat-text?component=numbered-list" caption="Numbered list, three items" height="110"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6148-20801" src="amplify-chat-text?component=list-item" caption="List item" height="50"></doc-example>
     <ul>
       <li>Use only when order means something: rank, priority or steps.</li>
       <li>At least 2 items; a single item is a sentence. One idea per item, under two lines where possible.</li>

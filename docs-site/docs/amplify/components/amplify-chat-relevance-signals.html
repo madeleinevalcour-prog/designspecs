@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What relevance signals are for">
     <p class="lead" style="max-width:60ch">Why Amplify picked this record. The Amplify icon and a label, then one small chip per signal, inside a 1px Amplify-gradient border. It’s the content slot of a Prospect contact card.</p>
-    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Department%20Match%3A%20Project%20Management,Previously%20contacted" caption="Three signals, default label" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6152-126071" src="amplify-chat-relevance-signals?signals=Director-level,Department%20Match%3A%20Project%20Management,Previously%20contacted" caption="Three signals, default label" height="70"></doc-example>
   </doc-section>
 
   <doc-section id="anatomy" label="Anatomy" desc="Icon, label, chips, border">
@@ -28,8 +28,8 @@
         <tr><td>Border</td><td>A 1px Amplify gradient, <span class="chip">color/amplify/amplify-green</span> → <span class="chip">amplify-blue</span>, radius <span class="chip">border/radius/sm</span>, padding <span class="chip">spacing/padding/sm</span></td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-relevance-signals?signals=Director-level" caption="One signal" height="70"></doc-example>
-    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Department%20Match%3A%20Project%20Management,Previously%20contacted,Department%20Match%3A%20IT%20Operations,Department%20Match%3A%20Infrastructure,Department%20Match%3A%20Networking,Department%20Match%3A%20Security" caption="Many signals wrap" height="110"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6152-126071" src="amplify-chat-relevance-signals?signals=Director-level" caption="One signal" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6152-126071" src="amplify-chat-relevance-signals?signals=Director-level,Department%20Match%3A%20Project%20Management,Previously%20contacted,Department%20Match%3A%20IT%20Operations,Department%20Match%3A%20Infrastructure,Department%20Match%3A%20Networking,Department%20Match%3A%20Security" caption="Many signals wrap" height="110"></doc-example>
   </doc-section>
 
   <doc-section id="content" label="Content" desc="What a signal says">
@@ -42,15 +42,15 @@
 
   <doc-section id="label" label="Label" desc="Default and contextual">
     <p>“Relevance Signals” is the default. The <span class="chip">label</span> input sets a contextual label, for example “Hiring signals” in the <a href="../patterns/adding-prospect-contacts.html">Adding prospect contacts</a> flow.</p>
-    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Previously%20contacted" caption="Default label" height="70"></doc-example>
-    <doc-example src="amplify-chat-relevance-signals?signals=Director-level,Previously%20contacted&amp;label=Hiring%20signals" caption="label=Hiring signals" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6152-126071" src="amplify-chat-relevance-signals?signals=Director-level,Previously%20contacted" caption="Default label" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6152-126071" src="amplify-chat-relevance-signals?signals=Director-level,Previously%20contacted&amp;label=Hiring%20signals" caption="label=Hiring signals" height="70"></doc-example>
     <doc-callout type="do" heading="Do">Keep the label short, and use it to describe why the record was picked.</doc-callout>
     <doc-callout type="dont" heading="Don’t">Write a long label, or one that doesn’t say why the record was picked.</doc-callout>
   </doc-section>
 
   <doc-section id="in-cards" label="In cards" desc="Inside a Prospect contact card">
     <p>In a <a href="amplify-chat-cards.html">Cards</a> stack, prospect-contact cards fill their content slot with relevance signals from each item’s <span class="chip">signals</span>.</p>
-    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact" caption="A prospect-contact card with relevance signals" height="180"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-172861" src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact" caption="A prospect-contact card with relevance signals" height="180"></doc-example>
     <doc-callout type="note" heading="Added state.">The <a href="../amplify-chat-prospect-add-flow-v2.html">prospect add-flow mockup</a> gives an added card’s signals a subtle background. The component has no such state yet.</doc-callout>
   </doc-section>
 

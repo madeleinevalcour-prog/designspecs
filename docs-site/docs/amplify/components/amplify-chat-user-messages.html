@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What the user bubble is for">
     <p class="lead" style="max-width:60ch">The recruiter’s message in an Amplify conversation. A tonal bubble that hugs its text up to 440px, right-aligned in the chat column so the two sides of the conversation read apart at a glance. Long messages, such as a pasted job description, collapse to 8 lines with Show More.</p>
-    <doc-example src="amplify-chat-user-messages?component=user-bubble" caption="A short message, right-aligned in the chat column" height="80"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20866" src="amplify-chat-user-messages?component=user-bubble" caption="A short message, right-aligned in the chat column" height="80"></doc-example>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it does</th></tr></thead>
       <tbody>
@@ -36,9 +36,9 @@
         <tr><td><span class="chip">clarify answers</span></td><td>The answers to a clarifying-questions round, as label and answer rows. See <a href="#clarify-answers">Clarifying answers</a></td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;text=short" caption="state=user-bubble" height="80"></doc-example>
-    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;text=long" caption="state=long text, detected from a pasted job description. Show More is live" height="230"></doc-example>
-    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;state=long%20text%20expanded&amp;text=long" caption="state=long text expanded" height="420"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20866" src="amplify-chat-user-messages?component=user-bubble&amp;text=short" caption="state=user-bubble" height="80"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6213-168867" src="amplify-chat-user-messages?component=user-bubble&amp;text=long" caption="state=long text, detected from a pasted job description. Show More is live" height="230"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6217-22265" src="amplify-chat-user-messages?component=user-bubble&amp;state=long%20text%20expanded&amp;text=long" caption="state=long text expanded" height="420"></doc-example>
     <ul>
       <li>The cap is set in lines, not pixels, so it follows the type scale.</li>
       <li>The fade is a mask, not a color overlay, so the text keeps its token color on any bubble fill.</li>
@@ -48,8 +48,8 @@
 
   <doc-section id="clarify-answers" label="Clarifying answers" desc="Answers to a clarifying round">
     <p>When the recruiter finishes a <a href="amplify-chat-clarifying-questions.html">clarifying-questions</a> round, all the answers post as one message in the <span class="chip">clarify answers</span> state. Each row pairs the question’s short label with the answer, so the recruiter can see at a glance what Amplify is about to work from.</p>
-    <doc-example src="amplify-chat-user-messages?state=clarify%20answers" caption="Three answers: a job order (a record), a location and a candidate pool" height="110"></doc-example>
-    <doc-example src="amplify-chat-user-messages?state=clarify%20answers&amp;rows=2" caption="Two answers: only the rows that were asked are shown" height="90"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6528-29256" src="amplify-chat-user-messages?state=clarify%20answers" caption="Three answers: a job order (a record), a location and a candidate pool" height="110"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6528-29256" src="amplify-chat-user-messages?state=clarify%20answers&amp;rows=2" caption="Two answers: only the rows that were asked are shown" height="90"></doc-example>
     <table class="tbl">
       <thead><tr><th>Part</th><th>Style</th></tr></thead>
       <tbody>
@@ -65,7 +65,7 @@
 
   <doc-section id="tagged-records" label="Tagged records" desc="Records named in the request">
     <p>When the recruiter tags a record in their request, such as a job, company or candidate, it appears in the bubble as the same inline entity link Amplify uses in its replies: a circle in the entity’s color, then the record name in link color and medium weight. The link opens the record. Untagged words stay plain text.</p>
-    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;text=links" caption="A request that tags a company" height="80"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20866" src="amplify-chat-user-messages?component=user-bubble&amp;text=links" caption="A request that tags a company" height="80"></doc-example>
     <p>Use the <a href="amplify-chat-text.html#link">entity link</a> from the Text components inside the bubble, so a record looks the same wherever it appears in the conversation.</p>
     <doc-code caption="Angular">
       &lt;ats-amplify-chat-user-bubble&gt;
@@ -77,7 +77,7 @@
 
   <doc-section id="user-turn" label="User turn" desc="Right-aligning the bubble">
     <p>The bubble doesn’t align itself. The user turn is a full-width row in the 800px chat column that pushes its bubble to the right edge. Turns are <span class="chip">spacing/gap/xlg</span> (32) apart; that spacing belongs to the conversation column, not the turn.</p>
-    <doc-example src="amplify-chat-user-messages?component=user-bubble&amp;message=Which%20of%20these%20candidates%20are%20available%20in%20November%3F" caption="The bubble in a right-aligned row, as the user turn places it" height="80"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20866" src="amplify-chat-user-messages?component=user-bubble&amp;message=Which%20of%20these%20candidates%20are%20available%20in%20November%3F" caption="The bubble in a right-aligned row, as the user turn places it" height="80"></doc-example>
   </doc-section>
 
   <doc-section id="behaviour" label="Behaviour" desc="Collapse, expand and keyboard">

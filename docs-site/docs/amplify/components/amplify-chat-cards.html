@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What chat cards are for">
     <p class="lead" style="max-width:60ch">A stack of record cards for replies where each record needs a reason it was picked, carries several values of one kind, or will be acted on one by one. Each card is built on the Modern UI list-item. The stack shares the table’s selection model and selection bar, and can page through more results in that bar.</p>
-    <doc-example src="amplify-chat-cards?component=chat-cards&amp;count=3" caption="Three record cards (the default entity-record theme), nothing selected" height="620"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-173466" src="amplify-chat-cards?component=chat-cards&amp;count=3" caption="Three record cards (the default entity-record theme), nothing selected" height="620"></doc-example>
     <p>When to use cards instead of a table: <a href="../patterns/response-structure.html#choosing-a-format">Response structure → Choosing a format</a>.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th></tr></thead>
@@ -38,8 +38,8 @@
         <tr><td><span class="chip">selectable</span></td><td>true (default) · false</td><td>Off when the reply offers no bulk action</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=5&amp;variant=selected" caption="Contacts found by Prospect, all 5 selected: “5 of 5 selected” and “Add 5 Contacts”" height="860"></doc-example>
-    <doc-example src="amplify-chat-cards?component=chat-cards&amp;count=3&amp;variant=some" caption="Two of three selected" height="680"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183687" src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=5&amp;variant=selected" caption="Contacts found by Prospect, all 5 selected: “5 of 5 selected” and “Add 5 Contacts”" height="860"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183686" src="amplify-chat-cards?component=chat-cards&amp;count=3&amp;variant=some" caption="Two of three selected" height="680"></doc-example>
     <table class="tbl">
       <thead><tr><th>Rule</th><th>Recommendation</th></tr></thead>
       <tbody>
@@ -49,8 +49,8 @@
         <tr><td>Order</td><td>Rank by relevance, and say how in the rationale line (“Ranked by department match and seniority”)</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=8&amp;pageSize=3" caption="pageSize=3, 8 results, nothing selected: the bar shows the range and the pager only" height="600"></doc-example>
-    <doc-example src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=8&amp;pageSize=3&amp;variant=some" caption="Paged with 2 selected: the count covers every page. Selection carries across pages" height="600"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183686" src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=8&amp;pageSize=3" caption="pageSize=3, 8 results, nothing selected: the bar shows the range and the pager only" height="600"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183686" src="amplify-chat-cards?component=chat-cards&amp;theme=prospect-contact&amp;count=8&amp;pageSize=3&amp;variant=some" caption="Paged with 2 selected: the count covers every page. Selection carries across pages" height="600"></doc-example>
     <ul>
       <li>Selection carries across pages, and the count and button label cover every page, not just the visible one.</li>
       <li>The pager shows up to five page numbers around the current page.</li>
@@ -67,10 +67,10 @@
         <tr><td><span class="chip">prospect-contact</span></td><td>A contact found by Prospect: 40px avatar (photo, else initials), the name as a link with a circle, then the job title and fields such as email</td><td><a href="#relevance-signals">Relevance signals</a></td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=entity-record" caption="theme=entity-record (default), selected" height="230"></doc-example>
-    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=entity-record&amp;selectable=false" caption="selectable=false: no checkbox" height="230"></doc-example>
-    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact" caption="theme=prospect-contact, selected" height="170"></doc-example>
-    <doc-example src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact&amp;selected=false" caption="theme=prospect-contact, not selected" height="170"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-173284" src="amplify-chat-cards?component=chat-list-item&amp;theme=entity-record" caption="theme=entity-record (default), selected" height="230"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-173284" src="amplify-chat-cards?component=chat-list-item&amp;theme=entity-record&amp;selectable=false" caption="selectable=false: no checkbox" height="230"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-172861" src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact" caption="theme=prospect-contact, selected" height="170"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6223-172861" src="amplify-chat-cards?component=chat-list-item&amp;theme=prospect-contact&amp;selected=false" caption="theme=prospect-contact, not selected" height="170"></doc-example>
     <ul>
       <li>The prospect-contact name circle follows the table’s In Bullhorn rule: <span class="chip">color/entity/contact</span> once saved as a Contact, neutral grey (<span class="chip">color/entity/task</span>) when not in Bullhorn.</li>
       <li>The prospect-contact data row uses <span class="chip">input/value/sm</span> in <span class="chip">color/text/secondary</span>.</li>

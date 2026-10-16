@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="Text Amplify writes for the recruiter">
     <p class="lead" style="max-width:60ch">Two containers for text Amplify writes for the recruiter to use. The draft block holds text to edit before using it: an email, a note, a job description. The literal value block holds text to copy exactly as written: a Boolean search string, a field value, a short template. Both fill the chat column.</p>
-    <doc-example src="amplify-chat-blocks?component=draft-block" caption="A draft email with subject and actions. Subject and body are editable" height="260"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20803" src="amplify-chat-blocks?component=draft-block" caption="A draft email with subject and actions. Subject and body are editable" height="260"></doc-example>
     <p>When to use each: <a href="../patterns/response-structure.html#choosing-a-format">Response structure → Choosing a format</a>.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>Use for</th><th>Container</th></tr></thead>
@@ -45,10 +45,10 @@
         <tr><td><span class="chip">job</span></td><td>Update Job Description</td><td>Add Note</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-blocks?component=draft-block&amp;type=email" caption="type=email. Editing, Copy and the menu are live" height="260"></doc-example>
-    <doc-example src="amplify-chat-blocks?component=draft-block&amp;type=note&amp;showSubject=false" caption="type=note, no subject" height="140"></doc-example>
-    <doc-example src="amplify-chat-blocks?component=draft-block&amp;type=job&amp;showSubject=false" caption="type=job, no subject" height="200"></doc-example>
-    <doc-example src="amplify-chat-blocks?component=draft-block&amp;showActions=false" caption="Read-only: no actions, not editable" height="210"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20803" src="amplify-chat-blocks?component=draft-block&amp;type=email" caption="type=email. Editing, Copy and the menu are live" height="260"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20803" src="amplify-chat-blocks?component=draft-block&amp;type=note&amp;showSubject=false" caption="type=note, no subject" height="140"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20803" src="amplify-chat-blocks?component=draft-block&amp;type=job&amp;showSubject=false" caption="type=job, no subject" height="200"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6149-20803" src="amplify-chat-blocks?component=draft-block&amp;showActions=false" caption="Read-only: no actions, not editable" height="210"></doc-example>
     <ul>
       <li>The subject and body are editable as soon as they render. Click into either to edit; paste comes in as plain text. The subject stays on one line: Enter does nothing there, and pasted line breaks become spaces.</li>
       <li>Copy copies the draft body as edited, not the subject. The subject goes through Compose Message and the email connection, not the clipboard.</li>
@@ -67,9 +67,9 @@
         <tr><td><span class="chip">hover</span></td><td>Border <span class="chip">chip/color/border/default/hover</span> and the copy action at the right (Icon button no container, theme=secondary, copy icon). Also shown while focus is inside the block and just after a copy</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-blocks?component=literal-value-block" caption="state=default. Hover is also live" height="90"></doc-example>
-    <doc-example src="amplify-chat-blocks?component=literal-value-block&amp;state=hover" caption="state=hover. Copy is live" height="90"></doc-example>
-    <doc-example src="amplify-chat-blocks?component=literal-value-block&amp;value=Senior%20Java%20Developer%20%E2%80%93%20Boston%20(Hybrid)" caption="A short exact field value" height="70"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6153-20860" src="amplify-chat-blocks?component=literal-value-block" caption="state=default. Hover is also live" height="90"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6152-117822" src="amplify-chat-blocks?component=literal-value-block&amp;state=hover" caption="state=hover. Copy is live" height="90"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6153-20860" src="amplify-chat-blocks?component=literal-value-block&amp;value=Senior%20Java%20Developer%20%E2%80%93%20Boston%20(Hybrid)" caption="A short exact field value" height="70"></doc-example>
     <ul>
       <li>Copy takes the exact string and nothing else, then shows a check for 1.5 seconds.</li>
       <li>Long values wrap inside the block. Wrapping is visual only: copy adds no line breaks.</li>

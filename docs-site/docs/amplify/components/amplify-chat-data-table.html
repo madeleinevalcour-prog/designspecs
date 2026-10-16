@@ -15,7 +15,7 @@
 
   <doc-section id="overview" label="Overview" desc="What the chat table is for">
     <p class="lead" style="max-width:60ch">The table Amplify uses to show 2–10 records compared on the same short fields, such as prospect contacts from a Prospect search. It sits in a card, is built from the <a href="../../components/data-table.html">Data Table</a> cells, and carries its own selection and selection bar. Chat tables have no sort, filter or minimum column width.</p>
-    <doc-example src="amplify-chat-data-table?component=data-table&amp;rows=4" caption="Four prospects, nothing selected" height="250"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6171-165787" src="amplify-chat-data-table?component=data-table&amp;rows=4" caption="Four prospects, nothing selected" height="250"></doc-example>
     <p>When to use a table instead of cards or prose: <a href="../patterns/response-structure.html#choosing-a-format">Response structure → Choosing a format</a>. For the base cells, states and measurements, see <a href="../../components/data-table.html">Data Table</a>.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th></tr></thead>
@@ -39,10 +39,10 @@
         <tr><td><span class="chip">showPreview</span></td><td>true (default) · false</td><td>The binoculars column. Keep it whenever the rows are records</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-data-table?component=data-table&amp;variant=selected" caption="Variant selected: all 10 selected, the bar shows “10 of 10 selected” and “Add 10 Contacts”" height="520"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=data-table&amp;variant=some&amp;rows=5" caption="Some selected: the header checkbox is indeterminate" height="300"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=data-table&amp;width=docked&amp;rows=4" caption="width=docked: 4 columns" height="250"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=data-table&amp;rows=3&amp;selectable=false&amp;columns=name,title,email" caption="selectable=false: no bulk action, so no checkboxes and no bar" height="200"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183100" src="amplify-chat-data-table?component=data-table&amp;variant=selected" caption="Variant selected: all 10 selected, the bar shows “10 of 10 selected” and “Add 10 Contacts”" height="520"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183099" src="amplify-chat-data-table?component=data-table&amp;variant=some&amp;rows=5" caption="Some selected: the header checkbox is indeterminate" height="300"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183099" src="amplify-chat-data-table?component=data-table&amp;width=docked&amp;rows=4" caption="width=docked: 4 columns" height="250"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6271-183099" src="amplify-chat-data-table?component=data-table&amp;rows=3&amp;selectable=false&amp;columns=name,title,email" caption="selectable=false: no bulk action, so no checkboxes and no bar" height="200"></doc-example>
     <ul>
       <li>At most 4 columns in docked chat and 6 in full-page chat. The record name is always the first column.</li>
       <li>At most 10 rows. With more results, the reply shows the first 10, “Showing 10 of N” in <span class="chip">meta/default</span> and a “Show more” chip.</li>
@@ -54,9 +54,9 @@
 
   <doc-section id="header-row" label="Header row" desc="Select-all and column labels">
     <p>The first row of the table. Header cells show the label only, in <span class="chip">input/label/md</span> (uppercase). The select-all checkbox is checked, indeterminate or empty to match the selection.</p>
-    <doc-example src="amplify-chat-data-table?component=header-row" caption="All five columns" height="60"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=header-row&amp;columns=name,inBullhorn,title,email" caption="Docked columns" height="60"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=header-row&amp;selectable=false" caption="selectable=false: no select-all" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6171-165361" src="amplify-chat-data-table?component=header-row" caption="All five columns" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6171-165361" src="amplify-chat-data-table?component=header-row&amp;columns=name,inBullhorn,title,email" caption="Docked columns" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6171-165361" src="amplify-chat-data-table?component=header-row&amp;selectable=false" caption="selectable=false: no select-all" height="60"></doc-example>
     <table class="tbl">
       <thead><tr><th>Column</th><th>Label</th><th>Content</th></tr></thead>
       <tbody>
@@ -78,10 +78,10 @@
         <tr><td>“Not in Bullhorn”: a prospect only</td><td>Neutral grey, <span class="chip">color/entity/task</span></td><td>An Amplify “Reveal Phone Number” or “Reveal Email” link</td></tr>
       </tbody>
     </table>
-    <doc-example src="amplify-chat-data-table?component=row&amp;variant=existing" caption="Existing Contact: every value on file" height="60"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=row&amp;variant=not-in-bh" caption="Not in Bullhorn: Reveal links for phone and email" height="60"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=row&amp;variant=both&amp;selected=true" caption="Selected rows" height="100"></doc-example>
-    <doc-example src="amplify-chat-data-table?component=row&amp;variant=existing&amp;state=hover" caption="state=hover. Hover is also live" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6171-165362" src="amplify-chat-data-table?component=row&amp;variant=existing" caption="Existing Contact: every value on file" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6174-165789" src="amplify-chat-data-table?component=row&amp;variant=not-in-bh" caption="Not in Bullhorn: Reveal links for phone and email" height="60"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6174-165788" src="amplify-chat-data-table?component=row&amp;variant=both&amp;selected=true" caption="Selected rows" height="100"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6171-165362" src="amplify-chat-data-table?component=row&amp;variant=existing&amp;state=hover" caption="state=hover. Hover is also live" height="60"></doc-example>
     <ul>
       <li>The status is text plus a circle, never color alone.</li>
       <li>Reveal links use the link style with the Amplify sparkle. They only appear when the prospect isn’t in Bullhorn and the value is unknown.</li>
