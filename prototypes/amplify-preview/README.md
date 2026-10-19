@@ -9,7 +9,7 @@ Documented on `docs-site/docs/amplify-preview-design-decisions.html`.
 | `script.js` | State, sample data, rendering and interactions for each option. |
 | `build.py` | Inlines `tokens/css`, the ats-ui component CSS and the icons used into one file. |
 
-Output: `docs-site/prototypes/amplify-preview/index.html` (generated; don't hand-edit).
+Output: `docs-site/prototypes/amplify-preview/index.html` (generated; don't hand-edit or find-and-replace it). `npm run tokens` and the pre-commit hook rebuild it; `npm run prototypes` rebuilds all prototypes.
 
 ## Edit and rebuild
 

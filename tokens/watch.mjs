@@ -11,7 +11,11 @@ import { dirname } from 'node:path';
 const repoRoot = dirname(fileURLToPath(import.meta.url)); // tokens/
 const SOURCES = new Set(['subatomic.json', 'component-migration.json']);
 
-const build = () => spawnSync('node', ['build.mjs'], { cwd: repoRoot, stdio: 'inherit' });
+// Rebuild the CSS, then the prototypes that inline it.
+const build = () => {
+  if (spawnSync('node', ['build.mjs'], { cwd: repoRoot, stdio: 'inherit' }).status === 0)
+    spawnSync('node', ['../scripts/build-prototypes.mjs'], { cwd: repoRoot, stdio: 'inherit' });
+};
 
 let timer;
 watch(repoRoot, (_evt, filename) => {

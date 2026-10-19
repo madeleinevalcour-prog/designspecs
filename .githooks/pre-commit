@@ -1,0 +1,14 @@
+#!/bin/sh
+# Keeps the generated prototypes in sync with tokens + component CSS, and blocks
+# commits that leave a var(--…) pointing at a token that doesn't exist.
+# Enabled per clone with:  git config core.hooksPath .githooks
+staged=$(git diff --cached --name-only)
+echo "$staged" | grep -qE '^(tokens/|components/projects/ats-ui/src/lib/|prototypes/|docs-site/prototypes/)' || exit 0
+
+node scripts/build-prototypes.mjs >/dev/null || { echo "pre-commit: prototype build failed"; exit 1; }
+if ! git diff --quiet -- docs-site/prototypes; then
+  echo "pre-commit: the prototypes are out of date with tokens/components, so they were rebuilt."
+  echo "            Review and stage them, then commit again:  git add docs-site/prototypes"
+  exit 1
+fi
+node scripts/check-css-vars.mjs || exit 1

@@ -34,7 +34,7 @@
 
 /* ---- meta ---- */
 .type-meta-default { font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif; font-weight: var(--typography-meta-default-font-weight); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); letter-spacing: var(--typography-meta-default-letter-spacing); }
-.type-meta-sm      { font-family: var(--typography-meta-sm-font-family), 'Inter', sans-serif; font-weight: var(--typography-meta-sm-font-weight); font-size: var(--typography-meta-sm-font-size); line-height: var(--typography-meta-sm-line-height); letter-spacing: var(--typography-meta-sm-letter-spacing); text-transform: var(--typography-meta-sm-text-transform); }
+.type-meta-sm      { font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif; font-weight: var(--typography-meta-small-font-weight); font-size: var(--typography-meta-small-font-size); line-height: var(--typography-meta-small-line-height); letter-spacing: var(--typography-meta-small-letter-spacing); text-transform: var(--typography-meta-small-text-transform); }
 
 /* ---- Button ---- */
 .type-button-default { font-family: var(--typography-button-default-font-family), 'Inter', sans-serif; font-weight: var(--typography-button-default-font-weight); font-size: var(--typography-button-default-font-size); line-height: var(--typography-button-default-line-height); letter-spacing: var(--typography-button-default-letter-spacing); }

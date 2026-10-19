@@ -4,10 +4,12 @@
   "description": "Tokens, Angular components (ats-ui) and the design documentation site.",
   "engines": { "node": "24.x" },
   "scripts": {
-    "tokens": "node tokens/build.mjs",
+    "tokens": "node tokens/build.mjs && npm run prototypes",
     "tokens:watch": "node tokens/watch.mjs",
+    "prototypes": "node scripts/build-prototypes.mjs",
+    "check": "node scripts/check-css-vars.mjs",
     "components": "npm --prefix components start",
-    "build": "npm --prefix components run build:examples",
+    "build": "npm run check && npm --prefix components run build:examples",
     "docs": "npm run build && node scripts/serve-docs.mjs"
   }
 }

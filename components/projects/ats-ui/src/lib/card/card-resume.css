@@ -12,8 +12,8 @@
 }
 .ats-card-resume__contact {
   margin: var(--spacing-2) 0 0; color: var(--card-color-content-body); text-transform: uppercase;
-  font-family: var(--typography-meta-sm-font-family), 'Inter', sans-serif; font-weight: var(--typography-meta-sm-font-weight);
-  font-size: var(--typography-meta-sm-font-size); line-height: var(--typography-meta-sm-line-height);
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif; font-weight: var(--typography-meta-small-font-weight);
+  font-size: var(--typography-meta-small-font-size); line-height: var(--typography-meta-small-line-height);
 }
 .ats-card-resume__section { display: flex; flex-direction: column; gap: var(--spacing-gap-sm); }
 /* source hardcoded Inter 500 + font-size-16 / line-height-24 — = typography/body/lg (medium) */
