@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ace — design decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Design decision" status="In progress" title="Ace" intro="An early concept for an agent-driven Amplify Home, tied to future Ace agent work. A working reference, updated as decisions settle." meta="Amplify · October 2026 · Ace Homepage prototype">
+
+  <doc-section id="overview" label="Overview" desc="What the prototype shows">
+    <p class="lead">The Ace Homepage prototype makes Home the Amplify landing page. Clicking the Amplify tab or the “Amplify” breadcrumb opens Home instead of a new chat. It was split out of the V2 concept in the <a href="amplify-tab-design-decisions.html">Amplify tab prototype</a>.</p>
+
+    <h3>What’s on Home</h3>
+    <ul>
+      <li><b>Greeting:</b> the day, plus a one-line summary of today’s meetings and how many items need action.</li>
+      <li><b>Ask box:</b> the Amplify chat input. Sending a message starts a new chat.</li>
+      <li><b>To do:</b> items to act on, each with a checkbox and an action button. Completed items are hidden behind “Show completed”.</li>
+      <li><b>Suggested:</b> prompts based on today’s records and meetings. Clicking one sends it to a new chat.</li>
+      <li><b>Need to know:</b> updates from scheduled runs, each linking to its chat or schedule.</li>
+      <li><b>Today:</b> the day’s meetings.</li>
+    </ul>
+    <p>Chat, the Scheduled page and the Chats panel are the same as in the Amplify tab prototype, so Home’s links work.</p>
+
+    <doc-prototype src="../prototypes/ace-homepage/index.html?embed=1&nav=open" caption="Ace Homepage: Home as the Amplify landing page"></doc-prototype>
+    <p><a href="../prototypes/ace-homepage/index.html" target="_blank" rel="noopener">Open the full prototype ↗</a> (with the guide panel)</p>
+    <doc-callout type="note" heading="Sample data.">All records, people and results in the prototype are fictional, and the data resets when the page reloads. Customize, Meetings and Audits aren’t built.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>

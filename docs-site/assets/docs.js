@@ -507,7 +507,8 @@
       {t:"Tab contrast — candidate record", href:"/docs/tab-contrast.html", d:"Contrast options for the record tab bar, compared."},
       {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html", d:"Current states, guidelines, analysis, proposed changes, and the new designs."},
       {t:"Amplify tab: scheduled prompts, navigation and chats", href:"/docs/amplify-tab-design-decisions.html", s:"In progress", d:"Scheduled prompts (AMP-922), the new Amplify header and menu, the Chats panel, and an agent-driven homepage concept."},
-      {t:"Amplify chat and the candidate preview", href:"/docs/amplify-preview-design-decisions.html", s:"In progress", d:"The preview slideout covers the docked chat. Three options compared; Option 2 (a popover next to the row) is recommended."}
+      {t:"Amplify chat and the candidate preview", href:"/docs/amplify-preview-design-decisions.html", s:"In progress", d:"The preview slideout covers the docked chat. Three options compared; Option 2 (a popover next to the row) is recommended."},
+      {t:"Ace", href:"/docs/ace-design-decisions.html", s:"In progress", d:"An agent-driven Amplify Home: to-dos, suggestions, need to know and today’s meetings."}
     ]},
     {label:"Resources", href:"/docs/resources.html", d:"Reference documents and Figma source files for the design system."}
   ];
