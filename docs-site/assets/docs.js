@@ -91,18 +91,20 @@
     }
   });
 
-  // <doc-showcase src="images/x.png" alt="…" caption="Current state" href="figma-url" ph="export as images/x.png"></doc-showcase>
+  // <doc-showcase src="images/x.png" alt="…" caption="Current state" href="figma-url" live="/examples/… or /prototypes/…" ph="export as images/x.png"></doc-showcase>
+  // href = the Figma frame; live = the live example or HTML prototype it shows ("Open live preview").
   customElements.define("doc-showcase", class extends HTMLElement{
     connectedCallback(){
       if(this._done)return; this._done=true;
       var src=attr(this,"src")||"", alt=attr(this,"alt")||"", cap=attr(this,"caption")||"",
-          href=attr(this,"href")||"", ph=attr(this,"ph")||"";
+          href=attr(this,"href")||"", live=attr(this,"live")||"", ph=attr(this,"ph")||"";
       var img='<img src="'+esc(src)+'" alt="'+esc(alt)+'"'+
         (ph?' onload="this.previousElementSibling.style.display=\'none\'"':'')+
         ' onerror="this.style.display=\'none\'">';
-      var caption= cap||href ? '<figcaption>'+esc(cap)+
-        (href?' · <a href="'+esc(href)+'" target="_blank" rel="noopener">Open frame in Figma ↗</a>':'')+
-        '</figcaption>' : '';
+      var links=[];
+      if(href) links.push('<a href="'+esc(href)+'" target="_blank" rel="noopener">Open frame in Figma ↗</a>');
+      if(live) links.push('<a href="'+esc(live)+'" target="_blank" rel="noopener">Open live preview ↗</a>');
+      var caption= cap||links.length ? '<figcaption>'+esc(cap)+(cap&&links.length?' · ':'')+links.join(' · ')+'</figcaption>' : '';
       this.innerHTML='<figure class="showcase">'+(ph?'<div class="ph">'+esc(ph)+'</div>':'')+img+caption+'</figure>';
     }
   });
@@ -139,16 +141,18 @@
   });
   // A standalone HTML prototype (not a showcase route), embedded at a fixed screen size and
   // scaled to the column. src is a site path, e.g. /prototypes/amplify-tab/index.html?embed=1&page=scheduled
-  // <doc-prototype src="…" caption="…" viewport="1440" height="900" full="/prototypes/amplify-tab/index.html"></doc-prototype>
+  // <doc-prototype src="…" caption="…" viewport="1440" height="900" full="/prototypes/amplify-tab/index.html" figma="figma-url"></doc-prototype>
+  // figma="url": adds an "Open in Figma" link to the frame or sample page this view matches.
   customElements.define("doc-prototype", class extends HTMLElement{
     connectedCallback(){
       if(this._done)return; this._done=true;
       var src=attr(this,"src")||"", cap=attr(this,"caption")||"", vw=parseInt(attr(this,"viewport")||"1440",10),
-          h=parseInt(attr(this,"height")||"900",10), full=attr(this,"full")||src.split("?")[0];
+          h=parseInt(attr(this,"height")||"900",10), full=attr(this,"full")||src.split("?")[0], figma=attr(this,"figma")||"";
       this.innerHTML='<figure class="showcase example example--viewport"><div class="example__viewport">'+
         '<iframe src="'+esc(src)+'" title="'+esc(cap||"Prototype")+'" loading="lazy" style="height:'+h+'px;width:'+vw+'px;transform-origin:0 0"></iframe></div>'+
         '<figcaption>'+(cap?esc(cap)+' · ':'')+'<a href="'+esc(src)+'" target="_blank" rel="noopener">Open this view ↗</a> · '+
-        '<a href="'+esc(full)+'" target="_blank" rel="noopener">Open full prototype ↗</a></figcaption></figure>';
+        '<a href="'+esc(full)+'" target="_blank" rel="noopener">Open full prototype ↗</a>'+
+        (figma?' · <a href="'+esc(figma)+'" target="_blank" rel="noopener">Open in Figma ↗</a>':'')+'</figcaption></figure>';
       var box=this.querySelector(".example__viewport"), ifr=box.querySelector("iframe");
       var fit=function(){ var s=box.clientWidth/vw; ifr.style.transform="scale("+s+")"; box.style.height=(h*s)+"px"; };
       fit(); if(window.ResizeObserver) new ResizeObserver(fit).observe(box); window.addEventListener("resize",fit);
@@ -510,6 +514,7 @@
       {t:"Amplify chat and the candidate preview", href:"/docs/amplify-preview-design-decisions.html", s:"Complete", d:"The preview slideout covers the docked chat. Three options compared; Option 2 (a popover next to the row) is recommended."},
       {t:"Ace", href:"/docs/ace-design-decisions.html", s:"In progress", d:"An agent-driven Amplify Home: to-dos, suggestions, need to know and today’s meetings."}
     ]},
+    {label:"Contributing", href:"/docs/contributing.html", d:"Setup, rules, the component workflow and how review works."},
     {label:"Resources", href:"/docs/resources.html", d:"Reference documents and Figma source files for the design system."}
   ];
   var e=function(s){return (s==null?"":String(s)).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");};

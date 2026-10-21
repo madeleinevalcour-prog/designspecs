@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contributing — Modern UI Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page rail eyebrow="Contributing" title="Contributing to the Modern UI" intro="How to set up, the rules every contribution follows, and the steps from a Figma component to a published doc page. Each step names the Claude skill that does it.">
+
+  <doc-section id="setup" label="First-day setup" desc="Access, tools and skills">
+    <h3>Access</h3>
+    <table class="tbl">
+      <thead><tr><th>What</th><th>Why</th><th>Who sets it up</th></tr></thead>
+      <tbody>
+        <tr><td>Edit access to <a href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration" target="_blank" rel="noopener">Component Migration</a></td><td>The component library, templates and sample pages</td><td>Madeleine</td></tr>
+        <tr><td><a href="https://www.figma.com/design/QfUcff23xkvDja8vI1Hccd/subatomic" target="_blank" rel="noopener">Subatomic</a> enabled as a library in your files</td><td>Components depend on its variables and styles</td><td>You</td></tr>
+        <tr><td>GitHub access to <span class="mono">madeleinevalcour-prog/designspecs</span></td><td>Components, tokens and this site live in one repo</td><td>Madeleine</td></tr>
+        <tr><td>The site password</td><td>Every page and preview deploy is behind sign-in</td><td>Madeleine</td></tr>
+        <tr><td>Variables Pro (Figma plugin)</td><td>Exports the variable collections to the repo</td><td>You</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Claude</h3>
+    <ul>
+      <li><b>Connect Figma.</b> Add the Figma connector (MCP) and install the Figma plugin skills. Claude reads and builds in Figma through these.</li>
+      <li><b>Install the design system skills.</b> Each one is in the repo's <span class="mono">skills/</span> folder as a <span class="mono">.skill</span> file. Open it in Claude and click Save skill.</li>
+      <li><b>Update skills in the repo, not in Claude.</b> The repo copy is the source of truth. Edit <span class="mono">skills/&lt;name&gt;/</span>, run <span class="mono">npm run skills</span>, then save the updated skill to your account. Pull the repo to get the latest versions.</li>
+    </ul>
+    <table class="tbl">
+      <thead><tr><th>Skill</th><th>Does</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">figma-component-build</span></td><td>Builds a component set in Figma that mirrors code</td></tr>
+        <tr><td><span class="mono">figma-component-tokens</span></td><td>Creates the component's Tier 3 tokens and rebinds it</td></tr>
+        <tr><td><span class="mono">figma-section-annotation</span></td><td>Annotates states and behavior on the canvas</td></tr>
+        <tr><td><span class="mono">create-design-documentation</span></td><td>Writes the doc page for this site</td></tr>
+        <tr><td><span class="mono">modern-ui-design-system</span></td><td>Foundations and token values to check work against</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Repo</h3>
+    <p>Clone the repo, then run these once from the repo root:</p>
+    <doc-code caption="Terminal">npm ci --prefix components
+git config core.hooksPath .githooks</doc-code>
+    <p>The hook rebuilds the prototypes when tokens, components or prototypes are staged, and blocks the commit if anything was stale or a token reference is broken.</p>
+    <table class="tbl">
+      <thead><tr><th>Command</th><th>Does</th></tr></thead>
+      <tbody>
+        <tr><td><span class="mono">npm run components</span></td><td>Showcase app at localhost:4200, with live reload</td></tr>
+        <tr><td><span class="mono">npm run docs</span></td><td>Builds the live examples and serves this site at localhost:4400</td></tr>
+        <tr><td><span class="mono">npm run tokens</span></td><td>Regenerates the token CSS from the Figma exports</td></tr>
+        <tr><td><span class="mono">npm run check</span></td><td>Lists every <span class="mono">var(--…)</span> with no definition</td></tr>
+      </tbody>
+    </table>
+    <p>The repo's <span class="mono">CLAUDE.md</span> holds the full workflow. Claude Code reads it automatically, so start Claude Code from the repo root.</p>
+  </doc-section>
+
+  <doc-section id="rules" label="Rules" desc="What every contribution follows">
+    <ul>
+      <li><b>Use existing components.</b> Icons, buttons, chips and every other part that exists go in as library instances. Never draw or imitate them.</li>
+      <li><b>Don't detach.</b> If content needs to vary, the component needs a slot. Flag it rather than detaching.</li>
+      <li><b>Names come from code.</b> Component, property, layer and value names match the code. Property names are the code inputs in lowercase kebab, e.g. <span class="mono">state=hover</span>, <span class="mono">size=small</span>.</li>
+      <li><b>Bind everything.</b> Fills, strokes, spacing and radius bind to variables; text uses text styles. If no token fits, note it as missing. Don't use a raw value.</li>
+      <li><b>Ignore hidden layers</b> when reading or documenting a Figma file.</li>
+      <li><b>Don't invent specs.</b> If a value or behavior isn't decided, write it as a To do.</li>
+      <li><b>Every component ships with a doc page.</b> The component, its showcase route and its doc page go in the same change.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="component-workflow" label="Component workflow" desc="Figma to published doc page">
+    <p>Do the steps in this order. Each one builds on the one before.</p>
+    <table class="tbl">
+      <thead><tr><th>Step</th><th>Where</th><th>Skill or command</th></tr></thead>
+      <tbody>
+        <tr><td>1. Make the component page from a template</td><td>Figma</td><td><span class="mono">figma-component-build</span></td></tr>
+        <tr><td>2. Build the component set and its sub-components</td><td>Figma</td><td><span class="mono">figma-component-build</span></td></tr>
+        <tr><td>3. Create component tokens and rebind</td><td>Figma</td><td><span class="mono">figma-component-tokens</span></td></tr>
+        <tr><td>4. Annotate states and behavior</td><td>Figma</td><td><span class="mono">figma-section-annotation</span></td></tr>
+        <tr><td>5. Export variables, if tokens changed</td><td>Figma, then repo</td><td>Variables Pro, <span class="mono">npm run tokens</span>, <span class="mono">npm run check</span></td></tr>
+        <tr><td>6. Port the component to <span class="mono">ats-ui</span></td><td>Repo</td><td>Claude Code</td></tr>
+        <tr><td>7. Write the doc page</td><td>Repo</td><td><span class="mono">create-design-documentation</span></td></tr>
+        <tr><td>8. Open a pull request</td><td>GitHub</td><td>See Review</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1–2. Build in Figma</h3>
+    <ul>
+      <li>Rebuilding a Novo component: use the <b>Existing</b> template. Give Claude the production page or the novo-elements GitHub folder as the source.</li>
+      <li>Net-new component: use the <b>New</b> template and fill in Why this component (product area and reason). The source is an HTML prototype or a base you built by hand.</li>
+      <li>Both templates sit under the Tracking System page in Component Migration. Claude shows a plan before it builds; check names and properties there.</li>
+    </ul>
+
+    <h3>3–4. Tokens and annotation</h3>
+    <ul>
+      <li>Component tokens alias what the component is already bound to, so nothing changes visually.</li>
+      <li>Annotation needs a section. The template already is one.</li>
+    </ul>
+
+    <h3>5. Export variables</h3>
+    <ol>
+      <li>Re-export both collections from Figma with Variables Pro.</li>
+      <li>Replace <span class="mono">tokens/subatomic.json</span> and <span class="mono">tokens/component-migration.json</span>.</li>
+      <li>Run <span class="mono">npm run tokens</span>, then <span class="mono">npm run check</span>. Check lists any CSS variable a rename broke.</li>
+    </ol>
+    <doc-callout type="note" heading="Don't edit generated files">The token CSS and the prototypes' <span class="mono">index.html</span> files are generated. Change the source and rebuild.</doc-callout>
+
+    <h3>6. Port to ats-ui</h3>
+    <p>In the same change:</p>
+    <ul>
+      <li>The component in <span class="mono">components/projects/ats-ui/src/lib/&lt;name&gt;/</span>, exported in <span class="mono">public-api.ts</span>.</li>
+      <li>A showcase route in <span class="mono">components/projects/showcase/src/app/pages/&lt;name&gt;/</span> with an embed mode (query params), registered in <span class="mono">app.routes.ts</span> and the home list.</li>
+    </ul>
+
+    <h3>7. Doc page</h3>
+    <ul>
+      <li>Pages go in <span class="mono">docs-site/docs/components/</span>; Amplify components go in <span class="mono">docs-site/docs/amplify/components/</span>.</li>
+      <li>Examples are live <span class="mono">&lt;doc-example&gt;</span> embeds of the showcase route, never screenshots. Each one gets a <span class="mono">figma="…"</span> link to the node it shows.</li>
+      <li>Add the page to the <span class="mono">SITE</span> list in <span class="mono">docs-site/assets/docs.js</span>. The nav, search and cards are built from it.</li>
+      <li>Then add the docs link to the Overview note on the Figma page.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="mockups" label="Mockups for developers" desc="Screens in response to feedback">
+    <ul>
+      <li>Start from a sample page in Component Migration (Find Results, Candidate Record, Candidate List) rather than a blank frame.</li>
+      <li>Build only from library instances. If a screen needs something the library can't do without detaching, flag it as a library gap.</li>
+      <li>With Claude, the Figma plugin's <span class="mono">figma-generate-design</span> skill builds screens from the library.</li>
+    </ul>
+    <doc-callout type="note" heading="To do">Where finished mockups live and how they're handed to developers is not decided yet.</doc-callout>
+  </doc-section>
+
+  <doc-section id="review" label="Review and statuses" desc="Who approves what">
+    <h3>Figma</h3>
+    <p>The status is shown twice: in the page name and in the Status Chip on the page. Keep them the same.</p>
+    <table class="tbl">
+      <thead><tr><th>Status</th><th>Meaning</th><th>Set by</th></tr></thead>
+      <tbody>
+        <tr><td>Not Started</td><td>Page exists; no work yet</td><td>Anyone</td></tr>
+        <tr><td>In Progress</td><td>Being built</td><td>The designer</td></tr>
+        <tr><td>In Review</td><td>Built, tokenized and annotated; ready for review</td><td>The designer</td></tr>
+        <tr><td>Finalized</td><td>Approved and published to the library</td><td>Madeleine</td></tr>
+        <tr><td>Blocked</td><td>Waiting on a decision or another component</td><td>Anyone, with a note saying why</td></tr>
+        <tr><td>No Design Required</td><td>Nothing to design for the new UI</td><td>Madeleine</td></tr>
+        <tr><td>Deprecated</td><td>No longer used</td><td>Madeleine</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Repo</h3>
+    <ol>
+      <li>Work on a branch, not on <span class="mono">main</span>.</li>
+      <li>Push the branch and open a pull request. Vercel builds a preview deploy, behind the same sign-in as the site.</li>
+      <li>Madeleine reviews the preview and merges. Merging to <span class="mono">main</span> deploys the site.</li>
+    </ol>
+    <doc-callout type="note" heading="If the build fails">The deploy runs <span class="mono">npm run check</span> first. A broken token reference fails the build, and the last good deploy stays live.</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>
