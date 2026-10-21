@@ -54,7 +54,9 @@ Resolve these at runtime so the skill works in any file.
 
 The set also has `Type=JSON` and `Type=change`. This skill doesn't use them.
 
-Each variant has two text layers: `eyebrow` (Inter Semi Bold, uppercase) and `body` (Inter Regular). Load both fonts before editing text.
+Each variant has two text layers: a heading (Inter Semi Bold, uppercase) and `body` (Inter Regular). The heading layer is named **`Title`** in `Type=left` and `Type=right`, and **`eyebrow`** in `Type=Note`, so find it with `n.findOne(x => x.type === 'TEXT' && (x.name === 'eyebrow' || x.name === 'Title'))`. Load both fonts before editing text.
+
+**Dense sets:** when variants sit closer together than an annotation is tall (e.g. a row of 16px checkboxes, or 36px rows), one annotation per variant would overlap. Use one `left` annotation for the whole set instead, listing each state and its token differences. Then push the set and its annotation down so the annotation's top sits 24 below the group heading.
 
 **Group border color:** subatomic `color/border/subtle`, variable key `d96a57a44d5a81a4b87b456e1f45e67d90084a3b`. Import it with `figma.variables.importVariableByKeyAsync(key)`.
 
