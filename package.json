@@ -8,6 +8,7 @@
     "tokens:watch": "node tokens/watch.mjs",
     "prototypes": "node scripts/build-prototypes.mjs",
     "check": "node scripts/check-css-vars.mjs",
+    "skills": "node scripts/skills.mjs",
     "components": "npm --prefix components start",
     "build": "npm run check && npm --prefix components run build:examples",
     "docs": "npm run build && node scripts/serve-docs.mjs"

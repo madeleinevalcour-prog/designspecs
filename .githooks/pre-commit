@@ -3,6 +3,12 @@
 # commits that leave a var(--…) pointing at a token that doesn't exist.
 # Enabled per clone with:  git config core.hooksPath .githooks
 staged=$(git diff --cached --name-only)
+
+# Skills: each skills/<name>/ folder must match its packaged skills/<name>.skill.
+if echo "$staged" | grep -qE '^skills/'; then
+  node scripts/skills.mjs --check || exit 1
+fi
+
 echo "$staged" | grep -qE '^(tokens/|components/projects/ats-ui/src/lib/|prototypes/|docs-site/prototypes/)' || exit 0
 
 node scripts/build-prototypes.mjs >/dev/null || { echo "pre-commit: prototype build failed"; exit 1; }

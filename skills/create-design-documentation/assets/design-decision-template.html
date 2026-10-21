@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Design decision title]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<!-- Design Decision page. Composed entirely from shared components (assets/docs.js + docs.css).
+     The rail is automatic: every <doc-section id label desc> becomes a rail link and
+     gets Back/Next buttons. Keep the "pending" recommendation badge until the user signs off. -->
+<doc-page eyebrow="Design decision" title="[Decision title — what was decided, plainly]" meta="[area] · [date]">
+
+  <!-- PROBLEM: feedback/research that prompted it + analysis of the current state. -->
+  <doc-section id="problem" label="The problem" desc="What prompted this">
+    <doc-split>
+      <doc-media>
+        <p class="kicker">Current state</p>
+        <doc-showcase src="images/01-current-state.png" alt="[current state]" caption="Current state" href="[figma-frame-url]" live="[live example or prototype url]" ph="Export this frame as images/01-current-state.png."></doc-showcase>
+      </doc-media>
+      <doc-body>
+        <doc-quote who="[optional attribution]">“[Verbatim feedback or research finding that prompted this.]”</doc-quote>
+        <p>[Analysis of why the current design falls short. Anchor claims in a named principle.]</p>
+      </doc-body>
+    </doc-split>
+  </doc-section>
+
+  <!-- OPTIONS: overview (optional .tbl comparison), then one doc-section per option.
+       Duplicate the option section and add a matching id to keep the rail + Back/Next in sync. -->
+  <doc-section id="options" label="Options compared" desc="Approaches side by side">
+    <p class="lead">[One line framing the shared constraint and what each option trades.]</p>
+    <!-- optional: <table class="tbl">…</table> -->
+  </doc-section>
+
+  <doc-section id="option-1" label="Option 1" desc="[short label]">
+    <doc-split>
+      <doc-media>
+        <!-- Prefer a live prototype view; fall back to a screenshot. Both carry a Figma link and a live link. -->
+        <doc-prototype src="/prototypes/[name]/index.html?embed=1&amp;page=[view]" full="/prototypes/[name]/index.html" figma="[figma-frame-url]" caption="Option 1"></doc-prototype>
+        <!-- or: <doc-showcase src="images/02-option-1.png" alt="[option 1]" caption="Option 1" href="[figma-frame-url]" live="[live example or prototype url]" ph="Export as images/02-option-1.png."></doc-showcase> -->
+      </doc-media>
+      <doc-body>
+        <doc-spec><span class="pair"><b>Change:</b> [what changes]</span></doc-spec>
+        <h3>Why it works</h3>
+        <p>[reasoning]</p>
+        <h3>Trade-offs</h3>
+        <p>[costs]</p>
+        <doc-callout type="note" heading="Implementation.">[effort / tokens / library impact]</doc-callout>
+      </doc-body>
+    </doc-split>
+  </doc-section>
+
+  <!-- RECOMMENDATION: keep status="pending" until the user confirms; set status="final" once settled. -->
+  <doc-section id="recommendation" label="Recommendation" desc="The pick and why">
+    <doc-recommendation status="pending" heading="[The recommended option]">[Why this option best resolves the problem, and when an alternative would be chosen instead.]</doc-recommendation>
+    <doc-callout type="note" heading="Next step.">[what to confirm or build]</doc-callout>
+  </doc-section>
+
+</doc-page>
+</body>
+</html>
