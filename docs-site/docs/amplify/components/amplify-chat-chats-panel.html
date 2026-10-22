@@ -29,7 +29,7 @@
     <p>Same container as the <a href="amplify-chat-prompt-library.html#prompt-card">prompt card</a> and chat-list-item: padding 8 / 16, radius 8, the same border, fill and states, so every Amplify card reads as one family (Gestalt similarity). It has its own <a href="#tokens">component tokens</a>. There is no kebab. Order, top to bottom:</p>
     <ul>
       <li><strong>item-header</strong>: the title (<span class="chip">body/lg-medium</span>, 1 line, truncates), then the caption on the right — the last activity (<span class="chip">meta/sm</span>), or the “N new” indicator chip (NovoChip, positive, small) for unread scheduled runs.</li>
-      <li><strong>item-data</strong>: on a chat, the record it’s about (entity icon + name). On a scheduled chat, the frequency and time window (clock-arrow), plus the status when it isn’t active.</li>
+      <li><strong>item-data</strong>: on a chat, the record it’s about: the entity icon in its entity color (<span class="chip">color/entity/job</span>, <span class="chip">color/entity/contact</span>, <span class="chip">color/entity/company</span>…) and the record name. On a scheduled chat, the frequency and time window (clock-arrow), plus the status when it isn’t active.</li>
       <li><strong>description</strong>: <span class="chip">body/default</span>, 2 lines, then truncates. Chats only.</li>
     </ul>
     <doc-example src="amplify-chat-chats?component=chat-card" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6832-132534" caption="type=chat: record, last activity and description" height="150"></doc-example>
@@ -103,6 +103,7 @@
 
   <doc-section id="usage" label="Usage" desc="Do and don’t">
     <doc-callout type="do" heading="Do.">Show the record on a chat card when the chat is about one. It’s how recruiters find a chat again.</doc-callout>
+    <doc-callout type="do" heading="Do.">Color the record icon with its entity color, so the record type reads at a glance, as it does elsewhere in the ATS.</doc-callout>
     <doc-callout type="dont" heading="Don’t.">Show a scheduled chat in both Scheduled and the history.</doc-callout>
     <doc-callout type="do" heading="Do.">Show “N new” only for unread scheduled runs. It replaces the last activity.</doc-callout>
     <doc-callout type="dont" heading="Don’t.">Use the selected style for hover. Selected means the chat that’s open.</doc-callout>

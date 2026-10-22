@@ -28,7 +28,8 @@ const STATUS: Record<Exclude<AmplifyChatChatCardStatus, 'active'>, { label: stri
  *  - item-header: the title (body/lg-medium, 1 line, truncates) and the caption on the right —
  *    the last activity (`ago`), or for unread scheduled runs the indicator chip "N new"
  *    (NovoChip, positive, small) in its place;
- *  - item-data: `type="chat"` → the record the chat is about (entity icon + label);
+ *  - item-data: `type="chat"` → the record the chat is about: its entity icon in the entity color
+ *    (color/entity/job, contact, company…) + label;
  *    `type="scheduled"` → the frequency and time window (clock-arrow), plus the status when it is
  *    not active: Paused (inactive icon) or Needs attention (caution icon, color/icon/utility/warning);
  *  - the description (body/default, 2 lines, then truncates). Chats only.
@@ -66,7 +67,10 @@ const STATUS: Record<Exclude<AmplifyChatChatCardStatus, 'active'>, { label: stri
               </span>
             }
           } @else if (record(); as r) {
-            <ats-item-field class="ats-amplify-chat-chat-card__record" [icon]="r.entity" [text]="r.label" />
+            <span class="ats-item-field ats-amplify-chat-chat-card__record">
+              <ats-icon [name]="r.entity" [size]="12" [color]="'var(--color-entity-' + r.entity + ')'" />
+              <span class="ats-item-field__text">{{ r.label }}</span>
+            </span>
           }
         </ats-item-data>
       }
