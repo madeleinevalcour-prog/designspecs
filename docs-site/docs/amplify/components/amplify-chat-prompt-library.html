@@ -19,14 +19,14 @@
     <table class="tbl">
       <thead><tr><th>Component</th><th>What it is</th><th>Variants</th></tr></thead>
       <tbody>
-        <tr><td><a href="#prompt-card">Prompt card</a></td><td>One saved prompt: icon, title, record type, schedule, tags, description, star and kebab</td><td><span class="chip">Property 1</span> Default · hover · focus; favorited</td></tr>
+        <tr><td><a href="#prompt-card">Prompt card</a></td><td>One saved prompt: icon, title, record type, tags, description, star and kebab</td><td><span class="chip">Property 1</span> Default · hover · focus; favorited; scheduled suggestion</td></tr>
         <tr><td><a href="#prompt-library">Prompt library</a></td><td>Tabs, search and category filter over a two-column grid of prompt cards</td><td><span class="chip">State</span> default · empty favorites · empty my prompts · no results · loading</td></tr>
       </tbody>
     </table>
   </doc-section>
 
   <doc-section id="prompt-card" label="Prompt card" desc="One saved prompt">
-    <p>A list-item card (padding 8 / 16, radius 8). The header row holds the prompt’s icon (14px, no container), the title, then the star and kebab grouped on the right. Below it: the record type the prompt runs on, the scheduled time, the tag icon with one chip per tag, and the description.</p>
+    <p>A list-item card (padding 8 / 16, radius 8). The header row holds the prompt’s icon (14px, no container), the title, then the star and kebab grouped on the right. Below it: the record type the prompt runs on (optional), the tag icon with one chip per tag, and the description.</p>
     <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-90133" src="amplify-chat-prompt-library?component=prompt-card" caption="Default" height="150"></doc-example>
     <table class="tbl">
       <thead><tr><th>State</th><th>Look</th></tr></thead>
@@ -40,11 +40,19 @@
     <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-90135" src="amplify-chat-prompt-library?component=prompt-card&amp;state=hover" caption="Hover" height="150"></doc-example>
     <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6788-23069" src="amplify-chat-prompt-library?component=prompt-card&amp;state=focus" caption="Keyboard focus" height="150"></doc-example>
     <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6771-149732" src="amplify-chat-prompt-library?component=prompt-card&amp;favorite=true" caption="Favorited" height="150"></doc-example>
-    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-90134" src="amplify-chat-prompt-library?component=prompt-card&amp;prompt=4" caption="Long title truncates to 1 line; the data row wraps; description clamps to 2 lines" height="170"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-90134" src="amplify-chat-prompt-library?component=prompt-card&amp;prompt=5" caption="Long title truncates to 1 line; the data row wraps; description clamps to 2 lines" height="170"></doc-example>
     <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6793-23402" src="amplify-chat-prompt-library?component=prompt-card&amp;prompt=2&amp;menu=open" caption="Kebab menu: Edit, Share, Delete" height="280"></doc-example>
+    <h3>Scheduled suggestions</h3>
+    <p>Prompts are starting inputs for a chat, not running chats. A scheduled suggestion works like a starter card on the chat starting point: it suggests a scheduled prompt the recruiter could set up. It isn’t scheduled yet (scheduled chats that are already running are chat cards in the chats panel).</p>
+    <ul>
+      <li>Uses the <span class="chip">clock-arrow</span> icon and always has a Scheduled tag.</li>
+      <li>No schedule time or status on the card. The description says what would be set up (“Set up a daily task to…”).</li>
+      <li>Click or <span class="chip">↵</span> starts setting up the scheduled prompt instead of sending it.</li>
+    </ul>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-141808" src="amplify-chat-prompt-library?component=prompt-card&amp;prompt=3" caption="Scheduled suggestion, no record type" height="150"></doc-example>
+    <doc-example figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6762-141964" src="amplify-chat-prompt-library?component=prompt-card&amp;prompt=4" caption="Scheduled suggestion for jobs" height="150"></doc-example>
     <ul>
       <li>The header icon is chosen when the prompt is made, or by Amplify when it generates one. Bullhorn’s default prompts each have their own.</li>
-      <li>The schedule shows the time a scheduled prompt runs. It’s hidden on prompts that aren’t scheduled.</li>
       <li>Tags categorize prompts. A prompt can have several, so they use a chip group after the tag icon.</li>
     </ul>
   </doc-section>
@@ -88,6 +96,7 @@
       <thead><tr><th>Action</th><th>Result</th></tr></thead>
       <tbody>
         <tr><td>Click a card, or <span class="chip">↵</span> on a focused card</td><td>Sends the prompt to chat right away and closes the library</td></tr>
+        <tr><td>Click a scheduled suggestion, or <span class="chip">↵</span> on it</td><td>Closes the library and starts setting up a scheduled prompt. Nothing is sent to chat</td></tr>
         <tr><td><span class="chip">/</span> in an empty composer</td><td>Opens the library with focus on the first card. The “/” isn’t added to the message</td></tr>
         <tr><td><span class="chip">↑</span> <span class="chip">↓</span> <span class="chip">←</span> <span class="chip">→</span></td><td>Move between cards in the two-column grid. <span class="chip">↓</span> from search enters the grid; <span class="chip">↑</span> from the top row goes back to search</td></tr>
         <tr><td><span class="chip">Esc</span> or a click outside</td><td>Closes the library and returns focus to Prompt Library. If the kebab menu is open, <span class="chip">Esc</span> closes the menu first</td></tr>
@@ -101,7 +110,8 @@
   <doc-section id="usage" label="Usage" desc="Do and don’t">
     <doc-callout type="do" heading="Do.">Keep the library 8px from the composer and centered on it, below on the starting point and above in an active chat.</doc-callout>
     <doc-callout type="dont" heading="Don’t.">Let it overlap or cover the composer.</doc-callout>
-    <doc-callout type="do" heading="Do.">Show the schedule only on scheduled prompts.</doc-callout>
+    <doc-callout type="do" heading="Do.">Word scheduled suggestions as something to set up (“Set up a daily task to…”). They aren’t running yet.</doc-callout>
+    <doc-callout type="dont" heading="Don’t.">Show a schedule time or status on a prompt card. Scheduled chats that are already running live in the chats panel.</doc-callout>
     <doc-callout type="dont" heading="Don’t.">Use a blue border for hover. Blue is the keyboard focus ring, and on hover it reads as selected.</doc-callout>
   </doc-section>
 
@@ -144,14 +154,17 @@
         (send)="ask($event)" (action)="manage($event)" (close)="open.set(false)" /&gt;
 
       &lt;ats-amplify-chat-prompt-card icon="search-menu" title="Research Salary and Experience"
-        schedule="Every morning around 8" [tags]="['Recruiting']" [(favorite)]="fav"
+        [tags]="['Recruiting']" [(favorite)]="fav"
         description="Research market salary norms…" (send)="ask()" (action)="manage($event)" /&gt;
+
+      &lt;ats-amplify-chat-prompt-card scheduled title="Morning Review" [entity]="null"
+        [tags]="['Recruiting', 'Scheduled', 'Productivity']" (schedule)="startScheduling()" /&gt;
     </doc-code>
     <table class="tbl">
       <thead><tr><th>Component</th><th>Selector</th><th>Inputs</th><th>Outputs</th></tr></thead>
       <tbody>
-        <tr><td><span class="chip">AmplifyChatPromptLibrary</span></td><td><span class="chip">ats-amplify-chat-prompt-library</span></td><td><span class="chip">prompts</span>: id, title, description, icon, entity, schedule, tags, favorite, mine · <span class="chip">[(tab)]</span> favorites · mine · all · <span class="chip">[(query)]</span> · <span class="chip">loading</span> · <span class="chip">categoryLabel</span></td><td><span class="chip">send</span>(prompt) · <span class="chip">action</span>({ prompt, action }) · <span class="chip">favoriteChange</span> · <span class="chip">close</span>. Methods <span class="chip">focusFirst()</span>, <span class="chip">focusSearch()</span></td></tr>
-        <tr><td><span class="chip">AmplifyChatPromptCard</span></td><td><span class="chip">ats-amplify-chat-prompt-card</span></td><td><span class="chip">title</span> · <span class="chip">icon</span> (search-menu) · <span class="chip">entity</span> (candidate) · <span class="chip">schedule</span> · <span class="chip">tags</span> · <span class="chip">description</span> · <span class="chip">[(favorite)]</span> · <span class="chip">state</span> hover · focus · <span class="chip">menu</span></td><td><span class="chip">send</span> · <span class="chip">action</span>(edit · share · delete)</td></tr>
+        <tr><td><span class="chip">AmplifyChatPromptLibrary</span></td><td><span class="chip">ats-amplify-chat-prompt-library</span></td><td><span class="chip">prompts</span>: id, title, description, icon, entity (or null), scheduled, tags, favorite, mine · <span class="chip">[(tab)]</span> favorites · mine · all · <span class="chip">[(query)]</span> · <span class="chip">loading</span> · <span class="chip">categoryLabel</span></td><td><span class="chip">send</span>(prompt) · <span class="chip">schedule</span>(prompt) · <span class="chip">action</span>({ prompt, action }) · <span class="chip">favoriteChange</span> · <span class="chip">close</span>. Methods <span class="chip">focusFirst()</span>, <span class="chip">focusSearch()</span></td></tr>
+        <tr><td><span class="chip">AmplifyChatPromptCard</span></td><td><span class="chip">ats-amplify-chat-prompt-card</span></td><td><span class="chip">title</span> · <span class="chip">icon</span> (search-menu, or clock-arrow when scheduled) · <span class="chip">entity</span> (candidate; null hides it) · <span class="chip">scheduled</span> · <span class="chip">tags</span> · <span class="chip">description</span> · <span class="chip">[(favorite)]</span> · <span class="chip">state</span> hover · focus · <span class="chip">menu</span></td><td><span class="chip">send</span> · <span class="chip">schedule</span> · <span class="chip">action</span>(edit · share · delete)</td></tr>
       </tbody>
     </table>
   </doc-section>
@@ -164,6 +177,7 @@
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm" desc="Open questions">
+    <doc-callout type="note" heading="Scheduled prompt setup.">What happens after choosing a scheduled suggestion (the setup steps) isn’t designed yet. The library only emits <span class="chip">schedule</span>.</doc-callout>
     <doc-callout type="note" heading="Docked chat.">We still need a version of the prompt library that works in the docked chat.</doc-callout>
     <doc-callout type="note" heading="Not wired into the chat input yet.">The chat input only emits <span class="chip">promptLibrary</span>. Opening with “/”, the button’s active fill while open, and returning focus to it on close are specified here but not built into the input. The examples above place the library next to the composer in the showcase.</doc-callout>
     <doc-callout type="note" heading="Category filter.">The All Categories filter is a static button; its menu isn’t defined yet.</doc-callout>

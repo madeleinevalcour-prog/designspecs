@@ -1,7 +1,7 @@
 @if (component() === 'prompt-card') {
   <div class="embed" [class.menu-room]="menu() === 'open'">
     <div class="w400">
-      <ats-amplify-chat-prompt-card [title]="embedPrompt().title" [icon]="embedPrompt().icon" [schedule]="embedPrompt().schedule"
+      <ats-amplify-chat-prompt-card [title]="embedPrompt().title" [icon]="embedPrompt().icon" [entity]="embedPrompt().entity" [scheduled]="!!embedPrompt().scheduled"
         [tags]="embedPrompt().tags" [description]="embedPrompt().description" [favorite]="embedFavorite()" [state]="state()"
         [menu]="menu() === 'open'" />
     </div>
@@ -22,15 +22,17 @@
   <h2>Prompt Card — states</h2>
   <div class="row">
     <div class="cell w400"><span class="caption">Default</span>
-      <ats-amplify-chat-prompt-card [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+      <ats-amplify-chat-prompt-card [title]="prompts[0].title" [icon]="prompts[0].icon" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
     <div class="cell w400"><span class="caption">Hover</span>
-      <ats-amplify-chat-prompt-card state="hover" [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+      <ats-amplify-chat-prompt-card state="hover" [title]="prompts[0].title" [icon]="prompts[0].icon" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
     <div class="cell w400"><span class="caption">Keyboard focus</span>
-      <ats-amplify-chat-prompt-card state="focus" [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+      <ats-amplify-chat-prompt-card state="focus" [title]="prompts[0].title" [icon]="prompts[0].icon" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
     <div class="cell w400"><span class="caption">Favorited</span>
-      <ats-amplify-chat-prompt-card [favorite]="true" [title]="prompts[0].title" [icon]="prompts[0].icon" [schedule]="prompts[0].schedule" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
+      <ats-amplify-chat-prompt-card [favorite]="true" [title]="prompts[0].title" [icon]="prompts[0].icon" [tags]="prompts[0].tags" [description]="prompts[0].description" /></div>
     <div class="cell w400"><span class="caption">Long title, several tags</span>
-      <ats-amplify-chat-prompt-card [title]="prompts[3].title" [icon]="prompts[3].icon" [schedule]="prompts[3].schedule" [tags]="prompts[3].tags" [description]="prompts[3].description" /></div>
+      <ats-amplify-chat-prompt-card [title]="prompts[4].title" [icon]="prompts[4].icon" [tags]="prompts[4].tags" [description]="prompts[4].description" /></div>
+    <div class="cell w400"><span class="caption">Scheduled suggestion</span>
+      <ats-amplify-chat-prompt-card scheduled [entity]="prompts[3].entity" [title]="prompts[3].title" [tags]="prompts[3].tags" [description]="prompts[3].description" /></div>
     <div class="cell w400 menu-room"><span class="caption">Kebab menu open</span>
       <ats-amplify-chat-prompt-card [menu]="true" [title]="prompts[1].title" [icon]="prompts[1].icon" [tags]="prompts[1].tags" [description]="prompts[1].description" /></div>
   </div>
@@ -53,13 +55,13 @@
   <div class="context" [class.is-active]="isActiveSurface()">
     @if (isActiveSurface()) {
       @if (open()) {
-        <ats-amplify-chat-prompt-library class="context__library" [prompts]="prompts" tab="all" (send)="sent($event)" (close)="open.set(false)" />
+        <ats-amplify-chat-prompt-library class="context__library" [prompts]="prompts" tab="all" (send)="sent($event)" (schedule)="scheduling($event)" (close)="open.set(false)" />
       }
       <ats-amplify-chat-input class="w800" [showLabels]="false" (promptLibrary)="open.set(!open())" />
     } @else {
       <ats-amplify-chat-global-chat-container class="w750" name="Chloe" (promptLibrary)="open.set(!open())" />
       @if (open()) {
-        <ats-amplify-chat-prompt-library class="context__library" [prompts]="prompts" tab="all" (send)="sent($event)" (close)="open.set(false)" />
+        <ats-amplify-chat-prompt-library class="context__library" [prompts]="prompts" tab="all" (send)="sent($event)" (schedule)="scheduling($event)" (close)="open.set(false)" />
       }
     }
     @if (log()) { <p class="note" aria-live="polite">{{ log() }}</p> }

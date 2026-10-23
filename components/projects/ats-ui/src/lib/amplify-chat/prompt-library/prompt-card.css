@@ -60,6 +60,8 @@
 
 .ats-amplify-chat-prompt-card__content { display: flex; flex-direction: column; gap: var(--list-item-spacing-gap-vertical); min-width: 0; }
 
+/* record type: the entity glyph in its entity color (candidate, job…) */
+.ats-amplify-chat-prompt-card__entity .ats-icon { background-color: var(--ats-prompt-card-entity); }
 .ats-amplify-chat-prompt-card__tags { gap: var(--list-item-spacing-gap-horizontal); }
 .ats-amplify-chat-prompt-card__chips { display: inline-flex; flex-wrap: wrap; gap: var(--chip-spacing-sm-group-gap); }
 

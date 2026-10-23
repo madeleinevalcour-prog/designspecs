@@ -12,9 +12,10 @@ export interface AmplifyChatPrompt {
   description?: string;
   /** Header icon from the icon set (default search-menu). */
   icon?: string;
-  entity?: NovoListEntity;
-  /** Scheduled time; leave empty for prompts that aren't scheduled. */
-  schedule?: string;
+  /** Record type the prompt runs on; `null` for none (default candidate). */
+  entity?: NovoListEntity | null;
+  /** A suggestion for a scheduled prompt (clock-arrow icon, Scheduled tag). Clicking it emits `schedule`. */
+  scheduled?: boolean;
   tags?: string[];
   favorite?: boolean;
   /** Created by the current user (My Prompts). */
@@ -38,7 +39,8 @@ const TABS: { id: AmplifyChatPromptLibraryTab; label: string }[] = [
  * active chat (the host places it; see the docs).
  *  - Tab bar: Favorites / My Prompts / All Prompts, then the search input and the category filter.
  *  - Grid: two columns of Prompt Cards; every row is as tall as the tallest card, so the grid stays
- *    even while each card's data row can wrap. Click or Enter on a card → `send`.
+ *    even while each card's data row can wrap. Click or Enter on a card → `send`; on a scheduled
+ *    suggestion → `schedule` (start setting up the schedule).
  *  - Empty states (empty-state parts): Favorites links to All Prompts; My Prompts has no action;
  *    no results repeats the search term and clears it. Loading shows the Dots loader.
  * Keyboard: arrow keys move between cards (2 columns); ArrowDown from search enters the grid and
@@ -86,9 +88,9 @@ const TABS: { id: AmplifyChatPromptLibraryTab; label: string }[] = [
         </div>
       } @else {
         @for (p of visible(); track p.id) {
-          <ats-amplify-chat-prompt-card [title]="p.title" [icon]="p.icon" [entity]="p.entity" [schedule]="p.schedule" [tags]="p.tags"
+          <ats-amplify-chat-prompt-card [title]="p.title" [icon]="p.icon" [entity]="p.entity" [scheduled]="!!p.scheduled" [tags]="p.tags"
             [description]="p.description" [favorite]="isFav(p)" (favoriteChange)="setFav(p, $event)"
-            (send)="send.emit(p)" (action)="action.emit({ prompt: p, action: $event })" />
+            (send)="send.emit(p)" (schedule)="schedule.emit(p)" (action)="action.emit({ prompt: p, action: $event })" />
         }
       }
     </div>
@@ -113,6 +115,8 @@ export class AmplifyChatPromptLibrary {
   readonly categoryLabel = input<string>('All Categories');
 
   readonly send = output<AmplifyChatPrompt>();
+  /** A scheduled suggestion was chosen: start setting up the scheduled prompt. */
+  readonly schedule = output<AmplifyChatPrompt>();
   readonly action = output<{ prompt: AmplifyChatPrompt; action: AmplifyChatPromptCardAction }>();
   readonly favoriteChange = output<{ prompt: AmplifyChatPrompt; favorite: boolean }>();
   /** Escape: the host closes the library and returns focus to Prompt Library. */
@@ -134,7 +138,7 @@ export class AmplifyChatPromptLibrary {
     const tab = this.currentTab();
     return (this.prompts() ?? [])
       .filter((p) => tab === 'all' || (tab === 'favorites' ? this.favs().has(p.id) : p.mine))
-      .filter((p) => !q || [p.title, p.description, ...(p.tags ?? [])].join(' ').toLowerCase().includes(q));
+      .filter((p) => !q || [p.title, p.description, ...(p.tags ?? []), p.scheduled ? 'Scheduled' : ''].join(' ').toLowerCase().includes(q));
   });
 
   protected readonly empty = computed(() => {
