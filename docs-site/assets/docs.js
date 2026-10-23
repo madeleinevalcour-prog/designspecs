@@ -308,14 +308,14 @@
   /* ---- rail + next/back ---- */
   window.__docsBuildNav=function(main, rail){
     var secs=[].slice.call(main.querySelectorAll("doc-section[id]"));
-    var items=secs.map(function(s){return {id:s.id,label:s.getAttribute("label")||s.id,desc:s.getAttribute("desc")||""};});
+    var items=secs.map(function(s){return {id:s.id,label:s.getAttribute("label")||s.id,desc:s.getAttribute("desc")||"",done:s.getAttribute("badge")==="Done"?"Done":""};});
 
     if(rail){
       var ol=rail.querySelector("ol"), links={};
       items.forEach(function(it){
         var li=document.createElement("li"), a=document.createElement("a");
         a.href="#"+it.id; a.dataset.id=it.id;
-        a.innerHTML='<span class="t">'+esc(it.label)+'</span>'+(it.desc?'<span class="d">'+esc(it.desc)+'</span>':'');
+        a.innerHTML='<span class="t">'+esc(it.label)+(it.done?' <span class="status-pill status-pill--sm status-pill--success">'+esc(it.done)+'</span>':'')+'</span>'+(it.desc?'<span class="d">'+esc(it.desc)+'</span>':'');
         li.appendChild(a); ol.appendChild(li); links[it.id]=a;
       });
       var io=new IntersectionObserver(function(entries){
