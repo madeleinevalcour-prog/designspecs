@@ -36,6 +36,7 @@ export const routes: Routes = [
   { path: 'checkbox', loadComponent: () => import('./pages/checkbox/checkbox-page').then((m) => m.CheckboxPage), title: 'Checkbox — ats-ui' },
   { path: 'checkbox-label', loadComponent: () => import('./pages/checkbox-label/checkbox-label-page').then((m) => m.CheckboxLabelPage), title: 'Checkbox + label — ats-ui' },
   { path: 'count-badge', loadComponent: () => import('./pages/count-badge/count-badge-page').then((m) => m.CountBadgePage), title: 'Count badge — ats-ui' },
+  { path: 'candidate-record', loadComponent: () => import('./pages/candidate-record/candidate-record-page').then((m) => m.CandidateRecordPage), title: 'Candidate Record — ats-ui' },
   { path: 'card', loadComponent: () => import('./pages/card/card-page').then((m) => m.CardPage), title: 'Card — ats-ui' },
   { path: 'menu', loadComponent: () => import('./pages/menu/menu-page').then((m) => m.MenuPage), title: 'Menu — ats-ui' },
   { path: 'novo-chip', loadComponent: () => import('./pages/novo-chip/novo-chip-page').then((m) => m.NovoChipPage), title: 'Novo Chip — ats-ui' },

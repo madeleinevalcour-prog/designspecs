@@ -7,3 +7,6 @@ p.note { color: #5d7798; margin: 0 0 12px; font-size: 13px; }
 
 /* ---- embed mode (docs <doc-example>) ---- */
 :host:has(.embed) { padding: 24px; }
+:host:has(.parts), :host:has(> .ats-wf-buttons) { padding: 24px; }
+.parts { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin: 8px 0 16px; }
+.parts--col { flex-direction: column; align-items: stretch; max-width: 340px; gap: 24px; }

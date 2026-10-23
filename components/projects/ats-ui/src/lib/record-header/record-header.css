@@ -3,7 +3,7 @@
 
 .ats-rh {
   --ats-rh-accent: var(--color-entity-candidate);
-  position: relative; z-index: 20; /* keep the header (and its More menu) above scrolling content */
+  position: sticky; top: 0; z-index: 20; /* always sticky: pinned to the top of the scrolling page, above its content (and its More menu) */
   display: flex; flex-direction: column; gap: var(--header-spacing-gap);
   box-sizing: border-box;
   background: var(--header-color-background-record);

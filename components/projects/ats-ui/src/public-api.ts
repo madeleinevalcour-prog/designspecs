@@ -10,6 +10,9 @@ export * from './lib/icon-container/icon-container';
 export * from './lib/novo-chip/novo-chip';
 export * from './lib/checkbox/checkbox';
 export * from './lib/workflow-stepper/workflow-stepper';
+export * from './lib/workflow-stepper/workflow-indicator';
+export * from './lib/workflow-stepper/workflow-item';
+export * from './lib/workflow-stepper/workflow-button';
 export * from './lib/novo-list/novo-list';
 export * from './lib/novo-list/parts';
 export * from './lib/novo-list/presets';
@@ -48,6 +51,7 @@ export * from './lib/menu/menu-item';
 export * from './lib/menu/menu-option';
 export * from './lib/menu/menu-edit';
 export * from './lib/dropdown';
+export * from './lib/candidate-record/candidate-record';
 
 // Amplify chat
 export * from './lib/amplify-chat/amplify-header';

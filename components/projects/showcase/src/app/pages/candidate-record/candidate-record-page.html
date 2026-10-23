@@ -1,0 +1,14 @@
+@if (isEmbed()) {
+  <div class="frame frame--embed" [style.height.px]="embedHeight()">
+    <ats-candidate-record [nav]="embedNav()" [lockNav]="lock()" [tab]="embedTab()" />
+  </div>
+} @else {
+  <h1>Candidate Record</h1>
+  <p class="lede">
+    The shell candidate record (Figma candidate-record 3868:89906), composed only from ats-ui components: Bowling Alley,
+    Record Header, Workflow Stepper, Cards and Novo list items. The starting page for candidate-record prototypes.
+  </p>
+  <div class="frame" style="height: 760px">
+    <ats-candidate-record />
+  </div>
+}

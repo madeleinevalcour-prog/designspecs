@@ -459,6 +459,10 @@
       {t:"Switch", href:"/docs/components/switch.html", d:"The on/off switch: on, off and disabled, with or without a label."},
       {t:"Workflow Stepper", href:"/docs/components/workflow-stepper.html", d:"The placement pipeline: complete, current and upcoming steps, with overflow scrolling."}
     ]},
+    {label:"Patterns", href:"/docs/patterns/index.html",
+     d:"How components come together into pages and flows across the ATS.", pages:[
+      {t:"Entity Records", href:"/docs/patterns/entity-records.html", s:"In progress", d:"The record pages for each entity, starting with the shell candidate record."}
+    ]},
     {label:"Amplify", href:"/docs/amplify/index.html",
      d:"Everything about Amplify UI in one place: foundations, components, patterns and resources.", pages:[
       {t:"About Amplify UI", href:"/docs/amplify/about.html", d:"What Amplify is, the principles for Amplify UI, and how the Amplify icon identifies Amplify features."},

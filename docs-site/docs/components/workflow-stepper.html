@@ -14,19 +14,19 @@
 <doc-page eyebrow="Component" title="Workflow Stepper" meta="Status: in review · Figma: Component Migration 589:6990 / 1528:61198 · Code: ats-ui WorkflowStepper · Examples on this page are the live component">
 
   <doc-section id="overview" label="Overview">
-    <p class="lead" style="max-width:60ch">Workflow Stepper shows where a candidate is in the placement pipeline: a row of steps in a rounded card, joined by connectors, with the current step filled.</p>
-    <p>The prototypes place it at the top of the candidate record, with the first step current and a badge of 3.</p>
-    <doc-example src="workflow-stepper?current=0&amp;badge=3" caption="Placement workflow, first step current" height="130"></doc-example>
+    <p class="lead" style="max-width:60ch">Workflow Stepper shows where a candidate is in the placement pipeline: a row of steps in a rounded card, joined by connectors that fill the width, with the current step marked.</p>
+    <p>The candidate record places it at the top of the Overview, with the first step complete (a count of 3) and the second current.</p>
+    <doc-example src="workflow-stepper?current=1&amp;badge=3" caption="Placement workflow, second step current" height="130"></doc-example>
   </doc-section>
 
-  <doc-section id="anatomy" label="Anatomy">
+  <doc-section id="anatomy" label="Anatomy" desc="Card, items, indicators, buttons">
     <ul>
-      <li><b>Card</b> — the container: background, 1px border, 16px radius, elevation 2.</li>
-      <li><b>Indicator</b> — a 16px circle per step. Empty when upcoming, filled when current or complete.</li>
-      <li><b>Badge</b> — optional short text inside the current step’s indicator.</li>
-      <li><b>Label</b> — the step name, on one line.</li>
-      <li><b>Connector</b> — a 40px line after every step but the last.</li>
+      <li><b>Card</b> — the container: background, 1px border, 16px radius, elevation 1.</li>
+      <li><b>Workflow item</b> — one step: an indicator, the label on one line, and a connector that fills the space to the next step (at least 40px). The last step has no connector. Items share the width of the card.</li>
+      <li><b>Indicator</b> — an 18px mark: an empty gray ring (upcoming), a blue ring (current), a filled blue circle with a check (complete), or a filled blue pill with a count such as 3 or 99+.</li>
+      <li><b>“current” label</b> — a small blue label above the current step’s indicator.</li>
       <li><b>Scroll arrows</b> — appear on an edge only when there are more steps beyond it.</li>
+      <li><b>Workflow button</b> — a separate tile with a count over a label, shown in a row above the stepper.</li>
     </ul>
   </doc-section>
 
@@ -34,15 +34,22 @@
     <table class="tbl">
       <thead><tr><th>State</th><th>Indicator</th><th>Connector after it</th></tr></thead>
       <tbody>
-        <tr><td>Upcoming</td><td>Empty: <span class="chip">workflow/color/background/icon-empty</span> with a <span class="chip">workflow/color/border/icon-empty</span> border</td><td>Inactive (gray)</td></tr>
-        <tr><td>Current</td><td>Filled <span class="chip">color/text/body</span>; badge text in <span class="chip">color/text/body-knockout</span></td><td>Active (<span class="chip">color/text/link</span>)</td></tr>
-        <tr><td>Complete</td><td>Filled <span class="chip">workflow/color/background/icon-complete</span></td><td>Active</td></tr>
+        <tr><td>Upcoming</td><td>Empty ring: <span class="chip">workflow/color/background/icon-empty</span> with a <span class="chip">workflow/color/border/icon-empty</span> border</td><td>Gray (<span class="chip">workflow/color/border/default</span>)</td></tr>
+        <tr><td>Current</td><td>Ring in <span class="chip">workflow/color/border/icon-complete</span>, with the “current” label above</td><td>Blue (<span class="chip">workflow/color/border/icon-complete</span>)</td></tr>
+        <tr><td>Complete</td><td>Filled <span class="chip">workflow/color/background/icon-complete</span> with a check in <span class="chip">workflow/color/content/complete</span>, or a count</td><td>Blue</td></tr>
       </tbody>
     </table>
     <doc-example src="workflow-stepper?current=-1" caption="All upcoming" height="130"></doc-example>
-    <doc-example src="workflow-stepper?current=3&amp;badge=2" caption="In progress: three complete, fourth current with a badge" height="130"></doc-example>
-    <doc-example src="workflow-stepper?current=2" caption="Current step without a badge" height="130"></doc-example>
+    <doc-example src="workflow-stepper?current=3" caption="In progress: three complete, fourth current" height="130"></doc-example>
+    <doc-example src="workflow-stepper?current=1&amp;badge=3" caption="A count on the first step" height="130"></doc-example>
     <doc-example src="workflow-stepper?current=7" caption="All complete" height="130"></doc-example>
+  </doc-section>
+
+  <doc-section id="subcomponents" label="Subcomponents" desc="Indicator, item, button">
+    <p>The stepper is built from three parts that can also be used on their own.</p>
+    <doc-example src="workflow-stepper?part=indicator" caption="Indicator: upcoming, current, complete, with a count of 3, with 99+" height="100"></doc-example>
+    <doc-example src="workflow-stepper?part=item" caption="Workflow item: upcoming, current, complete, with a count, and the last step with no connector" height="420"></doc-example>
+    <doc-example src="workflow-stepper?part=buttons" caption="Workflow button: count over a label" height="120"></doc-example>
   </doc-section>
 
   <doc-section id="overflow" label="Overflow">
@@ -57,7 +64,7 @@
 
   <doc-section id="accessibility" label="Accessibility">
     <ul>
-      <li>Steps are an ordered list (<span class="chip">&lt;ol&gt;</span>) named by <span class="chip">ariaLabel</span>, “Placement workflow” by default.</li>
+      <li>Steps are a list (<span class="chip">role="list"</span>) named by <span class="chip">ariaLabel</span>, “Placement workflow” by default.</li>
       <li>The current step has <span class="chip">aria-current="step"</span>. Complete steps add visually hidden “(complete)” text.</li>
       <li>Scroll arrows are native buttons labelled “Scroll workflow left / right”, reachable by keyboard when visible.</li>
       <li>Connectors are decorative and hidden from screen readers.</li>
@@ -69,16 +76,18 @@
       <thead><tr><th>Property</th><th>Token</th></tr></thead>
       <tbody>
         <tr><td>Card background</td><td><span class="chip">workflow/color/background/default</span></td></tr>
-        <tr><td>Card border</td><td><span class="chip">workflow/color/border/default</span> at <span class="chip">workflow/border-width/default</span></td></tr>
+        <tr><td>Card border</td><td><span class="chip">card/color/border/default</span> at <span class="chip">workflow/border-width/default</span></td></tr>
         <tr><td>Card radius</td><td><span class="chip">workflow/border-radius/default</span> (16px)</td></tr>
-        <tr><td>Card elevation</td><td>Elevation 2</td></tr>
+        <tr><td>Card elevation</td><td>Elevation 1</td></tr>
         <tr><td>Row padding</td><td><span class="chip">workflow/spacing/worflow-items-padding-vertical</span> / <span class="chip">…-horizontal</span> (24px)</td></tr>
         <tr><td>Gap between steps and parts</td><td><span class="chip">workflow/spacing/worflow-items-gap</span> (8px)</td></tr>
         <tr><td>Label</td><td><span class="chip">workflow/color/content/default</span>; text style body/lg medium (16 / 24px, 500)</td></tr>
         <tr><td>Indicator, upcoming</td><td><span class="chip">workflow/color/background/icon-empty</span>, <span class="chip">workflow/color/border/icon-empty</span></td></tr>
         <tr><td>Indicator, complete</td><td><span class="chip">workflow/color/background/icon-complete</span>, <span class="chip">workflow/color/border/icon-complete</span></td></tr>
-        <tr><td>Indicator, current</td><td><span class="chip">color/text/body</span> (no workflow token)</td></tr>
-        <tr><td>Active connector</td><td><span class="chip">color/text/link</span> (no workflow token)</td></tr>
+        <tr><td>Indicator, current</td><td>Ring in <span class="chip">workflow/color/border/icon-complete</span>; “current” label in <span class="chip">workflow/color/content/workflow-tooltip</span> (meta small)</td></tr>
+        <tr><td>Count</td><td><span class="chip">workflow/color/content/complete</span>; text style meta default (12 / 14px, 500)</td></tr>
+        <tr><td>Connector</td><td>1px; <span class="chip">workflow/color/border/default</span>, blue when active</td></tr>
+        <tr><td>Workflow button</td><td><span class="chip">card/color/background/header</span>, <span class="chip">workflow/color/border/default</span>, elevation 2; count in title medium, label in meta small</td></tr>
         <tr><td>Scroll arrow icon</td><td><span class="chip">color/icon/subtle</span>, 16px</td></tr>
       </tbody>
     </table>
@@ -90,8 +99,8 @@
       import { WorkflowStep, WorkflowStepper } from 'ats-ui';
 
       steps: WorkflowStep[] = [
-        { label: 'Prescreen', status: 'complete' },
-        { label: 'Pre-Submission', status: 'current', badge: '3' },
+        { label: 'Prescreen', status: 'complete', badge: '3' },
+        { label: 'Pre-Submission', status: 'current' },
         { label: 'Internal Submission' },
         { label: 'Placement' },
       ];
@@ -101,19 +110,16 @@
     <table class="tbl">
       <thead><tr><th>Input</th><th>Values</th><th>Default</th></tr></thead>
       <tbody>
-        <tr><td><span class="chip">steps</span></td><td><span class="chip">WorkflowStep[]</span>: <span class="chip">label</span>, <span class="chip">status</span> (complete · current · upcoming), <span class="chip">badge</span> (shown on the current step only)</td><td><span class="chip">PLACEMENT_WORKFLOW_STEPS</span> (7 steps, all upcoming)</td></tr>
+        <tr><td><span class="chip">steps</span></td><td><span class="chip">WorkflowStep[]</span>: <span class="chip">label</span>, <span class="chip">status</span> (complete · current · upcoming), <span class="chip">badge</span> (count in the indicator pill)</td><td><span class="chip">PLACEMENT_WORKFLOW_STEPS</span> (7 steps, all upcoming)</td></tr>
         <tr><td><span class="chip">ariaLabel</span></td><td>Accessible name for the list</td><td>Placement workflow</td></tr>
       </tbody>
     </table>
-    <p>A step with no <span class="chip">status</span> is upcoming. Mark at most one step current.</p>
+    <p>A step with no <span class="chip">status</span> is upcoming. Mark at most one step current. A <span class="chip">badge</span> shows a count in the indicator of a complete or current step.</p>
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm">
-    <doc-callout type="note" heading="What the badge counts.">The prototypes show “3” on the current step, but nothing says what the number represents.</doc-callout>
-    <doc-callout type="note" heading="Complete color.">The prototype filled complete steps with <span class="chip">color/text/link</span> and called the state optional. The port uses the Figma token <span class="chip">workflow/color/background/icon-complete</span>, a slightly darker blue. Confirm the complete design, and whether complete steps take a glyph in <span class="chip">workflow/color/content/complete</span>.</doc-callout>
-    <doc-callout type="note" heading="Upcoming border.">The prototype used <span class="chip">color/border/subtle</span>; the port uses <span class="chip">workflow/color/border/icon-empty</span>, which resolves to the darker <span class="chip">color/border/default</span>.</doc-callout>
-    <doc-callout type="note" heading="Missing tokens.">The inactive connector (#d6d6d6), the arrow edge border (#f0f5f9), the arrow shadow, and the 11px badge text have no tokens yet. The current indicator and active connector borrow semantic tokens.</doc-callout>
-    <doc-callout type="note" heading="Tooltip.">The token set includes <span class="chip">workflow/color/content/workflow-tooltip</span>, but the prototype has no tooltip.</doc-callout>
+    <doc-callout type="note" heading="What the count shows.">The Figma stepper shows a count of 3 on the first step, but nothing says what the number represents.</doc-callout>
+    <doc-callout type="note" heading="Missing tokens.">The arrow edge border (#f0f5f9), the arrow shadow and the 8px count-pill padding have no tokens yet.</doc-callout>
   </doc-section>
 </doc-page>
 </body>

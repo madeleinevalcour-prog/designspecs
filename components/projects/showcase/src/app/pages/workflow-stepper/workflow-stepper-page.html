@@ -1,12 +1,40 @@
 @if (embed()) {
-  <div class="embed" [style.max-width.px]="embedWidth()">
-    <ats-workflow-stepper [steps]="embedSteps()" />
-  </div>
+  @switch (part()) {
+    @case ('indicator') {
+      <div class="parts">
+        <ats-workflow-indicator status="upcoming" />
+        <ats-workflow-indicator status="current" />
+        <ats-workflow-indicator status="complete" />
+        <ats-workflow-indicator status="complete" badge="3" />
+        <ats-workflow-indicator status="complete" badge="99+" />
+      </div>
+    }
+    @case ('item') {
+      <div class="parts parts--col">
+        <ats-workflow-item label="Prescreen" status="upcoming" />
+        <ats-workflow-item label="Prescreen" status="current" />
+        <ats-workflow-item label="Prescreen" status="complete" />
+        <ats-workflow-item label="Prescreen" status="complete" badge="3" />
+        <ats-workflow-item label="Prescreen" status="complete" badge="99+" />
+        <ats-workflow-item label="Placement" status="upcoming" last />
+      </div>
+    }
+    @case ('buttons') {
+      <div class="ats-wf-buttons">
+        @for (b of buttons; track b[1]) { <button ats-workflow-button [number]="b[0]" [label]="b[1]"></button> }
+      </div>
+    }
+    @default {
+      <div class="embed" [style.max-width.px]="embedWidth()">
+        <ats-workflow-stepper [steps]="embedSteps()" />
+      </div>
+    }
+  }
 } @else {
   <h1>Workflow Stepper</h1>
   <p class="lede">
     Angular port of the candidate placement workflow (Figma 589:6990 / 1528:61198). Steps are complete, current or upcoming;
-    the current step can carry a badge. Resize the window or scroll a narrow stepper to see the overflow arrows.
+    a step can carry a count in its indicator. Resize the window or scroll a narrow stepper to see the overflow arrows.
   </p>
 
   @for (ex of examples; track ex.title) {
@@ -22,6 +50,20 @@
     <p class="note">Constrained to 560px. The right arrow appears while there is more to the right; the left arrow appears once scrolled.</p>
     <div class="narrow">
       <ats-workflow-stepper [steps]="overflowSteps" />
+    </div>
+  </section>
+
+  <section>
+    <h2>Subcomponents</h2>
+    <p class="note">Indicator (upcoming, current, complete, with a count, with 99+), workflow item and workflow button (Figma 311:28961).</p>
+    <div class="parts"><ats-workflow-indicator status="upcoming" /><ats-workflow-indicator status="current" /><ats-workflow-indicator status="complete" /><ats-workflow-indicator status="complete" badge="3" /><ats-workflow-indicator status="complete" badge="99+" /></div>
+    <div class="parts parts--col">
+      <ats-workflow-item label="Prescreen" status="current" />
+      <ats-workflow-item label="Prescreen" status="complete" badge="3" />
+      <ats-workflow-item label="Prescreen" status="upcoming" last />
+    </div>
+    <div class="ats-wf-buttons">
+      @for (b of buttons; track b[1]) { <button ats-workflow-button [number]="b[0]" [label]="b[1]"></button> }
     </div>
   </section>
 }

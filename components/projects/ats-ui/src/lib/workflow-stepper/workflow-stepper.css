@@ -11,29 +11,29 @@
      let flex-shrink collapse the card) */
   flex: 0 0 auto; box-sizing: border-box;
   background: var(--workflow-color-background-default);
-  border: var(--workflow-border-width-default) solid var(--workflow-color-border-default);
+  border: var(--workflow-border-width-default) solid var(--card-color-border-default);
   border-radius: var(--workflow-border-radius-default);
-  box-shadow: var(--elevation-2);
+  box-shadow: var(--elevation-1);
   overflow: hidden;
 }
 
-/* the horizontally-scrollable row (scrollbar hidden) */
+/* the horizontally-scrollable row of workflow items (scrollbar hidden) */
 .ats-wf__items {
   flex: 1 1 0; min-width: 0; display: flex; align-items: center;
   gap: var(--workflow-spacing-worflow-items-gap);
-  margin: 0; list-style: none;
   padding: var(--workflow-spacing-worflow-items-padding-vertical) var(--workflow-spacing-worflow-items-padding-horizontal);
   overflow-x: auto; overflow-y: hidden;
   scrollbar-width: none; -ms-overflow-style: none;
 }
 .ats-wf__items::-webkit-scrollbar { display: none; }
 
-.ats-wf-step { flex: 0 0 auto; display: flex; align-items: center; gap: var(--workflow-spacing-worflow-items-gap); }
-.ats-wf-step__dot {
-  flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; box-sizing: border-box;
-  border: var(--workflow-border-width-default) solid var(--workflow-color-border-icon-empty);
-  background: var(--workflow-color-background-icon-empty);
+/* workflow-item (311:28996): indicator, label, connector that fills to the next item. Items share
+   the row; the last has no connector and only takes its own width. */
+.ats-wf-step {
+  position: relative; flex: 1 0 auto; min-width: 0; display: flex; align-items: center;
+  gap: var(--workflow-spacing-worflow-items-gap);
 }
+.ats-wf-step.is-last { flex: 0 0 auto; }
 /* text style body/lg medium (16 / 24, 500) */
 .ats-wf-step__label {
   font-family: var(--typography-body-lg-font-family), 'Inter', sans-serif;
@@ -44,31 +44,74 @@
   color: var(--workflow-color-content-default); white-space: nowrap;
 }
 
-/* fixed 40px connector between steps; active (up to the current step) reads blue */
+/* connector: 1px, fills the space after the label (never under 40px); blue from a complete or current step */
 .ats-wf-step__line {
-  flex: 0 0 40px; width: 40px; height: 1px;
-  background: #d6d6d6; /* no token: prototype's --color-gray-85 never existed, so its #d6d6d6 fallback rendered */
+  flex: 1 1 40px; min-width: 40px; height: 0;
+  border-top: var(--workflow-border-width-default) solid var(--workflow-color-border-default);
 }
-.ats-wf-step__line.is-active { background: var(--color-text-link); }
+.ats-wf-step.is-active .ats-wf-step__line { border-top-color: var(--workflow-color-border-icon-complete); }
 
-/* current step: filled dark indicator with an optional white badge */
-.ats-wf-step.is-current .ats-wf-step__dot {
-  background: var(--color-text-body); border-color: var(--color-text-body);
+/* "current" label above the current step's indicator (workflow-tooltip, meta/sm) */
+.ats-wf-step__current {
+  position: absolute; left: 0; top: -12px;
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight);
+  font-size: var(--typography-meta-small-font-size);
+  line-height: var(--typography-meta-small-line-height);
+  letter-spacing: var(--typography-meta-small-letter-spacing);
+  color: var(--workflow-color-content-workflow-tooltip); white-space: nowrap;
+}
+
+/* indicator (2269:42998): 18px; empty gray ring, current blue ring, complete filled with a check,
+   or a filled pill with a count (meta/default) */
+.ats-wf-indicator {
+  flex: 0 0 auto; box-sizing: border-box; min-width: 18px; height: 18px; border-radius: 999px;
   display: flex; align-items: center; justify-content: center;
+  background: var(--workflow-color-background-icon-empty);
+  border: var(--workflow-border-width-default) solid var(--workflow-color-border-icon-empty);
 }
-.ats-wf-step__badge {
-  font-family: var(--typography-font-family-base), 'Inter', sans-serif;
-  font-weight: var(--typography-font-weight-500);
-  font-size: 11px; /* no token: no 11px font-size in typography/* */
-  line-height: 1;
-  color: var(--color-text-body-knockout);
-}
-
-/* completed steps read filled */
-.ats-wf-step.is-complete .ats-wf-step__dot {
+.ats-wf-indicator--current { border-color: var(--workflow-color-border-icon-complete); }
+.ats-wf-indicator--filled {
   background: var(--workflow-color-background-icon-complete);
   border-color: var(--workflow-color-border-icon-complete);
 }
+.ats-wf-indicator--pill { padding: var(--workflow-spacing-indicator-padding-vertical) 8px; /* no token: 8px pill padding (Figma) */ }
+.ats-wf-indicator__badge {
+  font-family: var(--typography-meta-default-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-default-font-weight);
+  font-size: var(--typography-meta-default-font-size);
+  line-height: var(--typography-meta-default-line-height);
+  letter-spacing: var(--typography-meta-default-letter-spacing);
+  color: var(--workflow-color-content-complete); white-space: nowrap;
+}
+
+/* workflow-button (756:62): count over a label; a row of them sits above the stepper */
+.ats-wf-button {
+  flex: 1 1 0; min-width: 100px; box-sizing: border-box; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center;
+  padding: var(--workflow-spacing-worflow-items-padding-vertical) var(--spacing-padding-sm);
+  background: var(--card-color-background-header);
+  border: var(--workflow-border-width-default) solid var(--workflow-color-border-default);
+  border-radius: var(--workflow-border-radius-default);
+  box-shadow: var(--elevation-2);
+  color: var(--workflow-color-content-default); font-family: inherit; text-align: center;
+}
+.ats-wf-button:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+.ats-wf-button__number {
+  font-family: var(--typography-title-medium-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-title-medium-font-weight);
+  font-size: var(--typography-title-medium-font-size);
+  line-height: var(--typography-title-medium-line-height);
+  letter-spacing: var(--typography-title-medium-letter-spacing);
+}
+.ats-wf-button__label {
+  font-family: var(--typography-meta-small-font-family), 'Inter', sans-serif;
+  font-weight: var(--typography-meta-small-font-weight);
+  font-size: var(--typography-meta-small-font-size);
+  line-height: var(--typography-meta-small-line-height);
+  letter-spacing: var(--typography-meta-small-letter-spacing);
+}
+.ats-wf-buttons { display: flex; gap: var(--spacing-gap-lg); align-items: stretch; }
 
 /* visually hidden status text */
 .ats-wf__sr {

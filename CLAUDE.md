@@ -27,6 +27,14 @@ brought over if rebuilt in Angular, and only when needed. Components are ported
 - `tokens/css/index.css` imports the whole chain; the showcase and the `ats-ui`
   package both use it. CSS var names = Figma variable paths with `/` → `-`.
 
+## Candidate record in prototypes
+Whenever a prototype mentions a **candidate record** (or "the candidate page"), start from the shell
+candidate record, never a hand-built page: the `ats-candidate-record` component
+(`components/projects/ats-ui/src/lib/candidate-record/`, showcase `/candidate-record`, Figma
+`3868:89906`), documented on Patterns → Entity Records. HTML prototypes include its rendered markup
+through `prototypes/_shared/candidate_record.py` (see its docstring and `prototypes/candidate-record/`
+as the starter). Refresh `prototypes/_shared/candidate-record.html` when the component changes.
+
 ## Skills: the repo is the source of truth
 The design system's Claude skills live in `skills/<name>/` (`SKILL.md` plus any `references/`,
 `assets/`), each packaged as `skills/<name>.skill`. Skills in a Claude account are copies.

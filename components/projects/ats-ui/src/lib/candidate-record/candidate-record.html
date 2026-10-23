@@ -1,0 +1,47 @@
+<ats-bowling-alley-shell [nav]="nav()" [lockNav]="lockNav()" [tabs]="tabs">
+  <ats-bowling-alley />
+  <div class="ats-candidate-record__page">
+    <header
+      ats-record-header
+      title="1024 | Tyler Brooks"
+      entity="candidate"
+      [fields]="fields"
+      [tabs]="headerTabs"
+      [social]="['google', 'linkedin', 'location']"
+      [activeTab]="tab()"
+    ></header>
+    <div class="ats-candidate-record__overview">
+      <ats-workflow-stepper [steps]="workflow" />
+      <div class="ats-candidate-record__columns">
+        <div class="ats-candidate-record__column">
+          <ats-card variant="details" iconColor="var(--color-entity-candidate)">
+            <ats-card-detail-row label="Location" value="Boston, MA" />
+            <ats-card-detail-row label="Skills" value="value" />
+            <ats-card-detail-row label="Employee Type" kind="select" value="W2" />
+            <ats-card-detail-row label="Owner" kind="link" value="Chloe Davis" dot="var(--color-entity-candidate)" />
+            <ats-card-detail-row label="Desired Salary" value="$150,000" />
+            <ats-card-detail-row label="Date Added" value="7/21/2026" />
+          </ats-card>
+          <ats-card variant="tasks">
+            <ats-novo-list>
+              @for (t of tasks; track $index) { <ats-novo-list-item-task [title]="t" /> }
+            </ats-novo-list>
+          </ats-card>
+        </div>
+        <div class="ats-candidate-record__column">
+          <ats-card variant="submissions" showFooter iconColor="var(--color-entity-submission)">
+            <ats-novo-list>
+              @for (s of submissions; track $index) { <ats-novo-list-item-job [title]="s" /> }
+            </ats-novo-list>
+          </ats-card>
+          <ats-card variant="notes">
+            <ats-novo-list>
+              <ats-novo-list-item-note date="May 23, 2024" time="12:00 PM" phone="(784) 432 - 5293" [body]="noteBody" />
+              <ats-novo-list-item-note date="May 23, 2024" time="12:00 PM" phone="(784) 432 - 5293" [body]="noteBody" />
+            </ats-novo-list>
+          </ats-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</ats-bowling-alley-shell>

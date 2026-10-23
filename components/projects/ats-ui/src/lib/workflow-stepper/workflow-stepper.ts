@@ -13,6 +13,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { Icon } from '../icon/icon';
+import { WorkflowItem } from './workflow-item';
 
 export type WorkflowStepStatus = 'complete' | 'current' | 'upcoming';
 
@@ -20,7 +21,7 @@ export interface WorkflowStep {
   label: string;
   /** Defaults to `upcoming`. */
   status?: WorkflowStepStatus;
-  /** Short text (e.g. a count) shown in the indicator. Only rendered on the current step. */
+  /** Count shown in the indicator pill (e.g. 3 or 99+), on a complete or current step. */
   badge?: string;
 }
 
@@ -39,19 +40,20 @@ export const PLACEMENT_WORKFLOW_STEPS: readonly WorkflowStep[] = [
  * WorkflowStepper (Figma: workflow, Component Migration 589:6990 / 1528:61198).
  * Port of the prototype repo's `WorkflowStepper.astro`.
  *
- * A rounded card holding a horizontally-scrollable row of steps joined by 40px
- * connectors. The current step shows a filled dark indicator (optionally with a
- * white `badge`); connectors up to and including it read as active. When the row
+ * A rounded card holding a horizontally-scrollable row of workflow items (indicator,
+ * label, connector). Items share the width and the connectors stretch to fill it; the
+ * current step has a blue ring and a "current" label, complete steps a blue check (or a `badge` count);
+ * connectors from a complete or current step read blue. When the row
  * overflows, translucent scroll arrows appear on the overflowing edge(s).
  *
  *   <ats-workflow-stepper [steps]="steps" />
  *   steps = [{ label: 'Prescreen', status: 'current', badge: '3' }, { label: 'Placement' }];
  *
- * Rendered as an ordered list; the current step carries `aria-current="step"`.
+ * Rendered as a list of items; the current step carries `aria-current="step"`.
  */
 @Component({
   selector: 'ats-workflow-stepper',
-  imports: [Icon],
+  imports: [Icon, WorkflowItem],
   templateUrl: './workflow-stepper.html',
   styleUrl: './workflow-stepper.css',
   encapsulation: ViewEncapsulation.None,

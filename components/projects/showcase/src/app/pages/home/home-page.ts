@@ -46,6 +46,7 @@ export class HomePage {
     { path: 'breadcrumb', name: 'Breadcrumb', figma: 'Component Migration: Amplify page navigation and header (breadcrumb 6806:36042, breadcrumb-link 6806:28195)' },
     { path: 'button', name: 'Button', figma: 'Component Migration 68:2694' },
     { path: 'button-with-count', name: 'Button with count', figma: 'Component Migration: Amplify page navigation and header (button-with-count 6816:24357)' },
+    { path: 'candidate-record', name: 'Candidate Record', figma: 'Component Migration candidate-record 3868:89906' },
     { path: 'card', name: 'Card', figma: 'Component Migration 311:29059 (+ subcomponents)' },
     { path: 'check-list', name: 'Check List', figma: 'Component Migration 331:1435' },
     { path: 'checkbox', name: 'Checkbox', figma: 'Component Migration 250:17814' },
