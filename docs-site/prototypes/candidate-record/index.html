@@ -3571,6 +3571,9 @@ a.ats-novo-chip__label:focus { outline: none; }
 /* page content 948px or narrower: the cards stack into one column */
 @container candidate-page (max-width: 948px) {
   .ats-candidate-record__columns { grid-template-columns: minmax(0, 1fr); }
+  /* the header drops the social links so the record name stays on one line */
+  .ats-candidate-record__page .ats-rh__social { display: none; }
+  .ats-candidate-record__page .ats-rh__name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
 
 /* Novo icon set (ats-ui/assets/icons), as icon masks */

@@ -516,6 +516,7 @@
       {t:"Form pages — design decisions", href:"/docs/form-pages-design-decisions.html", d:"Current states, guidelines, analysis, proposed changes, and the new designs."},
       {t:"Amplify tab: scheduled prompts, navigation and chats", href:"/docs/amplify-tab-design-decisions.html", s:"In progress", d:"Scheduled prompts (AMP-922), the new Amplify header and menu, the Chats panel, and an agent-driven homepage concept."},
       {t:"Amplify chat and the candidate preview", href:"/docs/amplify-preview-design-decisions.html", s:"Complete", d:"The preview slideout covers the docked chat. Three options compared; Option 2 (a popover next to the row) is recommended."},
+      {t:"Docked chat: functionality parity", href:"/docs/amplify-docked-chat-parity-design-decisions.html", s:"In progress", d:"What global chat does that docked chat doesn’t yet, starting with chat history: how it opens and what it shows."},
       {t:"Ace", href:"/docs/ace-design-decisions.html", s:"In progress", d:"An agent-driven Amplify Home: to-dos, suggestions, need to know and today’s meetings."}
     ]},
     {label:"Demos", href:"/docs/demos/index.html",

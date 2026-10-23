@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docked chat history prototype</title>
+<style>
+/*TOKENS*/
+/*COMPONENTS*/
+/*ICONS*/
+
+/* ===== Prototype layer. Tokens only. ===== */
+html, body { margin: 0; height: 100%; }
+body { font-family: var(--typography-font-family-base), 'Inter', -apple-system, sans-serif; color: var(--color-text-body);
+  font-size: var(--typography-body-default-font-size); line-height: var(--typography-body-default-line-height); -webkit-font-smoothing: antialiased; background: var(--color-background-subtle); }
+button { font-family: inherit; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ats-icon.amp-glyph { background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%); }
+:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+/* The search input shows focus on its pill; no second ring on the inner field */
+.ats-search-input__input:focus, .ats-search-input__input:focus-visible { outline: none; box-shadow: none; }
+/* The chat input has no focus state defined yet: no ring on its text area */
+.ats-amplify-chat-text-area:focus, .ats-amplify-chat-text-area:focus-visible { outline: none; box-shadow: none; }
+
+.ats-bowling-alley-shell__canvas { overflow: hidden; }
+.ws { display: flex; height: 100%; min-height: 0; position: relative; isolation: isolate; }
+.page-scroll { flex: 1 1 auto; min-width: 0; height: 100%; overflow: auto; scrollbar-width: none; } /* still scrolls; no bar between the page and the chat */
+.page-scroll::-webkit-scrollbar { display: none; }
+/* Job record: stand-in page (no shell job record yet) */
+.page { min-height: 100%; background: var(--color-background-subtle); }
+.page__head { display: flex; align-items: center; gap: var(--spacing-16); padding: var(--spacing-24) var(--spacing-32); background: var(--color-background-default); border-bottom: 1px solid var(--color-border-subtle); }
+.page__head h1 { margin: 0; flex: 1; color: var(--color-text-headline); font-size: var(--typography-title-default-font-size); line-height: var(--typography-title-default-line-height); font-weight: var(--typography-title-default-font-weight); }
+.page__body { padding: var(--spacing-24) var(--spacing-32); display: grid; gap: var(--spacing-16); }
+.page__card { background: var(--color-background-default); border: 1px solid var(--color-border-subtle); border-radius: var(--border-radius-md); padding: var(--spacing-16) var(--spacing-24); }
+.page__card h3 { margin: 0 0 var(--spacing-8); color: var(--color-text-headline); font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height); font-weight: var(--typography-title-small-font-weight); }
+.page__card p { margin: 0; color: var(--color-text-secondary); }
+
+/* Mark hugs the 28px glyph: no extra space to its right */
+.ats-amplify-chat-docked__mark { width: auto; }
+/* ===== Docked header: chat name + chevron, history, pop out, close ===== */
+.ats-amplify-chat-docked__header { position: relative; }
+.dh__name { display: flex; align-items: center; gap: var(--spacing-4); min-width: 0; flex: 1 1 auto; border: 0; background: transparent; cursor: pointer; padding: var(--spacing-4) var(--spacing-8); margin-left: calc(var(--spacing-8) * -1); border-radius: var(--border-radius-xsm); color: inherit; text-align: left; }
+.dh__name:hover, .dh__name[aria-expanded="true"] { background: var(--color-background-hover); }
+.dh__name h2 { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font: inherit; color: var(--color-text-headline); }
+.dh__name .ats-icon { flex: 0 0 auto; background-color: var(--color-icon-subtle); }
+.dh__rec { display: block; color: var(--color-text-subtle); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); font-weight: var(--typography-meta-default-font-weight); }
+.dh__stack { min-width: 0; display: flex; flex-direction: column; }
+.ats-btn.is-on { background: var(--color-background-hover); }
+
+/* ===== History dropdowns: general/level 4, 4px below the button that opened them (placed in script), over the header ===== */
+.hd { position: absolute; z-index: 30; left: var(--spacing-8); right: var(--spacing-8); top: 0; display: flex; flex-direction: column;
+  background: var(--color-background-default); border: 1px solid var(--color-border-subtle); border-radius: var(--border-radius-sm); overflow: hidden;
+  box-shadow: var(--elevation-4); backdrop-filter: blur(var(--elevation-4-blur)); }
+.hd--record { right: auto; width: 340px; max-width: calc(100% - 16px); }
+.hd--end { left: auto; }
+/* Full history: the built Chats panel body, at the dropdown's width and height */
+.hd--full { background: var(--amplify-chat-chats-panel-color-background, var(--color-background-muted)); }
+.hd--full .ats-amplify-chat-chats-panel__panel { width: auto; height: auto; flex: 1 1 auto; min-height: 0; }
+.guide__label { margin: 0; color: var(--color-text-headline); font-weight: var(--typography-body-default-font-weight-medium); }
+.hd__bar { padding: var(--spacing-8); border-bottom: 1px solid var(--color-border-subtle); display: flex; flex-direction: column; gap: var(--spacing-8); }
+.hd__list { flex: 1 1 auto; min-height: 0; overflow: auto; padding: var(--spacing-4) 0; } /* scrolls inside the dropdown so the footer is never cut off */
+.hd__bar, .hd__foot { flex: 0 0 auto; }
+.hd__foot { border-top: 1px solid var(--color-border-subtle); padding: var(--spacing-4); }
+.hd__label { margin: 0; padding: var(--spacing-12, 12px) var(--spacing-16) var(--spacing-4); color: var(--color-text-secondary); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); font-weight: var(--typography-meta-default-font-weight); text-transform: none; }
+.hd__label--rec { display: flex; align-items: center; gap: var(--spacing-8); }
+.hd__cards { list-style: none; margin: 0; padding: 0 var(--spacing-8); display: flex; flex-direction: column; gap: var(--spacing-8); }
+.hd__empty { padding: var(--spacing-24) var(--spacing-16); text-align: center; color: var(--color-text-secondary); }
+/* simple row: title + time, one line */
+.hr { display: flex; align-items: center; gap: var(--spacing-8); width: 100%; box-sizing: border-box; padding: var(--spacing-8) var(--spacing-16); border: 0; background: transparent; cursor: pointer; text-align: left; color: var(--color-text-body); }
+.hr:hover { background: var(--color-background-hover); }
+.hr[aria-current="true"] { background: var(--color-background-hover); font-weight: var(--typography-body-default-font-weight-medium); }
+.hr__t { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hr__ago { flex: 0 0 auto; color: var(--color-text-subtle); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); font-weight: var(--typography-meta-default-font-weight); }
+.hr .ats-icon { flex: 0 0 auto; }
+.hr--link { color: var(--color-text-link); font-weight: var(--typography-body-default-font-weight-medium); }
+
+/* prompt-card entity color is set per card by the component; the prototype cards show no entity */
+.ats-amplify-chat-prompt-card { --ats-prompt-card-entity: var(--color-icon-subtle); }
+/* ===== Docked prompt library: one column, sheet over the conversation ===== */
+.ats-amplify-chat-docked__main { position: relative; }
+.dpl { position: absolute; inset: var(--spacing-8); z-index: 20; width: auto; box-sizing: border-box; }
+.dpl .ats-amplify-chat-prompt-library__grid { grid-template-columns: 1fr; grid-auto-rows: auto; flex: 1 1 auto; min-height: 0; }
+.dpl .ats-amplify-chat-prompt-library__tab-bar { flex-wrap: wrap; padding-top: 0; }
+.dpl__bar { display: flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-8) var(--spacing-16); border-bottom: 1px solid var(--color-border-subtle); }
+.dpl__bar .ats-search-input { flex: 1 1 auto; }
+
+/* ===== Starting point in docked: greeting + contextual starters ===== */
+.starters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-8); }
+.starter { display: flex; align-items: flex-start; gap: var(--spacing-8); width: 100%; box-sizing: border-box; text-align: left; cursor: pointer; padding: var(--spacing-8) var(--spacing-16);
+  background: var(--color-background-default); border: 1px solid var(--color-border-subtle); border-radius: var(--border-radius-sm); color: var(--color-text-body); }
+.starter:hover { background: var(--color-background-hover); }
+.starter b { display: block; font-weight: var(--typography-body-default-font-weight-medium); color: var(--color-text-headline); }
+.starter span { color: var(--color-text-secondary); font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); }
+
+.toast { position: fixed; left: 50%; bottom: var(--spacing-24); transform: translateX(-50%); z-index: 100; padding: var(--spacing-8) var(--spacing-16); background: var(--color-background-default);
+  border: 1px solid var(--color-border-default); border-radius: var(--border-radius-sm); box-shadow: var(--elevation-4); display: flex; align-items: center; gap: var(--spacing-8); }
+.guide { position: fixed; left: var(--spacing-16); bottom: var(--spacing-16); z-index: 90; width: 280px; background: var(--color-background-default); border: 1px solid var(--color-border-default); border-radius: var(--border-radius-sm); box-shadow: var(--elevation-4); padding: var(--spacing-12, 12px) var(--spacing-16); display: flex; flex-direction: column; gap: var(--spacing-8); }
+.guide p { margin: 0; color: var(--color-text-secondary); font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); }
+.guide__seg { display: flex; gap: var(--spacing-8); flex-wrap: wrap; }
+.embed .guide { display: none; }
+</style>
+</head>
+<body>
+<!-- icons: data-i="amplify" data-i="chevron-down" data-i="clock" data-i="external-open" data-i="columns" data-i="close" data-i="search" data-i="check" data-i="add-thin" data-i="arrow-up" data-i="tools" data-i="book" data-i="copy" data-i="thumbs-up-line" data-i="thumbs-down-line" data-i="job" data-i="candidate" data-i="company" data-i="contact" data-i="circle" data-i="clock-arrow" data-i="inactive" data-i="caution" data-i="comment-outline" data-i="next" data-i="category-tags" data-i="placement" data-i="submission" data-i="kebab-menu" data-i="search-menu" data-i="outbound-email" data-i="appointment" data-i="info" -->
+<!-- Shell candidate record (prototypes/_shared/candidate_record.py); the script moves it and the docked chat into one row in the canvas -->
+<!--CANDIDATE_RECORD-->
+<aside class="ats-amplify-chat-docked is-open" id="chat" data-mode="docked" role="complementary" aria-label="Amplify chat"></aside>
+<aside class="guide" id="guide" aria-label="Prototype guide"></aside>
+<script>
+/*SCRIPT*/
+</script>
+</body>
+</html>

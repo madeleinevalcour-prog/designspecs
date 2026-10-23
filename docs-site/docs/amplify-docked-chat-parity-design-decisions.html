@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docked chat: functionality parity — design decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/docs.css">
+<script src="../assets/docs.js" defer></script>
+</head>
+<body>
+<doc-page eyebrow="Design decision" status="In progress" title="Docked chat: functionality parity" intro="Docked chat should do everything global chat does. This page lists what doesn’t work in docked chat today and works out the patterns for each, starting with chat history." meta="Amplify · October 2026 · Prototype" rail>
+
+  <doc-section id="overview" label="Overview" desc="Goal, constraints and gaps">
+    <h3>Goal</h3>
+    <ul>
+      <li>Give docked chat all the functionality of global (full-page) chat: starting point, prompt library, chat history and the rest.</li>
+      <li>Design for the future state, where one chat follows the recruiter around the ATS and moves between docked and full page without starting over (<a href="amplify/amplify-chat-interface-patterns.html#surfaces">Surfaces and behavior</a>, principles 1 and 5).</li>
+    </ul>
+
+    <h3>Current constraints</h3>
+    <ul>
+      <li>Docked chat doesn’t follow the recruiter yet. A chat is opened on a record and stays on that record.</li>
+      <li>The recruiter can add other records as context, but the chat still belongs to the record it was opened on.</li>
+      <li>Chats can be reached from chat history on any record. Opening a chat that belongs to another record takes the recruiter to that record with the chat open. For example, opening a job’s chat from chat history on a candidate goes to the job record.</li>
+    </ul>
+
+    <h3>What doesn’t work in docked chat today</h3>
+    <table class="tbl">
+      <thead><tr><th>Pattern</th><th>Global chat</th><th>Docked chat today</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#chat-history">Chat history</a></td><td>Chats panel from the Chats button in the Amplify header</td><td>No way to reach past chats</td><td><span class="status-pill status-pill--sm">Decision needed</span></td></tr>
+        <tr><td><a href="#chat-name">Chat name in the header</a></td><td>Breadcrumb: “Amplify / {chat title}”</td><td>Header always reads “Amplify”</td><td><span class="status-pill status-pill--sm">In progress</span></td></tr>
+        <tr><td><a href="#new-chat">New chat</a></td><td>New Chat in the Chats panel and the Amplify menu</td><td>No way to start a fresh chat</td><td><span class="status-pill status-pill--sm">In progress</span></td></tr>
+        <tr><td><a href="#starting-point">Starting point</a></td><td>Greeting headline and input in the middle of the page, with starter cards</td><td>Greeting message only, no starters</td><td><span class="status-pill status-pill--sm">In progress</span></td></tr>
+        <tr><td><a href="#prompt-library">Prompt library</a></td><td>850px, two-column library from Prompt Library in the input</td><td>Not designed. The button does nothing</td><td><span class="status-pill status-pill--sm">In progress</span></td></tr>
+        <tr><td><a href="#scheduled">Scheduled chats and unread runs</a></td><td>Scheduled group in the Chats panel, unread count on the Chats button</td><td>Not shown</td><td><span class="status-pill status-pill--sm">Decision needed</span></td></tr>
+        <tr><td><a href="#already-shared">Input, clarifying questions, replies</a></td><td>Shared components</td><td>Docked sizes exist</td><td><span class="status-pill status-pill--sm status-pill--success">Done</span></td></tr>
+      </tbody>
+    </table>
+    <p><a href="../prototypes/amplify-docked-history/index.html" target="_blank" rel="noopener">Open the full prototype ↗</a>. Use the guide panel to switch the history options. Data is fictional and resets on reload.</p>
+  </doc-section>
+
+  <doc-section id="chat-history" label="Chat history" badge="Decision needed" desc="How the recruiter gets back to past chats">
+    <p>Two decisions: how the recruiter opens chat history from the docked header, and what it shows. Both open as a dropdown over the chat, 4px below the button, at <span class="chip">general/level 4</span>. The header shows the chat’s name, or “New chat” before the first message.</p>
+
+    <h3>Opening chat history</h3>
+    <table class="tbl">
+      <thead><tr><th>Option</th><th>Control</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+      <tbody>
+        <tr><td><b>A · Chat name dropdown</b></td><td>A chevron icon button next to the chat name</td><td>Ties the list to the chat it replaces. No extra header action</td><td>A chevron next to a title reads as “rename” or “more options” as often as “history” (H6). Easy to miss</td></tr>
+        <tr><td><b>B · History button</b></td><td>A clock icon button in the header actions, before Pop out and Close</td><td>A familiar history control (H4). Sits with the other chat actions, so it’s found where actions are</td><td>One more icon in the header</td></tr>
+      </tbody>
+    </table>
+    <doc-tabs label="Opening chat history">
+      <doc-tab label="A · Chat name dropdown">
+        <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=name&amp;type=record-link&amp;menu=1" full="../prototypes/amplify-docked-history/index.html" caption="Option A: chevron next to the chat name" viewport="1440" height="820"></doc-prototype>
+      </doc-tab>
+      <doc-tab label="B · History button">
+        <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=clock&amp;type=record-link&amp;menu=1" full="../prototypes/amplify-docked-history/index.html" caption="Option B: clock button in the header actions" viewport="1440" height="820"></doc-prototype>
+      </doc-tab>
+    </doc-tabs>
+    <doc-recommendation status="pending" heading="Option B · History button">
+      <ul>
+        <li>It’s clearer. A clock icon is a recognized history control, so recruiters don’t have to guess what it opens (H6, recognition over recall; H4, consistency and standards).</li>
+        <li>It keeps the chat name as a plain title, so the header reads as one thing: which chat this is (Rams 4, understandable).</li>
+      </ul>
+    </doc-recommendation>
+
+    <h3>What chat history shows</h3>
+    <table class="tbl">
+      <thead><tr><th>Option</th><th>What it shows</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+      <tbody>
+        <tr><td><b>1 · This record</b></td><td>A small dropdown: search, then this record’s chats as one-line rows, most recent first</td><td>Only what’s relevant here. Light and fast to scan</td><td>No way to reach chats from other records without leaving</td></tr>
+        <tr><td><b>2 · This record, plus full history</b></td><td>Option 1, with a “Full chat history” link at the bottom that opens option 3</td><td>Relevant first, everything one click away</td><td>Two levels to learn</td></tr>
+        <tr><td><b>3 · Full history</b></td><td>The Chats panel in a dropdown, without New Chat, with “On this record” first, then Scheduled and the date groups</td><td>Same list as global chat (H4). Everything in one place</td><td>Heavier. This record’s chats compete with every other chat</td></tr>
+      </tbody>
+    </table>
+    <doc-tabs label="What chat history shows">
+      <doc-tab label="1 · This record">
+        <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=clock&amp;type=record&amp;menu=1" full="../prototypes/amplify-docked-history/index.html" caption="Option 1: this record’s chats" viewport="1440" height="820"></doc-prototype>
+      </doc-tab>
+      <doc-tab label="2 · This record, plus full history">
+        <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=clock&amp;type=record-link&amp;menu=1" full="../prototypes/amplify-docked-history/index.html" caption="Option 2: this record’s chats, with a link to full history" viewport="1440" height="820"></doc-prototype>
+      </doc-tab>
+      <doc-tab label="3 · Full history">
+        <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=clock&amp;type=full&amp;menu=1" full="../prototypes/amplify-docked-history/index.html" caption="Option 3: full chat history, “On this record” first" viewport="1440" height="820"></doc-prototype>
+      </doc-tab>
+    </doc-tabs>
+    <doc-recommendation status="pending" heading="Option 2 · This record, plus full history">
+      <ul>
+        <li>It surfaces what’s relevant: the chats on the record the recruiter is working on (Rams 2, useful; H8, aesthetic and minimalist design).</li>
+        <li>It keeps the UI simple: one-line rows in a small dropdown, not the full card list (Rams 10, as little design as possible).</li>
+        <li>Full chat history is one click away when they need it, and it’s the same list as global chat (H7, flexibility and efficiency; H4, consistency).</li>
+      </ul>
+    </doc-recommendation>
+
+    <h3>Behavior</h3>
+    <ul>
+      <li>Opening a chat from this record replaces the open chat in the panel.</li>
+      <li>Opening a chat from another record takes the recruiter to that record with the chat open.</li>
+      <li>Search filters as you type: chat titles, descriptions and record names.</li>
+      <li>Escape closes the dropdown and returns focus to the button that opened it. A click outside also closes it.</li>
+    </ul>
+    <doc-callout type="note" heading="To confirm.">How chats with no record (for example ones started on the Amplify tab) open from docked chat. The prototype opens them in place.</doc-callout>
+  </doc-section>
+
+  <doc-section id="chat-name" label="Chat name in the header" badge="In progress" desc="Which chat is open">
+    <ul>
+      <li>The docked header title is the chat’s name. Before the first message it reads “New chat”.</li>
+      <li>The first message names the chat. The title then updates in the header and in chat history.</li>
+      <li>Same title style as today’s docked header (<span class="chip">title/medium</span>), after the Amplify mark. Global chat shows the same name in its breadcrumb, so the chat reads the same on both surfaces (H4).</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=clock&amp;chat=c1" full="../prototypes/amplify-docked-history/index.html" caption="An open chat: its name in the header" viewport="1440" height="820"></doc-prototype>
+    <doc-callout type="note" heading="To confirm.">How chat names are generated, and whether the recruiter can rename a chat.</doc-callout>
+  </doc-section>
+
+  <doc-section id="new-chat" label="New chat" badge="In progress" desc="Starting over on the same record">
+    <ul>
+      <li>A New chat icon button (add) sits first in the header actions. It opens the starting point on the current record.</li>
+      <li>It stays out of the history dropdowns, so they only list chats (Rams 10).</li>
+    </ul>
+    <doc-callout type="note" heading="To confirm.">Whether an empty new chat is saved to chat history before the first message. The prototype only saves it once a message is sent.</doc-callout>
+  </doc-section>
+
+  <doc-section id="starting-point" label="Starting point" badge="In progress" desc="An empty docked chat">
+    <ul>
+      <li>Keeps the docked rule: the greeting is an Amplify message in the chat column and the input stays at the bottom (<a href="amplify/components/amplify-chat-docked.html#empty-state">Docked chat, empty state</a>).</li>
+      <li>Adds three starters under the greeting, specific to the open record, so the recruiter isn’t left with a blank input (AI wayfinding: specific starting points, not “ask anything”).</li>
+      <li>Global chat shows four starter cards at its starting point. Docked shows three compact rows, to fit the 420px panel.</li>
+    </ul>
+    <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=clock" full="../prototypes/amplify-docked-history/index.html" caption="New chat on a candidate: greeting and three starters" viewport="1440" height="820"></doc-prototype>
+    <doc-callout type="note" heading="To confirm.">The starter prompts in the prototype are placeholders. Who writes them per record type, and whether they come from the prompt library.</doc-callout>
+  </doc-section>
+
+  <doc-section id="prompt-library" label="Prompt library" badge="In progress" desc="Prompts in a 420px panel">
+    <ul>
+      <li>Opens from Prompt Library in the input, as in global chat.</li>
+      <li>Same tabs (Favorites, My Prompts, All Prompts), search, category filter and prompt cards as the global library. One column instead of two, as a sheet over the conversation.</li>
+      <li>Choosing a prompt sends it, the same as in global chat.</li>
+    </ul>
+    <doc-callout type="note" heading="Design to be adjusted.">The prompt library design still needs to be adjusted for record chat. The prototype shows the global library in one column as a starting point.</doc-callout>
+    <doc-prototype src="../prototypes/amplify-docked-history/index.html?embed=1&amp;trigger=clock&amp;lib=1" full="../prototypes/amplify-docked-history/index.html" caption="Prompt library in docked chat: one column over the conversation" viewport="1440" height="820"></doc-prototype>
+    <doc-callout type="note" heading="To confirm.">How a prompt is inserted (sent straight away or placed in the input to edit) is still open for global chat too (<a href="amplify/components/amplify-chat-prompt-library.html">Prompt library</a>).</doc-callout>
+  </doc-section>
+
+  <doc-section id="scheduled" label="Scheduled chats and unread runs" badge="Decision needed" desc="Scheduled prompts from docked chat">
+    <ul>
+      <li>Full chat history (option 3, or option 2’s link) shows the Scheduled group, as the Chats panel does.</li>
+      <li>Not decided: whether unread scheduled runs show anywhere in the docked header, as the count on the Chats button does in global chat.</li>
+      <li>Not decided: whether a scheduled prompt can be set up from docked chat.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="already-shared" label="Input, clarifying questions and replies" badge="Done" badge-tone="success" desc="Already shared with global chat">
+    <ul>
+      <li><a href="amplify/components/amplify-chat-input.html">Chat input</a> and <a href="amplify/components/amplify-chat-clarifying-questions.html">clarifying questions</a> have a <span class="chip">docked</span> size. Docked input buttons are always icon-only.</li>
+      <li>Replies, user messages and the conversation layout are the same components on both surfaces (<a href="amplify/components/amplify-chat-docked.html#conversation">Conversation</a>).</li>
+      <li>Pop out and Dock to side switch presentation without losing the conversation.</li>
+    </ul>
+  </doc-section>
+
+  <doc-section id="related" label="Related" desc="Pages and prototypes">
+    <ul>
+      <li><a href="amplify/components/amplify-chat-docked.html">Docked chat</a>, <a href="amplify/components/amplify-chat-full-page.html">Full-page chat</a>, <a href="amplify/components/amplify-chat-chats-panel.html">Chats panel</a>, <a href="amplify/components/amplify-chat-prompt-library.html">Prompt library</a>.</li>
+      <li><a href="amplify-tab-design-decisions.html">Amplify tab: scheduled prompts, navigation and chats</a>.</li>
+    </ul>
+  </doc-section>
+
+
+
+</doc-page>
+</body>
+</html>
