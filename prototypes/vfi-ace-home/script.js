@@ -42,19 +42,17 @@ function vfiCoverage() {
   const src = `<div class="ats-amplify-chat-sources-row cov__src"><div class="ats-amplify-chat-sources-row__summary"><span class="ats-amplify-chat-sources-row__summary-text">Based on 12,480 candidates and the lead details · Updated today</span>
     <button type="button" class="ats-icon-button-no-container ats-amplify-chat-sources-row__toggle" aria-expanded="false" aria-controls="vfi-src" aria-label="Show sources" data-toggle="vfi-src">${ic('chevron-down', 12)}</button></div>
     <ul class="ats-amplify-chat-sources-row__sources" id="vfi-src" hidden aria-label="Sources"><li><a class="ats-amplify-chat-sources-row__link" href="#">${ic('circle', 10, 'var(--color-entity-company)')}Nexus Dynamics</a></li><li><a class="ats-amplify-chat-sources-row__link" href="#">${ic('circle', 10, 'var(--color-entity-lead)')}Project Manager lead</a></li></ul></div>`;
-  const next = `<div class="ats-card sched-card next-card">
-    <div class="ats-card__header"><div class="ats-card__title">${ic('amplify', 16, '', 'amp-glyph')}<p class="ats-card__title-text">Suggested next step</p></div></div>
-    <div class="next-card__body"><span class="t-strong">Create a tearsheet from the 41 matches</span>
-      <span class="t-sm t-sec">Project Manager, Nexus Dynamics. Use it to check availability with the whole group.</span></div>
-    <div class="sched-card__foot">${btn('Strong Matches Only (12)', { theme: 'secondary' })}${btn('Create Tearsheet', { theme: 'primary', icon: 'add-thin' })}</div></div>`;
+  const next = `<div class="ats-card sched-card next-card"><div class="next-card__row">
+    <div class="next-card__body">${ic('amplify', 16, '', 'amp-glyph')}<div class="next-card__text"><span class="t-strong">Create a tearsheet from the 41 matches</span>
+      <span class="t-sm t-sec">Check availability with the whole group.</span></div></div>
+    <div class="next-card__acts">${btn('Strong Matches Only (12)', { theme: 'secondary' })}${btn('Create Tearsheet', { theme: 'primary', icon: 'add-thin' })}</div></div></div>`;
   return userTurn('Do I have enough candidates to support the Project Manager lead at Nexus Dynamics?') +
     block(para('<b>Yes. Your database can support this role.</b> 41 candidates meet the core requirements, and 12 of them are strong matches.') +
       para('The lead needs a Project Manager with B2B SaaS delivery experience, based in the Boston area or open to hybrid. Coverage is strong on experience and thin on certification and availability.') +
       head('Coverage Across The 41') + table +
       head('Thin Areas') +
-      para('Only 9 hold a PMP or Prince2 certification, and only 8 could start within 30 days. If the client requires either, the shortlist will be short.') + src,
-      { actions: true }) +
-    block(para('I can save the 41 to a tearsheet so you can check availability with all of them at once.') + next, { actions: false });
+      para('Only 9 hold a PMP or Prince2 certification, and only 8 could start within 30 days. If the client requires either, the shortlist will be short.') + src + next,
+      { actions: true });
 }
 
 // Chat history. group: Today | Yesterday | Previous 7 days | Older. sched = scheduled id.

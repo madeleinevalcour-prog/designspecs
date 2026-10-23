@@ -228,8 +228,12 @@ input.fld[type="text"] { width: 100%; }
 .cov__head { color: var(--color-text-subtle); font-size: var(--typography-body-sm-font-size); background: var(--color-background-subtle, #f6f8f9); }
 .cov__n { text-align: right; font-variant-numeric: tabular-nums; }
 .cov__src { margin-top: var(--spacing-4); }
-.next-card { max-width: 640px; }
-.next-card__body { padding: var(--spacing-12) var(--spacing-16); display: flex; flex-direction: column; gap: var(--spacing-4); }
+.ats-amplify-chat-chat-block__body > .next-card { max-width: none; }
+.next-card { max-width: 100%; margin-top: var(--spacing-8); }
+.next-card__row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-16); padding: var(--spacing-12) var(--spacing-16); }
+.next-card__acts { display: flex; gap: var(--spacing-8); flex: 0 0 auto; }
+.next-card__text { display: flex; flex-direction: column; }
+.next-card__body { display: flex; align-items: center; gap: var(--spacing-8); min-width: 0; }
 .sched-card__foot { display: flex; justify-content: flex-end; gap: var(--spacing-8); padding: var(--spacing-12) var(--spacing-16); border-top: 1px solid var(--color-border-subtle); }
 .sched-done { display: flex; align-items: center; gap: var(--spacing-8); flex-wrap: wrap; }
 
