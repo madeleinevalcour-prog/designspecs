@@ -1,7 +1,4 @@
-:host { display: block; padding: 32px 40px 80px; }
-h1 { font-size: 24px; margin: 0 0 4px; }
-p.lede { color: #5d7798; margin: 0 0 24px; font-size: 14px; max-width: 80ch; }
-.frame { position: relative; border: 1px solid #e3e8ef; border-radius: 12px; overflow: hidden; background: #fff; }
+/* The page is the candidate record itself: it fills the window at any size and scrolls inside it. */
+:host { display: block; }
+.frame { position: relative; overflow: hidden; background: #fff; }
 .frame > ats-candidate-record { height: 100%; }
-:host:has(> .frame--embed) { padding: 0; }
-.frame--embed { border: 0; border-radius: 0; }

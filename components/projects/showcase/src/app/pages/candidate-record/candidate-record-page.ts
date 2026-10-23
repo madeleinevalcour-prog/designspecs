@@ -7,7 +7,7 @@ import { BowlingAlleyNavState, CandidateRecord } from 'ats-ui';
  *
  * Embed mode: pass any param, e.g. /examples/candidate-record?embed=1&nav=collapsed&height=720
  * Params: embed=1 (frame without the page chrome), nav = collapsed | hover | open (default open),
- *         lock=true (freeze the nav), tab (active record header tab index), height (px; default 720).
+ *         lock=true (freeze the nav), tab (active record header tab index), height (px; default: fills the window).
  */
 @Component({
   imports: [CandidateRecord],
@@ -26,5 +26,6 @@ export class CandidateRecordPage {
   protected readonly isEmbed = computed(() => this.embed() != null);
   protected readonly embedNav = computed(() => this.nav() ?? 'open');
   protected readonly embedTab = computed(() => (this.tab() == null ? undefined : Number(this.tab())));
-  protected readonly embedHeight = computed(() => Number(this.height()) || 720);
+  /** Fills the window (iframe) unless a height is given. */
+  protected readonly embedHeight = computed(() => (Number(this.height()) ? `${Number(this.height())}px` : '100dvh'));
 }
