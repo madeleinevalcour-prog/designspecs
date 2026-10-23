@@ -52,12 +52,13 @@
   </doc-section>
 
   <doc-section id="chats-panel" label="Chats panel" desc="The slideout and its groups">
-    <p>A right-hand slideout at the docked-chat width (420), on <span class="chip">amplify-chat/chats-panel/color/background</span> with <span class="chip">general/level 3 - right</span>. The header is the docked chat’s header (novo-header, slideout) with the title “Chats”, then New Chat and Close in the actions; New Chat takes the place of the pop-out action.</p>
+    <p>A right-hand slideout at the docked-chat width (420), on <span class="chip">amplify-chat/chats-panel/color/background</span> with <span class="chip">general/level 3 - right</span>. The header is the docked chat’s header (novo-header, slideout) with the title “Chats”, then New Chat and Close in the actions; New Chat takes the place of the pop-out action. The header is 72 tall with its content centered, the same height as the Amplify header, so the two line up when the panel is open.</p>
     <doc-example src="amplify-chat-chats?component=chats-panel&amp;current=c4" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6835-25928" caption="state=default, with the open chat selected" height="800"></doc-example>
     <doc-example src="amplify-chat-chats?component=chats-panel&amp;current=c4&amp;scrolled=true" figma="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=6859-26746" caption="state=scrolled: cards under the toolbar, background color/background/scroll" height="800"></doc-example>
     <table class="tbl">
       <thead><tr><th>Part</th><th>What it holds</th></tr></thead>
       <tbody>
+        <tr><td>Header</td><td>72 tall (fixed), content centered vertically. Lines up with the Amplify header (novo-header-amplify)</td></tr>
         <tr><td>Header actions</td><td>New Chat (Button secondary, small, add-thin) and Close (Button icon, small)</td></tr>
         <tr><td>Toolbar</td><td>Search (search-input, “Search chats”). Padding 16 / 24 / 8. Transparent at the top of the list; when cards scroll under it, the background changes to <span class="chip">amplify-chat/chats-panel/color/toolbar/background-scrolled</span></td></tr>
         <tr><td>Scheduled</td><td>Label and View All (Button dialogue, small). Up to 3 scheduled chats; View All opens the rest</td></tr>
@@ -93,11 +94,11 @@
         <tr><td>New Chat</td><td>Opens a new chat with focus in the input</td></tr>
         <tr><td>View All</td><td>Opens the Scheduled page</td></tr>
         <tr><td>Scroll the list</td><td>The toolbar’s background changes to <span class="chip">color/background/scroll</span> while cards are under it, and goes back to transparent at the top</td></tr>
-        <tr><td>Window narrower than 1100px</td><td>The panel overlays the page instead of pushing it</td></tr>
+        <tr><td>Window narrower than 1100px</td><td>The panel overlays the page instead of pushing it. The page keeps its width underneath; the panel’s <span class="chip">general/level 3 - right</span> shadow separates the two. <a href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=7069-23471" target="_blank" rel="noopener">Open in Figma ↗</a></td></tr>
       </tbody>
     </table>
     <ul>
-      <li>Wide windows: the page contracts beside the panel, so the open chat stays visible next to the history.</li>
+      <li>Wide windows: the page contracts beside the panel, so the open chat stays visible next to the history. <a href="https://www.figma.com/design/QxXJfpYajGitTbThkkQCXm/Component-Migration?node-id=7069-22473" target="_blank" rel="noopener">Open in Figma ↗</a></li>
     </ul>
   </doc-section>
 
@@ -169,13 +170,12 @@
   <doc-section id="related" label="Related" desc="Other components">
     <ul>
       <li><a href="amplify-chat-prompt-library.html">Prompt library</a>: the prompt card this card shares its container with.</li>
-      <li><a href="amplify-chat-docked.html">Docked chat</a>: the same width and header.</li>
+      <li><a href="amplify-chat-docked.html">Docked chat</a>: the same width; the Chats panel header is taller (72) to line up with the Amplify header.</li>
       <li><a href="../../amplify-tab-design-decisions.html">Amplify tab design decisions</a>: where the Chats panel was decided.</li>
     </ul>
   </doc-section>
 
   <doc-section id="to-confirm" label="To confirm" desc="Open questions">
-    <doc-callout type="note" heading="Timestamp contrast.">The last activity uses the item-header caption (<span class="chip">list-item/color/content/disabled</span>), as in other list items. Disabled text may not meet 4.5:1 for information the recruiter needs. Consider <span class="chip">color/text/subtle</span>.</doc-callout>
     <doc-callout type="note" heading="Changes from the prototype.">Card order follows the prompt card (header, item-data, description) instead of the prototype’s title, description, footer. The unread dot before the title is dropped; the “N new” chip carries it. Empty groups, including Scheduled, are hidden while searching. The Scheduled count and the “N more in Scheduled” link are removed; View All covers both. New Chat moved into the header. Width is 420 (prototype 320).</doc-callout>
     <doc-callout type="note" heading="Chats button.">The Chats toggle and its badge are built separately and will be linked here. The example above uses a stand-in in the showcase.</doc-callout>
   </doc-section>

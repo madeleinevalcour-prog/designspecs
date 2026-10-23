@@ -4200,7 +4200,7 @@ a.ats-breadcrumb-link, button.ats-breadcrumb-link { cursor: pointer; }
    (73: 16 + 40 + 16 + 1px border), so the two line up when the panel is open. */
 .ats-amplify-chat-chats-panel__header {
   display: flex; align-items: center; flex: 0 0 auto; box-sizing: border-box; position: relative; z-index: 1;
-  min-height: 73px; /* no token: the Amplify header's height */
+  min-height: 73px; /* no token: Figma 72 tall, content centered, to line up with the Amplify header; 73 here because ats-amplify-header renders 73 (72 + its 1px border) */
   gap: var(--card-spacing-header-gap);
   padding: var(--card-spacing-header-padding-vertical) var(--card-spacing-header-padding-horizontal);
   background: var(--card-color-background-header);
