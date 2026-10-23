@@ -2,7 +2,12 @@
    with the Record Header sticky and the Bowling Alley full height. The Figma frame size is not a limit. */
 .ats-candidate-record { display: block; width: 100%; height: 100vh; height: 100dvh; }
 .ats-candidate-record > ats-bowling-alley-shell { height: 100%; }
-.ats-candidate-record__page { display: flex; flex-direction: column; min-width: 0; min-height: 100%; background: var(--page-color-background); }
+.ats-candidate-record__page { display: flex; flex-direction: column; min-width: 0; min-height: 100%; background: var(--page-color-background);
+  container: candidate-page / inline-size; /* the Overview columns respond to the page content width, not the window */ }
 .ats-candidate-record__overview { flex: 1 0 auto; display: flex; flex-direction: column; gap: 24px; padding: 24px; }
 .ats-candidate-record__columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
 .ats-candidate-record__column { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+/* page content 948px or narrower: the cards stack into one column */
+@container candidate-page (max-width: 948px) {
+  .ats-candidate-record__columns { grid-template-columns: minmax(0, 1fr); }
+}

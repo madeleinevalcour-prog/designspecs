@@ -3563,10 +3563,15 @@ a.ats-novo-chip__label:focus { outline: none; }
    with the Record Header sticky and the Bowling Alley full height. The Figma frame size is not a limit. */
 .ats-candidate-record { display: block; width: 100%; height: 100vh; height: 100dvh; }
 .ats-candidate-record > ats-bowling-alley-shell { height: 100%; }
-.ats-candidate-record__page { display: flex; flex-direction: column; min-width: 0; min-height: 100%; background: var(--page-color-background); }
+.ats-candidate-record__page { display: flex; flex-direction: column; min-width: 0; min-height: 100%; background: var(--page-color-background);
+  container: candidate-page / inline-size; /* the Overview columns respond to the page content width, not the window */ }
 .ats-candidate-record__overview { flex: 1 0 auto; display: flex; flex-direction: column; gap: 24px; padding: 24px; }
 .ats-candidate-record__columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
 .ats-candidate-record__column { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+/* page content 948px or narrower: the cards stack into one column */
+@container candidate-page (max-width: 948px) {
+  .ats-candidate-record__columns { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* Novo icon set (ats-ui/assets/icons), as icon masks */
 [data-i="add-thin"]{--ats-icon:url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCA0OCA0OCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgY2xpcC1wYXRoPSJ1cmwoI2NsaXAwXzc5XzIwMjcpIj4KPHBhdGggZD0iTTQ4IDI3SDI3VjQ4SDIxVjI3SDBWMjFIMjFWMEgyN1YyMUg0OFYyN1oiIGZpbGw9IiM1RDc3OTgiLz4KPC9nPgo8ZGVmcz4KPGNsaXBQYXRoIGlkPSJjbGlwMF83OV8yMDI3Ij4KPHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiBmaWxsPSJ3aGl0ZSIvPgo8L2NsaXBQYXRoPgo8L2RlZnM+Cjwvc3ZnPgo=")}
