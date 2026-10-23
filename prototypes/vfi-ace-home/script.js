@@ -815,6 +815,13 @@ addEventListener('resize', () => { if (S.guidePos) placeGuide(S.guidePos.x, S.gu
   const p = new URLSearchParams(location.search);
   if (![...p.keys()].length) return;
   if (p.get('embed') === '1') $('#guide').hidden = true;
+  // tabs=company: the same record tabs as the Prospect tab scene (Companies list + Nexus Dynamics)
+  if (p.get('tabs') === 'company') {
+    const tab = (icon, l) => `<div class="ats-bowling-alley-tab ats-bowling-alley-tab--entity" role="button" tabindex="0" data-entity="company">
+      <span class="ats-bowling-alley-tab__icon"><span class="ats-icon-container" data-theme="company" data-size="sm">${icon}</span></span>
+      <span class="ats-bowling-alley-tab__label">${l}</span></div>`;
+    $('#entTabs').innerHTML = tab(ic('company-list', 12, 'var(--icon-container-icon)'), 'Companies') + tab(ic('company', 12, 'var(--icon-container-icon)'), '19 | Nexus Dynamics');
+  }
   if (p.get('fmt')) S.outFmt = p.get('fmt');
   if (p.get('chats') === '1') S.chatsOpen = true;
   if (p.get('nav')) { const open = p.get('nav') === 'open'; $('#shell').dataset.nav = open ? 'open' : 'collapsed'; $('#navToggleIcon').dataset.i = open ? 'contract-left' : 'expand-right'; }

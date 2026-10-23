@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VFI Engage London 2026: candidate list, scene 5</title>
+<style>
+/* Design tokens: tokens/css (primitives → semantic → components + typography + elevation) */
+/*TOKENS*/
+/* ats-ui component CSS (components/projects/ats-ui/src/lib), unchanged */
+/*COMPONENTS*/
+/* Novo icon set (ats-ui/assets/icons), as icon masks */
+/*ICONS*/
+
+/* ===== Prototype layer: layout + pieces not yet in ats-ui. Tokens only. ===== */
+html, body { margin: 0; height: 100%; }
+body { font-family: var(--typography-font-family-base), 'Inter', -apple-system, 'Segoe UI', sans-serif; color: var(--color-text-body);
+  font-size: var(--typography-body-default-font-size); line-height: var(--typography-body-default-line-height); -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; }
+[hidden] { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ats-checkbox { --ats-checkbox-check: var(--ats-icon); }
+.ats-icon.amp-glyph { background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%); }
+:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+
+/* ===== Workspace row: list | (Option 3 preview pane) | docked chat ===== */
+.ats-bowling-alley-shell__canvas { overflow: hidden; }
+.ws { display: flex; height: 100%; min-height: 0; position: relative; isolation: isolate; background: var(--color-background-subtle); }
+.list { flex: 1 1 auto; min-width: 0; height: 100%; overflow: auto; position: relative; }
+
+/* header-list (Figma 1766:66016): padding 32 / 32 / 0 / 32, gap 16 */
+.lh { display: flex; flex-direction: column; gap: var(--spacing-16); padding: var(--spacing-32) var(--spacing-32) 0; }
+.lh__title { display: flex; align-items: center; gap: var(--spacing-8); flex-wrap: wrap; }
+.lh__name { display: flex; align-items: center; gap: var(--spacing-16); flex: 1 1 auto; min-width: 0; }
+.lh__name h1 { margin: 0; color: var(--color-text-headline); font-size: var(--typography-title-default-font-size); line-height: var(--typography-title-default-line-height); font-weight: var(--typography-title-default-font-weight); }
+.lh__actions { display: flex; align-items: center; gap: var(--spacing-8); }
+/* novo-tiles (no ats-ui component yet): tiles/* tokens */
+.tiles { display: inline-flex; gap: var(--spacing-2); padding: var(--spacing-4); background: var(--tiles-color-background-default); border: var(--tiles-border-width-default) solid var(--color-border-default); border-radius: var(--border-radius-round); }
+.lh__amp { flex: 0 0 auto; }
+.tiles button { border: 0; background: transparent; cursor: pointer; padding: var(--spacing-8) var(--spacing-16); border-radius: var(--border-radius-round); color: var(--tiles-color-content-default); font-size: var(--typography-body-default-font-size); line-height: var(--typography-body-default-line-height); }
+.tiles button[aria-pressed="true"] { background: var(--tiles-color-background-active); box-shadow: inset 0 0 0 1px var(--tiles-color-border-active); font-weight: var(--typography-body-default-font-weight-medium); }
+/* advanced-search (pill, padding 8 8 8 24) */
+.adv { display: flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-8) var(--spacing-8) var(--spacing-8) var(--spacing-24); background: var(--color-background-default); border: 1px solid var(--color-border-default); border-radius: var(--border-radius-round); min-width: 0; }
+.adv__q { display: flex; align-items: center; gap: var(--spacing-8); flex: 1 1 auto; min-width: 0; overflow: hidden; }
+.frow { display: flex; align-items: center; gap: var(--spacing-8); flex-wrap: wrap; }
+.frow .spacer { flex: 1 1 auto; }
+.ats-btn.is-applied { --_bg: var(--color-background-hover); --_bg-hover: var(--color-background-hover); }
+/* data-table-outside-container: padding 24; container radius 16, 1px border */
+.dtc { padding: var(--spacing-24); }
+.dtc__card { background: var(--color-background-default); border: 1px solid var(--data-table-color-border-default); border-radius: var(--border-radius-md); overflow: hidden; }
+.dtc .ats-ndt { max-height: none; }
+.ats-ndt-row.is-previewing > .ats-ndt-td { background: var(--color-background-hover); }
+.ats-ndt-row.is-previewing > .ats-ndt-td:first-child { box-shadow: inset 2px 0 0 var(--color-border-focus); }
+.pv-btn { border: 0; background: transparent; padding: var(--spacing-4); margin: calc(var(--spacing-4) * -1); border-radius: var(--border-radius-xsm); cursor: pointer; display: flex; }
+.pv-btn:hover { background: var(--color-background-hover); }
+.pv-btn .ats-icon { background-color: var(--data-table-color-icon-default); }
+.dtc__foot { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-8) var(--spacing-16); border-top: 1px solid var(--data-table-color-border-default); color: var(--color-text-secondary); font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); }
+/* ===== Candidate preview (slideout content, Figma 756:1311). Same content in all three containers. ===== */
+.pv { display: flex; flex-direction: column; height: 100%; min-height: 0; background: var(--slideout-color-background); }
+/* novo-header size=slideout: padding 16 24 0 24, gap 8, white, bottom border */
+.pv__head { flex: 0 0 auto; display: flex; flex-direction: column; gap: var(--spacing-8); padding: var(--spacing-16) var(--spacing-24) 0;
+  background: var(--color-background-default); border-bottom: var(--header-border-width-default, 1px) solid var(--header-color-border-default); box-shadow: var(--elevation-1); position: relative; z-index: 1; }
+.pv__title { display: flex; align-items: center; gap: var(--spacing-8); min-height: 40px; }
+.pv__name { display: flex; align-items: center; gap: var(--spacing-8); flex: 1 1 auto; min-width: 0; }
+.pv__name h2 { margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--color-text-headline);
+  font-size: var(--typography-title-medium-font-size); line-height: var(--typography-title-medium-line-height); font-weight: var(--typography-title-medium-font-weight); }
+.pv__social { display: flex; align-items: center; gap: var(--header-spacing-candidate-header-social-links); }
+.pv__acts { display: flex; align-items: center; gap: var(--spacing-8); flex: 0 0 auto; }
+.pv__step { color: var(--color-text-subtle); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); white-space: nowrap; }
+/* tabs (tabs/* tokens): 24 gap, active underline in the entity color */
+.pv__tabs { display: flex; gap: var(--spacing-24); overflow-x: auto; }
+.pv__tab { border: 0; background: transparent; cursor: pointer; padding: var(--spacing-8) var(--spacing-8) 0; display: flex; flex-direction: column; gap: var(--spacing-8);
+  color: var(--tabs-color-tab-items-default); font-size: var(--typography-body-default-font-size); line-height: var(--typography-body-default-line-height); white-space: nowrap; }
+.pv__tab::after { content: ""; height: 2px; border-radius: 2px 2px 0 0; background: transparent; }
+.pv__tab:hover { color: var(--tabs-color-tab-items-hover); }
+.pv__tab[aria-selected="true"] { color: var(--tabs-color-tab-items-active-text); font-weight: var(--typography-body-default-font-weight-medium); }
+.pv__tab[aria-selected="true"]::after { background: var(--color-entity-candidate); }
+/* novo-nav-content: padding 16 24, gap 16 */
+.pv__body { flex: 1 1 auto; min-height: 0; overflow: auto; padding: var(--spacing-16) var(--spacing-24); display: flex; flex-direction: column; gap: var(--spacing-16); }
+/* workflow buttons: workflow/* tokens, radius 16, padding 24 8 */
+.wf { display: grid; grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); gap: var(--spacing-16); }
+.wf__b { display: flex; flex-direction: column; align-items: center; padding: var(--spacing-24) var(--spacing-8); border-radius: var(--workflow-border-radius-default);
+  background: var(--workflow-color-background-default); border: var(--workflow-border-width-default) solid var(--workflow-color-border-default); box-shadow: var(--elevation-1); color: var(--workflow-color-content-default); text-align: center; }
+.wf__n { font-size: var(--typography-title-medium-font-size); line-height: var(--typography-title-medium-line-height); font-weight: var(--typography-title-medium-font-weight); }
+.wf__l { font-size: var(--typography-meta-small-font-size); line-height: var(--typography-meta-small-line-height); }
+/* record details list (value/* tokens) */
+.dl { margin: 0; }
+.dl__row { display: grid; grid-template-columns: minmax(96px, 200px) 1fr; gap: var(--spacing-16); align-items: center; min-height: var(--value-min-height-horizontal, 48px);
+  padding: 0 var(--spacing-24); border-bottom: 1px solid var(--color-border-default); }
+.dl__row:last-child { border-bottom: 0; }
+.dl dt { color: var(--value-color-content-label); font-size: var(--typography-input-label-md-font-size); line-height: var(--typography-input-label-md-line-height); letter-spacing: var(--typography-input-label-md-letter-spacing); text-transform: uppercase; }
+.dl dd { margin: 0; color: var(--value-color-content-value); }
+.pv--narrow .dl__row { grid-template-columns: 1fr; gap: var(--spacing-2); padding: var(--spacing-8) var(--spacing-16); }
+.pv__tabs { scrollbar-width: none; }
+.pv--narrow .pv__name h2 { font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height); }
+.pv--narrow .pv__acts { gap: var(--spacing-4); }
+.pv--narrow .wf { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--spacing-8); }
+.pv--narrow .wf__b { padding: var(--spacing-16) var(--spacing-4); }
+.pv--narrow .pv__head, .pv--narrow .pv__body { padding-left: var(--spacing-16); padding-right: var(--spacing-16); }
+
+/* ===== Containers ===== */
+/* Slideout (current + Option 1): right overlay, general/level 3 - right, 660px (Figma) */
+.so { position: absolute; top: 0; right: 0; bottom: 0; width: 660px; max-width: 100%; z-index: 40; box-shadow: var(--elevation-3-right);
+  transform: translateX(0); transition: transform 200ms ease-out; }
+.so.is-off { transform: translateX(100%); visibility: hidden; transition: transform 200ms ease-out, visibility 0s linear 200ms; }
+/* Option 3: inline preview pane, between list and chat. Pushes the list. */
+.pane { flex: 0 0 auto; width: 0; overflow: hidden; height: 100%; border-left: 0 solid var(--color-border-default); transition: width 200ms ease-out; }
+.pane__grip { position: absolute; top: 0; bottom: 0; width: 8px; margin-left: -4px; cursor: col-resize; z-index: 5; }
+.pane__grip:hover, .pane__grip.is-drag { background: linear-gradient(var(--color-border-focus), var(--color-border-focus)) center / 2px 100% no-repeat; }
+/* Option 2: popover anchored to the row preview button. No scrim, chat stays usable. */
+.lp { position: absolute; z-index: 41; display: flex; box-sizing: border-box; padding-left: 7px; filter: none; }
+.lp.is-detached { visibility: hidden; }
+.lp__content { flex: 1 1 auto; min-width: 0; overflow: hidden; border-radius: var(--border-radius-md); background: var(--color-background-default);
+  border: 1px solid var(--color-border-default); box-shadow: var(--elevation-4); }
+.lp__content > .pv { height: 100%; }
+/* arrow 12 × 8 pointing left, border + fill (Figma popover position=right) */
+.lp__arrow::before, .lp__arrow::after { content: ""; position: absolute; inset: 0; clip-path: polygon(100% 0, 0 50%, 100% 100%); }
+.lp__arrow::before { background: var(--color-border-default); }
+.lp__arrow::after { background: var(--color-background-default); left: 1.5px; right: -1px; }
+.pv-btn[aria-pressed="true"] { background: var(--button-color-icon-background-active); }
+/* docked chat in this row */
+.ws > .ats-amplify-chat-docked[data-mode="docked"] { z-index: 2; }
+.ats-amplify-chat-docked .ats-amplify-chat-conversation { height: 100%; }
+/* Option 1: popover auto-placed to the left of the slideout */
+.ats-amplify-chat-docked.is-auto { transition: none; }
+.auto-note { display: flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-8) var(--spacing-16); border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-background-default); color: var(--color-text-secondary); font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); }
+.auto-note .ats-btn { margin-left: auto; }
+/* "current" problem state: chat hidden behind the slideout */
+.ws[data-opt="current"] .ats-amplify-chat-docked { z-index: 1; }
+@media (prefers-reduced-motion: reduce) { .so, .so.is-off, .pane { transition: none; } }
+
+/* ===== Prototype guide (demo tooling, not product UI) ===== */
+.guide { position: fixed; left: var(--spacing-16); bottom: var(--spacing-16); z-index: 2000; width: 300px; }
+.guide:has(.is-collapsed) { width: auto; }
+.guide__card { background: var(--color-background-default); border: 1px solid var(--color-border-default); border-radius: var(--border-radius-sm); box-shadow: var(--elevation-4); }
+.guide__head { display: flex; align-items: center; justify-content: space-between; padding: var(--spacing-8) var(--spacing-16); border-bottom: 1px solid var(--color-border-subtle); }
+.guide__card.is-collapsed .guide__head { border-bottom: 0; }
+.guide__card.is-collapsed { width: max-content; }
+.guide__head[data-guide-drag] { cursor: grab; user-select: none; touch-action: none; }
+.guide.is-dragging .guide__head { cursor: grabbing; }
+.guide__grip { display: flex; align-items: center; gap: var(--spacing-8); }
+.guide__head { gap: var(--spacing-8); }
+.guide__title { margin: 0; color: var(--color-text-headline); font-weight: var(--typography-title-small-font-weight); }
+.guide__sec { padding: var(--spacing-12) var(--spacing-16); display: flex; flex-direction: column; gap: var(--spacing-8); }
+.guide__sec + .guide__sec { border-top: 1px solid var(--color-border-subtle); }
+.guide__sec p { margin: 0; color: var(--color-text-secondary); font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); }
+.guide__seg { display: flex; flex-wrap: wrap; gap: var(--spacing-8); }
+.ats-btn.is-on { background: var(--color-background-hover); }
+.embed .guide { display: none; }
+.am-wrap { position: relative; }
+.am { position: absolute; top: calc(100% + var(--spacing-4)); left: 0; z-index: 30; min-width: 240px; display: flex; flex-direction: column; padding: var(--spacing-4) 0; }
+.am .ats-menu-option.is-first { background: var(--color-background-hover); }
+.dtc__card { position: relative; }
+.dtc__card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--color-entity-candidate); z-index: 2; }
+.am { left: auto; right: 0; }
+.ipp { color: var(--color-text-subtle); font-size: var(--typography-body-sm-font-size); text-transform: uppercase; letter-spacing: .02em; }
+.ipp b { color: var(--color-text-body); font-weight: 400; margin-left: var(--spacing-4); }
+.pg { display: flex; gap: var(--spacing-16); color: var(--color-text-body); }
+.pg__on { background: var(--color-background-hover); padding: 0 var(--spacing-8); border-radius: var(--border-radius-xsm); font-weight: 400; }
+.list { display: flex; flex-direction: column; overflow: hidden; }
+.list > .lh { flex: 0 0 auto; }
+.list > .dtc { flex: 1 1 auto; min-height: 0; display: flex; }
+.dtc__card { flex: 1 1 auto; display: flex; flex-direction: column; min-height: 0; }
+.dtc .ats-ndt { flex: 1 1 auto; min-height: 0; overflow: auto; }
+.dtc__foot { flex: 0 0 auto; }
+.selbar { display: flex; align-items: center; gap: var(--spacing-8); padding: var(--spacing-8) var(--spacing-16); border-bottom: 1px solid var(--data-table-color-border-default); background: var(--color-background-subtle); }
+</style>
+</head>
+<body>
+<!-- icons used dynamically: data-i="outbound-email" data-i="email" data-i="add-note" data-i="tearsheet" data-i="download" data-i="job" data-i="company-list" data-i="company" data-i="candidate-list" data-i="advanced-search" data-i="columns" data-i="star-o" data-i="amplify" data-i="user-outline" data-i="globe-outline" data-i="filter" data-i="circle" -->
+<!-- icons used dynamically: data-i="preview" data-i="check" data-i="close" data-i="columns" data-i="external-open" data-i="star-o" data-i="refresh-outline" data-i="edit" data-i="add-thin" data-i="user-outline" data-i="globe-outline" data-i="category-tags" data-i="location-outline" data-i="chevron-down" data-i="chevron-up" data-i="google" data-i="linkedin" data-i="location" data-i="bolt" data-i="info" data-i="sortable" data-i="filter" data-i="amplify" data-i="arrow-up" data-i="tools" data-i="book" data-i="copy" data-i="thumbs-up-line" data-i="thumbs-down-line" data-i="circle" data-i="candidate" data-i="contract-left" data-i="expand-right" data-i="card-expand" data-i="slideout-collapse" data-i="move" data-i="next" data-i="pin" data-i="pin-outline" data-i="search" data-i="menu-outline" data-i="job" data-i="note" data-i="candidate-list" data-i="advanced-search" data-i="columns" data-i="star-o" data-i="amplify" data-i="user-outline" data-i="globe-outline" data-i="filter" data-i="circle" -->
+<div class="ats-bowling-alley-shell" id="shell" data-nav="open">
+  <div class="ats-bowling-alley-shell__stage" id="stage">
+    <nav class="ats-bowling-alley" aria-label="Main">
+      <div class="ats-bowling-alley__card">
+        <div class="ats-bowling-alley__head">
+          <div class="ats-bowling-alley__logo">
+            <span class="ats-bowling-alley__wordmark">Bullhorn</span>
+            <span class="ats-icon" data-i="bull" style="width:24px;height:24px;background-color:var(--bowling-alley-color-logo-icon)"></span>
+          </div>
+          <button class="ats-bowling-alley__toggle" type="button" id="navToggle" aria-label="Toggle menu" aria-expanded="true">
+            <span class="ats-icon" data-i="contract-left" id="navToggleIcon" style="width:14px;height:14px;background-color:var(--bowling-alley-color-content-icon-default)"></span>
+          </button>
+        </div>
+        <div class="ats-bowling-alley__tabs">
+          <div class="ats-main-tabs ats-bowling-alley__section" id="mainTabs"></div>
+          <div class="ats-bowling-alley-divider">
+            <span class="ats-bowling-alley-divider__line"></span>
+            <button class="ats-bowling-alley-divider__clear" type="button" data-clear-tabs><span>Clear All</span><span class="ats-icon" data-i="close" aria-hidden="true" style="width:12px;height:12px;background-color:var(--color-icon-subtle)"></span></button>
+          </div>
+          <div class="ats-bowling-alley__section" id="entTabs"></div>
+        </div>
+        <div class="ats-bowling-alley__foot">
+          <button class="ats-bowling-alley__parse" type="button">
+            <span class="ats-bowling-alley-tab__icon"><span class="ats-icon" data-i="resume" style="width:14px;height:14px;background-color:var(--bowling-alley-color-content-icon-default)"></span></span>
+            <span class="ats-bowling-alley-tab__label">Parse Resume</span>
+          </button>
+          <div class="ats-bowling-alley__foot-actions">
+            <button class="ats-bowling-alley-foot-item ats-bowling-alley-foot-item--utility" type="button" aria-label="Help">
+              <span class="ats-bowling-alley-tab__icon"><span class="ats-icon" data-i="question" style="width:16px;height:16px;background-color:var(--bowling-alley-color-content-icon-default)"></span></span>
+              <span class="ats-bowling-alley-tab__label">Help</span>
+            </button>
+            <button class="ats-bowling-alley-foot-item ats-bowling-alley-foot-item--utility" type="button" aria-label="Privacy">
+              <span class="ats-bowling-alley-tab__icon"><span class="ats-icon" data-i="shield-outline" style="width:16px;height:16px;background-color:var(--bowling-alley-color-content-icon-default)"></span></span>
+              <span class="ats-bowling-alley-tab__label">Privacy</span>
+            </button>
+            <button class="ats-bowling-alley-foot-item ats-bowling-alley-foot-item--user" type="button" aria-label="Chloe Davis">
+              <span class="ats-bowling-alley-tab__icon"><span class="ats-bowling-alley__avatar">CD</span></span>
+              <span class="ats-bowling-alley-tab__label">Chloe Davis</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="ats-tooltip ats-bowling-alley-shell__tooltip" id="tip" role="tooltip" hidden><span class="ats-tooltip__arrow"></span><div class="ats-tooltip__box"></div></div>
+    <div class="ats-bowling-alley-shell__main">
+      <div class="ats-bowling-alley-shell__canvas">
+        <div class="ws" id="ws" data-opt="1">
+          <main class="list" id="list" aria-label="Candidates"></main>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/*SCRIPT*/
+</script>
+</body>
+</html>
