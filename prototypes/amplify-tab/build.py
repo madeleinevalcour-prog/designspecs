@@ -14,7 +14,9 @@ want=["icon/icon.css","button/button.css","icon-container/icon-container.css","i
  "amplify-chat/user-messages/user-bubble.css","amplify-chat/text/text.css","amplify-chat/text/link.css",
  "amplify-chat/input/amplify-chat-container.css","amplify-chat/input/chat-input.css","amplify-chat/input/amplify-text-area.css",
  "amplify-chat/input/button-row.css","amplify-chat/input/global-chat-container.css","amplify-chat/input/amplify-context-container.css",
- "amplify-chat/full-page/full-page.css","amplify-chat/clarifying-questions/clarifying-questions.css","amplify-chat/clarifying-questions/clarify-option.css","amplify-chat/clarifying-questions/clarify-key.css","amplify-chat/clarifying-questions/clarify-something-else.css","card/card.css","checkbox/checkbox.css"]
+ "amplify-chat/full-page/full-page.css","amplify-chat/clarifying-questions/clarifying-questions.css","amplify-chat/clarifying-questions/clarify-option.css","amplify-chat/clarifying-questions/clarify-key.css","amplify-chat/clarifying-questions/clarify-something-else.css","card/card.css","checkbox/checkbox.css",
+ "menu/menu.css","novo-list/novo-list.css","breadcrumb/breadcrumb.css","breadcrumb/breadcrumb-link.css","count-badge/count-badge.css","button-with-count/button-with-count.css",
+ "amplify-chat/amplify-header/amplify-header.css","amplify-chat/chats/chats-panel.css","amplify-chat/chats/chat-card.css"]
 comp="".join(f"\n/* ==== {w} ==== */\n"+open(f"{lib}/{w}").read() for w in want if os.path.exists(f"{lib}/{w}"))
 src=open(f"{OUT}/src.html").read().replace("/*SCRIPT*/",open(f"{OUT}/script.js").read())
 used=sorted(set(re.findall(r'data-i="([a-z0-9-]+)"',src))|set(re.findall(r"ic\('([a-z0-9-]+)'",src)))

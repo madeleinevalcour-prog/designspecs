@@ -514,6 +514,10 @@
       {t:"Amplify chat and the candidate preview", href:"/docs/amplify-preview-design-decisions.html", s:"Complete", d:"The preview slideout covers the docked chat. Three options compared; Option 2 (a popover next to the row) is recommended."},
       {t:"Ace", href:"/docs/ace-design-decisions.html", s:"In progress", d:"An agent-driven Amplify Home: to-dos, suggestions, need to know and today’s meetings."}
     ]},
+    {label:"Demos", href:"/docs/demos/index.html",
+     d:"Images and small prototypes for marketing to use in decks, videos and events.", pages:[
+      {t:"VFI Engage London 2026", href:"/docs/demos/vfi-engage-london-2026.html", s:"In progress", d:"Fourteen scenes of the Advisor day, from the Ace homepage through placement and audit."}
+    ]},
     {label:"Contributing", href:"/docs/contributing.html", d:"Setup, rules, the component workflow and how review works."},
     {label:"Resources", href:"/docs/resources.html", d:"Reference documents and Figma source files for the design system."}
   ];

@@ -23,105 +23,24 @@ button { font-family: inherit; }
 /* Amplify radial on glyphs (same stops as ats-ui chat-block identity / bowling alley glyph) */
 .ats-icon.amp-glyph { background: radial-gradient(circle at 14% 12%, #37fc97 0%, #a5f7d0 0.01%, #23afdc 47%, #09a0de 56%, #009bdf 65%, #125783 97%); }
 
-/* Bowling alley: Amplify becomes a split tab (page + "next" opener for the Amplify menu) */
-.ba-split { display: flex; align-items: center; border-radius: var(--bowling-alley-border-tabs-radius); }
-.ba-split > .ats-bowling-alley-tab { flex: 1 1 auto; }
-.ba-split.is-active, .ba-split:hover { background: var(--bowling-alley-color-tab-items-background-hover); }
-.ba-split.is-active > .ats-bowling-alley-tab { background: transparent; }
-.ba-split.is-active { background: var(--bowling-alley-color-tab-items-background-active); }
-.ba-split > .ats-bowling-alley-tab:hover { background: transparent; }
-.ba-next { flex: 0 0 auto; width: 24px; height: 24px; margin-right: var(--spacing-4); border: 0; padding: 0; background: transparent; cursor: pointer;
-  display: none; align-items: center; justify-content: center; border-radius: var(--border-radius-xsm); }
-.ba-next:hover, .ba-next[aria-expanded="true"] { background: var(--bowling-alley-color-tab-items-background-hover); }
-.ba-next:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
-.ats-bowling-alley-shell:not([data-nav="collapsed"]) .ba-next { display: flex; }
-.ats-bowling-alley-shell[data-nav="collapsed"] .ba-split { justify-content: center; }
-.ats-bowling-alley-shell[data-nav="collapsed"] .ba-split > .ats-bowling-alley-tab { flex: 0 0 auto; }
-
-/* Amplify menu: existing dropdown-card + menu-option, 8px right of the opener (Figma overlay positioning) */
-.amp-menu { position: absolute; z-index: 70; width: 248px; }
-.amp-menu .ats-menu-option[aria-current="page"] { background: var(--bowling-alley-color-tab-items-background-active); }
-.amp-menu .ats-menu-option[aria-current="page"] .ats-menu-option__label { font-weight: var(--typography-body-default-font-weight-medium); }
-.amp-menu__sep { height: 1px; background: var(--color-border-subtle); margin: var(--spacing-4) 0; }
-.amp-menu__meta { margin-left: auto; color: var(--color-text-subtle); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); }
+/* Amplify menu: the built Amplify menu (ats-menu variant="amplify"), 8px right of the opener (Figma overlay positioning) */
+.amp-menu { position: absolute; z-index: 70; }
 
 /* ===== Amplify page ===== */
 .amp-shell { display: flex; height: 100%; min-height: 0; position: relative; isolation: isolate; }
 .amp { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; height: 100%; min-height: 0; }
-/* Header: full-page header surface/tokens, one row. Breadcrumb replaces title + tabs. */
-.amp-header { flex: 0 0 auto; display: flex; align-items: center; gap: var(--card-spacing-header-gap); position: relative; z-index: 2;
-  padding: var(--spacing-padding-md) var(--header-spacing-padding-horizontal);
-  background: var(--card-color-background-header); border-bottom: 1px solid var(--header-color-border-default); box-shadow: var(--elevation-2); }
-.crumbs { display: flex; align-items: center; gap: var(--spacing-gap-sm); flex: 1 1 auto; min-width: 0; margin: 0; padding: 0; list-style: none; }
-.crumbs li { display: flex; align-items: center; gap: var(--spacing-gap-sm); min-width: 0; }
-.crumb-link { border: 0; background: transparent; padding: var(--spacing-4); margin: calc(var(--spacing-4) * -1); border-radius: var(--border-radius-xsm); cursor: pointer;
-  color: var(--color-text-secondary); font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height); font-weight: var(--typography-title-small-font-weight); }
-.crumb-link:hover { color: var(--color-text-link); }
-.crumb-link:focus-visible { outline: 2px solid var(--color-border-focus); }
-.crumb-sep { color: var(--color-text-subtle); font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height); }
-.crumb-current { margin: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--color-text-headline);
-  font-size: var(--typography-title-small-font-size); line-height: var(--typography-title-small-line-height); font-weight: var(--typography-title-small-font-weight); }
-.amp-header__actions { display: flex; align-items: center; gap: var(--header-spacing-candidate-header-actions); flex: 0 0 auto; }
 .ats-btn.is-on { background: var(--color-background-hover); }
-#hdrChats { position: relative; }
-.hdr-badge { position: absolute; top: -6px; right: -6px; min-width: 16px; height: 16px; padding: 0 var(--spacing-4); box-sizing: border-box; border-radius: var(--border-radius-round);
-  display: inline-flex; align-items: center; justify-content: center; background: var(--color-icon-utility-positive); color: var(--color-text-body-knockout);
-  box-shadow: 0 0 0 2px var(--color-background-default);
-  font-size: var(--typography-meta-small-font-size); line-height: var(--typography-meta-small-line-height); font-weight: var(--typography-body-sm-font-weight-medium); }
 
 .amp-body { flex: 1 1 auto; min-height: 0; display: flex; position: relative; background: var(--color-background-muted); }
 .amp-main { flex: 1 1 auto; min-width: 0; min-height: 0; position: relative; display: flex; flex-direction: column; }
 .page { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
 .page-inner { max-width: 1040px; margin: 0 auto; padding: var(--spacing-32) var(--spacing-margin) var(--spacing-48); display: flex; flex-direction: column; gap: var(--spacing-32); }
 
-/* Chats panel: right slideout surface (level 3 - right) */
-.chats { flex: 0 0 320px; width: 320px; height: 100%; position: relative; z-index: 3; display: flex; flex-direction: column; min-height: 0; box-sizing: border-box;
-  background: var(--color-background-default); border-left: 1px solid var(--color-border-subtle); box-shadow: var(--elevation-3-right); }
-.chats__top { display: flex; flex-direction: column; gap: var(--spacing-gap-sm); padding: var(--spacing-16); border-bottom: 1px solid var(--color-border-subtle); }
-.chats__title-row { display: flex; align-items: center; justify-content: space-between; min-height: 32px; }
-.chats__title { margin: 0; color: var(--color-text-headline); font-size: var(--typography-body-default-font-size); line-height: var(--typography-body-default-line-height); font-weight: var(--typography-title-small-font-weight); }
-.chats__list { flex: 1 1 auto; overflow-y: auto; padding: var(--spacing-8); display: flex; flex-direction: column; gap: var(--spacing-16); }
-.chats__group { display: flex; flex-direction: column; gap: var(--spacing-2); }
-.chats__label { padding: var(--spacing-4) var(--spacing-8); color: var(--color-text-subtle); text-transform: uppercase;
-  font-size: var(--typography-input-label-sm-font-size); line-height: var(--typography-input-label-sm-line-height); font-weight: var(--typography-input-label-sm-font-weight); letter-spacing: var(--typography-input-label-sm-letter-spacing); }
-.chat-item { display: flex; align-items: center; gap: var(--spacing-8); width: 100%; box-sizing: border-box; border: 0; background: transparent; cursor: pointer; text-align: left;
-  padding: var(--spacing-8); border-radius: var(--bowling-alley-border-tabs-radius); color: var(--color-text-body); }
-.chat-item:hover { background: var(--bowling-alley-color-tab-items-background-hover); }
-.chat-item[aria-current="page"] { background: var(--bowling-alley-color-tab-items-background-active); }
-.chat-item[aria-current="page"] .chat-item__t { font-weight: var(--typography-body-default-font-weight-medium); color: var(--color-text-headline); }
-.chat-item:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
-.chat-item__t { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.chat-item__m { flex: 0 0 auto; color: var(--color-text-subtle); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); }
-/* Chat items: bordered containers (card border + radius sm), title / description / context + last activity */
-@media (max-width: 1100px) { .chats { position: absolute; top: 0; right: 0; bottom: 0; z-index: 3; } }
-.chats__title-acts, .chats__gacts { display: flex; align-items: center; gap: var(--spacing-4); }
-.chats__ghead { display: flex; align-items: center; justify-content: space-between; min-height: 32px; padding-right: var(--spacing-4); }
+/* Chats panel: the built ats-amplify-chat-chats-panel (chats-panel.css, chat-card.css) */
 .chats__count { margin-left: var(--spacing-4); color: var(--color-text-subtle); }
-.chats__list { padding: var(--spacing-8) var(--spacing-16) var(--spacing-16); }
-.ci-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-8); }
-.ci { display: flex; flex-direction: column; gap: var(--spacing-4); width: 100%; box-sizing: border-box; margin: 0; cursor: pointer; text-align: left;
-  padding: var(--spacing-12); background: var(--color-background-default); color: var(--color-text-body);
-  border: 1px solid var(--color-border-subtle); border-radius: var(--border-radius-sm);
-  transition: border-color .12s ease, background-color .12s ease; }
-.ci:hover { border-color: var(--color-border-default); background: var(--color-background-subtle); }
-.ci[aria-current="page"] { border-color: var(--color-border-utility-positive); background: var(--color-background-hover); }
-.ci:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 1px; }
-.ci__top { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-8); min-width: 0; }
-.ci__top .ci__ago { color: var(--color-text-subtle); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); }
-.ci__dot { display: inline-block; width: 8px; height: 8px; margin-right: var(--spacing-8); border-radius: var(--border-radius-round); background: var(--color-icon-utility-positive); vertical-align: 1px; }
-.ci__t { min-width: 0; color: var(--color-text-headline); font-weight: var(--typography-body-default-font-weight-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ci__d { color: var(--color-text-secondary); font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ci__f { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-8); margin-top: var(--spacing-2);
-  color: var(--color-text-subtle); font-size: var(--typography-meta-default-font-size); line-height: var(--typography-meta-default-line-height); }
-.ci__ctx, .ci__st { display: inline-flex; align-items: center; gap: var(--spacing-4); min-width: 0; }
-.ci__ctx > span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ci__ago, .ci__st { flex: 0 0 auto; white-space: nowrap; }
-.ci__st--attention { color: var(--color-text-body); }
 .chats__more { align-self: flex-start; margin-top: var(--spacing-8); border: 0; background: transparent; padding: 0; cursor: pointer; color: var(--color-text-link);
   font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); font-weight: var(--typography-body-sm-font-weight-medium); }
 .chats__more:hover { text-decoration: underline; }
-@media (prefers-reduced-motion: reduce) { .ci { transition: none; } }
-.chats__empty { padding: var(--spacing-8); color: var(--color-text-subtle); font-size: var(--typography-body-sm-font-size); line-height: var(--typography-body-sm-line-height); }
 </style>
 <style>
 /* view wrapper */
@@ -345,7 +264,7 @@ input.fld[type="text"] { width: 100%; }
 </style>
 </head>
 <body>
-<!-- icons used dynamically: data-i="home" data-i="comment-outline" data-i="clock" data-i="appointment" data-i="report" data-i="add-thin" data-i="check-circle" data-i="caution" data-i="info-outline" data-i="kebab-menu" data-i="edit-outline" data-i="delete-outline" data-i="refresh" data-i="lock" data-i="job" data-i="candidate" data-i="copy" data-i="thumbs-up-line" data-i="thumbs-down-line" data-i="bookmark-outline" data-i="arrow-up" data-i="tools" data-i="book" data-i="close" data-i="slideout" data-i="slideout-collapse" data-i="search" data-i="next" data-i="amplify" data-i="stop-circle" data-i="contact" data-i="calendar" data-i="interview" data-i="external-open" data-i="inactive" data-i="expand-right" data-i="contract-left" data-i="chevron-down" data-i="placement" data-i="company" data-i="configure-outline" data-i="previous" data-i="check" data-i="outbound-email" data-i="move" data-i="circle" data-i="chevron-up" -->
+<!-- icons used dynamically: data-i="home" data-i="comment-outline" data-i="clock" data-i="appointment" data-i="report" data-i="add-thin" data-i="check-circle" data-i="caution" data-i="info-outline" data-i="kebab-menu" data-i="edit-outline" data-i="delete-outline" data-i="refresh" data-i="lock" data-i="job" data-i="candidate" data-i="copy" data-i="thumbs-up-line" data-i="thumbs-down-line" data-i="bookmark-outline" data-i="arrow-up" data-i="tools" data-i="book" data-i="close" data-i="slideout" data-i="slideout-collapse" data-i="search" data-i="next" data-i="amplify" data-i="stop-circle" data-i="contact" data-i="calendar" data-i="interview" data-i="external-open" data-i="inactive" data-i="expand-right" data-i="contract-left" data-i="chevron-down" data-i="placement" data-i="company" data-i="configure-outline" data-i="previous" data-i="check" data-i="outbound-email" data-i="move" data-i="circle" data-i="chevron-up" data-i="clock-arrow" data-i="chart-bar" -->
 <div class="ats-bowling-alley-shell" id="shell" data-nav="open">
   <div class="ats-bowling-alley-shell__stage" id="stage">
     <nav class="ats-bowling-alley" aria-label="Main">
@@ -373,14 +292,14 @@ input.fld[type="text"] { width: 100%; }
               <span class="ats-bowling-alley-tab__icon"><span class="ats-icon" data-i="add-thin" style="width:14px;height:14px;background-color:var(--bowling-alley-color-content-icon-default)"></span></span>
               <span class="ats-bowling-alley-tab__label">Add</span>
             </button>
-            <!-- NEW: Amplify split tab. Tab = Amplify Home. Chevron = Amplify menu. -->
-            <div class="ba-split is-active" id="ampTab">
-              <button class="ats-bowling-alley-tab" type="button" id="ampTabBtn" aria-current="page" aria-label="Amplify Home">
-                <span class="ats-bowling-alley-tab__icon"><span class="ats-icon amp-glyph" data-i="amplify" style="width:14px;height:14px"></span></span>
+            <!-- Amplify tab (built: ats-bowling-alley, Figma main-tabs "show button"). Tab = Amplify landing page. Chevron = Amplify menu. -->
+            <div class="ats-bowling-alley__amplify" id="ampTab">
+              <button class="ats-bowling-alley-tab is-active" type="button" id="ampTabBtn" aria-current="page" aria-label="Amplify">
+                <span class="ats-bowling-alley-tab__icon"><span class="ats-icon ats-bowling-alley__amplify-glyph" data-i="amplify" aria-hidden="true" style="width:14px;height:14px"></span></span>
                 <span class="ats-bowling-alley-tab__label">Amplify</span>
               </button>
-              <button class="ba-next" type="button" id="ampNext" aria-label="Amplify menu" aria-haspopup="menu" aria-expanded="false" aria-controls="ampMenu">
-                <span class="ats-icon" data-i="next" style="width:12px;height:12px;background-color:var(--bowling-alley-color-content-icon-default)"></span>
+              <button class="ats-icon-button-no-container ats-bowling-alley__amplify-menu" type="button" id="ampNext" aria-label="Amplify menu" aria-haspopup="true" aria-expanded="false" aria-controls="ampMenu">
+                <span class="ats-icon" data-i="next" aria-hidden="true" style="width:12px;height:12px"></span>
               </button>
             </div>
           </div>
@@ -423,23 +342,17 @@ input.fld[type="text"] { width: 100%; }
       <div class="ats-bowling-alley-shell__canvas">
         <div class="amp-shell">
         <div class="amp">
-          <header class="amp-header">
-            <ol class="crumbs" aria-label="Breadcrumb" id="crumbs"></ol>
-            <div class="amp-header__actions">
-              <button class="ats-btn ats-btn--secondary ats-btn--small" type="button" id="hdrChats" aria-pressed="true" aria-controls="chats">Chats</button>
-              <button class="ats-btn ats-btn--icon ats-btn--default" type="button" aria-label="Close Amplify"><span class="ats-icon" data-i="close" style="width:14px;height:14px"></span></button>
-            </div>
-          </header>
+          <div class="ats-amplify-header" id="hdr"></div>
           <div class="amp-body">
             <main class="amp-main" id="main"></main>
           </div>
         </div>
-        <aside class="chats" id="chats" aria-label="Chats"></aside>
+        <div class="ats-amplify-chat-chats-panel" id="chats" role="complementary" aria-label="Chats" inert aria-hidden="true"></div>
         </div>
       </div>
     </div>
 
-    <div class="ats-dropdown-card amp-menu" id="ampMenu" role="menu" aria-label="Amplify" hidden></div>
+    <div class="ats-dropdown-card ats-menu__amplify amp-menu" id="ampMenu" aria-label="Amplify" hidden></div>
     <div class="ats-tooltip" id="tip" style="position:absolute;z-index:90" hidden><span class="ats-tooltip__arrow"></span><span class="ats-tooltip__box"></span></div>
   </div>
 </div>

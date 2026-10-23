@@ -103,31 +103,30 @@ function go(page, opts = {}) {
   if (opts.focus) setTimeout(() => focusEl($(opts.focus)), 0);
 }
 
-// ===== Amplify menu (bowling alley dropdown) =====
+// ===== Amplify menu (bowling alley dropdown): the built ats-menu variant="amplify" =====
 function renderMenu() {
-  const opt = (key, label, icon, meta = '') => {
+  const opt = (key, label, icon) => {
     const cur = (key === 'new' && S.page === 'chat' && !S.chatId) || (key === S.page && key !== 'chat');
-    return `<button type="button" class="ats-menu-option" data-type="default" role="menuitem" data-go="${key}" ${cur ? 'aria-current="page"' : ''}>
-      ${ic(icon, 16, 'var(--color-icon-subtle)', 'ats-menu-option__icon')}<span class="ats-menu-option__label">${label}</span>${meta ? `<span class="amp-menu__meta">${meta}</span>` : ''}</button>`;
+    return `<button type="button" class="ats-menu-option${cur ? ' is-active' : ''}" data-type="default" data-go="${key}" ${cur ? 'aria-current="page"' : ''}>
+      ${ic(icon, 16, 'var(--color-icon-subtle)', 'ats-menu-option__icon')}<span class="ats-menu-option__label">${label}</span></button>`;
   };
-  const active = SCHEDULES.filter((s) => s.status !== 'paused').length;
-  $('#ampMenu').innerHTML =
-    (S.version === 'v2' ? opt('home', 'Home', 'home') : '') + opt('new', 'New Chat', 'add-thin') + opt('scheduled', 'Scheduled', 'clock', String(SCHEDULES.length)) +
-    '<div class="amp-menu__sep" role="separator"></div>' + opt('meetings', 'Meetings', 'appointment') + opt('audits', 'Audits', 'report');
+  $('#ampMenu').innerHTML = (S.version === 'v2' ? opt('home', 'Home', 'home') : '') + opt('new', 'New Chat', 'add-thin') + opt('scheduled', 'Scheduled', 'clock-arrow') +
+    opt('meetings', 'Meetings', 'calendar') + opt('audits', 'Audits', 'chart-bar');
 }
 function openMenu() {
   renderMenu();
   const m = $('#ampMenu'), a = $('#ampTab'), st = $('#stage').getBoundingClientRect(), r = a.getBoundingClientRect();
   m.hidden = false; S.menuOpen = true;
+  m.style.setProperty('--ats-menu-max-height', st.height - 16 + 'px'); // as the bowling alley shell does
   m.style.left = r.right - st.left + 8 + 'px';
   m.style.top = Math.min(r.top - st.top, st.height - m.offsetHeight - 8) + 'px';
-  $('#ampNext').setAttribute('aria-expanded', 'true');
+  $('#ampNext').setAttribute('aria-expanded', 'true'); a.classList.add('is-menu-open');
   focusEl(m.querySelector('.ats-menu-option'));
 }
 function closeMenu() {
   if (!S.menuOpen) return;
   $('#ampMenu').hidden = true; S.menuOpen = false;
-  $('#ampNext').setAttribute('aria-expanded', 'false');
+  $('#ampNext').setAttribute('aria-expanded', 'false'); $('#ampTab').classList.remove('is-menu-open');
 }
 $('#ampNext').onclick = (e) => { e.stopPropagation(); S.menuOpen ? closeMenu() : openMenu(); };
 // V1 has no Home: the Amplify tab and the breadcrumb root open a new chat
@@ -157,72 +156,95 @@ $('#navToggle').onclick = () => {
   closeMenu();
 };
 
-// ===== Header: breadcrumb (Amplify / current page) =====
+// ===== Header: the built ats-amplify-header (Amplify mark + breadcrumb, Chats with count, Close) =====
 function renderHeader() {
   let cur = PAGES[S.page].label;
   if (S.page === 'chat') cur = S.chatId ? chat(S.chatId).title : 'New Chat';
   // V1: the new chat page is the landing page, so it reads just 'Amplify'
   const home = S.page === 'home' || (S.version === 'v1' && S.page === 'chat' && !S.chatId);
-  $('#crumbs').innerHTML = home
-    ? `<li><span class="ats-icon-container" data-theme="amplify" data-size="sm">${ic('amplify', 12, 'var(--icon-container-icon)')}</span><h1 class="crumb-current">Amplify</h1></li>`
-    : `<li><span class="ats-icon-container" data-theme="amplify" data-size="sm">${ic('amplify', 12, 'var(--icon-container-icon)')}</span><button type="button" class="crumb-link" data-crumb="home">Amplify</button></li>
-       <li><span class="crumb-sep" aria-hidden="true">/</span><h1 class="crumb-current" aria-current="page">${esc(cur)}</h1></li>`;
   const unread = SCHEDULES.reduce((n, x) => n + (x.unread || 0), 0);
-  $('#hdrChats').innerHTML = `Chats${unread ? `<span class="hdr-badge" aria-hidden="true">${unread}</span>` : ''}`;
-  $('#hdrChats').setAttribute('aria-label', unread ? `Chats, ${unread} new` : 'Chats');
-  $('#hdrChats').setAttribute('aria-pressed', S.chatsOpen);
-  $('#hdrChats').classList.toggle('is-on', S.chatsOpen);
+  const crumbs = home
+    ? `<li class="ats-breadcrumb__item ats-breadcrumb__item--current"><h1 class="ats-breadcrumb-link" data-state="current" aria-current="page">Amplify</h1></li>`
+    : `<li class="ats-breadcrumb__item"><button type="button" class="ats-breadcrumb-link" data-state="root" data-crumb="home">Amplify</button></li>
+       <li class="ats-breadcrumb__item ats-breadcrumb__item--current"><span class="ats-breadcrumb__separator" aria-hidden="true">/</span><h1 class="ats-breadcrumb-link" data-state="current" aria-current="page">${esc(cur)}</h1></li>`;
+  const hdr = $('#hdr');
+  hdr.dataset.level = home ? 'root' : 'page';
+  hdr.innerHTML = `<header class="ats-amplify-header__bar"><div class="ats-amplify-header__page-title">
+      <div class="ats-amplify-header__title">
+        <span class="ats-icon-container" data-theme="amplify" data-size="md" aria-hidden="true">${ic('amplify', 20, 'var(--icon-container-icon)')}</span>
+        <div class="ats-breadcrumb ats-amplify-header__breadcrumb" data-state="${home ? 'home' : 'default'}"><nav class="ats-breadcrumb__nav" aria-label="Breadcrumb"><ol class="ats-breadcrumb__list">${crumbs}</ol></nav></div>
+      </div>
+      <div class="ats-amplify-header__actions">
+        <span class="ats-button-with-count">
+          <button type="button" class="ats-btn ats-btn--secondary ats-btn--small${S.chatsOpen ? ' is-active' : ''}" id="hdrChats" aria-pressed="${S.chatsOpen}" aria-controls="chats" aria-label="${unread ? `Chats, ${unread} new` : 'Chats'}">Chats</button>
+          ${unread ? `<span class="ats-count-badge ats-button-with-count__badge" aria-hidden="true">${unread > 99 ? '99+' : unread}</span>` : ''}
+        </span>
+        <button type="button" class="ats-btn ats-btn--default ats-btn--icon" aria-label="Close Amplify">${ic('close', 14)}</button>
+      </div></div></header>`;
   document.title = `${home ? 'Amplify' : cur + ' · Amplify'}`;
 }
-$('#crumbs').addEventListener('click', (e) => { if (e.target.closest('[data-crumb]')) goHome(); });
-$('#hdrChats').onclick = () => { S.chatsOpen = !S.chatsOpen; render(); };
+$('#hdr').addEventListener('click', (e) => {
+  if (e.target.closest('[data-crumb]')) goHome();
+  if (e.target.closest('#hdrChats')) { S.chatsOpen = !S.chatsOpen; render(); $('#hdrChats').focus(); }
+});
 
 // ===== Chats panel (right): new chat, search, Scheduled, history by time =====
 const SCHED_LIMIT = 3;
 function renderChats() {
   const el = $('#chats');
-  el.hidden = !S.chatsOpen;
+  el.classList.toggle('is-open', S.chatsOpen); el.inert = !S.chatsOpen;
+  S.chatsOpen ? el.removeAttribute('aria-hidden') : el.setAttribute('aria-hidden', 'true');
   if (!S.chatsOpen) return;
   const q = S.query.trim().toLowerCase();
   const hit = (t) => !q || t.toLowerCase().includes(q);
-  const cur = (id) => (S.page === 'chat' && S.chatId === id ? 'aria-current="page"' : '');
+  const cur = (id) => S.page === 'chat' && S.chatId === id;
   const hist = CHATS.filter((c) => !SCHEDULES.some((x) => x.chat === c.id) && !c.pending && hit(c.title + ' ' + (c.desc || '') + ' ' + (c.ctx?.l || '')));
   const scheds = SCHEDULES.filter((s) => hit(s.name));
   const groups = ['Today', 'Yesterday', 'Previous 7 days', 'Older'];
-  const ctx = (c) => c.ctx ? `<span class="ci__ctx">${ic(c.ctx.e, 12, `var(--color-entity-${c.ctx.e})`)}<span>${esc(c.ctx.l)}</span></span>` : '<span></span>';
-  const item = (c) => `<li><button type="button" class="ci" data-chat="${c.id}" ${cur(c.id)}>
-      <span class="ci__t">${esc(c.title)}</span>
-      ${c.desc ? `<span class="ci__d">${esc(c.desc)}</span>` : ''}
-      <span class="ci__f">${ctx(c)}<span class="ci__ago">${esc(c.ago)}</span></span></button></li>`;
-  const sItem = (s) => { const st = STATUS[s.status];
-    const un = s.unread > 0;
-    return `<li><button type="button" class="ci ci--sched${un ? ' is-unread' : ''}" data-chat="${s.chat}" ${cur(s.chat)} ${un ? `aria-label="${esc(s.name)}, ${s.unread} new run${s.unread > 1 ? 's' : ''}"` : ''}>
-      <span class="ci__top"><span class="ci__t">${un ? '<span class="ci__dot" aria-hidden="true"></span>' : ''}${esc(s.name)}</span>
-        ${un ? `<span class="ats-novo-chip" data-type="default" data-size="small" data-color="positive" aria-hidden="true"><span class="ats-novo-chip__label">${s.unread} new</span></span>` : `<span class="ci__ago">${esc(s.last || '')}</span>`}</span>
-      <span class="ci__f"><span class="ci__ctx">${ic('clock', 12, 'var(--color-icon-subtle)')}<span>${esc(s.freq)}, ${winShort(s.time)}</span></span>
-        ${s.status === 'active' ? '' : `<span class="ci__st ci__st--${s.status}">${ic(st.icon, 12, s.status === 'attention' ? 'var(--color-icon-utility-warning)' : 'var(--color-icon-subtle)')}${st.label}</span>`}</span></button></li>`; };
-  el.innerHTML = `
-    <div class="chats__top">
-      <div class="chats__title-row"><h2 class="chats__title">Chats</h2>
-        <div class="chats__title-acts">${iconBtn('close', 'Close chats', 'data-closechats')}</div></div>
-      ${btn('New Chat', { icon: 'add-thin', attrs: 'data-newchat style="width:100%;justify-content:center"' })}
+  // ats-amplify-chat-chat-card (type chat | scheduled)
+  const field = (icon, text, color = '', extra = '') => `<span class="ats-item-field${extra}">${ic(icon, 12, color)}<span class="ats-item-field__text">${esc(text)}</span></span>`;
+  const card = ({ id, title, type, caption, unread = 0, data = '', desc = '' }) => `<li><div class="ats-amplify-chat-chat-card${cur(id) ? ' is-selected' : ''}${unread ? ' is-unread' : ''}" data-type="${type}">
+      <div class="ats-amplify-chat-chat-card__list-item">
+        <div class="ats-amplify-chat-chat-card__header">
+          <button type="button" class="ats-amplify-chat-chat-card__title" data-chat="${id}" title="${esc(title)}" ${cur(id) ? 'aria-current="page"' : ''} ${unread ? `aria-label="${esc(title)}, ${unread} new run${unread > 1 ? 's' : ''}"` : ''}>${esc(title)}</button>
+          ${unread ? `<span class="ats-novo-chip ats-amplify-chat-chat-card__new" data-type="default" data-size="small" data-color="positive" aria-hidden="true"><span class="ats-novo-chip__label">${unread} new</span></span>`
+            : caption ? `<span class="ats-amplify-chat-chat-card__ago">${esc(caption)}</span>` : ''}
+        </div>
+        ${data ? `<div class="ats-item-data ats-amplify-chat-chat-card__data">${data}</div>` : ''}
+        ${desc ? `<p class="ats-amplify-chat-chat-card__description">${esc(desc)}</p>` : ''}
+      </div></div></li>`;
+  const item = (c) => card({ id: c.id, title: c.title, type: 'chat', caption: c.ago, desc: c.desc,
+    data: c.ctx ? field(c.ctx.e, c.ctx.l, `var(--color-entity-${c.ctx.e})`, ' ats-amplify-chat-chat-card__record') : '' });
+  const STATUS_CARD = { paused: { icon: 'inactive', label: 'Paused' }, attention: { icon: 'caution', label: 'Needs attention', color: 'var(--amplify-chat-chat-card-color-icon-attention, var(--color-icon-utility-warning))' } };
+  const sItem = (s) => { const st = STATUS_CARD[s.status];
+    return card({ id: s.chat, title: s.name, type: 'scheduled', caption: s.last, unread: s.unread > 0 ? s.unread : 0,
+      data: field('clock-arrow', `${s.freq}, ${winShort(s.time)}`).replace('class="ats-item-field"', 'class="ats-item-field" data-type="status"')
+        + (st ? field(st.icon, st.label, st.color || '', ' ats-amplify-chat-chat-card__status').replace('__status"', `__status" data-status="${s.status}"`) : '') }); };
+  const shownScheds = q ? scheds : SCHEDULES.slice(0, SCHED_LIMIT);
+  el.innerHTML = `<div class="ats-amplify-chat-chats-panel__panel">
+    <header class="ats-amplify-chat-chats-panel__header">
+      <h2 class="ats-amplify-chat-chats-panel__title">Chats</h2>
+      <div class="ats-amplify-chat-chats-panel__actions">${btn('New Chat', { icon: 'add-thin', attrs: 'data-newchat' })}${iconBtn('close', 'Close chats', 'data-closechats')}</div>
+    </header>
+    <div class="ats-amplify-chat-chats-panel__toolbar">
       <div class="ats-search-input ats-search-input--pill${q ? ' is-active' : ''}">
         <span class="ats-search-input__icon">${ic('search', 12, 'var(--search-color-content-icon)')}</span>
         <input class="ats-search-input__input" type="search" placeholder="Search chats" aria-label="Search chats" value="${esc(S.query)}" id="chatSearch">
       </div>
     </div>
-    <div class="chats__list">
-      <section class="chats__group" aria-labelledby="g-sched">
-        <div class="chats__ghead"><span class="chats__label" id="g-sched">Scheduled <span class="chats__count">${SCHEDULES.length}</span></span>
-          <span class="chats__gacts">${btn('View All', { theme: 'dialogue', attrs: 'data-go-sched' })}</span></div>
-        <ul class="ci-list">${scheds.slice(0, q ? 99 : SCHED_LIMIT).map(sItem).join('')}</ul>
-        ${!q && SCHEDULES.length > SCHED_LIMIT ? `<button type="button" class="chats__more" data-go-sched>${SCHEDULES.length - SCHED_LIMIT} more in Scheduled</button>` : ''}
-      </section>
+    <div class="ats-amplify-chat-chats-panel__list">
+      ${shownScheds.length ? `<section class="ats-amplify-chat-chats-panel__group" aria-labelledby="g-sched">
+        <div class="ats-amplify-chat-chats-panel__group-header"><h3 class="ats-amplify-chat-chats-panel__label" id="g-sched">Scheduled</h3>${btn('View All', { theme: 'dialogue', attrs: 'data-go-sched' })}</div>
+        <ul class="ats-amplify-chat-chats-panel__cards">${shownScheds.map(sItem).join('')}</ul></section>` : ''}
       ${groups.map((g) => { const cs = hist.filter((c) => c.group === g); const gid = 'g-' + g.replace(/\W/g, ''); return cs.length ? `
-        <section class="chats__group" aria-labelledby="${gid}">
-          <div class="chats__ghead"><span class="chats__label" id="${gid}">${g}</span></div><ul class="ci-list">${cs.map(item).join('')}</ul></section>` : ''; }).join('')}
-      ${q && !hist.length && !scheds.length ? `<p class="chats__empty">No chats match “${esc(S.query)}”.</p>` : ''}
-    </div>`;
+        <section class="ats-amplify-chat-chats-panel__group" aria-labelledby="${gid}">
+          <div class="ats-amplify-chat-chats-panel__group-header"><h3 class="ats-amplify-chat-chats-panel__label" id="${gid}">${g}</h3></div>
+          <ul class="ats-amplify-chat-chats-panel__cards">${cs.map(item).join('')}</ul></section>` : ''; }).join('')}
+      ${q && !hist.length && !scheds.length ? `<div class="ats-amplify-chat-chats-panel__empty" role="status">${ic('search', 64, 'var(--color-icon-illustration)')}
+        <div class="ats-amplify-chat-chats-panel__empty-body"><p class="ats-amplify-chat-chats-panel__empty-title">No chats match “${esc(S.query.trim())}”</p><p class="ats-amplify-chat-chats-panel__empty-text">Try a different word.</p></div></div>` : ''}
+    </div></div>`;
+  const list = el.querySelector('.ats-amplify-chat-chats-panel__list'), bar = el.querySelector('.ats-amplify-chat-chats-panel__toolbar');
+  list.onscroll = () => bar.classList.toggle('is-scrolled', list.scrollTop > 0);
 }
 $('#chats').addEventListener('click', (e) => {
   const c = e.target.closest('[data-chat]'); if (c) return go('chat', { chatId: c.dataset.chat });
@@ -698,7 +720,6 @@ function renderMain(keepScroll = false) {
   if (S.page === 'scheduled' && prevScroll) view.querySelector('.page').scrollTop = prevScroll;
 }
 function render() {
-  $('#ampTab').classList.add('is-active');
   renderHeader(); renderChats(); renderMain();
   if (S.menuOpen) renderMenu();
 }
