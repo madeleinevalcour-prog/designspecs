@@ -36,7 +36,7 @@
     <doc-callout type="note" heading="Sample data.">All records, people and run results in the prototype are fictional, and the data resets when the page reloads. The embedded views on this page hide the prototype guide.</doc-callout>
   </doc-section>
 
-  <doc-section id="navigation" label="Amplify navigation" desc="A menu in the bowling alley replaces the header tabs">
+  <doc-section id="navigation" label="Amplify navigation" desc="A menu in the bowling alley replaces the header tabs" badge="Built" badge-tone="success">
     <h3>The problem</h3>
     <ul>
       <li>Amplify’s pages (Chat, Overview, Meetings, Audits) sit in tabs at the top of the Amplify page. The design review called top-tab navigation outdated and a poor fit for the new UI.</li>
@@ -45,15 +45,15 @@
     </ul>
     <h3>What changes</h3>
     <ul>
-      <li>The Amplify tab in the bowling alley becomes a split tab. Clicking <b>Amplify</b> opens the Amplify landing page (V1: a new chat; V2: Home). The chevron opens the <b>Amplify menu</b>.</li>
-      <li>The Amplify menu lists New Chat, Scheduled (with a count), then Meetings and Audits. V2 adds Home at the top. Overview is gone.</li>
+      <li>The Amplify tab in the bowling alley becomes a split tab. Clicking <b>Amplify</b> opens the Amplify landing page (V1: a new chat; V2: Home). The chevron opens the <b>Amplify menu</b>; it shows on hover, focus or while the menu is open, and is hidden when the alley is collapsed.</li>
+      <li>The Amplify menu lists New Chat, Scheduled, Meetings and Audits, with the current page marked. V2 adds Home at the top. Overview is gone.</li>
       <li>The menu opens 8px to the right of the tab, the same as Menu and Add, and supports arrow keys and Escape.</li>
     </ul>
     <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&nav=open&menu=1" caption="The Amplify menu, opened from the chevron on the Amplify tab"></doc-prototype>
     <doc-callout type="note" heading="Why.">Same opener, chevron and dropdown card as Menu and Add, so it behaves as people already expect (H4, consistency and standards; Gestalt similarity). One place to move between Amplify pages instead of two (Rams #10, as little design as possible).</doc-callout>
   </doc-section>
 
-  <doc-section id="header" label="Amplify header" desc="One row: breadcrumb, Chats, Close">
+  <doc-section id="header" label="Amplify header" desc="One row: breadcrumb, Chats, Close" badge="Built" badge-tone="success">
     <h3>The problem</h3>
     <ul>
       <li>Today’s header stacks a title row and a tab row. With navigation moving to the bowling alley, the tab row has nothing left to do.</li>
@@ -69,7 +69,7 @@
     <doc-callout type="note" heading="Why.">The breadcrumb always shows where you are (H1, visibility of system status). The badge tells you something new arrived without keeping the panel open (Rams #5, unobtrusive). The header is one row instead of two (Rams #10).</doc-callout>
   </doc-section>
 
-  <doc-section id="chats-panel" label="Chats panel" desc="Chat history, with scheduled chats first">
+  <doc-section id="chats-panel" label="Chats panel" desc="Chat history, with scheduled chats first" badge="Built" badge-tone="success">
     <h3>The problem</h3>
     <ul>
       <li>The design review called the current chat history sidebar unusable.</li>
@@ -78,13 +78,13 @@
     <h3>What changes</h3>
     <ul>
       <li>A full-height right panel, the same height as the bowling alley and the docked chat, on the right slideout elevation (level 3 - right). It’s closed by default.</li>
-      <li>Top: title and collapse, a full-width <b>New Chat</b> button, and search.</li>
-      <li><b>Scheduled</b> section first: up to 3 scheduled chats, each showing its schedule, a status only when it isn’t active (Paused, Needs attention), and unread runs (blue dot + “1 new”). View All goes to the Scheduled page.</li>
-      <li>History below, grouped Today / Yesterday / Previous 7 days / Older. Each chat is a bordered item: title, a one-line description, the record it’s about, and when it was last active (“4 days ago”).</li>
+      <li>Top: the title, then <b>New Chat</b> and Close in the header, and search below it.</li>
+      <li><b>Scheduled</b> section first: up to 3 scheduled chats, each showing its schedule, a status only when it isn’t active (Paused, Needs attention), and unread runs (a “1 new” chip in place of the last run time). View All goes to the Scheduled page.</li>
+      <li>History below, grouped Today / Yesterday / Previous 7 days / Older. Each chat is a bordered card: the title and when it was last active (“4 days ago”), the record it’s about, then a short description (up to 2 lines).</li>
       <li>Under 1100px wide, the panel opens over the page instead of pushing it.</li>
     </ul>
     <doc-prototype src="../prototypes/amplify-tab/index.html?embed=1&v=v1&chats=1&chat=c4" caption="Chats panel open, with two scheduled chats unread"></doc-prototype>
-    <doc-callout type="note" heading="Why.">Each chat is a bordered item and every item has the same line order, so the list scans quickly (Gestalt common region and similarity). Unread uses a dot plus text, never color alone (Modern UI). Scheduled chats appear once, at the top, not again in history (Rams #10).</doc-callout>
+    <doc-callout type="note" heading="Why.">Each chat is a bordered item and every item has the same line order, so the list scans quickly (Gestalt common region and similarity). Unread is shown as text, never color alone (Modern UI). Scheduled chats appear once, at the top, not again in history (Rams #10).</doc-callout>
   </doc-section>
 
   <doc-section id="scheduled-prompts" label="Scheduled prompts" desc="Set up, confirm, and a dedicated chat per prompt">
@@ -217,17 +217,17 @@
   </doc-section>
 
   <doc-section id="to-build" label="Components to create or update" desc="New pieces and changes to existing ones, and what’s built">
-    <p>8 of 17 are built: the navigation, header, Chats panel and prompt library pieces of V1. The scheduled prompt pieces (setup, confirmation, runs, the Scheduled page) haven’t been started.</p>
+    <p>8 of 17 are built: the navigation, header, Chats panel and prompt library pieces of V1. The prototype uses the built navigation, header and Chats panel; the prompt library isn’t opened in it yet. The scheduled prompt pieces (setup, confirmation, runs, the Scheduled page) haven’t been started.</p>
     <table class="tbl">
       <thead><tr><th>Component</th><th>Create / update</th><th>Status</th><th>What’s needed</th></tr></thead>
       <tbody>
-        <tr><td><b>Bowling Alley: Amplify tab</b></td><td>Update</td><td>Built</td><td>Split tab: the tab opens the Amplify landing page, the chevron opens the Amplify menu. The chevron is hidden when the alley is collapsed and shows on hover, focus or while the menu is open. See <a href="/docs/components/bowling-alley.html">Bowling Alley</a>.</td></tr>
-        <tr><td><b>Menu: Amplify variant</b></td><td>Update</td><td>Built</td><td>New Chat, Scheduled, Meetings and Audits, with the current page marked (<a href="/docs/components/menu.html#amplify">Menu</a>). The count on Scheduled and the separator were removed in the final design. Home is added with V2.</td></tr>
-        <tr><td><b>Full-page chat header</b></td><td>Update</td><td>Built</td><td>The <a href="/docs/amplify/components/amplify-header.html">Amplify header</a> replaces the title row and tabs: breadcrumb, Chats with its count, and Close. The <a href="/docs/amplify/components/amplify-chat-full-page.html">full-page chat</a> uses it.</td></tr>
-        <tr><td><b>Breadcrumb</b></td><td>Create</td><td>Built</td><td><a href="/docs/components/breadcrumb.html">Breadcrumb</a>: a link root (“Amplify”) and the current page title.</td></tr>
-        <tr><td><b>Count badge</b></td><td>Create</td><td>Built</td><td><a href="/docs/components/count-badge.html">Count badge</a> and <a href="/docs/components/button-with-count.html">Button with count</a> (the Chats button), with their own tokens. Still open: the <a href="/docs/components/workflow-stepper.html">Workflow Stepper</a> keeps its own count badge; sharing it hasn’t been done.</td></tr>
-        <tr><td><b>Chats panel</b></td><td>Create</td><td>Built</td><td><a href="/docs/amplify/components/amplify-chat-chats-panel.html">Chats panel</a>: header with New Chat, search, Scheduled (up to 3 and View All), then Today / Yesterday / Previous 7 days / Older. The Chats button in the Amplify header opens and closes it, and the full-page chat renders the two together.</td></tr>
-        <tr><td><b>Chat list item</b></td><td>Create</td><td>Built</td><td>The chat card in the <a href="/docs/amplify/components/amplify-chat-chats-panel.html">Chats panel</a>, with a chat and a scheduled variant and hover, focus and selected states. Unread runs show as a “N new” chip; the dot before the title was dropped.</td></tr>
+        <tr><td><b>Bowling Alley: Amplify tab</b></td><td>Update</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td>Split tab: the tab opens the Amplify landing page, the chevron opens the Amplify menu. The chevron is hidden when the alley is collapsed and shows on hover, focus or while the menu is open. See <a href="/docs/components/bowling-alley.html">Bowling Alley</a>.</td></tr>
+        <tr><td><b>Menu: Amplify variant</b></td><td>Update</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td>New Chat, Scheduled, Meetings and Audits, with the current page marked (<a href="/docs/components/menu.html#amplify">Menu</a>). The count on Scheduled and the separator were removed in the final design. Home is added with V2.</td></tr>
+        <tr><td><b>Full-page chat header</b></td><td>Update</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td>The <a href="/docs/amplify/components/amplify-header.html">Amplify header</a> replaces the title row and tabs: breadcrumb, Chats with its count, and Close. The <a href="/docs/amplify/components/amplify-chat-full-page.html">full-page chat</a> uses it.</td></tr>
+        <tr><td><b>Breadcrumb</b></td><td>Create</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td><a href="/docs/components/breadcrumb.html">Breadcrumb</a>: a link root (“Amplify”) and the current page title.</td></tr>
+        <tr><td><b>Count badge</b></td><td>Create</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td><a href="/docs/components/count-badge.html">Count badge</a> and <a href="/docs/components/button-with-count.html">Button with count</a> (the Chats button), with their own tokens. Still open: the <a href="/docs/components/workflow-stepper.html">Workflow Stepper</a> keeps its own count badge; sharing it hasn’t been done.</td></tr>
+        <tr><td><b>Chats panel</b></td><td>Create</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td><a href="/docs/amplify/components/amplify-chat-chats-panel.html">Chats panel</a>: header with New Chat, search, Scheduled (up to 3 and View All), then Today / Yesterday / Previous 7 days / Older. The Chats button in the Amplify header opens and closes it, and the full-page chat renders the two together.</td></tr>
+        <tr><td><b>Chat list item</b></td><td>Create</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td>The chat card in the <a href="/docs/amplify/components/amplify-chat-chats-panel.html">Chats panel</a>, with a chat and a scheduled variant and hover, focus and selected states. Unread runs show as a “N new” chip; the dot before the title was dropped.</td></tr>
         <tr><td><b>New chat starter card</b></td><td>Create</td><td>Not started</td><td>Icon container, title and description; sends on click. Four in a 2 × 2 grid.</td></tr>
         <tr><td><b>Schedule card</b></td><td>Create</td><td>Not started</td><td>Create / edit form in a card: Name, Prompt, Repeats, time window, Results, access line, Cancel / Schedule. Should use the ats-ui Dropdown in place of the prototype’s native selects.</td></tr>
         <tr><td><b>Schedule confirmation card</b></td><td>Create</td><td>Not started</td><td>Success header, name, schedule, next run, Edit and View in Scheduled.</td></tr>
@@ -236,7 +236,7 @@
         <tr><td><b>Scheduled prompts table</b></td><td>Create</td><td>Not started</td><td>Prompt, schedule, status, actions; row More menu; needs-attention row. Could build on <a href="/docs/components/data-table.html">Data Table</a>.</td></tr>
         <tr><td><b>Toast with Undo</b></td><td>Create</td><td>Not started</td><td>Not in ats-ui today. Bottom-center, announces status, one action.</td></tr>
         <tr><td><b>Text field</b></td><td>Confirm</td><td>To confirm</td><td>There is still no ats-ui text field. The prototype styles native inputs with field tokens. Confirm which field component the schedule card should use.</td></tr>
-        <tr><td><b>Prompt library</b></td><td>Update</td><td>Built</td><td>Built for the new UI: <a href="/docs/amplify/components/amplify-chat-prompt-library.html">Prompt library</a> with Favorites / My Prompts / All Prompts, search and prompt cards that can show a schedule. A Scheduled prompts section and opening it from the chat input aren’t needed yet.</td></tr>
+        <tr><td><b>Prompt library</b></td><td>Update</td><td><span class="status-pill status-pill--sm status-pill--success">Built</span></td><td>Built for the new UI: <a href="/docs/amplify/components/amplify-chat-prompt-library.html">Prompt library</a> with Favorites / My Prompts / All Prompts, search and prompt cards that can show a schedule. A Scheduled prompts section and opening it from the chat input aren’t needed yet.</td></tr>
         <tr><td><b>Home widgets (V2)</b></td><td>Create (later)</td><td>Not started</td><td>To do list, Need to know card, Today agenda card, Suggested list.</td></tr>
       </tbody>
     </table>

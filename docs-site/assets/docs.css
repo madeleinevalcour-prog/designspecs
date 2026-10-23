@@ -150,6 +150,7 @@ doc-split,.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1f
 .tbl th,.tbl td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--hairline);vertical-align:top}
 .tbl th{font-weight:600;color:var(--ink-2);font-size:12px;line-height:16px}
 .tbl td .mono{color:var(--ink-2)}
+.tbl td .status-pill--sm{margin:0}
 .tbl tr:last-child td{border-bottom:none}
 .tbl .em td{background:var(--color-background-muted)}
 
